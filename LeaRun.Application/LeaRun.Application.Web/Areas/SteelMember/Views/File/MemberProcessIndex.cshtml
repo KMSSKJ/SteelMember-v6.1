@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "构件制程";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetGrid();
+    });
+    var MemberID = GetQuery('MemberID');
+    var OrderId = GetQuery('OrderId');
+    //加载表格
+    function GetGrid() {
+        var SelectRowIndx;
+        var unit_name;
+        $("#gridTable").jqGrid({
+            url: "@Url.Content("/SteelMember/File/GridListJsonMemberProcess")?KeyValue=" + MemberID,
+            datatype: "json",
+            height: $(window).height() - 154,
+            autowidth: true,
+            colModel: [
+                    { label: '主键', name: "MemberProcessId", hidden: true },
+                    { label: '外键', name: "MemberId", index: "MemberId", hidden: true },
+                    { label: '制程名称', name: "ProcessName", index: "ProcessName", align: 'center',width: 6 },
+                    { label: '负责人', name: "ProcessMan", index: "ProcessMan", align: 'center',width: 6 },
+                    { label: '工艺要求', name: "ProcessRequirements", index: "ProcessRequirements", align: 'center',width: 12 },
+                    { label: '排序号', name: "SortCode", index: "SortCode", align: 'center',width: 6 },
+                    { label: '备注', name: "Description", index: "Description", align: 'center',width: 12 }
+            ],
+            rowNum: 30,
+            sortname: 'SortCode',
+            sortorder: 'Desc',//降序 asc升序
+            pager: "#gridPager",
+            viewrecords: true,
+            rownumbers: true,
+            gridview: true,
+            //footerrow: true,
+            rowList: [15, 30, 50, 100, 500, 1000],
+            ondblClickRow: function (TreeId) {
+                var rowData = $("#gridTable").getRowData(TreeId);  //根据ID拿到一行的数据
+                if (rowData.Icon == '-1') {
+                    GridFolderEvent(rowData.TreeId);
+                    var treeid = "ItemsTree_" + rowData.TreeId.replace(/-/g, '_');
+                    $('#' + treeid + ' img').trigger("click");
+                }
+            },
+            onSelectRow: function () {
+                SelectRowIndx = GetJqGridRowIndx("#" + this.id);
+            },
+            gridComplete: function () {
+                ////合计
+                //$(this).footerData("set", {
+                //    "MemberName": "合计",
+                //    "MemberNumber": $(this).getCol("MemberNumber", false, "sum"),
+                //    "UnitName": unit_name,
+                //   });
+
+                //表格行样式
+                var ids = $("#gridTable").getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var rowData = $("#gridTable").getRowData(ids[i]);
+                    if (rowData.Enabled == "无效") {//如果无效，则背景色置于红色
+                        $('#' + ids[i]).find("td").addClass("SelectBG");
+                    }
+                }
+                $("#" + this.id).jqGrid('setSelection', SelectRowIndx);
+            }
+        });
+        columnModelData("#gridTable");
+        //自应高度
+        $(window).resize(function () {
+            $("#gridTable").setGridHeight($(window).height() - 200);
+        });
+
+    }
+
+    //刷新表格 树
+    function btn_reload() {
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    function windowload() {
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //查询
+    function Search() {
+        if (!CheckDataValid('#formsearch')) {
+            return false;
+        }
+        Loading(true, "正在提交数据...");
+        var postData = GetWebControls("#formsearch");
+        $("#gridTable").jqGrid('setGridParam', {
+            url: "@Url.Content("/SteelMember/ProjectInfo/GridListJson")?ProjectId=" + ProjectId, postData, page: 1
+            }).trigger('reloadGrid');
+            }
+
+    //新增信息
+    function btn_add() {
+        //var KeyValue = GetJqGridRowValue("#gridTable", "ProjectId");
+        if (IsChecked(MemberID)) {
+            var url = "/SteelMember/File/MemberProcessForm?MemberID=" + MemberID + "&OrderId=" + OrderId;
+            openDialog(url, "RawMaterialsDosageForm", "新增信息", 500, 400, function (iframe) {
+                top.frames[iframe].AcceptClick();
+            });
+        }
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //编辑信息(得到实体)
+    function btn_edit() {
+        var KeyValue = GetJqGridRowValue("#gridTable", "MemberProcessId");
+        var ItemID = 1;
+        if (IsChecked(KeyValue)) {
+            var url = "/SteelMember/File/MemberProcessForm?KeyValue= " + KeyValue;
+                openDialog(url, "Form", "编辑信息", 600, 400, function (iframe) {
+                    top.frames[iframe].AcceptClick();
+                });
+
+        }
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //删除信息
+    function btn_delete() {
+        var KeyValue = GetJqGridRowValue("#gridTable", "MemberProcessId");
+        var Prompt = "您确实要删除此文件吗？";
+        if (IsDelData(KeyValue)) {
+            delConfirm('/SteelMember/File/DeleteMemberProcess', { KeyValue: KeyValue }, Prompt);
+                $("#gridTable").trigger("reloadGrid"); //重新载入
+        }
+    }
+
+
+    //导出文件
+    function btn_derive() {
+        SetDeriveExcel("#gridTable", "构件需求信息表");
+        openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "信息导出", 900, 500, function (iframe) {
+            top.frames[iframe].AcceptClick();
+        })
+    }
+
+    //要打印数据源，子页面调用的函数
+    function PrintDataSource() {
+        var columnModel = $("#gridTable").jqGrid('getGridParam', 'colModel');
+        var dataModel = $("#gridTable").jqGrid("getRowData");
+        var footerData = $("#gridTable").jqGrid("footerData");
+        var JsonData = {
+            columnModel: columnModel,
+            dataModel: dataModel,
+            footerData: footerData,
+        }
+        return JsonData;
+    }
+
+    //点击打印报表
+    function btn_Print() {
+        PrintDialog("/SteelMember/File/PrintPage", "PrintPage", "打印当前页", 1200, 500, function (iframe) {
+            top.frames[iframe].SubmitPrint()
+        });
+    }
+
+</script>
+<div style="width:900px;height:400px">
+    <div class="tools_bar leftline rightline" style="margin-bottom: 0px; margin: 1px;">
+        <div class="PartialButton">
+            @*@Html.Partial("_PartialButton")*@
+            <a id="lr-replace" onclick="btn_reload()" class="tools_btn"><span><b style="background: url('../../Content/Images/Icon16/arrow_refresh.png') 50% 4px no-repeat;">刷新</b></span></a>
+            <a id="lr-add" onclick="btn_add()" class="tools_btn"><span><b style="background: url('../../Content/Images/Icon16/add.png') 50% 4px no-repeat;">新增</b></span></a>
+            <a id="lr-edit" onclick="btn_edit()" class="tools_btn"><span><b style="background: url('../../Content/Images/Icon16/edit.gif') 50% 4px no-repeat;">编辑</b></span></a>
+            <a id="lr-delete" onclick="btn_delete()" class="tools_btn"><span><b style="background: url('../../Content/Images/Icon16/deleteRed.png') 50% 4px no-repeat;">删除</b></span></a>
+        </div>
+    </div>
+    <div class="rightline" style="margin: 1px; margin-top: -1px;">
+        <table id="gridTable"></table>
+        <div id="gridPager"></div>
+    </div>
+</div>
+

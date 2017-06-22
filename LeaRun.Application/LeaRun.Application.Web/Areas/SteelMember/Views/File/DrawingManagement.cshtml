@@ -1,0 +1,185 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<title>图片放大缩小向左向右网页特效</title>*@
+    @*<script src="~/Content/Scripts/jqueryPicture/js/jquery.js"></script>*@
+    <script src="~/Content/Scripts/jqueryPicture/js/jquery.mousewheel.min.js"></script>
+    <script src="~/Content/Scripts/jqueryPicture/js/jquery.iviewer.js"></script>
+
+    <script type="text/javascript">
+        var $ = jQuery;
+        $(document).ready(function () {
+            var mole_fileURL = $("#model_file").val();
+            var cad_fileURL = $("#cad_file").val();
+            GetGrid();
+            document.getElementById("model").style.display = "none";
+            document.getElementById("process").style.display="none";
+            $("#viewer_cad").iviewer(
+                 {
+                     src: cad_fileURL,
+                     update_on_resize: false,
+                     initCallback: function () {
+                         var object = this;
+                         $("#in").click(function () { object.zoom_by(1); });
+                         $("#out").click(function () { object.zoom_by(-1); });
+                         $("#fit").click(function () { object.fit(); });
+                         $("#orig").click(function () { object.set_zoom(100); });
+                         $("#update").click(function () { object.update_container_info(); });
+                     },
+                     onMouseMove: function (object, coords) { },
+                     onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+                     onDrag: function (object, coords) { }
+                 });
+
+            $("#viewer_model").iviewer(
+               {
+                   src: mole_fileURL,
+                   update_on_resize: false,
+                   initCallback: function () {
+                       var object = this;
+                       $("#in").click(function () { object.zoom_by(1); });
+                       $("#out").click(function () { object.zoom_by(-1); });
+                       $("#fit").click(function () { object.fit(); });
+                       $("#orig").click(function () { object.set_zoom(100); });
+                       $("#update").click(function () { object.update_container_info(); });
+                   },
+                   onMouseMove: function (object, coords) { },
+                   onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+                   onDrag: function (object, coords) { }
+               });
+        });
+
+        //加载表格
+        function GetGrid() {
+            var SelectRowIndx;
+            var unit_name;
+            $("#gridTable").jqGrid({
+                url: "@Url.Content("/SteelMember/File/GridListJsonMemberProcess")?KeyValue=" + @ViewData["MemberId"],
+                datatype: "json",
+                height: $(window).height() - 154,
+                autowidth: true,
+                colModel: [
+                        { label: '主键', name: "MemberProcessId", hidden: true },
+                        { label: '外键', name: "MemberId", index: "MemberId", hidden: true },
+                        { label: '制程名称', name: "ProcessName", index: "ProcessName", align: 'center',width: 6 },
+                        { label: '作业时间', name: "OperationTime", index: "OperationTime", align: 'center',width: 6 },
+                        { label: '工艺要求', name: "ProcessRequirements", index: "ProcessRequirements", align: 'center',width: 12 },
+                        { label: '排序号', name: "SortCode", index: "SortCode", align: 'center',width: 6 },
+                        { label: '备注', name: "Description", index: "Description", align: 'center',width: 12 }
+                ],
+                rowNum: 30,
+                sortname: 'SortCode',
+                sortorder: 'Desc',//降序 asc升序
+                pager: "#gridPager",
+                viewrecords: true,
+                rownumbers: true,
+                gridview: true,
+                //footerrow: true,
+                rowList: [15, 30, 50, 100, 500, 1000],
+                ondblClickRow: function (TreeId) {
+                    var rowData = $("#gridTable").getRowData(TreeId);  //根据ID拿到一行的数据
+                    if (rowData.Icon == '-1') {
+                        GridFolderEvent(rowData.TreeId);
+                        var treeid = "ItemsTree_" + rowData.TreeId.replace(/-/g, '_');
+                        $('#' + treeid + ' img').trigger("click");
+                    }
+                },
+                onSelectRow: function () {
+                    SelectRowIndx = GetJqGridRowIndx("#" + this.id);
+                },
+                gridComplete: function () {
+
+                    //表格行样式
+                    var ids = $("#gridTable").getDataIDs();
+                    for (var i = 0; i < ids.length; i++) {
+                        var rowData = $("#gridTable").getRowData(ids[i]);
+                        if (rowData.Enabled == "无效") {//如果无效，则背景色置于红色
+                            $('#' + ids[i]).find("td").addClass("SelectBG");
+                        }
+                    }
+                    $("#" + this.id).jqGrid('setSelection', SelectRowIndx);
+                }
+            });
+            columnModelData("#gridTable");
+            //自应高度
+            $(window).resize(function () {
+                $("#gridTable").setGridHeight($(window).height() - 200);
+            });
+
+        }
+        
+    </script>
+    <link href="~/Content/Scripts/jqueryPicture/css/jquery.iviewer.css" rel="stylesheet" />
+    <style>
+        .viewer {
+            width: 99.6%;
+            height: 99.6%;
+            border: 1px solid black;
+            position: relative;
+        }
+        #viewer_model img {
+            margin-left: 220px;
+            margin-top: 220px;
+        }
+    </style>
+</head>
+@*<body>
+        <div style="width:100%;height:100%">
+            <div style="float:left;width:50%;height:50%">
+                <div>图纸管理</div>
+                <input type="hidden" id="cad_file" value='@ViewData["CADDrawing"]' />
+                <div id="viewer_cad" class="viewer"></div>
+                <input type="button" onclick="btn_uploadCADDrawing(@ViewData["MemberId"])" value="修改/上传" style="margin-left:120px" />
+                <input type="button" onclick="btn_delCADDrawing(@ViewData["MemberId"])" value="删除" style="margin-left:20px" />
+            </div>
+            <div style="float:left;width:50%;height:50%">
+                <div>
+                    模型管理
+                </div>
+                <input type="hidden" id="model_file" value='@ViewData["ModelDrawing"]' />
+                <div id="viewer_model" class="viewer"></div>
+                <input type="button" onclick="btn_uploadModelDrawing(@ViewData["MemberId"])" value="修改/上传" style="margin-left:120px" />
+                <input type="button" onclick="btn_delModelDrawing(@ViewData["MemberId"])" value="删除" style="margin-left:20px" />
+            </div>
+        </div>
+    </body>*@
+<body>
+    <form id="form1">
+        @*<div id="message" style="display: none; padding: 1px; padding-bottom: 0px;"></div>*@
+        <div class="bd" style="border-bottom: none; margin: 1px;">
+            <div class="tipstitle_title settingtable bold bd todayInfoPanelTab rightPanelTitle_normal">
+                <div class="tab_list_top" style="position: absolute">
+                    <div id="Tabcad" class="tab_list bd actived" onclick="Tabchange('cad')">构件图纸</div>
+                    <div id="Tabmodel" class="tab_list bd " onclick="Tabchange('model')">三维模型</div>
+                    <div id="Tabprocess" class="tab_list bd " onclick="Tabchange('process')">构件制程</div>
+                </div>
+            </div>
+        </div>
+        <div class="ScrollBar" style="margin: 1px; overflow: hidden;">
+            <!--构件图纸-->
+            <div id="cad" class="tabPanel" style="width:700px;height:540px;">
+                <input type="hidden" id="cad_file" value='@ViewData["CADDrawing"]' />
+                <div id="viewer_cad" class="viewer"></div>
+                @*<input type="button" onclick="btn_uploadCADDrawing(@ViewData["MemberId"])" value="修改/上传" style="margin-left:120px" />
+                <input type="button" onclick="btn_delCADDrawing(@ViewData["MemberId"])" value="删除" style="margin-left:20px" />*@
+            </div>
+            <!--构件模型-->
+            <div id="model" class="tabPanel" style="width:700px;height:540px;">
+                <input type="hidden" id="model_file" value='@ViewData["ModelDrawing"]' />
+                <div id="viewer_model" class="viewer"></div>
+                @*<input type="button" onclick="btn_uploadModelDrawing(@ViewData["MemberId"])" value="修改/上传" style="margin-left:120px" />
+                <input type="button" onclick="btn_delModelDrawing(@ViewData["MemberId"])" value="删除" style="margin-left:20px" />*@
+            </div>
+            <!--构件制程-->
+            <div id="process" class="tabPanel"  style="width:700px;height:540px;">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

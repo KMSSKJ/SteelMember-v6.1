@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "ModelDrawingManagement";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<title>图片放大缩小向左向右网页特效</title>*@
+    <script src="~/Content/Scripts/jquery/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/Scripts/jqueryPicture/js/jquery.js"></script>
+    <script src="~/Content/Scripts/jqueryPicture/js/jquery.mousewheel.min.js"></script>
+    <script src="~/Content/Scripts/jqueryPicture/js/jquery.iviewer.js"></script>
+    <script src="~/Content/Scripts/learunui-framework.js"></script>
+
+    <!--引入弹窗组件start-->
+    @*<script src="~/Content/Scripts/lhgdialog/lhgdialog.min.js"></script>*@
+    <!--引入弹窗组件end-->
+
+    <script type="text/javascript">
+        var $ = jQuery;
+        $(document).ready(function () {
+            var mole_fileURL = $("#model_file").val();
+
+            $("#viewer_model").iviewer(
+               {
+                   src: mole_fileURL,
+                   update_on_resize: false,
+                   initCallback: function () {
+                       var object = this;
+                       $("#in").click(function () { object.zoom_by(1); });
+                       $("#out").click(function () { object.zoom_by(-1); });
+                       $("#fit").click(function () { object.fit(); });
+                       $("#orig").click(function () { object.set_zoom(100); });
+                       $("#update").click(function () { object.update_container_info(); });
+                   },
+                   onMouseMove: function (object, coords) { },
+                   onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+                   onDrag: function (object, coords) { }
+               });
+        });
+        //删除模型图
+        function btn_delModelDrawing(KeyValue) {
+            var Prompt = "您确实要删除此文件吗？";
+            var CAD = "";
+            var Model = "Model";
+            if (IsDelData(KeyValue)) {
+                delConfirm('/SteelMember/File/DelDrawing', { KeyValue: KeyValue }, Prompt);
+            }
+        }
+
+
+
+        //上传模型图
+        function btn_uploadModelDrawing(KeyValue) {
+            var CAD = "";
+            var Model = "Model";
+            var url = "/SteelMember/File/UpLoadFile?KeyValue=" + KeyValue + "&CAD=" + CAD + "&Model=" + Model;
+            Dialog(url, "UpLoadFile", "上传模型图", 500, 600, function (iframe) {
+                top.frames[iframe].AcceptClick()
+                $("#gridTable").trigger("reloadGrid"); //重新载入
+            });
+        }
+
+    </script>
+    <link href="~/Content/Scripts/jqueryPicture/css/jquery.iviewer.css" rel="stylesheet" />
+    <style>
+        .viewer {
+            width: 99.6%;
+            height: 99.6%;
+            border: 1px solid black;
+            position: relative;
+        }
+        #viewer_model img {
+            margin-left: 220px;
+            margin-top: 220px;
+        }
+    </style>
+</head>
+<body>
+    <div style="width:100%;height:100%">
+        <input type="hidden" id="model_file" value='@ViewData["ModelDrawing"]' />
+        <div id="viewer_model" class="viewer"></div>
+        @*<input type="button" onclick="btn_uploadModelDrawing(@ViewData["MemberId"])" value="修改/上传" style="margin-left:120px" />
+        <input type="button" onclick="btn_delModelDrawing(@ViewData["MemberId"])" value="删除" style="margin-left:20px" />*@
+    </div>
+</body>
+</html>

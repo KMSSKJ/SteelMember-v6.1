@@ -1,0 +1,476 @@
+﻿@{
+    ViewBag.Title = "构件库管理》表单页面";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<link href="~/Content/Scripts/uploadify/uploadify.css" rel="stylesheet" />
+<script src="~/Content/Scripts/uploadify/jquery.uploadify.js"></script>
+<script type="text/javascript">
+    //var KeyValue = GetQuery('KeyValue');
+    $(function () {
+        InitControl();
+        LoadMemberUnit();
+        UploadFile();
+    })
+
+    var Data;
+    //得到一个对象实体
+    function InitControl() {
+        if (!!GetQuery('KeyValue')) {
+            getAjax("/SteelMember/File/SetMemberForm", { KeyValue: GetQuery('KeyValue') }, function (data) {
+                var data = eval("(" + data + ")");
+                var filename, filename1, filename2 = "";
+                filename = data.CAD_Drawing;
+                if (filename!="1.png"){
+                filename = filename.substring(0, filename.lastIndexOf('.'));//获取文件名称，去除后缀名
+                filename = "../../Resource/Document/NetworkDisk/System/Member/" + filename + "/" + data.CAD_Drawing;
+                document.getElementById("_CAD_Drawing").src = filename;
+                document.getElementById("DelAvatar").setAttribute("type", "button");
+                document.getElementById("DelAvatar").value = "删除图片";
+                }
+
+                filename1 = data.Model_Drawing;
+                if (filename1 != "1.png") {
+                    filename1 = filename1.substring(0, filename1.lastIndexOf('.'));//获取文件名称，去除后缀名
+                    filename1 = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + data.Model_Drawing;
+                    document.getElementById("_Model_Drawing").src = filename1;
+                    document.getElementById("DelAvatar1").setAttribute("type", "button");
+                    document.getElementById("DelAvatar1").value = "删除图片";
+                }
+              
+                filename2 = data.Icon;
+                if (filename2 != "1.png") {
+                    filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
+                    filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
+                    document.getElementById("_Icon").src = filename2;
+                    document.getElementById("DelAvatar2").setAttribute("type", "button");
+                    document.getElementById("DelAvatar2").value = "删除图片";
+                }
+                Data = data;
+                SetWebControls(data);
+                document.getElementById("MemberModel").readOnly = true;
+            });
+        }
+        //else {
+        //    //显示顺序
+        //    AjaxJson("/SysManagement/Module/SortCode", {}, function (Data) {
+        //        $("#SortCode").val(Data);
+        //    })
+        //    //$("#ParentId").val(GetQuery('ModuleId'));
+        //    //$("#ParentName").val(GetQuery('ModuleName'));
+        //}
+    }
+
+    //保存事件
+    function AcceptClick() {
+        if (!CheckDataValid('#form1')) {
+            return false;
+        }
+        Loading(true, "正在提交数据...");
+        window.setTimeout(function () {
+            var postData = GetWebControls("#form1");
+            AjaxJson("/SteelMember/File/SubmitMember?KeyValue=" + GetQuery('KeyValue') + '&TreeId=' + GetQuery('TreeId'), postData, function (data) {
+                tipDialog(data.Message, 3, data.Code);
+                top.frames[tabiframeId()].btn_reload();
+                //top.frames[tabiframeId()].windowload();
+                closeDialog();
+            });
+        }, 200);
+    }
+    //载入构件单位
+    function LoadMemberUnit() {
+        $.ajax({
+            url: '/SteelMember/ProjectManagement/GetMemderUnit',
+            type: 'post',
+            datatype: 'Json',
+            data: {},
+            success: function (data) {
+                if (data) {
+                    var projectname_sel = [];
+                    // projectname_sel.push('<option value="" selected>请选择</option>')
+                    for (var i = 0, len = data.length; i < len; i++) {
+                        var projectname = data[i];
+                        projectname_sel.push('<option value="' + projectname.UnitId + '">' + projectname.UnitName + '</option>')
+                    }
+                    $("#UnitId").html(projectname_sel.join(' '));
+                    if (!!GetQuery('KeyValue')) {
+                        //编辑时获取值
+                        $("#UnitId  option[value='" + Data.UnitId + "']").attr("selected", true);
+                    }
+                }
+            }
+        });
+    };
+
+    //var index_uploadify = 1;
+    function UploadFile() {
+        $('#Avatar').uploadify({
+            uploader: '/SteelMember/File/SubmitUploadify',
+            swf: '/Content/Scripts/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '5MB',
+
+            onFallback: function () {
+                alert("您未安装FLASH控件，无法上传！请安装FLASH控件后再试。");
+            },
+            onUploadSuccess: function (file, data, response) {
+                document.getElementById("CAD_Drawing").value = data;
+                document.getElementById("_CAD_Drawing").src = data;
+                document.getElementById("DelAvatar").setAttribute("type", "button");
+                document.getElementById("DelAvatar").value= "删除图片";
+            },
+        });
+
+        $('#Avatar1').uploadify({
+            uploader: '/SteelMember/File/SubmitUploadify',      //处理文件上传Action?FolderId=' + GetQuery('FolderId')
+            uploader: '/SteelMember/File/SubmitUploadify',
+            swf: '/Content/Scripts/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '5MB',
+
+            onFallback: function () {
+                alert("您未安装FLASH控件，无法上传！请安装FLASH控件后再试。");
+            },
+            onUploadSuccess: function (file, data, response) {
+                document.getElementById("Model_Drawing").value = data;
+                document.getElementById("_Model_Drawing").src = data;
+                document.getElementById("DelAvatar1").setAttribute("type", "button");
+                document.getElementById("DelAvatar1").value = "删除图片";
+            },
+        });
+
+        $('#Avatar2').uploadify({
+            uploader: '/SteelMember/File/SubmitUploadify',
+            swf: '/Content/Scripts/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '5MB',
+
+            onFallback: function () {
+                alert("您未安装FLASH控件，无法上传！请安装FLASH控件后再试。");
+            },
+            onUploadSuccess: function (file, data, response) {
+                document.getElementById("Icon").value = data;
+                document.getElementById("_Icon").src = data;
+                document.getElementById("DelAvatar2").setAttribute("type", "button");
+                document.getElementById("DelAvatar2").value = "删除图片";
+
+            },
+        });
+    }
+
+    function DelCAD_Drawing() {
+        document.getElementById("_CAD_Drawing").src = "";
+        document.getElementById("CAD_Drawing").value = "";
+        document.getElementById("DelAvatar").setAttribute("type", "hidden");
+    }
+
+    function DelModel_Drawing() {
+        document.getElementById("_Model_Drawing").src = "";
+        document.getElementById("Model_Drawing").value = "";
+        document.getElementById("DelAvatar1").setAttribute("type", "hidden");
+    }
+
+    function DelIcon() {
+        document.getElementById("_Icon").src = "";
+        document.getElementById("Icon").value = "";
+        document.getElementById("DelAvatar2").setAttribute("type", "hidden");
+    }
+  
+</script>
+<style>
+    .uploadify-queue {
+        display: none;
+    }
+</style>
+<form id="form1" style="margin: 1px">
+    @ViewData["qq"]
+    <input id="CAD_Drawing" type="hidden" />
+    <input id="Model_Drawing" type="hidden" />
+    <input id="Icon" type="hidden" />
+    <div id="message" style="display: none"></div>
+    <table class="form">
+        <tr>
+            <th class="formTitle">
+                型号：
+            </th>
+            <td class="formValue">
+                <input id="MemberModel" type="text" class="txt required" datacol="yes" err="型号" checkexpession="NotNull" />
+            </td>
+            <th class="formTitle">
+                截面面积：
+            </th>
+            <td class="formValue">
+                <input id="SectionalArea" type="text" class="txt" />
+            </td>
+
+        </tr>
+        <tr>
+            <th class="formTitle">
+                外表面积：
+            </th>
+            <td class="formValue">
+                <input id="SurfaceArea" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                理论重量：
+            </th>
+            <td class="formValue">
+                <input id="TheoreticalWeight" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                h：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSize_h" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                B：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSizeB" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                b：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSize_b" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                D：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSizeD" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                d：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSize_d" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                t：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSize_t" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                r：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSize_r" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                r1：
+            </th>
+            <td class="formValue">
+                <input id="SectionalSize_r1" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                Ix：
+            </th>
+            <td class="formValue">
+                <input id="InertiaDistance_x" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                Iy：
+            </th>
+            <td class="formValue">
+                <input id="InertiaDistance_y" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                Ix0：
+            </th>
+            <td class="formValue">
+                <input id="InertiaDistance_x0" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                Iy0：
+            </th>
+            <td class="formValue">
+                <input id="InertiaDistance_y0" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                Ix1：
+            </th>
+            <td class="formValue">
+                <input id="InertiaDistance_x1" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                Iy1：
+            </th>
+            <td class="formValue">
+                <input id="InertiaDistance_y1" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                Iu：
+            </th>
+            <td class="formValue">
+                <input id="InertiaDistance_u" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                ix：
+            </th>
+            <td class="formValue">
+                <input id="InertiaRadius_x" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                ix0：
+            </th>
+            <td class="formValue">
+                <input id="InertiaRadius_x0" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                iy：
+            </th>
+            <td class="formValue">
+                <input id="InertiaRadius_y" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                iy0：
+            </th>
+            <td class="formValue">
+                <input id="InertiaRadius_y0" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                iu：
+            </th>
+            <td class="formValue">
+                <input id="InertiaRadius_u" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                Wx：
+            </th>
+            <td class="formValue">
+                <input id="SectionalModulus_x" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                Wy：
+            </th>
+            <td class="formValue">
+                <input id="SectionalModulus_y" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                Wx0：
+            </th>
+            <td class="formValue">
+                <input id="SectionalModulus_x0" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                Wy0：
+            </th>
+            <td class="formValue">
+                <input id="SectionalModulus_y0" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                Wu：
+            </th>
+            <td class="formValue">
+                <input id="SectionalModulus_u" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                Z0：
+            </th>
+            <td class="formValue">
+                <input id="GravityCenterDistance_0" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                X0：
+            </th>
+            <td class="formValue">
+                <input id="GravityCenterDistance_x0" type="text" class="txt" />
+            </td>
+            <th class="formTitle">
+                Y0：
+            </th>
+            <td class="formValue">
+                <input id="GravityCenterDistance_y0" type="text" class="txt" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                单位：
+            </th>
+            <td class="formValue">
+                <select id="UnitId" name="UnitId" style="width:100%"></select>
+            </td>
+            <th class="formTitle">
+                单价：
+            </th>
+            <td class="formValue">
+                <input id="UnitPrice" type="text" class="txt required" datacol="yes" err="单价" checkexpession="DoubleOrNull"  />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                图纸：
+            </th>
+            <td class="formValue">
+                <div style="float:left;margin:5px;" class="showImg;"><img id="_CAD_Drawing" name="txImg" class="txImg" src="" height="100" width="100" /></div>
+                <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:40px">
+                    <input id="DelAvatar" onclick="DelCAD_Drawing()" class="uploadify-button " type="hidden" style="height: 24px; width: 70px; margin-bottom:10px;"/>
+                    <input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                   
+                </div>
+            </td>
+            <th class="formTitle">
+                模型：
+            </th>
+            <td class="formValue">
+                <div style="float:left;margin:5px;" class="showImg;"><img id="_Model_Drawing" name="txImg" class="txImg" src="" height="100" width="100" /></div>
+                <div class="btnAvatar"  style="float:left;margin-left:5px;margin-top:40px">
+                    <input id="DelAvatar1" onclick="DelModel_Drawing()" class="uploadify-button " type="hidden" style="height: 24px; width: 70px; margin-bottom:10px;" />
+                <input id="Avatar1" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" /></div>
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                图标：
+            </th>
+            <td class="formValue">
+                <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" width="100" /></div>
+                <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:40px">
+                    <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; width: 70px; margin-bottom:10px;" />
+                <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" /></div>
+            </td>
+        </tr>
+    </table>
+</form>

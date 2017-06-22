@@ -1,0 +1,5 @@
+D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Extension\bin\Release\LeaRun.Util.Extension.dll
+D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Extension\bin\Release\LeaRun.Util.Extension.pdb
+D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Extension\obj\Release\LeaRun.Util.Extension.csprojResolveAssemblyReference.cache
+D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Extension\obj\Release\LeaRun.Util.Extension.dll
+D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Extension\obj\Release\LeaRun.Util.Extension.pdb

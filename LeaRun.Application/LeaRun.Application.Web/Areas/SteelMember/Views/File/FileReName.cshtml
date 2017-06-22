@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "控制测量文档管理/文件重命名";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<script type="text/javascript">
+    var MemberID = GetQuery('MemberID')
+    //var Extension = /\.[^\.]+/.exec(GetQuery('MemberName'));
+    $(function () {
+        InitControl();
+    })
+    //得到一个对象实体
+    function InitControl() {
+        if (!!MemberID) {
+            AjaxJson("/SteelMember/File/SetFileForm", { MemberID: MemberID }, function (data) {
+                SetWebControls(data);
+                $("#MemberName").focus();
+                $("#MemberName").select();
+            });
+        }
+    }
+
+    //保存事件
+    function AcceptClick() {
+        if (!CheckDataValid('#form1')) {
+            return false;
+        }
+        Loading(true, "正在提交数据...");
+        window.setTimeout(function () {
+            //var postData = {
+            //    MemberID: MemberID,
+            //    MemberName: $("#FileNameentity.").val(),// + Extension,
+            //}
+            var postData = GetWebControls("#form1");
+            AjaxJson("/SteelMember/File/SubmitFileReName", postData, function (data) {
+                tipDialog(data.Message, 3, data.Code);
+                top.frames[tabiframeId()].windowload();
+                closeDialog();
+            });
+        }, 200);
+    }
+</script>
+<link href="~/Content/themes/bootstrap/easyui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.easyui-1.4.5.min.js"></script>
+<script src="~/Scripts/locale/easyui-lang-zh_CN.js"></script>
+<form id="form1" style="margin: 25px; margin-left: 40px; margin-right: 40px;">
+    @*<div style="padding-bottom: 5px;">请您输入文件名称</div>*@
+    <div>
+        <input id="MemberID" type="hidden" />
+        <table style="width:300px;margin-bottom:3px">
+            <tr>
+                <th class="formTitle">
+                    文件名称：
+                </th>
+                <td class="formValue">
+                    <input id="MemberName" name="MemberName" type="text" class="txt" datacol="yes" err="文件名" checkexpession="NotNull" style="width:94%;height:20px" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    过期时间：
+                </th>
+                <td class="formValue">
+                    <input id="OverdueTime" type="text" class="txt Wdate" onfocus="WdatePicker({minDate: '%y-%M-#{%d+1}' })" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">是否有效：</th>
+                <td class="formValue" colspan="3">
+                    <span class="item">
+                        <input type="checkbox" name="checkbox" checked="checked" id="Enabled" />
+                        <label for="Enabled">有效</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    描述信息：
+                </th>
+                <td class="formValue" colspan="3">
+                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5" style="width: 100%"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+
