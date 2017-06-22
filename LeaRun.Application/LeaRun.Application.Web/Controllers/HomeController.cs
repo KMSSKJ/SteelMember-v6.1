@@ -32,6 +32,8 @@ namespace LeaRun.Application.Web.Controllers
         UserBLL user = new UserBLL();
         DepartmentBLL department = new DepartmentBLL();
 
+        //string userId = OperatorProvider.Provider.Current().UserId;
+        
         #region 视图功能
         /// <summary>
         /// 后台框架页

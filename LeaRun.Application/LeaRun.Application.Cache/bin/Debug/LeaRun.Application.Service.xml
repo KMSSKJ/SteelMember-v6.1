@@ -669,6 +669,251 @@
             <param name="newsEntity">公告实体</param>
             <returns></returns>
         </member>
+        <member name="T:LeaRun.Application.Service.SystemManage.AreaService">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.12 16:40
+            描 述：区域管理
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.AreaService.GetList">
+            <summary>
+            区域列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.AreaService.GetList(System.String,System.String)">
+            <summary>
+            区域列表
+            </summary>
+            <param name="parentId">节点Id</param>
+            <param name="keyword">关键字查询</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.AreaService.GetEntity(System.String)">
+            <summary>
+            区域实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.AreaService.RemoveForm(System.String)">
+            <summary>
+            删除区域
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.AreaService.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.AreaEntity)">
+            <summary>
+            保存区域表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="{{">区域实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Service.SystemManage.CodeRuleService">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.12.21 16:19
+            描 述：编号规则
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.GetPageList(LeaRun.Util.WebControl.Pagination,System.String)">
+            <summary>
+            规则列表
+            </summary>
+            <param name="pagination">分页</param>
+            <param name="queryJson">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.GetEntity(System.String)">
+            <summary>
+            规则实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.RemoveForm(System.String)">
+            <summary>
+            删除规则
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.CodeRuleEntity)">
+            <summary>
+            保存规则表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="codeRuleEntity">规则实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.ExistEnCode(System.String,System.String)">
+            <summary>
+            规则编号不能重复
+            </summary>
+            <param name="enCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.ExistFullName(System.String,System.String)">
+            <summary>
+            规则名称不能重复
+            </summary>
+            <param name="fullName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.GetBillCode(System.String,System.String,System.String)">
+            <summary>
+            获得指定模块或者编号的单据号
+            </summary>
+            <param name="userId">用户ID</param>
+            <param name="moduleId">模块ID</param>
+            <param name="enCode">模板编码</param>
+            <returns>单据号</returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.SetBillCode(System.String,System.String,System.String,LeaRun.Data.Repository.IRepository)">
+            <summary>
+            获得指定模块或者编号的单据号（直接使用）
+            </summary>
+            <param name="userId">用户ID</param>
+            <param name="moduleId">模块ID</param>
+            <param name="enCode">模板编码</param>
+            <returns>单据号</returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.UseRuleSeed(System.String,System.String,System.String,LeaRun.Data.Repository.IRepository)">
+            <summary>
+            占用单据号
+            </summary>
+            <param name="userId">用户ID</param>
+            <param name="moduleId">模块ID</param>
+            <param name="enCode">模板编码</param>
+            <returns>true/false</returns>
+        </member>
+        <member name="T:LeaRun.Application.Service.SystemManage.DataItemDetailService">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.17 9:56
+            描 述：数据字典明细
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemDetailService.GetList(System.String)">
+            <summary>
+            明细列表
+            </summary>
+            <param name="itemId">分类Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemDetailService.GetEntity(System.String)">
+            <summary>
+            明细实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemDetailService.GetDataItemList">
+            <summary>
+            获取数据字典列表（给绑定下拉框提供的）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemDetailService.ExistItemValue(System.String,System.String,System.String)">
+            <summary>
+            项目值不能重复
+            </summary>
+            <param name="itemValue">项目值</param>
+            <param name="keyValue">主键</param>
+            <param name="itemId">分类Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemDetailService.ExistItemName(System.String,System.String,System.String)">
+            <summary>
+            项目名不能重复
+            </summary>
+            <param name="itemName">项目名</param>
+            <param name="keyValue">主键</param>
+            <param name="itemId">分类Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemDetailService.RemoveForm(System.String)">
+            <summary>
+            删除明细
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemDetailService.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.DataItemDetailEntity)">
+            <summary>
+            保存明细表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="dataItemDetailEntity">明细实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Service.SystemManage.DataItemService">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.17 9:56
+            描 述：数据字典分类
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemService.GetList">
+            <summary>
+            分类列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemService.GetEntity(System.String)">
+            <summary>
+            分类实体
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemService.GetEntityByCode(System.String)">
+            <summary>
+            根据分类编号获取实体对象
+            </summary>
+            <param name="ItemCode">编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemService.ExistItemCode(System.String,System.String)">
+            <summary>
+            分类编号不能重复
+            </summary>
+            <param name="itemCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemService.ExistItemName(System.String,System.String)">
+            <summary>
+            分类名称不能重复
+            </summary>
+            <param name="itemName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemService.RemoveForm(System.String)">
+            <summary>
+            删除分类
+            </summary>
+            <param name="keyValue">主键</param>
+        </member>
+        <member name="M:LeaRun.Application.Service.SystemManage.DataItemService.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.DataItemEntity)">
+            <summary>
+            保存分类表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="dataItemEntity">分类实体</param>
+            <returns></returns>
+        </member>
         <member name="T:LeaRun.Application.Service.SystemManage.LogService">
             <summary>
             版 本 6.1
@@ -705,117 +950,6 @@
             写日志
             </summary>
             <param name="logEntity">对象</param>
-        </member>
-        <member name="T:LeaRun.Application.Service.MessageManage.IMContentService">
-            <summary>
-            版 本 V6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：陈彬彬
-            日 期：2015.11.26 19:39
-            描 述：即时通信群组管理
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMContentService.GetList(LeaRun.Util.WebControl.Pagination,System.String,System.String,System.String)">
-            <summary>
-            获取消息列表（单对单）
-            </summary>
-            <param name="pagination"></param>
-            <param name="queryJson"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMContentService.GetListByGroupId(LeaRun.Util.WebControl.Pagination,System.String)">
-            <summary>
-            获取消息列表（群组）
-            </summary>
-            <param name="pagination"></param>
-            <param name="queryJson"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMContentService.GetReadList(System.String)">
-            <summary>
-            获取消息数量列表
-            </summary>
-            <param name="queryJson">readStatus,userId</param>
-            <returns></returns>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMContentService.GetReadAllNum(System.String,System.String)">
-            <summary>
-            获取某用户某种消息的总数
-            </summary>
-            <param name="userId"></param>
-            <param name="status"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMContentService.Add(LeaRun.Application.Entity.MessageManage.IMContentEntity,System.Data.DataTable)">
-            <summary>
-            增加一条消息内容
-            </summary>
-            <param name="entity"></param>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMContentService.Update(System.String,System.String,System.String)">
-            <summary>
-            更新消息状态
-            </summary>
-            <param name="userId"></param>
-            <param name="sendId"></param>
-            <param name="status"></param>
-            <returns></returns>
-        </member>
-        <member name="T:LeaRun.Application.Service.MessageManage.IMGroupService">
-            <summary>
-            版 本 V6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：陈彬彬
-            日 期：2015.11.26 19:39
-            描 述：即时通信群组管理
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMGroupService.GetList(System.String)">
-            <summary>
-            获取群组列表（即时通信）
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMGroupService.GetUserIdList(System.String)">
-            <summary>
-            获取群组里面的用户Id
-            </summary>
-            <param name="groupId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMGroupService.Save(System.String,LeaRun.Application.Entity.MessageManage.IMGroupEntity,System.Collections.Generic.List{System.String})">
-            <summary>
-            保存群组信息
-            </summary>
-            <param name="keyValue"></param>
-            <param name="entity"></param>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMGroupService.RemoveUserId(System.String)">
-            <summary>
-            删除群组里的一个联系人
-            </summary>
-            <param name="UserGroupId"></param>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMGroupService.AddUserId(LeaRun.Application.Entity.MessageManage.IMUserGroupEntity)">
-            <summary>
-            群里增加一个用户
-            </summary>
-            <param name="entity"></param>
-        </member>
-        <member name="T:LeaRun.Application.Service.MessageManage.IMUserService">
-            <summary>
-            版 本 V6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：陈彬彬
-            日 期：2015.11.26 11:14
-            描 述：即时通信用户管理
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Service.MessageManage.IMUserService.GetList(System.String)">
-            <summary>
-            获取联系人列表（即时通信）
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Service.BaseManage.FilterIPService">
             <summary>

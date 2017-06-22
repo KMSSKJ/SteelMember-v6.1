@@ -319,5 +319,6 @@ D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Entity\bin\Deb
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Entity\bin\Debug\ServiceStack.Redis.xml
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Entity\bin\Debug\ServiceStack.Text.xml
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Entity\bin\Debug\ServiceStack.Common.xml
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Entity\obj\Debug\LeaRun.Application.Entity.csprojResolveAssemblyReference.cache
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Entity\obj\Debug\LeaRun.Application.Entity.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Entity\obj\Debug\LeaRun.Application.Entity.pdb

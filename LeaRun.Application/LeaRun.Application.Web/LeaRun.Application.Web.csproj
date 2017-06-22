@@ -205,6 +205,10 @@
     <Compile Include="Areas\SteelMember\SteelMemberAreaRegistration.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterIPController.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterTimeController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\AreaController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\DataItemController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\DataItemDetailController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\DataItemListController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\LogController.cs" />
     <Compile Include="Areas\SystemManage\SystemManageAreaRegistration.cs" />
     <Compile Include="Controllers\ClientDataController.cs" />
@@ -219,6 +223,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\SystemManage\Views\Area\Detail.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Area\Form.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Area\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataItemDetail\Detail.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataItemDetail\Form.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataItemDetail\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataItemList\Form.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataItemList\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataItem\Form.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataItem\Index.cshtml" />
     <Content Include="Content\adminDefault\css\index.css" />
     <Content Include="Content\adminDefault\img\arrow1.png" />
     <Content Include="Content\adminDefault\img\tab_close.png" />

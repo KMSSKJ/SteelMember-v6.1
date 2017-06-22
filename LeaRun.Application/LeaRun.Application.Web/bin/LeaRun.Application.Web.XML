@@ -2233,6 +2233,297 @@
             <param name="FolderId"></param>
             <returns></returns>
         </member>
+        <member name="T:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.12 16:40
+            描 述：区域管理
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.Index">
+            <summary>
+            区域管理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.Form">
+            <summary>
+            区域表单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.Detail">
+            <summary>
+            区域详细
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.GetTreeJson(System.String)">
+            <summary>
+            区域列表 
+            </summary>
+            <param name="value">当前主键</param>
+            <returns>返回树形Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.GetListJson(System.String,System.String)">
+            <summary>
+            区域列表
+            </summary>
+            <param name="value">当前主键</param>
+            <param name="keyword">关键字查询</param>
+            <returns>返回列表Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.GetAreaListJson(System.String)">
+            <summary>
+            区域列表（主要是绑定下拉框）
+            </summary>
+            <param name="parentId">节点Id</param>
+            <returns>返回列表Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.GetFormJson(System.String)">
+            <summary>
+            区域实体 
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns>返回对象Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.RemoveForm(System.String)">
+            <summary>
+            删除区域
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.AreaEntity)">
+            <summary>
+            保存区域表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="areaEntity">区域实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.17 9:56
+            描 述：数据字典分类
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.Index">
+            <summary>
+            分类管理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.Form">
+            <summary>
+            分类表单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.GetTreeJson(System.String)">
+            <summary>
+            分类列表 
+            </summary>
+            <param name="keyword">关键字查询</param>
+            <returns>返回树形Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.GetTreeListJson(System.String)">
+            <summary>
+            分类列表
+            </summary>
+            <param name="keyword">关键字查询</param>
+            <returns>返回树形列表Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.GetFormJson(System.String)">
+            <summary>
+            分类实体 
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns>返回对象Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.ExistItemCode(System.String,System.String)">
+            <summary>
+            分类编号不能重复
+            </summary>
+            <param name="ItemCode">编号</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.ExistItemName(System.String,System.String)">
+            <summary>
+            分类名称不能重复
+            </summary>
+            <param name="ItemName">名称</param>
+            <param name="keyValue">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.RemoveForm(System.String)">
+            <summary>
+            删除分类
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemController.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.DataItemEntity)">
+            <summary>
+            保存分类表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="dataItemEntity">分类实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.17 9:56
+            描 述：数据字典明细
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.Index">
+            <summary>
+            明细管理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.Form">
+            <summary>
+            明细表单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.Detail">
+            <summary>
+            明细详细
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.GetTreeListJson(System.String,System.String,System.String)">
+            <summary>
+            明细列表
+            </summary>
+            <param name="itemId">分类Id</param>
+            <param name="keyword">关键字查询</param>
+            <returns>返回树形列表Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.GetFormJson(System.String)">
+            <summary>
+            明细实体 
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns>返回对象Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.GetDataItemTreeJson(System.String)">
+            <summary>
+            获取数据字典列表（绑定控件）
+            </summary>
+            <param name="EnCode">代码</param>
+            <returns>返回列表树Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.GetDataItemListJson(System.String)">
+            <summary>
+            获取数据字典列表（绑定控件）
+            </summary>
+            <param name="EnCode">代码</param>
+            <returns>返回列表Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.GetSubDataItemListJson(System.String,System.String)">
+            <summary>
+            获取数据字典子列表（绑定控件）
+            </summary>
+            <param name="EnCode">代码</param>
+            <param name="ItemValue">项目值</param>
+            <returns>返回列表Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.ExistItemValue(System.String,System.String,System.String)">
+            <summary>
+            项目值不能重复
+            </summary>
+            <param name="ItemValue">项目值</param>
+            <param name="keyValue">主键</param>
+            <param name="itemId">分类Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.ExistItemName(System.String,System.String,System.String)">
+            <summary>
+            项目名不能重复
+            </summary>
+            <param name="ItemName">项目名</param>
+            <param name="keyValue">主键</param>
+            <param name="itemId">分类Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.RemoveForm(System.String)">
+            <summary>
+            删除明细
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.DataItemDetailEntity)">
+            <summary>
+            保存明细表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="dataItemDetailEntity">明细实体</param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemListController">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.23 16:40
+            描 述：辅助资料（主要是数据字典提供独立功能管理）
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemListController.Index">
+            <summary>
+            辅助资料管理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemListController.Form">
+            <summary>
+            辅助资料表单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemListController.GetListJson(System.String)">
+            <summary>
+            辅助列表
+            </summary>
+            <param name="EnCode">代码</param>
+            <returns>返回树形列表Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemListController.GetFormJson(System.String)">
+            <summary>
+            辅助实体 
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns>返回对象Json</returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemListController.RemoveForm(System.String)">
+            <summary>
+            删除辅助
+            </summary>
+            <param name="keyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemListController.SaveForm(System.String,LeaRun.Application.Entity.SystemManage.DataItemDetailEntity)">
+            <summary>
+            保存辅助表单（新增、修改）
+            </summary>
+            <param name="keyValue">主键值</param>
+            <param name="dataItemDetailEntity">辅助实体</param>
+            <returns></returns>
+        </member>
         <member name="T:LeaRun.Application.Web.Areas.SystemManage.Controllers.LogController">
             <summary>
             版 本 6.1
@@ -2318,6 +2609,12 @@
         <member name="M:LeaRun.Application.Web.Controllers.ClientDataController.GetUserData">
             <summary>
             获取用户数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Controllers.ClientDataController.GetDataItem">
+            <summary>
+            获取数据字典
             </summary>
             <returns></returns>
         </member>

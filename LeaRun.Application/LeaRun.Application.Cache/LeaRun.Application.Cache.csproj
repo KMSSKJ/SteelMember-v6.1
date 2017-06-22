@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataItemCache.cs" />
     <Compile Include="DepartmentCache.cs" />
     <Compile Include="JobCache.cs" />
     <Compile Include="OrganizeCache.cs" />

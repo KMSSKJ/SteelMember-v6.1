@@ -895,6 +895,335 @@
             </summary>
             <param name="keyValue">主键值</param>
         </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMContentEntity">
+            <summary>
+            即时消息表
+            <author>
+            	<name>she</name>
+            	<date>2015.08.01 14:00</date>
+            </author>
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.ContentId">
+            <summary>
+            消息主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.IsGroup">
+            <summary>
+            是否是群组消息
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.SendId">
+            <summary>
+            发送者ID
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.ToId">
+            <summary>
+            接收者ID
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.MsgContent">
+            <summary>
+            消息内容
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.CreateDate">
+            <summary>
+            创建时间
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMContentEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMContentEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMGroupEntity">
+            <summary>
+            消息群组表
+            <author>
+            	<name>she</name>
+            	<date>2015.08.01 14:00</date>
+            </author>
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.GroupId">
+            <summary>
+            群组主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.FullName">
+            <summary>
+            群组名
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.CreateDate">
+            <summary>
+            创建时间
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMGroupEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMGroupEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.GroupId">
+            <summary>
+            群组Id
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.GroupName">
+            <summary>
+            群组名称
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.UserGroupId">
+            <summary>
+            群联系人对应表主键Id
+            </summary>
+        </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMReadEntity">
+            <summary>
+            未读消息表
+            <author>
+            	<name>she</name>
+            	<date>2015.08.01 14:00</date>
+            </author>
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.ReadId">
+            <summary>
+            未读消息主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.ContentId">
+            <summary>
+            消息主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.UserId">
+            <summary>
+            用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.SendId">
+            <summary>
+            发送者ID
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.ReadStatus">
+            <summary>
+            发送状态（0-未送达，1-已送达，2-已阅读）
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.CreateDate">
+            <summary>
+            创建时间
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMReadEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMReadEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMReadModel">
+            <summary>
+            消息内容
+            <author>
+            	<name>chen</name>
+            	<date>2015.08.01 14:00</date>
+            </author>
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.ReadId">
+            <summary>
+            消息Id
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.ContentId">
+            <summary>
+            信息内容ID
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.UserId">
+            <summary>
+            消息接收者Id
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.SendId">
+            <summary>
+            消息发送者Id
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.Content">
+            <summary>
+            消息内容
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.CreateDate">
+            <summary>
+            消息时间
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.SendId">
+            <summary>
+            消息发送者
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.UserId">
+            <summary>
+            消息接收者
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.unReadNum">
+            <summary>
+            消息数量
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.OtherId">
+            <summary>
+            联系人Id
+            </summary>
+        </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity">
+            <summary>
+            用户群组表
+            <author>
+            	<name>she</name>
+            	<date>2015.08.01 14:00</date>
+            </author>
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.UserGroupId">
+            <summary>
+            用户群组主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.GroupId">
+            <summary>
+            群组主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.UserId">
+            <summary>
+            用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.CreateDate">
+            <summary>
+            创建时间
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.UserId">
+            <summary>
+            用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.RealName">
+            <summary>
+            真实姓名
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.OrganizeId">
+            <summary>
+            机构主键
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.DepartmentId">
+            <summary>
+            部门主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.Gender">
+            <summary>
+            性别
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.HeadIcon">
+            <summary>
+            头像
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.UserOnLine">
+            <summary>
+            在线状态
+            </summary>		
+        </member>
         <member name="T:LeaRun.Application.Entity.PublicInfoManage.ScheduleEntity">
             <summary>
             版 本
@@ -1792,1342 +2121,6 @@
             </summary>
             <param name="keyValue"></param>
         </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.CodeRuleEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.12.21 16:19
-            描 述：编号规则
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.RuleId">
-            <summary>
-            编码规则主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModuleId">
-            <summary>
-            系统功能Id
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Module">
-            <summary>
-            系统功能
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.EnCode">
-            <summary>
-            编号
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.FullName">
-            <summary>
-            名称
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Mode">
-            <summary>
-            方式（1-可编辑、自动）
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CurrentNumber">
-            <summary>
-            当前流水号
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.RuleFormatJson">
-            <summary>
-            规则格式Json
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CreateDate">
-            <summary>
-            创建日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModifyDate">
-            <summary>
-            修改日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.12.21 16:19
-            描 述：编号规则格式
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.RuleFormatId">
-            <summary>
-            编号规则格式主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.RuleId">
-            <summary>
-            编码规则主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.ItemType">
-            <summary>
-            项目类型
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.ItemTypeName">
-            <summary>
-            项目类型名称
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.FormatStr">
-            <summary>
-            格式化字符串
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.StepValue">
-            <summary>
-            步长
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.InitValue">
-            <summary>
-            初始值
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.12.21 16:19
-            描 述：编号规则种子
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.RuleSeedId">
-            <summary>
-            编号规则种子主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.RuleId">
-            <summary>
-            编码规则主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.UserId">
-            <summary>
-            用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.SeedValue">
-            <summary>
-            种子值
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.CreateDate">
-            <summary>
-            创建日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.ModifyDate">
-            <summary>
-            修改日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.11.25 11:02
-            描 述：数据库备份
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.DatabaseBackupId">
-            <summary>
-            数据库备份Id
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.DatabaseLinkId">
-            <summary>
-            数据库连接主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.ParentId">
-            <summary>
-            父级主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.EnCode">
-            <summary>
-            计划编号
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.FullName">
-            <summary>
-            计划名称
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.ExecuteMode">
-            <summary>
-            执行方式
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.ExecuteTime">
-            <summary>
-            执行时间
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.BackupPath">
-            <summary>
-            备份路径
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.CreateDate">
-            <summary>
-            创建日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.ModifyDate">
-            <summary>
-            修改日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataBaseBackupEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.11.24 13:32
-            描 述：数据库表字段
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.column">
-            <summary>
-            字段名称
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.datatype">
-            <summary>
-            数据类型
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.length">
-            <summary>
-            数据长度
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.isnullable">
-            <summary>
-            允许空
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.identity">
-            <summary>
-            标识
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.key">
-            <summary>
-            主键
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.defaults">
-            <summary>
-            默认值
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseTableFieldEntity.remark">
-            <summary>
-            说明
-            </summary>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.11.18 11:02
-            描 述：数据库连接管理
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.DatabaseLinkId">
-            <summary>
-            数据库连接主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.ServerAddress">
-            <summary>
-            服务器地址
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.DBName">
-            <summary>
-            数据库名称
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.DBAlias">
-            <summary>
-            数据库别名
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.DbType">
-            <summary>
-            数据库类型
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.Version">
-            <summary>
-            数据库版本
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.DbConnection">
-            <summary>
-            连接地址
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.DESEncrypt">
-            <summary>
-            连接地址是否加密
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.CreateDate">
-            <summary>
-            创建日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.ModifyDate">
-            <summary>
-            修改日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataBaseLinkEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.AreaEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.11.12 16:40
-            描 述：区域管理
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.AreaId">
-            <summary>
-            区域主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ParentId">
-            <summary>
-            父级主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.AreaCode">
-            <summary>
-            区域编码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.AreaName">
-            <summary>
-            区域名称
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.QuickQuery">
-            <summary>
-            快速查询
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.SimpleSpelling">
-            <summary>
-            简拼
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.Layer">
-            <summary>
-            层次
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.CreateDate">
-            <summary>
-            创建日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ModifyDate">
-            <summary>
-            修改日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.AreaEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.AreaEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.DataItemEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.11.17 9:56
-            描 述：数据字典分类
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ItemId">
-            <summary>
-            分类主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ParentId">
-            <summary>
-            父级主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ItemCode">
-            <summary>
-            分类编码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ItemName">
-            <summary>
-            分类名称
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.IsTree">
-            <summary>
-            树型结构
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.IsNav">
-            <summary>
-            导航标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.CreateDate">
-            <summary>
-            创建日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ModifyDate">
-            <summary>
-            修改日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.11.17 9:56
-            描 述：数据字典明细
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemDetailId">
-            <summary>
-            明细主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemId">
-            <summary>
-            分类主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ParentId">
-            <summary>
-            父级主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemCode">
-            <summary>
-            编码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemName">
-            <summary>
-            名称
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemValue">
-            <summary>
-            值
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.QuickQuery">
-            <summary>
-            快速查询
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.SimpleSpelling">
-            <summary>
-            简拼
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.IsDefault">
-            <summary>
-            是否默认
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.CreateDate">
-            <summary>
-            创建日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ModifyDate">
-            <summary>
-            修改日期
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.LogEntity">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2016.1.8 9:56
-            描 述：系统日志
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.LogId">
-            <summary>
-            日志主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.CategoryId">
-            <summary>
-            分类Id 1-登陆2-访问3-操作4-异常
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.SourceObjectId">
-            <summary>
-            来源对象主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.SourceContentJson">
-            <summary>
-            来源日志内容
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateTime">
-            <summary>
-            操作时间
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateUserId">
-            <summary>
-            操作用户Id
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateAccount">
-            <summary>
-            操作用户
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateTypeId">
-            <summary>
-            操作类型Id
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateType">
-            <summary>
-            操作类型
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.ModuleId">
-            <summary>
-            系统功能主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Module">
-            <summary>
-            系统功能
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.IPAddress">
-            <summary>
-            IP地址
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.IPAddressName">
-            <summary>
-            IP地址所在城市
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Host">
-            <summary>
-            主机
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Browser">
-            <summary>
-            浏览器
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.ExecuteResult">
-            <summary>
-            执行结果状态
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.ExecuteResultJson">
-            <summary>
-            执行结果信息
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Description">
-            <summary>
-            备注
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.DeleteMark">
-            <summary>
-            删除标记
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="T:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel">
-            <summary>
-            版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
-            日 期：2015.11.17 9:56
-            描 述：数据字典明细
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemId">
-            <summary>
-            分类主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.EnCode">
-            <summary>
-            分类编码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemDetailId">
-            <summary>
-            明细主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ParentId">
-            <summary>
-            父级主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemName">
-            <summary>
-            项目名
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemValue">
-            <summary>
-            项目值
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.SimpleSpelling">
-            <summary>
-            简拼
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.SortCode">
-            <summary>
-            排序码
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.EnabledMark">
-            <summary>
-            有效标志
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.GroupId">
-            <summary>
-            群组Id
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.GroupName">
-            <summary>
-            群组名称
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.UserGroupId">
-            <summary>
-            群联系人对应表主键Id
-            </summary>
-        </member>
-        <member name="T:LeaRun.Application.Entity.MessageManage.IMReadModel">
-            <summary>
-            消息内容
-            <author>
-            	<name>chen</name>
-            	<date>2015.08.01 14:00</date>
-            </author>
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.ReadId">
-            <summary>
-            消息Id
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.ContentId">
-            <summary>
-            信息内容ID
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.UserId">
-            <summary>
-            消息接收者Id
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.SendId">
-            <summary>
-            消息发送者Id
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.Content">
-            <summary>
-            消息内容
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadModel.CreateDate">
-            <summary>
-            消息时间
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.SendId">
-            <summary>
-            消息发送者
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.UserId">
-            <summary>
-            消息接收者
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.unReadNum">
-            <summary>
-            消息数量
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.OtherId">
-            <summary>
-            联系人Id
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.UserId">
-            <summary>
-            用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.RealName">
-            <summary>
-            真实姓名
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.OrganizeId">
-            <summary>
-            机构主键
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.DepartmentId">
-            <summary>
-            部门主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.Gender">
-            <summary>
-            性别
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.HeadIcon">
-            <summary>
-            头像
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.UserOnLine">
-            <summary>
-            在线状态
-            </summary>		
-        </member>
-        <member name="T:LeaRun.Application.Entity.MessageManage.IMContentEntity">
-            <summary>
-            即时消息表
-            <author>
-            	<name>she</name>
-            	<date>2015.08.01 14:00</date>
-            </author>
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.ContentId">
-            <summary>
-            消息主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.IsGroup">
-            <summary>
-            是否是群组消息
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.SendId">
-            <summary>
-            发送者ID
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.ToId">
-            <summary>
-            接收者ID
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.MsgContent">
-            <summary>
-            消息内容
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.CreateDate">
-            <summary>
-            创建时间
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMContentEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMContentEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMContentEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.MessageManage.IMGroupEntity">
-            <summary>
-            消息群组表
-            <author>
-            	<name>she</name>
-            	<date>2015.08.01 14:00</date>
-            </author>
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.GroupId">
-            <summary>
-            群组主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.FullName">
-            <summary>
-            群组名
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.CreateDate">
-            <summary>
-            创建时间
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMGroupEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMGroupEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.MessageManage.IMReadEntity">
-            <summary>
-            未读消息表
-            <author>
-            	<name>she</name>
-            	<date>2015.08.01 14:00</date>
-            </author>
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.ReadId">
-            <summary>
-            未读消息主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.ContentId">
-            <summary>
-            消息主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.UserId">
-            <summary>
-            用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.SendId">
-            <summary>
-            发送者ID
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.ReadStatus">
-            <summary>
-            发送状态（0-未送达，1-已送达，2-已阅读）
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.CreateDate">
-            <summary>
-            创建时间
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMReadEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMReadEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMReadEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
-        <member name="T:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity">
-            <summary>
-            用户群组表
-            <author>
-            	<name>she</name>
-            	<date>2015.08.01 14:00</date>
-            </author>
-            </summary>
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.UserGroupId">
-            <summary>
-            用户群组主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.GroupId">
-            <summary>
-            群组主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.UserId">
-            <summary>
-            用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.CreateDate">
-            <summary>
-            创建时间
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>		
-        </member>
-        <member name="P:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.CreateUserName">
-            <summary>
-            创建用户
-            </summary>		
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.Create">
-            <summary>
-            新增调用
-            </summary>
-        </member>
-        <member name="M:LeaRun.Application.Entity.MessageManage.IMUserGroupEntity.Modify(System.String)">
-            <summary>
-            编辑调用
-            </summary>
-            <param name="keyValue"></param>
-        </member>
         <member name="T:LeaRun.Application.Entity.BaseManage.UserRelationEntity">
             <summary>
             版 本
@@ -3897,6 +2890,744 @@
             编辑调用
             </summary>
             <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.AreaEntity">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.12 16:40
+            描 述：区域管理
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.AreaId">
+            <summary>
+            区域主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ParentId">
+            <summary>
+            父级主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.AreaCode">
+            <summary>
+            区域编码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.AreaName">
+            <summary>
+            区域名称
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.QuickQuery">
+            <summary>
+            快速查询
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.SimpleSpelling">
+            <summary>
+            简拼
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.Layer">
+            <summary>
+            层次
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.SortCode">
+            <summary>
+            排序码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.DeleteMark">
+            <summary>
+            删除标记
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.EnabledMark">
+            <summary>
+            有效标志
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.Description">
+            <summary>
+            备注
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.CreateDate">
+            <summary>
+            创建日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ModifyDate">
+            <summary>
+            修改日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ModifyUserId">
+            <summary>
+            修改用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.AreaEntity.ModifyUserName">
+            <summary>
+            修改用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.AreaEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.AreaEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.CodeRuleEntity">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.12.21 16:19
+            描 述：编号规则
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.RuleId">
+            <summary>
+            编码规则主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModuleId">
+            <summary>
+            系统功能Id
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Module">
+            <summary>
+            系统功能
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.EnCode">
+            <summary>
+            编号
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.FullName">
+            <summary>
+            名称
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Mode">
+            <summary>
+            方式（1-可编辑、自动）
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CurrentNumber">
+            <summary>
+            当前流水号
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.RuleFormatJson">
+            <summary>
+            规则格式Json
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.SortCode">
+            <summary>
+            排序码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.DeleteMark">
+            <summary>
+            删除标记
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.EnabledMark">
+            <summary>
+            有效标志
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Description">
+            <summary>
+            备注
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CreateDate">
+            <summary>
+            创建日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModifyDate">
+            <summary>
+            修改日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModifyUserId">
+            <summary>
+            修改用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.ModifyUserName">
+            <summary>
+            修改用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.12.21 16:19
+            描 述：编号规则格式
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.RuleFormatId">
+            <summary>
+            编号规则格式主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.RuleId">
+            <summary>
+            编码规则主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.ItemType">
+            <summary>
+            项目类型
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.ItemTypeName">
+            <summary>
+            项目类型名称
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.FormatStr">
+            <summary>
+            格式化字符串
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.StepValue">
+            <summary>
+            步长
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.InitValue">
+            <summary>
+            初始值
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.SortCode">
+            <summary>
+            排序码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.DeleteMark">
+            <summary>
+            删除标记
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.EnabledMark">
+            <summary>
+            有效标志
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.Description">
+            <summary>
+            备注
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleFormatEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.12.21 16:19
+            描 述：编号规则种子
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.RuleSeedId">
+            <summary>
+            编号规则种子主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.RuleId">
+            <summary>
+            编码规则主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.UserId">
+            <summary>
+            用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.SeedValue">
+            <summary>
+            种子值
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.CreateDate">
+            <summary>
+            创建日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.ModifyDate">
+            <summary>
+            修改日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.ModifyUserId">
+            <summary>
+            修改用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.ModifyUserName">
+            <summary>
+            修改用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.CodeRuleSeedEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.17 9:56
+            描 述：数据字典明细
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemDetailId">
+            <summary>
+            明细主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemId">
+            <summary>
+            分类主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ParentId">
+            <summary>
+            父级主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemCode">
+            <summary>
+            编码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemName">
+            <summary>
+            名称
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ItemValue">
+            <summary>
+            值
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.QuickQuery">
+            <summary>
+            快速查询
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.SimpleSpelling">
+            <summary>
+            简拼
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.IsDefault">
+            <summary>
+            是否默认
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.SortCode">
+            <summary>
+            排序码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.DeleteMark">
+            <summary>
+            删除标记
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.EnabledMark">
+            <summary>
+            有效标志
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.Description">
+            <summary>
+            备注
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.CreateDate">
+            <summary>
+            创建日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ModifyDate">
+            <summary>
+            修改日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ModifyUserId">
+            <summary>
+            修改用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.ModifyUserName">
+            <summary>
+            修改用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemDetailEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.DataItemEntity">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.17 9:56
+            描 述：数据字典分类
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ItemId">
+            <summary>
+            分类主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ParentId">
+            <summary>
+            父级主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ItemCode">
+            <summary>
+            分类编码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ItemName">
+            <summary>
+            分类名称
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.IsTree">
+            <summary>
+            树型结构
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.IsNav">
+            <summary>
+            导航标记
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.SortCode">
+            <summary>
+            排序码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.DeleteMark">
+            <summary>
+            删除标记
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.EnabledMark">
+            <summary>
+            有效标志
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.Description">
+            <summary>
+            备注
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.CreateDate">
+            <summary>
+            创建日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.CreateUserName">
+            <summary>
+            创建用户
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ModifyDate">
+            <summary>
+            修改日期
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ModifyUserId">
+            <summary>
+            修改用户主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.DataItemEntity.ModifyUserName">
+            <summary>
+            修改用户
+            </summary>		
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemEntity.Create">
+            <summary>
+            新增调用
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Entity.SystemManage.DataItemEntity.Modify(System.String)">
+            <summary>
+            编辑调用
+            </summary>
+            <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.LogEntity">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2016.1.8 9:56
+            描 述：系统日志
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.LogId">
+            <summary>
+            日志主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.CategoryId">
+            <summary>
+            分类Id 1-登陆2-访问3-操作4-异常
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.SourceObjectId">
+            <summary>
+            来源对象主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.SourceContentJson">
+            <summary>
+            来源日志内容
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateTime">
+            <summary>
+            操作时间
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateUserId">
+            <summary>
+            操作用户Id
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateAccount">
+            <summary>
+            操作用户
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateTypeId">
+            <summary>
+            操作类型Id
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.OperateType">
+            <summary>
+            操作类型
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.ModuleId">
+            <summary>
+            系统功能主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Module">
+            <summary>
+            系统功能
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.IPAddress">
+            <summary>
+            IP地址
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.IPAddressName">
+            <summary>
+            IP地址所在城市
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Host">
+            <summary>
+            主机
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Browser">
+            <summary>
+            浏览器
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.ExecuteResult">
+            <summary>
+            执行结果状态
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.ExecuteResultJson">
+            <summary>
+            执行结果信息
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.Description">
+            <summary>
+            备注
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.DeleteMark">
+            <summary>
+            删除标记
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.LogEntity.EnabledMark">
+            <summary>
+            有效标志
+            </summary>		
+        </member>
+        <member name="T:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel">
+            <summary>
+            版 本 6.1
+            Copyright (c) 2013-2016 上海力软信息技术有限公司
+            创建人：佘赐雄
+            日 期：2015.11.17 9:56
+            描 述：数据字典明细
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemId">
+            <summary>
+            分类主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.EnCode">
+            <summary>
+            分类编码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemDetailId">
+            <summary>
+            明细主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ParentId">
+            <summary>
+            父级主键
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemName">
+            <summary>
+            项目名
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.ItemValue">
+            <summary>
+            项目值
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.SimpleSpelling">
+            <summary>
+            简拼
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.SortCode">
+            <summary>
+            排序码
+            </summary>		
+        </member>
+        <member name="P:LeaRun.Application.Entity.SystemManage.ViewModel.DataItemModel.EnabledMark">
+            <summary>
+            有效标志
+            </summary>		
         </member>
         <member name="T:LeaRun.Application.Entity.UserInfoModel">
             <summary>

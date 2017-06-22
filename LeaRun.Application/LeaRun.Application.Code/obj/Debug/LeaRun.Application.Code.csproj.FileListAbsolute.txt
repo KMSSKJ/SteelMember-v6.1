@@ -270,3 +270,38 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.csprojResolveAssemblyReference.cache
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Application.Code.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Application.Code.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Factory.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.Extension.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\System.Web.Mvc.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Redis.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\Newtonsoft.Json.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\System.Web.Razor.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\System.Web.WebPages.Razor.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\System.Web.WebPages.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Redis.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Interfaces.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Text.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Common.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Factory.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.Extension.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Redis.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\Newtonsoft.Json.xml
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Redis.xml
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Text.xml
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Common.xml
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\zh-Hans\System.Web.Mvc.resources.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\zh-Hans\System.Web.Razor.resources.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\zh-Hans\System.Web.WebPages.resources.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.csprojResolveAssemblyReference.cache
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.pdb

@@ -70,7 +70,7 @@ ul{list-style:none}
 .user-menu .dropdown-menu>li>a>.glyphicon,.dropdown-menu>li>a>.fa,.dropdown-menu>li>a>.ion{margin-right:10px}
 .user-menu .dropdown-menu>li>a:hover{background-color:#e1e3e9;color:#333}
 .user-menu .dropdown-menu>.divider{background-color:#eee}
-@media (max-width:991px){.navbar-nav>.user-menu>.dropdown-menu>.user-footer .btn-default:hover{background-color:#f9f9f9}}.navbar-nav>.user-menu .user-image{float:left;width:40px;height:40px;border-radius:50%;margin-right:15px;margin-top:-4px}
+@media (max-width:991px){.navbar-nav>.user-menu>.dropdown-menu>.user-footer .btn-default:hover{background-color:#f9f9f9}}.navbar-nav>.user-menu .user-image{float:left;width:45px;height:45px;border-radius:50%;margin-right:15px;margin-top:-6px}
 @media (max-width:767px){.navbar-nav>.user-menu .user-image{float:none;margin-right:0;margin-top:-8px;line-height:10px}}.open:not(.dropup)>.animated-dropdown-menu{backface-visibility:visible !important;-webkit-animation:flipInX .7s both;-o-animation:flipInX .7s both;animation:flipInX .7s both}
 .navbar-custom-menu .navbar-nav>li>a{color:#fff!important;line-height: 30px;background-color:#2e99d4}
 .navbar-custom-menu .navbar-nav>li>a:hover{background-color:#2e99d4}

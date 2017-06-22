@@ -1523,6 +1523,7 @@ D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\log4ne
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\NPOI.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\NPOI.OOXML.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.IService.dll
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Data.Repository.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Service.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Util.SignalR.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\ServiceStack.Common.dll
@@ -1533,7 +1534,6 @@ D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Micros
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Microsoft.Practices.ServiceLocation.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\NPOI.OpenXmlFormats.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\NPOI.OpenXml4Net.dll
-D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Data.Repository.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Microsoft.AspNet.SignalR.Client.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Cache.Factory.pdb
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Cache.Redis.pdb
@@ -1572,6 +1572,7 @@ D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\log4ne
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\NPOI.xml
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\NPOI.OOXML.xml
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.IService.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Data.Repository.pdb
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Service.pdb
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Service.xml
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Util.SignalR.pdb
@@ -1581,7 +1582,6 @@ D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Micros
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Microsoft.Practices.ServiceLocation.pdb
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Microsoft.Practices.ServiceLocation.xml
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\NPOI.OpenXml4Net.xml
-D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Data.Repository.pdb
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Microsoft.AspNet.SignalR.Client.xml
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\zh-Hans\System.Web.Mvc.resources.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\zh-Hans\System.Net.Http.Formatting.resources.dll

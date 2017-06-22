@@ -49,12 +49,13 @@
     <Compile Include="AuthorizeManage\ModuleFormInstanceBLL.cs" />
     <Compile Include="BaseManage\OrganizeBLL.cs" />
     <Compile Include="PublicInfoManage\ScheduleBLL.cs" />
+    <Compile Include="SystemManage\AreaBLL.cs" />
+    <Compile Include="SystemManage\CodeRuleBLL.cs" />
+    <Compile Include="SystemManage\DataItemBLL.cs" />
+    <Compile Include="SystemManage\DataItemDetailBLL.cs" />
     <Compile Include="SystemManage\LogBLL.cs" />
     <Compile Include="PublicInfoManage\EmailCategoryBLL.cs" />
     <Compile Include="PublicInfoManage\EmailContentBLL.cs" />
-    <Compile Include="MessageManage\IMContentBLL.cs" />
-    <Compile Include="MessageManage\IMGroupBLL.cs" />
-    <Compile Include="MessageManage\IMUserBLL.cs" />
     <Compile Include="PublicInfoManage\FileFolderBLL.cs" />
     <Compile Include="PublicInfoManage\FileInfoBLL.cs" />
     <Compile Include="PublicInfoManage\NewsBLL.cs" />
