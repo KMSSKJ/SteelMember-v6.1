@@ -5,7 +5,6 @@ using LeaRun.Cache.Factory;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using LeaRun.Application.Entity.WebApp;
 
 namespace LeaRun.Application.Cache
 {
@@ -53,23 +52,23 @@ namespace LeaRun.Application.Cache
             }
             return data;
         }
-        public Dictionary<string,appUserInfoModel> GetListToApp()
-        {
-            Dictionary<string, appUserInfoModel> data = new Dictionary<string,appUserInfoModel>();
-            var datalist = this.GetList();
-            foreach (var item in datalist)
-            {
-                appUserInfoModel one = new appUserInfoModel {
-                    UserId = item.UserId,
-                    Account = item.Account,
-                    RealName = item.RealName,
-                    OrganizeId = item.OrganizeId,
-                    DepartmentId = item.DepartmentId
-                };
-                data.Add(item.UserId, one);
-            }
+        //public Dictionary<string,appUserInfoModel> GetListToApp()
+        //{
+        //    Dictionary<string, appUserInfoModel> data = new Dictionary<string,appUserInfoModel>();
+        //    var datalist = this.GetList();
+        //    foreach (var item in datalist)
+        //    {
+        //        appUserInfoModel one = new appUserInfoModel {
+        //            UserId = item.UserId,
+        //            Account = item.Account,
+        //            RealName = item.RealName,
+        //            OrganizeId = item.OrganizeId,
+        //            DepartmentId = item.DepartmentId
+        //        };
+        //        data.Add(item.UserId, one);
+        //    }
 
-            return data;
-        }
+        //    return data;
+        //}
     }
 }

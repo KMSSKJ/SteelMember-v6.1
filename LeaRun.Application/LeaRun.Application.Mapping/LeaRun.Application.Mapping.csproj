@@ -56,31 +56,7 @@
     <Compile Include="AccountMap.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceMap.cs" />
     <Compile Include="AuthorizeManage\ModuleFormMap.cs" />
-    <Compile Include="CustomerManage\CashBalanceMap.cs" />
-    <Compile Include="CustomerManage\ChanceMap.cs" />
-    <Compile Include="CustomerManage\ExpensesMap.cs" />
-    <Compile Include="CustomerManage\InvoiceMap.cs" />
-    <Compile Include="CustomerManage\ReceivableMap.cs" />
-    <Compile Include="CustomerManage\TrailRecordMap.cs" />
-    <Compile Include="CustomerManage\CustomerContactMap.cs" />
-    <Compile Include="CustomerManage\CustomerMap.cs" />
-    <Compile Include="CustomerManage\OrderEntryMap.cs" />
-    <Compile Include="CustomerManage\OrderMap.cs" />
-    <Compile Include="DemoManage\OfficeRkEntryMap.cs" />
-    <Compile Include="DemoManage\OfficeRkMap.cs" />
-    <Compile Include="FlowManage\WFDelegateRecordMap.cs" />
-    <Compile Include="FlowManage\WFDelegateRuleMap.cs" />
-    <Compile Include="FlowManage\WFDelegateRuleSchemeInfoMap.cs" />
-    <Compile Include="FlowManage\WFProcessInstanceMap.cs" />
-    <Compile Include="FlowManage\WFProcessOperationHistoryMap.cs" />
-    <Compile Include="FlowManage\WFProcessSchemeMap.cs" />
-    <Compile Include="FlowManage\WFProcessTransitionHistoryMap.cs" />
-    <Compile Include="FlowManage\WFSchemeInfoAuthorizeMap.cs" />
-    <Compile Include="FlowManage\WFSchemeInfoMap.cs" />
-    <Compile Include="FlowManage\WFSchemeContentMap.cs" />
-    <Compile Include="FlowManage\WFFrmMainMap.cs" />
     <Compile Include="PublicInfoManage\ScheduleMap.cs" />
-    <Compile Include="ReportManage\RptTempMap.cs" />
     <Compile Include="SystemManage\CodeRuleMap.cs" />
     <Compile Include="SystemManage\CodeRuleSeedMap.cs" />
     <Compile Include="PublicInfoManage\FileFolderMap.cs" />
@@ -112,9 +88,6 @@
     <Compile Include="PublicInfoManage\EmailCategoryMap.cs" />
     <Compile Include="PublicInfoManage\EmailContentMap.cs" />
     <Compile Include="SystemManage\LogMap.cs" />
-    <Compile Include="WeChatManage\WeChatAppMap.cs" />
-    <Compile Include="WeChatManage\WeChatDeptRelationMap.cs" />
-    <Compile Include="WeChatManage\WeChatUserRelationMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

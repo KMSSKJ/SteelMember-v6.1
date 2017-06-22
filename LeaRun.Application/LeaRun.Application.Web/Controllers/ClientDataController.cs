@@ -20,7 +20,7 @@ namespace LeaRun.Application.Web.Controllers
     /// </summary>
     public class ClientDataController : MvcControllerBase
     {
-        private DataItemCache dataItemCache = new DataItemCache();
+        //private DataItemCache dataItemCache = new DataItemCache();
         private OrganizeCache organizeCache = new OrganizeCache();
         private DepartmentCache departmentCache = new DepartmentCache();
         private PostCache postCache = new PostCache();
@@ -46,7 +46,7 @@ namespace LeaRun.Application.Web.Controllers
                 role = this.GetRoleData(),                      //角色
                 userGroup = this.GetUserGroupData(),            //用户组
                 user = this.GetUserData(),                      //用户
-                dataItem = this.GetDataItem(),                  //字典
+                //dataItem = this.GetDataItem(),                  //字典
                 authorizeMenu = this.GetModuleData(),           //导航菜单
                 authorizeButton = this.GetModuleButtonData(),   //功能按钮
                 authorizeColumn = this.GetModuleColumnData(),   //功能视图
@@ -178,27 +178,27 @@ namespace LeaRun.Application.Web.Controllers
         /// 获取数据字典
         /// </summary>
         /// <returns></returns>
-        private object GetDataItem()
-        {
-            var dataList = dataItemCache.GetDataItemList();
-            var dataSort = dataList.Distinct(new Comparint<DataItemModel>("EnCode"));
-            Dictionary<string, object> dictionarySort = new Dictionary<string, object>();
-            foreach (DataItemModel itemSort in dataSort)
-            {
-                var dataItemList = dataList.Where(t => t.EnCode.Equals(itemSort.EnCode));
-                Dictionary<string, string> dictionaryItemList = new Dictionary<string, string>();
-                foreach (DataItemModel itemList in dataItemList)
-                {
-                    dictionaryItemList.Add(itemList.ItemValue, itemList.ItemName);
-                }
-                foreach (DataItemModel itemList in dataItemList)
-                {
-                    dictionaryItemList.Add(itemList.ItemDetailId, itemList.ItemName);
-                }
-                dictionarySort.Add(itemSort.EnCode, dictionaryItemList);
-            }
-            return dictionarySort;
-        }
+        //private object GetDataItem()
+        //{
+        //    var dataList = dataItemCache.GetDataItemList();
+        //    var dataSort = dataList.Distinct(new Comparint<DataItemModel>("EnCode"));
+        //    Dictionary<string, object> dictionarySort = new Dictionary<string, object>();
+        //    foreach (DataItemModel itemSort in dataSort)
+        //    {
+        //        var dataItemList = dataList.Where(t => t.EnCode.Equals(itemSort.EnCode));
+        //        Dictionary<string, string> dictionaryItemList = new Dictionary<string, string>();
+        //        foreach (DataItemModel itemList in dataItemList)
+        //        {
+        //            dictionaryItemList.Add(itemList.ItemValue, itemList.ItemName);
+        //        }
+        //        foreach (DataItemModel itemList in dataItemList)
+        //        {
+        //            dictionaryItemList.Add(itemList.ItemDetailId, itemList.ItemName);
+        //        }
+        //        dictionarySort.Add(itemSort.EnCode, dictionaryItemList);
+        //    }
+        //    return dictionarySort;
+        //}
         #endregion
 
         #region 处理授权数据

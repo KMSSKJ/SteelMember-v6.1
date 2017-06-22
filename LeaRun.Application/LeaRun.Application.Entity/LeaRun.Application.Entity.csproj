@@ -49,32 +49,7 @@
     <Compile Include="AuthorizeManage\ModuleFormInstanceEntity.cs" />
     <Compile Include="AuthorizeManage\ViewModel\AuthorizeUrlModel.cs" />
     <Compile Include="BaseEntity.cs" />
-    <Compile Include="CustomerManage\CashBalanceEntity.cs" />
-    <Compile Include="CustomerManage\ChanceEntity.cs" />
-    <Compile Include="CustomerManage\ExpensesEntity.cs" />
-    <Compile Include="CustomerManage\InvoiceEntity.cs" />
-    <Compile Include="CustomerManage\ReceivableEntity.cs" />
-    <Compile Include="CustomerManage\TrailRecordEntity.cs" />
-    <Compile Include="CustomerManage\CustomerContactEntity.cs" />
-    <Compile Include="CustomerManage\CustomerEntity.cs" />
-    <Compile Include="CustomerManage\OrderEntity.cs" />
-    <Compile Include="CustomerManage\OrderEntryEntity.cs" />
-    <Compile Include="CustomerManage\ViewModel\ReceivableReportModel.cs" />
-    <Compile Include="DemoManage\OfficeRkEntity.cs" />
-    <Compile Include="DemoManage\OfficeRkEntryEntity.cs" />
-    <Compile Include="FlowManage\WFDelegateRecordEntity.cs" />
-    <Compile Include="FlowManage\WFDelegateRuleEntity.cs" />
-    <Compile Include="FlowManage\WFDelegateRuleSchemeInfoEntity.cs" />
-    <Compile Include="FlowManage\WFProcessInstanceEntity.cs" />
-    <Compile Include="FlowManage\WFProcessOperationHistoryEntity.cs" />
-    <Compile Include="FlowManage\WFProcessSchemeEntity.cs" />
-    <Compile Include="FlowManage\WFProcessTransitionHistoryEntity.cs" />
-    <Compile Include="FlowManage\WFSchemeInfoAuthorizeEntity.cs" />
-    <Compile Include="FlowManage\WFSchemeInfoEntity.cs" />
-    <Compile Include="FlowManage\WFSchemeContentEntity.cs" />
-    <Compile Include="FlowManage\WFFrmMainEntity.cs" />
     <Compile Include="PublicInfoManage\ScheduleEntity.cs" />
-    <Compile Include="ReportManage\RptTempEntity.cs" />
     <Compile Include="SystemManage\CodeRuleEntity.cs" />
     <Compile Include="SystemManage\CodeRuleFormatEntity.cs" />
     <Compile Include="SystemManage\CodeRuleSeedEntity.cs" />
@@ -114,11 +89,6 @@
     <Compile Include="SystemManage\LogEntity.cs" />
     <Compile Include="SystemManage\ViewModel\DataItemModel.cs" />
     <Compile Include="UserInfoModel.cs" />
-    <Compile Include="WebApp\appUserInfoModel.cs" />
-    <Compile Include="WeChatManage\WeChatAppEntity.cs" />
-    <Compile Include="WeChatManage\WeChatDeptRelationEntity.cs" />
-    <Compile Include="WeChatManage\WeChatAppMenuEntity.cs" />
-    <Compile Include="WeChatManage\WeChatUserRelationEntity.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
