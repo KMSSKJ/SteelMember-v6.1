@@ -39,7 +39,7 @@
                 },
                 { label: '手机', name: 'Mobile', index: 'Mobile', width: 100, align: 'center' },
                 {
-                    label: '公司', name: 'OrganizeId', index: 'OrganizeId', width: 200, align: 'left',
+                    label: '单位', name: 'OrganizeId', index: 'OrganizeId', width: 200, align: 'left',
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientorganizeData[cellvalue] == null ? "" : top.clientorganizeData[cellvalue].FullName;
                     }
@@ -117,7 +117,7 @@
             title: '添加用户',
             url: '/BaseManage/User/Form',
             width: "750px",
-            height: "550px",
+            height: "650px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -132,7 +132,7 @@
                 title: '修改用户',
                 url: '/BaseManage/User/Form?keyValue=' + keyValue,
                 width: "750px",
-                height: "550px",
+                height: "650px",
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }

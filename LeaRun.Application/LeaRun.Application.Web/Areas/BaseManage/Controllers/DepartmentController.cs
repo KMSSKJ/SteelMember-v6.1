@@ -91,51 +91,51 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             {
                 #region 机构
                 TreeEntity tree = new TreeEntity();
-                bool hasChildren = organizedata.Count(t => t.ParentId == item.OrganizeId) == 0 ? false : true;
-                if (hasChildren == false)
-                {
-                    hasChildren = departmentdata.Count(t => t.OrganizeId == item.OrganizeId) == 0 ? false : true;
-                    if (hasChildren == false)
-                    {
-                        continue;
-                    }
-                }
+                //bool hasChildren = organizedata.Count(t => t.ParentId == item.OrganizeId) == 0 ? false : true;
+                //if (hasChildren == false)
+                //{
+                //    hasChildren = departmentdata.Count(t => t.OrganizeId == item.OrganizeId) == 0 ? false : true;
+                //    if (hasChildren == false)
+                //    {
+                //        continue;
+                //    }
+                //}
                 tree.id = item.OrganizeId;
                 tree.text = item.FullName;
                 tree.value = item.OrganizeId;
                 tree.parentId = item.ParentId;
                 tree.isexpand = true;
                 tree.complete = true;
-                tree.hasChildren = hasChildren;
+                tree.hasChildren = false;
                 tree.Attribute = "Sort";
                 tree.AttributeValue = "Organize";
                 treeList.Add(tree);
                 #endregion
             }
-            foreach (DepartmentEntity item in departmentdata)
-            {
-                #region 部门
-                TreeEntity tree = new TreeEntity();
-                bool hasChildren = departmentdata.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
-                tree.id = item.DepartmentId;
-                tree.text = item.FullName;
-                tree.value = item.DepartmentId;
-                if (item.ParentId == "0")
-                {
-                    tree.parentId = item.OrganizeId;
-                }
-                else
-                {
-                    tree.parentId = item.ParentId;
-                }
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = hasChildren;
-                tree.Attribute = "Sort";
-                tree.AttributeValue = "Department";
-                treeList.Add(tree);
-                #endregion
-            }
+            //foreach (DepartmentEntity item in departmentdata)
+            //{
+            //    #region 部门
+            //    TreeEntity tree = new TreeEntity();
+            //    bool hasChildren = departmentdata.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
+            //    tree.id = item.DepartmentId;
+            //    tree.text = item.FullName;
+            //    tree.value = item.DepartmentId;
+            //    if (item.ParentId == "0")
+            //    {
+            //        tree.parentId = item.OrganizeId;
+            //    }
+            //    else
+            //    {
+            //        tree.parentId = item.ParentId;
+            //    }
+            //    tree.isexpand = true;
+            //    tree.complete = true;
+            //    tree.hasChildren = hasChildren;
+            //    tree.Attribute = "Sort";
+            //    tree.AttributeValue = "Department";
+            //    treeList.Add(tree);
+            //    #endregion
+            //}
             if (!string.IsNullOrEmpty(keyword))
             {
                 treeList = treeList.TreeWhere(t => t.text.Contains(keyword), "id", "parentId");

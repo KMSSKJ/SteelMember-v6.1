@@ -1311,6 +1311,12 @@
             <param name="strModuleFormInstanceEntity">用户实体</param>
             <returns></returns>
         </member>
+        <member name="M:LeaRun.Application.Web.Areas.BaseManage.Controllers.UserController.UploadFile(System.String)">
+            <summary>
+            上传/修改头像
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:LeaRun.Application.Web.Areas.BaseManage.Controllers.UserController.SaveRevisePassword(System.String,System.String)">
             <summary>
             保存重置修改密码
