@@ -190,6 +190,7 @@
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
     <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
     <Compile Include="Areas\SteelMember\Models\AnalysisRawMaterialModel.cs" />
     <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ListModel.cs" />

@@ -18,7 +18,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     using SteelMember.Controllers;
     using System.Data.OleDb;
     using Ninject;
-    using LeaRun.Entity;
     using LeaRun.Application.Repository.SteelMember.IBLL;
     using LeaRun.Data.Entity;
     using LeaRun.Util.WebControl;
@@ -317,7 +316,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Content(new JsonMessage { Success = false, Code = "-1", Message = "操作失败：" + ex.Message }.ToString());
+        //       throw new Exception(ex.ToString());
         //    }
         //}
 
@@ -411,7 +410,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Content(new JsonMessage { Success = false, Code = "-1", Message = "操作失败：" + ex.Message }.ToString());
+        //       throw new Exception(ex.ToString());
         //    }
         //}
 
@@ -494,7 +493,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Content(new JsonMessage { Success = false, Code = "-1", Message = "操作失败：" + ex.Message }.ToString());
+        //       throw new Exception(ex.ToString());
         //    }
         //}
 
@@ -550,7 +549,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Content(new JsonMessage { Success = false, Code = "-1", Message = "操作失败：" + ex.Message }.ToString());
+        //       throw new Exception(ex.ToString());
         //    }
         //}
 
@@ -628,7 +627,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Content(new JsonMessage { Success = false, Code = "-1", Message = "操作失败：" + ex.Message }.ToString());
+        //       throw new Exception(ex.ToString());
         //    }
 
         //}
@@ -675,7 +674,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Content(new JsonMessage { Success = false, Code = "-1", Message = "操作失败：" + ex.Message }.ToString());
+        //       throw new Exception(ex.ToString());
         //    }
 
         //}
@@ -1674,12 +1673,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //[LoginAuthorize]
         public virtual ActionResult SetMemberForm(string KeyValue)
         {
-            int memberid = Convert.ToInt32(KeyValue);
-            RMC_MemberLibrary entity = MemberLibraryCurrent.Find(f => f.MemberID == memberid).SingleOrDefault();
+            int _KeyValue = Convert.ToInt32(KeyValue);
+            RMC_MemberLibrary entity = MemberLibraryCurrent.Find(f => f.MemberID == _KeyValue).SingleOrDefault();
             //string JsonData = entity.ToJson();
             ////自定义
             //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
-            return Content(entity.ToJson());
+            
+            return ToJsonResult(entity);
         }
         /// <summary>
         /// 提交文件夹表单
@@ -1690,7 +1690,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateInput(false)]
         //[LoginAuthorize]
-        public virtual ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue, string TreeId, string ItemID)
+        public virtual ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue, string TreeId)
         {
             try
             {
@@ -1842,7 +1842,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     IsOk = 1;
                     //this.WSectionalSize_r = entity.SectionalSize_r;riteLog(IsOk, entity, null, KeyValue, Message);
                 }
-                return Content(Message);
+                return Success(Message);
             }
             catch (Exception ex)
             {

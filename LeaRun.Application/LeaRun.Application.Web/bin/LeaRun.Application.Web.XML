@@ -2139,7 +2139,7 @@
             <param name="KeyValue">主键</param>
             <returns></returns>
         </member>
-        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.SubmitMember(LeaRun.Data.Entity.RMC_MemberLibrary,System.String,System.String,System.String)">
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.SubmitMember(LeaRun.Data.Entity.RMC_MemberLibrary,System.String,System.String)">
             <summary>
             提交文件夹表单
             </summary>
@@ -2231,6 +2231,90 @@
             删除（销毁）文件
             </summary>
             <param name="FolderId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.TreeJson(System.String)">
+            <summary>
+            【项目需求管理】返回树JONS
+            </summary>
+            <returns></returns>      
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GridListJson(LeaRun.Util.FileViewModel,System.String,LeaRun.Util.WebControl.Pagination,System.String,System.String)">
+            <summary>
+            【工程项目管理】返回文件（夹）列表JSON
+            </summary>
+            <param name="keywords">文件名搜索条件</param>
+            <param name="FolderId">文件夹ID</param>
+            <param name="IsPublic">是否公共 1-公共、0-我的</param>
+            <returns></returns>         
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.Form">
+            <summary>
+            表单视图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.SetDataForm(System.String)">
+            <summary>
+            【项目信息管理】返回文件夹对象JSON
+            </summary>
+            <param name="KeyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.SubmitDataForm(LeaRun.Data.Entity.RMC_ProjectDemand,System.String,System.String)">
+            <summary>
+            提交文件夹表单
+            </summary>
+            <param name="entity">实体对象</param>
+            <param name="KeyValue">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.DeleteProjectDemand(System.String)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="FolderId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GetTreeName(System.String)">
+            <summary>
+            获取分项目名称
+            </summary>
+            <param name="KeyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GetMemderName(System.String,System.String)">
+            <summary>
+            获取构件名称
+            </summary>
+            <param name="KeyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GetMemderUnit">
+            <summary>
+            获取构件单位
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GetMemderDrawing(System.String)">
+            <summary>
+            获取构件图纸模型
+            </summary>
+            <param name="KeyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.ReviewProjectDemand(System.String,System.String)">
+            <summary>
+            审核需求
+            </summary>
+            <param name="KeyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.SubmitProjectItemDemand(System.String,LeaRun.Data.Entity.RMC_ProjectDemand)">
+            <summary>
+            批量提交项目
+            </summary>
+            <param name="TreeId"></param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController">

@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LeaRunFramework_Base_2016ModelStoreContainer" CdmEntityContainer="LeaRunFramework_Base_2016Entities">
+    <EntitySetMapping Name="RMC_Collar">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Collar">
+        <MappingFragment StoreEntitySet="RMC_Collar">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Borrow" ColumnName="Borrow" />
+          <ScalarProperty Name="CollarTime" ColumnName="CollarTime" />
+          <ScalarProperty Name="CollarMan" ColumnName="CollarMan" />
+          <ScalarProperty Name="Librarian" ColumnName="Librarian" />
+          <ScalarProperty Name="Use" ColumnName="Use" />
+          <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+          <ScalarProperty Name="CollarNumbering" ColumnName="CollarNumbering" />
+          <ScalarProperty Name="CollarId" ColumnName="CollarId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_CollarMember">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_CollarMember">
+        <MappingFragment StoreEntitySet="RMC_CollarMember">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="MemberUnit" ColumnName="MemberUnit" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+          <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+          <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+          <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="CollarNumbering" ColumnName="CollarNumbering" />
+          <ScalarProperty Name="CollarId" ColumnName="CollarId" />
+          <ScalarProperty Name="CollarMemberId" ColumnName="CollarMemberId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_FactoryWarehouse">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_FactoryWarehouse">
+        <MappingFragment StoreEntitySet="RMC_FactoryWarehouse">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="InStockNumber" ColumnName="InStockNumber" />
+          <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="FactoryWarehouseId" ColumnName="FactoryWarehouseId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_MemberLibrary">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberLibrary">
+        <MappingFragment StoreEntitySet="RMC_MemberLibrary">
+          <ScalarProperty Name="Sort" ColumnName="Sort" />
+          <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+          <ScalarProperty Name="FullPath" ColumnName="FullPath" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+          <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="IsProcess" ColumnName="IsProcess" />
+          <ScalarProperty Name="IsRawMaterial" ColumnName="IsRawMaterial" />
+          <ScalarProperty Name="Model_Drawing" ColumnName="Model_Drawing" />
+          <ScalarProperty Name="CAD_Drawing" ColumnName="CAD_Drawing" />
+          <ScalarProperty Name="GravityCenterDistance_y0" ColumnName="GravityCenterDistance_y0" />
+          <ScalarProperty Name="GravityCenterDistance_x0" ColumnName="GravityCenterDistance_x0" />
+          <ScalarProperty Name="GravityCenterDistance_0" ColumnName="GravityCenterDistance_0" />
+          <ScalarProperty Name="SectionalModulus_u" ColumnName="SectionalModulus_u" />
+          <ScalarProperty Name="SectionalModulus_y0" ColumnName="SectionalModulus_y0" />
+          <ScalarProperty Name="SectionalModulus_x0" ColumnName="SectionalModulus_x0" />
+          <ScalarProperty Name="SectionalModulus_y" ColumnName="SectionalModulus_y" />
+          <ScalarProperty Name="SectionalModulus_x" ColumnName="SectionalModulus_x" />
+          <ScalarProperty Name="InertiaRadius_u" ColumnName="InertiaRadius_u" />
+          <ScalarProperty Name="InertiaRadius_y0" ColumnName="InertiaRadius_y0" />
+          <ScalarProperty Name="InertiaRadius_x0" ColumnName="InertiaRadius_x0" />
+          <ScalarProperty Name="InertiaRadius_y" ColumnName="InertiaRadius_y" />
+          <ScalarProperty Name="InertiaRadius_x" ColumnName="InertiaRadius_x" />
+          <ScalarProperty Name="InertiaDistance_u" ColumnName="InertiaDistance_u" />
+          <ScalarProperty Name="InertiaDistance_y0" ColumnName="InertiaDistance_y0" />
+          <ScalarProperty Name="InertiaDistance_x0" ColumnName="InertiaDistance_x0" />
+          <ScalarProperty Name="InertiaDistance_x1" ColumnName="InertiaDistance_x1" />
+          <ScalarProperty Name="InertiaDistance_y1" ColumnName="InertiaDistance_y1" />
+          <ScalarProperty Name="InertiaDistance_y" ColumnName="InertiaDistance_y" />
+          <ScalarProperty Name="InertiaDistance_x" ColumnName="InertiaDistance_x" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="TheoreticalWeight" ColumnName="TheoreticalWeight" />
+          <ScalarProperty Name="SurfaceArea" ColumnName="SurfaceArea" />
+          <ScalarProperty Name="SectionalArea" ColumnName="SectionalArea" />
+          <ScalarProperty Name="SectionalSize_r1" ColumnName="SectionalSize_r1" />
+          <ScalarProperty Name="SectionalSize_r" ColumnName="SectionalSize_r" />
+          <ScalarProperty Name="SectionalSize_t" ColumnName="SectionalSize_t" />
+          <ScalarProperty Name="SectionalSize_d" ColumnName="SectionalSize_d" />
+          <ScalarProperty Name="SectionalSizeD" ColumnName="SectionalSizeD" />
+          <ScalarProperty Name="SectionalSize_b" ColumnName="SectionalSize_b" />
+          <ScalarProperty Name="SectionalSize_h" ColumnName="SectionalSize_h" />
+          <ScalarProperty Name="SectionalSizeB" ColumnName="SectionalSizeB" />
+          <ScalarProperty Name="EngineeringClass" ColumnName="EngineeringClass" />
+          <ScalarProperty Name="MemberUnit" ColumnName="MemberUnit" />
+          <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+          <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+          <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+          <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+          <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_MemberProcess">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberProcess">
+        <MappingFragment StoreEntitySet="RMC_MemberProcess">
+          <ScalarProperty Name="ProcessMan" ColumnName="ProcessMan" />
+          <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ProcessRequirements" ColumnName="ProcessRequirements" />
+          <ScalarProperty Name="OperationTime" ColumnName="OperationTime" />
+          <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="MemberProcessId" ColumnName="MemberProcessId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_MemberUnit">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberUnit">
+        <MappingFragment StoreEntitySet="RMC_MemberUnit">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+          <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_OrderMember">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_OrderMember">
+        <MappingFragment StoreEntitySet="RMC_OrderMember">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="PriceAmount" ColumnName="PriceAmount" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="MemberUnit" ColumnName="MemberUnit" />
+          <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+          <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+          <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="OrderMemberId" ColumnName="OrderMemberId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_ProcessManagement">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProcessManagement">
+        <MappingFragment StoreEntitySet="RMC_ProcessManagement">
+          <ScalarProperty Name="IsProcessTask" ColumnName="IsProcessTask" />
+          <ScalarProperty Name="ProcessNumbered" ColumnName="ProcessNumbered" />
+          <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+          <ScalarProperty Name="ProcessManImge" ColumnName="ProcessManImge" />
+          <ScalarProperty Name="IsProcessStatus" ColumnName="IsProcessStatus" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="QualifiedNumber" ColumnName="QualifiedNumber" />
+          <ScalarProperty Name="UnqualifiedNumber" ColumnName="UnqualifiedNumber" />
+          <ScalarProperty Name="ProcessMan" ColumnName="ProcessMan" />
+          <ScalarProperty Name="ProduceEndDate" ColumnName="ProduceEndDate" />
+          <ScalarProperty Name="ProduceStartDate" ColumnName="ProduceStartDate" />
+          <ScalarProperty Name="MemberProcessId" ColumnName="MemberProcessId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_ProjectDemand">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectDemand">
+        <MappingFragment StoreEntitySet="RMC_ProjectDemand">
+          <ScalarProperty Name="ProductionNumber" ColumnName="ProductionNumber" />
+          <ScalarProperty Name="CreateMan" ColumnName="CreateMan" />
+          <ScalarProperty Name="CollarNumbered" ColumnName="CollarNumbered" />
+          <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="Productioned" ColumnName="Productioned" />
+          <ScalarProperty Name="OrderQuantityed" ColumnName="OrderQuantityed" />
+          <ScalarProperty Name="MemberNumber" ColumnName="MemberNumber" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsSubmit" ColumnName="IsSubmit" />
+          <ScalarProperty Name="IsDemandSubmit" ColumnName="IsDemandSubmit" />
+          <ScalarProperty Name="ReviewMan" ColumnName="ReviewMan" />
+          <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+          <ScalarProperty Name="CostBudget" ColumnName="CostBudget" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="MemberWeight" ColumnName="MemberWeight" />
+          <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+          <ScalarProperty Name="MemberClassId" ColumnName="MemberClassId" />
+          <ScalarProperty Name="MemberCompanyId" ColumnName="MemberCompanyId" />
+          <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+          <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="TreeName" ColumnName="TreeName" />
+          <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+          <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_ProjectInfo">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectInfo">
+        <MappingFragment StoreEntitySet="RMC_ProjectInfo">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="ProfessionalContractorPrincipalTEL" ColumnName="ProfessionalContractorPrincipalTEL" />
+          <ScalarProperty Name="ProfessionalContractorPrincipal" ColumnName="ProfessionalContractorPrincipal" />
+          <ScalarProperty Name="ProfessionalContractor" ColumnName="ProfessionalContractor" />
+          <ScalarProperty Name="GeneralContractorPrincipalTEL" ColumnName="GeneralContractorPrincipalTEL" />
+          <ScalarProperty Name="GeneralContractorPrincipal" ColumnName="GeneralContractorPrincipal" />
+          <ScalarProperty Name="GeneralContractor" ColumnName="GeneralContractor" />
+          <ScalarProperty Name="SupervisionPrincipalTEL" ColumnName="SupervisionPrincipalTEL" />
+          <ScalarProperty Name="SupervisionPrincipal" ColumnName="SupervisionPrincipal" />
+          <ScalarProperty Name="SupervisionUnit" ColumnName="SupervisionUnit" />
+          <ScalarProperty Name="DesignPrincipalTEL" ColumnName="DesignPrincipalTEL" />
+          <ScalarProperty Name="DesignPrincipal" ColumnName="DesignPrincipal" />
+          <ScalarProperty Name="DesignUnit" ColumnName="DesignUnit" />
+          <ScalarProperty Name="ConstructionPrincipalTEL" ColumnName="ConstructionPrincipalTEL" />
+          <ScalarProperty Name="ConstructionPrincipal" ColumnName="ConstructionPrincipal" />
+          <ScalarProperty Name="ConstructionUnit" ColumnName="ConstructionUnit" />
+          <ScalarProperty Name="ConstructionPermitId" ColumnName="ConstructionPermitId" />
+          <ScalarProperty Name="ProjectAddress" ColumnName="ProjectAddress" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="ProjectBackground" ColumnName="ProjectBackground" />
+          <ScalarProperty Name="ProjectLogo" ColumnName="ProjectLogo" />
+          <ScalarProperty Name="ProjectSystemTitel" ColumnName="ProjectSystemTitel" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_ProjectOrder">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectOrder">
+        <MappingFragment StoreEntitySet="RMC_ProjectOrder">
+          <ScalarProperty Name="TreeName" ColumnName="TreeName" />
+          <ScalarProperty Name="EngineeringPosition" ColumnName="EngineeringPosition" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+          <ScalarProperty Name="Productioned" ColumnName="Productioned" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="CreateMan" ColumnName="CreateMan" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="ConfirmMan" ColumnName="ConfirmMan" />
+          <ScalarProperty Name="ConfirmOrder" ColumnName="ConfirmOrder" />
+          <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+          <ScalarProperty Name="SubmitMan" ColumnName="SubmitMan" />
+          <ScalarProperty Name="IsSubmit" ColumnName="IsSubmit" />
+          <ScalarProperty Name="ReviewTime" ColumnName="ReviewTime" />
+          <ScalarProperty Name="ReviewMan" ColumnName="ReviewMan" />
+          <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+          <ScalarProperty Name="OrderBudget" ColumnName="OrderBudget" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="OrderNumbering" ColumnName="OrderNumbering" />
+          <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+          <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_ProjectWarehouse">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse">
+        <MappingFragment StoreEntitySet="RMC_ProjectWarehouse">
+          <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+          <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+          <ScalarProperty Name="MemberTreeId" ColumnName="MemberTreeId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Leader" ColumnName="Leader" />
+          <ScalarProperty Name="Librarian" ColumnName="Librarian" />
+          <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+          <ScalarProperty Name="IsShiped" ColumnName="IsShiped" />
+          <ScalarProperty Name="Class" ColumnName="Class" />
+          <ScalarProperty Name="Damage" ColumnName="Damage" />
+          <ScalarProperty Name="InStock" ColumnName="InStock" />
+          <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="ProjectWarehouseId" ColumnName="ProjectWarehouseId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_Purchase">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Purchase">
+        <MappingFragment StoreEntitySet="RMC_Purchase">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ReviewMan" ColumnName="ReviewMan" />
+          <ScalarProperty Name="CreateMan" ColumnName="CreateMan" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="PurchaseNumbering" ColumnName="PurchaseNumbering" />
+          <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_RawMaterialLibrary">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary">
+        <MappingFragment StoreEntitySet="RMC_RawMaterialLibrary">
+          <ScalarProperty Name="WarehousingTime" ColumnName="WarehousingTime" />
+          <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+          <ScalarProperty Name="RawMaterialNumber" ColumnName="RawMaterialNumber" />
+          <ScalarProperty Name="RawMaterialStandard" ColumnName="RawMaterialStandard" />
+          <ScalarProperty Name="RawMaterialName" ColumnName="RawMaterialName" />
+          <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+          <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_RawMaterialPurchase">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase">
+        <MappingFragment StoreEntitySet="RMC_RawMaterialPurchase">
+          <ScalarProperty Name="IsPurchase" ColumnName="IsPurchase" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="MaterialBudget" ColumnName="MaterialBudget" />
+          <ScalarProperty Name="PriceAmount" ColumnName="PriceAmount" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="RawMaterialStandard" ColumnName="RawMaterialStandard" />
+          <ScalarProperty Name="RawMaterialName" ColumnName="RawMaterialName" />
+          <ScalarProperty Name="OrderNumbering" ColumnName="OrderNumbering" />
+          <ScalarProperty Name="MaterialClassId" ColumnName="MaterialClassId" />
+          <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+          <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+          <ScalarProperty Name="RawMaterialPurchaseId" ColumnName="RawMaterialPurchaseId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_ShipManagement">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ShipManagement">
+        <MappingFragment StoreEntitySet="RMC_ShipManagement">
+          <ScalarProperty Name="ShipNumbering" ColumnName="ShipNumbering" />
+          <ScalarProperty Name="LibraryNumber" ColumnName="LibraryNumber" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ShippingMan" ColumnName="ShippingMan" />
+          <ScalarProperty Name="ShippingTEL" ColumnName="ShippingTEL" />
+          <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+          <ScalarProperty Name="LogisticsStatus" ColumnName="LogisticsStatus" />
+          <ScalarProperty Name="ShipMan" ColumnName="ShipMan" />
+          <ScalarProperty Name="ShipDate" ColumnName="ShipDate" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="IsPackaged" ColumnName="IsPackaged" />
+          <ScalarProperty Name="ShipNumber" ColumnName="ShipNumber" />
+          <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+          <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+          <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="MemberClassId" ColumnName="MemberClassId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+          <ScalarProperty Name="ShipId" ColumnName="ShipId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_Tree">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Tree">
+        <MappingFragment StoreEntitySet="RMC_Tree">
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="OverdueTime" ColumnName="OverdueTime" />
+          <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+          <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+          <ScalarProperty Name="Oderby" ColumnName="Oderby" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="IsMenu" ColumnName="IsMenu" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="TreeName" ColumnName="TreeName" />
+          <ScalarProperty Name="ItemClassRemark" ColumnName="ItemClassRemark" />
+          <ScalarProperty Name="ItemClass" ColumnName="ItemClass" />
+          <ScalarProperty Name="IsItem" ColumnName="IsItem" />
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_MemberMaterial">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberMaterial">
+        <MappingFragment StoreEntitySet="RMC_MemberMaterial">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="MaterialNumber" ColumnName="MaterialNumber" />
+          <ScalarProperty Name="RawMaterialClassId" ColumnName="RawMaterialClassId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+          <ScalarProperty Name="MemberMaterialId" ColumnName="MemberMaterialId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

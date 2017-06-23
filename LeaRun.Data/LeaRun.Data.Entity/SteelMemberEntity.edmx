@@ -5,6 +5,46 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="LeaRunFramework_Base_2016Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="RMC_Collar">
+          <Key>
+            <PropertyRef Name="CollarId" />
+          </Key>
+          <Property Name="CollarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CollarNumbering" Type="nvarchar" MaxLength="50" />
+          <Property Name="TreeId" Type="int" />
+          <Property Name="Use" Type="nvarchar" MaxLength="30" />
+          <Property Name="Librarian" Type="nvarchar" MaxLength="10" />
+          <Property Name="CollarMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="CollarTime" Type="datetime" />
+          <Property Name="Borrow" Type="nvarchar" MaxLength="5" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="RMC_CollarMember">
+          <Key>
+            <PropertyRef Name="CollarMemberId" />
+          </Key>
+          <Property Name="CollarMemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CollarId" Type="int" />
+          <Property Name="CollarNumbering" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="ProjectDemandId" Type="int" />
+          <Property Name="MemberNumbering" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="30" />
+          <Property Name="MemberModel" Type="nvarchar" MaxLength="30" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="MemberUnit" Type="nvarchar" MaxLength="10" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="RMC_FactoryWarehouse">
+          <Key>
+            <PropertyRef Name="FactoryWarehouseId" />
+          </Key>
+          <Property Name="FactoryWarehouseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="MemberModel" Type="nvarchar" MaxLength="20" />
+          <Property Name="InStockNumber" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="RMC_MemberLibrary">
           <Key>
             <PropertyRef Name="MemberID" />
@@ -67,20 +107,18 @@
           <Key>
             <PropertyRef Name="MemberMaterialId" />
           </Key>
-          <Property Name="MemberMaterialId" Type="int" Nullable="false" />
+          <Property Name="MemberMaterialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RawMaterialId" Type="int" />
           <Property Name="MemberId" Type="int" />
           <Property Name="RawMaterialClassId" Type="int" />
           <Property Name="MaterialNumber" Type="int" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“LeaRunFramework_Base_2016.dbo.RMC_MemberProcess”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="RMC_MemberProcess">
           <Key>
             <PropertyRef Name="MemberProcessId" />
           </Key>
-          <Property Name="MemberProcessId" Type="int" Nullable="false" />
+          <Property Name="MemberProcessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MemberId" Type="int" />
           <Property Name="ProcessName" Type="nvarchar" MaxLength="15" />
           <Property Name="OperationTime" Type="nvarchar" MaxLength="5" />
@@ -89,23 +127,36 @@
           <Property Name="SortCode" Type="int" />
           <Property Name="ProcessMan" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“LeaRunFramework_Base_2016.dbo.RMC_MemberUnit”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="RMC_MemberUnit">
           <Key>
             <PropertyRef Name="UnitId" />
           </Key>
-          <Property Name="UnitId" Type="int" Nullable="false" />
+          <Property Name="UnitId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UnitName" Type="nvarchar" MaxLength="10" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“LeaRunFramework_Base_2016.dbo.RMC_ProcessManagement”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="RMC_OrderMember">
+          <Key>
+            <PropertyRef Name="OrderMemberId" />
+          </Key>
+          <Property Name="OrderMemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="ProjectDemandId" Type="int" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="MemberNumbering" Type="nvarchar" MaxLength="30" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="15" />
+          <Property Name="MemberModel" Type="nvarchar" MaxLength="15" />
+          <Property Name="MemberUnit" Type="nvarchar" MaxLength="10" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PriceAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="RMC_ProcessManagement">
           <Key>
             <PropertyRef Name="ProcessId" />
           </Key>
-          <Property Name="ProcessId" Type="int" Nullable="false" />
+          <Property Name="ProcessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" />
           <Property Name="MemberId" Type="int" />
           <Property Name="MemberProcessId" Type="int" />
@@ -120,6 +171,37 @@
           <Property Name="ProcessName" Type="nvarchar" MaxLength="20" />
           <Property Name="ProcessNumbered" Type="int" />
           <Property Name="IsProcessTask" Type="int" />
+        </EntityType>
+        <EntityType Name="RMC_ProjectDemand">
+          <Key>
+            <PropertyRef Name="ProjectDemandId" />
+          </Key>
+          <Property Name="ProjectDemandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreeId" Type="int" />
+          <Property Name="TreeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="MemberNumbering" Type="nvarchar" MaxLength="40" />
+          <Property Name="MemberModel" Type="nvarchar" MaxLength="20" />
+          <Property Name="MemberCompanyId" Type="int" />
+          <Property Name="MemberClassId" Type="int" />
+          <Property Name="UnitId" Type="int" />
+          <Property Name="MemberWeight" Type="nvarchar" MaxLength="30" />
+          <Property Name="UnitPrice" Type="nvarchar" MaxLength="10" />
+          <Property Name="CostBudget" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="IsReview" Type="int" />
+          <Property Name="ReviewMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsDemandSubmit" Type="int" />
+          <Property Name="IsSubmit" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="DeleteFlag" Type="int" />
+          <Property Name="MemberNumber" Type="int" />
+          <Property Name="OrderQuantityed" Type="int" />
+          <Property Name="Productioned" Type="int" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="ModifiedTime" Type="datetime" />
+          <Property Name="CollarNumbered" Type="int" />
+          <Property Name="CreateMan" Type="nvarchar" MaxLength="20" />
+          <Property Name="ProductionNumber" Type="int" />
         </EntityType>
         <EntityType Name="RMC_ProjectInfo">
           <Key>
@@ -154,13 +236,71 @@
           <Property Name="ModifiedTime" Type="datetime" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“LeaRunFramework_Base_2016.dbo.RMC_RawMaterialLibrary”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="RMC_ProjectOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreeId" Type="int" />
+          <Property Name="ProjectDemandId" Type="int" />
+          <Property Name="OrderNumbering" Type="nvarchar" MaxLength="20" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="20" />
+          <Property Name="OrderBudget" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="IsReview" Type="int" />
+          <Property Name="ReviewMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="ReviewTime" Type="datetime" />
+          <Property Name="IsSubmit" Type="int" />
+          <Property Name="SubmitMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="SubmitTime" Type="datetime" />
+          <Property Name="ConfirmOrder" Type="int" />
+          <Property Name="ConfirmMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="CreateMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="DeleteFlag" Type="int" />
+          <Property Name="Productioned" Type="int" />
+          <Property Name="ModifiedTime" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="EngineeringPosition" Type="nvarchar" MaxLength="20" />
+          <Property Name="TreeName" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="RMC_ProjectWarehouse">
+          <Key>
+            <PropertyRef Name="ProjectWarehouseId" />
+          </Key>
+          <Property Name="ProjectWarehouseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="DeleteFlag" Type="int" />
+          <Property Name="TreeId" Type="int" />
+          <Property Name="InStock" Type="int" />
+          <Property Name="Damage" Type="int" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsShiped" Type="int" />
+          <Property Name="ModifyTime" Type="datetime" />
+          <Property Name="Librarian" Type="nvarchar" MaxLength="50" />
+          <Property Name="Leader" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="MemberTreeId" Type="int" />
+          <Property Name="ProjectDemandId" Type="int" />
+          <Property Name="MemberModel" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="RMC_Purchase">
+          <Key>
+            <PropertyRef Name="PurchaseId" />
+          </Key>
+          <Property Name="PurchaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseNumbering" Type="nvarchar" MaxLength="30" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="CreateMan" Type="nvarchar" MaxLength="20" />
+          <Property Name="ReviewMan" Type="nvarchar" MaxLength="20" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="RMC_RawMaterialLibrary">
           <Key>
             <PropertyRef Name="RawMaterialId" />
           </Key>
-          <Property Name="RawMaterialId" Type="int" Nullable="false" />
+          <Property Name="RawMaterialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TreeId" Type="int" />
           <Property Name="RawMaterialName" Type="nvarchar" MaxLength="30" />
           <Property Name="RawMaterialStandard" Type="nvarchar" MaxLength="30" />
@@ -171,6 +311,54 @@
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="UnitName" Type="nvarchar" MaxLength="10" />
           <Property Name="WarehousingTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RMC_RawMaterialPurchase">
+          <Key>
+            <PropertyRef Name="RawMaterialPurchaseId" />
+          </Key>
+          <Property Name="RawMaterialPurchaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreeId" Type="int" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="RawMaterialId" Type="int" />
+          <Property Name="PurchaseId" Type="int" />
+          <Property Name="MaterialClassId" Type="int" />
+          <Property Name="OrderNumbering" Type="nvarchar" MaxLength="20" />
+          <Property Name="RawMaterialName" Type="nvarchar" MaxLength="20" />
+          <Property Name="RawMaterialStandard" Type="nvarchar" MaxLength="20" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="UnitName" Type="nvarchar" MaxLength="10" />
+          <Property Name="Price" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="PriceAmount" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="MaterialBudget" Type="nvarchar" MaxLength="20" />
+          <Property Name="DeleteFlag" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsPurchase" Type="int" />
+        </EntityType>
+        <EntityType Name="RMC_ShipManagement">
+          <Key>
+            <PropertyRef Name="ShipId" />
+          </Key>
+          <Property Name="ShipId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreeId" Type="int" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="MemberClassId" Type="int" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="MemberNumbering" Type="nvarchar" MaxLength="30" />
+          <Property Name="MemberModel" Type="nvarchar" MaxLength="10" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="15" />
+          <Property Name="ShipNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsPackaged" Type="int" />
+          <Property Name="UnitPrice" Type="nvarchar" MaxLength="10" />
+          <Property Name="TotalPrice" Type="nvarchar" MaxLength="15" />
+          <Property Name="ShipDate" Type="datetime" />
+          <Property Name="ShipMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="LogisticsStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShippingTEL" Type="nvarchar" MaxLength="15" />
+          <Property Name="ShippingMan" Type="nvarchar" MaxLength="10" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="LibraryNumber" Type="int" />
+          <Property Name="ShipNumbering" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="RMC_Tree">
           <Key>
@@ -198,8 +386,22 @@
           <Property Name="FileType" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityContainer Name="LeaRunFramework_Base_2016ModelStoreContainer">
+          <EntitySet Name="RMC_Collar" EntityType="Self.RMC_Collar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_CollarMember" EntityType="Self.RMC_CollarMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_FactoryWarehouse" EntityType="Self.RMC_FactoryWarehouse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_MemberLibrary" EntityType="Self.RMC_MemberLibrary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_MemberProcess" EntityType="Self.RMC_MemberProcess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_MemberUnit" EntityType="Self.RMC_MemberUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_OrderMember" EntityType="Self.RMC_OrderMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_ProcessManagement" EntityType="Self.RMC_ProcessManagement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_ProjectDemand" EntityType="Self.RMC_ProjectDemand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_ProjectInfo" EntityType="Self.RMC_ProjectInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_ProjectOrder" EntityType="Self.RMC_ProjectOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_ProjectWarehouse" EntityType="Self.RMC_ProjectWarehouse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_Purchase" EntityType="Self.RMC_Purchase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_RawMaterialLibrary" EntityType="Self.RMC_RawMaterialLibrary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_RawMaterialPurchase" EntityType="Self.RMC_RawMaterialPurchase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_ShipManagement" EntityType="Self.RMC_ShipManagement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_Tree" EntityType="Self.RMC_Tree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_MemberMaterial" EntityType="Self.RMC_MemberMaterial" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -211,131 +413,70 @@
     [RMC_MemberMaterial].[Description] AS [Description]
     FROM [dbo].[RMC_MemberMaterial] AS [RMC_MemberMaterial]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="RMC_MemberProcess" EntityType="Self.RMC_MemberProcess" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [RMC_MemberProcess].[MemberProcessId] AS [MemberProcessId], 
-    [RMC_MemberProcess].[MemberId] AS [MemberId], 
-    [RMC_MemberProcess].[ProcessName] AS [ProcessName], 
-    [RMC_MemberProcess].[OperationTime] AS [OperationTime], 
-    [RMC_MemberProcess].[ProcessRequirements] AS [ProcessRequirements], 
-    [RMC_MemberProcess].[Description] AS [Description], 
-    [RMC_MemberProcess].[SortCode] AS [SortCode], 
-    [RMC_MemberProcess].[ProcessMan] AS [ProcessMan]
-    FROM [dbo].[RMC_MemberProcess] AS [RMC_MemberProcess]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="RMC_MemberUnit" EntityType="Self.RMC_MemberUnit" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [RMC_MemberUnit].[UnitId] AS [UnitId], 
-    [RMC_MemberUnit].[UnitName] AS [UnitName], 
-    [RMC_MemberUnit].[Description] AS [Description]
-    FROM [dbo].[RMC_MemberUnit] AS [RMC_MemberUnit]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="RMC_ProcessManagement" EntityType="Self.RMC_ProcessManagement" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [RMC_ProcessManagement].[ProcessId] AS [ProcessId], 
-    [RMC_ProcessManagement].[OrderId] AS [OrderId], 
-    [RMC_ProcessManagement].[MemberId] AS [MemberId], 
-    [RMC_ProcessManagement].[MemberProcessId] AS [MemberProcessId], 
-    [RMC_ProcessManagement].[ProduceStartDate] AS [ProduceStartDate], 
-    [RMC_ProcessManagement].[ProduceEndDate] AS [ProduceEndDate], 
-    [RMC_ProcessManagement].[ProcessMan] AS [ProcessMan], 
-    [RMC_ProcessManagement].[UnqualifiedNumber] AS [UnqualifiedNumber], 
-    [RMC_ProcessManagement].[QualifiedNumber] AS [QualifiedNumber], 
-    [RMC_ProcessManagement].[Description] AS [Description], 
-    [RMC_ProcessManagement].[IsProcessStatus] AS [IsProcessStatus], 
-    [RMC_ProcessManagement].[ProcessManImge] AS [ProcessManImge], 
-    [RMC_ProcessManagement].[ProcessName] AS [ProcessName], 
-    [RMC_ProcessManagement].[ProcessNumbered] AS [ProcessNumbered], 
-    [RMC_ProcessManagement].[IsProcessTask] AS [IsProcessTask]
-    FROM [dbo].[RMC_ProcessManagement] AS [RMC_ProcessManagement]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="RMC_RawMaterialLibrary" EntityType="Self.RMC_RawMaterialLibrary" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [RMC_RawMaterialLibrary].[RawMaterialId] AS [RawMaterialId], 
-    [RMC_RawMaterialLibrary].[TreeId] AS [TreeId], 
-    [RMC_RawMaterialLibrary].[RawMaterialName] AS [RawMaterialName], 
-    [RMC_RawMaterialLibrary].[RawMaterialStandard] AS [RawMaterialStandard], 
-    [RMC_RawMaterialLibrary].[RawMaterialNumber] AS [RawMaterialNumber], 
-    [RMC_RawMaterialLibrary].[UnitId] AS [UnitId], 
-    [RMC_RawMaterialLibrary].[Description] AS [Description], 
-    [RMC_RawMaterialLibrary].[DeleteFlag] AS [DeleteFlag], 
-    [RMC_RawMaterialLibrary].[UnitPrice] AS [UnitPrice], 
-    [RMC_RawMaterialLibrary].[UnitName] AS [UnitName], 
-    [RMC_RawMaterialLibrary].[WarehousingTime] AS [WarehousingTime]
-    FROM [dbo].[RMC_RawMaterialLibrary] AS [RMC_RawMaterialLibrary]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LeaRunFramework_Base_2016Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="RMC_ProjectInfo">
-          <Key>
-            <PropertyRef Name="ProjectId" />
-          </Key>
-          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParentId" Type="Int32" />
-          <Property Name="TreeID" Type="Int32" />
-          <Property Name="ProjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ProjectSystemTitel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="ProjectLogo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ProjectBackground" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="State" Type="Int32" />
-          <Property Name="ProjectAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ConstructionPermitId" Type="Int32" />
-          <Property Name="ConstructionUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConstructionPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConstructionPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DesignUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DesignPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DesignPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SupervisionUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SupervisionPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SupervisionPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GeneralContractor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GeneralContractorPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GeneralContractorPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProfessionalContractor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProfessionalContractorPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProfessionalContractorPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DeleteFlag" Type="Int32" />
-          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityContainer Name="LeaRunFramework_Base_2016Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="RMC_ProjectInfo" EntityType="Self.RMC_ProjectInfo" />
-          <EntitySet Name="RMC_Tree" EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" />
+          <EntitySet Name="RMC_Collar" EntityType="LeaRunFramework_Base_2016Model.RMC_Collar" />
+          <EntitySet Name="RMC_CollarMember" EntityType="LeaRunFramework_Base_2016Model.RMC_CollarMember" />
+          <EntitySet Name="RMC_FactoryWarehouse" EntityType="LeaRunFramework_Base_2016Model.RMC_FactoryWarehouse" />
           <EntitySet Name="RMC_MemberLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" />
-          <EntitySet Name="RMC_MemberMaterial" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" />
           <EntitySet Name="RMC_MemberProcess" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberProcess" />
           <EntitySet Name="RMC_MemberUnit" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberUnit" />
+          <EntitySet Name="RMC_OrderMember" EntityType="LeaRunFramework_Base_2016Model.RMC_OrderMember" />
           <EntitySet Name="RMC_ProcessManagement" EntityType="LeaRunFramework_Base_2016Model.RMC_ProcessManagement" />
+          <EntitySet Name="RMC_ProjectDemand" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectDemand" />
+          <EntitySet Name="RMC_ProjectInfo" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectInfo" />
+          <EntitySet Name="RMC_ProjectOrder" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectOrder" />
+          <EntitySet Name="RMC_ProjectWarehouse" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse" />
+          <EntitySet Name="RMC_Purchase" EntityType="LeaRunFramework_Base_2016Model.RMC_Purchase" />
           <EntitySet Name="RMC_RawMaterialLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" />
+          <EntitySet Name="RMC_RawMaterialPurchase" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase" />
+          <EntitySet Name="RMC_ShipManagement" EntityType="LeaRunFramework_Base_2016Model.RMC_ShipManagement" />
+          <EntitySet Name="RMC_Tree" EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" />
+          <EntitySet Name="RMC_MemberMaterial" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" />
         </EntityContainer>
-        <EntityType Name="RMC_Tree">
+        <EntityType Name="RMC_Collar">
           <Key>
-            <PropertyRef Name="TreeID" />
+            <PropertyRef Name="CollarId" />
           </Key>
-          <Property Name="TreeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParentID" Type="Int32" />
-          <Property Name="ItemID" Type="Int32" />
-          <Property Name="IsItem" Type="Int32" />
-          <Property Name="ItemClass" Type="Int32" />
-          <Property Name="ItemClassRemark" Type="Int32" />
-          <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Icon" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="IsMenu" Type="Int32" />
-          <Property Name="State" Type="Int32" />
-          <Property Name="DeleteFlag" Type="Int32" />
-          <Property Name="Enabled" Type="Int32" />
-          <Property Name="Oderby" Type="Int32" />
-          <Property Name="UploadTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
-          <Property Name="OverdueTime" Type="DateTime" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IsReview" Type="Int32" />
-          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CollarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CollarNumbering" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TreeId" Type="Int32" />
+          <Property Name="Use" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Librarian" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CollarMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CollarTime" Type="DateTime" Precision="3" />
+          <Property Name="Borrow" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_CollarMember">
+          <Key>
+            <PropertyRef Name="CollarMemberId" />
+          </Key>
+          <Property Name="CollarMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CollarId" Type="Int32" />
+          <Property Name="CollarNumbering" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="ProjectDemandId" Type="Int32" />
+          <Property Name="MemberNumbering" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MemberModel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="MemberUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_FactoryWarehouse">
+          <Key>
+            <PropertyRef Name="FactoryWarehouseId" />
+          </Key>
+          <Property Name="FactoryWarehouseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="MemberModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="InStockNumber" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="RMC_MemberLibrary">
           <Key>
@@ -393,22 +534,11 @@
           <Property Name="UploadTime" Type="DateTime" Precision="3" />
           <Property Name="Sort" Type="Int32" />
         </EntityType>
-        <EntityType Name="RMC_MemberMaterial">
-          <Key>
-            <PropertyRef Name="MemberMaterialId" />
-          </Key>
-          <Property Name="MemberMaterialId" Type="Int32" Nullable="false" />
-          <Property Name="RawMaterialId" Type="Int32" />
-          <Property Name="MemberId" Type="Int32" />
-          <Property Name="RawMaterialClassId" Type="Int32" />
-          <Property Name="MaterialNumber" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="RMC_MemberProcess">
           <Key>
             <PropertyRef Name="MemberProcessId" />
           </Key>
-          <Property Name="MemberProcessId" Type="Int32" Nullable="false" />
+          <Property Name="MemberProcessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MemberId" Type="Int32" />
           <Property Name="ProcessName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="OperationTime" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
@@ -421,15 +551,32 @@
           <Key>
             <PropertyRef Name="UnitId" />
           </Key>
-          <Property Name="UnitId" Type="Int32" Nullable="false" />
+          <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UnitName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_OrderMember">
+          <Key>
+            <PropertyRef Name="OrderMemberId" />
+          </Key>
+          <Property Name="OrderMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="ProjectDemandId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MemberName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="MemberModel" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="MemberUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PriceAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="RMC_ProcessManagement">
           <Key>
             <PropertyRef Name="ProcessId" />
           </Key>
-          <Property Name="ProcessId" Type="Int32" Nullable="false" />
+          <Property Name="ProcessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="Int32" />
           <Property Name="MemberId" Type="Int32" />
           <Property Name="MemberProcessId" Type="Int32" />
@@ -445,11 +592,135 @@
           <Property Name="ProcessNumbered" Type="Int32" />
           <Property Name="IsProcessTask" Type="Int32" />
         </EntityType>
+        <EntityType Name="RMC_ProjectDemand">
+          <Key>
+            <PropertyRef Name="ProjectDemandId" />
+          </Key>
+          <Property Name="ProjectDemandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeId" Type="Int32" />
+          <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="MemberNumbering" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="MemberModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MemberCompanyId" Type="Int32" />
+          <Property Name="MemberClassId" Type="Int32" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="MemberWeight" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CostBudget" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="IsReview" Type="Int32" />
+          <Property Name="ReviewMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsDemandSubmit" Type="Int32" />
+          <Property Name="IsSubmit" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DeleteFlag" Type="Int32" />
+          <Property Name="MemberNumber" Type="Int32" />
+          <Property Name="OrderQuantityed" Type="Int32" />
+          <Property Name="Productioned" Type="Int32" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+          <Property Name="CollarNumbered" Type="Int32" />
+          <Property Name="CreateMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ProductionNumber" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RMC_ProjectInfo">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="TreeID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectSystemTitel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectLogo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectBackground" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="ProjectAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ConstructionPermitId" Type="Int32" />
+          <Property Name="ConstructionUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConstructionPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConstructionPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DesignUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DesignPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DesignPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupervisionUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupervisionPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupervisionPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GeneralContractor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GeneralContractorPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GeneralContractorPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfessionalContractor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfessionalContractorPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProfessionalContractorPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeleteFlag" Type="Int32" />
+          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_ProjectOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeId" Type="Int32" />
+          <Property Name="ProjectDemandId" Type="Int32" />
+          <Property Name="OrderNumbering" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="OrderBudget" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="IsReview" Type="Int32" />
+          <Property Name="ReviewMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewTime" Type="DateTime" Precision="3" />
+          <Property Name="IsSubmit" Type="Int32" />
+          <Property Name="SubmitMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmOrder" Type="Int32" />
+          <Property Name="ConfirmMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreateMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DeleteFlag" Type="Int32" />
+          <Property Name="Productioned" Type="Int32" />
+          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="EngineeringPosition" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_ProjectWarehouse">
+          <Key>
+            <PropertyRef Name="ProjectWarehouseId" />
+          </Key>
+          <Property Name="ProjectWarehouseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="DeleteFlag" Type="Int32" />
+          <Property Name="TreeId" Type="Int32" />
+          <Property Name="InStock" Type="Int32" />
+          <Property Name="Damage" Type="Int32" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsShiped" Type="Int32" />
+          <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+          <Property Name="Librarian" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Leader" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MemberTreeId" Type="Int32" />
+          <Property Name="ProjectDemandId" Type="Int32" />
+          <Property Name="MemberModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_Purchase">
+          <Key>
+            <PropertyRef Name="PurchaseId" />
+          </Key>
+          <Property Name="PurchaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreateMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="RMC_RawMaterialLibrary">
           <Key>
             <PropertyRef Name="RawMaterialId" />
           </Key>
-          <Property Name="RawMaterialId" Type="Int32" Nullable="false" />
+          <Property Name="RawMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TreeId" Type="Int32" />
           <Property Name="RawMaterialName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="RawMaterialStandard" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
@@ -461,69 +732,136 @@
           <Property Name="UnitName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="WarehousingTime" Type="DateTime" Precision="3" />
         </EntityType>
-      </Schema>
+        <EntityType Name="RMC_RawMaterialPurchase">
+          <Key>
+            <PropertyRef Name="RawMaterialPurchaseId" />
+          </Key>
+          <Property Name="RawMaterialPurchaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeId" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="RawMaterialId" Type="Int32" />
+          <Property Name="PurchaseId" Type="Int32" />
+          <Property Name="MaterialClassId" Type="Int32" />
+          <Property Name="OrderNumbering" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="RawMaterialName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="RawMaterialStandard" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="UnitName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="PriceAmount" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="MaterialBudget" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DeleteFlag" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsPurchase" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RMC_ShipManagement">
+          <Key>
+            <PropertyRef Name="ShipId" />
+          </Key>
+          <Property Name="ShipId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeId" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="MemberClassId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MemberModel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MemberName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ShipNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsPackaged" Type="Int32" />
+          <Property Name="UnitPrice" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TotalPrice" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ShipDate" Type="DateTime" Precision="3" />
+          <Property Name="ShipMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="LogisticsStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingTEL" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LibraryNumber" Type="Int32" />
+          <Property Name="ShipNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_Tree">
+          <Key>
+            <PropertyRef Name="TreeID" />
+          </Key>
+          <Property Name="TreeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="ItemID" Type="Int32" />
+          <Property Name="IsItem" Type="Int32" />
+          <Property Name="ItemClass" Type="Int32" />
+          <Property Name="ItemClassRemark" Type="Int32" />
+          <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsMenu" Type="Int32" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="DeleteFlag" Type="Int32" />
+          <Property Name="Enabled" Type="Int32" />
+          <Property Name="Oderby" Type="Int32" />
+          <Property Name="UploadTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+          <Property Name="OverdueTime" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsReview" Type="Int32" />
+          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_MemberMaterial">
+          <Key>
+            <PropertyRef Name="MemberMaterialId" />
+          </Key>
+          <Property Name="MemberMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RawMaterialId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="RawMaterialClassId" Type="Int32" />
+          <Property Name="MaterialNumber" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LeaRunFramework_Base_2016ModelStoreContainer" CdmEntityContainer="LeaRunFramework_Base_2016Entities">
-          <EntitySetMapping Name="RMC_ProjectInfo">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectInfo">
-              <MappingFragment StoreEntitySet="RMC_ProjectInfo">
-                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="TreeID" ColumnName="TreeID" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="ProjectSystemTitel" ColumnName="ProjectSystemTitel" />
-                <ScalarProperty Name="ProjectLogo" ColumnName="ProjectLogo" />
-                <ScalarProperty Name="ProjectBackground" ColumnName="ProjectBackground" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="ProjectAddress" ColumnName="ProjectAddress" />
-                <ScalarProperty Name="ConstructionPermitId" ColumnName="ConstructionPermitId" />
-                <ScalarProperty Name="ConstructionUnit" ColumnName="ConstructionUnit" />
-                <ScalarProperty Name="ConstructionPrincipal" ColumnName="ConstructionPrincipal" />
-                <ScalarProperty Name="ConstructionPrincipalTEL" ColumnName="ConstructionPrincipalTEL" />
-                <ScalarProperty Name="DesignUnit" ColumnName="DesignUnit" />
-                <ScalarProperty Name="DesignPrincipal" ColumnName="DesignPrincipal" />
-                <ScalarProperty Name="DesignPrincipalTEL" ColumnName="DesignPrincipalTEL" />
-                <ScalarProperty Name="SupervisionUnit" ColumnName="SupervisionUnit" />
-                <ScalarProperty Name="SupervisionPrincipal" ColumnName="SupervisionPrincipal" />
-                <ScalarProperty Name="SupervisionPrincipalTEL" ColumnName="SupervisionPrincipalTEL" />
-                <ScalarProperty Name="GeneralContractor" ColumnName="GeneralContractor" />
-                <ScalarProperty Name="GeneralContractorPrincipal" ColumnName="GeneralContractorPrincipal" />
-                <ScalarProperty Name="GeneralContractorPrincipalTEL" ColumnName="GeneralContractorPrincipalTEL" />
-                <ScalarProperty Name="ProfessionalContractor" ColumnName="ProfessionalContractor" />
-                <ScalarProperty Name="ProfessionalContractorPrincipal" ColumnName="ProfessionalContractorPrincipal" />
-                <ScalarProperty Name="ProfessionalContractorPrincipalTEL" ColumnName="ProfessionalContractorPrincipalTEL" />
-                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
-                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+          <EntitySetMapping Name="RMC_Collar">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Collar">
+              <MappingFragment StoreEntitySet="RMC_Collar">
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Borrow" ColumnName="Borrow" />
+                <ScalarProperty Name="CollarTime" ColumnName="CollarTime" />
+                <ScalarProperty Name="CollarMan" ColumnName="CollarMan" />
+                <ScalarProperty Name="Librarian" ColumnName="Librarian" />
+                <ScalarProperty Name="Use" ColumnName="Use" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="CollarNumbering" ColumnName="CollarNumbering" />
+                <ScalarProperty Name="CollarId" ColumnName="CollarId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RMC_Tree">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Tree">
-              <MappingFragment StoreEntitySet="RMC_Tree">
-                <ScalarProperty Name="FileType" ColumnName="FileType" />
-                <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+          <EntitySetMapping Name="RMC_CollarMember">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_CollarMember">
+              <MappingFragment StoreEntitySet="RMC_CollarMember">
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="OverdueTime" ColumnName="OverdueTime" />
-                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
-                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
-                <ScalarProperty Name="Oderby" ColumnName="Oderby" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="IsMenu" ColumnName="IsMenu" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="TreeName" ColumnName="TreeName" />
-                <ScalarProperty Name="ItemClassRemark" ColumnName="ItemClassRemark" />
-                <ScalarProperty Name="ItemClass" ColumnName="ItemClass" />
-                <ScalarProperty Name="IsItem" ColumnName="IsItem" />
-                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+                <ScalarProperty Name="MemberUnit" ColumnName="MemberUnit" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+                <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="CollarNumbering" ColumnName="CollarNumbering" />
+                <ScalarProperty Name="CollarId" ColumnName="CollarId" />
+                <ScalarProperty Name="CollarMemberId" ColumnName="CollarMemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_FactoryWarehouse">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_FactoryWarehouse">
+              <MappingFragment StoreEntitySet="RMC_FactoryWarehouse">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InStockNumber" ColumnName="InStockNumber" />
+                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="FactoryWarehouseId" ColumnName="FactoryWarehouseId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -584,18 +922,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RMC_MemberMaterial">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberMaterial">
-              <MappingFragment StoreEntitySet="RMC_MemberMaterial">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="MaterialNumber" ColumnName="MaterialNumber" />
-                <ScalarProperty Name="RawMaterialClassId" ColumnName="RawMaterialClassId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
-                <ScalarProperty Name="MemberMaterialId" ColumnName="MemberMaterialId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RMC_MemberProcess">
             <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberProcess">
               <MappingFragment StoreEntitySet="RMC_MemberProcess">
@@ -616,6 +942,24 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UnitName" ColumnName="UnitName" />
                 <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_OrderMember">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_OrderMember">
+              <MappingFragment StoreEntitySet="RMC_OrderMember">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PriceAmount" ColumnName="PriceAmount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="MemberUnit" ColumnName="MemberUnit" />
+                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderMemberId" ColumnName="OrderMemberId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -640,6 +984,135 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RMC_ProjectDemand">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectDemand">
+              <MappingFragment StoreEntitySet="RMC_ProjectDemand">
+                <ScalarProperty Name="ProductionNumber" ColumnName="ProductionNumber" />
+                <ScalarProperty Name="CreateMan" ColumnName="CreateMan" />
+                <ScalarProperty Name="CollarNumbered" ColumnName="CollarNumbered" />
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Productioned" ColumnName="Productioned" />
+                <ScalarProperty Name="OrderQuantityed" ColumnName="OrderQuantityed" />
+                <ScalarProperty Name="MemberNumber" ColumnName="MemberNumber" />
+                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsSubmit" ColumnName="IsSubmit" />
+                <ScalarProperty Name="IsDemandSubmit" ColumnName="IsDemandSubmit" />
+                <ScalarProperty Name="ReviewMan" ColumnName="ReviewMan" />
+                <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+                <ScalarProperty Name="CostBudget" ColumnName="CostBudget" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="MemberWeight" ColumnName="MemberWeight" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="MemberClassId" ColumnName="MemberClassId" />
+                <ScalarProperty Name="MemberCompanyId" ColumnName="MemberCompanyId" />
+                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+                <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="TreeName" ColumnName="TreeName" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_ProjectInfo">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectInfo">
+              <MappingFragment StoreEntitySet="RMC_ProjectInfo">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+                <ScalarProperty Name="ProfessionalContractorPrincipalTEL" ColumnName="ProfessionalContractorPrincipalTEL" />
+                <ScalarProperty Name="ProfessionalContractorPrincipal" ColumnName="ProfessionalContractorPrincipal" />
+                <ScalarProperty Name="ProfessionalContractor" ColumnName="ProfessionalContractor" />
+                <ScalarProperty Name="GeneralContractorPrincipalTEL" ColumnName="GeneralContractorPrincipalTEL" />
+                <ScalarProperty Name="GeneralContractorPrincipal" ColumnName="GeneralContractorPrincipal" />
+                <ScalarProperty Name="GeneralContractor" ColumnName="GeneralContractor" />
+                <ScalarProperty Name="SupervisionPrincipalTEL" ColumnName="SupervisionPrincipalTEL" />
+                <ScalarProperty Name="SupervisionPrincipal" ColumnName="SupervisionPrincipal" />
+                <ScalarProperty Name="SupervisionUnit" ColumnName="SupervisionUnit" />
+                <ScalarProperty Name="DesignPrincipalTEL" ColumnName="DesignPrincipalTEL" />
+                <ScalarProperty Name="DesignPrincipal" ColumnName="DesignPrincipal" />
+                <ScalarProperty Name="DesignUnit" ColumnName="DesignUnit" />
+                <ScalarProperty Name="ConstructionPrincipalTEL" ColumnName="ConstructionPrincipalTEL" />
+                <ScalarProperty Name="ConstructionPrincipal" ColumnName="ConstructionPrincipal" />
+                <ScalarProperty Name="ConstructionUnit" ColumnName="ConstructionUnit" />
+                <ScalarProperty Name="ConstructionPermitId" ColumnName="ConstructionPermitId" />
+                <ScalarProperty Name="ProjectAddress" ColumnName="ProjectAddress" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ProjectBackground" ColumnName="ProjectBackground" />
+                <ScalarProperty Name="ProjectLogo" ColumnName="ProjectLogo" />
+                <ScalarProperty Name="ProjectSystemTitel" ColumnName="ProjectSystemTitel" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_ProjectOrder">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectOrder">
+              <MappingFragment StoreEntitySet="RMC_ProjectOrder">
+                <ScalarProperty Name="TreeName" ColumnName="TreeName" />
+                <ScalarProperty Name="EngineeringPosition" ColumnName="EngineeringPosition" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="Productioned" ColumnName="Productioned" />
+                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+                <ScalarProperty Name="CreateMan" ColumnName="CreateMan" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="ConfirmMan" ColumnName="ConfirmMan" />
+                <ScalarProperty Name="ConfirmOrder" ColumnName="ConfirmOrder" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="SubmitMan" ColumnName="SubmitMan" />
+                <ScalarProperty Name="IsSubmit" ColumnName="IsSubmit" />
+                <ScalarProperty Name="ReviewTime" ColumnName="ReviewTime" />
+                <ScalarProperty Name="ReviewMan" ColumnName="ReviewMan" />
+                <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+                <ScalarProperty Name="OrderBudget" ColumnName="OrderBudget" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="OrderNumbering" ColumnName="OrderNumbering" />
+                <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_ProjectWarehouse">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse">
+              <MappingFragment StoreEntitySet="RMC_ProjectWarehouse">
+                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+                <ScalarProperty Name="ProjectDemandId" ColumnName="ProjectDemandId" />
+                <ScalarProperty Name="MemberTreeId" ColumnName="MemberTreeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Leader" ColumnName="Leader" />
+                <ScalarProperty Name="Librarian" ColumnName="Librarian" />
+                <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+                <ScalarProperty Name="IsShiped" ColumnName="IsShiped" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Damage" ColumnName="Damage" />
+                <ScalarProperty Name="InStock" ColumnName="InStock" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="ProjectWarehouseId" ColumnName="ProjectWarehouseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_Purchase">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Purchase">
+              <MappingFragment StoreEntitySet="RMC_Purchase">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ReviewMan" ColumnName="ReviewMan" />
+                <ScalarProperty Name="CreateMan" ColumnName="CreateMan" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="PurchaseNumbering" ColumnName="PurchaseNumbering" />
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RMC_RawMaterialLibrary">
             <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary">
               <MappingFragment StoreEntitySet="RMC_RawMaterialLibrary">
@@ -654,6 +1127,94 @@
                 <ScalarProperty Name="RawMaterialName" ColumnName="RawMaterialName" />
                 <ScalarProperty Name="TreeId" ColumnName="TreeId" />
                 <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_RawMaterialPurchase">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase">
+              <MappingFragment StoreEntitySet="RMC_RawMaterialPurchase">
+                <ScalarProperty Name="IsPurchase" ColumnName="IsPurchase" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+                <ScalarProperty Name="MaterialBudget" ColumnName="MaterialBudget" />
+                <ScalarProperty Name="PriceAmount" ColumnName="PriceAmount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="RawMaterialStandard" ColumnName="RawMaterialStandard" />
+                <ScalarProperty Name="RawMaterialName" ColumnName="RawMaterialName" />
+                <ScalarProperty Name="OrderNumbering" ColumnName="OrderNumbering" />
+                <ScalarProperty Name="MaterialClassId" ColumnName="MaterialClassId" />
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="RawMaterialPurchaseId" ColumnName="RawMaterialPurchaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_ShipManagement">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_ShipManagement">
+              <MappingFragment StoreEntitySet="RMC_ShipManagement">
+                <ScalarProperty Name="ShipNumbering" ColumnName="ShipNumbering" />
+                <ScalarProperty Name="LibraryNumber" ColumnName="LibraryNumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShippingMan" ColumnName="ShippingMan" />
+                <ScalarProperty Name="ShippingTEL" ColumnName="ShippingTEL" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="LogisticsStatus" ColumnName="LogisticsStatus" />
+                <ScalarProperty Name="ShipMan" ColumnName="ShipMan" />
+                <ScalarProperty Name="ShipDate" ColumnName="ShipDate" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="IsPackaged" ColumnName="IsPackaged" />
+                <ScalarProperty Name="ShipNumber" ColumnName="ShipNumber" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+                <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="MemberClassId" ColumnName="MemberClassId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="ShipId" ColumnName="ShipId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_Tree">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Tree">
+              <MappingFragment StoreEntitySet="RMC_Tree">
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OverdueTime" ColumnName="OverdueTime" />
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="Oderby" ColumnName="Oderby" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="IsMenu" ColumnName="IsMenu" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="TreeName" ColumnName="TreeName" />
+                <ScalarProperty Name="ItemClassRemark" ColumnName="ItemClassRemark" />
+                <ScalarProperty Name="ItemClass" ColumnName="ItemClass" />
+                <ScalarProperty Name="IsItem" ColumnName="IsItem" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_MemberMaterial">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberMaterial">
+              <MappingFragment StoreEntitySet="RMC_MemberMaterial">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MaterialNumber" ColumnName="MaterialNumber" />
+                <ScalarProperty Name="RawMaterialClassId" ColumnName="RawMaterialClassId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+                <ScalarProperty Name="MemberMaterialId" ColumnName="MemberMaterialId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

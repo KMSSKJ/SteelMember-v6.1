@@ -1,5 +1,4 @@
 ﻿using LeaRun.Application.Repository.SteelMember.IBLL;
-using LeaRun.Application.Repository.SteelMember.IDAL;
 using LeaRun.Data.Entity;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using LeaRun.Application.Repository.SteelMember.IDAL;
 
 namespace LeaRun.Application.Repository.SteelMember.BLL
 {

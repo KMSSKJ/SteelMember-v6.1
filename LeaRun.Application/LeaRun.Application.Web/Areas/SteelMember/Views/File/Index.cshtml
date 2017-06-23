@@ -258,12 +258,14 @@
     }
     //加载树
     var TreeId = "";
+    var HavesChildren;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
             url: "../../SteelMember/File/TreeJson?TreeId=1",
             onnodeclick: function (item) {
                 TreeId = item.id;
+                HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
             }
         };
@@ -410,9 +412,9 @@
             $gridTable.jqGrid('setGridParam', {
                 url: "../../SteelMember/File/GridListJson",
                 postData: {
-                TreeId: TreeId,
-                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                keyword: $("#txt_Keyword").val()
+                    TreeId: TreeId,
+                    condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                    keyword: $("#txt_Keyword").val()
                 }
             }).trigger('reloadGrid');
         });
@@ -426,53 +428,43 @@
 
     //新增
     function btn_add() {
-        var keyValue = $("#gridTable").jqGridRowValue("ItemID");
-        dialogOpen({
-            id: "Form",
-            title: '添加功能',
-            url: '/SteelMember/File/MemberForm?TreeId=' + TreeId + ' && ItemID=' + keyValue,
-            width: "700px",
-            height: "430px",
-            btn: null
-        });
-    };
-
-    ////新建构件
-    //function btn_add() {
-    //    var ItemID = GetQuery("ItemID");
-    //    // var Sort = GetJqGridRowValue("#gridTable", "Sort");
-    //    if (!!TreeId) {
-    //        //if (Sort == "1") {
-    //        //tipDialog('请选择文件夹目录。', 4, 'warning');
-    //        if (HavesChildren == true) {
-    //            tipDialog("此节点不可编辑，请选择一个子节点", 3, 'warning');
-    //        } else {
-    //            var url = "/SteelMember/File/MemberForm?TreeId=" + TreeId + '&&ItemID=' + ItemID;
-    //            openDialog(url, "MemberForm", "新增信息", 600, 400, function (iframe) {
-    //                top.frames[iframe].AcceptClick()
-    //            });
-    //        }
-    //    }
-    //    else {
-    //        tipDialog('请选择文件夹目录。', 3, 'warning');
-    //    }
-    //    $("#gridTable").trigger("reloadGrid"); //重新载入
-    //}
+        if (!!TreeId) {
+            if (!HavesChildren) {
+                dialogOpen({
+                    id: "MemberForm",
+                    title: '添加功能',
+                    url: '/SteelMember/File/MemberForm?TreeId=' + TreeId,
+                    width: "700px",
+                    height: "600px",
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                });
+            } else {
+                dialogMsg('此节点不可编辑，请选择一个子节点！', 0);
+            }
+        } else {
+            dialogMsg('请选择文件夹目录!', 0);
+        }
+    }
 
     //编辑
     function btn_edit() {
-        var keyValue = $("#gridTable").jqGridRowValue("ModuleId");
-        if (checkedRow(keyValue)) {
+        var KeyValue = $("#gridTable").jqGridRowValue("MemberID");
+        if (checkedRow(KeyValue)) {
             dialogOpen({
-                id: "Form",
+                id: "MemberForm",
                 title: '编辑功能',
-                url: '/AuthorizeManage/Module/Form?keyValue=' + keyValue,
+                url: '/SteelMember/File/MemberForm?KeyValue=' + KeyValue,
                 width: "700px",
-                height: "430px",
-                btn: null
+                height: "600px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }
             });
         }
     }
+
     //删除
     function btn_delete() {
         var keyValue = $("#gridTable").jqGridRowValue("ModuleId");
