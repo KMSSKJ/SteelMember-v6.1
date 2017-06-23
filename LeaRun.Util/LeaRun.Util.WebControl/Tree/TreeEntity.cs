@@ -12,6 +12,8 @@ namespace LeaRun.Util.WebControl
     {
         public string parentId { get; set; }
         public string id { get; set; }
+        public string itemId { get; set; }
+        public string icon { get; set; }
         public string text { get; set; }
         public string value { get; set; }
         public string ismenu { get; set; }

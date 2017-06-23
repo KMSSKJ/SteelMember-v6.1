@@ -16,15 +16,6 @@
 
     //得到一个对象实体
     function InitControl() {
-
-        //获取单位
-        $("#UnitId").ComboBox({
-            url: "../../SteelMember/ProjectManagement/GetMemderUnit",
-            id: "UnitId",
-            text: "UnitName",
-            description: "==请选择==",
-            allowSearch: false
-        });
             //获取表单
             if (!!KeyValue) {
                 $.SetForm({
@@ -60,48 +51,34 @@
                             document.getElementById("DelAvatar2").value = "删除图片";
                         }
                         $("#form1").SetWebControls(data);
+                        Data = data;
                         document.getElementById("MemberModel").readOnly = true;
-                    
+
                         //加载单位
-                        $("#UnitId").ComboBox({
-                            url: "../../SteelMember/ProjectManagement/GetMemderUnit?",
+                        $("#MemberUnit").ComboBox({
+                            url: "../../SteelMember/ProjectManagement/GetMemderUnit",
                             id: "UnitId",
                             text: "UnitName",
-                            description: "==请选择==",
-                            allowSearch: false
+                            description: data.MemberUnit,
+                            height: "200px",
+                            allowSearch: false,
                         });
                     }
                 });
             } else {
-              //  $("#Category").ComboBoxTreeSetValue(category);
+                //获取单位
+                $("#MemberUnit").ComboBox({
+                    url: "../../SteelMember/ProjectManagement/GetMemderUnit",
+                    id: "UnitId",
+                    text: "UnitName",
+                    description: "==请选择==",
+                    height: "200px",
+                    allowSearch: false,
+                  
+                });
             }
-
         }
-        ////载入构件单位
-        //function LoadMemberUnit() {
-        //    $.ajax({
-        //        url: '/SteelMember/ProjectManagement/GetMemderUnit',
-        //        type: 'post',
-        //        datatype: 'Json',
-        //        data: {},
-        //        success: function (data) {
-        //            if (data) {
-        //                var projectname_sel = [];
-        //                // projectname_sel.push('<option value="" selected>请选择</option>')
-        //                for (var i = 0, len = data.length; i < len; i++) {
-        //                    var projectname = data[i];
-        //                    projectname_sel.push('<option value="' + projectname.UnitId + '">' + projectname.UnitName + '</option>')
-        //                }
-        //                $("#UnitId").html(projectname_sel.join(' '));
-        //                if (!!request('KeyValue')) {
-        //                    //编辑时获取值
-        //                    $("#UnitId  option[value='" + Data.UnitId + "']").attr("selected", true);
-        //                }
-        //            }
-        //        }
-        //    });
-        //};
-
+    
         function UploadFile() {
             $('#Avatar').uploadify({
                 uploader: '/SteelMember/File/SubmitUploadify',
@@ -193,8 +170,9 @@
                 return false;
             }
             var postData = $("#form1").GetWebControls(KeyValue);
+            postData["MemberUnit"] = $("#MemberUnit").attr('data-text');
             $.SaveForm({
-                url: "../../SteelMember/File/SubmitMember?TreeId=" + TreeId,
+                url: "../../SteelMember/File/SubmitMember?TreeId=" + TreeId +"&KeyValue="+ KeyValue,
                 param: postData,
                 loading: "正在保存数据...",
                 success: function () {
@@ -445,7 +423,7 @@
                 单位<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <div id="UnitId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="MemberUnit" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
             <td class="formTitle">
                 单价<font face="宋体">*</font>

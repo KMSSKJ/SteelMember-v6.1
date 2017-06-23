@@ -1,0 +1,331 @@
+﻿@{
+    ViewBag.Title = "原材料采购";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetGrid();
+    });
+
+    @*//加载左边树
+    //注意 FolderId 默认等于1 这样就可以加载一级目录下的子节点文件夹
+    var TreeId = "";//16
+    var ItemId=2;
+    function GetTree() {
+        var itemtree = {
+            onnodeclick: function (node) {
+                TreeId = node.id;
+                TreeName = node.text;
+                GridFolderEvent(TreeId);
+            },
+            url: "@Url.Content("/SteelMember/ProjectOrder/TreeJson")?ItemId=" + ItemId
+        };
+        $("#ItemsTree").treeview(itemtree);
+    };
+
+    //表格文件夹点击事件
+    function GridFolderEvent(TreeId) {
+        TreeId = TreeId;
+        $("#gridTable").jqGrid('setGridParam', {
+            url: "@Url.Content("/SteelMember/CollarManagement/GridListJson")?TreeID=" + TreeId, page: 1
+        }).trigger('reloadGrid');
+    }*@
+    var TreeId = "";
+    //加载表格
+    var subgrid_table_id;
+    var a = 0;
+    function GetGrid() {
+        var SelectRowIndx;
+        $("#gridTable").jqGrid({
+            url: "@Url.Content("/SteelMember/MemberProduce/GridPurchaseListJson")?TreeId=" + TreeId,
+            datatype: "json",
+            height: $(window).height() - 130,
+            autowidth: true,
+            colModel: [
+                { label: '主键', name: "PurchaseId", hidden: true },
+                { label: '采购单编号', name: "PurchaseNumbering", index: "PurchaseNumbering", align: 'center',width: 12 },
+                { label: '制单(采购)人', name: "CreateMan", index: "CreateMan", align: 'center',width: 10 },
+                { label: '制单时间', name: "CreateTime", index: "CreateTime", align: 'center',width: 10 },
+                { label: '审核人', name: "ReviewMan", index: "ReviewMan", align: 'center', width: 10 },
+                {
+                    label: '入库状态', name: 'IsPurchase', index: 'IsPurchase', align: 'center', width: 5,
+                    formatter: function (cellvalue, value, row, index) {
+                        var IsPurchase = cellvalue;
+                        if (IsPurchase != "" || IsPurchase != null) {
+                            if (IsPurchase != 0) {
+                                return "<img src='../../Content/Images/checkokmark.gif'/>";
+                            } else {
+                                return "<img src='../../Content/Images/checknomark.gif'/>";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                { label: '备注', name: "Description", index: "Description", align: 'center', width: 10 },
+            ],
+            rowNum: 30,
+            sortname: 'SortCode',
+            sortorder: 'Desc',//降序 asc升序
+            pager: "#gridPager",
+            viewrecords: true,
+            rownumbers: true,
+            gridview: true,
+            footerrow: true,
+            subGrid: true,
+            subGridRowExpanded: function (subgrid_id, row_id) {
+
+                if (a != 0) {
+
+                    $("#gridTable").collapseSubGridRow(a);
+                }
+
+                var PurchaseId = GetJqGridValue("#gridTable", row_id, "PurchaseId");
+                subgrid_table_id = subgrid_id + "_t";
+                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "'></table>");
+                $("#" + subgrid_table_id).jqGrid({
+                    url: "@Url.Content("~/SteelMember/MemberProduce/GetPurchaseEntryList")?PurchaseId=" + PurchaseId,
+                    datatype: "json",
+                    colModel: [
+                        { label: '主键', name: "RawMaterialPurchaseId", hidden: true },
+                        { label: '材料名', name: "RawMaterialName", index: "RawMaterialName", align: 'center', width: 6 },
+                        { label: '单位', name: "UnitName", index: "UnitName", align: 'center', width: 6 },
+                        { label: '单价', name: "Price", index: "Price", align: 'center', width: 12 },
+                        { label: '数量', name: "Qty", index: "Qty", align: 'center',width: 12 },
+                        { label: '金额', name: 'PriceAmount', index: "PriceAmount", align: ' center', width: 15},
+                        { label: '备注', name: "Description", index: "Description", align:' center',width: 12 },
+                    ],
+                    width: "1227",
+                    rowNum: "all"
+                });
+                a = row_id;
+            },
+            rowList: [15, 30, 50, 100, 500, 1000],
+            ondblClickRow: function (TreeId) {
+
+                //表格行样式
+                var rowData = $("#gridTable").getRowData(TreeId);  //根据ID拿到一行的数据
+                if (rowData.Icon == '-1') {
+                    GridFolderEvent(rowData.TreeId);
+                    var treeid = "ItemsTree_" + rowData.TreeId.replace(/-/g, '_');
+                    $('#' + treeid + ' img').trigger("click");
+                }
+            },
+            onSelectRow: function () {
+                SelectRowIndx = GetJqGridRowIndx("#" + this.id);
+            },
+            gridComplete: function () {
+                //合计
+                //$(this).footerData("set", {
+                //    "OrderNumbering": "合计",
+                //    "MemberNumber": $(this).getCol("MemberNumber", false, "sum"),
+                //    "CostBudget": $(this).getCol("CostBudget", false, "sum"),
+                //});
+
+                //表格行样式
+                var ids = $("#gridTable").getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var rowData = $("#gridTable").getRowData(ids[i]);
+                    if (rowData.Enabled == "无效") {//如果无效，则背景色置于红色
+                        $('#' + ids[i]).find("td").addClass("SelectBG");
+                    }
+                }
+                $("#" + this.id).jqGrid('setSelection', SelectRowIndx);
+            }
+        });
+        columnModelData("#gridTable");
+        //自应高度
+        $(window).resize(function () {
+            $("#gridTable").setGridHeight($(window).height() - 200);
+        });
+
+    }
+
+    //按钮刷新表格树
+    function btn_reload() {
+        GetTree();
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+    //刷新
+    function windowload() {
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //新增信息
+    function btn_add() {
+        var ItemId = 1;
+        var data3;
+        var data4 = 0;
+        AjaxJson("/SteelMember/MemberProduce/TreeGridJsonAnalysisRawMaterial", {}, function (data) {
+                var total1 = 0;
+                var total2 = 0;
+               
+                var JsonData = data.rows;
+                $.each(JsonData, function (i) {
+                    var rowData = JsonData[i];
+                    total1 += Number(rowData.RawMaterialNumber);
+                    total2 += Number(rowData.OrderProcessingNumber);
+                    data3 = total1 - total2;
+                    if (data3<100) {
+                        data4++;
+                    }
+                });
+            });
+        if (data4 >0) {
+        var url = "/SteelMember/MemberProduce/RawMaterialsPurchaseForm?ItemId=" + ItemId + "&motionType=" + ItemId;
+        openDialog(url, "RawMaterialsPurchaseForm", "新增采购单", 1100, 600, function (iframe) {
+                top.frames[iframe].AcceptClick();
+            });
+        } else {
+            tipDialog("材料已采购或未入库",2);
+        }
+    }
+
+    //变更信息(得到实体)
+    function btn_edit() {
+        var KeyValue = GetJqGridRowValue("#gridTable", "PurchaseId");
+        //var IsReview = GetJqGridRowValue("#gridTable", "IsReview");
+        var ItemId = 1;
+        if (IsChecked(KeyValue)) {
+            //AddTabMenu("CollarForm", "Url.Content("/SteelMember/CollarManagement/CollarForm")?KeyValue= " + KeyValue + "&TreeId=" + TreeId + "&motionType="+ItemID, "变更领用单", "page_white_add.png", true, true, true);
+            var url = "/SteelMember/MemberProduce/RawMaterialsPurchaseForm?KeyValue= " + KeyValue +"&motionType=" + ItemId;
+            openDialog(url, "RawMaterialsPurchaseForm", "变更采购单", 1100, 600, function (iframe) {
+                    top.frames[iframe].AcceptClick();
+                });
+        }
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //删除单据
+    function btn_delete() {
+        var KeyValue = GetJqGridRowValue("#gridTable", "PurchaseId");
+        var Prompt = "您确实要删除此文件吗？";
+        if (IsDelData(KeyValue)) {
+            delConfirm('/SteelMember/MemberProduce/DeleteRawMaterialPurchase', { KeyValue: KeyValue }, Prompt);
+        }
+    }
+
+      //详细信息(得到实体)
+    function btn_detail() {
+        var KeyValue = GetJqGridRowValue("#gridTable", "PurchaseId");
+        var ItemId = 0;
+        if (IsChecked(KeyValue)) {
+            //AddTabMenu("DetailForm", "@Url.Content("/SteelMember/CollarManagement/DetailForm")?KeyValue= " + KeyValue + "&TreeId=" + TreeId, "领用单详细", "page_white_add.png", true, true, true);
+            var url = "/SteelMember/MemberProduce/RawMaterialsPurchaseDetailForm?KeyValue= " + KeyValue + "&motionType="+ItemId;
+            Dialog(url, "DetailForm", "详细信息",  1100, 600, function (iframe) {
+                top.frames[iframe].AcceptClick();
+            });
+        }
+    }
+    //入库
+    function btn_warehousing() {
+        var KeyValue = GetJqGridRowValue("#gridTable", "PurchaseId");
+        var IsPurchase = GetJqGridRowValue("#gridTable", "IsPurchase");
+        var Prompt = "是否确定？";
+        if (IsChecked(KeyValue)) {
+            if (_ConfirmOrder.replace(/"/, "'").replace(/"/, "'") == "<img src='../../Content/Images/checknomark.gif'>") {
+                subConfirm('/SteelMember/MemberProduce/Warehousing', { KeyValue: KeyValue }, Prompt);
+            } else {
+                tipDialog("您要操作已入库",2);
+            }
+        }
+    }
+    ////构件图纸/模型管理
+    //function btn_drawing() {
+    //    var KeyValue = GetJqGridRowValue("#gridTable", "MemberId");
+    //    var Sort = GetJqGridRowValue("#gridTable", "Sort");
+    //    if (IsChecked(KeyValue)) {
+    //            var url = '/SteelMember/File/DrawingManagement?KeyValue=' + KeyValue;
+    //            Dialog(url, "DrawingManagement", "文件管理", 900, 890, function (iframe) {
+    //                top.frames[iframe].AcceptClick()
+    //            });
+    //    }
+    //}
+
+    ////审核订单（通过）
+    //function btn_review() {
+    //    var KeyValue = GetJqGridRowValue("#gridTable", "OrderId");
+    //    var Prompt = "您确实要通过审核吗？";
+    //    var IsReview = 1;
+    //    if (IsDelData(KeyValue)) {
+    //        delConfirm('/SteelMember/ProjectOrder/ReviewProjectOrder', { KeyValue: KeyValue, IsReview: IsReview }, Prompt);
+    //    }
+    //    $("#gridTable").trigger("reloadGrid"); //重新载入
+    //}
+    ////审核订单（不通过）
+    //function btn_not_review() {
+    //    var KeyValue = GetJqGridRowValue("#gridTable", "OrderId");
+    //    var Prompt = "您确实要驳回吗？";
+    //    var IsReview = 2;
+    //    if (IsDelData(KeyValue)) {
+    //        delConfirm('/SteelMember/ProjectOrder/ReviewProjectOrder', { KeyValue: KeyValue, IsReview: IsReview }, Prompt);
+    //    }
+    //}
+
+    ////提交订单
+    //function btn_SubmitOrder() {
+    //    var KeyValue = GetJqGridRowValue("#gridTable", "OrderId");
+    //    var IsReview = GetJqGridRowValue("#gridTable", "IsReview");
+    //    //var MemberNumber = GetJqGridRowValue("#gridTable", "MemberNumber");
+    //    var MemberId = GetJqGridRowValue("#gridTable", "MemberId");
+    //    var IsReview1 = IsReview.replace(/"/, "'").replace(/"/, "'");
+    //    if (IsReview1 == "<img src='../../Content/Images/checkokmark.gif'>") {
+    //    var Prompt = "您确实要提交此文件吗？";
+    //    if (IsDelData(KeyValue)) {
+    //        delConfirm('/SteelMember/ProjectOrder/SubmitProjectOrder', { KeyValue: KeyValue, MemberId: MemberId }, Prompt);
+    //    }
+    //    } else {
+    //        tipDialog('该订单未审核或未通过审核！', 4, 'warning');
+    //    }
+    //}
+
+    //查询
+    var QueryParamJson = "";
+    function btn_query() {
+        QueryDialog("/SteelMember/MemberSettlement/QueryPage", "QueryPage", "查询", 540, 30, function (iframe) {
+            top.frames[iframe].QueryClick(function (JsonData) {
+                QueryParamJson = JsonData;
+                $("#gridTable").jqGrid('setGridParam', {
+                    url: "@Url.Content("/SteelMember/MemberSettlement/GridListJson")?ParameterJson=" + escape(JsonData) + "&TreeID=" + TreeId, page: 1
+            }).trigger('reloadGrid');
+        });
+    });
+    }
+       var JsonData1 = "";  var TableObject ="";
+    //导出文件
+    function btn_derive() {
+        SetDeriveExcel("#gridTable", "构件领用单", "云南公投澄川高速", JsonData1, TableObject.toString());
+        openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "信息导出", 900, 500, function (iframe) {
+            top.frames[iframe].AcceptClick();
+        })
+    }
+    //要打印数据源，子页面调用的函数
+    function PrintDataSource() {
+        var columnModel = $("#gridTable").jqGrid('getGridParam', 'colModel');
+        var dataModel = $("#gridTable").jqGrid("getRowData");
+        var footerData = $("#gridTable").jqGrid("footerData");
+        var JsonData = {
+            columnModel: columnModel,
+            dataModel: dataModel,
+            footerData: footerData,
+        }
+        return JsonData;
+    }
+    //点击打印
+    function btn_Print() {
+        PrintDialog("/Utility/PrintPage", "PrintPage", "打印当前页", 1200, 500, function (iframe) {
+            top.frames[iframe].SubmitPrint()
+        });
+    }
+</script>
+
+<div class="tools_bar leftline rightline" style="margin-bottom: 0px; margin: 1px;">
+    <div class="PartialButton">
+        @Html.Partial("_PartialButton")
+    </div>
+</div>
+<div class="rightline" style="margin: 1px; margin-top: -1px;">
+    <table id="gridTable"></table>
+    <div id="gridPager"></div>
+</div>

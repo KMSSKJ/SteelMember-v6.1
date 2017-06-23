@@ -1,0 +1,189 @@
+﻿@{
+    ViewBag.Title = "项目信息管理/项目信息表单";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<head>
+    <script src="~/Scripts/jqueryPicture/js/jquery.mousewheel.min.js"></script>
+    <script src="~/Scripts/jqueryPicture/js/jquery.iviewer.js"></script>
+
+    <script type="text/javascript">
+        var KeyValue = GetQuery('KeyValue');
+        var ItemId = GetQuery('ItemId');
+        var TreeId = GetQuery('TreeId');
+        var Data;
+        $(function () {
+            InitControl();
+        })
+        //得到一个对象实体
+        function InitControl() {
+            //if (!!KeyValue) {
+            AjaxJson("/SteelMember/MemberProduce/SetShipManagementForm", { KeyValue: KeyValue }, function (data) {
+                SetWebControls(data);
+                Data = data;
+            });
+            //} else {
+            //    tipDialog('请选择文件夹!', 3); //,data.Code
+            //}
+            //(!!FolderId){
+            //    tipDialog('请选择文件夹!', 3); //,data.Code
+            //    ////显示顺序
+            //    //AjaxJson("/SysManagement/Module/SortCode", {}, function (Data) {
+            //    //    $("#SortCode").val(Data);
+            //    //})
+            //    $("#ParentID").val(GetQuery('FolderId'));
+            //    //$("#IsPublic").val(GetQuery('IsPublic'));
+        }
+        //保存事件
+        function AcceptClick() {
+            if (!CheckDataValid('#form2')) {
+                return false;
+            }
+            Loading(true, "正在提交数据...");
+            window.setTimeout(function () {
+                var postData = GetWebControls("#form2");
+                AjaxJson("/SteelMember/MemberProduce/SubmitShipManagementForm?KeyValue=" + KeyValue + '&TreeId=' + TreeId, postData, function (data) {//+ '&ItemID=' + ItemID
+                    tipDialog(data.Message, 3);//, data.Code
+                    top.frames[tabiframeId()].windowload();
+                    closeDialog();
+                });
+            }, 200);
+        };
+
+        @*//加载上级模块
+        function LoadMemberClass() {
+            $("#MemberClassName").focus(function () {
+                var objId = this.id;
+                comboBoxTree(objId, "200px");
+                var itemtree = {
+                    onnodeclick: function (item) {
+                        $("#MemberClassId").val(item.id);
+                        $('#MemberClassName').val(item.text);
+                        GetMemberName(item.id);
+                    },
+                    url: "@Url.Content("/SteelMember/File/TreeJson")?TreeId=" + ItemId
+                };
+                $("#comboBoxTree" + objId).treeview(itemtree);
+                //移除Id上级元素
+                $("#comboBoxTree" + objId + "_" + GetQuery('KeyValue').replace(/-/g, '_')).parent('li').remove();
+            })
+        };
+
+        //获取构件名称
+        function GetMemberName(treeid) {
+            $.ajax({
+                url: '/SteelMember/ProjectManagement/GetMemderName',
+                type: 'post',
+                datatype: 'Json',
+                data: { KeyValue: treeid },
+                success: function (data) {
+                    if (data) {
+                        var projectname_sel = [];
+                        // projectname_sel.push('<option value="" selected>请选择</option>')
+                        for (var i = 0, len = data.length; i < len; i++) {
+                            var projectname = data[i];
+                            projectname_sel.push('<option value="' + projectname.MemberID + '">' + projectname.MemberModel + '</option>')
+                        }
+                        $("#MemberId").html(projectname_sel.join(' '));
+                        ////编辑时获取值
+                        //$("#MemberId  option[value='" + data.MemberId + "']").attr("selected", true);
+                    }
+                },
+                error: function () {
+                    alert('查询异常');
+                }
+            });
+        };
+
+        //载入构件名称
+        function LoadMemberName() {
+            $.ajax({
+                url: '/SteelMember/ProjectManagement/GetMemderName',
+                type: 'post',
+                datatype: 'Json',
+                data: { KeyValue: Data.MemberClassId },
+                success: function (data) {
+                    if (data) {
+                        var projectname_sel = [];
+                        // projectname_sel.push('<option value="" selected>请选择</option>')
+                        for (var i = 0, len = data.length; i < len; i++) {
+                            var projectname = data[i];
+                            projectname_sel.push('<option value="' + projectname.MemberID + '">' + projectname.MemberModel + '</option>')
+                        }
+                        $("#MemberId").html(projectname_sel.join(' '));
+                        //编辑时获取值
+                        $("#MemberId  option[value='" + Data.MemberId + "']").attr("selected", true);
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        };*@
+
+    </script>
+
+</head>
+<form id="form2" style="margin: 25px; margin-left: 40px; margin-right: 40px;">
+    <div>
+        <table class="form">
+            <tr>
+                @*<th class="formTitle">
+                    构件类型：
+                </th>
+                <td class="formValue">
+                    <input id="MemberClassId" name="MemberClassId" type="hidden" />
+                    <input id="MemberClassName" type="text" class="txt icontree" />
+                </td>*@
+                <th class="formTitle">
+                    构件型号：
+                </th>
+                <td class="formValue">
+                    <input id="MemberModel"type="text"  class="txt" />
+                </td>
+                <th class="formTitle">
+                    库存量：
+                </th>
+                <td class="formValue">
+                    <input id="LibraryNumber" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    发货地址：
+                </th>
+                <td class="formValue">
+                    <input id="ShippingAddress" type="text" class="txt" />
+                </td>
+                <th class="formTitle">
+                    发货量：
+                </th>
+                <td class="formValue">
+                    <input id="ShipNumber" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    收货人：
+                </th>
+                <td class="formValue">
+                    <input id="ShippingMan" type="text" class="txt" />
+                </td>
+                <th class="formTitle">
+                    收货电话：
+                </th>
+                <td class="formValue">
+                    <input id="ShippingTEL" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    备注：
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5"></textarea>
+                </td>
+            </tr>
+           
+        </table>
+    </div>
+</form>

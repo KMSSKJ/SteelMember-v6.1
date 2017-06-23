@@ -1,11 +1,10 @@
 ﻿@{
     ViewBag.Title = "构件库管理》导入数据页面";
-    // Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-<script src="~/Content/Scripts/jquery/jquery-1.9.1.min.js"></script>
-<script src="~/Content/Scripts/learunui-framework.js"></script>
+
 <script type="text/javascript">
-    var KeyValue = GetQuery('KeyValue')
+    var KeyValue = request('KeyValue')
     function UpladFile() {
         // js 获取文件对象
         var fileObj = document.getElementById("fileToUpload").files;
@@ -28,31 +27,41 @@
             success: function (data) {                
                 if (data == "2") {
                     btn_upload();
-                    closeDialog();
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                    dialogClose();
                 } else {
                     if (data == "1") {
-                        tipDialog("操作成功", 3);
-                        top.frames["tabs_iframe_f231bbf7-f1fa-4f99-9991-167548f5243a"].windowload()
-                        closeDialog();
+                        dialogMsg("操作成功",0);
+                       // top.frames["tabs_iframe_f231bbf7-f1fa-4f99-9991-167548f5243a"].windowload()
+                        $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                        dialogClose();
                     } else {
-                        tipDialog(data, 3);
+                        dialogMsg(data, 0);
                     }
                 }
             },
             error: function (e) {
-                tipDialog(e, 3);
-
+                dialogMsg(e, 0);
             }
         });
 
     }
     //上传图片
     function btn_upload() {
-        var url = "/SteelMember/File/UpLoadFile";
-        Dialog(url, "UpLoadFile", "批量上传图片", 500, 200, function (iframe) {
-            top.frames[iframe].AcceptClick()
+        dialogOpen({
+            id: "UpLoadFile",
+            title: '批量上传图片',
+            url: '/SteelMember/File/UpLoadFile',
+            width: "480px",
+            height: "180px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null
         });
     }
+
+   
 </script>
 <style>
     .uploadify-button {

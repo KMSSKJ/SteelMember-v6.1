@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "项目信息管理/项目信息表单";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<head>
+    <script src="~/Scripts/jqueryPicture/js/jquery.mousewheel.min.js"></script>
+    <script src="~/Scripts/jqueryPicture/js/jquery.iviewer.js"></script>
+
+    <script type="text/javascript">
+        var KeyValue = GetQuery('KeyValue');
+        //var ItemID = GetQuery('ItemID');
+        //var TreeId = GetQuery('TreeId');
+        var Data;
+        $(function () {
+            InitControl();
+        })
+        //得到一个对象实体
+        function InitControl() {
+            //if (!!KeyValue) {
+            AjaxJson("/SteelMember/MemberProduce/SetProcessForm", { KeyValue: KeyValue }, function (data) {
+                SetWebControls(data);
+                Data = data;
+              
+            });
+        }
+
+        //保存事件
+        function AcceptClick() {
+            if (!CheckDataValid('#form2')) {
+                return false;
+            }
+            Loading(true, "正在提交数据...");
+            window.setTimeout(function () {
+                var postData = GetWebControls("#form2");
+                AjaxJson("/SteelMember/MemberProduce/SubmitProcessForm?KeyValue=" + KeyValue, postData, function (data) {//+ '&ItemID=' + ItemID
+                    tipDialog(data.Message, 3, data.Code);
+                    top.frames[tabiframeId()].windowload();
+                    closeDialog();
+                });
+            }, 200);
+        };
+    </script>
+</head>
+<form id="form2">
+    <div>
+
+        <table class="form">
+            @*<tr>
+                    <th class="formTitle">
+                        开始时间：
+                    </th>
+                    <td class="formValue">
+                        <input id="ProduceStartDate" type="text" class="txt Wdate" onfocus="WdatePicker({ minDate: '%y-%M-#{%d+1}' })"/>
+                    </td>
+                    <th class="formTitle">
+                        结束时间：
+                    </th>
+                    <td class="formValue">
+                        <input id="ProduceEndDate" type="text" class="txt Wdate" onfocus="WdatePicker({ minDate: '%y-%M-#{%d+1}' })" />
+                    </td>
+                </tr>*@
+            <tr>
+                <th class="formTitle">
+                    制程名称：
+                </th>
+                <td class="formValue">
+                    <input id="ProcessName" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    不合格量：
+                </th>
+                <td class="formValue">
+                    <input id="UnqualifiedNumber" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    负责人：
+                </th>
+                <td class="formValue">
+                    <input id="ProcessMan" type="text" class="txt" />
+                </td>
+            </tr>
+           
+            @*<tr>
+                <th class="formTitle">
+                    图片：
+                </th>
+                <td class="formValue">
+                    <input id="ProcessManImge" type="text" class="txt" />
+                </td>
+            </tr>*@
+            <tr>
+                <th class="formTitle">
+                    说明：
+                </th>
+                <td class="formValue">
+                    <input id="Description" type="text" class="txt" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

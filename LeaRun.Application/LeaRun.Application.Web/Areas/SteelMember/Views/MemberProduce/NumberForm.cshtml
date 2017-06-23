@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "填报表";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<head>
+    <script type="text/javascript">
+        var KeyValue = GetQuery('KeyValue');
+        var MemberId = GetQuery('MemberId');
+        var OrderId = GetQuery('OrderId');
+        var IsQqualified = GetQuery('IsQqualified');
+
+        //保存事件
+        function AcceptClick() {
+            if (!CheckDataValid('#form2')) {
+                return false;
+            }
+            Loading(true, "正在提交数据...");
+            window.setTimeout(function () {
+                var postData = GetWebControls("#form2");
+                AjaxJson("/SteelMember/MemberProduce/Processed?KeyValue=" + KeyValue + "&MemberId=" + MemberId + "&OrderId=" + OrderId + "&IsQqualified=" + IsQqualified, postData, function (data) {
+                    tipDialog(data.Message, 3, data.Code);
+                    top.frames[tabiframeId()].windowload();
+                    closeDialog();
+                });
+            }, 200);
+        };
+    </script>
+</head>
+<form id="form2" style="margin: 25px; margin-left: 40px; margin-right: 40px;">
+    <div>
+
+        <table class="form">
+            <tr>
+                <th class="formTitle">
+                    工艺完成量：
+                </th>
+                <td class="formValue">
+                    <input id="ProcessNumbered" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    检测不合格量：
+                </th>
+                <td class="formValue">
+                    <input id="UnqualifiedNumber" type="text" class="txt" />
+                    @*<textarea id="UnqualifiedNumber" name="UnqualifiedNumber" maxlength="200" class="txtArea" rows="5"></textarea>*@
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    备注：
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

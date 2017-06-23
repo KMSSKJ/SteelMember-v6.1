@@ -51,17 +51,13 @@
     }
 
 </script>
-<style>
-    .uploadify-queue {
-        display: none;
-    }
-</style>
 
 @*<div class="tools_bar leftline rightline" style="margin-bottom: 0px; margin: 1px;">
         <div class="PartialButton">
                 @Html.Partial("_PartialButton")
             </div>
     </div>*@
+<br />
 <div class="rightline" style="margin: 1px; margin-top: -1px;">
     <div id="table_project">
         <table class="form">
@@ -69,8 +65,8 @@
                 <td class="formTitle">
                     系统标题：
                 </td>
-                <td class="formValue" colspan="12">
-                    <input readonly id="ProjectSystemTitel" type="text" class="txt" />
+                <td class="formValue" colspan="5">
+                    <input readonly id="ProjectSystemTitel" type="text" class="form-control" />
                 </td>
             </tr>
             <tr>
@@ -78,7 +74,7 @@
                     项目地址：
                 </td>
                 <td class="formValue" colspan="5">
-                    <input readonly id="ProjectAddress" type="text" class="txt" rowspan="4" />
+                    <input readonly id="ProjectAddress" type="text" class="form-control" rowspan="4" />
                 </td>
             </tr>
             <tr>
@@ -86,19 +82,19 @@
                     业主单位：
                 </td>
                 <td class="formValue">
-                    <input readonly id="ConstructionUnit" type="text" class="txt" />
+                    <input readonly id="ConstructionUnit" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
                     负责人：
                 </td>
                 <td class="formValue">
-                    <input readonly id="ConstructionPrincipal" type="text" class="txt" />
+                    <input readonly id="ConstructionPrincipal" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
                     联系电话：
                 </td>
                 <td class="formValue">
-                    <input readonly id="ConstructionPrincipalTEL" type="text" class="txt" />
+                    <input readonly id="ConstructionPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
 
@@ -107,81 +103,81 @@
                     设计单位：
                 </td>
                 <td class="formValue">
-                    <input readonly id="DesignUnit" type="text" class="txt" />
+                    <input readonly id="DesignUnit" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
                     负责人：
                 </td>
                 <td class="formValue">
-                    <input readonly id="DesignPrincipal" type="text" class="txt" />
+                    <input readonly id="DesignPrincipal" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
                     联系电话：
                 </td>
                 <td class="formValue">
-                    <input readonly id="DesignPrincipalTEL" type="text" class="txt" />
+                    <input readonly id="DesignPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
             <tr>
                 <td class="formTitle">监理单位：</td>
                 <td class="formValue">
-                    <input readonly id="SupervisionUnit" type="text" class="txt" />
+                    <input readonly id="SupervisionUnit" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
                     负责人：
                 </td>
                 <td class="formValue">
-                    <input readonly id="SupervisionPrincipal" type="text" class="txt" />
+                    <input readonly id="SupervisionPrincipal" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
                     联系电话：
                 </td>
                 <td class="formValue">
-                    <input readonly id="SupervisionPrincipalTEL" type="text" class="txt" />
+                    <input readonly id="SupervisionPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
             <tr>
                 <td class="formTitle">总承包商：</td>
                 <td class="formValue">
-                    <input readonly id="GeneralContractor" type="text" class="txt" />
+                    <input readonly id="GeneralContractor" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
                     负责人：
                 </td>
                 <td class="formValue">
-                    <input readonly id="GeneralContractorPrincipal" type="text" class="txt" />
+                    <input readonly id="GeneralContractorPrincipal" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
                     联系电话：
                 </td>
                 <td class="formValue">
-                    <input readonly id="GeneralContractorPrincipalTEL" type="text" class="txt" />
+                    <input readonly id="GeneralContractorPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
             <tr>
                 <td class="formTitle">专业承包商：</td>
                 <td class="formValue">
-                    <input readonly id="ProfessionalContractor" type="text" class="txt" />
+                    <input readonly id="ProfessionalContractor" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
                     负责人：
                 </td>
                 <td class="formValue">
-                    <input readonly id="ProfessionalContractorPrincipal" type="text" class="txt" />
+                    <input readonly id="ProfessionalContractorPrincipal" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
                     联系电话：
                 </td>
                 <td class="formValue">
-                    <input readonly id="ProfessionalContractorPrincipalTEL" type="text" class="txt" />
+                    <input readonly id="ProfessionalContractorPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
             <tr>
                 <td class="formTitle">
                     工程概况：
                 </td>
-                <td class="formValue" colspan="12">
-                    <textarea readonly id="Description" name="Description" maxlengtd="200" class="txtArea" rows="5"></textarea>
+                <td class="formValue" colspan="5">
+                    <textarea readonly id="Description" name="Description" maxlengtd="200"  class="form-control" rows="5"></textarea>
                 </td>
             </tr>
         </table>

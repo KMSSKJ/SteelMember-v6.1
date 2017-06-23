@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "项目信息管理/项目信息表单";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<head>
+    <script src="~/Scripts/jqueryPicture/js/jquery.mousewheel.min.js"></script>
+    <script src="~/Scripts/jqueryPicture/js/jquery.iviewer.js"></script>
+
+    <script type="text/javascript">
+        var KeyValue = GetQuery('KeyValue');
+        //var ItemID = GetQuery('ItemID');
+        var TreeId = GetQuery('TreeId');
+        var Data;
+        $(function () {
+            InitControl();
+        })
+        //得到一个对象实体
+        function InitControl() {
+            //if (!!KeyValue) {
+            AjaxJson("/SteelMember/MemberProduce/SetDataForm", { KeyValue: KeyValue }, function (data) {
+                SetWebControls(data);
+                Data = data;
+                $("#ProjectName").focus();
+                $("#ProjectName").select();
+            });
+        }
+
+        //保存事件
+        function AcceptClick() {
+            if (!CheckDataValid('#form2')) {
+                return false;
+            }
+            Loading(true, "正在提交数据...");
+            window.setTimeout(function () {
+                var postData = GetWebControls("#form2");
+                AjaxJson("/SteelMember/MemberProduce/SubmitDataForm?KeyValue=" + KeyValue + '&TreeId=' + TreeId, postData, function (data) {//+ '&ItemID=' + ItemID
+                    tipDialog(data.Message, 3, data.Code);
+                    top.frames[tabiframeId()].windowload();
+                    closeDialog();
+                });
+            }, 200);
+        };
+    </script>
+</head>
+<form id="form2" style="margin: 25px; margin-left: 40px; margin-right: 40px;">
+    <div>
+    
+        <table class="form">
+            <tr>
+                <th class="formTitle">
+                    原材料用量分析：
+                </th>
+                <td class="formValue">
+                    <input id="RawMaterialConsumption" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    成本估算：
+                </th>
+                <td class="formValue">
+                    <textarea id="OrderBudget" name="OrderBudget" maxlength="200" class="txtArea" rows="5"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    备注：
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

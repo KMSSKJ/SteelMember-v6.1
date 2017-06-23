@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "工程项目管理";
+        Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetTree();
+    });
+
+    //加载左边树
+    //注意 FolderId 默认等于1 这样就可以加载一级目录下的子节点文件夹
+    var TreeId ="";//1
+    var TreeName;
+    var ItemId ="";
+    var PageURL="";
+    ItemId =1, ProjectName = "", IsPublic = "1";
+    function GetTree() {
+        var itemtree = {
+            onnodeclick: function (node) {
+                TreeId = node.id;
+                TreeName = node.text;
+                //PageURL ="/SteelMember/MemberProduce/"+node.url;
+                if (node.ismenu == 1) {
+                    addTab(node);
+                    //AddTabMenu('Imain', PageURL, TreeName, node.icon, 'false');
+                } else {
+                    //$(window.parent.document).contents().find("#showcenter")[0].contentWindow.GridFolderEvent(TreeId);
+                    $("#tabs_container")[0].contentWindow.GridFolderEvent(TreeId);
+                }
+            },
+            url: "@Url.Content("/SteelMember/MemberProduce/TreeJson")?ItemId=" + ItemId
+        };
+        $("#ItemsTree").treeview(itemtree);
+    };
+
+    function addTab(node) {//title, url, icon等参数
+        //已经存在的选择
+        if ($('#tabs').tabs('exists', node.text)) {
+            $('#tabs').tabs('select', node.text);
+            //否则添加tab
+        } else {
+            var content = '<iframe scrolling="auto" name="tabs_container" id="tabs_container" frameborder="0"  src="' + node.url + '" ranat="server" style="width:100%;height:99.7%;"></iframe>';
+            $('#tabs').tabs('add', {
+                title: node.text,
+                content: content,
+                closable: true,
+                icon: node.icon,
+            });
+        }
+    };
+
+    //刷新表格 树
+    function btn_reload() {
+        GetTree(); 
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //查询
+    function Search() {
+        if (!CheckDataValid('#formsearch')) {
+            return false;
+        }
+        Loading(true, "正在提交数据...");
+        var postData = GetWebControls("#formsearch");
+        $("#gridTable").jqGrid('setGridParam', {
+            url: "@Url.Content("/SteelMember/MemberProduce/GridListJson")?KeyValue=" + ProjectId, postData, page: 1
+            }).trigger('reloadGrid');
+            }
+
+    //新建树
+    function btn_addfolder() {
+        //var FolderId = GetJqGridRowValue("#gridTable", "TreeID");
+        var ItemID = GetQuery("ItemID");
+        if (!!TreeId) {
+            var url = "/SteelMember/Tree/FolderForm?TreeId=" + TreeId + '&ItemID=' + ItemID;
+            openDialog(url, "Form", "新增信息", 500, 400, function (iframe) {
+                top.frames[iframe].AcceptClick()
+            });
+        } else if (!!ItemID) {
+            var url = "/SteelMember/Tree/FolderForm?TreeId=" + ItemID + '&ItemID=' + ItemID;
+            openDialog(url, "Form", "新增信息", 500, 400, function (iframe) {
+                top.frames[iframe].AcceptClick()
+            });
+        }
+        else {
+            tipDialog('请选择目录。', 4, 'warning');
+        }
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //编辑树节点(得到实体)
+    function btn_editfolder() {
+        var KeyValue = TreeId;
+        if (IsChecked(KeyValue)) {
+            var url = "/SteelMember/Tree/FolderForm?KeyValue= " + KeyValue;
+            openDialog(url, "Form", "编辑信息", 600, 400, function (iframe) {
+                top.frames[iframe].AcceptClick();
+            });
+        }
+
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //标记删除树节点
+    function btn_markfolder() {
+        var KeyValue = TreeId;
+        var Prompt = "您确实要删除此文件吗？";
+        if (IsDelData(KeyValue)) {
+            delConfirm('/SteelMember/Tree/MarkTree', { KeyValue: KeyValue }, Prompt);
+        }
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+
+    //销毁树节点
+    function btn_deletefolder() {
+        var KeyValue = TreeId;
+        var Prompt = "您确实要删除此文件吗？";
+        if (IsDelData(KeyValue)) {
+            delConfirm('/SteelMember/Tree/DeleteTree', { KeyValue: KeyValue }, Prompt);
+        }
+        $("#gridTable").trigger("reloadGrid"); //重新载入
+    }
+</script>
+<body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+    <div region="center" style="width:100%; height:900px">
+        <div id="cc" class="easyui-layout" style="width:100%; height:100%;">
+            <div region="west" hide="true" split="false" title="文件夹信息" collapse="false" style="width:13%;height:200px" id="west">
+                <div class="layoutPanel layout-north">
+                    <!--左边按钮加载-->
+                    <div class="tools_bar" style="border-top: none; margin-bottom: 0px;">
+                        <div class="PartialButtonTree">
+                            @Html.Partial("_PartialButton")
+                        </div>
+                    </div>
+                </div>
+                <div class="layoutPanel layout-west">
+                    <div class="ScrollBar" id="ItemsTree"></div>
+                </div>
+            </div>
+            <div id="mainPanle" region="center" style="width:87%;height:70%;background: #eee; overflow-y:hidden">
+
+                @*<div class="btnbartitle">
+                        <div>
+                            文档信息
+                            <span id="CenterTitle"></span>
+                        </div>
+                    </div>*@
+                <!--条件查询表-->
+                <!--中部按钮加载-->
+                @*<div class="tools_bar" style="border-top: none; margin-bottom: 0px;">
+                        <div class="PartialButton">
+                            @Html.Partial("_PartialButton")
+                        </div>
+                        <div style="padding-top: 6px; padding-right: 5px;">
+                            <ul class="switch-btns" style="float: right;"></ul>
+                        </div>
+                    </div>*@
+                <div id="tabs" class="easyui-tabs" fit="true">
+                </div>
+                @*  <!--文件列表-->
+                              <div id="grid_List" class="topline">
+                        <table id="gridTable"></table>
+                    </div>
+                    <!--视图-->
+                    <div id="grid_View" class="ScrollBar topline" style="padding: 10px;">
+                    </div>
+                    <div id="gridPager"></div>*@
+            </div>
+        </div>
+    </div>
+</body>

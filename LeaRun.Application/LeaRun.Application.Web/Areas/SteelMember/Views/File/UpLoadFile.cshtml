@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "构件库管理》上传图片页面";
-   // Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 <div>
     <p>提示！</p>
@@ -11,8 +11,8 @@
     </p>
 </div>
 <br />
-<script src="~/Content/Scripts/jquery/jquery-1.9.1.min.js"></script>
-<script src="~/Content/Scripts/learunui-framework.js"></script>
+@*<script src="~/Content/Scripts/jquery/jquery-1.9.1.min.js"></script>
+<script src="~/Content/Scripts/learunui-framework.js"></script>*@
 
 <script type="text/javascript">
     //var array = new Array();
@@ -20,13 +20,9 @@
     //    var files = document.getElementById("fileToUpload").files;
     //    for (var i = 0; i < files.length; i++) {
     //        array.push(files[i].name);
-
     //    }
-
     //    var str = "";
-
     //    for (var i in array) {
-
     //        str += pic1(array[i]);
     //    }
     //    alert(str);
@@ -36,7 +32,6 @@
     //function pic1(fileName) {
         
     //    var suffix = fileName.substring(fileName.lastIndexOf('.') + 1);
-
 
     //    if (suffix != 'jpg' && suffix != 'gif' && suffix != 'jpeg' && suffix != 'png') {
             
@@ -70,29 +65,20 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                tipDialog(data, 3);
+                dialogMsg(data, 0);
                 if (data == "操作成功！") {
-                    top.frames["tabs_iframe_f231bbf7-f1fa-4f99-9991-167548f5243a"].windowload();
-                    closeDialog();
+                    //top.frames["tabs_iframe_f231bbf7-f1fa-4f99-9991-167548f5243a"].windowload();
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                    dialogClose();
                 }
             },
             error: function (e) {
-                tipDialog(e,3);
+                dialogMsg(e,0);
 
             }
         });
 
     }
-
-    //function progressFunction(evt) {
-    //    var progressBar = document.getElementById("progressBar");
-    //    var percentageDiv = document.getElementById("percentage");
-    //    if (evt.lengthComputable) {
-    //        progressBar.max = evt.total;
-    //        progressBar.value = evt.loaded;
-    //        percentageDiv.innerHTML = Math.round(evt.loaded / evt.total * 100) + "%";
-    //    }
-    //}
 </script>
 <style>
     .uploadify-button {

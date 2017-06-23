@@ -2084,13 +2084,6 @@
             <param name="KeyValue">主键值</param>
             <returns></returns>
         </member>
-        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.DeleteFile(System.String)">
-            <summary>
-            删除（销毁）文件
-            </summary>
-            <param name="MemberID"></param>
-            <returns></returns>
-        </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.GridListJson(LeaRun.Util.FileViewModel,System.String,LeaRun.Util.WebControl.Pagination,System.String,System.String)">
             <summary>
             
@@ -2130,7 +2123,7 @@
             <param name="Filedata"></param>
             <returns></returns>
         </member>
-        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.Exists(System.String[])">
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.exists(System.String[])">
             <summary>
             
             </summary>
