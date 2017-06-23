@@ -34,8 +34,8 @@ namespace LeaRun.Application.Web.Controllers
         /// <summary>
         /// 执行导出Excel
         /// </summary>
-        /// <param name="JsonColumn">表头</param>
-        /// <param name="JsonData">数据</param>
+        /// <param name="columnJson">表头</param>
+        /// <param name="rowJson">数据</param>
         /// <param name="exportField">导出字段</param>
         /// <param name="filename">文件名</param>
         /// <returns></returns>

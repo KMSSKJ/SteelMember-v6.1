@@ -31,7 +31,7 @@ namespace LeaRun.Application.Service.BaseManage
         /// <summary>
         /// 获取对象列表
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
         public IEnumerable<UserRelationEntity> GetObjectList(string userId)
         {

@@ -69,7 +69,7 @@ namespace LeaRun.Application.Service.SystemManage
         /// 保存区域表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="{">区域实体</param>
+        /// <param name="areaEntity">区域实体</param>
         /// <returns></returns>
         public void SaveForm(string keyValue, AreaEntity areaEntity)
         {

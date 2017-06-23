@@ -30,6 +30,11 @@ namespace LeaRun.Application.Service.AuthorizeManage
         private IRepository db = new RepositoryFactory().BaseRepository();
         private AuthorizeService authorizeService = new AuthorizeService();
         #region 带权限的数据源查询
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<T> IQueryable()
         {
             if (GetReadUserId() == "")
@@ -44,6 +49,12 @@ namespace LeaRun.Application.Service.AuthorizeManage
                 return this.BaseRepository().IQueryable(lambda);
             }
         }
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public IQueryable<T> IQueryable(Expression<Func<T, bool>> condition)
         {
             if (GetReadUserId() != "")
@@ -55,6 +66,12 @@ namespace LeaRun.Application.Service.AuthorizeManage
             }
             return db.IQueryable<T>(condition);
         }
+
+        /// <summary>
+        /// 查询返回List
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
         public IEnumerable<T> FindList(Pagination pagination)
         {
             if (GetReadUserId() == "")
@@ -69,6 +86,13 @@ namespace LeaRun.Application.Service.AuthorizeManage
                 return this.BaseRepository().FindList(lambda, pagination);
             }
         }
+
+        /// <summary>
+        /// 查询返回List
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
         public IEnumerable<T> FindList(Expression<Func<T, bool>> condition, Pagination pagination)
         {
             if (GetReadUserId() != "")
@@ -80,21 +104,48 @@ namespace LeaRun.Application.Service.AuthorizeManage
             }
             return this.BaseRepository().FindList(condition, pagination);
         }
+
+        /// <summary>
+        /// 查询返回List
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <returns></returns>
         public IEnumerable<T> FindList(string strSql)
         {
             strSql = strSql + (GetReadSql() == "" ? "" : string.Format("and CreateUserId in({0})", GetReadSql()));
             return this.BaseRepository().FindList(strSql);
         }
+        /// <summary>
+        /// 查询返回List
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="dbParameter"></param>
+        /// <returns></returns>
         public IEnumerable<T> FindList(string strSql, DbParameter[] dbParameter)
         {
             strSql = strSql + (GetReadSql() == "" ? "" : string.Format("and CreateUserId in({0})", GetReadSql()));
             return this.BaseRepository().FindList(strSql, dbParameter);
         }
+
+        /// <summary>
+        /// 查询返回List
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
         public IEnumerable<T> FindList(string strSql, Pagination pagination)
         {
             strSql = strSql + (GetReadSql() == "" ? "" : string.Format("and CreateUserId in({0})", GetReadSql()));
             return this.BaseRepository().FindList(strSql, pagination);
         }
+
+        /// <summary>
+        /// 查询返回List
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="dbParameter"></param>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
         public IEnumerable<T> FindList(string strSql, DbParameter[] dbParameter, Pagination pagination)
         {
             strSql = strSql + (GetReadSql() == "" ? "" : string.Format("and CreateUserId in({0})", GetReadSql()));

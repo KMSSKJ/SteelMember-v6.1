@@ -81,8 +81,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// <summary>
         /// 保存过滤时段表单（新增、修改）
         /// </summary>
-        /// <param name="keyValue">主键值</param>
-        /// <param name="databaseLinkEntity">过滤时段实体</param>
+        /// <param name="filterTimeEntity">过滤时段实体</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

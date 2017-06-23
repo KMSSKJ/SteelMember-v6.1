@@ -88,7 +88,7 @@ namespace LeaRun.Application.Service
         /// </summary>
         /// <param name="platform">平台（苹果、安卓、PC浏览器）</param>
         /// <param name="account">账户</param>
-        /// <param name="IPAddress">IP地址</param>
+        /// <param name="iPAddress">IP地址</param>
         /// <param name="iPAddressName">IP所在城市</param>
         public void LoginLimit(string platform, string account, string iPAddress, string iPAddressName)
         {

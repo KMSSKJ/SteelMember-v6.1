@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LeaRun.WebApp.Areas.SteelMember.Models
+namespace LeaRun.Application.Web.Areas.SteelMember.Models
 {
     public class RawMaterialLibraryModel
     {

@@ -82,7 +82,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// 保存过滤IP表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="databaseLinkEntity">过滤IP实体</param>
+        /// <param name="filterIPEntity">过滤IP实体</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

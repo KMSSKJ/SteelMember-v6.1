@@ -1,6 +1,9 @@
 ﻿
-namespace LeaRun.Application.Entity.MessageManage
-{
+namespace LeaRun.Application.Entity.MessageManage { 
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class IMReadNumModel
     {
         /// <summary>

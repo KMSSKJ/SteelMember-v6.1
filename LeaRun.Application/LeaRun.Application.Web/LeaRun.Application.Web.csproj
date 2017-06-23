@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>bin\LeaRun.Application.Web.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -1171,7 +1172,6 @@
     <Content Include="Areas\SteelMember\Views\File\SubmitImportFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\UpLoadFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\Default1\Index.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

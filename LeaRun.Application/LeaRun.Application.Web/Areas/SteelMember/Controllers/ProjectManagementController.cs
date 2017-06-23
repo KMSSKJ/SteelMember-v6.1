@@ -1,10 +1,10 @@
 ﻿using LeaRun.Application.Code;
 using LeaRun.Application.Repository.SteelMember.IBLL;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Data.Entity;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using Ninject;
-using SteelMember.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,11 +20,16 @@ using System.Web.Mvc.Html;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
+    /// <summary>
+    /// 构件需求
+    /// </summary>
     public class ProjectManagementController : MvcControllerBase
     {
         //
         // GET: /Hello/
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Inject]
         public TreeIBLL TreeCurrent { get; set; }
         [Inject]
@@ -48,11 +53,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [Inject]
         public OrderMemberIBLL OrderMemberCurrent { get; set; }
 
+        /// <summary>
+        /// 订单首页
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// 查询页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult QueryPage()
         {
             return View();
@@ -97,13 +110,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         #region 项目构件需求管理
+     
         /// <summary>
-        /// 【工程项目管理】返回文件（夹）列表JSON
         /// </summary>
-        /// <param name="keywords">文件名搜索条件</param>
-        /// <param name="FolderId">文件夹ID</param>
-        /// <param name="IsPublic">是否公共 1-公共、0-我的</param>
-        /// <returns></returns>         
+        /// <param name="model"></param>
+        /// <param name="TreeId"></param>
+        /// <param name="jqgridparam"></param>
+        /// <param name="IsPublic"></param>
+        /// <param name="ParameterJson"></param>
+        /// <returns></returns>
         public ActionResult GridListJson(FileViewModel model, string TreeId, Pagination jqgridparam, string IsPublic, string ParameterJson)
         {
             try
@@ -245,7 +260,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
         }
 
-        //获取树字节子节点(自循环)
+        /// <summary>
+        /// 获取树字节子节点(自循环)
+        /// </summary>
+        /// <param name="p_id"></param>
+        /// <returns></returns>
         public IEnumerable<RMC_Tree> GetSonId(int p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
@@ -349,15 +368,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="TreeID">外键值</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        //[LoginAuthorize]
         public virtual ActionResult SubmitDataForm(RMC_ProjectDemand entity, string KeyValue, string TreeID)
         {
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -372,8 +390,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.Description = entity.Description;
                     Oldentity.IsReview = 0;
                     ProjectManagementCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                    //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
                 {
@@ -397,10 +413,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.MemberCompanyId = entity.MemberCompanyId;
                     Oldentity.Description = entity.Description;
                     ProjectManagementCurrent.Add(Oldentity);
-
-                    IsOk = 1;
-
-                    //this.WriteLog(IsOk, entity, null, KeyValue, Message);
                 }
                 return Success (Message);
             }
@@ -414,7 +426,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 删除文件
         /// </summary>
-        /// <param name="FolderId"></param>
+        /// <param name="KeyValue"></param>
         /// <returns></returns>
         public ActionResult DeleteProjectDemand(string KeyValue)
         {
@@ -451,6 +463,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 获取构件名称
         /// </summary>
         /// <param name="KeyValue"></param>
+        /// <param name="TreeId"></param>
         /// <returns></returns>
         public ActionResult GetMemderName(string KeyValue,string TreeId)
         {
@@ -531,6 +544,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 审核需求
         /// </summary>
         /// <param name="KeyValue"></param>
+        /// <param name="IsReview"></param>
         /// <returns></returns>
         public ActionResult ReviewProjectDemand(string KeyValue, string IsReview)
         {
@@ -554,7 +568,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 批量提交项目
         /// </summary>
-        /// <param name="TreeId"></param>
+        /// <param name="KeyValue"></param>
+        /// <param name="Entity"></param>
         /// <returns></returns>
         public ActionResult SubmitProjectItemDemand(string KeyValue, RMC_ProjectDemand Entity)
         {

@@ -356,8 +356,8 @@
             </summary>
             <param name="keyValue">主键值</param>
             <param name="moduleEntity">功能实体</param>
-            <param name="moduleButtonList">按钮实体列表</param>
-            <param name="moduleColumnList">视图实体列表</param>
+            <param name="moduleButtonListJson">按钮实体列表</param>
+            <param name="moduleColumnListJson">视图实体列表</param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.ModuleFormController">
@@ -407,6 +407,7 @@
             获取系统表单实体通过模块Id
             </summary>
             <param name="keyValue"></param>
+            <param name="objectId"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.ModuleFormController.IsExistModuleId(System.String,System.String)">
@@ -466,7 +467,6 @@
             部门列表 
             </summary>
             <param name="postId">岗位Id</param>
-            <param name="keyword">关键字</param>
             <returns>返回树形Json</returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.PermissionPostController.GetUserListJson(System.String)">
@@ -549,7 +549,6 @@
             部门列表 
             </summary>
             <param name="roleId">角色Id</param>
-            <param name="keyword">关键字</param>
             <returns>返回树形Json</returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.PermissionRoleController.GetUserListJson(System.String)">
@@ -563,7 +562,7 @@
             <summary>
             系统功能列表
             </summary>
-            <param name="RoleId">角色Id</param>
+            <param name="roleId">角色Id</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.PermissionRoleController.ModuleButtonTreeJson(System.String)">
@@ -708,7 +707,6 @@
             部门列表 
             </summary>
             <param name="userGroupId">用户组Id</param>
-            <param name="keyword">关键字</param>
             <returns>返回树形Json</returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.PermissionUserGroupController.GetUserListJson(System.String)">
@@ -722,7 +720,7 @@
             <summary>
             系统功能列表
             </summary>
-            <param name="RoleId">用户组Id</param>
+            <param name="userGroupId">用户组Id</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.PermissionUserGroupController.ModuleButtonTreeJson(System.String)">
@@ -867,7 +865,7 @@
             保存过滤IP表单（新增、修改）
             </summary>
             <param name="keyValue">主键值</param>
-            <param name="databaseLinkEntity">过滤IP实体</param>
+            <param name="filterIPEntity">过滤IP实体</param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Web.Areas.AuthorizeManage.Controllers.FilterTimeController">
@@ -917,8 +915,7 @@
             <summary>
             保存过滤时段表单（新增、修改）
             </summary>
-            <param name="keyValue">主键值</param>
-            <param name="databaseLinkEntity">过滤时段实体</param>
+            <param name="filterTimeEntity">过滤时段实体</param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Web.Areas.BaseManage.Controllers.DepartmentController">
@@ -976,7 +973,7 @@
             <summary>
             部门编号不能重复
             </summary>
-            <param name="enCode">编号</param>
+            <param name="EnCode">编号</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1050,7 +1047,7 @@
             <summary>
             职位编号不能重复
             </summary>
-            <param name="enCode">编号</param>
+            <param name="EnCode">编号</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1124,7 +1121,7 @@
             <summary>
             公司名称不能重复
             </summary>
-            <param name="organizeName">公司名称</param>
+            <param name="FullName">公司名称</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1132,7 +1129,7 @@
             <summary>
             外文名称不能重复
             </summary>
-            <param name="enCode">外文名称</param>
+            <param name="EnCode">外文名称</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1140,7 +1137,7 @@
             <summary>
             中文名称不能重复
             </summary>
-            <param name="shortName">中文名称</param>
+            <param name="ShortName">中文名称</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1206,7 +1203,7 @@
             <summary>
             角色编号不能重复
             </summary>
-            <param name="enCode">编号</param>
+            <param name="EnCode">编号</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1309,7 +1306,9 @@
             保存用户表单（新增、修改）
             </summary>
             <param name="keyValue">主键值</param>
-            <param name="userEntity">用户实体</param>
+            <param name="strUserEntity">用户实体</param>
+            <param name="FormInstanceId">用户实体</param>
+            <param name="strModuleFormInstanceEntity">用户实体</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.BaseManage.Controllers.UserController.SaveRevisePassword(System.String,System.String)">
@@ -1387,7 +1386,7 @@
             <summary>
             岗位编号不能重复
             </summary>
-            <param name="enCode">编号</param>
+            <param name="EnCode">编号</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1461,7 +1460,7 @@
             <summary>
             组编号不能重复
             </summary>
-            <param name="enCode">编号</param>
+            <param name="EnCode">编号</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1867,7 +1866,7 @@
             </summary>
             <param name="keyValue">主键值</param>
             <param name="moveFolderId">要移动文件夹Id</param>
-            <param name="FileType">文件类型</param>
+            <param name="fileType">文件类型</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.PublicInfoManage.Controllers.ResourceFileController.ShareFile(System.String,System.Int32,System.String)">
@@ -1884,7 +1883,6 @@
             上传文件
             </summary>
             <param name="folderId">文件夹Id</param>
-            <param name="userId">用户Id</param>
             <param name="Filedata">文件对象</param>
             <returns></returns>
         </member>
@@ -1892,7 +1890,7 @@
             <summary>
             下载文件
             </summary>
-            <param name="KeyValue">主键</param>
+            <param name="keyValue">主键</param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Web.Areas.PublicInfoManage.Controllers.NewsController">
@@ -2049,6 +2047,16 @@
             描 述：电子签章
             </summary>
         </member>
+        <member name="F:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.userBLL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.TreeCurrent">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.TreeJson(System.String)">
             <summary>
             【控制测量文档管理】返回树JONS
@@ -2080,17 +2088,19 @@
             <summary>
             删除（销毁）文件
             </summary>
-            <param name="FolderId"></param>
+            <param name="MemberID"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.GridListJson(LeaRun.Util.FileViewModel,System.String,LeaRun.Util.WebControl.Pagination,System.String,System.String)">
             <summary>
-            【控制测量文档管理】返回文件（夹）列表JSON
+            
             </summary>
-            <param name="keywords">文件名搜索条件</param>
-            <param name="FolderId">文件夹ID</param>
-            <param name="IsPublic">是否公共 1-公共、0-我的</param>
-            <returns></returns>         
+            <param name="model"></param>
+            <param name="TreeId"></param>
+            <param name="jqgridparam"></param>
+            <param name="IsPublic"></param>
+            <param name="ParameterJson"></param>
+            <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.GetExcellTemperature(System.String)">
             <summary>
@@ -2114,7 +2124,17 @@
             <summary>
             上传文件
             </summary>
-            <param name="paths"></param>
+            <param name="KeyValue"></param>
+            <param name="Img"></param>
+            <param name="file"></param>
+            <param name="Filedata"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.Exists(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="_list"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.SubmitUploadify(System.Web.HttpPostedFileBase)">
@@ -2145,6 +2165,7 @@
             </summary>
             <param name="entity">实体对象</param>
             <param name="KeyValue">主键值</param>
+            <param name="TreeId">主键值</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.DelDrawing(System.String,System.String,System.String)">
@@ -2152,6 +2173,8 @@
             删除图纸
             </summary>
             <param name="KeyValue"></param>
+            <param name="CAD"></param>
+            <param name="Model"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.SubmitDataForm(LeaRun.Data.Entity.RMC_MemberMaterial,System.String,System.String)">
@@ -2160,6 +2183,7 @@
             </summary>
             <param name="entity">实体对象</param>
             <param name="KeyValue">主键值</param>
+            <param name="TreeId">主键值</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.GetMaterialName(System.String,System.String)">
@@ -2167,6 +2191,15 @@
             获取原材料
             </summary>
             <param name="MaterialClassId"></param>
+            <param name="MemberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.GridListJsonMemberProcess(System.String,LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            获取制程表
+            </summary>
+            <param name="KeyValue"></param>
+            <param name="jqgridparam"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.GetUserName(LeaRun.Util.WebControl.Pagination,System.String)">
@@ -2177,12 +2210,34 @@
             <param name="queryJson">查询参数</param>
             <returns>返回分页列表Json</returns>
         </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.MemberProcessForm">
+            <summary>
+            制程表单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.SetMemberProcessForm(System.String)">
+             <summary>
+            获取制程表单
+             </summary>
+             <param name="KeyValue"></param>
+             <returns></returns>
+        </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.SubmitMemberProcessForm(LeaRun.Data.Entity.RMC_MemberProcess,System.String,System.String)">
             <summary>
             提交文件夹表单
             </summary>
             <param name="entity">实体对象</param>
             <param name="KeyValue">主键值</param>
+            <param name="OrderId">主键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.FileController.DeleteMemberProcess(LeaRun.Data.Entity.RMC_MemberLibrary,System.String)">
+            <summary>
+            删除制程
+            </summary>
+            <param name="entity"></param>
+            <param name="KeyValue"></param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectInfoController">
@@ -2200,8 +2255,8 @@
             <summary>
             【项目管理】返回文件（夹）列表JSON
             </summary>
-            <param name="keywords">文件名搜索条件</param>
-            <param name="FolderId">文件夹ID</param>
+            <param name="jqgridparam">分页条件</param>
+            <param name="TreeID">文件夹ID</param>
             <param name="IsPublic">是否公共 1-公共、0-我的</param>
             <returns></returns>         
         </member>
@@ -2215,7 +2270,6 @@
             <summary>
             【项目信息管理】返回文件夹对象JSON
             </summary>
-            <param name="KeyValue">主键值</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectInfoController.SubmitDataForm(LeaRun.Data.Entity.RMC_ProjectInfo,System.String,System.String)">
@@ -2224,13 +2278,36 @@
             </summary>
             <param name="entity">实体对象</param>
             <param name="KeyValue">主键值</param>
+            <param name="TreeId">外键值</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectInfoController.DeleteProjectInfo(System.String)">
             <summary>
             删除（销毁）文件
             </summary>
-            <param name="FolderId"></param>
+            <param name="KeyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController">
+            <summary>
+            构件需求
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.TreeCurrent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.Index">
+            <summary>
+            订单首页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.QueryPage">
+            <summary>
+            查询页面
+            </summary>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.TreeJson(System.String)">
@@ -2241,12 +2318,20 @@
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GridListJson(LeaRun.Util.FileViewModel,System.String,LeaRun.Util.WebControl.Pagination,System.String,System.String)">
             <summary>
-            【工程项目管理】返回文件（夹）列表JSON
             </summary>
-            <param name="keywords">文件名搜索条件</param>
-            <param name="FolderId">文件夹ID</param>
-            <param name="IsPublic">是否公共 1-公共、0-我的</param>
-            <returns></returns>         
+            <param name="model"></param>
+            <param name="TreeId"></param>
+            <param name="jqgridparam"></param>
+            <param name="IsPublic"></param>
+            <param name="ParameterJson"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GetSonId(System.Int32)">
+            <summary>
+            获取树字节子节点(自循环)
+            </summary>
+            <param name="p_id"></param>
+            <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.Form">
             <summary>
@@ -2267,13 +2352,14 @@
             </summary>
             <param name="entity">实体对象</param>
             <param name="KeyValue">主键值</param>
+            <param name="TreeID">外键值</param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.DeleteProjectDemand(System.String)">
             <summary>
             删除文件
             </summary>
-            <param name="FolderId"></param>
+            <param name="KeyValue"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GetTreeName(System.String)">
@@ -2288,6 +2374,7 @@
             获取构件名称
             </summary>
             <param name="KeyValue"></param>
+            <param name="TreeId"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.GetMemderUnit">
@@ -2308,13 +2395,345 @@
             审核需求
             </summary>
             <param name="KeyValue"></param>
+            <param name="IsReview"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SteelMember.Controllers.ProjectManagementController.SubmitProjectItemDemand(System.String,LeaRun.Data.Entity.RMC_ProjectDemand)">
             <summary>
             批量提交项目
             </summary>
-            <param name="TreeId"></param>
+            <param name="KeyValue"></param>
+            <param name="Entity"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel">
+            <summary>
+            领用分录
+            <author>
+            	<name>she</name>
+            	<date>2014.10.27 12:04</date>
+            </author>
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CollarMemberId">
+            <summary>
+            领用分录主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CollarId">
+            <summary>
+            领用主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.MemberID">
+            <summary>
+            构件主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.ProjectDemandId">
+            <summary>
+            需求主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CollarNumbering">
+            <summary>
+            批号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.MemberId">
+            <summary>
+            物料主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.MemberNumbering">
+            <summary>
+            物料代码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.MemberName">
+            <summary>
+            物料名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.MemberModel">
+            <summary>
+            物料型号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.MemberUnit">
+            <summary>
+            单位主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.Qty">
+            <summary>
+            数量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.Price">
+            <summary>
+            单价
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.PriceAmount">
+            <summary>
+            金额
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.PlusPrice">
+            <summary>
+            含税单价
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.PlusPriceAmount">
+            <summary>
+            含税金额
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CESS">
+            <summary>
+            税率(%)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CESSAmount">
+            <summary>
+            税额
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.Description">
+            <summary>
+            说明
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.SortCode">
+            <summary>
+            排序码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.DeleteMark">
+            <summary>
+            删除标记
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.CreateUserName">
+            <summary>
+            创建用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.ModifyDate">
+            <summary>
+            修改时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.ModifyUserId">
+            <summary>
+            修改用户主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.CollarModel.ModifyUserName">
+            <summary>
+            修改用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel">
+            <summary>
+            订单分录
+            <author>
+            	<name>she</name>
+            	<date>2014.10.27 12:04</date>
+            </author>
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.OrderMemberId">
+            <summary>
+            订单分录主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.OrderId">
+            <summary>
+            订单主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.MemberID">
+            <summary>
+            构件主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.ProjectDemandId">
+            <summary>
+            需求主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.OrderNumbering">
+            <summary>
+            批号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.MemberId">
+            <summary>
+            物料主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.MemberNumbering">
+            <summary>
+            物料代码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.MemberName">
+            <summary>
+            物料名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.MemberModel">
+            <summary>
+            物料型号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.MemberUnit">
+            <summary>
+            单位主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.Qty">
+            <summary>
+            数量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.Price">
+            <summary>
+            单价
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.PriceAmount">
+            <summary>
+            金额
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.PlusPrice">
+            <summary>
+            含税单价
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.PlusPriceAmount">
+            <summary>
+            含税金额
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.CESS">
+            <summary>
+            税率(%)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.CESSAmount">
+            <summary>
+            税额
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.Description">
+            <summary>
+            说明
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.SortCode">
+            <summary>
+            排序码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.DeleteMark">
+            <summary>
+            删除标记
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.CreateUserId">
+            <summary>
+            创建用户主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.CreateUserName">
+            <summary>
+            创建用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.ModifyDate">
+            <summary>
+            修改时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.ModifyUserId">
+            <summary>
+            修改用户主键
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Web.Areas.SteelMember.Models.OrderModel.ModifyUserName">
+            <summary>
+            修改用户
+            </summary>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Web.Areas.SystemManage.Controllers.AreaController">
@@ -2494,6 +2913,7 @@
             </summary>
             <param name="itemId">分类Id</param>
             <param name="keyword">关键字查询</param>
+            <param name="condition">关键字查询</param>
             <returns>返回树形列表Json</returns>
         </member>
         <member name="M:LeaRun.Application.Web.Areas.SystemManage.Controllers.DataItemDetailController.GetFormJson(System.String)">
@@ -2892,7 +3312,6 @@
             <summary>
             提交修改密码
             </summary>
-            <param name="userId">当前用户Id</param>
             <param name="password">新密码</param>
             <param name="oldPassword">旧密码</param>
             <param name="verifyCode">验证码</param>
@@ -2917,8 +3336,8 @@
             <summary>
             执行导出Excel
             </summary>
-            <param name="JsonColumn">表头</param>
-            <param name="JsonData">数据</param>
+            <param name="columnJson">表头</param>
+            <param name="rowJson">数据</param>
             <param name="exportField">导出字段</param>
             <param name="filename">文件名</param>
             <returns></returns>
@@ -2937,336 +3356,6 @@
             <summary>
             应用程序错误处理
             </summary>
-        </member>
-        <member name="T:LeaRun.Entity.CollarModel">
-            <summary>
-            领用分录
-            <author>
-            	<name>she</name>
-            	<date>2014.10.27 12:04</date>
-            </author>
-            </summary>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CollarMemberId">
-            <summary>
-            领用分录主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CollarId">
-            <summary>
-            领用主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.MemberID">
-            <summary>
-            构件主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.ProjectDemandId">
-            <summary>
-            需求主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CollarNumbering">
-            <summary>
-            批号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.MemberId">
-            <summary>
-            物料主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.MemberNumbering">
-            <summary>
-            物料代码
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.MemberName">
-            <summary>
-            物料名称
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.MemberModel">
-            <summary>
-            物料型号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.MemberUnit">
-            <summary>
-            单位主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.Qty">
-            <summary>
-            数量
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.Price">
-            <summary>
-            单价
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.PriceAmount">
-            <summary>
-            金额
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.PlusPrice">
-            <summary>
-            含税单价
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.PlusPriceAmount">
-            <summary>
-            含税金额
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CESS">
-            <summary>
-            税率(%)
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CESSAmount">
-            <summary>
-            税额
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.Description">
-            <summary>
-            说明
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.SortCode">
-            <summary>
-            排序码
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.DeleteMark">
-            <summary>
-            删除标记
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CreateTime">
-            <summary>
-            创建时间
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.CreateUserName">
-            <summary>
-            创建用户
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.ModifyDate">
-            <summary>
-            修改时间
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.CollarModel.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:LeaRun.Entity.OrderModel">
-            <summary>
-            订单分录
-            <author>
-            	<name>she</name>
-            	<date>2014.10.27 12:04</date>
-            </author>
-            </summary>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.OrderMemberId">
-            <summary>
-            订单分录主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.OrderId">
-            <summary>
-            订单主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.MemberID">
-            <summary>
-            构件主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.ProjectDemandId">
-            <summary>
-            需求主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.OrderNumbering">
-            <summary>
-            批号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.MemberId">
-            <summary>
-            物料主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.MemberNumbering">
-            <summary>
-            物料代码
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.MemberName">
-            <summary>
-            物料名称
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.MemberModel">
-            <summary>
-            物料型号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.MemberUnit">
-            <summary>
-            单位主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.Qty">
-            <summary>
-            数量
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.Price">
-            <summary>
-            单价
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.PriceAmount">
-            <summary>
-            金额
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.PlusPrice">
-            <summary>
-            含税单价
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.PlusPriceAmount">
-            <summary>
-            含税金额
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.CESS">
-            <summary>
-            税率(%)
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.CESSAmount">
-            <summary>
-            税额
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.Description">
-            <summary>
-            说明
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.SortCode">
-            <summary>
-            排序码
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.DeleteMark">
-            <summary>
-            删除标记
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.CreateTime">
-            <summary>
-            创建时间
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.CreateUserId">
-            <summary>
-            创建用户主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.CreateUserName">
-            <summary>
-            创建用户
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.ModifyDate">
-            <summary>
-            修改时间
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.ModifyUserId">
-            <summary>
-            修改用户主键
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Entity.OrderModel.ModifyUserName">
-            <summary>
-            修改用户
-            </summary>
-            <returns></returns>
         </member>
     </members>
 </doc>

@@ -63,7 +63,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// 部门列表 
         /// </summary>
         /// <param name="postId">岗位Id</param>
-        /// <param name="keyword">关键字</param>
         /// <returns>返回树形Json</returns>
         [HttpGet]
         public ActionResult GetDepartmentTreeJson(string postId)
