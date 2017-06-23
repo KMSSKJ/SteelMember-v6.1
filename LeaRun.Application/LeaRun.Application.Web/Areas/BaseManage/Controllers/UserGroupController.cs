@@ -94,7 +94,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         /// <summary>
         /// 组编号不能重复
         /// </summary>
-        /// <param name="enCode">编号</param>
+        /// <param name="EnCode">编号</param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
         [HttpGet]

@@ -295,6 +295,7 @@ namespace LeaRun.Application.Service.SystemManage
         /// <param name="userId">用户ID</param>
         /// <param name="moduleId">模块ID</param>
         /// <param name="enCode">模板编码</param>
+        /// <param name="db"></param>
         /// <returns>单据号</returns>
         public string SetBillCode(string userId, string moduleId, string enCode, IRepository db = null)
         {
@@ -471,6 +472,7 @@ namespace LeaRun.Application.Service.SystemManage
         /// <param name="userId">用户ID</param>
         /// <param name="moduleId">模块ID</param>
         /// <param name="enCode">模板编码</param>
+        /// <param name="db"></param>
         /// <returns>true/false</returns>
         public bool UseRuleSeed(string userId, string moduleId, string enCode, IRepository db = null)
         {

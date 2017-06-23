@@ -94,8 +94,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 【项目管理】返回文件（夹）列表JSON
         /// </summary>
-        /// <param name="keywords">文件名搜索条件</param>
-        /// <param name="FolderId">文件夹ID</param>
+        /// <param name="jqgridparam">分页条件</param>
+        /// <param name="TreeID">文件夹ID</param>
         /// <param name="IsPublic">是否公共 1-公共、0-我的</param>
         /// <returns></returns>         
         public ActionResult GridListJson(/*ProjectInfoViewModel model,*/ string TreeID, Pagination jqgridparam, string IsPublic)
@@ -217,7 +217,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 【项目信息管理】返回文件夹对象JSON
         /// </summary>
-        /// <param name="KeyValue">主键值</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
@@ -247,6 +246,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="TreeId">外键值</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
@@ -256,7 +256,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -282,8 +281,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.ModifiedTime = entity.ModifiedTime;
                     Oldentity.Description = entity.Description;
                     ProjectInfoCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                    //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
                 {
@@ -317,9 +314,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         Oldentity.ProjectAddress = entity.ProjectAddress;
                         Oldentity.Description = entity.Description;
                         ProjectInfoCurrent.Add(Oldentity);
-                        IsOk = 1;
                     }
-                    //this.WriteLog(IsOk, entity, null, KeyValue, Message);
                 }
                 return Success("操作成功。");
             }
@@ -335,7 +330,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 删除（销毁）文件
         /// </summary>
-        /// <param name="FolderId"></param>
+        /// <param name="KeyValue"></param>
         /// <returns></returns>
         public ActionResult DeleteProjectInfo(string KeyValue)
         {

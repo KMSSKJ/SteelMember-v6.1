@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SteelMember.Models
+namespace LeaRun.Application.Web.Areas.SteelMember.Models
 {
     public class QueryMemberModel
     {

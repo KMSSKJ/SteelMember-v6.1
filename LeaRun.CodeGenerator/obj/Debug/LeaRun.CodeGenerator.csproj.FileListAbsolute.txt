@@ -138,3 +138,4 @@ D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.pdb
 D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\Newtonsoft.Json.xml
 D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.dll
 D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.pdb
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.csprojResolveAssemblyReference.cache

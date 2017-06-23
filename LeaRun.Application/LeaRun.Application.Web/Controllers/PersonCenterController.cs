@@ -96,7 +96,6 @@ namespace LeaRun.Application.Web.Controllers
         /// <summary>
         /// 提交修改密码
         /// </summary>
-        /// <param name="userId">当前用户Id</param>
         /// <param name="password">新密码</param>
         /// <param name="oldPassword">旧密码</param>
         /// <param name="verifyCode">验证码</param>

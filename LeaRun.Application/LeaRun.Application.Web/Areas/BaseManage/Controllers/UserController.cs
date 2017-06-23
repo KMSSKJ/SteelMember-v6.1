@@ -232,7 +232,9 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         /// 保存用户表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="userEntity">用户实体</param>
+        /// <param name="strUserEntity">用户实体</param>
+        /// <param name="FormInstanceId">用户实体</param>
+        /// <param name="strModuleFormInstanceEntity">用户实体</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

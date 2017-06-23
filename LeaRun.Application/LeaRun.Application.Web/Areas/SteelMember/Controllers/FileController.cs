@@ -26,16 +26,20 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     using LeaRun.Util.Offices;
     using LeaRun.Application.Busines.BaseManage;
     using LeaRun.Application.Code;
-    using LeaRun.WebApp.Areas.SteelMember.Models;
+    using LeaRun.Application.Web.Areas.SteelMember.Models;
 
     public class FileController : MvcControllerBase
     {
 
         //public Base_ModuleBll Sys_modulebll = new Base_ModuleBll();
         //public Base_ButtonBll Sys_buttonbll = new Base_ButtonBll();
-
+  /// <summary>
+  /// 
+  /// </summary>
         public UserBLL userBLL = new UserBLL();
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Inject]
         public TreeIBLL TreeCurrent { get; set; }
         [Inject]
@@ -761,7 +765,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             int fileid = Convert.ToInt32(KeyValue);
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -769,16 +772,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.MemberName = entity.MemberName;//给旧实体重新赋值
                     Oldentity.ModifiedTime = DateTime.Now;
                     MemberLibraryCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                    //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
                 {
                     entity.IsProcess = 0;
                     entity.IsRawMaterial = 0;
                     MemberLibraryCurrent.Add(entity);
-                    IsOk = 1;
-                    //this.WriteLog(IsOk, entity, null, KeyValue, Message);
                 }
                 return Success(Message);
 
@@ -792,7 +791,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 删除（销毁）文件
         /// </summary>
-        /// <param name="FolderId"></param>
+        /// <param name="MemberID"></param>
         /// <returns></returns>
         public ActionResult DeleteFile(string MemberID)
         {
@@ -800,7 +799,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 int _MemberId = Convert.ToInt32(MemberID);
                 //删除构件
-                List<int> ids = new List<int>();
+                var ids = new List<int>();
                 ids.Add(_MemberId);
                 MemberLibraryCurrent.Remove(ids);
                 //
@@ -810,7 +809,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 var MemberMaterial = MemberMaterialCurrent.Find(f => f.MemberId == _MemberId).ToList();
                 if (MemberMaterial.Count() > 0)
                 {
-                    List<int> ids1 = new List<int>();
+                    var ids1 = new List<int>();
                     for (int i = 0; i < MemberMaterial.Count(); i++)
                     {
                         ids1.Add(Convert.ToInt32(MemberMaterial[i].MemberId));
@@ -854,12 +853,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// 【控制测量文档管理】返回文件（夹）列表JSON
+        /// 
         /// </summary>
-        /// <param name="keywords">文件名搜索条件</param>
-        /// <param name="FolderId">文件夹ID</param>
-        /// <param name="IsPublic">是否公共 1-公共、0-我的</param>
-        /// <returns></returns>         
+        /// <param name="model"></param>
+        /// <param name="TreeId"></param>
+        /// <param name="jqgridparam"></param>
+        /// <param name="IsPublic"></param>
+        /// <param name="ParameterJson"></param>
+        /// <returns></returns>
         public ActionResult GridListJson(FileViewModel model, string TreeId, Pagination jqgridparam, string IsPublic, string ParameterJson)
         {
             try
@@ -1305,12 +1306,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return View();
         }
 
-
-
         /// <summary>
         /// 上传文件
         /// </summary>
-        /// <param name="paths"></param>
+        /// <param name="KeyValue"></param>
+        /// <param name="Img"></param>
+        /// <param name="file"></param>
+        /// <param name="Filedata"></param>
         /// <returns></returns>
         public ActionResult SubmitUpLoadFile(string KeyValue, string Img, RMC_MemberLibrary file, HttpPostedFileBase Filedata)/*RMC_MemberLibrary File,  */
         {
@@ -1473,8 +1475,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
             }
         }
-
-        public bool exists(string[] _list)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_list"></param>
+        /// <returns></returns>
+        public bool Exists(string[] _list)
         {
             string _photo = Session["photo"].ToString();
 
@@ -1663,22 +1669,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         #endregion
 
         #region 编辑构件信息
-        [ValidateInput(false)]
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public virtual ActionResult MemberForm()
         {
             return View();
         }
-        [HttpPost]
-        [ValidateInput(false)]
-        //[LoginAuthorize]
-        public virtual ActionResult SetMemberForm(string KeyValue)
+       
+        [HttpGet]
+        public ActionResult SetMemberForm(string KeyValue)
         {
             int _KeyValue = Convert.ToInt32(KeyValue);
             RMC_MemberLibrary entity = MemberLibraryCurrent.Find(f => f.MemberID == _KeyValue).SingleOrDefault();
-            //string JsonData = entity.ToJson();
-            ////自定义
-            //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
-            
             return ToJsonResult(entity);
         }
         /// <summary>
@@ -1686,15 +1688,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="TreeId">主键值</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        //[LoginAuthorize]
         public virtual ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue, string TreeId)
         {
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -1756,8 +1757,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.MemberUnit = entity.MemberUnit;
                     Oldentity.UnitPrice = entity.UnitPrice;
                     MemberLibraryCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                             //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
                 {
@@ -1839,8 +1838,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     entitys.IsRawMaterial = 0;
                     entitys.IsProcess = 0;
                     MemberLibraryCurrent.Add(entitys);
-                    IsOk = 1;
-                    //this.WSectionalSize_r = entity.SectionalSize_r;riteLog(IsOk, entity, null, KeyValue, Message);
                 }
                 return Success(Message);
             }
@@ -2007,6 +2004,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 删除图纸
         /// </summary>
         /// <param name="KeyValue"></param>
+        /// <param name="CAD"></param>
+        /// <param name="Model"></param>
         /// <returns></returns>
         public ActionResult DelDrawing(string KeyValue, string CAD, string Model)
         {
@@ -2127,6 +2126,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="TreeId">主键值</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
@@ -2135,7 +2135,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -2145,8 +2144,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.MaterialNumber = entity.MaterialNumber;
                     Oldentity.Description = entity.Description;
                     MemberMaterialCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                             //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
                 {
@@ -2159,9 +2156,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         var Member = MemberLibraryCurrent.Find(f => f.MemberID == entity.MemberId).SingleOrDefault();
                         Member.IsRawMaterial = 1;
                         MemberLibraryCurrent.Modified(Member);
-
-                        IsOk = 1;
-
                     }
                     else
                     {
@@ -2202,6 +2196,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 获取原材料
         /// </summary>
         /// <param name="MaterialClassId"></param>
+        /// <param name="MemberId"></param>
         /// <returns></returns>
         public virtual ActionResult GetMaterialName(string MaterialClassId, string MemberId)
         {
@@ -2250,6 +2245,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 获取制程表
+        /// </summary>
+        /// <param name="KeyValue"></param>
+        /// <param name="jqgridparam"></param>
+        /// <returns></returns>
         public ActionResult GridListJsonMemberProcess(string KeyValue, Pagination jqgridparam)
         {
             int _KeyValue = Convert.ToInt32(KeyValue);
@@ -2282,7 +2284,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 };
                 return Content(JsonData.ToJson());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;
@@ -2322,12 +2324,21 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
         //    return Json(entity);
         //}
-        //表单
+
+        /// <summary>
+        /// 制程表单
+        /// </summary>
+        /// <returns></returns>
         public ActionResult MemberProcessForm()
         {
             return View();
         }
 
+        /// <summary>
+        ///获取制程表单
+        /// </summary>
+        /// <param name="KeyValue"></param>
+        /// <returns></returns>
         public ActionResult SetMemberProcessForm(string KeyValue)
         {
             int _KeyValue = Convert.ToInt32(KeyValue);
@@ -2337,20 +2348,20 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
             return Content(entity.ToJson());
         }
+
         /// <summary>
         /// 提交文件夹表单
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="OrderId">主键值</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        //[LoginAuthorize]
         public virtual ActionResult SubmitMemberProcessForm(RMC_MemberProcess entity, string KeyValue, string OrderId)
         {
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
 
                 if (!string.IsNullOrEmpty(KeyValue))
@@ -2364,13 +2375,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.ProcessMan = entity.ProcessMan;
                     Oldentity.Description = entity.Description;
                     MemberProcessCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                             //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
                 {
                     int MemberProcessId = MemberProcessCurrent.Add(entity).MemberProcessId;
-                    IsOk = 1;
 
                     int _OrderId = Convert.ToInt32(OrderId);
                     if (_OrderId != 0)
@@ -2397,6 +2405,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
         }
 
+        /// <summary>
+        /// 删除制程
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="KeyValue"></param>
+        /// <returns></returns>
         public virtual ActionResult DeleteMemberProcess(RMC_MemberLibrary entity, string KeyValue)
         {
 

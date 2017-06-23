@@ -41,7 +41,7 @@ namespace LeaRun.Application.Service.BaseManage
         /// <summary>
         /// 公司名称不能重复
         /// </summary>
-        /// <param name="organizeName">公司名称</param>
+        /// <param name="fullName">公司名称</param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
         public bool ExistFullName(string fullName, string keyValue)

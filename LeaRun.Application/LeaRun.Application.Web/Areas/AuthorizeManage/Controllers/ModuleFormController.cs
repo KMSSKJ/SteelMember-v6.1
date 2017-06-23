@@ -91,6 +91,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// 获取系统表单实体通过模块Id
         /// </summary>
         /// <param name="keyValue"></param>
+        /// <param name="objectId"></param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult GetEntityJsonByModuleId(string keyValue, string objectId)

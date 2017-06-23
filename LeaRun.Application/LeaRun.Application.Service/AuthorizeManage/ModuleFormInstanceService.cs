@@ -23,7 +23,7 @@ namespace LeaRun.Application.Service.AuthorizeManage
         /// <summary>
         /// 获取一个实体类
         /// </summary>
-        /// <param name="keyValue"></param>
+        /// <param name="objectId"></param>
         /// <returns></returns>
         public ModuleFormInstanceEntity GetEntityByObjectId(string objectId)
         {

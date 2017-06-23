@@ -207,8 +207,8 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="moduleEntity">功能实体</param>
-        /// <param name="moduleButtonList">按钮实体列表</param>
-        /// <param name="moduleColumnList">视图实体列表</param>
+        /// <param name="moduleButtonListJson">按钮实体列表</param>
+        /// <param name="moduleColumnListJson">视图实体列表</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

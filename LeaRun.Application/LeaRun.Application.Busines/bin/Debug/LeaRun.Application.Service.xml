@@ -40,7 +40,7 @@
             </summary>
             <param name="platform">平台（苹果、安卓、PC浏览器）</param>
             <param name="account">账户</param>
-            <param name="IPAddress">IP地址</param>
+            <param name="iPAddress">IP地址</param>
             <param name="iPAddressName">IP所在城市</param>
         </member>
         <member name="T:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1">
@@ -51,6 +51,66 @@
             日 期：2016.03.29 22:35
             描 述：授权认证
             </summary>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.IQueryable">
+            <summary>
+            查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.IQueryable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            查询
+            </summary>
+            <param name="condition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="condition"></param>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <param name="dbParameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String,LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String,System.Data.Common.DbParameter[],LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <param name="dbParameter"></param>
+            <param name="pagination"></param>
+            <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Service.AuthorizeManage.AuthorizeService">
             <summary>
@@ -125,7 +185,7 @@
             <summary>
             获取一个实体类
             </summary>
-            <param name="keyValue"></param>
+            <param name="objectId"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Service.AuthorizeManage.ModuleFormInstanceService.SaveEntity(System.String,LeaRun.Application.Entity.AuthorizeManage.ModuleFormInstanceEntity)">
@@ -591,7 +651,7 @@
             设置邮件星标/取消星标
             </summary>
             <param name="keyValue">主键</param>
-            <param name="asterisk">星标：0-取消星标1-星标</param>
+            <param name="sterisk">星标：0-取消星标1-星标</param>
         </member>
         <member name="T:LeaRun.Application.Service.PublicInfoManage.NewsService">
             <summary>
@@ -710,7 +770,7 @@
             保存区域表单（新增、修改）
             </summary>
             <param name="keyValue">主键值</param>
-            <param name="{{">区域实体</param>
+            <param name="areaEntity">区域实体</param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Service.SystemManage.CodeRuleService">
@@ -783,6 +843,7 @@
             <param name="userId">用户ID</param>
             <param name="moduleId">模块ID</param>
             <param name="enCode">模板编码</param>
+            <param name="db"></param>
             <returns>单据号</returns>
         </member>
         <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.UseRuleSeed(System.String,System.String,System.String,LeaRun.Data.Repository.IRepository)">
@@ -792,6 +853,7 @@
             <param name="userId">用户ID</param>
             <param name="moduleId">模块ID</param>
             <param name="enCode">模板编码</param>
+            <param name="db"></param>
             <returns>true/false</returns>
         </member>
         <member name="T:LeaRun.Application.Service.SystemManage.DataItemDetailService">
@@ -1110,7 +1172,7 @@
             <summary>
             添加视图
             </summary>
-            <param name="moduleButtonEntity">视图实体</param>
+            <param name="moduleColumnEntity">视图实体</param>
         </member>
         <member name="T:LeaRun.Application.Service.BaseManage.ModuleService">
             <summary>
@@ -1192,7 +1254,7 @@
             <summary>
             获取对象列表
             </summary>
-            <param name="UserId"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Service.BaseManage.PermissionService.GetModuleList(System.String)">
@@ -1320,7 +1382,7 @@
             <summary>
             公司名称不能重复
             </summary>
-            <param name="organizeName">公司名称</param>
+            <param name="fullName">公司名称</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>

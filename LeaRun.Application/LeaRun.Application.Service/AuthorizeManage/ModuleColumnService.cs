@@ -51,7 +51,7 @@ namespace LeaRun.Application.Service.BaseManage
         /// <summary>
         /// 添加视图
         /// </summary>
-        /// <param name="moduleButtonEntity">视图实体</param>
+        /// <param name="moduleColumnEntity">视图实体</param>
         public void AddEntity(ModuleColumnEntity moduleColumnEntity)
         {
             moduleColumnEntity.Create();

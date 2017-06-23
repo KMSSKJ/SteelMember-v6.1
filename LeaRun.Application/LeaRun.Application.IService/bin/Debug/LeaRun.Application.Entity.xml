@@ -1000,6 +1000,11 @@
             </summary>
             <param name="keyValue"></param>
         </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMGroupModel">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:LeaRun.Application.Entity.MessageManage.IMGroupModel.GroupId">
             <summary>
             群组Id
@@ -1119,6 +1124,11 @@
             消息时间
             </summary>
         </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMReadNumModel">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:LeaRun.Application.Entity.MessageManage.IMReadNumModel.SendId">
             <summary>
             消息发送者
@@ -1188,6 +1198,11 @@
             编辑调用
             </summary>
             <param name="keyValue"></param>
+        </member>
+        <member name="T:LeaRun.Application.Entity.MessageManage.IMUserModel">
+            <summary>
+            
+            </summary>
         </member>
         <member name="P:LeaRun.Application.Entity.MessageManage.IMUserModel.UserId">
             <summary>

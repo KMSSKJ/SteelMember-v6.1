@@ -1,6 +1,9 @@
 ﻿
 namespace LeaRun.Application.Entity.MessageManage
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class IMUserModel
     {
         #region 实体成员
