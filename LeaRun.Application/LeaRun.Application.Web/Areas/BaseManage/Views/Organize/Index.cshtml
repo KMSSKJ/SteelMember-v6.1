@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "组织机构";
+    ViewBag.Title = "单位管理";
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 <script>
@@ -29,10 +29,10 @@
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'OrganizeId', hidden: true },
-                { label: "公司名称", name: "FullName", width: 300, align: "left", sortable: false },
-                { label: "外文名称", name: "EnCode", width: 150, align: "left", sortable: false },
-                { label: "中文名称", name: "ShortName", width: 150, align: "left", sortable: false },
-                { label: "公司性质", name: "Nature", width: 100, align: "left", sortable: false },
+                { label: "单位名称", name: "FullName", width: 300, align: "left", sortable: false },
+                //{ label: "外文名称", name: "EnCode", width: 150, align: "left", sortable: false },
+                //{ label: "中文名称", name: "ShortName", width: 150, align: "left", sortable: false },
+                { label: "单位性质", name: "Nature", width: 100, align: "left", sortable: false },
                 {
                     label: "成立时间", name: "FoundedTime", width: 100, align: "left", sortable: false,
                     formatter: function (cellvalue, options, rowObject) {
@@ -83,10 +83,10 @@
         var ParentId = $("#gridTable").jqGridRowValue("OrganizeId");
         dialogOpen({
             id: "Form",
-            title: '添加机构',
+            title: '添加单位',
             url: '/BaseManage/Organize/Form?ParentId=' + ParentId,
             width: "750px",
-            height: "500px",
+            height: "470px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -98,10 +98,10 @@
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "Form",
-                title: '修改机构',
+                title: '修改单位',
                 url: '/BaseManage/Organize/Form?keyValue=' + keyValue,
                 width: "750px",
-                height: "500px",
+                height: "470px",
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
@@ -135,9 +135,9 @@
                         <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a data-value="FullName">公司名称</a></li>
-                            <li><a data-value="EnCode">外文名称</a></li>
-                            <li><a data-value="ShortName">中文名称</a></li>
+                            <li><a data-value="FullName">单位名称</a></li>
+                            @*<li><a data-value="EnCode">外文名称</a></li>
+                            <li><a data-value="ShortName">中文名称</a></li>*@
                             <li><a data-value="Manager">负责人</a></li>
                         </ul>
                     </div>

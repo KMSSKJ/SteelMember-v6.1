@@ -10,7 +10,7 @@
     })
     //初始化控件
     function initControl() {
-        //所在公司
+        //所属单位
         $("#OrganizeId").ComboBoxTree({
             url: "../../BaseManage/Organize/GetTreeJson",
             description: "==请选择==",
@@ -46,7 +46,7 @@
 <div style="margin-left: 10px; margin-top: 20px; margin-right: 30px;">
     <table class="form">
         <tr>
-            <th class="formTitle">所在公司<font face="宋体">*</font></th>
+            <th class="formTitle">所属单位<font face="宋体">*</font></th>
             <td class="formValue">
                 <div id="OrganizeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull">
                 </div>
