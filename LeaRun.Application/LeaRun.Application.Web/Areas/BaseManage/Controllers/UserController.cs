@@ -228,6 +228,15 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
                 throw new Exception("当前账户不能删除");
             }
             userBLL.RemoveForm(keyValue);
+            var user = userBLL.GetEntity(keyValue);
+            if (user.HeadIcon != "" || user.HeadIcon != null)
+            {
+                var _path = Server.MapPath("~" + user.HeadIcon);
+                if (System.IO.File.Exists(_path))
+                {
+                    System.IO.File.Delete(_path);
+                }
+            }
             return Success("删除成功。");
         }
         /// <summary>
