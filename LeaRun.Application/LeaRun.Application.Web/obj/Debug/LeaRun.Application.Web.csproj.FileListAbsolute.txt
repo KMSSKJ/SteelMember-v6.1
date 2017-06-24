@@ -1579,6 +1579,7 @@ D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\zh-Ha
 D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.csprojResolveAssemblyReference.cache
 D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.dll
 D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.pdb
+D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Mapping.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Web.dll.config
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Web.XML
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Web.dll
@@ -1590,7 +1591,6 @@ D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Cache.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Code.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Entity.dll
-D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Mapping.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Repository.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Cache.Factory.dll
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Cache.Redis.dll

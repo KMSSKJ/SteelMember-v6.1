@@ -44,11 +44,11 @@
                     <div style="float:left">
                         @if (ViewData["prjLogo"].ToString() != "" || ViewData["prjLogo"].ToString() != "null")
                         {
-                            <img style="height:40px;width:65px;margin-top:-5px;border-radius:8px;" src="~/Content/images/login/SSKJ_Logo.jpg" />
-                            @*<img style="height:40px;width:65px;margin-top:-5px;border-radius:8px;" src=@ViewData["prjLogo"].ToString() />*@
+                            @*<img style="height:35px;width:65px;margin-top:-2px;border-radius:8px;" src="~/Content/images/login/SSKJ_Logo.jpg" />*@
+                            <img style="height:35px;width:65px;margin-top:-2px;border-radius:8px;" src=@ViewData["prjLogo"].ToString() />
                         }
                     </div>
-                    <div style="float:right;font-size: 21px;margin-left: 10px;color: aliceblue">
+                    <div style="float:right;font-size: 21px;margin-left: 15px;color: aliceblue">
                         @if (ViewData["prjName"].ToString() != "" || ViewData["prjName"].ToString() != "null")
                         {
                             @ViewData["prjName"].ToString()
