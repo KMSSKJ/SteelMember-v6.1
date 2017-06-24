@@ -13,8 +13,6 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.17 9:56
     /// 描 述：数据字典明细
     /// </summary>
@@ -62,6 +60,7 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
         /// </summary>
         /// <param name="itemId">分类Id</param>
         /// <param name="keyword">关键字查询</param>
+        /// <param name="condition">关键字查询</param>
         /// <returns>返回树形列表Json</returns>
         [HttpGet]
         public ActionResult GetTreeListJson(string itemId, string condition, string keyword)

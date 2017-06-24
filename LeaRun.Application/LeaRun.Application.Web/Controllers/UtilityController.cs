@@ -12,8 +12,6 @@ namespace LeaRun.Application.Web.Controllers
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2016.2.03 10:58
     /// 描 述：公共控制器
     /// </summary>
@@ -34,8 +32,8 @@ namespace LeaRun.Application.Web.Controllers
         /// <summary>
         /// 执行导出Excel
         /// </summary>
-        /// <param name="JsonColumn">表头</param>
-        /// <param name="JsonData">数据</param>
+        /// <param name="columnJson">表头</param>
+        /// <param name="rowJson">数据</param>
         /// <param name="exportField">导出字段</param>
         /// <param name="filename">文件名</param>
         /// <returns></returns>

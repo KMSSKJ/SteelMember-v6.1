@@ -12,8 +12,6 @@ namespace LeaRun.Application.Web.Controllers
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.03 10:58
     /// 描 述：个人中心
     /// </summary>
@@ -53,15 +51,29 @@ namespace LeaRun.Application.Web.Controllers
         /// <returns></returns>
         public ActionResult UploadFile()
         {
+            string UserId = OperatorProvider.Provider.Current().UserId;
+
             HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
             //没有文件上传，直接返回
             if (files[0].ContentLength == 0 || string.IsNullOrEmpty(files[0].FileName))
             {
                 return HttpNotFound();
             }
+
+            var user = userBLL.GetEntity(UserId);
+            if (user.HeadIcon != "" || user.HeadIcon != null)
+            {
+                var _path = Server.MapPath("~" + user.HeadIcon);
+                if (System.IO.File.Exists(_path))
+                {
+                    System.IO.File.Delete(_path);
+                }
+            }
+
+            Guid code = GuidComb.GenerateComb();
             string FileEextension = Path.GetExtension(files[0].FileName);
-            string UserId = OperatorProvider.Provider.Current().UserId;
-            string virtualPath = string.Format("/Resource/PhotoFile/{0}{1}", UserId, FileEextension);
+
+            string virtualPath = string.Format("/Resource/PhotoFile/{0}{1}", code, FileEextension);
             string fullFileName = Server.MapPath("~" + virtualPath);
             //创建文件夹，保存文件
             string path = Path.GetDirectoryName(fullFileName);
@@ -96,7 +108,6 @@ namespace LeaRun.Application.Web.Controllers
         /// <summary>
         /// 提交修改密码
         /// </summary>
-        /// <param name="userId">当前用户Id</param>
         /// <param name="password">新密码</param>
         /// <param name="oldPassword">旧密码</param>
         /// <param name="verifyCode">验证码</param>

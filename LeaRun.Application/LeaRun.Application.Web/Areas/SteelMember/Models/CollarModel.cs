@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LeaRun.Entity
+namespace LeaRun.Application.Web.Areas.SteelMember.Models
 {
     /// <summary>
     /// ¡Ï”√∑÷¬º

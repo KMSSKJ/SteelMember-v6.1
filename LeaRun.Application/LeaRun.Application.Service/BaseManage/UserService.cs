@@ -19,8 +19,6 @@ namespace LeaRun.Application.Service.BaseManage
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.03 10:58
     /// 描 述：用户管理
     /// </summary>

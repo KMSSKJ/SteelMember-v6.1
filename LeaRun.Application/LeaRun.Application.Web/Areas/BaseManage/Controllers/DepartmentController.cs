@@ -12,8 +12,6 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.02 14:27
     /// 描 述：部门管理
     /// </summary>
@@ -91,51 +89,51 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             {
                 #region 机构
                 TreeEntity tree = new TreeEntity();
-                bool hasChildren = organizedata.Count(t => t.ParentId == item.OrganizeId) == 0 ? false : true;
-                if (hasChildren == false)
-                {
-                    hasChildren = departmentdata.Count(t => t.OrganizeId == item.OrganizeId) == 0 ? false : true;
-                    if (hasChildren == false)
-                    {
-                        continue;
-                    }
-                }
+                //bool hasChildren = organizedata.Count(t => t.ParentId == item.OrganizeId) == 0 ? false : true;
+                //if (hasChildren == false)
+                //{
+                //    hasChildren = departmentdata.Count(t => t.OrganizeId == item.OrganizeId) == 0 ? false : true;
+                //    if (hasChildren == false)
+                //    {
+                //        continue;
+                //    }
+                //}
                 tree.id = item.OrganizeId;
                 tree.text = item.FullName;
                 tree.value = item.OrganizeId;
                 tree.parentId = item.ParentId;
                 tree.isexpand = true;
                 tree.complete = true;
-                tree.hasChildren = hasChildren;
+                tree.hasChildren = false;
                 tree.Attribute = "Sort";
                 tree.AttributeValue = "Organize";
                 treeList.Add(tree);
                 #endregion
             }
-            foreach (DepartmentEntity item in departmentdata)
-            {
-                #region 部门
-                TreeEntity tree = new TreeEntity();
-                bool hasChildren = departmentdata.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
-                tree.id = item.DepartmentId;
-                tree.text = item.FullName;
-                tree.value = item.DepartmentId;
-                if (item.ParentId == "0")
-                {
-                    tree.parentId = item.OrganizeId;
-                }
-                else
-                {
-                    tree.parentId = item.ParentId;
-                }
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = hasChildren;
-                tree.Attribute = "Sort";
-                tree.AttributeValue = "Department";
-                treeList.Add(tree);
-                #endregion
-            }
+            //foreach (DepartmentEntity item in departmentdata)
+            //{
+            //    #region 部门
+            //    TreeEntity tree = new TreeEntity();
+            //    bool hasChildren = departmentdata.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
+            //    tree.id = item.DepartmentId;
+            //    tree.text = item.FullName;
+            //    tree.value = item.DepartmentId;
+            //    if (item.ParentId == "0")
+            //    {
+            //        tree.parentId = item.OrganizeId;
+            //    }
+            //    else
+            //    {
+            //        tree.parentId = item.ParentId;
+            //    }
+            //    tree.isexpand = true;
+            //    tree.complete = true;
+            //    tree.hasChildren = hasChildren;
+            //    tree.Attribute = "Sort";
+            //    tree.AttributeValue = "Department";
+            //    treeList.Add(tree);
+            //    #endregion
+            //}
             if (!string.IsNullOrEmpty(keyword))
             {
                 treeList = treeList.TreeWhere(t => t.text.Contains(keyword), "id", "parentId");
@@ -244,7 +242,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         /// <summary>
         /// 部门编号不能重复
         /// </summary>
-        /// <param name="enCode">编号</param>
+        /// <param name="EnCode">编号</param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
         [HttpGet]

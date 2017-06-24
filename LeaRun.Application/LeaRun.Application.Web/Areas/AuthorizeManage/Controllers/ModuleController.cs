@@ -11,8 +11,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.10.27 09:16
     /// 描 述：系统功能
     /// </summary>
@@ -207,8 +205,8 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="moduleEntity">功能实体</param>
-        /// <param name="moduleButtonList">按钮实体列表</param>
-        /// <param name="moduleColumnList">视图实体列表</param>
+        /// <param name="moduleButtonListJson">按钮实体列表</param>
+        /// <param name="moduleColumnListJson">视图实体列表</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

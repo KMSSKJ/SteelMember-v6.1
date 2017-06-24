@@ -7,8 +7,6 @@
         <member name="T:LeaRun.Application.Service.AccountService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2016.05.11 16:23
             描 述：注册账户
             </summary>
@@ -40,23 +38,79 @@
             </summary>
             <param name="platform">平台（苹果、安卓、PC浏览器）</param>
             <param name="account">账户</param>
-            <param name="IPAddress">IP地址</param>
+            <param name="iPAddress">IP地址</param>
             <param name="iPAddressName">IP所在城市</param>
         </member>
         <member name="T:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：刘晓雷
             日 期：2016.03.29 22:35
             描 述：授权认证
             </summary>
         </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.IQueryable">
+            <summary>
+            查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.IQueryable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            查询
+            </summary>
+            <param name="condition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="condition"></param>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <param name="dbParameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String,LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1.FindList(System.String,System.Data.Common.DbParameter[],LeaRun.Util.WebControl.Pagination)">
+            <summary>
+            查询返回List
+            </summary>
+            <param name="strSql"></param>
+            <param name="dbParameter"></param>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
         <member name="T:LeaRun.Application.Service.AuthorizeManage.AuthorizeService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.5 22:35
             描 述：授权认证
             </summary>
@@ -115,8 +169,6 @@
         <member name="T:LeaRun.Application.Service.AuthorizeManage.ModuleFormInstanceService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：陈彬彬
             日 期：2016.04.14 09:16
             描 述：系统表单实例
             </summary>
@@ -125,7 +177,7 @@
             <summary>
             获取一个实体类
             </summary>
-            <param name="keyValue"></param>
+            <param name="objectId"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Service.AuthorizeManage.ModuleFormInstanceService.SaveEntity(System.String,LeaRun.Application.Entity.AuthorizeManage.ModuleFormInstanceEntity)">
@@ -139,8 +191,6 @@
         <member name="T:LeaRun.Application.Service.AuthorizeManage.ModuleFormService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：陈彬彬
             日 期：2016.04.14 09:16
             描 述：系统表单
             </summary>
@@ -193,8 +243,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.ScheduleService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创 建：佘赐雄
             日 期：2016-04-25 10:45
             描 述：日程管理
             </summary>
@@ -230,8 +278,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.FileFolderService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.15 10:56
             描 述：文件夹
             </summary>
@@ -286,8 +332,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.FileInfoService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.15 10:56
             描 述：文件信息
             </summary>
@@ -378,8 +422,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.EmailCategoryService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.8 11:31
             描 述：邮件分类
             </summary>
@@ -415,8 +457,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.EmailContentService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.8 11:31
             描 述：邮件内容
             </summary>
@@ -591,13 +631,11 @@
             设置邮件星标/取消星标
             </summary>
             <param name="keyValue">主键</param>
-            <param name="asterisk">星标：0-取消星标1-星标</param>
+            <param name="sterisk">星标：0-取消星标1-星标</param>
         </member>
         <member name="T:LeaRun.Application.Service.PublicInfoManage.NewsService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.7 16:40
             描 述：新闻中心
             </summary>
@@ -634,8 +672,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.NoticeService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.7 16:40
             描 述：电子公告
             </summary>
@@ -672,8 +708,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.AreaService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.12 16:40
             描 述：区域管理
             </summary>
@@ -710,14 +744,12 @@
             保存区域表单（新增、修改）
             </summary>
             <param name="keyValue">主键值</param>
-            <param name="{{">区域实体</param>
+            <param name="areaEntity">区域实体</param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Service.SystemManage.CodeRuleService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.21 16:19
             描 述：编号规则
             </summary>
@@ -783,6 +815,7 @@
             <param name="userId">用户ID</param>
             <param name="moduleId">模块ID</param>
             <param name="enCode">模板编码</param>
+            <param name="db"></param>
             <returns>单据号</returns>
         </member>
         <member name="M:LeaRun.Application.Service.SystemManage.CodeRuleService.UseRuleSeed(System.String,System.String,System.String,LeaRun.Data.Repository.IRepository)">
@@ -792,13 +825,12 @@
             <param name="userId">用户ID</param>
             <param name="moduleId">模块ID</param>
             <param name="enCode">模板编码</param>
+            <param name="db"></param>
             <returns>true/false</returns>
         </member>
         <member name="T:LeaRun.Application.Service.SystemManage.DataItemDetailService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.17 9:56
             描 述：数据字典明细
             </summary>
@@ -858,8 +890,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.DataItemService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.17 9:56
             描 述：数据字典分类
             </summary>
@@ -917,8 +947,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.LogService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2016.1.8 9:56
             描 述：系统日志
             </summary>
@@ -954,8 +982,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.FilterIPService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.20 13:32
             描 述：过滤IP
             </summary>
@@ -1000,8 +1026,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.FilterTimeService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.20 13:32
             描 述：过滤时段
             </summary>
@@ -1045,8 +1069,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.ModuleButtonService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.08.01 14:00
             描 述：系统按钮
             </summary>
@@ -1080,8 +1102,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.ModuleColumnService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.10.29 15:13
             描 述：系统视图
             </summary>
@@ -1110,13 +1130,11 @@
             <summary>
             添加视图
             </summary>
-            <param name="moduleButtonEntity">视图实体</param>
+            <param name="moduleColumnEntity">视图实体</param>
         </member>
         <member name="T:LeaRun.Application.Service.BaseManage.ModuleService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.10.27 09:16
             描 述：系统功能
             </summary>
@@ -1175,8 +1193,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.PermissionService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.5 22:35
             描 述：权限配置管理（角色、岗位、职位、用户组、用户）
             </summary>
@@ -1192,7 +1208,7 @@
             <summary>
             获取对象列表
             </summary>
-            <param name="UserId"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:LeaRun.Application.Service.BaseManage.PermissionService.GetModuleList(System.String)">
@@ -1245,8 +1261,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.DepartmentService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.02 14:27
             描 述：部门管理
             </summary>
@@ -1297,8 +1311,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.OrganizeService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.02 14:27
             描 述：机构管理
             </summary>
@@ -1320,7 +1332,7 @@
             <summary>
             公司名称不能重复
             </summary>
-            <param name="organizeName">公司名称</param>
+            <param name="fullName">公司名称</param>
             <param name="keyValue">主键</param>
             <returns></returns>
         </member>
@@ -1357,8 +1369,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.RoleService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：角色管理
             </summary>
@@ -1423,8 +1433,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.UserService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.03 10:58
             描 述：用户管理
             </summary>
@@ -1520,8 +1528,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.PostService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：岗位管理
             </summary>
@@ -1586,8 +1592,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.JobService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：职位管理
             </summary>
@@ -1646,8 +1650,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.UserGroupService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：用户组管理
             </summary>

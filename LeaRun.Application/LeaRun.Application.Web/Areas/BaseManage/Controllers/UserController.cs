@@ -9,15 +9,15 @@ using LeaRun.Util.WebControl;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.03 10:58
     /// 描 述：用户管理
     /// </summary>
@@ -226,28 +226,83 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
                 throw new Exception("当前账户不能删除");
             }
             userBLL.RemoveForm(keyValue);
+            var user = userBLL.GetEntity(keyValue);
+            if (user.HeadIcon != "" || user.HeadIcon != null)
+            {
+                var _path = Server.MapPath("~" + user.HeadIcon);
+                if (System.IO.File.Exists(_path))
+                {
+                    System.IO.File.Delete(_path);
+                }
+            }
             return Success("删除成功。");
         }
         /// <summary>
         /// 保存用户表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="userEntity">用户实体</param>
+        /// <param name="strUserEntity">用户实体</param>
+        /// <param name="FormInstanceId">用户实体</param>
+        /// <param name="strModuleFormInstanceEntity">用户实体</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, string strUserEntity, string FormInstanceId, string strModuleFormInstanceEntity)
+        public ActionResult SaveForm(string keyValue, string strUserEntity,string FormInstanceId, string strModuleFormInstanceEntity)
         {
             UserEntity userEntity = strUserEntity.ToObject<UserEntity>();
             ModuleFormInstanceEntity moduleFormInstanceEntity = strModuleFormInstanceEntity.ToObject<ModuleFormInstanceEntity>();
-                
 
-            string objectId =  userBLL.SaveForm(keyValue, userEntity);
+
+            string objectId = userBLL.SaveForm(keyValue, userEntity);
             moduleFormInstanceEntity.ObjectId = objectId;
             moduleFormInstanceBll.SaveEntity(FormInstanceId, moduleFormInstanceEntity);
             return Success("操作成功。");
         }
+
+        /// <summary>
+        /// 上传/修改头像
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UploadFile(string id = "")
+        {
+            HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
+            //没有文件上传，直接返回
+            if (files[0].ContentLength == 0 || string.IsNullOrEmpty(files[0].FileName))
+            {
+                return HttpNotFound();
+            }
+            if (id != "")
+            {
+                var user = userBLL.GetEntity(id);
+                if (user.HeadIcon != "" || user.HeadIcon != null)
+                {
+                    var _path = Server.MapPath("~" + user.HeadIcon);
+                    if (System.IO.File.Exists(_path))
+                    {
+                        System.IO.File.Delete(_path);
+                    }
+                }
+            }
+
+
+            Guid code = GuidComb.GenerateComb();
+            string FileEextension = Path.GetExtension(files[0].FileName);
+
+            string virtualPath = string.Format("/Resource/PhotoFile/{0}{1}", code, FileEextension);
+            string fullFileName = Server.MapPath("~" + virtualPath);
+            //创建文件夹，保存文件
+            string path = Path.GetDirectoryName(fullFileName);
+            Directory.CreateDirectory(path);
+            files[0].SaveAs(fullFileName);
+
+            //UserEntity userEntity = new UserEntity();
+            //userEntity.UserId = OperatorProvider.Provider.Current().UserId;
+            //userEntity.HeadIcon = virtualPath;
+            //userBLL.SaveForm(userEntity.UserId, userEntity);
+            return Success(virtualPath);
+        }
+
         /// <summary>
         /// 保存重置修改密码
         /// </summary>

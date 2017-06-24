@@ -15,8 +15,6 @@ namespace LeaRun.Application.Web.Areas.PublicInfoManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.12.15 10:56
     /// 描 述：文件管理
     /// </summary>
@@ -300,7 +298,7 @@ namespace LeaRun.Application.Web.Areas.PublicInfoManage.Controllers
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="moveFolderId">要移动文件夹Id</param>
-        /// <param name="FileType">文件类型</param>
+        /// <param name="fileType">文件类型</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -350,7 +348,6 @@ namespace LeaRun.Application.Web.Areas.PublicInfoManage.Controllers
         /// 上传文件
         /// </summary>
         /// <param name="folderId">文件夹Id</param>
-        /// <param name="userId">用户Id</param>
         /// <param name="Filedata">文件对象</param>
         /// <returns></returns>
         [HttpPost]
@@ -409,7 +406,7 @@ namespace LeaRun.Application.Web.Areas.PublicInfoManage.Controllers
         /// <summary>
         /// 下载文件
         /// </summary>
-        /// <param name="KeyValue">主键</param>
+        /// <param name="keyValue">主键</param>
         /// <returns></returns>
         [HttpPost]
         [HandlerAuthorize(PermissionMode.Enforce)]

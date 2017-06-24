@@ -13,8 +13,6 @@ namespace LeaRun.Application.Service.SystemManage
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.12.21 16:19
     /// 描 述：编号规则
     /// </summary>
@@ -295,6 +293,7 @@ namespace LeaRun.Application.Service.SystemManage
         /// <param name="userId">用户ID</param>
         /// <param name="moduleId">模块ID</param>
         /// <param name="enCode">模板编码</param>
+        /// <param name="db"></param>
         /// <returns>单据号</returns>
         public string SetBillCode(string userId, string moduleId, string enCode, IRepository db = null)
         {
@@ -471,6 +470,7 @@ namespace LeaRun.Application.Service.SystemManage
         /// <param name="userId">用户ID</param>
         /// <param name="moduleId">模块ID</param>
         /// <param name="enCode">模板编码</param>
+        /// <param name="db"></param>
         /// <returns>true/false</returns>
         public bool UseRuleSeed(string userId, string moduleId, string enCode, IRepository db = null)
         {

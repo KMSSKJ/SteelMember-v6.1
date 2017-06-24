@@ -13,8 +13,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：陈彬彬
     /// 日 期：2016.04.14 09:16
     /// 描 述：系统表单
     /// </summary>
@@ -91,6 +89,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// 获取系统表单实体通过模块Id
         /// </summary>
         /// <param name="keyValue"></param>
+        /// <param name="objectId"></param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult GetEntityJsonByModuleId(string keyValue, string objectId)

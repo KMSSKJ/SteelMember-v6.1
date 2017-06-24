@@ -9,8 +9,6 @@ namespace LeaRun.Application.Service.SystemManage
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.12 16:40
     /// 描 述：区域管理
     /// </summary>
@@ -69,7 +67,7 @@ namespace LeaRun.Application.Service.SystemManage
         /// 保存区域表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="{">区域实体</param>
+        /// <param name="areaEntity">区域实体</param>
         /// <returns></returns>
         public void SaveForm(string keyValue, AreaEntity areaEntity)
         {

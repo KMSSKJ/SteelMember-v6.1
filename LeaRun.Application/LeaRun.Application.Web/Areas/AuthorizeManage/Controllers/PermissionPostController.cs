@@ -17,8 +17,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.8 22:35
     /// 描 述：岗位权限
     /// </summary>
@@ -63,7 +61,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// 部门列表 
         /// </summary>
         /// <param name="postId">岗位Id</param>
-        /// <param name="keyword">关键字</param>
         /// <returns>返回树形Json</returns>
         [HttpGet]
         public ActionResult GetDepartmentTreeJson(string postId)

@@ -180,3 +180,17 @@ D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceSt
 D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csprojResolveAssemblyReference.cache
 D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.dll
 D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.pdb
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.Redis.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.Redis.pdb
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Common.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Interfaces.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Redis.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.pdb
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Common.xml
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Redis.xml
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.xml
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csprojResolveAssemblyReference.cache
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.pdb

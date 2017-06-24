@@ -9,8 +9,6 @@ namespace LeaRun.Application.Service.BaseManage
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.10.29 15:13
     /// 描 述：系统视图
     /// </summary>
@@ -51,7 +49,7 @@ namespace LeaRun.Application.Service.BaseManage
         /// <summary>
         /// 添加视图
         /// </summary>
-        /// <param name="moduleButtonEntity">视图实体</param>
+        /// <param name="moduleColumnEntity">视图实体</param>
         public void AddEntity(ModuleColumnEntity moduleColumnEntity)
         {
             moduleColumnEntity.Create();

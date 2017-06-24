@@ -12,8 +12,6 @@ namespace LeaRun.Application.Service
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2016.05.11 16:23
     /// 描 述：注册账户
     /// </summary>
@@ -88,7 +86,7 @@ namespace LeaRun.Application.Service
         /// </summary>
         /// <param name="platform">平台（苹果、安卓、PC浏览器）</param>
         /// <param name="account">账户</param>
-        /// <param name="IPAddress">IP地址</param>
+        /// <param name="iPAddress">IP地址</param>
         /// <param name="iPAddressName">IP所在城市</param>
         public void LoginLimit(string platform, string account, string iPAddress, string iPAddressName)
         {

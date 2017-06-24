@@ -7,8 +7,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.20 13:32
     /// 描 述：过滤时段
     /// </summary>
@@ -81,8 +79,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// <summary>
         /// 保存过滤时段表单（新增、修改）
         /// </summary>
-        /// <param name="keyValue">主键值</param>
-        /// <param name="databaseLinkEntity">过滤时段实体</param>
+        /// <param name="filterTimeEntity">过滤时段实体</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

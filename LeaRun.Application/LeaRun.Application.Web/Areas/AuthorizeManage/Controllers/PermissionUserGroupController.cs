@@ -17,8 +17,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.1 1:35
     /// 描 述：用户组权限
     /// </summary>
@@ -62,7 +60,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// 部门列表 
         /// </summary>
         /// <param name="userGroupId">用户组Id</param>
-        /// <param name="keyword">关键字</param>
         /// <returns>返回树形Json</returns>
         [HttpGet]
         public ActionResult GetDepartmentTreeJson(string userGroupId)
@@ -125,7 +122,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// <summary>
         /// 系统功能列表
         /// </summary>
-        /// <param name="RoleId">用户组Id</param>
+        /// <param name="userGroupId">用户组Id</param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult ModuleTreeJson(string userGroupId)

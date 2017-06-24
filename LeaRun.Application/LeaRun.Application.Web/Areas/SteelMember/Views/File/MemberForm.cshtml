@@ -11,15 +11,13 @@
 
     $(function () {
         InitControl();
-        // LoadMemberUnit();
         UploadFile();
     })
 
-    var Data;
     //得到一个对象实体
     function InitControl() {
 
-        //单位
+        //获取单位
         $("#UnitId").ComboBox({
             url: "../../SteelMember/ProjectManagement/GetMemderUnit",
             id: "UnitId",
@@ -33,7 +31,7 @@
                     url: "../../SteelMember/File/SetMemberForm",
                     param: { KeyValue: KeyValue },
                     success: function (data) {
-                       // var data = eval("(" + data + ")");
+                        //var data = eval("(" + data + ")");
                         var filename, filename1, filename2 = "";
                         filename = data.CAD_Drawing;
                         if (filename != "1.png") {
@@ -61,10 +59,17 @@
                             document.getElementById("DelAvatar2").setAttribute("type", "button");
                             document.getElementById("DelAvatar2").value = "删除图片";
                         }
-                        Data = data;
                         $("#form1").SetWebControls(data);
                         document.getElementById("MemberModel").readOnly = true;
-                      //  editor.setValue(data.NewsContent);
+                    
+                        //加载单位
+                        $("#UnitId").ComboBox({
+                            url: "../../SteelMember/ProjectManagement/GetMemderUnit?",
+                            id: "UnitId",
+                            text: "UnitName",
+                            description: "==请选择==",
+                            allowSearch: false
+                        });
                     }
                 });
             } else {
@@ -204,7 +209,6 @@
     }
 </style>
 <div style="margin-left: 10px; margin-top: 20px; margin-right: 30px;">
-    @*<form id="MemberLibraryForm" style="margin: 1px">*@
     <input id="CAD_Drawing" type="hidden" />
     <input id="Model_Drawing" type="hidden" />
     <input id="Icon" type="hidden" />
@@ -237,7 +241,7 @@
                 理论重量<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <input id="tdeoreticalWeight" type="text" class="form-control" placeholder="请输入理论重量" isvalid="yes" checkexpession="Double" />
+                <input id="TheoreticalWeight" type="text" class="form-control" placeholder="请输入理论重量" isvalid="yes" checkexpession="Double" />
             </td>
         </tr>
         <tr>
@@ -484,11 +488,6 @@
                     <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
                 </div>
             </td>
-            @*<td>
-                </td>
-                <td>
-                </td>*@
         </tr>
     </table>
-    @*</form>*@
 </div>

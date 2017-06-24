@@ -10,8 +10,6 @@ namespace LeaRun.Application.Service.BaseManage
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.02 14:27
     /// 描 述：机构管理
     /// </summary>
@@ -41,7 +39,7 @@ namespace LeaRun.Application.Service.BaseManage
         /// <summary>
         /// 公司名称不能重复
         /// </summary>
-        /// <param name="organizeName">公司名称</param>
+        /// <param name="fullName">公司名称</param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
         public bool ExistFullName(string fullName, string keyValue)

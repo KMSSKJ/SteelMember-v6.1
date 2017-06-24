@@ -1,6 +1,7 @@
 ﻿@{
     bool isUserMessage = LeaRun.Util.Config.GetValue("UseMessage") == "true";
     var systemName = LeaRun.Util.Config.GetValue("SystemName");
+    var companyName = LeaRun.Util.Config.GetValue("CustomerCompanyName");
     var userId = LeaRun.Application.Code.OperatorProvider.Provider.Current().UserId;
     var userName = LeaRun.Application.Code.OperatorProvider.Provider.Current().UserName;
 
@@ -39,33 +40,27 @@
     </div>
     <div class="lea-Head">
         <div class="logo">
-            <img src="/Content/adminPretty/images/new.logo.png" />
+            <div style="float:left">
+                @if (ViewData["prjLogo"].ToString() != "" || ViewData["prjLogo"].ToString() != "null")
+                {
+                    @*<img style="height:45px;width:75px;margin-top:-12px;border-radius:8px;margin-left:10px;" src="~/Content/images/login/SSKJ_Logo.jpg" />*@
+                    <img style="height:45px;width:75px;margin-top:-12px;border-radius:8px;margin-left:10px;" src=@ViewData["prjLogo"].ToString() />
+                }
+            </div>
+            <div style="float:right;font-size:24px;margin-left:20px;color:aliceblue;margin-top:-8px;">
+                @if (ViewData["prjName"].ToString() != "" || ViewData["prjName"].ToString() != "null")
+                {
+                    @ViewData["prjName"].ToString()
+                }
+                else
+                {
+                    @LeaRun.Util.Config.GetValue("SystemName").ToString()
+                }
+            </div>
+
         </div>
         <div class="left-bar" id="left-bar">
             <ul class="menu" id="top-menu"></ul>
-        </div>
-        <div class="right-bar">
-            <ul>
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        @if (userHeadIcon == "" || userHeadIcon == null)
-                        {
-                            <img src="/Content/images/head/user2-160x160.jpg" onerror="javascript: this.src = '../../Content/images/head/user2-160x160.jpg'" class="user-image" alt="User Image">
-                        }
-                        else
-                        {
-                            <img src="@userHeadIcon" onerror="javascript: this.src = '../..@userHeadIcon'" class="user-image" alt="User Image">
-                        }
-                        <span class="hidden-xs">@userName</span>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li><a id="UserSetting"><i class="fa fa-user"></i>个人信息</a></li>
-                        <li><a href="javascript:void();"><i class="fa fa-trash-o"></i>清空缓存</a></li>
-                        <li class="divider"></li>
-                        <li><a onclick="$.learunindex.indexOut()"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
     <div class="lea-tabs">
@@ -102,10 +97,10 @@
     </div>
     <div class="footer">
         <div style="float: left; width: 30%;">
-            &nbsp;技术支持：<a href="#" target="_blank" style="color: white;">@systemName</a>
+            &nbsp;技术支持：<a href="#" target="_blank" style="color: white;">@companyName</a>
         </div>
         <div style="float: left; width: 40%; text-align: center;">
-            Copyright © 2013 - 2016 By 北京科技公司
+            Copyright © 2017 昆明双石科技有限公司
         </div>
         <div style="float: left; width: 30%; text-align: right;">
             <i id="btn_message" class="fa fa-comments" title="消息通知" style="width: 30px; font-size: 22px; vertical-align: middle; cursor: pointer;margin-top:-1px;margin-right:5px;"></i>

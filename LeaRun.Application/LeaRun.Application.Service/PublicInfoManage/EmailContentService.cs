@@ -14,8 +14,6 @@ namespace LeaRun.Application.Service.PublicInfoManage
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.12.8 11:31
     /// 描 述：邮件内容
     /// </summary>
@@ -487,7 +485,7 @@ namespace LeaRun.Application.Service.PublicInfoManage
         /// 设置邮件星标/取消星标
         /// </summary>
         /// <param name="keyValue">主键</param>
-        /// <param name="asterisk">星标：0-取消星标1-星标</param>
+        /// <param name="sterisk">星标：0-取消星标1-星标</param>
         public void SteriskEmail(string keyValue, int sterisk = 1)
         {
             EmailAddresseeEntity emailAddresseeEntity = new EmailAddresseeEntity();

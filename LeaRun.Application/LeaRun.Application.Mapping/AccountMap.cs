@@ -5,8 +5,6 @@ namespace LeaRun.Application.Mapping
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2016.05.11 16:23
     /// 描 述：注册账户
     /// </summary>
