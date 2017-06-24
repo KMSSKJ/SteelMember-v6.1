@@ -51,3 +51,8 @@ D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\bin\Debug\LeaRun.Cache.dl
 D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\bin\Debug\LeaRun.Cache.pdb
 D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.dll
 D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.pdb
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache\bin\Debug\LeaRun.Cache.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache\bin\Debug\LeaRun.Cache.pdb
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.csprojResolveAssemblyReference.cache
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.dll
+D:\Source\Repos\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.pdb

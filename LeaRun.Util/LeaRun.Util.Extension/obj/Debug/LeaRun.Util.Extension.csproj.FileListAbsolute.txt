@@ -55,3 +55,4 @@ D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.U
 D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.pdb
 D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.dll
 D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.pdb
+D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.csprojResolveAssemblyReference.cache
