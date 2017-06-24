@@ -9,13 +9,13 @@ button[disabled],button[disabled] button{color:#ccc;opacity:1;cursor:default}
 .lr-login-top {height:40px;margin-bottom:16px;}
 .lr-login-top .lr-login-title {margin:auto;width:1024px;height:100%}
 .lr-login-logo {background: url('../images/login/logo.png') no-repeat;height:40px;}
-.lr-login-center {height:524px;}
+/*.lr-login-center {height:524px;}*/
 .lr-login-center table {border-spacing: 0;border-collapse: collapse;margin:0px;padding:0px;}
 .lr-login-center table td{margin: 0px;padding: 0px;}
-.lr-login-center .lr-bg-left {height: 524px;background: url('../images/login/bg_01.png') top right no-repeat #6895F0;background-size:100% 100%;}
-.lr-login-center .lr-bg-md {width: 1024px;height: 524px;background:url('../images/login/bg_02.png');}
-.lr-login-center .lr-bg-right {height: 524px;background: url('../images/login/bg_03.png') top left no-repeat #378ABC;background-size:100% 100%;}
-.lr-input-form {float:right;margin-top:50px;margin-right:57px;height:357px;width:360px;background:#fff;padding-top:53px;box-shadow: 5px 10px 20px 2px rgba(0,0,0,.27);}
+.lr-login-center .lr-bg-left {/*height: 524px*/;background: url('../images/login/bg_01.png') top right no-repeat #6895F0;background-size:100% 100%;}
+.lr-login-center .lr-bg-md {/*width: 1024px;height: 524px;*/background:url('../images/login/bg_02.png');background-size:100% 100%;/*height:900px;*/}
+.lr-login-center .lr-bg-right {/*height: 524px;*/background: url('../images/login/bg_03.png') top left no-repeat #378ABC;background-size:100% 100%;}
+.lr-input-form {/*float:right;margin-top:80px;margin-right:57px;*/height:320px;width:360px;background:#fff;padding-top:53px;box-shadow: 5px 10px 20px 2px rgba(0,0,0,.27);margin:0 auto;}
 .lr-input-form  > div {height:43px;border-bottom:solid #e0dcdc 1px;margin:auto 27px;}
 .lr-input-form .ipt,
 .lr-input-form select {width:100%;padding:0px;height:43px;border:0;border-radius:10px;background-color:rgba(0, 0, 0, 0.00);font-size:16px;line-height:43px;padding-left:10px;color:#757575;}
@@ -32,7 +32,7 @@ select::-ms-expand { display: none; }
 .login_tips i {position: relative;top: 1px;font-size: 14px;padding-right: 5px;}
 .lr-input-form .login_tips-succeed{position:absolute;text-indent:3px;height:30px;line-height:33px;border:1px solid #5e8800;color: #fff;background-color: #62b600 ;border-radius:5px;width: 306px;margin-top: -35px;}
 .login_tips-succeed i{position: relative;top: 1px;font-size: 14px;padding-right: 5px;}
-.lr-login-bottom {width:1024px;margin:auto;text-align:right;margin-top:20px;color:#828282;}
+.lr-login-bottom {/*width:1024px;*/margin:auto;text-align:right;margin-top:12%;color:#fff;margin-right:25px;}
 
 /*我是悬浮菜单*/
 .menu{position: fixed;z-index: 999;right:20px;}

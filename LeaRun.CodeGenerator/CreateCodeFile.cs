@@ -10,8 +10,6 @@ namespace LeaRun.CodeGenerator
 {
     /// <summary>
     /// 版 本 6.3.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2016.3.1 9:54
     /// 描 述：自动创建代码
     /// </summary>

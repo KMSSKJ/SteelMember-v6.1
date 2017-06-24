@@ -808,13 +808,13 @@ dialogAlert = function (content, type) {
     }
     top.layer.alert(content, {
         icon: type,
-        title: "力软提示"
+        title: "系统提示"
     });
 }
 dialogConfirm = function (content, callBack) {
     top.layer.confirm(content, {
         icon: 7,
-        title: "力软提示",
+        title: "系统提示",
         btn: ['确认', '取消'],
     }, function () {
         callBack(true);

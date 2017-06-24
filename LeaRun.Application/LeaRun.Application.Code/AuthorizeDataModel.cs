@@ -8,8 +8,6 @@ namespace LeaRun.Application.Code
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：刘晓雷
     /// 日 期：2016.03.28
     /// 描 述：用户数据权限
     /// </summary>

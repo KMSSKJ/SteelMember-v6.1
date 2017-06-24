@@ -15,8 +15,6 @@ namespace LeaRun.Data.Dapper
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：刘晓雷
     /// 日 期：2015.12.30
     /// 描 述：操作数据库
     /// </summary>

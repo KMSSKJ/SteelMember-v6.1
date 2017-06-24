@@ -11,8 +11,6 @@ namespace LeaRun.CodeGenerator.Template
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2016.1.15 9:54
     /// 描 述：代码生成模板（单表）
     /// </summary>
@@ -35,8 +33,6 @@ namespace LeaRun.CodeGenerator.Template
             sb.Append("{\r\n");
             sb.Append("    /// <summary>\r\n");
             sb.Append("    /// 版 本\r\n");
-            sb.Append("    /// Copyright (c) 2013-2016 上海力软信息技术有限公司\r\n");
-            sb.Append("    /// 创 建：" + baseConfigModel.CreateUser + "\r\n");
             sb.Append("    /// 日 期：" + baseConfigModel.CreateDate + "\r\n");
             sb.Append("    /// 描 述：" + baseConfigModel.Description + "\r\n");
             sb.Append("    /// </summary>\r\n");
@@ -158,8 +154,6 @@ namespace LeaRun.CodeGenerator.Template
             sb.Append("{\r\n");
             sb.Append("    /// <summary>\r\n");
             sb.Append("    /// 版 本\r\n");
-            sb.Append("    /// Copyright (c) 2013-2016 上海力软信息技术有限公司\r\n");
-            sb.Append("    /// 创 建：" + baseConfigModel.CreateUser + "\r\n");
             sb.Append("    /// 日 期：" + baseConfigModel.CreateDate + "\r\n");
             sb.Append("    /// 描 述：" + baseConfigModel.Description + "\r\n");
             sb.Append("    /// </summary>\r\n");
@@ -205,8 +199,6 @@ namespace LeaRun.CodeGenerator.Template
             sb.Append("{\r\n");
             sb.Append("    /// <summary>\r\n");
             sb.Append("    /// 版 本 6.1\r\n");
-            sb.Append("    /// Copyright (c) 2013-2016 上海力软信息技术有限公司\r\n");
-            sb.Append("    /// 创 建：" + baseConfigModel.CreateUser + "\r\n");
             sb.Append("    /// 日 期：" + baseConfigModel.CreateDate + "\r\n");
             sb.Append("    /// 描 述：" + baseConfigModel.Description + "\r\n");
             sb.Append("    /// </summary>\r\n");
@@ -363,8 +355,6 @@ namespace LeaRun.CodeGenerator.Template
             sb.Append("{\r\n");
             sb.Append("    /// <summary>\r\n");
             sb.Append("    /// 版 本 6.1\r\n");
-            sb.Append("    /// Copyright (c) 2013-2016 上海力软信息技术有限公司\r\n");
-            sb.Append("    /// 创 建：" + baseConfigModel.CreateUser + "\r\n");
             sb.Append("    /// 日 期：" + baseConfigModel.CreateDate + "\r\n");
             sb.Append("    /// 描 述：" + baseConfigModel.Description + "\r\n");
             sb.Append("    /// </summary>\r\n");
@@ -435,8 +425,6 @@ namespace LeaRun.CodeGenerator.Template
             sb.Append("{\r\n");
             sb.Append("    /// <summary>\r\n");
             sb.Append("    /// 版 本 6.1\r\n");
-            sb.Append("    /// Copyright (c) 2013-2016 上海力软信息技术有限公司\r\n");
-            sb.Append("    /// 创 建：" + baseConfigModel.CreateUser + "\r\n");
             sb.Append("    /// 日 期：" + baseConfigModel.CreateDate + "\r\n");
             sb.Append("    /// 描 述：" + baseConfigModel.Description + "\r\n");
             sb.Append("    /// </summary>\r\n");
@@ -538,8 +526,6 @@ namespace LeaRun.CodeGenerator.Template
             sb.Append("{\r\n");
             sb.Append("    /// <summary>\r\n");
             sb.Append("    /// 版 本 6.1\r\n");
-            sb.Append("    /// Copyright (c) 2013-2016 上海力软信息技术有限公司\r\n");
-            sb.Append("    /// 创 建：" + baseConfigModel.CreateUser + "\r\n");
             sb.Append("    /// 日 期：" + baseConfigModel.CreateDate + "\r\n");
             sb.Append("    /// 描 述：" + baseConfigModel.Description + "\r\n");
             sb.Append("    /// </summary>\r\n");

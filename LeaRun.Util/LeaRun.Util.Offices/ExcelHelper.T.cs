@@ -16,8 +16,6 @@ namespace LeaRun.Util.Offices
 {
     /// <summary>
     ///版 本 V1.0
-    ///Copyright (c) 2010-2015 上海力软信息技术有限公司　　　　　　　　　　　　　　　　　　　　　　　　　　
-    ///创建人：刘晓雷
     ///日 期：2015/11/25
     ///描 述：NPOI Excel泛型操作类
     public class ExcelHelper<T>
@@ -83,7 +81,7 @@ namespace LeaRun.Util.Offices
 
                 SummaryInformation si = PropertySetFactory.CreateSummaryInformation();
                 si.Author = "刘晓雷"; //填加xls文件作者信息
-                si.ApplicationName = "力软信息"; //填加xls文件创建程序信息
+                si.ApplicationName = "系统信息"; //填加xls文件创建程序信息
                 si.LastAuthor = "刘晓雷"; //填加xls文件最后保存者信息
                 si.Comments = "刘晓雷"; //填加xls文件作者信息
                 si.Title = "标题信息"; //填加xls文件标题信息

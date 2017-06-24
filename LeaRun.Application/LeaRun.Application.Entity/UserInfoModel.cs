@@ -8,8 +8,6 @@ namespace LeaRun.Application.Entity
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：陈彬彬
     /// 日 期：2016.04.21 09:58
     /// 描 述：连接用户信息类(包括web端登录,或者接口形式的连接)
     /// </summary>
