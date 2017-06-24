@@ -1,9 +1,10 @@
-﻿using LeaRun.Entity.SteelMember;
-using LeaRun.Repository.SteelMember.IBLL;
-using LeaRun.Utilities;
-using LeaRun.WebApp.Controllers;
+﻿using LeaRun.Application.Code;
+using LeaRun.Application.Repository.SteelMember.IBLL;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
+using LeaRun.Data.Entity;
+using LeaRun.Util;
+using LeaRun.Util.WebControl;
 using Ninject;
-using SteelMember.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -54,7 +55,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     if (ParameterJson != "[{\"CollarNumbering\":\"\",\"InBeginTime\":\"\",\"InEndTime\":\"\"}]")
                     {
-                        List<FileViewModel> query_member = JsonHelper.JonsToList<FileViewModel>(ParameterJson);
+                        List<FileViewModel> query_member =LeaRun.Util.Json.ToList<FileViewModel>(ParameterJson);
                         for (int i = 0; i < query_member.Count(); i++)
                         {
                             model.CollarNumbering = query_member[i].CollarNumbering;

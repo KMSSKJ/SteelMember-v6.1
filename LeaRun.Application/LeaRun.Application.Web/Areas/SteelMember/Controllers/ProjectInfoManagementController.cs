@@ -1,8 +1,7 @@
-﻿using LeaRun.Business;
-using LeaRun.Entity.SteelMember;
-using LeaRun.Repository.SteelMember.IBLL;
-using LeaRun.Utilities;
-using LeaRun.WebApp.Controllers;
+﻿using LeaRun.Application.Repository.SteelMember.IBLL;
+using LeaRun.Data.Entity;
+using LeaRun.Util;
+using LeaRun.Util.WebControl;
 using Ninject;
 using System;
 using System.Collections;
@@ -24,8 +23,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
         //
         // GET: /ProjectInfo/
-        public Base_ModuleBll Sys_modulebll = new Base_ModuleBll();
-        public Base_ButtonBll Sys_buttonbll = new Base_ButtonBll();
+        //public Base_ModuleBll Sys_modulebll = new Base_ModuleBll();
+        //public Base_ButtonBll Sys_buttonbll = new Base_ButtonBll();
 
         [Inject]
         public TreeIBLL TreeCurrent { get; set; }
@@ -319,13 +318,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         ProjectInfoCurrent.Add(Oldentity);
                         IsOk = 1;
                     }
-                    //this.WriteLog(IsOk, entity, null, KeyValue, Message);
                 }
-                return Content(new JsonMessage { Success = true, Code = IsOk.ToString(), Message = Message }.ToString());
+                return Success(Message);
             }
             catch (Exception ex)
             {
-                //this.WriteLog(-1, entity, null, KeyValue, "操作失败：" + ex.Message);
                 throw new Exception(ex.ToString());
             }
         }
@@ -343,16 +340,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 int ProjectId = Convert.ToInt32(KeyValue);
                 ids.Add(ProjectId);
                 ProjectInfoCurrent.Remove(ids);
-                return Content(new JsonMessage { Success = true, Code = "1", Message = "删除成功。" }.ToString());
+                return Success("删除成功");
             }
             catch (Exception ex)
             {
-                return Content(new JsonMessage
-                {
-                    Success = false,
-                    Code = "-1",
-                    Message = "操作失败：" + ex.Message
-                }.ToString());
+                throw new Exception(ex.ToString());
             }
         }
         #endregion

@@ -1550,7 +1550,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     IsOk = 1;
                     //this.WriteLog(IsOk, entity, null, KeyValue, Message);
                 }
-                return Content(new JsonMessage { Success = true, Code = IsOk.ToString(), Message = Message }.ToString());
+                return Success(Message);
             }
             catch (Exception ex)
             {
@@ -1572,16 +1572,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 int key_value = Convert.ToInt32(KeyValue);
                 ids.Add(key_value);
                 RawMaterialCurrent.Remove(ids);
-                return Content(new JsonMessage { Success = true, Code = "1", Message = "删除成功。" }.ToString());
+                return Success("删除成功");
             }
             catch (Exception ex)
             {
-                return Content(new JsonMessage
-                {
-                    Success = false,
-                    Code = "-1",
-                    Message = "操作失败：" + ex.Message
-                }.ToString());
+                throw new Exception(ex.ToString());
             }
         }
         #endregion
@@ -1729,8 +1724,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             catch (Exception ex)
             {
-                Base_SysLogBll.Instance.WriteLog("", OperationType.Query, "-1", "异常错误：" + ex.Message);
-                return null;
+                throw new Exception(ex.ToString());
             }
         }
         /// <summary>
@@ -1768,8 +1762,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             try
             {
-                int IsOk = 0;
-                //string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
+            
                 string Message = "操作成功";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -1777,15 +1770,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     RMC_ProcessManagement Oldentity = ProcessManagementCurrent.Find(t => t.ProcessId == key_value).SingleOrDefault();//获取没更新之前实体对象
                     Oldentity.IsProcessTask = 1;
                     ProcessManagementCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                    //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
-
-                return Content(new JsonMessage { Success = true, Code = IsOk.ToString(), Message = Message }.ToString());
+                return Success(Message);
             }
             catch (Exception ex)
             {
-                //this.WriteLog(-1, entity, null, KeyValue, "操作失败：" + ex.Message);
+              
                 throw new Exception(ex.ToString());
             }
         }
@@ -1826,7 +1816,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     IsOk = 1;
                     //this.WriteLog(IsOk, entity, null, KeyValue, Message);
                 }
-                return Content(new JsonMessage { Success = true, Code = IsOk.ToString(), Message = Message }.ToString());
+                return Success(Message);
             }
             catch (Exception ex)
             {
@@ -1848,16 +1838,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 int key_value = Convert.ToInt32(KeyValue);
                 ids.Add(key_value);
                 ProcessManagementCurrent.Remove(ids);
-                return Content(new JsonMessage { Success = true, Code = "1", Message = "删除成功。" }.ToString());
+                return Success("删除成功");
             }
             catch (Exception ex)
             {
-                return Content(new JsonMessage
-                {
-                    Success = false,
-                    Code = "-1",
-                    Message = "操作失败：" + ex.Message
-                }.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -2233,7 +2218,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     if (ParameterJson != "[{\"ShipNumbering\":\"\",\"InBeginTime\":\"\",\"InEndTime\":\"\"}]")
                     {
-                        List<FileViewModel> query_member = JsonHelper.JonsToList<FileViewModel>(ParameterJson);
+                        List<FileViewModel> query_member =LeaRun.Util.Json.ToList<FileViewModel>(ParameterJson);
                         for (int i = 0; i < query_member.Count(); i++)
                         {
                             model.ShipNumbering = query_member[i].ShipNumbering;
