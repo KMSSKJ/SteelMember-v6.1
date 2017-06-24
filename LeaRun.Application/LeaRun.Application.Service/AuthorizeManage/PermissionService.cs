@@ -11,8 +11,6 @@ namespace LeaRun.Application.Service.BaseManage
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.5 22:35
     /// 描 述：权限配置管理（角色、岗位、职位、用户组、用户）
     /// </summary>

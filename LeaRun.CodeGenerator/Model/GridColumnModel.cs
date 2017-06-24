@@ -7,8 +7,6 @@ namespace LeaRun.CodeGenerator.Model
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2016.1.15 9:54
     /// 描 述：表格字段信息
     /// </summary>

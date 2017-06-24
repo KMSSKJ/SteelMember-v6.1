@@ -97,7 +97,7 @@
     ChartOptionTemplates: {
         CommonOption: {
             title: {
-                text: '力软智能图表',
+                text: '智能图表',
                 left: "40%"
             },
             //通用的图表基本配置 
@@ -119,7 +119,7 @@
         },
         CommonLineOption: {//通用的折线图表的基本配置 
             title: {
-                text: '力软智能图表',
+                text: '智能图表',
                 left:"40%"
             },
             tooltip: {

@@ -7,8 +7,6 @@
         <member name="T:LeaRun.Application.Service.AccountService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2016.05.11 16:23
             描 述：注册账户
             </summary>
@@ -46,8 +44,6 @@
         <member name="T:LeaRun.Application.Service.AuthorizeManage.AuthorizeService`1">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：刘晓雷
             日 期：2016.03.29 22:35
             描 述：授权认证
             </summary>
@@ -115,8 +111,6 @@
         <member name="T:LeaRun.Application.Service.AuthorizeManage.AuthorizeService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.5 22:35
             描 述：授权认证
             </summary>
@@ -175,8 +169,6 @@
         <member name="T:LeaRun.Application.Service.AuthorizeManage.ModuleFormInstanceService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：陈彬彬
             日 期：2016.04.14 09:16
             描 述：系统表单实例
             </summary>
@@ -199,8 +191,6 @@
         <member name="T:LeaRun.Application.Service.AuthorizeManage.ModuleFormService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：陈彬彬
             日 期：2016.04.14 09:16
             描 述：系统表单
             </summary>
@@ -253,8 +243,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.ScheduleService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创 建：佘赐雄
             日 期：2016-04-25 10:45
             描 述：日程管理
             </summary>
@@ -290,8 +278,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.FileFolderService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.15 10:56
             描 述：文件夹
             </summary>
@@ -346,8 +332,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.FileInfoService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.15 10:56
             描 述：文件信息
             </summary>
@@ -438,8 +422,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.EmailCategoryService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.8 11:31
             描 述：邮件分类
             </summary>
@@ -475,8 +457,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.EmailContentService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.8 11:31
             描 述：邮件内容
             </summary>
@@ -656,8 +636,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.NewsService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.7 16:40
             描 述：新闻中心
             </summary>
@@ -694,8 +672,6 @@
         <member name="T:LeaRun.Application.Service.PublicInfoManage.NoticeService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.7 16:40
             描 述：电子公告
             </summary>
@@ -732,8 +708,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.AreaService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.12 16:40
             描 述：区域管理
             </summary>
@@ -776,8 +750,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.CodeRuleService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.12.21 16:19
             描 述：编号规则
             </summary>
@@ -859,8 +831,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.DataItemDetailService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.17 9:56
             描 述：数据字典明细
             </summary>
@@ -920,8 +890,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.DataItemService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.17 9:56
             描 述：数据字典分类
             </summary>
@@ -979,8 +947,6 @@
         <member name="T:LeaRun.Application.Service.SystemManage.LogService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2016.1.8 9:56
             描 述：系统日志
             </summary>
@@ -1016,8 +982,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.FilterIPService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.20 13:32
             描 述：过滤IP
             </summary>
@@ -1062,8 +1026,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.FilterTimeService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.20 13:32
             描 述：过滤时段
             </summary>
@@ -1107,8 +1069,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.ModuleButtonService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.08.01 14:00
             描 述：系统按钮
             </summary>
@@ -1142,8 +1102,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.ModuleColumnService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.10.29 15:13
             描 述：系统视图
             </summary>
@@ -1177,8 +1135,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.ModuleService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.10.27 09:16
             描 述：系统功能
             </summary>
@@ -1237,8 +1193,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.PermissionService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.5 22:35
             描 述：权限配置管理（角色、岗位、职位、用户组、用户）
             </summary>
@@ -1307,8 +1261,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.DepartmentService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.02 14:27
             描 述：部门管理
             </summary>
@@ -1359,8 +1311,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.OrganizeService">
             <summary>
             版 本 6.1
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.02 14:27
             描 述：机构管理
             </summary>
@@ -1419,8 +1369,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.RoleService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：角色管理
             </summary>
@@ -1485,8 +1433,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.UserService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.03 10:58
             描 述：用户管理
             </summary>
@@ -1582,8 +1528,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.PostService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：岗位管理
             </summary>
@@ -1648,8 +1592,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.JobService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：职位管理
             </summary>
@@ -1708,8 +1650,6 @@
         <member name="T:LeaRun.Application.Service.BaseManage.UserGroupService">
             <summary>
             版 本
-            Copyright (c) 2013-2016 上海力软信息技术有限公司
-            创建人：佘赐雄
             日 期：2015.11.4 14:31
             描 述：用户组管理
             </summary>

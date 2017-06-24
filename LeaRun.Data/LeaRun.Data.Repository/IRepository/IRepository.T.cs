@@ -10,8 +10,6 @@ namespace LeaRun.Data.Repository
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.10.10
     /// 描 述：定义仓储模型中的数据标准操作接口
     /// </summary>
