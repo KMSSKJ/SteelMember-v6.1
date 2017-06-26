@@ -69,6 +69,7 @@
     <Compile Include="File\DirFileHelper.cs" />
     <Compile Include="File\FileDownHelper.cs" />
     <Compile Include="Excel\ImportExcel.cs" />
+    <Compile Include="GuidComb.cs" />
     <Compile Include="HttpMethods.cs" />
     <Compile Include="IPLocation.cs" />
     <Compile Include="Json.cs" />

@@ -146,17 +146,3 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Micr
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.pdb
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\LeaRun.Util.Ioc.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\LeaRun.Util.Ioc.pdb
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.xml
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.xml
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.pdb
