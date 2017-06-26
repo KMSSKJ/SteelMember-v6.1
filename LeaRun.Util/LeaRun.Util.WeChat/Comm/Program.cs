@@ -115,14 +115,14 @@ namespace LeaRun.Util.WeChat
             //        description="测试新闻",
             //        picurl="http://www.learun.cn/images/banner3.jpg",
             //        url="http://www.learun.cn/fdms/index.html",
-            //        title="力软在线"
+            //        title="在线"
             //        },
             //                            new SendNews.SendItem
             //        {
             //        description="测试新闻二",
             //        picurl="http://www.learun.cn/images/banner3.jpg",
             //        url="http://www.learun.cn",
-            //        title="力软在线"
+            //        title="在线"
             //        }
                     
             //        }

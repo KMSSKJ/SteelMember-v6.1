@@ -338,10 +338,13 @@
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\loading1.gif" />
     <Content Include="Content\images\loginlogo.png" />
+    <Content Include="Content\images\login\bg_02.png" />
+    <Content Include="Content\images\login\bg_02_.png" />
     <Content Include="Content\images\login\app-1.png" />
     <Content Include="Content\images\login\app.png" />
     <Content Include="Content\images\login\bg_01.png" />
-    <Content Include="Content\images\login\bg_02.png" />
+    <Content Include="Content\images\login\SSKJ_Logo.jpg" />
+    <Content Include="Content\images\login\_bg_02.png" />
     <Content Include="Content\images\login\bg_03.png" />
     <Content Include="Content\images\login\logo.png" />
     <Content Include="Content\images\login\qq-1.png" />

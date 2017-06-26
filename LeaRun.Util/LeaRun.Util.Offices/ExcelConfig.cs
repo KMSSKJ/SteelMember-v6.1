@@ -9,8 +9,6 @@ namespace LeaRun.Util.Offices
 {
     /// <summary>
     ///版 本 V1.0
-    ///Copyright (c) 2010-2015 上海力软信息技术有限公司　　　　　　　　　　　　　　　　　　　　　　　　　　
-    ///创建人：刘晓雷
     ///日 期：2015/11/25
     ///描 述：Excel导入导出设置
     /// </summary>

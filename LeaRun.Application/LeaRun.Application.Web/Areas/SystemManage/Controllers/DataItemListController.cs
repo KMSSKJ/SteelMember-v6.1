@@ -13,8 +13,6 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2015.11.23 16:40
     /// 描 述：辅助资料（主要是数据字典提供独立功能管理）
     /// </summary>

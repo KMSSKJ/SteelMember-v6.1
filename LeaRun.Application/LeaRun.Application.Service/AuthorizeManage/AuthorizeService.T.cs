@@ -20,8 +20,6 @@ namespace LeaRun.Application.Service.AuthorizeManage
 {
     /// <summary>
     /// 版 本
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：刘晓雷
     /// 日 期：2016.03.29 22:35
     /// 描 述：授权认证
     /// </summary>
