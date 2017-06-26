@@ -19,3 +19,15 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\z
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.pdb
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\LeaRun.Data.Entity.dll.config
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\LeaRun.Data.Entity.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\LeaRun.Data.Entity.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.SqlServer.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.SqlServer.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\zh-Hans\EntityFramework.resources.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.pdb

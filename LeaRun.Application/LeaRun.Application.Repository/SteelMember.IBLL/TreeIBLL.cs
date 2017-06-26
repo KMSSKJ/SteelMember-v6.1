@@ -8,5 +8,6 @@ namespace LeaRun.Application.Repository.SteelMember.IBLL
 {
     public interface TreeIBLL : BaseIBLL<RMC_Tree>
     {
+        int Remove(List<string> delbyid);
     }
 }

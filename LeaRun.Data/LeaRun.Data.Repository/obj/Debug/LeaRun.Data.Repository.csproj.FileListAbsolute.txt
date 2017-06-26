@@ -358,3 +358,33 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Repository\bin\Deb
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.csprojResolveAssemblyReference.cache
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Data.Repository.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Data.Repository.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Data.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.Ioc.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.WebControl.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.Unity.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Newtonsoft.Json.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\MySql.Data.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Oracle.DataAccess.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\System.Data.SQLite.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.Ioc.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.WebControl.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Data.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.Unity.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Newtonsoft.Json.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\System.Data.SQLite.xml
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.dll
+D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.pdb

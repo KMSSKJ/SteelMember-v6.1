@@ -63,3 +63,10 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.xml
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\LeaRun.Util.Log.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\LeaRun.Util.Log.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.pdb

@@ -47,3 +47,7 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Extension\bin\Debu
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.pdb
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.pdb

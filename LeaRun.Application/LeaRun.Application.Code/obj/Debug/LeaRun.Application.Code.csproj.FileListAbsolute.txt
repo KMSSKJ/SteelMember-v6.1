@@ -270,3 +270,27 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.csprojResolveAssemblyReference.cache
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Application.Code.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Application.Code.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Factory.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Redis.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\Newtonsoft.Json.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Redis.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Interfaces.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Text.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Common.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Factory.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Util.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\LeaRun.Cache.Redis.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\Newtonsoft.Json.xml
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Redis.xml
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Text.xml
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\bin\Debug\ServiceStack.Common.xml
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.dll
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Code\obj\Debug\LeaRun.Application.Code.pdb
