@@ -121,6 +121,107 @@
             AcceptClick();
         })
     }
+
+    /*菜单目录being==================================*/
+    var directoryJson = "";
+    function getGridDirectory() {
+        var moduleId = $("#ModuleId").val();
+        $.ajax({
+            url: "../../AuthorizeManage/ModuleButton/GetListJson?moduleId=" + escape(moduleId),
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                directoryJson = data;
+            },
+        });
+        var $grid = $("#gridTable-directory");
+        $grid.jqGrid({
+            unwritten: false,
+            url: "../../AuthorizeManage/ModuleButton/GetTreeListJson?moduleId=" + escape(moduleId),
+            datatype: "json",
+            height: $(window).height() - 165,
+            width: $(window).width() - 11,
+            colModel: [
+                { label: "主键", name: "TreeID", hidden: true },
+                { label: "名称", name: "TreeName", width: 140, align: "left", sortable: false },
+                //{ label: "编号", name: "EnCode", width: 140, align: "left", sortable: false },
+                //{ label: "地址", name: "ActionAddress", width: 500, align: "left", sortable: false },
+            ],
+            treeGrid: true,
+            treeGridModel: "nested",
+            ExpandColumn: "EnCode",
+            rowNum: "all",
+            rownumbers: true
+        });
+        //处理Json
+        function DirectoryListToListTreeJson(directoryJson) {
+            $.ajax({
+                url: "../../AuthorizeManage/ModuleButton/ListToListTreeJson",
+                data: { moduleButtonJson: JSON.stringify(directoryJson) },
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    $grid.clearGridData();
+                    $grid[0].addJSONData(data);
+                },
+            });
+        }
+        //新增
+        $("#lr-add-directory").click(function () {
+            var parentId = $("#gridTable-directory").jqGridRowValue("ModuleButtonId");
+            dialogOpen({
+                id: "directoryForm",
+                title: '添加按钮',
+                url: '/AuthorizeManage/ModuleButton/Form?parentId=' + parentId + "&moduleId=" + escape(moduleId),
+                width: "450px",
+                height: "300px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick(function (data) {
+                        directoryJson.push(data);
+                        ButtonListToListTreeJson(directoryJson);
+                    });
+                }
+            });
+        })
+        //编辑
+        $("#lr-edit-directory").click(function () {
+            var moduleButtonId = $("#gridTable-directory").jqGridRowValue("ModuleButtonId");
+            if (checkedRow(moduleButtonId)) {
+                dialogOpen({
+                    id: "directoryForm",
+                    title: '编辑按钮',
+                    url: '/AuthorizeManage/ModuleButton/Form?moduleButtonId=' + moduleButtonId + "&moduleId=" + escape(moduleId),
+                    width: "450px",
+                    height: "300px",
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick(function (data) {
+                            $.each(directoryJson, function (i) {
+                                if (directoryJson[i].ModuleButtonId == moduleButtonId) {
+                                    directoryJson[i] = data;
+                                }
+                            });
+                            DirectoryListToListTreeJson(directoryJson);
+                        });
+                    }
+                });
+            }
+        })
+        //删除
+        $("#lr-delete-directory").click(function () {
+            var moduleButtonId = $("#gridTable-directory").jqGridRowValue("ModuleButtonId");
+            if (checkedRow(moduleButtonId)) {
+                $.each(directoryJson, function (i) {
+                    if (directoryJson[i].ModuleButtonId == moduleButtonId) {
+                        directoryJson.splice(i, 1);
+                        ButtonListToListTreeJson(directoryJson);
+                        return false;
+                    }
+                });
+            }
+        });
+    }
+    /*菜单目录end====================================*/
+
     /*系统按钮being==================================*/
     var buttonJson = "";
     function getGridButton() {
@@ -353,8 +454,9 @@
     <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
         <ul class="steps">
             <li data-target="#step-1" class="active"><span class="step">1</span>系统功能<span class="chevron"></span></li>
-            <li data-target="#step-2"><span class="step">2</span>系统按钮<span class="chevron"></span></li>
-            <li data-target="#step-3"><span class="step">3</span>系统视图<span class="chevron"></span></li>
+            <li data-target="#step-2"><span class="step">2</span>菜单目录<span class="chevron"></span></li>
+            <li data-target="#step-3"><span class="step">3</span>系统按钮<span class="chevron"></span></li>
+            <li data-target="#step-4"><span class="step">4</span>系统视图<span class="chevron"></span></li>
         </ul>
     </div>
     <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
@@ -442,6 +544,16 @@
         <div class="step-pane" id="step-2" style="margin: 5px;">
             <div style="height: 40px; line-height: 33px; text-align: right;">
                 <div class="btn-group">
+                    <a id="lr-add-directory" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                    <a id="lr-edit-directory" class="btn btn-default"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                    <a id="lr-delete-directory" class="btn btn-default"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                </div>
+            </div>
+            <table id="gridTable-directory"></table>
+        </div>
+        <div class="step-pane" id="step-3" style="margin: 5px;">
+            <div style="height: 40px; line-height: 33px; text-align: right;">
+                <div class="btn-group">
                     <a id="lr-add-button" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;新增</a>
                     <a id="lr-edit-button" class="btn btn-default"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
                     <a id="lr-delete-button" class="btn btn-default"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
@@ -452,7 +564,8 @@
             </div>
             <table id="gridTable-button"></table>
         </div>
-        <div class="step-pane" id="step-3" style="margin: 5px;">
+
+        <div class="step-pane" id="step-4" style="margin: 5px;">
             <div style="height: 40px; line-height: 33px; text-align: right;">
                 <div class="btn-group">
                     <a id="lr-add-view" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;新增</a>

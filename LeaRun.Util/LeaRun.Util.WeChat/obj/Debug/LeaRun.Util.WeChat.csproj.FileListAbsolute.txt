@@ -147,3 +147,4 @@ D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\Newtonsoft.
 D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.Extension.pdb
 D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.dll
 D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.pdb
+D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.csprojResolveAssemblyReference.cache
