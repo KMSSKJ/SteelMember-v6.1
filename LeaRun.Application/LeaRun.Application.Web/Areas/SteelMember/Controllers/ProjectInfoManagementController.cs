@@ -218,7 +218,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="KeyValue">主键值</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [ValidateInput(false)]
         //[LoginAuthorize]
         public ActionResult SetDataForm()
@@ -230,15 +230,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(entity.ToJson());
             //return Json(entity);
         }
+
+        [HttpGet]
         public ActionResult GetItemInfo(string KeyValue)
         {
-            //int TreeId = Convert.ToInt32(KeyValue);
             RMC_ProjectInfo entity = ProjectInfoCurrent.Find(f => f.TreeID>0).SingleOrDefault();
-            //string JsonData = entity.ToJson();
-            ////自定义
-            //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
             return Content(entity.ToJson());
-            //return Json(entity);
+            //return ToJsonResult(entity);
         }
 
         /// <summary>
@@ -252,10 +250,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //[LoginAuthorize]
         public virtual ActionResult SubmitDataForm(RMC_ProjectInfo entity, string KeyValue, string TreeId)
         {
-
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -281,8 +277,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.ModifiedTime = entity.ModifiedTime;
                     Oldentity.Description = entity.Description;
                     ProjectInfoCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
-                    //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
                 {
@@ -316,7 +310,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         Oldentity.ProjectAddress = entity.ProjectAddress;
                         Oldentity.Description = entity.Description;
                         ProjectInfoCurrent.Add(Oldentity);
-                        IsOk = 1;
                     }
                 }
                 return Success(Message);

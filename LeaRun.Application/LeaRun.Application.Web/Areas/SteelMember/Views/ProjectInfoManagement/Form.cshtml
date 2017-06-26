@@ -1,14 +1,14 @@
 ﻿@{
     ViewBag.Title = "项目信息管理/项目信息表单";
-    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+    Layout = "~/Views/Shared/_Form.cshtml";
 }
 
 <script type="text/javascript">
-    var KeyValue = GetQuery('KeyValue');
-    var TreeId = GetQuery('TreeId');
-    var ItemID = GetQuery('ItemID');
-    var Info = GetQuery('Info');
-    var TreeName = GetQuery('TreeName');
+    var KeyValue = request('KeyValue');
+    var TreeId = request('TreeId');
+    var ItemID = request('ItemID');
+    var Info = request('Info');
+    var TreeName = request('TreeName');
 
     $(function () {
         InitControl();
@@ -21,94 +21,76 @@
             document.getElementById("table_project").style.display = "black";
             document.getElementById("div_projcet_logo").style.display = "none";
             document.getElementById("div_project_photo").style.display = "none";
-            //document.getElementById("ProjectLogo").value="Logo.png";
-            //document.getElementById("ProjectLogo").readOnly=true;
-            //document.getElementById("ProjectBackground").value="Background.png";
-            //document.getElementById("ProjectBackground").readOnly=true;
-            //document.getElementById("btn_ProjectLogo").style.display="none";
-            //document.getElementById("btn_ProjectBackground").style.display="none";
         }
         else if (TreeId == "59" && KeyValue != "") {
             document.getElementById("table_project").style.display = "black";
             document.getElementById("div_projcet_logo").style.display = "none";
             document.getElementById("div_project_photo").style.display = "none";
-            //document.getElementById("btn_ProjectLogo").style.display = "none";
-            //document.getElementById("btn_ProjectBackground").style.display = "none";
-            //document.getElementById("ProjectLogo").readOnly=true;
-            //document.getElementById("ProjectBackground").readOnly=true;
-            //document.getElementById("ConstructionUnit").readOnly = true;
-            //document.getElementById("ProjectAddress").readOnly = true;
-            //document.getElementById("DesignUnit").readOnly = true;
-            //document.getElementById("SupervisionUnit").readOnly = true;
-            //document.getElementById("GeneralContractor").readOnly = true;
-            //document.getElementById("ProfessionalContractor").readOnly = true;
-            //document.getElementById("Description").readOnly = true;
-            AjaxJson("/SteelMember/ProjectInfo/SetDataForm", { KeyValue: KeyValue }, function (data) {
-                SetWebControls(data);
-            });
+
+            $.SetForm({
+                url: "/SteelMember/ProjectInfoManagement/SetDataForm",
+                param: { KeyValue: KeyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data);
+                }
+            })
         } else if (TreeId == "61" && KeyValue != "") {
             document.getElementById("table_project").style.display = "none";
             document.getElementById("div_projcet_logo").style.display = "black";
             document.getElementById("div_project_photo").style.display = "none";
-            //document.getElementById("btn_ProjectLogo").style.display = "none";
-            //document.getElementById("btn_ProjectBackground").style.display = "none";
-            //document.getElementById("ProjectLogo").readOnly=true;
-            //document.getElementById("ProjectBackground").readOnly=true;
-            //document.getElementById("ConstructionUnit").readOnly = true;
-            //document.getElementById("ProjectAddress").readOnly = true;
-            //document.getElementById("DesignUnit").readOnly = true;
-            //document.getElementById("SupervisionUnit").readOnly = true;
-            //document.getElementById("GeneralContractor").readOnly = true;
-            //document.getElementById("ProfessionalContractor").readOnly = true;
-            //document.getElementById("Description").readOnly = true;
-            AjaxJson("/SteelMember/ProjectInfo/SetDataForm", { KeyValue: KeyValue }, function (data) {
-                SetWebControls(data);
-            });
+
+            $.SetForm({
+                url: "/SteelMember/ProjectInfoManagement/SetDataForm",
+                param: { KeyValue: KeyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data);
+                }
+            })
         }
         else if (TreeId == "60" && KeyValue != "") {
 
             document.getElementById("table_project").style.display = "none";
             document.getElementById("div_projcet_logo").style.display = "none";
             document.getElementById("div_project_photo").style.display = "black";
-            //document.getElementById("btn_ProjectLogo").style.display = "none";
-            //document.getElementById("btn_ProjectBackground").style.display = "none";
-            //document.getElementById("ProjectLogo").readOnly=true;
-            //document.getElementById("ProjectBackground").readOnly=true;
-            //document.getElementById("ConstructionUnit").readOnly = true;
-            //document.getElementById("ProjectAddress").readOnly = true;
-            //document.getElementById("DesignUnit").readOnly = true;
-            //document.getElementById("SupervisionUnit").readOnly = true;
-            //document.getElementById("GeneralContractor").readOnly = true;
-            //document.getElementById("ProfessionalContractor").readOnly = true;
-            //document.getElementById("Description").readOnly = true;
-            AjaxJson("/SteelMember/ProjectInfo/SetDataForm", { KeyValue: KeyValue }, function (data) {
-                SetWebControls(data);
-            });
+           
+            $.SetForm({
+                url: "/SteelMember/ProjectInfoManagement/SetDataForm",
+                param: { KeyValue: KeyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data);
+                }
+            })
         } else {
             document.getElementById("table_project").style.display = "black";
             document.getElementById("div_projcet_logo").style.display = "none";
             document.getElementById("div_project_photo").style.display = "none";
-            AjaxJson("/SteelMember/ProjectInfo/SetDataForm", { KeyValue: KeyValue }, function (data) {
-                SetWebControls(data);
-            });
+
+            $.SetForm({
+                url: "/SteelMember/ProjectInfoManagement/SetDataForm",
+                param: { KeyValue: KeyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data);
+                }
+            })
         }
     }
 
-    //保存事件
+    //保存表单
     function AcceptClick() {
-        if (!CheckDataValid('#form2')) {
+        if (!$('#form1').Validform()) {
             return false;
         }
-        Loading(true, "正在提交数据...");
-        window.setTimeout(function () {
-            var postData = GetWebControls("#form2");
-            AjaxJson("/SteelMember/ProjectInfo/SubmitDataForm?KeyValue=" + KeyValue + '&TreeId=' + TreeId, postData, function (data) {//+ '&ItemID=' + ItemID
-                tipDialog(data.Message, 3, data.Code);
-                top.frames[tabiframeId()].windowload();
-                parent.window.LoadLogo();//刷新标题
-                closeDialog();
-            });
-        }, 200);
+        var postData = $("#form1").GetWebControls(KeyValue);
+        $.SaveForm({
+            url: "/SteelMember/ProjectInfoManagement/SubmitDataForm?KeyValue=" + KeyValue + "&TreeId=" + TreeId,
+            param: postData,
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().windowload();
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+              //  parent.window.LoadLogo();//刷新标题
+            }
+        })
     }
 
     //上传logo
@@ -132,128 +114,127 @@
     }
 </script>
 
-<form id="form2">
+@*<form id="form2">*@
 
     <div id="table_project">
         <table class="form">
             <tr>
-                <th class="formTitle">
-                    系统标题：
-                </th>
+                <td class="formTitle">
+                    系统标题<font face="宋体">*</font>
+                </td>
                 <td class="formValue" colspan="5">
-                    <input id="ProjectSystemTitel" type="text" class="txt" />
+                    <input id="ProjectSystemTitel" type="text" class="form-control" placeholder="请输入系统标题" isvalid="yes" checkexpession="NotNull" />
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    项目地址：
-                </th>
+                <td class="formTitle">
+                    项目地址
+                </td>
                 <td class="formValue" colspan="5">
-                    <input id="ProjectAddress" type="text" class="txt" rowspan="4"/>
+                    <input id="ProjectAddress" type="text" class="form-control" rowspan="4" />
                 </td>
             </tr>
-          
             <tr>
-                <th class="formTitle">
-                    业主单位：
-                </th>
-                <td class="formValue">
-                    <input id="ConstructionUnit" type="text" class="txt" />
+                <td class="formTitle">
+                    业主单位
                 </td>
-                <th class="formTitle">
-                    负责人：
-                </th>
                 <td class="formValue">
-                    <input id="ConstructionPrincipal" type="text" class="txt" />
+                    <input id="ConstructionUnit" type="text" class="form-control" />
                 </td>
-                <th class="formTitle">
-                    联系电话：
-                </th>
+                <td class="formTitle">
+                    负责人
+                </td>
                 <td class="formValue">
-                    <input id="ConstructionPrincipalTEL" type="text" class="txt" />
+                    <input id="ConstructionPrincipal" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input id="ConstructionPrincipalTEL" type="text" class="form-control" placeholder="请输入电话格式或手机格式" isvalid="yes" checkexpession="MobileOrPhoneOrNull" />
                 </td>
             </tr>
 
             <tr>
-                <th class="formTitle">
-                    设计单位：
-                </th>
-                <td class="formValue">
-                    <input id="DesignUnit" type="text" class="txt" />
+                <td class="formTitle">
+                    设计单位
                 </td>
-                <th class="formTitle">
-                    负责人：
-                </th>
                 <td class="formValue">
-                    <input id="DesignPrincipal" type="text" class="txt" />
+                    <input id="DesignUnit" type="text" class="form-control" />
                 </td>
-                <th class="formTitle">
-                    联系电话：
-                </th>
-                <td class="formValue">
-                    <input id="DesignPrincipalTEL" type="text" class="txt" />
+                <td class="formTitle">
+                    负责人
                 </td>
-            </tr>
-            <tr>
-                <th class="formTitle">监理单位：</th>
                 <td class="formValue">
-                    <input id="SupervisionUnit" type="text" class="txt" />
+                    <input id="DesignPrincipal" type="text" class="form-control" />
                 </td>
-                <th class="formTitle">
-                    负责人：
-                </th>
-                <td class="formValue">
-                    <input id="SupervisionPrincipal" type="text" class="txt" />
+                <td class="formTitle">
+                    联系电话
                 </td>
-                <th class="formTitle">
-                    联系电话：
-                </th>
                 <td class="formValue">
-                    <input id="SupervisionPrincipalTEL" type="text" class="txt" />
+                    <input id="DesignPrincipalTEL" type="text" class="form-control"  placeholder="请输入电话格式或手机格式" isvalid="yes" checkexpession="MobileOrPhoneOrNull"/>
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">总承包商：</th>
+                <td class="formTitle">监理单位</td>
                 <td class="formValue">
-                    <input id="GeneralContractor" type="text" class="txt" />
+                    <input id="SupervisionUnit" type="text" class="form-control" />
                 </td>
-                <th class="formTitle">
-                    负责人：
-                </th>
-                <td class="formValue">
-                    <input id="GeneralContractorPrincipal" type="text" class="txt" />
+                <td class="formTitle">
+                    负责人
                 </td>
-                <th class="formTitle">
-                    联系电话：
-                </th>
                 <td class="formValue">
-                    <input id="GeneralContractorPrincipalTEL" type="text" class="txt" />
+                    <input id="SupervisionPrincipal" type="text" class="form-control" />
                 </td>
-            </tr>
-            <tr>
-                <th class="formTitle">专业承包商：</th>
-                <td class="formValue">
-                    <input id="ProfessionalContractor" type="text" class="txt" />
+                <td class="formTitle">
+                    联系电话
                 </td>
-                <th class="formTitle">
-                    负责人：
-                </th>
                 <td class="formValue">
-                    <input id="ProfessionalContractorPrincipal" type="text" class="txt" />
-                </td>
-                <th class="formTitle">
-                    联系电话：
-                </th>
-                <td class="formValue">
-                    <input id="ProfessionalContractorPrincipalTEL" type="text" class="txt" />
+                    <input id="SupervisionPrincipalTEL" type="text" class="form-control"  placeholder="请输入电话格式或手机格式" isvalid="yes" checkexpession="MobileOrPhoneOrNull"/>
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    工程概况：
-                </th>
+                <td class="formTitle">总承包商</td>
+                <td class="formValue">
+                    <input id="GeneralContractor" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    负责人
+                </td>
+                <td class="formValue">
+                    <input id="GeneralContractorPrincipal" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input id="GeneralContractorPrincipalTEL" type="text" class="form-control"  placeholder="请输入电话格式或手机格式" isvalid="yes" checkexpession="MobileOrPhoneOrNull"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">专业承包商</td>
+                <td class="formValue">
+                    <input id="ProfessionalContractor" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    负责人
+                </td>
+                <td class="formValue">
+                    <input id="ProfessionalContractorPrincipal" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input id="ProfessionalContractorPrincipalTEL" type="text" class="form-control"  placeholder="请输入电话格式或手机格式" isvalid="yes" checkexpession="MobileOrPhoneOrNull"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">
+                    工程概况
+                </td>
                 <td class="formValue" colspan="5">
-                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5"></textarea>
+                    <textarea id="Description" name="Description" maxlengtd="200" class="form-control" rows="5"></textarea>
                 </td>
             </tr>
         </table>
@@ -262,7 +243,7 @@
         <table class="form">
             <tr>
                 <th class="formTitle">
-                    项目Logo：
+                    项目Logo
                 </th>
                 <td class="formValue">
                     @*<input id="ProjectLogo" type="text" class="txt" />*@
@@ -275,7 +256,7 @@
         <table class="form">
             <tr>
                 <th class="formTitle">
-                    项目背景：
+                    项目背景
                 </th>
                 <td class="formValue">
                     @*<input id="ProjectBackground" type="text" class="txt" />*@
@@ -284,4 +265,4 @@
             </tr>
         </table>
     </div>
-</form>
+@*</form>*@

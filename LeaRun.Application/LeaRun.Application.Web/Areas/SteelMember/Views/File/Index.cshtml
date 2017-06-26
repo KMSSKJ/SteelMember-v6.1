@@ -47,7 +47,7 @@
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            url: "../../SteelMember/File/TreeJson?TreeId=1",
+            url: "../../SteelMember/File/TreeJson?ItemId=1",
             onnodeclick: function (item) {
                 TreeId = item.id;
                 HavesChildren = item.hasChildren;
@@ -255,7 +255,7 @@
         var KeyValue = $("#gridTable").jqGridRowValue("MemberID");
         if (KeyValue) {
             $.RemoveForm({
-                url: '../../SteelMember/File/DeleteMember?KeyValue=' + KeyValue,
+                url: 'SteelMember/File/DeleteMember?KeyValue=' + KeyValue,
                 param: { KeyValue: KeyValue },
                 success: function (data) {
                     $("#gridTable").trigger("reloadGrid");
@@ -309,13 +309,13 @@
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">功能目录</div>
+            <div class="panel-Title">构件类型</div>
             <div id="itemTree"></div>
         </div>
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">功能信息</div>
+            <div class="panel-Title">构件信息</div>
             <div class="titlePanel">
                 <div class="title-search">
                     <table>

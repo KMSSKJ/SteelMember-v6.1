@@ -33,9 +33,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
         //public Base_ModuleBll Sys_modulebll = new Base_ModuleBll();
         //public Base_ButtonBll Sys_buttonbll = new Base_ButtonBll();
-  /// <summary>
-  /// 
-  /// </summary>
+        /// <summary>
+        /// 
+        /// </summary>
         public UserBLL userBLL = new UserBLL();
         /// <summary>
         /// 
@@ -693,14 +693,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 【控制测量文档管理】返回树JONS
         /// </summary>
         /// <returns></returns>      
-        public ActionResult TreeJson(string TreeId)
+        public ActionResult TreeJson(string ItemId)
         {
             //var userid = 1;
             //List<DOC_R_Tree_Role> TRR = new List<DOC_R_Tree_Role>();
             //var userrole = UserRoleRepository.Find(ur => ur.UserID == userid).SingleOrDefault();
             //TRR = TreeRoleRepository.Find(tr => tr.RoleID == userrole.RoleID).ToList();
-            int ItemId = Convert.ToInt32(TreeId);
-            List<RMC_Tree> list = TreeCurrent.Find(t => t.ItemID == ItemId).ToList();
+            int _ItemId = Convert.ToInt32(ItemId);
+            List<RMC_Tree> list = TreeCurrent.Find(t => t.ItemID == _ItemId).ToList();
             List<TreeEntity> TreeList = new List<TreeEntity>();
             foreach (RMC_Tree item in list)
             {
@@ -1587,7 +1587,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-       
+
         [HttpGet]
         public ActionResult SetMemberForm(string KeyValue)
         {

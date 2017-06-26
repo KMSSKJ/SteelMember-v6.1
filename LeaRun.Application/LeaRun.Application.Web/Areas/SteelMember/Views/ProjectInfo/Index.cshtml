@@ -25,7 +25,7 @@
 
         $.ajax({
             url: "/SteelMember/ProjectInfo/GetItemInfo",
-            type: "post",
+            type: "get",
             data: { KeyValue: TreeId },
             dataType: "json",
             async: false,
@@ -63,7 +63,7 @@
         <table class="form">
             <tr>
                 <td class="formTitle">
-                    系统标题：
+                    系统标题
                 </td>
                 <td class="formValue" colspan="5">
                     <input readonly id="ProjectSystemTitel" type="text" class="form-control" />
@@ -71,7 +71,7 @@
             </tr>
             <tr>
                 <td class="formTitle">
-                    项目地址：
+                    项目地址
                 </td>
                 <td class="formValue" colspan="5">
                     <input readonly id="ProjectAddress" type="text" class="form-control" rowspan="4" />
@@ -79,19 +79,19 @@
             </tr>
             <tr>
                 <td class="formTitle">
-                    业主单位：
+                    业主单位
                 </td>
                 <td class="formValue">
                     <input readonly id="ConstructionUnit" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
-                    负责人：
+                    负责人
                 </td>
                 <td class="formValue">
                     <input readonly id="ConstructionPrincipal" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
-                    联系电话：
+                    联系电话
                 </td>
                 <td class="formValue">
                     <input readonly id="ConstructionPrincipalTEL" type="text" class="form-control"/>
@@ -100,73 +100,73 @@
 
             <tr>
                 <td class="formTitle">
-                    设计单位：
+                    设计单位
                 </td>
                 <td class="formValue">
                     <input readonly id="DesignUnit" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
-                    负责人：
+                    负责人
                 </td>
                 <td class="formValue">
                     <input readonly id="DesignPrincipal" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
-                    联系电话：
+                    联系电话
                 </td>
                 <td class="formValue">
                     <input readonly id="DesignPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
             <tr>
-                <td class="formTitle">监理单位：</td>
+                <td class="formTitle">监理单位</td>
                 <td class="formValue">
                     <input readonly id="SupervisionUnit" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
-                    负责人：
+                    负责人
                 </td>
                 <td class="formValue">
                     <input readonly id="SupervisionPrincipal" type="text" class="form-control" />
                 </td>
                 <td class="formTitle">
-                    联系电话：
+                    联系电话
                 </td>
                 <td class="formValue">
                     <input readonly id="SupervisionPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
             <tr>
-                <td class="formTitle">总承包商：</td>
+                <td class="formTitle">总承包商</td>
                 <td class="formValue">
                     <input readonly id="GeneralContractor" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
-                    负责人：
+                    负责人
                 </td>
                 <td class="formValue">
                     <input readonly id="GeneralContractorPrincipal" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
-                    联系电话：
+                    联系电话
                 </td>
                 <td class="formValue">
                     <input readonly id="GeneralContractorPrincipalTEL" type="text" class="form-control"/>
                 </td>
             </tr>
             <tr>
-                <td class="formTitle">专业承包商：</td>
+                <td class="formTitle">专业承包商</td>
                 <td class="formValue">
                     <input readonly id="ProfessionalContractor" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
-                    负责人：
+                    负责人
                 </td>
                 <td class="formValue">
                     <input readonly id="ProfessionalContractorPrincipal" type="text" class="form-control"/>
                 </td>
                 <td class="formTitle">
-                    联系电话：
+                    联系电话
                 </td>
                 <td class="formValue">
                     <input readonly id="ProfessionalContractorPrincipalTEL" type="text" class="form-control"/>
@@ -174,7 +174,7 @@
             </tr>
             <tr>
                 <td class="formTitle">
-                    工程概况：
+                    工程概况
                 </td>
                 <td class="formValue" colspan="5">
                     <textarea readonly id="Description" name="Description" maxlengtd="200"  class="form-control" rows="5"></textarea>
@@ -196,20 +196,14 @@
             </tr>
             <tr>
                 <td class="formValue">
-                    <div style="text-align:center; margin:8px;" class="showImg;"><img id="txImg" name="txImg" class="txImg" src="" height="460" widtd="580" /></div>
+                    <div style="text-align:center; margin:8px;" class="showImg;"><img id="txImg" name="txImg" class="txImg" src="" height="380" widtd="500" /></div>
                 </td>
 
                 <td class="formValue">
-                    <div style="text-align:center;margin:8px;" class="showImg;"><img id="txImg1" name="txImg" class="txImg" src="" height="460" widtd="580" /></div>
+                    <div style="text-align:center;margin:8px;" class="showImg;"><img id="txImg1" name="txImg" class="txImg" src="" height="380" widtd="560" /></div>
 
                 </td>
             </tr>
         </table>
     </div>
-    @*<div id="div_projcet_logo" style="margin:10px;">
-            <div style="float:left;margin:50px;" class="showImg;"><img id="txImg" name="txImg" class="txImg" src="" height="300" width="400" /></div>
-        </div>
-        <div id="div_project_photo" style="margin:10px;">
-            <div style="float:left;margin:50px;" class="showImg;"><img id="txImg1" name="txImg" class="txImg" src="" height="300" width="400" /></div>
-        </div>*@
 </div>

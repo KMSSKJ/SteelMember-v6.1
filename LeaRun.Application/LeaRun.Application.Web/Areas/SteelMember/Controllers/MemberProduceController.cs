@@ -1856,7 +1856,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             try
             {
                 int IsOk = 0;
-                string Message = KeyValue == "2" ? "质检通过" : "操作成功。";
+                string Message = KeyValue == "2" ? "质检通过" : "操作成功";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
                     int key_value = Convert.ToInt32(KeyValue);
@@ -1916,7 +1916,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     }
                 }
 
-                return Content(new JsonMessage { Success = true, Code = IsOk.ToString(), Message = Message }.ToString());
+                return Success(Message);
             }
             catch (Exception ex)
             {
@@ -2026,12 +2026,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             catch (Exception ex)
             {
-                return Content(new JsonMessage
-                {
-                    Success = false,
-                    Code = "-1",
-                    Message = "操作失败：" + ex.Message
-                }.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -2442,16 +2437,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 int key_value = Convert.ToInt32(KeyValue);
                 ids.Add(key_value);
                 ShipManagementCurrent.Remove(ids);
-                return Content(new JsonMessage { Success = true, Code = "1", Message = "删除成功。" }.ToString());
+                return Success("删除成功");
             }
             catch (Exception ex)
             {
-                return Content(new JsonMessage
-                {
-                    Success = false,
-                    Code = "-1",
-                    Message = "操作失败：" + ex.Message
-                }.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -2503,16 +2493,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     ProjectWarehouseCurrent.Modified(ProjectWarehouse);
                 }
 
-                return Content(new JsonMessage { Success = true, Code = "1", Message = "提交成功。" }.ToString());
+                return Success("提交成功");
             }
             catch (Exception ex)
             {
-                return Content(new JsonMessage
-                {
-                    Success = false,
-                    Code = "-1",
-                    Message = "操作失败：" + ex.Message
-                }.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
