@@ -101,8 +101,6 @@
           <Property Name="UploadTime" Type="datetime" />
           <Property Name="Sort" Type="int" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“LeaRunFramework_Base_2016.dbo.RMC_MemberMaterial”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="RMC_MemberMaterial">
           <Key>
             <PropertyRef Name="MemberMaterialId" />
@@ -364,9 +362,9 @@
           <Key>
             <PropertyRef Name="TreeID" />
           </Key>
-          <Property Name="TreeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ParentID" Type="int" />
-          <Property Name="ItemID" Type="int" />
+          <Property Name="TreeID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentID" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModuleId" Type="nvarchar" MaxLength="50" />
           <Property Name="IsItem" Type="int" />
           <Property Name="ItemClass" Type="int" />
           <Property Name="ItemClassRemark" Type="int" />
@@ -390,6 +388,7 @@
           <EntitySet Name="RMC_CollarMember" EntityType="Self.RMC_CollarMember" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_FactoryWarehouse" EntityType="Self.RMC_FactoryWarehouse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_MemberLibrary" EntityType="Self.RMC_MemberLibrary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMC_MemberMaterial" EntityType="Self.RMC_MemberMaterial" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_MemberProcess" EntityType="Self.RMC_MemberProcess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_MemberUnit" EntityType="Self.RMC_MemberUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_OrderMember" EntityType="Self.RMC_OrderMember" Schema="dbo" store:Type="Tables" />
@@ -403,16 +402,6 @@
           <EntitySet Name="RMC_RawMaterialPurchase" EntityType="Self.RMC_RawMaterialPurchase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_ShipManagement" EntityType="Self.RMC_ShipManagement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RMC_Tree" EntityType="Self.RMC_Tree" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RMC_MemberMaterial" EntityType="Self.RMC_MemberMaterial" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [RMC_MemberMaterial].[MemberMaterialId] AS [MemberMaterialId], 
-    [RMC_MemberMaterial].[RawMaterialId] AS [RawMaterialId], 
-    [RMC_MemberMaterial].[MemberId] AS [MemberId], 
-    [RMC_MemberMaterial].[RawMaterialClassId] AS [RawMaterialClassId], 
-    [RMC_MemberMaterial].[MaterialNumber] AS [MaterialNumber], 
-    [RMC_MemberMaterial].[Description] AS [Description]
-    FROM [dbo].[RMC_MemberMaterial] AS [RMC_MemberMaterial]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -435,8 +424,8 @@
           <EntitySet Name="RMC_RawMaterialLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" />
           <EntitySet Name="RMC_RawMaterialPurchase" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase" />
           <EntitySet Name="RMC_ShipManagement" EntityType="LeaRunFramework_Base_2016Model.RMC_ShipManagement" />
-          <EntitySet Name="RMC_Tree" EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" />
           <EntitySet Name="RMC_MemberMaterial" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" />
+          <EntitySet Name="RMC_Tree" EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" />
         </EntityContainer>
         <EntityType Name="RMC_Collar">
           <Key>
@@ -780,13 +769,24 @@
           <Property Name="LibraryNumber" Type="Int32" />
           <Property Name="ShipNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="RMC_MemberMaterial">
+          <Key>
+            <PropertyRef Name="MemberMaterialId" />
+          </Key>
+          <Property Name="MemberMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RawMaterialId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="RawMaterialClassId" Type="Int32" />
+          <Property Name="MaterialNumber" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="RMC_Tree">
           <Key>
             <PropertyRef Name="TreeID" />
           </Key>
-          <Property Name="TreeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParentID" Type="Int32" />
-          <Property Name="ItemID" Type="Int32" />
+          <Property Name="TreeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsItem" Type="Int32" />
           <Property Name="ItemClass" Type="Int32" />
           <Property Name="ItemClassRemark" Type="Int32" />
@@ -804,17 +804,6 @@
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsReview" Type="Int32" />
           <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="RMC_MemberMaterial">
-          <Key>
-            <PropertyRef Name="MemberMaterialId" />
-          </Key>
-          <Property Name="MemberMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RawMaterialId" Type="Int32" />
-          <Property Name="MemberId" Type="Int32" />
-          <Property Name="RawMaterialClassId" Type="Int32" />
-          <Property Name="MaterialNumber" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1180,6 +1169,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RMC_MemberMaterial">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberMaterial">
+              <MappingFragment StoreEntitySet="RMC_MemberMaterial">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MaterialNumber" ColumnName="MaterialNumber" />
+                <ScalarProperty Name="RawMaterialClassId" ColumnName="RawMaterialClassId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+                <ScalarProperty Name="MemberMaterialId" ColumnName="MemberMaterialId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RMC_Tree">
             <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Tree">
               <MappingFragment StoreEntitySet="RMC_Tree">
@@ -1200,21 +1201,9 @@
                 <ScalarProperty Name="ItemClassRemark" ColumnName="ItemClassRemark" />
                 <ScalarProperty Name="ItemClass" ColumnName="ItemClass" />
                 <ScalarProperty Name="IsItem" ColumnName="IsItem" />
-                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="TreeID" ColumnName="TreeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RMC_MemberMaterial">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberMaterial">
-              <MappingFragment StoreEntitySet="RMC_MemberMaterial">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="MaterialNumber" ColumnName="MaterialNumber" />
-                <ScalarProperty Name="RawMaterialClassId" ColumnName="RawMaterialClassId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
-                <ScalarProperty Name="MemberMaterialId" ColumnName="MemberMaterialId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

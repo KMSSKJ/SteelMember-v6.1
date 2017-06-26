@@ -189,6 +189,7 @@
     <Compile Include="Areas\PublicInfoManage\Controllers\ScheduleController.cs" />
     <Compile Include="Areas\PublicInfoManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
@@ -1175,6 +1176,7 @@
     <Content Include="Areas\SteelMember\Views\File\SubmitImportFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\UpLoadFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\Directory\Form.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

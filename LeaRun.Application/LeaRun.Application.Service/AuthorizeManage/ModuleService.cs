@@ -133,7 +133,7 @@ namespace LeaRun.Application.Service.BaseManage
                 }
                 else
                 {
-                    moduleEntity.Create();
+                    //moduleEntity.Create();
                     db.Insert(moduleEntity);
                 }
                 db.Delete<ModuleButtonEntity>(t => t.ModuleId.Equals(keyValue));

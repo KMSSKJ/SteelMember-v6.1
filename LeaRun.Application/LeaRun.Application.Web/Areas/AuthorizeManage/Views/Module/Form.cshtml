@@ -13,6 +13,7 @@
     $(function () {
         initialPage();
         buttonOperation();
+        getGridDirectory();
         getGridButton();
         getGridView();
     })
@@ -23,7 +24,7 @@
             var $finish = $("#btn_finish");
             var $next = $("#btn_next");
             if (data.direction == "next") {
-                if (data.step == 2) {
+                if (data.step == 3) {
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
                 } else {
@@ -87,6 +88,7 @@
         if (postData["ParentId"] == "") {
             postData["ParentId"] = 0;
         }
+        postData["moduleDirectoryListJson"] = JSON.stringify(directoryJson);
         postData["moduleButtonListJson"] = JSON.stringify(buttonJson);
         postData["moduleColumnListJson"] = JSON.stringify(columnJson);
         $.SaveForm({
@@ -107,10 +109,12 @@
         //如果是菜单，开启 上一步、下一步
         $("#IsMenu").click(function () {
             if (!$(this).attr("checked")) {
+                alert(1);
                 $(this).attr("checked", true)
                 $next.removeAttr('disabled');
                 $finish.attr('disabled', 'disabled');
             } else {
+                alert(2);
                 $(this).attr("checked", false)
                 $next.attr('disabled', 'disabled');
                 $finish.removeAttr('disabled');
@@ -127,7 +131,7 @@
     function getGridDirectory() {
         var moduleId = $("#ModuleId").val();
         $.ajax({
-            url: "../../AuthorizeManage/ModuleButton/GetListJson?moduleId=" + escape(moduleId),
+            url: "../../SteelMember/Directory/GetListJson?moduleId=" + escape(moduleId),
             type: "get",
             dataType: "json",
             success: function (data) {
@@ -137,7 +141,7 @@
         var $grid = $("#gridTable-directory");
         $grid.jqGrid({
             unwritten: false,
-            url: "../../AuthorizeManage/ModuleButton/GetTreeListJson?moduleId=" + escape(moduleId),
+            url: "../../SteelMember/Directory/GetTreeListJson?moduleId=" + escape(moduleId),
             datatype: "json",
             height: $(window).height() - 165,
             width: $(window).width() - 11,
@@ -149,14 +153,14 @@
             ],
             treeGrid: true,
             treeGridModel: "nested",
-            ExpandColumn: "EnCode",
+            //ExpandColumn: "TreeName",
             rowNum: "all",
             rownumbers: true
         });
         //处理Json
         function DirectoryListToListTreeJson(directoryJson) {
             $.ajax({
-                url: "../../AuthorizeManage/ModuleButton/ListToListTreeJson",
+                url: "../../SteelMember/Directory/ListToListTreeJson",
                 data: { moduleButtonJson: JSON.stringify(directoryJson) },
                 type: "post",
                 dataType: "json",
@@ -168,35 +172,35 @@
         }
         //新增
         $("#lr-add-directory").click(function () {
-            var parentId = $("#gridTable-directory").jqGridRowValue("ModuleButtonId");
+            var parentId = $("#gridTable-directory").jqGridRowValue("TreeID");
             dialogOpen({
                 id: "directoryForm",
-                title: '添加按钮',
-                url: '/AuthorizeManage/ModuleButton/Form?parentId=' + parentId + "&moduleId=" + escape(moduleId),
+                title: '添加目录',
+                url: '/SteelMember/Directory/Form?parentId=' + parentId + "&moduleId=" + escape(moduleId),
                 width: "450px",
                 height: "300px",
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick(function (data) {
                         directoryJson.push(data);
-                        ButtonListToListTreeJson(directoryJson);
+                        DirectoryListToListTreeJson(directoryJson);
                     });
                 }
             });
         })
         //编辑
         $("#lr-edit-directory").click(function () {
-            var moduleButtonId = $("#gridTable-directory").jqGridRowValue("ModuleButtonId");
-            if (checkedRow(moduleButtonId)) {
+            var treeId = $("#gridTable-directory").jqGridRowValue("TreeID");
+            if (checkedRow(treeId)) {
                 dialogOpen({
                     id: "directoryForm",
-                    title: '编辑按钮',
-                    url: '/AuthorizeManage/ModuleButton/Form?moduleButtonId=' + moduleButtonId + "&moduleId=" + escape(moduleId),
+                    title: '编辑目录',
+                    url: '/SteelMember/Directory/Form?treeId=' + treeId + "&moduleId=" + escape(moduleId)+"&type=edit",
                     width: "450px",
                     height: "300px",
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick(function (data) {
                             $.each(directoryJson, function (i) {
-                                if (directoryJson[i].ModuleButtonId == moduleButtonId) {
+                                if (directoryJson[i].TreeID == treeId) {
                                     directoryJson[i] = data;
                                 }
                             });
@@ -208,12 +212,12 @@
         })
         //删除
         $("#lr-delete-directory").click(function () {
-            var moduleButtonId = $("#gridTable-directory").jqGridRowValue("ModuleButtonId");
-            if (checkedRow(moduleButtonId)) {
+            var treeId = $("#gridTable-directory").jqGridRowValue("TreeID");
+            if (checkedRow(treeId)) {
                 $.each(directoryJson, function (i) {
-                    if (directoryJson[i].ModuleButtonId == moduleButtonId) {
+                    if (directoryJson[i].TreeID == treeId) {
                         directoryJson.splice(i, 1);
-                        ButtonListToListTreeJson(directoryJson);
+                        DirectoryListToListTreeJson(directoryJson);
                         return false;
                     }
                 });

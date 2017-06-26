@@ -699,8 +699,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //List<DOC_R_Tree_Role> TRR = new List<DOC_R_Tree_Role>();
             //var userrole = UserRoleRepository.Find(ur => ur.UserID == userid).SingleOrDefault();
             //TRR = TreeRoleRepository.Find(tr => tr.RoleID == userrole.RoleID).ToList();
-            int ItemId = Convert.ToInt32(TreeId);
-            List<RMC_Tree> list = TreeCurrent.Find(t => t.ItemID == ItemId).ToList();
+            List<RMC_Tree> list = TreeCurrent.Find(t => t.ModuleId == TreeId).ToList();
             List<TreeEntity> TreeList = new List<TreeEntity>();
             foreach (RMC_Tree item in list)
             {
@@ -942,13 +941,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     int _id = Convert.ToInt32(TreeId);
-                    var list = GetSonId(_id).ToList();
+                    var list = GetSonId(TreeId).ToList();
 
-                    list.Add(TreeCurrent.Find(p => p.TreeID == _id).Single());
+                    list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
 
                     foreach (var item in list)
                     {
-                        var _MemberList = MemberLibraryCurrent.Find(m => m.TreeID == item.TreeID).ToList();
+                        var _MemberList = MemberLibraryCurrent.Find(m => m.TreeID.ToString() == item.TreeID).ToList();
                         if (_MemberList.Count() > 0)
                         {
                             MemberList = MemberList.Concat(_MemberList).ToList();
@@ -977,7 +976,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         //获取树字节子节点(自循环)
-        public IEnumerable<RMC_Tree> GetSonId(int p_id)
+        public IEnumerable<RMC_Tree> GetSonId(string p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
             return list.Concat(list.SelectMany(t => GetSonId(t.TreeID)));
@@ -1111,7 +1110,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             {
                                 int key_value = Convert.ToInt32(KeyValue);
                                 MemberLibrary.TreeID = key_value;
-                                var tree = TreeCurrent.Find(f => f.TreeID == key_value).SingleOrDefault();
+                                var tree = TreeCurrent.Find(f => f.TreeID == KeyValue).SingleOrDefault();
                                 MemberLibrary.MemberName = tree.TreeName;
                                 MemberLibrary.UploadTime = DateTime.Now;
                                 MemberLibrary.Sort = 1;
@@ -1762,7 +1761,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     int tree_id = Convert.ToInt32(TreeId);
                     RMC_MemberLibrary entitys = new RMC_MemberLibrary();
-                    var tree = TreeCurrent.Find(f => f.TreeID == tree_id).SingleOrDefault();
+                    var tree = TreeCurrent.Find(f => f.TreeID == TreeId).SingleOrDefault();
                     entitys.MemberName = tree.TreeName;
                     entitys.ParentID = tree_id;
                     entitys.TreeID = tree_id;

@@ -77,10 +77,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>      
         public ActionResult TreeJson(string ItemId)
         {
-            int itemid = Convert.ToInt32(ItemId);
             List<RMC_Tree> list, list1, list2;
             list1 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ItemClass == 0).ToList();
-            list2 = TreeCurrent.Find(t => t.ItemID == itemid && t.DeleteFlag != 1 && t.ItemClass == 2).ToList();
+            list2 = TreeCurrent.Find(t => t.ModuleId == ItemId && t.DeleteFlag != 1 && t.ItemClass == 2).ToList();
             list = list1.Concat(list2).Distinct().ToList();
             //list = list1;
 
@@ -202,12 +201,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     int _id = Convert.ToInt32(TreeId);
-                    var list = GetSonId(_id).ToList();
+                    var list = GetSonId(TreeId).ToList();
 
-                    list.Add(TreeCurrent.Find(p => p.TreeID == _id).Single());
+                    list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
                     foreach (var item in list)
                     {
-                        var _ProjectDemandList = ProjectManagementCurrent.Find(m => m.TreeId == item.TreeID).ToList();
+                        var _ProjectDemandList = ProjectManagementCurrent.Find(m => m.TreeId.ToString() == item.TreeID).ToList();
                         if (_ProjectDemandList.Count() > 0)
                         {
                             ProjectDemandList = ProjectDemandList.Concat(_ProjectDemandList).ToList();
@@ -265,7 +264,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="p_id"></param>
         /// <returns></returns>
-        public IEnumerable<RMC_Tree> GetSonId(int p_id)
+        public IEnumerable<RMC_Tree> GetSonId(string p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
             return list.Concat(list.SelectMany(t => GetSonId(t.TreeID)));
@@ -340,7 +339,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 int ProjectDemandId = Convert.ToInt32(KeyValue);
                 var entity = ProjectManagementCurrent.Find(f => f.ProjectDemandId == ProjectDemandId).SingleOrDefault();
                 var entity1 = MemberLibraryCurrent.Find(f => f.MemberID == entity.MemberId).SingleOrDefault();
-                var entity_tree = TreeCurrent.Find(f => f.TreeID == entity.MemberClassId).SingleOrDefault();
+                var entity_tree = TreeCurrent.Find(f => f.TreeID == entity.MemberClassId.ToString()).SingleOrDefault();
                 projectdemand.TreeName = entity.TreeName;
                 projectdemand.ProjectDemandId = ProjectDemandId;
                 projectdemand.MemberClassId = entity.MemberClassId;
@@ -451,7 +450,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetTreeName(string KeyValue)
         {
             int TreeId = Convert.ToInt32(KeyValue);
-            RMC_Tree entity = TreeCurrent.Find(f => f.TreeID == TreeId).SingleOrDefault();
+            RMC_Tree entity = TreeCurrent.Find(f => f.TreeID == KeyValue).SingleOrDefault();
             //string JsonData = entity.ToJson();
             ////自定义
             //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));

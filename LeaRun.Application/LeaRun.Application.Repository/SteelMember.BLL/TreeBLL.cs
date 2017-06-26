@@ -23,7 +23,7 @@ namespace LeaRun.Application.Repository.SteelMember.BLL
             return CurrentDAL.Add(model);
         }
 
-        public int Remove(List<int> delbyid)
+        public int Remove(List<string> delbyid)
         {
             delbyid.ToList().ForEach(id =>
             {
@@ -58,5 +58,9 @@ namespace LeaRun.Application.Repository.SteelMember.BLL
             return CurrentDAL.FindPaging(pageIndex, pageSize, whereLambda, isAsc, orderbyLambda, out total);
         }
 
+        public int Remove(List<int> delbyid)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

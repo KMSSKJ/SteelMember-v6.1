@@ -14,9 +14,9 @@ namespace LeaRun.Data.Entity
     
     public partial class RMC_Tree
     {
-        public int TreeID { get; set; }
-        public Nullable<int> ParentID { get; set; }
-        public Nullable<int> ItemID { get; set; }
+        public string TreeID { get; set; }
+        public string ParentID { get; set; }
+        public string ModuleId { get; set; }
         public Nullable<int> IsItem { get; set; }
         public Nullable<int> ItemClass { get; set; }
         public Nullable<int> ItemClassRemark { get; set; }

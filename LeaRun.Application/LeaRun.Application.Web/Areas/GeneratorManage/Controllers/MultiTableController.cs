@@ -128,6 +128,9 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
         [AjaxOnly]
         public ActionResult PublishModule(string baseInfoJson, ModuleEntity moduleEntity, string moduleButtonListJson, string moduleColumnListJson)
         {
+            var moduleButtonList = moduleButtonListJson.ToList<ModuleButtonEntity>();
+            var moduleColumnList = moduleColumnListJson.ToList<ModuleColumnEntity>();
+
             MultiTableConfigModel baseConfigModel = baseInfoJson.ToObject<MultiTableConfigModel>();
             var urlAddress = "/" + baseConfigModel.OutputAreas + "/" + CommonHelper.DelLastLength(baseConfigModel.ControllerName, 10) + "/" + baseConfigModel.IndexPageName;
 
@@ -136,7 +139,7 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
             moduleEntity.EnabledMark = 1;
             moduleEntity.Target = "iframe";
             moduleEntity.UrlAddress = urlAddress;
-            moduleBLL.SaveForm("", moduleEntity, moduleButtonListJson, moduleColumnListJson);
+            moduleBLL.SaveForm("", moduleEntity, moduleButtonList, moduleColumnList);
             return Success("发布成功！");
         }
         #endregion

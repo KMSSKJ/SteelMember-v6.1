@@ -59,10 +59,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>      
         public ActionResult TreeJson(string ItemId)
         {
-            int itemid = Convert.ToInt32(ItemId);
             List<RMC_Tree> list, list1, list2;
             list1 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ItemClass == 0).ToList();
-            list2 = TreeCurrent.Find(t => t.ItemID == itemid && t.DeleteFlag != 1 && t.ItemClass == 1).ToList();
+            list2 = TreeCurrent.Find(t => t.ModuleId == ItemId && t.DeleteFlag != 1 && t.ItemClass == 1).ToList();
             list = list1.Concat(list2).Distinct().ToList();
 
             List<TreeEntity> TreeList = new List<TreeEntity>();
@@ -294,7 +293,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         RMC_ProjectInfo Oldentity = new RMC_ProjectInfo();
                         Oldentity.TreeID = treeid;
-                        var tree = TreeCurrent.Find(f => f.TreeID == treeid).SingleOrDefault();
+                        var tree = TreeCurrent.Find(f => f.TreeID == TreeId).SingleOrDefault();
                         Oldentity.ProjectSystemTitel = entity.ProjectSystemTitel;
                         Oldentity.ConstructionUnit = entity.ConstructionUnit;
                         Oldentity.ConstructionPrincipal = entity.ConstructionPrincipal;

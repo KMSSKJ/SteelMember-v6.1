@@ -41,7 +41,7 @@ namespace LeaRun.Data.Entity
         public virtual DbSet<RMC_RawMaterialLibrary> RMC_RawMaterialLibrary { get; set; }
         public virtual DbSet<RMC_RawMaterialPurchase> RMC_RawMaterialPurchase { get; set; }
         public virtual DbSet<RMC_ShipManagement> RMC_ShipManagement { get; set; }
-        public virtual DbSet<RMC_Tree> RMC_Tree { get; set; }
         public virtual DbSet<RMC_MemberMaterial> RMC_MemberMaterial { get; set; }
+        public virtual DbSet<RMC_Tree> RMC_Tree { get; set; }
     }
 }

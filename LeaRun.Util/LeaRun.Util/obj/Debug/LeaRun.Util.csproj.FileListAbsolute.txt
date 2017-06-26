@@ -115,12 +115,3 @@ D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\Newtonsoft.Json.x
 D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.csprojResolveAssemblyReference.cache
 D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.dll
 D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.pdb
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.pdb
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.Extension.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\Newtonsoft.Json.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.Extension.pdb
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\Newtonsoft.Json.xml
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.csprojResolveAssemblyReference.cache
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.dll
-D:\Source\Repos\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.pdb

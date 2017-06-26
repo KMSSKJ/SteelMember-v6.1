@@ -21,8 +21,8 @@
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" Width="1.5" PointX="10.75" PointY="3.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase" Width="1.5" PointX="10.75" PointY="7.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ShipManagement" Width="1.5" PointX="12.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" Width="1.5" PointX="12.75" PointY="6.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" Width="1.5" PointX="10.75" PointY="12.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" Width="1.5" PointX="13.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
