@@ -142,6 +142,10 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="ThoughtWorks.QRCode, Version=1.0.4778.30637, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
@@ -189,10 +193,18 @@
     <Compile Include="Areas\PublicInfoManage\Controllers\ScheduleController.cs" />
     <Compile Include="Areas\PublicInfoManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\CollarManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\MemberProduceController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\MemberSettlementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectOrderController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectWarehouseController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
     <Compile Include="Areas\SteelMember\Models\AnalysisRawMaterialModel.cs" />
     <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ListModel.cs" />
@@ -1177,6 +1189,50 @@
     <Content Include="Areas\SteelMember\Views\File\UpLoadFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\Directory\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\CollarManagement\CollarForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\CollarManagement\DetailForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\CollarManagement\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\CollarManagement\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\CollarManagement\QueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\AnalysisRawMaterialForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\AnalysisRawMaterialIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\NumberForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\OrderForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\OrderIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\OrderQueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\PrintPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\ProcessForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\ProcessIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\QRCodeForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\QueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\RawMaterialQueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\RawMaterialsForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\RawMaterialsIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\RawMaterialsPurchaseDetailForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\RawMaterialsPurchaseForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\RawMaterialsPurchaseIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\ShipManagementForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\ShipManagementIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProduce\ShipManagementQueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberSettlement\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberSettlement\QueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectInfoManagement\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectInfoManagement\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectManagement\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectManagement\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectManagement\QueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\DetailForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\OrderForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectWarehouse\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectWarehouse\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectWarehouse\QueryPage.cshtml" />
+    <Content Include="Areas\SteelMember\Views\Tree\FolderForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\Tree\Index.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
@@ -1234,7 +1290,9 @@
   <ItemGroup>
     <Content Include="Global.asax" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\SteelMember\Views\RawMaterialLibrary\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LeaRun.Cache\LeaRun.Cache.Factory\LeaRun.Cache.Factory.csproj">
       <Project>{a68cdd21-2e12-4b11-95db-d0a0fced48b1}</Project>

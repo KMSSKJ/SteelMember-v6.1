@@ -54,7 +54,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //var userrole = UserRoleRepository.Find(ur => ur.UserID == userid).SingleOrDefault();
             //TRR = TreeRoleRepository.Find(tr => tr.RoleID == userrole.RoleID).ToList();
             int _ItemId = Convert.ToInt32(ItemId);
-            List<RMC_Tree> list = TreeCurrent.Find(t => t.ItemID == _ItemId).ToList();
+            List<RMC_Tree> list = TreeCurrent.Find(t => t.ModuleId == ItemId).ToList();
             List<TreeEntity> TreeList = new List<TreeEntity>();
             foreach (RMC_Tree item in list)
             {
@@ -179,13 +179,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     int _id = Convert.ToInt32(TreeId);
-                    var list = GetSonId(_id).ToList();
+                    var list = GetSonId(TreeId).ToList();
 
-                    list.Add(TreeCurrent.Find(p => p.TreeID == _id).Single());
+                    list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
 
                     foreach (var item in list)
                     {
-                        var _MemberList = ProjectWarehouseCurrent.Find(m => m.MemberTreeId == item.TreeID && m.IsShiped == 1).ToList();
+                        var _MemberList = ProjectWarehouseCurrent.Find(m => m.MemberTreeId.ToString() == item.TreeID && m.IsShiped == 1).ToList();
                         if (_MemberList.Count() > 0)
                         {
                             MemberList = MemberList.Concat(_MemberList).ToList();
@@ -235,7 +235,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         //获取树字节子节点(自循环)
-        public IEnumerable<RMC_Tree> GetSonId(int p_id)
+        public IEnumerable<RMC_Tree> GetSonId(string p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
             return list.Concat(list.SelectMany(t => GetSonId(t.TreeID)));

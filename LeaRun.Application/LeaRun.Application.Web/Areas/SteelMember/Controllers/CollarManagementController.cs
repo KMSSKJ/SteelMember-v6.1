@@ -338,13 +338,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     int _id = Convert.ToInt32(TreeId);
 
-                    var list = GetSonId(_id).ToList();
+                    var list = GetSonId(TreeId).ToList();
 
-                    list.Add(TreeCurrent.Find(p => p.TreeID == _id).Single());
+                    list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
 
                     foreach (var item in list)
                     {
-                        var _MemberList = CollarManagementCurrent.Find(m => m.TreeId == item.TreeID).ToList();
+                        var _MemberList = CollarManagementCurrent.Find(m => m.TreeId.ToString() == item.TreeID).ToList();
                         if (_MemberList.Count() > 0)
                         {
                             CollarList = CollarList.Concat(_MemberList).ToList();
@@ -375,7 +375,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
         }
         //获取树字节子节点(自循环)
-        public IEnumerable<RMC_Tree> GetSonId(int p_id)
+        public IEnumerable<RMC_Tree> GetSonId(string p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
             return list.Concat(list.SelectMany(t => GetSonId(t.TreeID)));

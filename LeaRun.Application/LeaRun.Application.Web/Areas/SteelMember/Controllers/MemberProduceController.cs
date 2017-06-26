@@ -69,7 +69,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         //获取树字节子节点(自循环)
-        public IEnumerable<RMC_Tree> GetSonId(int p_id)
+        public IEnumerable<RMC_Tree> GetSonId(string p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
             return list.Concat(list.SelectMany(t => GetSonId(t.TreeID)));
@@ -160,7 +160,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             int _ItemId = Convert.ToInt32(ItemId);
             List<RMC_Tree> list, list1, list2;
             list1 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ItemClass == 0).ToList();
-            list2 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ItemID == _ItemId && t.ItemClass == 2).ToList();
+            list2 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ModuleId == ItemId && t.ItemClass == 2).ToList();
             list = list1.Concat(list2).Distinct().ToList();
 
             List<RMC_Tree> lists = new List<RMC_Tree>();
@@ -169,11 +169,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             for (int i = 0; i < OrderList.Count(); i++)
             {
                 RMC_Tree tree = new RMC_Tree();
-                tree.TreeID = OrderList[i].OrderId;
+                tree.TreeID = OrderList[i].OrderId.ToString();
                 tree.TreeName = "订单-" + OrderList[i].OrderNumbering;
                 tree.Icon = OrderList[i].Icon;
                 tree.State = 0;
-                tree.ParentID = OrderList[i].TreeId;
+                tree.ParentID = OrderList[i].TreeId.ToString();
                 lists.Add(tree);
             }
             list = list.Concat(lists).ToList();//把集合A.B合并
@@ -1308,7 +1308,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult TreeJsonRawMaterials(string ItemId)
         {
             int itemid = Convert.ToInt32(ItemId);
-            List<RMC_Tree> list = TreeCurrent.Find(t => t.ItemID == itemid && t.DeleteFlag != 1).ToList();
+            List<RMC_Tree> list = TreeCurrent.Find(t => t.ModuleId == ItemId && t.DeleteFlag != 1).ToList();
             List<TreeEntity> TreeList = new List<TreeEntity>();
             foreach (RMC_Tree item in list)
             {
@@ -1428,13 +1428,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     int _id = Convert.ToInt32(TreeId);
-                    var list = GetSonId(_id).ToList();
+                    var list = GetSonId(TreeId).ToList();
 
-                    list.Add(TreeCurrent.Find(p => p.TreeID == _id).Single());
+                    list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
 
                     foreach (var item in list)
                     {
-                        var _MemberList = RawMaterialCurrent.Find(m => m.TreeId == item.TreeID).ToList();
+                        var _MemberList = RawMaterialCurrent.Find(m => m.TreeId.ToString() == item.TreeID).ToList();
                         if (_MemberList.Count() > 0)
                         {
                             MemberList = MemberList.Concat(_MemberList).ToList();
@@ -1620,10 +1620,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     int _id = Convert.ToInt32(TreeId);
-                    var list = GetSonId(_id).ToList();
+                    var list = GetSonId(TreeId).ToList();
                     try
                     {
-                        list.Add(TreeCurrent.Find(p => p.TreeID == _id).Single());
+                        list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
                     }
                     catch
                     {
@@ -1636,7 +1636,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                     foreach (var item in list)
                     {
-                        var Ordrer = OrderManagementCurrent.Find(f => f.TreeId == item.TreeID).ToList();
+                        var Ordrer = OrderManagementCurrent.Find(f => f.TreeId.ToString() == item.TreeID).ToList();
                         if (Ordrer.Count() > 0)
                         {
                             foreach (var item1 in Ordrer)
@@ -2166,7 +2166,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             int _ItemId = Convert.ToInt32(ItemId);
             List<RMC_Tree> list, list1, list2;
             list1 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ItemClass == 0).ToList();
-            list2 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ItemID == _ItemId && t.ItemClass == 4).ToList();
+            list2 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ModuleId == ItemId && t.ItemClass == 4).ToList();
             list = list1.Concat(list2).Distinct().ToList();
 
             List<TreeEntity> TreeList = new List<TreeEntity>();

@@ -29,7 +29,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public virtual ActionResult IsItem(string TreeId)
         {
             int treeid = Convert.ToInt32(TreeId);
-            var entitytree = TreeCurrent.Find(f => f.TreeID == treeid).SingleOrDefault();
+            var entitytree = TreeCurrent.Find(f => f.TreeID == TreeId).SingleOrDefault();
             return Json(entitytree);
         }
         public virtual ActionResult FolderForm()
@@ -48,7 +48,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         public ActionResult TreeJson()
         {
-            List<RMC_Tree> list = TreeCurrent.Find(f => f.TreeID > 0).ToList();
+            List<RMC_Tree> list = TreeCurrent.Find(f => f.TreeID !=null&&f.TreeID!="").ToList();
             List<TreeEntity> TreeList = new List<TreeEntity>();
             foreach (RMC_Tree item in list)
             {
@@ -62,7 +62,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 tree.id = item.TreeID.ToString();
                 tree.text = item.TreeName;
                 tree.value = item.TreeID.ToString();
-                tree.itemId = item.ItemID.ToString();
+                tree.itemId = item.ModuleId.ToString();
                 tree.isexpand = item.State == 1 ? true : false;
                 tree.complete = true;
                 tree.hasChildren = hasChildren;
@@ -81,7 +81,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult SetFormControl(string KeyValue)
         {
             int _KeyValue = Convert.ToInt32(KeyValue);
-            RMC_Tree entity = TreeCurrent.Find(f => f.TreeID == _KeyValue).SingleOrDefault();
+            RMC_Tree entity = TreeCurrent.Find(f => f.TreeID == KeyValue).SingleOrDefault();
             string JsonData = entity.ToJson();
 
             JsonData = JsonData.Insert(1, "\"ParentName\":\"" + TreeCurrent.Find(f => f.TreeID == entity.ParentID).SingleOrDefault().TreeName + "\",");
@@ -101,7 +101,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public virtual ActionResult SetFolderForm(string KeyValue)
         {
             int folderid = Convert.ToInt32(KeyValue);
-            RMC_Tree entity = TreeCurrent.Find(f => f.TreeID == folderid).SingleOrDefault();
+            RMC_Tree entity = TreeCurrent.Find(f => f.TreeID == KeyValue).SingleOrDefault();
             //string JsonData = entity.ToJson();
             ////自定义
             //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
@@ -124,7 +124,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
                     int keyvalue = Convert.ToInt32(KeyValue);
-                    RMC_Tree Oldentity = TreeCurrent.Find(t => t.TreeID == keyvalue).SingleOrDefault();//获取没更新之前实体对象
+                    RMC_Tree Oldentity = TreeCurrent.Find(t => t.TreeID == KeyValue).SingleOrDefault();//获取没更新之前实体对象
                     Oldentity.TreeName = entity.TreeName;//给旧实体重新赋值
                     Oldentity.ModifiedTime = DateTime.Now;
                     Oldentity.OverdueTime = entity.OverdueTime;
@@ -137,8 +137,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     int treeid = Convert.ToInt32(TreeId);
                     RMC_Tree entitys = new RMC_Tree();
-                    entitys.ParentID = treeid;
-                    entitys.ItemID = Convert.ToInt32(ItemID);
+                    entitys.ParentID = TreeId;
+                    entitys.ModuleId = ItemID;
                     entitys.IsItem = 0;
                     if (ItemClassId == "2")
                     {
@@ -175,12 +175,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             int Ok = 0;
             try
             {
-                List<int> ids = new List<int>();
+                List<string> ids = new List<string>();
                 List<int> ids1 = new List<int>();
                 int TreeId = Convert.ToInt32(KeyValue);
 
-                var list = GetSonId(TreeId).ToList();
-                list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
+                var list = GetSonId(KeyValue).ToList();
+                list.Add(TreeCurrent.Find(p => p.TreeID == KeyValue).Single());
 
                 if (list.Count>0)
                 {
@@ -201,7 +201,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         //获取树字节子节点(自循环)
-        public IEnumerable<RMC_Tree> GetSonId(int p_id)
+        public IEnumerable<RMC_Tree> GetSonId(string p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
             return list.Concat(list.SelectMany(t => GetSonId(t.TreeID)));
@@ -218,7 +218,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             try
             {
                 int TreeId = Convert.ToInt32(KeyValue);
-                var file = TreeCurrent.Find(f => f.TreeID == TreeId).First();
+                var file = TreeCurrent.Find(f => f.TreeID == KeyValue).First();
                 file.ModifiedTime = DateTime.Now;
                 file.DeleteFlag = 1;
                 TreeCurrent.Modified(file);
