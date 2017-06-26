@@ -397,41 +397,6 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRu
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.pdb
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.EF\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Data.EF.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Data.EF.pdb
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\EntityFramework.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\EntityFramework.SqlServer.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Data.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Util.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Util.Ioc.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.Unity.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\MySql.Data.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\MySql.Data.Entity.EF6.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Newtonsoft.Json.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Util.Extension.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Oracle.DataAccess.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\System.Data.SQLite.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Util.Ioc.pdb
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Util.pdb
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Data.pdb
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\EntityFramework.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\EntityFramework.SqlServer.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.ServiceLocation.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.Unity.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Newtonsoft.Json.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Util.Extension.pdb
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\System.Data.SQLite.xml
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\zh-Hans\EntityFramework.resources.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.csprojResolveAssemblyReference.cache
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.dll
-D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.pdb
 D:\Source\Repos\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Data.EF.dll
 D:\Source\Repos\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\LeaRun.Data.EF.pdb
 D:\Source\Repos\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\EntityFramework.dll
