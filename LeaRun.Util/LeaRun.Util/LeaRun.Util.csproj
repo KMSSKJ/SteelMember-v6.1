@@ -62,11 +62,13 @@
     <Compile Include="Const.cs" />
     <Compile Include="DataHelper.cs" />
     <Compile Include="Enums\DataType.cs" />
+    <Compile Include="Excel\JqGridColumn.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="FileViewModel.cs" />
+    <Compile Include="Excel\DeriveExcel.cs" />
     <Compile Include="File\DirFileHelper.cs" />
     <Compile Include="File\FileDownHelper.cs" />
-    <Compile Include="GuidComb.cs" />
+    <Compile Include="Excel\ImportExcel.cs" />
     <Compile Include="HttpMethods.cs" />
     <Compile Include="IPLocation.cs" />
     <Compile Include="Json.cs" />

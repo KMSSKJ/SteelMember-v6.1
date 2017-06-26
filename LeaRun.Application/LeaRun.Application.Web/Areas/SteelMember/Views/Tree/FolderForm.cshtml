@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "控制测量管理/文件夹表单";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<script type="text/javascript">
+    var KeyValue = GetQuery('KeyValue');
+    var TreeId = GetQuery('TreeId');
+    var ItemID = GetQuery('ItemID');//即类型ID
+    var ItemClassId = GetQuery('ItemClassId');//是否是项目信息分类
+    $(function () {
+        InitControl();
+    })
+    //得到一个对象实体
+    function InitControl() {
+        if (!!KeyValue) {
+            AjaxJson("/SteelMember/Tree/SetFolderForm", { KeyValue: KeyValue }, function (data) {
+                SetWebControls(data);
+                $("#TreeName").focus();
+                $("#TreeName").select();
+            });
+        } else if (!!FolderId) {
+            $("#ParentID").val(GetQuery('TreeId'));
+        } else {
+            tipDialog('请选择文件夹!', 3); //,data.Code
+        }
+        //(!!FolderId){
+        //    tipDialog('请选择文件夹!', 3); //,data.Code
+        //    ////显示顺序
+        //    //AjaxJson("/SysManagement/Module/SortCode", {}, function (Data) {
+        //    //    $("#SortCode").val(Data);
+        //    //})
+        //    $("#ParentID").val(GetQuery('FolderId'));
+        //    //$("#IsPublic").val(GetQuery('IsPublic'));
+    }
+    //保存事件
+    function AcceptClick() {
+        if (!CheckDataValid('#form2')) {
+            return false;
+        }
+        Loading(true, "正在提交数据...");
+        window.setTimeout(function () {
+            var postData = GetWebControls("#form2");
+            AjaxJson("/SteelMember/Tree/SubmitFolderForm?KeyValue=" + KeyValue + '&TreeId=' + TreeId + '&ItemID=' + ItemID + "&ItemClassId=" + ItemClassId, postData, function (data) {
+                tipDialog(data.Message, 3, data.Code);
+                top.frames[tabiframeId()].windowload();
+                closeDialog();
+            });
+        }, 200);
+    }
+</script>
+<link href="~/Content/Scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Scripts/editable-select/jquery.editable-select.min.css" rel="stylesheet" type="text/css" />
+
+<form id="form2" style="margin: 25px; margin-left: 40px; margin-right: 40px;">
+    <div>
+        <input id="IsPublic" type="hidden" />
+        <input id="SortCode" type="hidden" />
+        <input id="ParentID" type="hidden" />
+        <table style="width:300px;margin-bottom:3px">
+            <tr>
+                <th class="formTitle">
+                    信息名称：
+                </th>
+                <td class="formValue">
+                    <select id="TreeName" name="TreeName" class="form-control" style="width:94%;height:20px">
+                        <option value="工字钢">工字钢</option>
+                        <option value="槽钢">槽钢</option>
+                        <option value="H型钢">H型钢</option>
+                        <option value="L型钢">L型钢</option>
+                        <option value="等边角钢">等边角钢</option>
+                        <option value="不等边角钢">不等边角钢</option>
+                        <option value="第XX合同段">第XX合同段</option>
+                    </select>
+                </td>
+            </tr>
+            @*<tr>
+                <th class="formTitle">
+                    过期时间：
+                </th>
+                <td class="formValue"> 
+                    <input id="OverdueTime" type="text" class="txt Wdate" onfocus="WdatePicker({minDate: '%y-%M-#{%d+1}' })" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">是否有效：</th>
+                <td class="formValue">
+                        <input type="checkbox" name="checkbox" checked="checked" id="Enabled" />
+                        <label for="Enabled">有效</label>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">菜单项：</th>
+                <td class="formValue">
+                        <input type="checkbox" name="checkbox" checked="checked" id="IsMenu" />
+                        <label for="IsMenu">是</label>
+                </td>
+            </tr>*@
+            <tr>
+                <th class="formTitle">
+                    描述信息：
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5" style="width: 100%;height:80px"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="~/Content/Scripts/editable-select/jquery.editable-select.min.js"></script>
+
+    <script type="text/javascript">
+        $('#TreeName').editableSelect({
+            effects: 'slide'
+        });
+    </script>
+</form>

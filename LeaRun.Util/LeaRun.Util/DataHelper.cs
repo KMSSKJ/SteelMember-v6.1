@@ -116,6 +116,21 @@ namespace LeaRun.Util
         }
         #endregion
 
+        /// <summary>
+        /// 实体类Model转Hashtable(反射)
+        /// </summary>
+        public static Hashtable GetModelToHashtable<T>(T model)
+        {
+            Hashtable ht = new Hashtable();
+            PropertyInfo[] properties = model.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            foreach (PropertyInfo item in properties)
+            {
+                string key = item.Name;
+                ht[key] = item.GetValue(model, null);
+            }
+            return ht;
+        }
+
         #region List转换DataTable
         /// <summary>
         /// 将泛类型集合List类转换成DataTable

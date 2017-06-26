@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "项目信息管理/项目信息表单";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<head>
+    <script type="text/javascript">
+        var KeyValue = GetQuery('KeyValue');
+        var TreeId = GetQuery('TreeId');
+        var Data;
+        $(function () {
+            InitControl();
+            LoadMemberUnit();
+        })
+        //得到一个对象实体
+        function InitControl() {
+            //if (!!KeyValue) {
+            AjaxJson("/SteelMember/MemberProduce/SetRawMaterialsForm", { KeyValue: KeyValue }, function (data) {
+                SetWebControls(data);
+                Data = data;
+                $("#ProjectName").focus();
+                $("#ProjectName").select();
+            });
+        }
+
+        //保存事件
+        function AcceptClick() {
+            if (!CheckDataValid('#form2')) {
+                return false;
+            }
+            Loading(true, "正在提交数据...");
+            window.setTimeout(function () {
+                var postData = GetWebControls("#form2");
+                AjaxJson("/SteelMember/MemberProduce/SubmitRawMaterialsForm?KeyValue=" + KeyValue+"&TreeId="+TreeId, postData, function (data) {//+ '&ItemID=' + ItemID
+                    tipDialog(data.Message, 3, data.Code);
+                    top.frames[tabiframeId()].windowload();
+                    closeDialog();
+                });
+            }, 200);
+        };
+
+        //载入构件单位
+        function LoadMemberUnit() {
+            $.ajax({
+                url: '/SteelMember/ProjectManagement/GetMemderUnit',
+                type: 'post',
+                datatype: 'Json',
+                data: {},
+                success: function (data) {
+                    if (data) {
+                        var projectname_sel = [];
+                        // projectname_sel.push('<option value="" selected>请选择</option>')
+                        for (var i = 0, len = data.length; i < len; i++) {
+                            var projectname = data[i];
+                            projectname_sel.push('<option value="' + projectname.UnitId + '">' + projectname.UnitName + '</option>')
+                        }
+                        $("#UnitId").html(projectname_sel.join(' '));
+                        if (!!KeyValue) {
+                            //编辑时获取值
+                            $("#UnitId  option[value='" + Data.UnitId + "']").attr("selected", true);
+                        }
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        };
+    </script>
+</head>
+<form id="form2">
+    <div>
+      
+        <table class="form">
+            <tr>
+                <th class="formTitle">
+                    原材料名称<font face="宋体" color="red">*</font>：
+                </th>
+                <td class="formValue">
+                    <input id="RawMaterialName" type="text"  class="txt"  datacol="yes" err="原材料名称" checkexpession="NotNull" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    材料规格<font face="宋体" color="red">*</font>：
+                </th>
+                <td class="formValue">
+                    <input id="RawMaterialStandard" type="text" class="txt" datacol="yes" err="材料规格" checkexpession="NotNull"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    单位：
+                </th>
+                <td class="formValue">
+                    <select id="UnitId" name="UnitId"></select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    单价<font face="宋体" color="red">*</font>：
+                </th>
+                <td class="formValue">
+                    <input id="UnitPrice" name="UnitPrice" type="text" class="txt" datacol="yes" err="单价" checkexpession="Double"：/>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    库存量<font face="宋体" color="red">*</font>：
+                </th>
+                <td class="formValue">
+                    <input id="RawMaterialNumber" type="text" class="txt" datacol="yes" err="库存量" checkexpession="Num"：/>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    备注：
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

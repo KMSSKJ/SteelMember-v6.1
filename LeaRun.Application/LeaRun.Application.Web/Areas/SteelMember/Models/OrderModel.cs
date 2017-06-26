@@ -191,7 +191,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         //    this.POOrderEntryId = CommonHelper.GetGuid;
         //    this.CreateDate = DateTime.Now;
         //    this.CreateUserId = ManageProvider.Provider.Current().UserId;
-        //    this.CreateUserName = ManageProvider.Provider.Current().UserName;
+        //    this.CreateUserName =OperatorProvider.Provider.Current().UserName;
         //}
         ///// <summary>
         ///// ±à¼­µ÷ÓÃ
@@ -202,7 +202,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         //    this.POOrderEntryId = KeyValue;
         //    this.ModifyDate = DateTime.Now;
         //    this.ModifyUserId = ManageProvider.Provider.Current().UserId;
-        //    this.ModifyUserName = ManageProvider.Provider.Current().UserName;
+        //    this.ModifyUserName =OperatorProvider.Provider.Current().UserName;
         //}
         //#endregion
     }

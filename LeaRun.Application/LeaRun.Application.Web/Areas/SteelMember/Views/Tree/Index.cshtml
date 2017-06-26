@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "项目树管理";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetTree();
+        GetGrid();
+    });
+    var TreeId, TreeName = ""; ItemId = "";
+    //加载左边树
+    function GetTree() {
+        var itemtree = {
+            onnodeclick: function (item) {
+                TreeId = item.id;            //ID
+                TreeName = item.text;        //名称
+                var Parameter = [{
+                    paramName: "ParentId",
+                    paramValue: TreeId,
+                    Operation: "Equal",
+                }]
+                $("#gridTable").jqGrid('setGridParam', {
+                    url: "@Url.Content("~/SteelMember/Tree/GridJson")?ParameterJson=" + escape(JSON.stringify(Parameter))
+                }).trigger('reloadGrid');
+            },
+            url: "@Url.Content("~/SteelMember/Tree/TreeJson")"
+        };
+        $("#ItemsTree").treeview(itemtree);
+    }
+    //加载表格
+    function GetGrid() {
+        var Parameter = [{
+            paramName: "ParentId",
+            paramValue: TreeId,
+            Operation: "Equal"
+        }]
+        $("#gridTable").jqGrid({
+            url: "@Url.Content("~/SteelMember/Tree/GridJson")?ParameterJson=" + escape(JSON.stringify(Parameter)),
+            datatype: "json",
+            height: $(window).height() - 105,
+            autowidth: true,
+            colModel: [
+                { label: "主键", name: "TreeID", index: "TreeID", hidden: true },
+                { label: "编码", name: "Code", index: "Code", align:' center',width: 76 },
+                { label: "名称", name: "TreeName", index: "TreeName", align:' center',width: 100 },
+                //{ label: "分类", name: "Category", index: "Category", align:' center',width: 45, align: "center" },
+                //{ label: "访问地址", name: "Location", index: "Location", align:' center',width: 350 },
+                //{ label: "目标", name: "Target", index: "Target", align:' center',width: 45, align: "center" },
+                //{ label: "层次", name: "Level", index: "Level", align:' center',width: 45, align: "center" },
+                {
+                    label: '有效', name: 'Enabled', index: 'enabled', align:' center',width: 45,
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == '1') return "<img src='../../Content/Images/checkokmark.gif'/>";
+                        if (cellvalue == '0') return "<img src='../../Content/Images/checknomark.gif'/>";
+                    }
+                },
+                { label: "说明", name: "Remark", index: "Remark", align:' center',width: 400 }
+            ],
+            pager: false,
+            rowNum: 1000,
+            sortname: 'SortCode',
+            sortorder: 'asc',
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true
+        });
+    }
+    //新增
+    function btn_add() {
+        if (IsChecked(TreeId)) {
+            var ItemClassId ="";
+            var ItemId = 0;//即类型ID
+                AjaxJson("/SteelMember/Tree/IsItem", { TreeId: TreeId }, function (Data) {
+                    ItemId = Data.ItemID;
+                    if (Data.ItemClass == 0 || Data.ItemClass==2) {
+                        ItemClassId = 2;
+                    }
+                })
+                var url = "/SteelMember/Tree/FolderForm?TreeId=" + TreeId + '&ItemID=' + ItemId + '&ItemClassId=' + ItemClassId;
+                openDialog(url, "Form", "新增信息", 400, 180, function (iframe) {
+                    top.frames[iframe].AcceptClick()
+                });
+        }
+    }
+
+        //编辑
+        function btn_edit() {
+            if (IsChecked(TreeId)) {
+                var url = "/SteelMember/Tree/FolderForm?KeyValue= " + TreeId;
+                openDialog(url, "Form", "编辑信息", 400, 180, function (iframe) {
+                    top.frames[iframe].AcceptClick();
+                });
+            }
+        }
+
+        //删除
+        function btn_delete() {
+            var IsItem = 0;
+            var ItemId = 0;
+            if (IsChecked(TreeId)) {
+                AjaxJson("/SteelMember/Tree/IsItem", { TreeId: TreeId }, function (Data) {
+                    IsItem = Data.IsItem;
+                    ItemId = Data.ItemID;
+                })
+                if (IsItem == 1) {
+                    tipDialog('该节点是基础数据不允许删除', 4, 'warning');
+                } else {
+                    var Prompt = "是否确定";
+                    delConfirm('/SteelMember/Tree/DeleteTree', { KeyValue: TreeId }, Prompt);
+                }
+                //} else {
+                //    alertDialog("请选择目录！", 0);
+                //}
+            }
+        }
+
+        //刷新
+        function btn_reload() {
+            GetTree();
+            $("#gridTable").trigger("reloadGrid"); //重新载入
+        }
+
+        function windowload() {
+            GetTree();
+        }
+
+    
+</script>
+<div id="layout" class="layout">
+    <!--左边-->
+    <div class="layoutPanel layout-west">
+        <div class="btnbartitle">
+            <div>
+                目录
+            </div>
+        </div>
+        <div class="ScrollBar" id="ItemsTree"></div>
+    </div>
+    <!--中间-->
+    <div class="layoutPanel layout-center">
+        <div class="btnbartitle">
+            <div>
+                信息
+            </div>
+        </div>
+        <div class="tools_bar" style="border-top: none; margin-bottom: 0px;">
+            <div class="PartialButton">
+                @Html.Partial("_PartialButton")
+            </div>
+        </div>
+        <table id="gridTable"></table>
+    </div>
+</div>

@@ -50,7 +50,7 @@ body{margin:0px;padding:0px;font-family:微软雅黑,宋体,Arial,Helvetica,Verd
 .tools_bar_icon .icon-botton:hover{background-color:#fff;}
 label[disabled],label[disabled] label{color:#ccc;opacity:1;cursor:default}
 .form{width:100%;margin:0px;padding:0px;border-collapse:collapse;border-width:3px 1px 1px;table-layout:fixed}
-.form .formTitle{position:relative;left:0px;text-align:right;white-space:nowrap;font-weight:normal;width:90px;padding-right:10px;}
+.form .formTitle{position:relative;left:0px;text-align:center;white-space:nowrap;font-weight:normal;width:90px;padding-right:10px;}
 .form .formTitle font{color:red;position:absolute;right:0px;}
 .form .formTitle-top {vertical-align:top; padding-top:4px;}
 .form .formValue{position:relative;padding:5px;width:auto;}

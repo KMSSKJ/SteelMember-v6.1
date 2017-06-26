@@ -33,9 +33,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
         //public Base_ModuleBll Sys_modulebll = new Base_ModuleBll();
         //public Base_ButtonBll Sys_buttonbll = new Base_ButtonBll();
-  /// <summary>
-  /// 
-  /// </summary>
+        /// <summary>
+        /// 
+        /// </summary>
         public UserBLL userBLL = new UserBLL();
         /// <summary>
         /// 
@@ -693,14 +693,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 【控制测量文档管理】返回树JONS
         /// </summary>
         /// <returns></returns>      
-        public ActionResult TreeJson(string TreeId)
+        public ActionResult TreeJson(string ItemId)
         {
             //var userid = 1;
             //List<DOC_R_Tree_Role> TRR = new List<DOC_R_Tree_Role>();
             //var userrole = UserRoleRepository.Find(ur => ur.UserID == userid).SingleOrDefault();
             //TRR = TreeRoleRepository.Find(tr => tr.RoleID == userrole.RoleID).ToList();
-            int ItemId = Convert.ToInt32(TreeId);
-            List<RMC_Tree> list = TreeCurrent.Find(t => t.ItemID == ItemId).ToList();
+            int _ItemId = Convert.ToInt32(ItemId);
+            List<RMC_Tree> list = TreeCurrent.Find(t => t.ItemID == _ItemId).ToList();
             List<TreeEntity> TreeList = new List<TreeEntity>();
             foreach (RMC_Tree item in list)
             {
@@ -759,7 +759,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <param name="KeyValue">主键值</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
         public virtual ActionResult SubmitData(RMC_MemberLibrary entity, string KeyValue)
         {
             int fileid = Convert.ToInt32(KeyValue);
@@ -781,57 +782,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 return Success(Message);
 
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 删除（销毁）文件
-        /// </summary>
-        /// <param name="MemberID"></param>
-        /// <returns></returns>
-        public ActionResult DeleteFile(string MemberID)
-        {
-            try
-            {
-                int _MemberId = Convert.ToInt32(MemberID);
-                //删除构件
-                var ids = new List<int>();
-                ids.Add(_MemberId);
-                MemberLibraryCurrent.Remove(ids);
-                //
-
-                //删除构件原材料
-
-                var MemberMaterial = MemberMaterialCurrent.Find(f => f.MemberId == _MemberId).ToList();
-                if (MemberMaterial.Count() > 0)
-                {
-                    var ids1 = new List<int>();
-                    for (int i = 0; i < MemberMaterial.Count(); i++)
-                    {
-                        ids1.Add(Convert.ToInt32(MemberMaterial[i].MemberId));
-                    }
-                    MemberMaterialCurrent.Remove(ids1);
-                }
-                //
-
-                //删除构件制程
-                var MemberProcess = MemberProcessCurrent.Find(f => f.MemberId == _MemberId).ToList();
-                if (MemberProcess.Count() > 0)
-                {
-                    List<int> ids2 = new List<int>();
-                    for (int i = 0; i < MemberProcess.Count(); i++)
-                    {
-                        ids2.Add(Convert.ToInt32(MemberProcess[i].MemberId));
-                    }
-                    MemberProcessCurrent.Remove(ids2);
-                }
-                //
-
-                return Success("删除成功");
             }
             catch (Exception ex)
             {
@@ -1242,47 +1192,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string DataColumn = "型号 | 截面面积/cm²| 外表面积/(m²/m)|理论重量/(㎏/m)|";
             DataColumn += "h|B|b|D|d| t|r|r1|Ix | Ix0 | Ix1 | Iy | Iy0 | Iy1 | Iu | ix |";
             DataColumn += " iy | ix0 | iy0 | iu | Wx | Wy | Wx0 | Wy0 | Wu | Z0 | X0 | Yu|单位|单价|图纸|模型|图标";
-            //DeriveExcel.DataTableToExcel(data, DataColumn.Split('|'), fileName);
-            // ExcelHelper.ExcelDownload(exportTable, excelconfig);
-            // userBLL.GetExportList();
+            DeriveExcel.DataTableToExcel(data, DataColumn.Split('|'), fileName);
         }
 
-        ///// <summary>                                                                                            
-        ///// 获取要导出表头字段                                                                                   
-        ///// </summary>                                                                                          
-        ///// <returns></returns>                                                                                 
-        //public ActionResult GetDeriveExcelColumn()
-        //{
-        //    string JsonColumn = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonColumn_DeriveExcel"));
-        //    return Content(JsonColumn);
-        //}
-        ///// <summary>                                                                                            
-        ///// 导出Excel                                                                                            
-        ///// </summary>                                                                                           
-        ///// <param name="ExportField">要导出字段</param>                                                         
-        //public void GetDeriveExcel(string ExportField)
-        //{
-        //    string JsonColumn = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonColumn_DeriveExcel"));
-        //    string JsonData = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonData_DeriveExcel"));
-        //    string JsonFooter = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonFooter_DeriveExcel"));
-        //    string fileName = GZipHelper.Uncompress(CookieHelper.GetCookie("FileName_DeriveExcel"));
-        //    DeriveExcel.JqGridToExcel(JsonColumn, JsonData, ExportField, fileName);
-        //}
-        ///// <summary>
-        ///// 写入数据到Cookie
-        ///// </summary>
-        ///// <param name="JsonColumn">表头</param>
-        ///// <param name="JsonData">数据</param>
-        ///// <param name="JsonFooter">底部合计</param>
-        //[ValidateInput(false)]
-        //public void SetDeriveExcel(string JsonColumn, string JsonData, string JsonFooter, string FileName,string TableHeader)
-        //{
-        //    CookieHelper.WriteCookie("JsonColumn_DeriveExcel", GZipHelper.Compress(JsonColumn));
-        //    CookieHelper.WriteCookie("JsonData_DeriveExcel", GZipHelper.Compress(JsonData));
-        //    CookieHelper.WriteCookie("JsonFooter_DeriveExcel", GZipHelper.Compress(JsonFooter));
-        //    CookieHelper.WriteCookie("FileName_DeriveExcel", GZipHelper.Compress(FileName));
-        //    CookieHelper.WriteCookie("TabelHeader_DeriveExcel", GZipHelper.Compress(TableHeader));
-        //}
 
         /// <summary>
         /// 导出Excel
@@ -1480,7 +1392,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="_list"></param>
         /// <returns></returns>
-        public bool Exists(string[] _list)
+        public bool exists(string[] _list)
         {
             string _photo = Session["photo"].ToString();
 
@@ -1675,7 +1587,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-       
+
         [HttpGet]
         public ActionResult SetMemberForm(string KeyValue)
         {
@@ -1692,7 +1604,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue, string TreeId)
+        public ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue, string TreeId)
         {
             try
             {
@@ -1847,7 +1759,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
         }
 
-        public virtual ActionResult DeleteMember(RMC_MemberLibrary entity, string KeyValue)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult DeleteMember(RMC_MemberLibrary entity, string KeyValue)
         {
 
             int IsOk = -1;
