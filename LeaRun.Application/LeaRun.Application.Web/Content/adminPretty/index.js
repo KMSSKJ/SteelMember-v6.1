@@ -382,11 +382,11 @@
                                 _itemHtml += '<div class="popover-menu-sub"><ul class="treeview-menu">';
                                 $.each(subchildNodes, function (i) {
                                     var subchildNodesrow = subchildNodes[i];
-                                    _itemHtml += '<li><a class="menuItem menuiframe" data-id="' + subchildNodesrow.ModuleId + '" href="' + subchildNodesrow.UrlAddress + '"><i class="' + subchildNodesrow.Icon + ' firstIcon"></i>' + subchildNodesrow.FullName + '</a></li>';
+                                    _itemHtml += '<li><a class="menuItem menuiframe" data-id="' + subchildNodesrow.ModuleId + '" href="' + subchildNodesrow.UrlAddress +'?moduleId='+subchildNodesrow.ModuleId+'"><i class="' + subchildNodesrow.Icon + ' firstIcon"></i>' + subchildNodesrow.FullName + '</a></li>';
                                 });
                                 _itemHtml += '</ul></div>';
                             } else {
-                                _itemHtml += '<a class="menuItem menuiframe" data-id="' + subrow.ModuleId + '" href="' + subrow.UrlAddress + '"><i class="' + subrow.Icon + ' firstIcon"></i>' + subrow.FullName + '</a>';
+                                _itemHtml += '<a class="menuItem menuiframe" data-id="' + subrow.ModuleId + '" href="' + subrow.UrlAddress + '?moduleId=' + subrow.ModuleId+ '"><i class="' + subrow.Icon + ' firstIcon"></i>' + subrow.FullName + '</a>';
                             }
                             _itemHtml += '</li>';
                         });
