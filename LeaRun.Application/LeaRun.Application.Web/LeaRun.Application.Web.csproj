@@ -1233,6 +1233,7 @@
     <Content Include="Areas\SteelMember\Views\ProjectWarehouse\QueryPage.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\FolderForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Index.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
@@ -1290,9 +1291,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\SteelMember\Views\RawMaterialLibrary\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\LeaRun.Cache\LeaRun.Cache.Factory\LeaRun.Cache.Factory.csproj">
       <Project>{a68cdd21-2e12-4b11-95db-d0a0fced48b1}</Project>

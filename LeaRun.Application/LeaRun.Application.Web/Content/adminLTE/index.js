@@ -365,12 +365,11 @@
                                 _html += '<ul class="treeview-menu">';
                                 $.each(subchildNodes, function (i) {
                                     var subchildNodesrow = subchildNodes[i];
-                                    _html += '<li><a class="menuItem" data-id="' + subchildNodesrow.ModuleId + '" href="' + subchildNodesrow.UrlAddress + '"><i class="' + subchildNodesrow.Icon + '"></i>' + subchildNodesrow.FullName + '</a></li>';
+                                    _html += '<li><a class="menuItem menuiframe" data-id="' + subchildNodesrow.ModuleId + '" href="' + subchildNodesrow.UrlAddress + '?moduleId=' + subchildNodesrow.ModuleId + '"><i class="' + subchildNodesrow.Icon + ' firstIcon"></i>' + subchildNodesrow.FullName + '</a></li>';
                                 });
-                                _html += '</ul>';
-
+                                _html += '</ul></div>';
                             } else {
-                                _html += '<a class="menuItem" data-id="' + subrow.ModuleId + '" href="' + subrow.UrlAddress + '"><i class="' + subrow.Icon + '"></i>' + subrow.FullName + '</a>';
+                                _html += '<a class="menuItem menuiframe" data-id="' + subrow.ModuleId + '" href="' + subrow.UrlAddress + '?moduleId=' + subrow.ModuleId + '"><i class="' + subrow.Icon + ' firstIcon"></i>' + subrow.FullName + '</a>';
                             }
                             _html += '</li>';
                         });

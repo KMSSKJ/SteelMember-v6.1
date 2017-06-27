@@ -109,12 +109,10 @@
         //如果是菜单，开启 上一步、下一步
         $("#IsMenu").click(function () {
             if (!$(this).attr("checked")) {
-                alert(1);
                 $(this).attr("checked", true)
                 $next.removeAttr('disabled');
                 $finish.attr('disabled', 'disabled');
             } else {
-                alert(2);
                 $(this).attr("checked", false)
                 $next.attr('disabled', 'disabled');
                 $finish.removeAttr('disabled');

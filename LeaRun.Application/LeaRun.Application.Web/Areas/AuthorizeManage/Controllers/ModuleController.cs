@@ -33,6 +33,11 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
+            var moduleId =Request["moduleId"];
+            if (moduleId!=null&&moduleId!="")
+            {
+                Session["moduleId"] = moduleId;
+            }
             return View();
         }
         /// <summary>
