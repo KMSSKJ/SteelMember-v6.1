@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "构件需求管理";
+    ViewBag.Title = "构件库管理";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 <script>
@@ -47,7 +47,7 @@
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            url: "/SteelMember/ProjectManagement/TreeJson",
+            url: '/SteelMember/File/TreeJson',
             onnodeclick: function (item) {
                 TreeId = item.id;
                 HavesChildren = item.hasChildren;
@@ -60,23 +60,32 @@
 
     //加载表格
     function GetGrid() {
+        var CADPath = "";
+        var ModelPath = "";
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
-            url: "/SteelMember/ProjectManagement/GridListJson? TreeId =" + TreeId,
+            url: "/SteelMember/File/GridListJson",
             datatype: "json",
             height: $(window).height() - 141.5,
             autowidth: true,
             colModel: [
-                { label: '主键', name: "ProjectDemandId", hidden: true },
-                { label: '外键', name: "MemberId", index: "MemberId", hidden: true },
+                { label: '主键', name: "MemberID", hidden: true },
+                { label: '外键', name: "TreeID", hidden: true },
                 {
-                    label: '图标', name: "Icon", hidden: false,
+                    label: '图标', name: "Icon", hidden: true,
                     formatter: function (cellvalue, options, rowObject) {
                         var Icon = cellvalue;
                         if (Icon != "" || Icon != null) {
                             var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
                             filename = filename + "/" + Icon;
+
+                            var filename1 = rowObject.CAD_Drawing.substring(0, rowObject.CAD_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                            CADPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + rowObject.CAD_Drawing;
+
+                            var filename2 = rowObject.Model_Drawing.substring(0, rowObject.Model_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                            ModelPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + rowObject.Model_Drawing;
+
                             if (Icon == "1.png") {
                                 //<div style='cursor:pointer;padding-top:1px;'><img style='padding-bottom:3px;padding-right:2px;' src='../../Content/Scripts/tree/images/folder.gif' onmouseover=\"showBigImg(event,'../../Content/Scripts/tree/images/folder.gif')\" onmouseout=\"leaveBigImg(event)\"/>"</div>
                                 //<img style='width:32px;height:18px;padding-bottom:3px;padding-right:2px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
@@ -89,41 +98,9 @@
                         }
                     }
                 },
-                { label: '构件编号', name: "MemberNumbering", index: "MemberNumbering", align: ' center'},
-                { label: '构件名', name: "MemberName", index: "MemberName", align: ' center'},
-                { label: '构件型号', name: "MemberModel", index: "MemberModel", align: ' center'},
-                { label: '需求量', name: "MemberNumber", index: "MemberNumber", align: ' center'},
-                {
-                    label: '单位', name: "MemberUnit", index: "MemberUnit", align: ' center',
-                    formatter: function (cellvalue, value, row, index) {
-                        unit_name = cellvalue;
-                        return unit_name
-                    }
-                },
-                {
-                    label: '审核状态', name: 'IsReview', index: 'IsReview', align: ' center',
-                    formatter: function (cellvalue, value, row, index) {
-                        var _IsReview = cellvalue;
-                        if (_IsReview == 0) {
-                            return "<img src='../../Content/Images/checknomark.gif'/>";
-                        } else if (_IsReview == 1) {
-                            return "<img src='../../Content/Images/checkokmark.gif'/>";
-                        } else if (_IsReview == 2) {
-                            return "<img src='../../Content/Images/checkerrormark.gif'/>";
-                        }
-                    }
-                },
-                { label: '审核人', name: "ReviewMan", index: "ReviewMan", align: ' center'},
-                { label: '已成订单量', name: 'OrderQuantityed', index: 'OrderQuantityed', align: ' center'},
-                { label: '已生产量', name: 'ProductionNumber', index: 'ProductionNumber', align: ' center'},
-                { label: '已领用量', name: 'CollarNumbered', index: 'CollarNumbered', align: ' center'},
-                {
-                    label: '创建时间', name: "CreateTime", index: "CreateTime", align: ' center',
-                    formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
-                    }
-                },
-                { label: '备注', name: "Description", index: "Description", align: ' center'},
+                { label: '编号', name: "MemberNumbering", index: "MemberNumbering", align: 'center' },
+                { label: '名称', name: "MemberName", index: "MemberName", align: 'center' },
+
             ],
             pager: false,
             rowNum: "1000",
@@ -132,13 +109,13 @@
             gridview: true,
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
+                GetGridRawMaterial(CADPath, ModelPath);
             },
             gridComplete: function () {
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-
-
+      
         //查询条件
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
@@ -164,161 +141,125 @@
         });
     }
 
+    function GetGridRawMaterial(CADPath, ModelPath) {
+        var MemberID = $("#gridTable").jqGridRowValue("MemberID");
+        var selectedRowIndex = 0;
+        var $gridTable = $('#gridTable_child');
+        $gridTable.jqGrid({
+            url: "/SteelMember/File/GridListJsonMemberMaterial?KeyValue= " + MemberID,
+            datatype: "json",
+            height: $(window).height() - 545,
+            autowidth: true,
+            colModel: [
+                { label: '主键', name: "MemberMaterialId", hidden: true },
+                { label: '外键', name: "RawMaterialId", hidden: true },
+                { label: '外键', name: "MemberId", index: "MemberId", hidden: true },
+                { label: '材料名称', name: "RawMaterialName", index: "RawMaterialName", align: 'center', width: 120 },
+                { label: '材料规格', name: "RawMaterialStandard", index: "RawMaterialStandard", align: 'center', width: 120 },
+                { label: '用量', name: "MaterialNumber", index: "MemberNumber", align: 'center', width: 120 },
+                { label: '单位', name: "UnitName", index: "UnitName", align: 'center', width: 120 },
+                { label: '备注', name: "Description", index: "Description", align: 'center', width: 150 },
+            ],
+            pager: false,
+            rowNum: "1000",
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+            onSelectRow: function () {
+                selectedRowIndex = $("#" + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $("#" + this.id).setSelection(selectedRowIndex, false);
+            }
+        });
+
+        document.getElementById("txImg").src = CADPath;
+        document.getElementById("txImg1").src = ModelPath;
+    }
 
     //新增
     function btn_add() {
-        if (!!TreeId) {
-            if (!HavesChildren) {
-                dialogOpen({
-                    id: "MemberForm",
-                    title: '添加信息',
-                    url: '/SteelMember/ProjectManagement/Form?TreeID=' + TreeId,
-                    width: "700px",
-                    height: "600px",
-                    callBack: function (iframeId) {
-                        top.frames[iframeId].AcceptClick();
-                    }
-                });
-            } else {
-                dialogMsg('此节点不可编辑，请选择一个子节点！', 0);
-            }
+        if (!HavesChildren) {
+            dialogOpen({
+                id: "MemberForm",
+                title: '添加信息',
+                url: '/SteelMember/File/MemberForm?TreeId=' + TreeId,
+                width: "700px",
+                height: "600px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }
+            });
         } else {
-            dialogMsg('请选择文件夹目录!', 0);
+            dialogMsg('此节点不可编辑，请选择一个子节点！', 0);
         }
     }
 
     //编辑
     function btn_edit() {
-        var KeyValue = $("#gridTable").jqGridRowValue("ProjectDemandId");
-        var IsReview = $("#gridTable").jqGridRowValue("IsReview");
+        var KeyValue = $("#gridTable").jqGridRowValue("MemberID");
         if (checkedRow(KeyValue)) {
-            if (IsReview.replace(/"/, "'").replace(/"/, "'") != "<img src='../../Content/Images/checkokmark.gif'>") {
-                dialogOpen({
-                    id: "MemberForm",
-                    title: '编辑信息',
-                    url: '/SteelMember/ProjectManagement/Form?KeyValue' + KeyValue,
-                    width: "700px",
-                    height: "600px",
-                    callBack: function (iframeId) {
-                        top.frames[iframeId].AcceptClick();
-                    }
-                });
-            } else {
-                dialogMsg('该构件已审核，不允许修改！');
-            }
+            dialogOpen({
+                id: "MemberForm",
+                title: '编辑信息',
+                url: '/SteelMember/File/MemberForm?KeyValue=' + KeyValue,
+                width: "700px",
+                height: "600px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }
+            });
         }
     }
 
     //删除
     function btn_delete() {
-        var KeyValue = $("#gridTable").jqGridRowValue("ProjectDemandId");
-        var IsReview = $("#gridTable").jqGridRowValue("IsReview");
+        var KeyValue = $("#gridTable").jqGridRowValue("MemberID");
         if (KeyValue) {
-            if (IsReview.replace(/"/, "'").replace(/"/, "'") != "<img src='../../Content/Images/checkokmark.gif'>") {
-                $.RemoveForm({
-                    url: 'SteelMember/File/DeleteMember?KeyValue=' + KeyValue,
-                    param: { KeyValue: KeyValue },
-                    success: function (data) {
-                        $("#gridTable").trigger("reloadGrid");
-                    }
-                })
-            } else {
-                dialogMsg('该构件已审核，不允许删除！');
-            }
-        } else {
-            dialogMsg('请选择需要删除的数据项！', 0);
-        }
-    }
-
-    //审核信息
-    function btn_review() {
-        var _IsReview = $("#gridTable").jqGridRowValue("IsReview");
-        var KeyValue = $("#gridTable").jqGridRowValue("ProjectDemandId");
-        var IsReview = 1;
-        if (checkedRow(KeyValue)) {
-            if (_IsReview.replace(/"/, "'").replace(/"/, "'") == "<img src='../../Content/Images/checknomark.gif'>") {
-                $.ConfirmAjax({
-                    url: '/SteelMember/ProjectManagement/ReviewProjectDemand',
-                    param: { KeyValue: KeyValue, IsReview: IsReview },
-                    success: function (data) {
-                        $("#gridTable").trigger("reloadGrid");
-                    }
-                })
-            } else {
-                dialogMsg("该信息已审核！", 0);
-            }
-        }
-    }
-    //审核信息
-    function btn_no_review() {
-        var _IsReview = $("#gridTable").jqGridRowValue("IsReview");
-        var KeyValue = $("#gridTable").jqGridRowValue("ProjectDemandId");
-        var IsReview = 2;
-        if (checkedRow(KeyValue)) {
-            if (_IsReview.replace(/"/, "'").replace(/"/, "'") == "<img src='../../Content/Images/checkenomark.gif'>") {
-                $.ConfirmAjax({
-                    url: '/SteelMember/ProjectManagement/ReviewProjectDemand',
-                    param: { KeyValue: KeyValue, IsReview: IsReview },
-                    success: function (data) {
-                        $("#gridTable").trigger("reloadGrid");
-                    }
-                })
-            } else {
-                dialogMsg("该信息已审核！", 0);
-            }
-        }
-    }
-
-    //提交信息
-    function btn_SubmitItem() {
-        var KeyValue = $("#gridTable").jqGridRowValue("ProjectDemandId");
-        if (checkedRow(KeyValue)) {
-            $.ConfirmAjax({
-                url: '/SteelMember/ProjectManagement/SubmitProjectItemDemand',
+            $.RemoveForm({
+                url: 'SteelMember/File/DeleteMember?KeyValue=' + KeyValue,
                 param: { KeyValue: KeyValue },
                 success: function (data) {
                     $("#gridTable").trigger("reloadGrid");
                 }
             })
+        } else {
+            dialogMsg('请选择需要删除的数据项！', 0);
         }
-        $("#gridTable").trigger("reloadGrid"); //重新载入
     }
 
-    //构件图纸/模型管理
-    function btn_drawing() {
-        var KeyValue = $("#gridTable").jqGridRowValue("MemberId");
-        if (checkedRow(KeyValue)) {
-            dialogOpen({
-                id: "DrawingManagement",
-                title: '构件信息',
-                url: '/SteelMember/File/DrawingManagement?KeyValue=' + KeyValue,
-                width: "700px",
-                height: "580px",
-                btn: null
-            });
+    //导入文件
+    function btn_import() {
+        if (!!TreeId) {
+            if (!HavesChildren) {
+                dialogOpen({
+                    id: "MemberForm",
+                    title: '导入功能',
+                    url: '/SteelMember/File/ImportFile?KeyValue=' + TreeId,
+                    width: "500px",
+                    height: "200px",
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    },
+                    btn: null
+                });
+
+            } else {
+                dialogMsg('此节点不可编辑，请选择一个子节点！', 0);
+            }
+        }
+        else {
+            dialogMsg('请选择文件夹目录！', 0);
         }
     }
 
     //导出文件
     var JsonData1 = ""; var TableObject = "";
-    //function btn_derive() {
-    //    SetDeriveExcel("#gridTable", "构件信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
-    //    openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "构件信息导出", 900, 500, function (iframe) {
-    //        top.frames[iframe].AcceptClick();
-    //    })
-    //}
-
     function btn_derive() {
-        dialogOpen({
-            id: "ExcelIExportDialog",
-            title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=gridTable',
-            width: "500px",
-            height: "380px",
-            callBack: function (iframeId) {
-                top.frames[iframeId].AcceptClick();
-            }, btn: ['导出Excel', '关闭']
-        });
+        SetDeriveExcel("#gridTable", "构件信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
+        openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "构件信息导出", 900, 500, function (iframe) {
+            top.frames[iframe].AcceptClick();
+        })
     }
 
 </script>
@@ -363,16 +304,8 @@
                         <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
                         <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-                        <a id="lr-drawing_model" class="btn btn-default" onclick="btn_drawing_model()"><i class="fa fa-reorder"></i>&nbsp;图纸模型</a>
-                        <a id="lr-0_review" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-filter"></i>&nbsp;审核<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li id="lr-review"><a onclick="btn_review()"><i class="fa fa-filter"></i>&nbsp;通过</a></li>
-                            <li id="lr-no_review"><a onclick="btn_no_review()"><i class="fa fa-filter"></i>&nbsp;失败</a></li>
-                        </ul>
+                        <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
                         <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
-
                     </div>
                     <script>$('.toolbar').authorizeButton()</script>
                 </div>
@@ -380,8 +313,34 @@
             <div id="BigDiv" style="margin-left:50px;margin-top:160px; width:360px;height:360px; position: absolute; visibility: hidden; padding: 5px;z-index:999">
                 <img id="bigImg" src="" style="width:100%;height:100%" />
             </div>
-            <div class="gridPanel" style="width:100%">
+            <div class="gridPanel" style="float:left;width:30%">
                 <table id="gridTable"></table>
+            </div>
+            <div style="float:left;width:63.5%;height:50%;">
+                <table class="form">
+                    <tr>
+                        <td class="formTitle">
+                            图纸
+                        </td>
+
+                        <td class="formTitle">
+                            模型
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="formValue">
+                            <div style="text-align:center; margin:8px;" class="showImg;"><img id="txImg" name="txImg" class="txImg" src="" height="360" widtd="330" /></div>
+                        </td>
+
+                        <td class="formValue">
+                            <div style="text-align:center;margin:8px;" class="showImg;"><img id="txImg1" name="txImg" class="txImg" src="" height="360" widtd="330" /></div>
+
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin-left:12px;width:109%">
+                    <table id="gridTable_child"></table>
+                </div>
             </div>
 
         </div>
