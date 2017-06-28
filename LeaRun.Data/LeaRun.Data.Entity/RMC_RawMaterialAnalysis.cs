@@ -12,17 +12,11 @@ namespace LeaRun.Data.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class RMC_RawMaterialLibrary
+    public partial class RMC_RawMaterialAnalysis
     {
-        public int RawMaterialId { get; set; }
+        public int Id { get; set; }
         public string TreeId { get; set; }
-        public string RawMaterialName { get; set; }
-        public string RawMaterialStandard { get; set; }
-        public Nullable<int> UnitId { get; set; }
-        public string Description { get; set; }
-        public string RawMaterialModel { get; set; }
-        public string ParentId { get; set; }
-        public Nullable<int> DeleteFlag { get; set; }
-        public Nullable<int> Sort { get; set; }
+        public Nullable<int> RawMaterialId { get; set; }
+        public string RawMaterialDosage { get; set; }
     }
 }

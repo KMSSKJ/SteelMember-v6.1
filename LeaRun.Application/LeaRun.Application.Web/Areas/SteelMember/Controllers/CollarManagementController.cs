@@ -449,7 +449,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 #region 查询条件拼接
                 if (model.TreeID != 0 && model.TreeID.ToString() != "")
                 {
-                    func = func.And(f => f.TreeId == model.TreeID);
+                    func = func.And(f => f.TreeId == model.TreeID.ToString());
                 }
                 if (model.MemberModel != null && model.MemberModel != "")
                 {

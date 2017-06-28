@@ -95,24 +95,29 @@
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Net.Http">
-      <Private>True</Private>
+      <Private>False</Private>
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
-      <Private>True</Private>
+      <Private>False</Private>
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -121,9 +126,11 @@
     </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -134,7 +141,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <Private>False</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -195,14 +202,12 @@
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
     <Compile Include="Areas\SteelMember\Controllers\CollarManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\MemberProduceController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\MemberSettlementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectWarehouseController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
     <Compile Include="Areas\SteelMember\Models\AnalysisRawMaterialModel.cs" />
@@ -1166,28 +1171,6 @@
     <Content Include="Areas\SteelMember\Views\ProjectInfo\ManIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\Web.config" />
     <Content Include="Areas\SteelMember\Views\ProjectInfo\Index - 复制.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\ApplicationForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\AuthorizeFileForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\CADDrawingManagement.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\CNCParameterForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\DeriveFile.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\DrawingManagement.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\FileReName.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\ImportFile.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\MemberForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\MemberProcessForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\MemberProcessIndex.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\ModelDrawingManagement.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\MoveLocation.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\OnlineLook.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\Partial1.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\PrintPage.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\QueryPage.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\RawMaterialsDosageForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\RawMaterialsDosageIndex.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\SubmitImportFile.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\UpLoadFile.cshtml" />
-    <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\Directory\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\CollarManagement\CollarForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\CollarManagement\DetailForm.cshtml" />
@@ -1234,6 +1217,9 @@
     <Content Include="Areas\SteelMember\Views\Tree\FolderForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

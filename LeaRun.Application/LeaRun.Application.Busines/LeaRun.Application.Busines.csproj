@@ -77,7 +77,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseManage\RoleBLL.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LeaRun.Cache\LeaRun.Cache.Factory\LeaRun.Cache.Factory.csproj">
       <Project>{a68cdd21-2e12-4b11-95db-d0a0fced48b1}</Project>

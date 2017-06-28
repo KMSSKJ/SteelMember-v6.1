@@ -65,6 +65,7 @@
     <Compile Include="SteelMember.BLL\ProjectManagementBLL.cs" />
     <Compile Include="SteelMember.BLL\ProjectWarehouseBLL.cs" />
     <Compile Include="SteelMember.BLL\PurchaseBLL.cs" />
+    <Compile Include="SteelMember.BLL\RawMaterialAnalysisBLL.cs" />
     <Compile Include="SteelMember.BLL\RawMaterialBLL.cs" />
     <Compile Include="SteelMember.BLL\RawMaterialPurchaseBLL.cs" />
     <Compile Include="SteelMember.BLL\ShipManagementBLL.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="SteelMember.DAL\ProjectManagementDAL.cs" />
     <Compile Include="SteelMember.DAL\ProjectWarehouseDAL.cs" />
     <Compile Include="SteelMember.DAL\PurchaseDAL.cs" />
+    <Compile Include="SteelMember.DAL\RawMaterialAnalysisDAL.cs" />
     <Compile Include="SteelMember.DAL\RawMaterialDAL.cs" />
     <Compile Include="SteelMember.DAL\RawMaterialPurchaseDAL.cs" />
     <Compile Include="SteelMember.DAL\ShipManagementDAL.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="SteelMember.IBLL\ProjectManagementIBLL.cs" />
     <Compile Include="SteelMember.IBLL\ProjectWarehouseIBLL.cs" />
     <Compile Include="SteelMember.IBLL\PurchaseIBLL.cs" />
+    <Compile Include="SteelMember.IBLL\RawMaterialAnalysisIBLL.cs" />
     <Compile Include="SteelMember.IBLL\RawMaterialIBLL.cs" />
     <Compile Include="SteelMember.IBLL\RawMaterialPurchaseIBLL.cs" />
     <Compile Include="SteelMember.IBLL\ShipManagementIBLL.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="SteelMember.IDAL\ProjectManagementIDAL.cs" />
     <Compile Include="SteelMember.IDAL\ProjectWarehouseIDAL.cs" />
     <Compile Include="SteelMember.IDAL\PurchaseIDAL.cs" />
+    <Compile Include="SteelMember.IDAL\RawMaterialAnalysisIDAL.cs" />
     <Compile Include="SteelMember.IDAL\RawMaterialIDAL.cs" />
     <Compile Include="SteelMember.IDAL\RawMaterialPurchaseIDAL.cs" />
     <Compile Include="SteelMember.IDAL\ShipManagementIDAL.cs" />

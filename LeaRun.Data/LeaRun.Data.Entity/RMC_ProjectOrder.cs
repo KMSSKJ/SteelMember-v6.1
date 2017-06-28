@@ -15,7 +15,7 @@ namespace LeaRun.Data.Entity
     public partial class RMC_ProjectOrder
     {
         public int OrderId { get; set; }
-        public Nullable<int> TreeId { get; set; }
+        public string TreeId { get; set; }
         public Nullable<int> ProjectDemandId { get; set; }
         public string OrderNumbering { get; set; }
         public string Icon { get; set; }

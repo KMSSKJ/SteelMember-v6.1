@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "原材料库";
+    ViewBag.Title = "原材料分析";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 
@@ -33,7 +33,7 @@
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            url: "../../SteelMember/RawMaterialLibrary/GetTreeJson",
+            url: "../../SteelMember/RawMaterialAnalysis/GetTreeJson",
             onnodeclick: function (item) {
                 _parentId = item.id;
                 $('#btn_Search').trigger("click");
@@ -47,52 +47,27 @@
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
-            url: "../../SteelMember/RawMaterialLibrary/GetPageListJson?parentid=0",
+            url: "../../SteelMember/RawMaterialAnalysis/GetPageListJson?parentid=0",
             datatype: "json",
             height: $(window).height() - 170,
             autowidth: true,
             colModel: [
-                { label: "主键", name: "RawMaterialId", index: "RawMaterialId", hidden: true },
-                { label: "规格或型号", name: "RawMaterialModel", index: "RawMaterialModel", width: 150, align: "left" },
-                //{ label: "规格", name: "RawMaterialStandard", index: "RawMaterialStandard", width: 150, align: "left" },
+                { label: "主键", name: "Id", index: "Id", hidden: true },
+                { label: "原材料类型", name: "TreeId", index: "TreeId", width: 350, align: "left" },
+                { label: "规格或型号", name: "RawMaterialId", index: "RawMaterialId", width: 350, align: "left" },
+                { label: "数量", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 150, align: "left" },
                 {
-                    label: "单位", name: "UnitId", index: "UnitId", width: 350, align: "left",
+                    label: "单位", name: "UnitId", index: "UnitId", width: 100, align: "left",
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientunitData[cellvalue] == null ? "" : top.clientunitData[cellvalue].UnitName;
                     }
-                },
-                //{ label: "目标", name: "Target", index: "Target", width: 60, align: "center" },
-                //{
-                //    label: "菜单", name: "IsMenu", index: "IsMenu", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i value=" + cellvalue + " class=\"fa fa-toggle-on\"></i>" : "<i value=" + cellvalue + " class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                //{
-                //    label: "展开", name: "AllowExpand", index: "AllowExpand", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                //{
-                //    label: "公共", name: "IsPublic", index: "IsPublic", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                //{
-                //    label: "有效", name: "EnabledMark", index: "EnabledMark", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                { label: "描述", name: "Description", index: "Description", width: 100, align: "left" }
+                }
             ],
             viewrecords: true,
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'RawMaterialModel',
+            sortname: 'Id',
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
@@ -112,7 +87,7 @@
         //查询事件
         $("#btn_Search").click(function () {
             $gridTable.jqGrid('setGridParam', {
-                url: "../../SteelMember/RawMaterialLibrary/GetPageListJson",
+                url: "../../SteelMember/RawMaterialAnalysis/GetPageListJson",
                 postData: {
                     parentid: _parentId,
                     //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
@@ -132,7 +107,7 @@
         dialogOpen({
             id: "Form",
             title: '新增原材料',
-            url: '/SteelMember/RawMaterialLibrary/Form?parentId=' + _parentId,
+            url: '/SteelMember/RawMaterialAnalysis/Form?parentId=' + _parentId,
             width: "600px",
             height: "330px",
             callBack: function (iframeId) {
@@ -147,7 +122,7 @@
             dialogOpen({
                 id: "Form",
                 title: '编辑原材料',
-                url: '/SteelMember/RawMaterialLibrary/Form?keyValue=' + keyValue,
+                url: '/SteelMember/RawMaterialAnalysis/Form?keyValue=' + keyValue,
                 width: "600px",
                 height: "330px",
                 callBack: function (iframeId) {
@@ -161,7 +136,7 @@
         var keyValue = $("#gridTable").jqGridRowValue("RawMaterialId");
         if (keyValue) {
             $.RemoveForm({
-                url: "../../SteelMember/RawMaterialLibrary/RemoveForm",
+                url: "../../SteelMember/RawMaterialAnalysis/RemoveForm",
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#gridTable").trigger("reloadGrid");
@@ -175,24 +150,24 @@
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">原材料类型</div>
+            <div class="panel-Title">工程目录</div>
             <div id="itemTree"></div>
         </div>
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">原材料信息</div>
+            <div class="panel-Title">分析列表</div>
             <div class="titlePanel">
                 <div class="title-search">
                     <table>
                         <tr>
-                            <td>
+                            @*<td>
                                 <div id="queryCondition" class="btn-group">
                                     <a class="btn btn-default">型号</a>
                                 </div>
-                            </td>
+                            </td>*@
                             <td style="padding-left: 2px;">
-                                <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询的型号" style="width: 200px;" />
                             </td>
                             <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>

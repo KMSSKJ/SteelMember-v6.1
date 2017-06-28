@@ -131,10 +131,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ContentResult AddMemberNumber(string KeyValue,string TreeId)
         {   int _KeyValue = Convert.ToInt32(KeyValue);
             int _TreeId = Convert.ToInt32(TreeId);
-            var MemberDemand= ProjectManagementCurrent.Find(f=>f.MemberId== _KeyValue&&f.TreeId== _TreeId).SingleOrDefault();
+            var MemberDemand= ProjectManagementCurrent.Find(f=>f.MemberId== _KeyValue&&f.TreeId== TreeId).SingleOrDefault();
             int MemberDemandNumber = 0;
             int Number=0;
-            var Order = OrderManagementCurrent.Find(f => f.TreeId ==_TreeId).ToList();
+            var Order = OrderManagementCurrent.Find(f => f.TreeId == TreeId).ToList();
             foreach (var item in Order)
             {
                 var OrderMember = OrderMemberCurrent.Find(f => f.OrderId == item.OrderId&&f.MemberId== _KeyValue).SingleOrDefault();
@@ -160,9 +160,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var OrderList=new List<RMC_ProjectOrder>();
             var Order = OrderManagementCurrent.Find(f => f.OrderId == _KeyValue).SingleOrDefault();
             TreeId = Convert.ToInt32(Order.TreeId);
-            OrderList = OrderManagementCurrent.Find(f => f.TreeId == TreeId).ToList();
+            OrderList = OrderManagementCurrent.Find(f => f.TreeId == TreeId.ToString()).ToList();
 
-            var MemberDemand = ProjectManagementCurrent.Find(f => f.MemberId == _MemberId && f.TreeId == TreeId).SingleOrDefault();
+            var MemberDemand = ProjectManagementCurrent.Find(f => f.MemberId == _MemberId && f.TreeId == TreeId.ToString()).SingleOrDefault();
             int MemberDemandNumber = 0;
             int Number = 0;
 
@@ -189,7 +189,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             int Number = 0;
             //int _Number = 0;
             //int Toal = 0;
-            var MemberDemand = ProjectManagementCurrent.Find(f => f.TreeId == _TreeId&&f.IsReview==1).ToList();
+            var MemberDemand = ProjectManagementCurrent.Find(f => f.TreeId == TreeId && f.IsReview==1).ToList();
             if (MemberDemand.Count()>0)
             {
                 foreach (var item in MemberDemand)
@@ -202,7 +202,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
             }
 
-            var Order = OrderManagementCurrent.Find(f => f.TreeId == _TreeId).ToList();
+            var Order = OrderManagementCurrent.Find(f => f.TreeId == TreeId).ToList();
             foreach (var item in Order)
             {
                 var OrderMember = OrderMemberCurrent.Find(f => f.OrderId == item.OrderId).ToList();
@@ -287,7 +287,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     int _TreeId = Convert.ToInt32(TreeId);
                     RMC_ProjectOrder Oldentity = new RMC_ProjectOrder();
-                    Oldentity.TreeId = _TreeId;
+                    Oldentity.TreeId = TreeId;
                     Oldentity.OrderNumbering = entity.OrderNumbering;//给旧实体重新赋值
                     Oldentity.IsSubmit = 0;
                     Oldentity.IsReview = 0;
@@ -365,7 +365,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     }
                 }
                 Expression<Func<RMC_ProjectOrder, bool>> func = ExpressionExtensions.True<RMC_ProjectOrder>();
-                Func<RMC_ProjectOrder, bool> func1 = f => f.TreeId != 0;
+                Func<RMC_ProjectOrder, bool> func1 = f => f.TreeId != "";
 
                 var _a = model.OrderNumbering != null && model.OrderNumbering.ToString() != "";
                 var _b = model.InBeginTime != null && model.InBeginTime.ToString() != "0001/1/1 0:00:00";
@@ -530,7 +530,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                 int total = 0;
                 Expression<Func<RMC_ProjectDemand, bool>> func = ExpressionExtensions.True<RMC_ProjectDemand>();
-                func = f => f.DeleteFlag != 1 && f.TreeId == TreeId && f.IsReview == 1;
+                func = f => f.DeleteFlag != 1 && f.TreeId == TreeId.ToString() && f.IsReview == 1;
                 #region 查询条件拼接
                 if (keywords != null && keywords != "&nbsp;")
                 {
@@ -684,7 +684,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         int MemberId = Convert.ToInt32(item);
                         int _TreeId = Convert.ToInt32(TreeId);
-                        var a = ProjectManagementCurrent.Find(f => f.MemberId == MemberId && f.TreeId == _TreeId).SingleOrDefault();
+                        var a = ProjectManagementCurrent.Find(f => f.MemberId == MemberId && f.TreeId == TreeId).SingleOrDefault();
                         ProjectDemandModel projectdemand = new ProjectDemandModel();
                         projectdemand.ProjectDemandId = a.ProjectDemandId;
                         var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberID == a.MemberId).SingleOrDefault();
@@ -746,7 +746,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             int _TreeId = Convert.ToInt32(TreeId);
             List<SelectListItem> List = new List<SelectListItem>();
-            List<RMC_MemberLibrary> ProjectList = MemberLibraryCurrent.Find(f => f.TreeID == _TreeId).ToList();
+            List<RMC_MemberLibrary> ProjectList = MemberLibraryCurrent.Find(f => f.TreeId == TreeId).ToList();
             foreach (var Item in ProjectList)
             {
                 SelectListItem item = new SelectListItem();
@@ -882,7 +882,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         projectwarehouse.OrderId = OrderId;
                         projectwarehouse.MemberId = item.MemberId;
                         var Member = MemberLibraryCurrent.Find(f => f.MemberID == item.MemberId).SingleOrDefault();
-                        projectwarehouse.MemberTreeId = Member.TreeID;
+                        projectwarehouse.MemberTreeId = Member.TreeId;
                         projectwarehouse.TreeId = file.TreeId;
                         projectwarehouse.ModifyTime = DateTime.Now;
                         projectwarehouse.MemberModel = item.MemberModel;
@@ -927,7 +927,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             try
             {
                 int TreeId = Convert.ToInt32(KeyValue);
-                List<RMC_ProjectDemand> OldEntity = ProjectManagementCurrent.Find(f => f.TreeId == TreeId).ToList();
+                List<RMC_ProjectDemand> OldEntity = ProjectManagementCurrent.Find(f => f.TreeId == TreeId.ToString()).ToList();
                 if (OldEntity.Count() > 0)
                 {
                     for (int i = 0; i < OldEntity.Count(); i++)

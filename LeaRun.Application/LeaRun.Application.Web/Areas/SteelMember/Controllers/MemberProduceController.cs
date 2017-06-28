@@ -573,10 +573,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                                 AnalysisRawMaterialModel.RawMaterialId = Convert.ToInt32(MemberMaterialList[i2].RawMaterialId);
                                                 var RawMaterial = RawMaterialCurrent.Find(f => f.RawMaterialId == AnalysisRawMaterialModel.RawMaterialId).SingleOrDefault();
 
-                                                AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
+                                               // AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
                                                 AnalysisRawMaterialModel.RawMaterialNumber = RawMaterial.RawMaterialNumber;
                                                 AnalysisRawMaterialModel.RawMaterialStandard = RawMaterial.RawMaterialStandard;
-                                                AnalysisRawMaterialModel.UnitName = RawMaterial.UnitName;
+                                                //AnalysisRawMaterialModel.UnitName = RawMaterial.UnitName;
                                                 AnalysisRawMaterialModel.OrderProcessingNumber = MemberMaterialList[i2].MaterialNumber * CollarMemberList[i1].Qty;
                                                 AnalysisRawMaterialModel.Description = MemberMaterialList[i2].Description;
                                                 AnalysisRawMaterialModellist.Add(AnalysisRawMaterialModel);
@@ -587,10 +587,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                         {
                                             AnalysisRawMaterialModel.RawMaterialId = Convert.ToInt32(MemberMaterialList[i2].RawMaterialId);
                                             var RawMaterial = RawMaterialCurrent.Find(f => f.RawMaterialId == AnalysisRawMaterialModel.RawMaterialId).SingleOrDefault();
-                                            AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
+                                            //AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
                                             AnalysisRawMaterialModel.RawMaterialNumber = RawMaterial.RawMaterialNumber;
                                             AnalysisRawMaterialModel.RawMaterialStandard = RawMaterial.RawMaterialStandard;
-                                            AnalysisRawMaterialModel.UnitName = RawMaterial.UnitName;
+                                            //AnalysisRawMaterialModel.UnitName = RawMaterial.UnitName;
                                             AnalysisRawMaterialModel.OrderProcessingNumber = MemberMaterialList[i2].MaterialNumber * CollarMemberList[i1].Qty;
                                             AnalysisRawMaterialModel.Description = MemberMaterialList[i2].Description;
                                             AnalysisRawMaterialModellist.Add(AnalysisRawMaterialModel);
@@ -778,7 +778,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             foreach (var Item in ProjectList)
             {
                 SelectListItem item = new SelectListItem();
-                item.Text = Item.RawMaterialName;
+                item.Text = Item.RawMaterialModel;
                 item.Value = Item.RawMaterialId.ToString();
                 List.Add(item);
             }
@@ -842,11 +842,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                                 AnalysisRawMaterialModel.RawMaterialId = Convert.ToInt32(MemberMaterialList[i2].RawMaterialId);
                                                 var RawMaterial = RawMaterialCurrent.Find(f => f.RawMaterialId == AnalysisRawMaterialModel.RawMaterialId).SingleOrDefault();
                                                 var Unit = MemberUnitCurrent.Find(f => f.UnitId == RawMaterial.UnitId).SingleOrDefault();
-                                                AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
+                                                //AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
                                                 AnalysisRawMaterialModel.RawMaterialNumber = RawMaterial.RawMaterialNumber;
                                                 AnalysisRawMaterialModel.RawMaterialStandard = RawMaterial.RawMaterialStandard;
                                                 AnalysisRawMaterialModel.UnitName = Unit.UnitName;
-                                                AnalysisRawMaterialModel.UnitPrice = RawMaterial.UnitPrice.ToJson();
+                                                //AnalysisRawMaterialModel.UnitPrice = RawMaterial.UnitPrice.ToJson();
                                                 AnalysisRawMaterialModel.OrderProcessingNumber = MemberMaterialList[i2].MaterialNumber * CollarMemberList[i1].Qty;
                                                 AnalysisRawMaterialModel.Description = MemberMaterialList[i2].Description;
 
@@ -864,11 +864,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                             AnalysisRawMaterialModel.RawMaterialId = Convert.ToInt32(MemberMaterialList[i2].RawMaterialId);
                                             var RawMaterial = RawMaterialCurrent.Find(f => f.RawMaterialId == AnalysisRawMaterialModel.RawMaterialId).SingleOrDefault();
                                             var Unit = MemberUnitCurrent.Find(f => f.UnitId == RawMaterial.UnitId).SingleOrDefault();
-                                            AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
+                                            //AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
                                             AnalysisRawMaterialModel.RawMaterialNumber = RawMaterial.RawMaterialNumber;
                                             AnalysisRawMaterialModel.RawMaterialStandard = RawMaterial.RawMaterialStandard;
                                             AnalysisRawMaterialModel.UnitName = Unit.UnitName;
-                                            AnalysisRawMaterialModel.UnitPrice = RawMaterial.UnitPrice.ToJson();
+                                            //AnalysisRawMaterialModel.UnitPrice = RawMaterial.UnitPrice.ToJson();
                                             AnalysisRawMaterialModel.OrderProcessingNumber = MemberMaterialList[i2].MaterialNumber * CollarMemberList[i1].Qty;
                                             AnalysisRawMaterialModel.Description = MemberMaterialList[i2].Description;
 
@@ -1215,7 +1215,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             AnalysisRawMaterialModel.RawMaterialId = Convert.ToInt32(array[i]);
                             var RawMaterial = RawMaterialCurrent.Find(f => f.RawMaterialId == AnalysisRawMaterialModel.RawMaterialId).SingleOrDefault();
                             var Unit = MemberUnitCurrent.Find(f => f.UnitId == RawMaterial.UnitId).SingleOrDefault();
-                            AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
+                            //AnalysisRawMaterialModel.RawMaterialName = RawMaterial.RawMaterialName;
                             AnalysisRawMaterialModel.RawMaterialNumber = RawMaterial.RawMaterialNumber;
                             AnalysisRawMaterialModel.RawMaterialStandard = RawMaterial.RawMaterialStandard;
                             AnalysisRawMaterialModel.UnitName = Unit.UnitName;
@@ -1366,23 +1366,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
 
                 Expression<Func<RMC_RawMaterialLibrary, bool>> func = ExpressionExtensions.True<RMC_RawMaterialLibrary>();
-                Func<RMC_RawMaterialLibrary, bool> func1 = f => f.TreeId != 0;
+                Func<RMC_RawMaterialLibrary, bool> func1 = f => f.TreeId != "";
 
                 var _a = model.RawMaterialName != null && model.RawMaterialName.ToString() != "";
                 var _b = model.InBeginTime != null && model.InBeginTime.ToString() != "0001/1/1 0:00:00";
                 var _c = model.InEndTime != null && model.InEndTime.ToString() != "0001/1/1 0:00:00";
 
-                if (_a && _b && _c)
-                {
-                    func = func.And(f => f.RawMaterialName.Contains(model.RawMaterialName) && f.WarehousingTime >= model.InBeginTime && f.WarehousingTime <= model.InEndTime);
-                    func1 = f => f.RawMaterialName.Contains(model.RawMaterialName) && f.WarehousingTime >= model.InBeginTime && f.WarehousingTime <= model.InEndTime;
-                }
-                else if (_a && !_b && !_c)
-                {
-                    func = func.And(f => f.RawMaterialName.Contains(model.RawMaterialName));
-                    func1 = f => f.RawMaterialName.Contains(model.RawMaterialName);
-                }
-                else if (_b && !_c && !_a)
+                if (_b && !_c && !_a)
                 {
                     func = func.And(f => f.WarehousingTime >= model.InBeginTime);
                     func1 = f => f.WarehousingTime >= model.InBeginTime;
@@ -1391,17 +1381,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     func = func.And(f => f.WarehousingTime <= model.InEndTime);
                     func1 = f => f.WarehousingTime <= model.InEndTime;
-                }
-                else if (_a && _b && !_c)
-                {
-                    func = func.And(f => f.RawMaterialName.Contains(model.RawMaterialName) && f.WarehousingTime >= model.InBeginTime);
-                    func1 = f => f.RawMaterialName.Contains(model.RawMaterialName) && f.WarehousingTime >= model.InBeginTime;
-                }
-                else if (_a && _c && !_b)
-                {
-                    func = func.And(f => f.RawMaterialName.Contains(model.RawMaterialName) && f.WarehousingTime <= model.InEndTime);
-                    func1 = f => f.RawMaterialName.Contains(model.RawMaterialName) && f.WarehousingTime <= model.InEndTime;
-                }
+                }                
                 else if (_b && _c && !_a)
                 {
                     func = func.And(f => f.WarehousingTime >= model.InBeginTime && f.WarehousingTime <= model.InEndTime);
@@ -1452,11 +1432,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var Unit = MemberUnitCurrent.Find(f => f.UnitId == item.UnitId).SingleOrDefault();
                     RawMaterialLibraryModel.UnitName = Unit.UnitName;
                     RawMaterialLibraryModel.RawMaterialId = item.RawMaterialId.ToString();
-                    RawMaterialLibraryModel.RawMaterialName = item.RawMaterialName;
+                    //RawMaterialLibraryModel.RawMaterialName = item.RawMaterialName;
                     RawMaterialLibraryModel.RawMaterialNumber = item.RawMaterialNumber;
                     RawMaterialLibraryModel.RawMaterialStandard = item.RawMaterialStandard;
                     RawMaterialLibraryModel.UnitPrice = item.UnitPrice.ToString();
-                    RawMaterialLibraryModel.TreeId = item.TreeId;
+                    RawMaterialLibraryModel.TreeId =Convert.ToInt32(item.TreeId);
                     RawMaterialLibraryModel.Description = item.Description;
                     RawMaterialLibraryModellist.Add(RawMaterialLibraryModel);
                 }
@@ -1525,7 +1505,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     int key_value = Convert.ToInt32(KeyValue);
                     RMC_RawMaterialLibrary Oldentity = RawMaterialCurrent.Find(t => t.RawMaterialId == key_value).SingleOrDefault();//获取没更新之前实体对象
                     //Oldentity.OrderId = entity.OrderId;//给旧实体重新赋值
-                    Oldentity.RawMaterialName = entity.RawMaterialName;
+                    //Oldentity.RawMaterialName = entity.RawMaterialName;
                     Oldentity.RawMaterialNumber = entity.RawMaterialNumber;
                     Oldentity.RawMaterialStandard = entity.RawMaterialStandard;
                     Oldentity.UnitId = entity.UnitId;
@@ -1539,8 +1519,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
 
                     RMC_RawMaterialLibrary Oldentity = new RMC_RawMaterialLibrary();
-                    Oldentity.TreeId = Convert.ToInt32(TreeId);
-                    Oldentity.RawMaterialName = entity.RawMaterialName;
+                    Oldentity.TreeId = TreeId;
+                    //Oldentity.RawMaterialName = entity.RawMaterialName;
                     Oldentity.RawMaterialNumber = entity.RawMaterialNumber;
                     Oldentity.RawMaterialStandard = entity.RawMaterialStandard;
                     Oldentity.UnitId = entity.UnitId;
