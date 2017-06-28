@@ -202,6 +202,7 @@
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
     <Compile Include="Areas\SteelMember\Controllers\CollarManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
@@ -1220,6 +1221,8 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\File\MemberForm.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

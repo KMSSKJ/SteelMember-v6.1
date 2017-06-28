@@ -47,7 +47,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetTreeJson()
         {
             string moduleId = Session["moduleId"].ToString();
-            var data = treeBll.Find(t => t.ModuleId == "a9005ffd-fd76-42c4-9cb7-498a297e8c1d").ToList();
+            var data = treeBll.Find(t => t.ModuleId == "b59c689d-dcc7-40ca-b3b8-5b81d3b080b4").ToList();
             var treeList = new List<TreeEntity>();
             foreach (RMC_Tree item in data)
             {
