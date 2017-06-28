@@ -77,6 +77,7 @@ namespace LeaRun.Application.Web
             kernel.Bind<ProjectManagementIBLL>().To<ProjectManagementBLL>();
             kernel.Bind<ProjectWarehouseIBLL>().To<ProjectWarehouseBLL>();
             kernel.Bind<RawMaterialIBLL>().To<RawMaterialBLL>();
+            kernel.Bind<RawMaterialAnalysisIBLL>().To<RawMaterialAnalysisBLL>();
             kernel.Bind<ShipManagementIBLL>().To<ShipManagementBLL>();
             //kernel.Bind<AnalysisRawMaterialIBLL>().To<AnalysisRawMaterialBLL>();
             kernel.Bind<OrderMemberIBLL>().To<OrderMemberBLL>();
@@ -99,6 +100,7 @@ namespace LeaRun.Application.Web
             kernel.Bind<ProjectManagementIDAL>().To<ProjectManagementDAL>();
             kernel.Bind<ProjectWarehouseIDAL>().To<ProjectWarehouseDAL>();
             kernel.Bind<RawMaterialIDAL>().To<RawMaterialDAL>();
+            kernel.Bind<RawMaterialAnalysisIDAL>().To<RawMaterialAnalysisDAL>();
             kernel.Bind<ShipManagementIDAL>().To<ShipManagementDAL>();
             //kernel.Bind<AnalysisRawMaterialIDAL>().To<AnalysisRawMaterialDAL>();
             kernel.Bind<OrderMemberIDAL>().To<OrderMemberDAL>();

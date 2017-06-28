@@ -33,6 +33,17 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +60,7 @@
     <Compile Include="PostCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleCache.cs" />
+    <Compile Include="UnitCache.cs" />
     <Compile Include="UserCache.cs" />
     <Compile Include="UserGroupCache.cs" />
   </ItemGroup>
@@ -60,6 +72,10 @@
     <ProjectReference Include="..\..\LeaRun.Cache\LeaRun.Cache\LeaRun.Cache.csproj">
       <Project>{5af4997c-4395-48af-990c-932259111dff}</Project>
       <Name>LeaRun.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LeaRun.Data\LeaRun.Data.Entity\LeaRun.Data.Entity.csproj">
+      <Project>{F862D5C4-8389-4057-83D2-A2E6A16F5928}</Project>
+      <Name>LeaRun.Data.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\LeaRun.Application.Busines\LeaRun.Application.Busines.csproj">
       <Project>{21566527-8f54-4a8d-aa68-7662c2c31fb9}</Project>
@@ -73,6 +89,13 @@
       <Project>{c10920fe-8c74-4993-a7f4-1da189da842c}</Project>
       <Name>LeaRun.Application.Entity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LeaRun.Application.Repository\LeaRun.Application.Repository.csproj">
+      <Project>{893508b9-4e64-40d3-87e1-0c601a11ffae}</Project>
+      <Name>LeaRun.Application.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
