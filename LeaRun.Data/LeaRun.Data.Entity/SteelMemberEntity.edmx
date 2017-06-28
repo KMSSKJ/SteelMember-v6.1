@@ -50,56 +50,21 @@
             <PropertyRef Name="MemberID" />
           </Key>
           <Property Name="MemberID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TreeID" Type="int" />
+          <Property Name="TreeId" Type="nvarchar" MaxLength="50" />
           <Property Name="MemberName" Type="nvarchar" MaxLength="20" />
           <Property Name="MemberModel" Type="nvarchar" MaxLength="50" />
           <Property Name="MemberNumbering" Type="nvarchar" MaxLength="30" />
           <Property Name="MemberUnit" Type="nvarchar" MaxLength="10" />
-          <Property Name="EngineeringClass" Type="nvarchar" MaxLength="10" />
-          <Property Name="SectionalSizeB" Type="int" />
-          <Property Name="SectionalSize_h" Type="int" />
-          <Property Name="SectionalSize_b" Type="int" />
-          <Property Name="SectionalSizeD" Type="decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalSize_d" Type="int" />
-          <Property Name="SectionalSize_t" Type="decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalSize_r" Type="decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalSize_r1" Type="decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalArea" Type="decimal" Precision="7" Scale="3" />
-          <Property Name="SurfaceArea" Type="decimal" Precision="7" Scale="3" />
-          <Property Name="TheoreticalWeight" Type="nvarchar" MaxLength="15" />
           <Property Name="UnitPrice" Type="nvarchar" MaxLength="15" />
-          <Property Name="InertiaDistance_x" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_y" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_y1" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_x1" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_x0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_y0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_u" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_x" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_y" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_x0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_y0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_u" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_x" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_y" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_x0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_y0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_u" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="GravityCenterDistance_0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="GravityCenterDistance_x0" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="GravityCenterDistance_y0" Type="decimal" Precision="6" Scale="2" />
           <Property Name="CAD_Drawing" Type="nvarchar" MaxLength="100" />
           <Property Name="Model_Drawing" Type="nvarchar" MaxLength="100" />
           <Property Name="IsRawMaterial" Type="int" />
           <Property Name="IsProcess" Type="int" />
           <Property Name="Icon" Type="nvarchar" MaxLength="100" />
-          <Property Name="ParentID" Type="int" />
           <Property Name="ModifiedTime" Type="datetime" />
           <Property Name="IsReview" Type="int" />
-          <Property Name="DeleteFlag" Type="int" />
-          <Property Name="FullPath" Type="nvarchar" MaxLength="100" />
           <Property Name="UploadTime" Type="datetime" />
-          <Property Name="Sort" Type="int" />
+          <Property Name="FullPath" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="RMC_MemberMaterial">
           <Key>
@@ -175,7 +140,7 @@
             <PropertyRef Name="ProjectDemandId" />
           </Key>
           <Property Name="ProjectDemandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TreeId" Type="int" />
+          <Property Name="TreeId" Type="nvarchar" MaxLength="50" />
           <Property Name="TreeName" Type="nvarchar" MaxLength="20" />
           <Property Name="MemberId" Type="int" />
           <Property Name="MemberNumbering" Type="nvarchar" MaxLength="40" />
@@ -239,7 +204,7 @@
             <PropertyRef Name="OrderId" />
           </Key>
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TreeId" Type="int" />
+          <Property Name="TreeId" Type="nvarchar" MaxLength="50" />
           <Property Name="ProjectDemandId" Type="int" />
           <Property Name="OrderNumbering" Type="nvarchar" MaxLength="20" />
           <Property Name="Icon" Type="nvarchar" MaxLength="20" />
@@ -270,7 +235,7 @@
           <Property Name="MemberId" Type="int" />
           <Property Name="OrderId" Type="int" />
           <Property Name="DeleteFlag" Type="int" />
-          <Property Name="TreeId" Type="int" />
+          <Property Name="TreeId" Type="nvarchar" MaxLength="50" />
           <Property Name="InStock" Type="int" />
           <Property Name="Damage" Type="int" />
           <Property Name="Class" Type="nvarchar" MaxLength="50" />
@@ -279,7 +244,7 @@
           <Property Name="Librarian" Type="nvarchar" MaxLength="50" />
           <Property Name="Leader" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
-          <Property Name="MemberTreeId" Type="int" />
+          <Property Name="MemberTreeId" Type="nvarchar" MaxLength="50" />
           <Property Name="ProjectDemandId" Type="int" />
           <Property Name="MemberModel" Type="nvarchar" MaxLength="20" />
         </EntityType>
@@ -299,16 +264,15 @@
             <PropertyRef Name="RawMaterialId" />
           </Key>
           <Property Name="RawMaterialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TreeId" Type="int" />
-          <Property Name="RawMaterialName" Type="nvarchar" MaxLength="30" />
+          <Property Name="TreeId" Type="nvarchar" MaxLength="50" />
+          <Property Name="RawMaterialName" Type="nvarchar" MaxLength="20" />
           <Property Name="RawMaterialStandard" Type="nvarchar" MaxLength="30" />
-          <Property Name="RawMaterialNumber" Type="int" />
           <Property Name="UnitId" Type="int" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="RawMaterialModel" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentId" Type="nvarchar" MaxLength="50" />
           <Property Name="DeleteFlag" Type="int" />
-          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="UnitName" Type="nvarchar" MaxLength="10" />
-          <Property Name="WarehousingTime" Type="datetime" />
+          <Property Name="Sort" Type="int" />
         </EntityType>
         <EntityType Name="RMC_RawMaterialPurchase">
           <Key>
@@ -337,7 +301,7 @@
             <PropertyRef Name="ShipId" />
           </Key>
           <Property Name="ShipId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TreeId" Type="int" />
+          <Property Name="TreeId" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderId" Type="int" />
           <Property Name="MemberClassId" Type="int" />
           <Property Name="MemberId" Type="int" />
@@ -411,7 +375,7 @@
           <EntitySet Name="RMC_Collar" EntityType="LeaRunFramework_Base_2016Model.RMC_Collar" />
           <EntitySet Name="RMC_CollarMember" EntityType="LeaRunFramework_Base_2016Model.RMC_CollarMember" />
           <EntitySet Name="RMC_FactoryWarehouse" EntityType="LeaRunFramework_Base_2016Model.RMC_FactoryWarehouse" />
-          <EntitySet Name="RMC_MemberLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" />
+          <EntitySet Name="RMC_MemberMaterial" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" />
           <EntitySet Name="RMC_MemberProcess" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberProcess" />
           <EntitySet Name="RMC_MemberUnit" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberUnit" />
           <EntitySet Name="RMC_OrderMember" EntityType="LeaRunFramework_Base_2016Model.RMC_OrderMember" />
@@ -421,11 +385,11 @@
           <EntitySet Name="RMC_ProjectOrder" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectOrder" />
           <EntitySet Name="RMC_ProjectWarehouse" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse" />
           <EntitySet Name="RMC_Purchase" EntityType="LeaRunFramework_Base_2016Model.RMC_Purchase" />
-          <EntitySet Name="RMC_RawMaterialLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" />
           <EntitySet Name="RMC_RawMaterialPurchase" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase" />
           <EntitySet Name="RMC_ShipManagement" EntityType="LeaRunFramework_Base_2016Model.RMC_ShipManagement" />
-          <EntitySet Name="RMC_MemberMaterial" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" />
           <EntitySet Name="RMC_Tree" EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" />
+          <EntitySet Name="RMC_RawMaterialLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" />
+          <EntitySet Name="RMC_MemberLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" />
         </EntityContainer>
         <EntityType Name="RMC_Collar">
           <Key>
@@ -467,61 +431,16 @@
           <Property Name="InStockNumber" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="RMC_MemberLibrary">
+        <EntityType Name="RMC_MemberMaterial">
           <Key>
-            <PropertyRef Name="MemberID" />
+            <PropertyRef Name="MemberMaterialId" />
           </Key>
-          <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TreeID" Type="Int32" />
-          <Property Name="MemberName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="MemberModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="MemberUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="EngineeringClass" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="SectionalSizeB" Type="Int32" />
-          <Property Name="SectionalSize_h" Type="Int32" />
-          <Property Name="SectionalSize_b" Type="Int32" />
-          <Property Name="SectionalSizeD" Type="Decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalSize_d" Type="Int32" />
-          <Property Name="SectionalSize_t" Type="Decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalSize_r" Type="Decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalSize_r1" Type="Decimal" Precision="6" Scale="1" />
-          <Property Name="SectionalArea" Type="Decimal" Precision="7" Scale="3" />
-          <Property Name="SurfaceArea" Type="Decimal" Precision="7" Scale="3" />
-          <Property Name="TheoreticalWeight" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="UnitPrice" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="InertiaDistance_x" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_y" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_y1" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_x1" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_x0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_y0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaDistance_u" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_x" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_y" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_x0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_y0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="InertiaRadius_u" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_x" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_y" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_x0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_y0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="SectionalModulus_u" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="GravityCenterDistance_0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="GravityCenterDistance_x0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="GravityCenterDistance_y0" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="CAD_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Model_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsRawMaterial" Type="Int32" />
-          <Property Name="IsProcess" Type="Int32" />
-          <Property Name="Icon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ParentID" Type="Int32" />
-          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
-          <Property Name="IsReview" Type="Int32" />
-          <Property Name="DeleteFlag" Type="Int32" />
-          <Property Name="FullPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UploadTime" Type="DateTime" Precision="3" />
-          <Property Name="Sort" Type="Int32" />
+          <Property Name="MemberMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RawMaterialId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="RawMaterialClassId" Type="Int32" />
+          <Property Name="MaterialNumber" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="RMC_MemberProcess">
           <Key>
@@ -586,7 +505,7 @@
             <PropertyRef Name="ProjectDemandId" />
           </Key>
           <Property Name="ProjectDemandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TreeId" Type="Int32" />
+          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="MemberId" Type="Int32" />
           <Property Name="MemberNumbering" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
@@ -650,7 +569,7 @@
             <PropertyRef Name="OrderId" />
           </Key>
           <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TreeId" Type="Int32" />
+          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProjectDemandId" Type="Int32" />
           <Property Name="OrderNumbering" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Icon" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -681,7 +600,7 @@
           <Property Name="MemberId" Type="Int32" />
           <Property Name="OrderId" Type="Int32" />
           <Property Name="DeleteFlag" Type="Int32" />
-          <Property Name="TreeId" Type="Int32" />
+          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InStock" Type="Int32" />
           <Property Name="Damage" Type="Int32" />
           <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -690,7 +609,7 @@
           <Property Name="Librarian" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Leader" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MemberTreeId" Type="Int32" />
+          <Property Name="MemberTreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProjectDemandId" Type="Int32" />
           <Property Name="MemberModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -704,22 +623,6 @@
           <Property Name="CreateMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ReviewMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="RMC_RawMaterialLibrary">
-          <Key>
-            <PropertyRef Name="RawMaterialId" />
-          </Key>
-          <Property Name="RawMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TreeId" Type="Int32" />
-          <Property Name="RawMaterialName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="RawMaterialStandard" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="RawMaterialNumber" Type="Int32" />
-          <Property Name="UnitId" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="DeleteFlag" Type="Int32" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="UnitName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="WarehousingTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="RMC_RawMaterialPurchase">
           <Key>
@@ -748,7 +651,7 @@
             <PropertyRef Name="ShipId" />
           </Key>
           <Property Name="ShipId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TreeId" Type="Int32" />
+          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderId" Type="Int32" />
           <Property Name="MemberClassId" Type="Int32" />
           <Property Name="MemberId" Type="Int32" />
@@ -768,17 +671,6 @@
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LibraryNumber" Type="Int32" />
           <Property Name="ShipNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="RMC_MemberMaterial">
-          <Key>
-            <PropertyRef Name="MemberMaterialId" />
-          </Key>
-          <Property Name="MemberMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RawMaterialId" Type="Int32" />
-          <Property Name="MemberId" Type="Int32" />
-          <Property Name="RawMaterialClassId" Type="Int32" />
-          <Property Name="MaterialNumber" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="RMC_Tree">
           <Key>
@@ -804,6 +696,42 @@
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsReview" Type="Int32" />
           <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RMC_RawMaterialLibrary">
+          <Key>
+            <PropertyRef Name="RawMaterialId" />
+          </Key>
+          <Property Name="RawMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RawMaterialName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="RawMaterialStandard" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RawMaterialModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeleteFlag" Type="Int32" />
+          <Property Name="Sort" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RMC_MemberLibrary">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MemberModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MemberUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CAD_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Model_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsRawMaterial" Type="Int32" />
+          <Property Name="IsProcess" Type="Int32" />
+          <Property Name="Icon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+          <Property Name="IsReview" Type="Int32" />
+          <Property Name="UploadTime" Type="DateTime" Precision="3" />
+          <Property Name="FullPath" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -854,60 +782,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RMC_MemberLibrary">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberLibrary">
-              <MappingFragment StoreEntitySet="RMC_MemberLibrary">
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
-                <ScalarProperty Name="FullPath" ColumnName="FullPath" />
-                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
-                <ScalarProperty Name="IsReview" ColumnName="IsReview" />
-                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="IsProcess" ColumnName="IsProcess" />
-                <ScalarProperty Name="IsRawMaterial" ColumnName="IsRawMaterial" />
-                <ScalarProperty Name="Model_Drawing" ColumnName="Model_Drawing" />
-                <ScalarProperty Name="CAD_Drawing" ColumnName="CAD_Drawing" />
-                <ScalarProperty Name="GravityCenterDistance_y0" ColumnName="GravityCenterDistance_y0" />
-                <ScalarProperty Name="GravityCenterDistance_x0" ColumnName="GravityCenterDistance_x0" />
-                <ScalarProperty Name="GravityCenterDistance_0" ColumnName="GravityCenterDistance_0" />
-                <ScalarProperty Name="SectionalModulus_u" ColumnName="SectionalModulus_u" />
-                <ScalarProperty Name="SectionalModulus_y0" ColumnName="SectionalModulus_y0" />
-                <ScalarProperty Name="SectionalModulus_x0" ColumnName="SectionalModulus_x0" />
-                <ScalarProperty Name="SectionalModulus_y" ColumnName="SectionalModulus_y" />
-                <ScalarProperty Name="SectionalModulus_x" ColumnName="SectionalModulus_x" />
-                <ScalarProperty Name="InertiaRadius_u" ColumnName="InertiaRadius_u" />
-                <ScalarProperty Name="InertiaRadius_y0" ColumnName="InertiaRadius_y0" />
-                <ScalarProperty Name="InertiaRadius_x0" ColumnName="InertiaRadius_x0" />
-                <ScalarProperty Name="InertiaRadius_y" ColumnName="InertiaRadius_y" />
-                <ScalarProperty Name="InertiaRadius_x" ColumnName="InertiaRadius_x" />
-                <ScalarProperty Name="InertiaDistance_u" ColumnName="InertiaDistance_u" />
-                <ScalarProperty Name="InertiaDistance_y0" ColumnName="InertiaDistance_y0" />
-                <ScalarProperty Name="InertiaDistance_x0" ColumnName="InertiaDistance_x0" />
-                <ScalarProperty Name="InertiaDistance_x1" ColumnName="InertiaDistance_x1" />
-                <ScalarProperty Name="InertiaDistance_y1" ColumnName="InertiaDistance_y1" />
-                <ScalarProperty Name="InertiaDistance_y" ColumnName="InertiaDistance_y" />
-                <ScalarProperty Name="InertiaDistance_x" ColumnName="InertiaDistance_x" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="TheoreticalWeight" ColumnName="TheoreticalWeight" />
-                <ScalarProperty Name="SurfaceArea" ColumnName="SurfaceArea" />
-                <ScalarProperty Name="SectionalArea" ColumnName="SectionalArea" />
-                <ScalarProperty Name="SectionalSize_r1" ColumnName="SectionalSize_r1" />
-                <ScalarProperty Name="SectionalSize_r" ColumnName="SectionalSize_r" />
-                <ScalarProperty Name="SectionalSize_t" ColumnName="SectionalSize_t" />
-                <ScalarProperty Name="SectionalSize_d" ColumnName="SectionalSize_d" />
-                <ScalarProperty Name="SectionalSizeD" ColumnName="SectionalSizeD" />
-                <ScalarProperty Name="SectionalSize_b" ColumnName="SectionalSize_b" />
-                <ScalarProperty Name="SectionalSize_h" ColumnName="SectionalSize_h" />
-                <ScalarProperty Name="SectionalSizeB" ColumnName="SectionalSizeB" />
-                <ScalarProperty Name="EngineeringClass" ColumnName="EngineeringClass" />
-                <ScalarProperty Name="MemberUnit" ColumnName="MemberUnit" />
-                <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
-                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
-                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
-                <ScalarProperty Name="TreeID" ColumnName="TreeID" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+          <EntitySetMapping Name="RMC_MemberMaterial">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberMaterial">
+              <MappingFragment StoreEntitySet="RMC_MemberMaterial">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MaterialNumber" ColumnName="MaterialNumber" />
+                <ScalarProperty Name="RawMaterialClassId" ColumnName="RawMaterialClassId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+                <ScalarProperty Name="MemberMaterialId" ColumnName="MemberMaterialId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1102,23 +985,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RMC_RawMaterialLibrary">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary">
-              <MappingFragment StoreEntitySet="RMC_RawMaterialLibrary">
-                <ScalarProperty Name="WarehousingTime" ColumnName="WarehousingTime" />
-                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
-                <ScalarProperty Name="RawMaterialNumber" ColumnName="RawMaterialNumber" />
-                <ScalarProperty Name="RawMaterialStandard" ColumnName="RawMaterialStandard" />
-                <ScalarProperty Name="RawMaterialName" ColumnName="RawMaterialName" />
-                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
-                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RMC_RawMaterialPurchase">
             <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase">
               <MappingFragment StoreEntitySet="RMC_RawMaterialPurchase">
@@ -1169,18 +1035,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RMC_MemberMaterial">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberMaterial">
-              <MappingFragment StoreEntitySet="RMC_MemberMaterial">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="MaterialNumber" ColumnName="MaterialNumber" />
-                <ScalarProperty Name="RawMaterialClassId" ColumnName="RawMaterialClassId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
-                <ScalarProperty Name="MemberMaterialId" ColumnName="MemberMaterialId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RMC_Tree">
             <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_Tree">
               <MappingFragment StoreEntitySet="RMC_Tree">
@@ -1204,6 +1058,44 @@
                 <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_RawMaterialLibrary">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary">
+              <MappingFragment StoreEntitySet="RMC_RawMaterialLibrary">
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="RawMaterialModel" ColumnName="RawMaterialModel" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="RawMaterialStandard" ColumnName="RawMaterialStandard" />
+                <ScalarProperty Name="RawMaterialName" ColumnName="RawMaterialName" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_MemberLibrary">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberLibrary">
+              <MappingFragment StoreEntitySet="RMC_MemberLibrary">
+                <ScalarProperty Name="FullPath" ColumnName="FullPath" />
+                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="IsProcess" ColumnName="IsProcess" />
+                <ScalarProperty Name="IsRawMaterial" ColumnName="IsRawMaterial" />
+                <ScalarProperty Name="Model_Drawing" ColumnName="Model_Drawing" />
+                <ScalarProperty Name="CAD_Drawing" ColumnName="CAD_Drawing" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="MemberUnit" ColumnName="MemberUnit" />
+                <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+                <ScalarProperty Name="MemberModel" ColumnName="MemberModel" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

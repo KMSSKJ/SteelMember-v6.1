@@ -47,7 +47,7 @@
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            url: "../../SteelMember/File/TreeJson?ItemId=1",
+            url: '/SteelMember/File/TreeJson',
             onnodeclick: function (item) {
                 TreeId = item.id;
                 HavesChildren = item.hasChildren;
@@ -60,24 +60,32 @@
 
     //加载表格
     function GetGrid() {
+        var CADPath = "";
+        var ModelPath = "";
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
-            url: "../../SteelMember/File/GridListJson?TreeId=" + TreeId,
+            url: "/SteelMember/File/GridListJson",
             datatype: "json",
             height: $(window).height() - 141.5,
             autowidth: true,
             colModel: [
                 { label: '主键', name: "MemberID", hidden: true },
-                { label: '主键', name: "TreeID", hidden: true },
-                { label: 'Sort', name: "Sort", hidden: true },
+                { label: '外键', name: "TreeID", hidden: true },
                 {
-                    label: '图标', name: "Icon", hidden: false,
+                    label: '图标', name: "Icon", hidden: true,
                     formatter: function (cellvalue, options, rowObject) {
                         var Icon = cellvalue;
                         if (Icon != "" || Icon != null) {
                             var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
                             filename = filename + "/" + Icon;
+
+                            var filename1 = rowObject.CAD_Drawing.substring(0, rowObject.CAD_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                            CADPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + rowObject.CAD_Drawing;
+
+                            var filename2 = rowObject.Model_Drawing.substring(0, rowObject.Model_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                            ModelPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + rowObject.Model_Drawing;
+
                             if (Icon == "1.png") {
                                 //<div style='cursor:pointer;padding-top:1px;'><img style='padding-bottom:3px;padding-right:2px;' src='../../Content/Scripts/tree/images/folder.gif' onmouseover=\"showBigImg(event,'../../Content/Scripts/tree/images/folder.gif')\" onmouseout=\"leaveBigImg(event)\"/>"</div>
                                 //<img style='width:32px;height:18px;padding-bottom:3px;padding-right:2px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
@@ -91,76 +99,8 @@
                     }
                 },
                 { label: '编号', name: "MemberNumbering", index: "MemberNumbering", align: 'center' },
-                { label: '型号', name: "MemberModel", index: "MemberModel", align: 'center' },
-                {
-                    label: '入库时间', name: "UploadTime", index: "UploadTime", align: 'center',
-                    formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
-                    }
-                },
-                { label: '截面面积(cm²)', name: "SectionalArea", index: "SectionalArea", align: 'center' },
-                { label: '外表面积(m²/m)', name: "SurfaceArea", index: "SurfaceArea", align: 'center' },
-                { label: '理论重量(㎏/m)', name: "TheoreticalWeight", index: "TheoreticalWeight", align: 'center' },
-                { label: '高度', name: "SectionalSize_h", index: "SectionalSize_h", align: 'center' },
-                //{ label: '长边宽度', name: 'SectionalSizeB', index: 'SectionalSizeB', align: 'center',width: 8 },
-                { label: '腿宽度', name: 'SectionalSize_b', index: 'SectionalSize_b', align: 'center' },
-                //{ label: '长边厚度', name: 'SectionalSizeD', index: 'SectionalSizeD', align: 'center',width: 8 },
-                { label: '腰厚度', name: 'SectionalSize_d', index: 'SectionalSize_d', align: 'center' },
-                //{ label: '平均腿厚度', name: 'SectionalSize_t', index: 'SectionalSize_t', align: 'center',width: 8 },
-                //{ label: '内圆弧半径', name: 'SectionalSize_r', index: 'SectionalSize_r', align: 'center',width: 8 },
-                //{ label: '腿端圆弧半径', name: 'SectionalSize_r1', index: 'SectionalSize_r1', align: 'center',width: 8 },
-                {
-                    label: '图纸', name: 'CAD_Drawing', index: 'CAD_Drawing', align: 'center',
-                    formatter: function (cellvalue, value, row, index) {
-                        var is_have_drawing = cellvalue;
-                        if (is_have_drawing != "" || is_have_drawing != null) {
-                            if (is_have_drawing != "1.png") {
-                                return "<img src='../../Content/Images/checkokmark.gif'/>";
-                            } else {
-                                return "<img src='../../Content/Images/checknomark.gif'/>";
-                            }
-                        } else {
-                            return "";
-                        }
-                    }
-                },
-                {
-                    label: '模型', name: 'Model_Drawing', index: 'Model_Drawing', align: 'center',
-                    formatter: function (cellvalue, value, row, index) {
-                        var is_have_model = cellvalue;
-                        if (is_have_model != "" || is_have_model != null) {
-                            if (is_have_model != "1.png") {
-                                return "<img src='../../Content/Images/checkokmark.gif'/>";
-                            } else {
-                                return "<img src='../../Content/Images/checknomark.gif'/>";
-                            }
-                        } else {
-                            return "";
-                        }
-                    }
-                },
-                {
-                    label: '材料', name: 'IsRawMaterial', index: 'IsRawMaterial', align: 'center',
-                    formatter: function (cellvalue, value, row, index) {
-                        var IsRawMaterial = cellvalue;
-                        if (IsRawMaterial != 0) {
-                            return "<img src='../../Content/Images/checkokmark.gif'/>";
-                        } else {
-                            return "<img src='../../Content/Images/checknomark.gif'/>";
-                        }
-                    }
-                },
-                {
-                    label: '制程', name: 'IsProcess', index: 'IsProcess', align: 'center',
-                    formatter: function (cellvalue, value, row, index) {
-                        var IsProcess = cellvalue;
-                        if (IsProcess != 0) {
-                            return "<img src='../../Content/Images/checkokmark.gif'/>";
-                        } else {
-                            return "<img src='../../Content/Images/checknomark.gif'/>";
-                        }
-                    }
-                },
+                { label: '名称', name: "MemberName", index: "MemberName", align: 'center' },
+
             ],
             pager: false,
             rowNum: "1000",
@@ -169,23 +109,13 @@
             gridview: true,
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
+                GetGridRawMaterial(CADPath, ModelPath);
             },
             gridComplete: function () {
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //实现２行表头脚本
-        $("#gridTable").jqGrid('setGroupHeaders', {
-            useColSpanStyle: true,
-            groupHeaders: [
-                { startColumnName: 'SectionalSize_h', numberOfColumns: 3, titleText: '截面尺寸(㎜)' },
-                { startColumnName: 'IsHaveDrawing', numberOfColumns: 2, titleText: '可视化状态' },
-                //{ startColumnName: 'InertiaRadius_x', numberOfColumns: 5, titleText: '惯性半径/cm' },
-                //{ startColumnName: 'SectionalModulus_x', numberOfColumns: 5, titleText: '截面模数/cm³' },
-                //{ startColumnName: 'GravityCenterDistance_0', numberOfColumns: 3, titleText: '重心距离/cm' },
-            ]
-        })
-
+      
         //查询条件
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
@@ -211,25 +141,57 @@
         });
     }
 
+    function GetGridRawMaterial(CADPath, ModelPath) {
+        var MemberID = $("#gridTable").jqGridRowValue("MemberID");
+        var selectedRowIndex = 0;
+        var $gridTable = $('#gridTable_child');
+        $gridTable.jqGrid({
+            url: "/SteelMember/File/GridListJsonMemberMaterial?KeyValue= " + MemberID,
+            datatype: "json",
+            height: $(window).height() - 545,
+            autowidth: true,
+            colModel: [
+                { label: '主键', name: "MemberMaterialId", hidden: true },
+                { label: '外键', name: "RawMaterialId", hidden: true },
+                { label: '外键', name: "MemberId", index: "MemberId", hidden: true },
+                { label: '材料名称', name: "RawMaterialName", index: "RawMaterialName", align: 'center', width: 120 },
+                { label: '材料规格', name: "RawMaterialStandard", index: "RawMaterialStandard", align: 'center', width: 120 },
+                { label: '用量', name: "MaterialNumber", index: "MemberNumber", align: 'center', width: 120 },
+                { label: '单位', name: "UnitName", index: "UnitName", align: 'center', width: 120 },
+                { label: '备注', name: "Description", index: "Description", align: 'center', width: 150 },
+            ],
+            pager: false,
+            rowNum: "1000",
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+            onSelectRow: function () {
+                selectedRowIndex = $("#" + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $("#" + this.id).setSelection(selectedRowIndex, false);
+            }
+        });
+
+        document.getElementById("txImg").src = CADPath;
+        document.getElementById("txImg1").src = ModelPath;
+    }
+
     //新增
     function btn_add() {
-        if (!!TreeId) {
-            if (!HavesChildren) {
-                dialogOpen({
-                    id: "MemberForm",
-                    title: '添加功能',
-                    url: '/SteelMember/File/MemberForm?TreeId=' + TreeId,
-                    width: "700px",
-                    height: "600px",
-                    callBack: function (iframeId) {
-                        top.frames[iframeId].AcceptClick();
-                    }
-                });
-            } else {
-                dialogMsg('此节点不可编辑，请选择一个子节点！', 0);
-            }
+        if (!HavesChildren) {
+            dialogOpen({
+                id: "MemberForm",
+                title: '添加信息',
+                url: '/SteelMember/File/MemberForm?TreeId=' + TreeId,
+                width: "700px",
+                height: "600px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }
+            });
         } else {
-            dialogMsg('请选择文件夹目录!', 0);
+            dialogMsg('此节点不可编辑，请选择一个子节点！', 0);
         }
     }
 
@@ -239,7 +201,7 @@
         if (checkedRow(KeyValue)) {
             dialogOpen({
                 id: "MemberForm",
-                title: '编辑功能',
+                title: '编辑信息',
                 url: '/SteelMember/File/MemberForm?KeyValue=' + KeyValue,
                 width: "700px",
                 height: "600px",
@@ -298,14 +260,10 @@
         openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "构件信息导出", 900, 500, function (iframe) {
             top.frames[iframe].AcceptClick();
         })
-        //var url = "/SteelMember/File/ImportFile?KeyValue=" + TreeId;
-        //Dialog(url, "ImportFile", "上传文件到网络硬盘", 500, 600, function (iframe) {
-        //    top.frames[iframe].AcceptClick()
-        //    $("#gridTable").trigger("reloadGrid"); //重新载入
-        //});
     }
 
 </script>
+
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
@@ -347,7 +305,7 @@
                         <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                         <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
-                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-trash-o"></i>&nbsp;导出</a>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
                     </div>
                     <script>$('.toolbar').authorizeButton()</script>
                 </div>
@@ -355,9 +313,37 @@
             <div id="BigDiv" style="margin-left:50px;margin-top:160px; width:360px;height:360px; position: absolute; visibility: hidden; padding: 5px;z-index:999">
                 <img id="bigImg" src="" style="width:100%;height:100%" />
             </div>
-            <div class="gridPanel">
+            <div class="gridPanel" style="float:left;width:30%">
                 <table id="gridTable"></table>
             </div>
+            <div style="float:left;width:63.5%;height:50%;">
+                <table class="form">
+                    <tr>
+                        <td class="formTitle">
+                            图纸
+                        </td>
+
+                        <td class="formTitle">
+                            模型
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="formValue">
+                            <div style="text-align:center; margin:8px;" class="showImg;"><img id="txImg" name="txImg" class="txImg" src="" height="360" widtd="330" /></div>
+                        </td>
+
+                        <td class="formValue">
+                            <div style="text-align:center;margin:8px;" class="showImg;"><img id="txImg1" name="txImg" class="txImg" src="" height="360" widtd="330" /></div>
+
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin-left:12px;width:109%">
+                    <table id="gridTable_child"></table>
+                </div>
+            </div>
+
         </div>
+
     </div>
 </div>

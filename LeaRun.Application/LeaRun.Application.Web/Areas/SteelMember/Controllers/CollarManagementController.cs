@@ -442,12 +442,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             try
             {
-                model.TreeID = Convert.ToInt32(TreeID);
+                model.TreeID = TreeID;
                 int total = 0;
                 Expression<Func<RMC_ProjectWarehouse, bool>> func = ExpressionExtensions.True<RMC_ProjectWarehouse>();
                 func = f => f.DeleteFlag != 1 && f.IsShiped == 1&&f.InStock>0;
                 #region 查询条件拼接
-                if (model.TreeID != 0 && model.TreeID.ToString() != "")
+                if (model.TreeID != null && model.TreeID.ToString() != "")
                 {
                     func = func.And(f => f.TreeId == model.TreeID);
                 }

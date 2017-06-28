@@ -116,7 +116,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                 Expression<Func<RMC_ProjectWarehouse, bool>> func = ExpressionExtensions.True<RMC_ProjectWarehouse>();
                 func=f => f.ProjectWarehouseId > 0 && f.IsShiped == 1;
-                Func<RMC_ProjectWarehouse, bool> func1 = f => f.MemberTreeId!= 0;
+                Func<RMC_ProjectWarehouse, bool> func1 = f => f.MemberTreeId!= "";
 
                 var _a = model.MemberModel != null && model.MemberModel.ToString() != "";
                 var _b = model.InBeginTime != null && model.InBeginTime.ToString() != "0001/1/1 0:00:00";

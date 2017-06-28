@@ -1,16 +1,14 @@
 ﻿@{
-    ViewBag.Title = "项目信息管理/项目信息表单";
-    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+    ViewBag.Title = "构件需求管理/构件需求表单";
+    Layout = "~/Views/Shared/_Form.cshtml";
 }
 <head>
-    <script src="~/Content/Scripts/jqueryPicture/js/jquery.mousewheel.min.js"></script>
-    <script src="~/Content/Scripts/jqueryPicture/js/jquery.iviewer.js"></script>
+ 
 
     <script type="text/javascript">
-        var KeyValue = GetQuery('KeyValue');
-        var ItemID = GetQuery('ItemID');
-        var TreeId = GetQuery('TreeID');
-        var TreeName = GetQuery('TreeName');
+        var KeyValue = request('KeyValue');
+        var ItemID = request('ItemID');
+        var TreeId = request('TreeID');
         var Data;
         var mole_fileURL;
         var cad_fileURL;
@@ -22,180 +20,76 @@
         })
         //得到一个对象实体
         function InitControl() {
+
+            //构件类型
+            $("#OrganizeId").ComboBoxTree({
+                url: "/SteelMember/File/TreeJson",
+                description: "==请选择==",
+                height: "200px",
+                allowSearch: true,
+            }).bind("change", function () {
+                var value = $(this).attr('data-value');
+                //加载构件
+                $("#RoleId").ComboBox({
+                    url: "/SteelMember/ProjectManagement/GetMemderName?organizeId=" + value,
+                    id: "RoleId",
+                    text: "FullName",
+                    description: "==请选择==",
+                    allowSearch: true
+                });
+                });
+
+            //加载构件单位
+            $("#DutyId").ComboBox({
+                url: '/SteelMember/ProjectManagement/GetMemderUnit',
+                id: "RoleId",
+                text: "FullName",
+                description: "==请选择==",
+                allowSearch: true
+            });
+
             if (!!KeyValue) {
-                AjaxJson("/SteelMember/ProjectManagement/SetDataForm", { KeyValue: KeyValue }, function (data) {
-                    SetWebControls(data);
-                    Data = data;
+                    $.SetForm({
+                        url: "/SteelMember/ProjectManagement/SetDataForm",
+                        param: { KeyValue: KeyValue },
+                        success: function (data) {
+                           $("#form1").SetWebControls(data);
+                        }
                 })
             } else {
                 LoadProjectName();
             }
-                // } else {
-                //    tipDialog('请选择文件夹!', 3); //,data.Code
-                //}
-                //(!!FolderId){
-                //    tipDialog('请选择文件夹!', 3); //,data.Code
-                //    ////显示顺序
-                //    //AjaxJson("/SysManagement/Module/SortCode", {}, function (Data) {
-                //    //    $("#SortCode").val(Data);
-                //    //})
-                //    $("#ParentID").val(GetQuery('FolderId'));
-                //    //$("#IsPublic").val(GetQuery('IsPublic'));
         }
 
         function LoadProjectName() {
-            AjaxJson("/SteelMember/ProjectManagement/GetTreeName", { KeyValue: TreeId }, function (data) {
-                document.getElementById("TreeName").value = data.TreeName;
+            $.SetForm({
+                url: "/SteelMember/ProjectManagement/GetTreeName",
+                param: { KeyValue: TreeId },
+                success: function (data) {
+                    document.getElementById("TreeName").value = data.TreeName;
+                }
             })
         }
 
-        //保存事件
+
+
+
+        //保存表单
         function AcceptClick() {
-            if (!CheckDataValid('#form2')) {
+            if (!$('#form1').Validform()) {
                 return false;
             }
-            Loading(true, "正在提交数据...");
-            window.setTimeout(function () {
-                var postData = GetWebControls("#form2");
-                AjaxJson("/SteelMember/ProjectManagement/SubmitDataForm?KeyValue=" + KeyValue + '&TreeId=' + TreeId, postData, function (data) {//+ '&ItemID=' + ItemID
-                    tipDialog(data.Message, 3, data.Code);
-                    top.frames[tabiframeId()].windowload();
-                    closeDialog();
-                });
-            }, 200);
-        };
-
-        //加载上级模块
-      
-        function LoadMemberClass() {
-            $("#MemberClassName").focus(function () {
-                var objId = this.id;
-                comboBoxTree(objId, "200px");
-                var itemtree = {
-                    onnodeclick: function (item) {
-                    
-                        if (item.hasChildren == false) {
-                            $("#MemberClassId").val(item.id);
-                            $("#MemberClassName").val(item.text);
-                                $.ajax({
-                                    url: '/SteelMember/ProjectManagement/GetMemderName',
-                                    type: 'post',
-                                    datatype: 'Json',
-                                    data: { KeyValue: item.id, TreeId: TreeId},
-                                    success: function (data) {
-                                        if (data != "") {
-                                            var projectname_sel = [];
-                                            //projectname_sel.push('<option value="" selected>请选择</option>')
-                                            for (var i = 0, len = data.length; i < len; i++) {
-                                                var projectname = data[i];
-                                                projectname_sel.push('<option value="' + projectname.MemberID + '">' + projectname.MemberModel + '</option>')
-                                            }
-                                            $("#MemberId").html(projectname_sel.join(' '));
-                                            // $('#MemberId')[0].selectedIndex = 0;//select下拉框的默认选中第二个元素为当前选中值
-                                            var checkValue = $("#MemberId").val();  //获取Select选择的Value
-                                            KeyValueId = checkValue;
-                                            $("#MemberId").change(function () {//code...});   //为Select添加事件，当选择其中一项时触发
-                                                var checkValue = $("#MemberId").val();  //获取Select选择的Value
-                                                KeyValueId = checkValue;
-                                                //var checkText = $("#MemberId").find("option:selected").text();  //获取Select选择的Text
-                                                //var checkIndex = $("#MemberId ").get(0).selectedIndex;  //获取Select选择的索引值
-                                                //var maxIndex = $("#MemberId option:last").attr("index");  //获取Select最大的索引值
-                                            })
-
-                                            document.getElementById("btn_MemberInfo").setAttribute("type", "button");//显示按钮图标
-                                            ////编辑时获取值
-                                            //$("#RawMaterialId  option[value='" + data.RawMaterialId + "']").attr("selected", true);
-                                        }
-                                        else {
-                                            tipDialog("此节点无数据");
-
-                                            var projectname_sel = [];
-                                            $("#MemberId").html(projectname_sel.join(' '));
-
-                                            document.getElementById("MemberClassId").value = "";
-                                            document.getElementById("MemberClassName").value = "";
-                                            document.getElementById("btn_MemberInfo").setAttribute("type", "hidden");//隐藏按钮图标
-                                        }
-                                    },
-                                    error: function () {
-                                        return false;
-                                    }
-                                });
-
-                            } else {
-                                tipDialog("此节点不能作为类型");
-
-                                var projectname_sel = [];
-                                $("#MemberId").html(projectname_sel.join(' '));
-
-                                document.getElementById("MemberClassId").value = "";
-                                document.getElementById("MemberClassName").value = "";
-                                document.getElementById("btn_MemberInfo").setAttribute("type", "hidden");//隐藏按钮图标
-                            }
-                         },
-                    url: "@Url.Content("/SteelMember/File/TreeJson")?TreeId=" + ItemID
-                };
-                $("#comboBoxTree" + objId).treeview(itemtree);
-                //移除Id上级元素
-                $("#comboBoxTree" + objId + "_" + GetQuery('KeyValue').replace(/-/g, '_')).parent('li').remove();
+            var postData = $("#form1").GetWebControls(KeyValue);
+            //postData["MemberUnit"] = $("#MemberUnit").attr('data-text');
+            $.SaveForm({
+                url: "/SteelMember/ProjectManagement/SubmitDataForm?KeyValue=" + KeyValue + '&TreeId=' + TreeId,
+                param: postData,
+                loading: "正在保存数据...",
+                success: function () {
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                }
             })
-        };
-
-        //载入构件名称
-        function LoadMemberName() {
-            if (!!KeyValue) {
-            $.ajax({
-                url: '/SteelMember/ProjectManagement/GetMemderName',
-                type: 'post',
-                datatype: 'Json',
-                data: { KeyValue: Data.MemberClassId },
-                success: function (data) {
-                    if (data) {
-                        var projectname_sel = [];
-                        // projectname_sel.push('<option value="" selected>请选择</option>')
-                        for (var i = 0, len = data.length; i < len; i++) {
-                            var projectname = data[i];
-                            projectname_sel.push('<option value="' + projectname.MemberID + '">' + projectname.MemberModel + '</option>')
-                        }
-                        $("#MemberId").html(projectname_sel.join(' '));
-                        //编辑时获取值
-                        $("#MemberId  option[value='" + Data.MemberId + "']").attr("selected", true);
-                    }
-                },
-                error: function () {
-
-                }
-            });
-            }
-        };
-
-        //载入构件单位
-        function LoadMemberUnit() {
-            $.ajax({
-                url: '/SteelMember/ProjectManagement/GetMemderUnit',
-                type: 'post',
-                datatype: 'Json',
-                data: {},
-                success: function (data) {
-                    if (data) {
-                        var projectname_sel = [];
-                        // projectname_sel.push('<option value="" selected>请选择</option>')
-                        for (var i = 0, len = data.length; i < len; i++) {
-                            var projectname = data[i];
-                            projectname_sel.push('<option value="' + projectname.UnitId + '">' + projectname.UnitName + '</option>')
-                        }
-                        $("#UnitId").html(projectname_sel.join(' '));
-                        if (!!KeyValue) {
-                            //编辑时获取值
-                            $("#UnitId  option[value='" + Data.UnitId + "']").attr("selected", true);
-                        }
-                    }
-                },
-                error: function () {
-
-                }
-            });
-        };
+        }
 
         //构件详情
         function btn_member_info() {
@@ -210,61 +104,63 @@
         };
     </script>
 </head>
-
-<form id="form2">
-    <div>
-       
+<div style="margin-left: 10px; margin-top: 20px; margin-right: 30px;">
+    <form id="form2">
         <table class="form">
             <tr>
-                <th class="formTitle"> 
-                    分项目名称：
-                </th>
-                <td class="formValue" >
-                    <input readonly id="TreeName" type="text" class="txt" />
+                <td class="formTitle">
+                    分项目名称
+                </td>
+                <td class="formValue">
+                    <input readonly id="TreeName" type="text" class="form-control" />
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    构件类型：<font face="宋体" color="red">*</font>
-                </th>
+                <td class="formTitle">
+                    构件类型<font face="宋体">*</font>
+                </td>
                 <td class="formValue">
                     <input id="MemberClassId" name="MemberClassId" type="hidden" />
-                    <input id="MemberClassName" type="text" class="txt icontree" datacol="yes" err="构件类型" checkexpession="NotNull"/>
+                    @*<input id="MemberClassName" type="text" class="txt icontree" datacol="yes" err="构件类型" checkexpession="NotNull" />*@
+                    <div id="MemberClassName" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 </td>
-                </tr>
+            </tr>
             <tr>
-                <th class="formTitle">
-                    构件型号：
-                </th>
+                <td class="formTitle">
+                    构件型号
+                </td>
                 <td class="formValue">
-                    <select id="MemberId" name="MemberId" style="width:80%"></select>
+                    @*<select id="MemberId" name="MemberId" style="widtd:80%"></select>*@
+
+                    <div id="MemberId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     <input id="btn_MemberInfo" type="hidden" onclick="btn_member_info()" value="构件详情" />
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    单位：<font face="宋体" color="red">*</font>
-                </th>
+                <td class="formTitle">
+                    单位<font face="宋体">*</font>
+                </td>
                 <td class="formValue">
-                    <select id="UnitId" name="UnitId" style="width:80%" datacol="yes" err="单位" checkexpession="NotNull"></select>
+                    @*<select id="UnitId" name="UnitId" datacol="yes" err="单位" checkexpession="NotNull"></select>*@
+                    <div id="UnitId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    需求量：<font face="宋体" color="red">*</font>
-                </th>
+                <td class="formTitle">
+                    需求量<font face="宋体">*</font>
+                </td>
                 <td class="formValue">
-                    <input id="MemberNumber" type="text" class="txt" datacol="yes" err="需求量" checkexpession="Num"/>
+                    <input id="MemberNumber" type="text" class="form-control" placeholder="需求量" isvalid="yes" checkexpession="Num" />
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    备注：
-                </th>
+                <td class="formTitle">
+                    备注
+                </td>
                 <td class="formValue">
-                    <textarea id="Description" name="Description" maxlength="200" class="txtArea" rows="5"></textarea>
+                    <textarea id="Description" name="Description" maxlengtd="200" class="form-control" ></textarea>
                 </td>
             </tr>
         </table>
-    </div>
-</form>
+    </form>
+</div>

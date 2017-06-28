@@ -19,7 +19,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string UnitPrice { get; set; }
         public string PriceAmount { get; set; }
         public string Qty { get; set; }
-        public Nullable<int> TreeId { get; set; }
+        public string TreeId { get; set; }
         public string Description { get; set; }
     }
 }

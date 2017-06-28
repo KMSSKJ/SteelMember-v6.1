@@ -693,13 +693,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 【控制测量文档管理】返回树JONS
         /// </summary>
         /// <returns></returns>      
-        public ActionResult TreeJson(string TreeId)
+        public ActionResult TreeJson()
         {
-            //var userid = 1;
-            //List<DOC_R_Tree_Role> TRR = new List<DOC_R_Tree_Role>();
-            //var userrole = UserRoleRepository.Find(ur => ur.UserID == userid).SingleOrDefault();
-            //TRR = TreeRoleRepository.Find(tr => tr.RoleID == userrole.RoleID).ToList();
-            List<RMC_Tree> list = TreeCurrent.Find(t => t.ModuleId == TreeId).ToList();
+            string moduleId = Session["moduleId"].ToString();
+            List<RMC_Tree> list = TreeCurrent.Find(t => t.ModuleId == moduleId).ToList();
             List<TreeEntity> TreeList = new List<TreeEntity>();
             foreach (RMC_Tree item in list)
             {
@@ -841,8 +838,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         #region 数据查询与呈现
         public ActionResult Index()
         {
-            //Session.Add("focusUrl", this.Request.Url.ToString());
-            //return View(GetCurrentUserPermission());
+            Session["moduleId"] = Request.QueryString["moduleId"];
             return View();
         }
 
@@ -880,7 +876,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
 
                 Expression<Func<RMC_MemberLibrary, bool>> func = ExpressionExtensions.True<RMC_MemberLibrary>();
-                Func<RMC_MemberLibrary, bool> func1 = f => f.TreeID != 0;
+                Func<RMC_MemberLibrary, bool> func1 = f => f.TreeId != "";
 
                 var _a = model.MemberModel != null && model.MemberModel.ToString() != "";
                 var _b = model.InBeginTime != null && model.InBeginTime.ToString() != "0001/1/1 0:00:00";
@@ -927,9 +923,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 Stopwatch watch = CommonHelper.TimerStart();
                 int total = 0;
                 List<RMC_MemberLibrary> MemberList = new List<RMC_MemberLibrary>();
-                if (TreeId == "")
+                if (TreeId == ""|| TreeId==null)
                 {
-                    func.And(f => f.DeleteFlag != 1 & f.MemberID > 0);
+                    func.And(f =>f.MemberID > 0);
                     MemberList = MemberList_ = MemberLibraryCurrent.FindPage<string>(jqgridparam.page
                                              , jqgridparam.rows
                                              , func
@@ -940,14 +936,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 else
                 {
-                    int _id = Convert.ToInt32(TreeId);
                     var list = GetSonId(TreeId).ToList();
 
                     list.Add(TreeCurrent.Find(p => p.TreeID == TreeId).Single());
 
                     foreach (var item in list)
                     {
-                        var _MemberList = MemberLibraryCurrent.Find(m => m.TreeID.ToString() == item.TreeID).ToList();
+                        var _MemberList = MemberLibraryCurrent.Find(m => m.TreeId == item.TreeID).ToList();
                         if (_MemberList.Count() > 0)
                         {
                             MemberList = MemberList.Concat(_MemberList).ToList();
@@ -975,11 +970,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
         }
 
-        //获取树字节子节点(自循环)
+        //获取树子节点(自循环)
         public IEnumerable<RMC_Tree> GetSonId(string p_id)
         {
             List<RMC_Tree> list = TreeCurrent.Find(p => p.ParentID == p_id).ToList();
             return list.Concat(list.SelectMany(t => GetSonId(t.TreeID)));
+        }
+
+        //获取树父节点(自循环)
+        public IEnumerable<RMC_Tree> GetParentId(string p_id)
+        {
+            List<RMC_Tree> list = TreeCurrent.Find(p => p.TreeID == p_id).ToList();
+            return list.Concat(list.SelectMany(t => GetParentId(t.TreeID)));
         }
         #endregion
 
@@ -1108,12 +1110,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             var _MemberLibrary = MemberLibraryCurrent.Find(f => f.MemberModel == MemberModel).SingleOrDefault();
                             if (_MemberLibrary == null)
                             {
-                                int key_value = Convert.ToInt32(KeyValue);
-                                MemberLibrary.TreeID = key_value;
+                                MemberLibrary.TreeId = KeyValue;
                                 var tree = TreeCurrent.Find(f => f.TreeID == KeyValue).SingleOrDefault();
                                 MemberLibrary.MemberName = tree.TreeName;
                                 MemberLibrary.UploadTime = DateTime.Now;
-                                MemberLibrary.Sort = 1;
                                 MemberLibrary.MemberModel = table.Rows[i][0].ToString();
                                 MemberModel = MemberLibrary.MemberModel;
                                 char[] Number = MemberModel.ToArray();
@@ -1127,37 +1127,37 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 }
 
                                 MemberLibrary.MemberNumbering = (MemberNumbering + "-" + DateTime.Now.ToString("yyyyMMddhhmmssffff")).ToString();
-                                MemberLibrary.SectionalArea = Convert.ToDecimal(table.Rows[i][1]);
-                                MemberLibrary.SurfaceArea = Convert.ToDecimal(table.Rows[i][2]);
-                                MemberLibrary.TheoreticalWeight = table.Rows[i][3].ToString();
-                                MemberLibrary.SectionalSize_h = Convert.ToInt32(table.Rows[i][4]);
-                                MemberLibrary.SectionalSizeB = Convert.ToInt32(table.Rows[i][5]);
-                                MemberLibrary.SectionalSize_b = Convert.ToInt32(table.Rows[i][6]);
-                                MemberLibrary.SectionalSizeD = Convert.ToDecimal(table.Rows[i][7]);
-                                MemberLibrary.SectionalSize_d = Convert.ToInt32(table.Rows[i][8]);
-                                MemberLibrary.SectionalSize_t = Convert.ToDecimal(table.Rows[i][9]);
-                                MemberLibrary.SectionalSize_r = Convert.ToDecimal(table.Rows[i][10]);
-                                MemberLibrary.SectionalSize_r1 = Convert.ToDecimal(table.Rows[i][11]);
-                                MemberLibrary.InertiaDistance_x = Convert.ToDecimal(table.Rows[i][12]);
-                                MemberLibrary.InertiaDistance_y = Convert.ToDecimal(table.Rows[i][13]);
-                                MemberLibrary.InertiaDistance_x0 = Convert.ToDecimal(table.Rows[i][14]);
-                                MemberLibrary.InertiaDistance_y0 = Convert.ToDecimal(table.Rows[i][15]);
-                                MemberLibrary.InertiaDistance_x1 = Convert.ToDecimal(table.Rows[i][16]);
-                                MemberLibrary.InertiaDistance_y1 = Convert.ToDecimal(table.Rows[i][17]);
-                                MemberLibrary.InertiaDistance_u = Convert.ToDecimal(table.Rows[i][18]);
-                                MemberLibrary.InertiaRadius_x = Convert.ToDecimal(table.Rows[i][19]);
-                                MemberLibrary.InertiaRadius_x0 = Convert.ToDecimal(table.Rows[i][20]);
-                                MemberLibrary.InertiaRadius_y = Convert.ToDecimal(table.Rows[i][21]);
-                                MemberLibrary.InertiaRadius_y0 = Convert.ToDecimal(table.Rows[i][22]);
-                                MemberLibrary.InertiaRadius_u = Convert.ToDecimal(table.Rows[i][23]);
-                                MemberLibrary.SectionalModulus_x = Convert.ToDecimal(table.Rows[i][24]);
-                                MemberLibrary.SectionalModulus_y = Convert.ToDecimal(table.Rows[i][25]);
-                                MemberLibrary.SectionalModulus_x0 = Convert.ToDecimal(table.Rows[i][26]);
-                                MemberLibrary.SectionalModulus_y0 = Convert.ToDecimal(table.Rows[i][27]);
-                                MemberLibrary.SectionalModulus_u = Convert.ToDecimal(table.Rows[i][28]);
-                                MemberLibrary.GravityCenterDistance_0 = Convert.ToDecimal(table.Rows[i][29]);
-                                MemberLibrary.GravityCenterDistance_x0 = Convert.ToDecimal(table.Rows[i][30]);
-                                MemberLibrary.GravityCenterDistance_y0 = Convert.ToDecimal(table.Rows[i][31]);
+                                //MemberLibrary.SectionalArea = Convert.ToDecimal(table.Rows[i][1]);
+                                //MemberLibrary.SurfaceArea = Convert.ToDecimal(table.Rows[i][2]);
+                                //MemberLibrary.TheoreticalWeight = table.Rows[i][3].ToString();
+                                //MemberLibrary.SectionalSize_h = Convert.ToInt32(table.Rows[i][4]);
+                                //MemberLibrary.SectionalSizeB = Convert.ToInt32(table.Rows[i][5]);
+                                //MemberLibrary.SectionalSize_b = Convert.ToInt32(table.Rows[i][6]);
+                                //MemberLibrary.SectionalSizeD = Convert.ToDecimal(table.Rows[i][7]);
+                                //MemberLibrary.SectionalSize_d = Convert.ToInt32(table.Rows[i][8]);
+                                //MemberLibrary.SectionalSize_t = Convert.ToDecimal(table.Rows[i][9]);
+                                //MemberLibrary.SectionalSize_r = Convert.ToDecimal(table.Rows[i][10]);
+                                //MemberLibrary.SectionalSize_r1 = Convert.ToDecimal(table.Rows[i][11]);
+                                //MemberLibrary.InertiaDistance_x = Convert.ToDecimal(table.Rows[i][12]);
+                                //MemberLibrary.InertiaDistance_y = Convert.ToDecimal(table.Rows[i][13]);
+                                //MemberLibrary.InertiaDistance_x0 = Convert.ToDecimal(table.Rows[i][14]);
+                                //MemberLibrary.InertiaDistance_y0 = Convert.ToDecimal(table.Rows[i][15]);
+                                //MemberLibrary.InertiaDistance_x1 = Convert.ToDecimal(table.Rows[i][16]);
+                                //MemberLibrary.InertiaDistance_y1 = Convert.ToDecimal(table.Rows[i][17]);
+                                //MemberLibrary.InertiaDistance_u = Convert.ToDecimal(table.Rows[i][18]);
+                                //MemberLibrary.InertiaRadius_x = Convert.ToDecimal(table.Rows[i][19]);
+                                //MemberLibrary.InertiaRadius_x0 = Convert.ToDecimal(table.Rows[i][20]);
+                                //MemberLibrary.InertiaRadius_y = Convert.ToDecimal(table.Rows[i][21]);
+                                //MemberLibrary.InertiaRadius_y0 = Convert.ToDecimal(table.Rows[i][22]);
+                                //MemberLibrary.InertiaRadius_u = Convert.ToDecimal(table.Rows[i][23]);
+                                //MemberLibrary.SectionalModulus_x = Convert.ToDecimal(table.Rows[i][24]);
+                                //MemberLibrary.SectionalModulus_y = Convert.ToDecimal(table.Rows[i][25]);
+                                //MemberLibrary.SectionalModulus_x0 = Convert.ToDecimal(table.Rows[i][26]);
+                                //MemberLibrary.SectionalModulus_y0 = Convert.ToDecimal(table.Rows[i][27]);
+                                //MemberLibrary.SectionalModulus_u = Convert.ToDecimal(table.Rows[i][28]);
+                                //MemberLibrary.GravityCenterDistance_0 = Convert.ToDecimal(table.Rows[i][29]);
+                                //MemberLibrary.GravityCenterDistance_x0 = Convert.ToDecimal(table.Rows[i][30]);
+                                //MemberLibrary.GravityCenterDistance_y0 = Convert.ToDecimal(table.Rows[i][31]);
                                 MemberLibrary.MemberUnit = table.Rows[i][32].ToString();
                                 MemberLibrary.UnitPrice = table.Rows[i][33].ToString();
                                 string CAD_Drawing = "1.png";
@@ -1496,6 +1496,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //}
             return true;
         }
+
         /// <summary>
         /// 上传用户头像
         /// </summary>
@@ -1537,7 +1538,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 throw new Exception(ex.ToString());
             }
         }
-
 
         /// <summary>
         /// 获取文件类型、文件图标
@@ -1691,7 +1691,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue, string TreeId)
+        public virtual ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue)
         {
             try
             {
@@ -1700,38 +1700,38 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     int keyvalue = Convert.ToInt32(KeyValue);
                     RMC_MemberLibrary Oldentity = MemberLibraryCurrent.Find(t => t.MemberID == keyvalue).SingleOrDefault();//获取没更新之前实体对象
-                    Oldentity.MemberModel = entity.MemberModel;
-                    Oldentity.SectionalArea = entity.SectionalArea;
-                    Oldentity.SurfaceArea = entity.SurfaceArea;
-                    Oldentity.TheoreticalWeight = entity.TheoreticalWeight;
-                    Oldentity.SectionalSize_h = entity.SectionalSize_h;
-                    Oldentity.SectionalSizeB = entity.SectionalSizeB;
-                    Oldentity.SectionalSize_b = entity.SectionalSize_b;
-                    Oldentity.SectionalSizeD = entity.SectionalSizeD;
-                    Oldentity.SectionalSize_d = entity.SectionalSize_d;
-                    Oldentity.SectionalSize_t = entity.SectionalSize_t;
-                    Oldentity.SectionalSize_r = entity.SectionalSize_r;
-                    Oldentity.SectionalSize_r1 = entity.SectionalSize_r1;
-                    Oldentity.InertiaDistance_x = entity.InertiaDistance_x;
-                    Oldentity.InertiaDistance_y = entity.InertiaDistance_y;
-                    Oldentity.InertiaDistance_x0 = entity.InertiaDistance_x0;
-                    Oldentity.InertiaDistance_y0 = entity.InertiaDistance_y0;
-                    Oldentity.InertiaDistance_x1 = entity.InertiaDistance_x1;
-                    Oldentity.InertiaDistance_y1 = entity.InertiaDistance_y1;
-                    Oldentity.InertiaDistance_u = entity.InertiaDistance_u;
-                    Oldentity.InertiaRadius_x = entity.InertiaRadius_x;
-                    Oldentity.InertiaRadius_x0 = entity.InertiaRadius_x0;
-                    Oldentity.InertiaRadius_y = entity.InertiaRadius_y;
-                    Oldentity.InertiaRadius_y0 = entity.InertiaRadius_y0;
-                    Oldentity.InertiaRadius_u = entity.InertiaRadius_u;
-                    Oldentity.SectionalModulus_x = entity.SectionalModulus_x;
-                    Oldentity.SectionalModulus_y = entity.SectionalModulus_y;
-                    Oldentity.SectionalModulus_x0 = entity.SectionalModulus_x0;
-                    Oldentity.SectionalModulus_y0 = entity.SectionalModulus_y0;
-                    Oldentity.SectionalModulus_u = entity.SectionalModulus_u;
-                    Oldentity.GravityCenterDistance_0 = entity.GravityCenterDistance_0;
-                    Oldentity.GravityCenterDistance_x0 = entity.GravityCenterDistance_x0;
-                    Oldentity.GravityCenterDistance_y0 = entity.GravityCenterDistance_y0;
+                    Oldentity.MemberName = entity.MemberName;
+                    //Oldentity.SectionalArea = entity.SectionalArea;
+                    //Oldentity.SurfaceArea = entity.SurfaceArea;
+                    //Oldentity.TheoreticalWeight = entity.TheoreticalWeight;
+                    //Oldentity.SectionalSize_h = entity.SectionalSize_h;
+                    //Oldentity.SectionalSizeB = entity.SectionalSizeB;
+                    //Oldentity.SectionalSize_b = entity.SectionalSize_b;
+                    //Oldentity.SectionalSizeD = entity.SectionalSizeD;
+                    //Oldentity.SectionalSize_d = entity.SectionalSize_d;
+                    //Oldentity.SectionalSize_t = entity.SectionalSize_t;
+                    //Oldentity.SectionalSize_r = entity.SectionalSize_r;
+                    //Oldentity.SectionalSize_r1 = entity.SectionalSize_r1;
+                    //Oldentity.InertiaDistance_x = entity.InertiaDistance_x;
+                    //Oldentity.InertiaDistance_y = entity.InertiaDistance_y;
+                    //Oldentity.InertiaDistance_x0 = entity.InertiaDistance_x0;
+                    //Oldentity.InertiaDistance_y0 = entity.InertiaDistance_y0;
+                    //Oldentity.InertiaDistance_x1 = entity.InertiaDistance_x1;
+                    //Oldentity.InertiaDistance_y1 = entity.InertiaDistance_y1;
+                    //Oldentity.InertiaDistance_u = entity.InertiaDistance_u;
+                    //Oldentity.InertiaRadius_x = entity.InertiaRadius_x;
+                    //Oldentity.InertiaRadius_x0 = entity.InertiaRadius_x0;
+                    //Oldentity.InertiaRadius_y = entity.InertiaRadius_y;
+                    //Oldentity.InertiaRadius_y0 = entity.InertiaRadius_y0;
+                    //Oldentity.InertiaRadius_u = entity.InertiaRadius_u;
+                    //Oldentity.SectionalModulus_x = entity.SectionalModulus_x;
+                    //Oldentity.SectionalModulus_y = entity.SectionalModulus_y;
+                    //Oldentity.SectionalModulus_x0 = entity.SectionalModulus_x0;
+                    //Oldentity.SectionalModulus_y0 = entity.SectionalModulus_y0;
+                    //Oldentity.SectionalModulus_u = entity.SectionalModulus_u;
+                    //Oldentity.GravityCenterDistance_0 = entity.GravityCenterDistance_0;
+                    //Oldentity.GravityCenterDistance_x0 = entity.GravityCenterDistance_x0;
+                    //Oldentity.GravityCenterDistance_y0 = entity.GravityCenterDistance_y0;
                     if (entity.CAD_Drawing == null)
                     {
                         entity.CAD_Drawing = "1.png";
@@ -1759,57 +1759,55 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 else
                 {
-                    int tree_id = Convert.ToInt32(TreeId);
+                    string str="";
                     RMC_MemberLibrary entitys = new RMC_MemberLibrary();
-                    var tree = TreeCurrent.Find(f => f.TreeID == TreeId).SingleOrDefault();
-                    entitys.MemberName = tree.TreeName;
-                    entitys.ParentID = tree_id;
-                    entitys.TreeID = tree_id;
-                    entitys.Sort = 1;
-
-                    entitys.MemberModel = entity.MemberModel;
-                    string MemberModel = entity.MemberModel;
-                    char[] Number = MemberModel.ToArray();
-                    string MemberNumbering = "";
-                    for (int I = 0; I < Number.Length; I++)
+                    var tree = TreeCurrent.Find(f => f.TreeID == entity.TreeId).SingleOrDefault();
+                    var TreeIdList= GetParentId(tree.ParentID).OrderBy(s=>s.TreeID);
+                    foreach (var item in TreeIdList)
                     {
-                        if (("0123456789").IndexOf(Number[I] + "") != -1)
-                        {
-                            MemberNumbering += Number[I];
-                        }
+                      str += GetCharSpellCode(item.TreeName.Substring(0, 1));
                     }
+                    str=str+ GetCharSpellCode(tree.TreeName.Substring(0, 1));
+                   
+                    int Num = 0001;
+                    var MemberList = MemberLibraryCurrent.Find(f=>f.TreeId== entity.TreeId).ToList();
+                    Num = Num + MemberList.Count();
+
+                    entitys.MemberNumbering = str + Num.ToString();
+                    entitys.TreeId = entity.TreeId;
+                    entitys.MemberName = entity.MemberName;
                     entitys.UploadTime = DateTime.Now;
-                    entitys.MemberNumbering = (MemberNumbering + "-" + DateTime.Now.ToString("yyyyMMddhhmmssffff")).ToString();
-                    entitys.SectionalArea = entity.SectionalArea;
-                    entitys.SurfaceArea = entity.SurfaceArea;
-                    entitys.TheoreticalWeight = entity.TheoreticalWeight;
-                    entitys.SectionalSize_h = entity.SectionalSize_h;
-                    entitys.SectionalSizeB = entity.SectionalSizeB;
-                    entitys.SectionalSize_b = entity.SectionalSize_b;
-                    entitys.SectionalSizeD = entity.SectionalSizeD;
-                    entitys.SectionalSize_d = entity.SectionalSize_d;
-                    entitys.SectionalSize_t = entity.SectionalSize_t;
-                    entitys.SectionalSize_r = entity.SectionalSize_r;
-                    entitys.SectionalSize_r1 = entity.SectionalSize_r1;
-                    entitys.InertiaDistance_x = entity.InertiaDistance_x;
-                    entitys.InertiaDistance_y = entity.InertiaDistance_y;
-                    entitys.InertiaDistance_x0 = entity.InertiaDistance_x0;
-                    entitys.InertiaDistance_y0 = entity.InertiaDistance_y0;
-                    entitys.InertiaDistance_y1 = entity.InertiaDistance_y1;
-                    entitys.InertiaDistance_u = entity.InertiaDistance_u;
-                    entitys.InertiaRadius_x = entity.InertiaRadius_x;
-                    entitys.InertiaRadius_x0 = entity.InertiaRadius_x0;
-                    entitys.InertiaRadius_y = entity.InertiaRadius_y;
-                    entitys.InertiaRadius_y0 = entity.InertiaRadius_y0;
-                    entitys.InertiaRadius_u = entity.InertiaRadius_u;
-                    entitys.SectionalModulus_x = entity.SectionalModulus_x;
-                    entitys.SectionalModulus_y = entity.SectionalModulus_y;
-                    entitys.SectionalModulus_x0 = entity.SectionalModulus_x0;
-                    entitys.SectionalModulus_y0 = entity.SectionalModulus_y0;
-                    entitys.SectionalModulus_u = entity.SectionalModulus_u;
-                    entitys.GravityCenterDistance_0 = entity.GravityCenterDistance_0;
-                    entitys.GravityCenterDistance_x0 = entity.GravityCenterDistance_x0;
-                    entitys.GravityCenterDistance_y0 = entity.GravityCenterDistance_y0;
+                  
+                    //entitys.SectionalArea = entity.SectionalArea;
+                    //entitys.SurfaceArea = entity.SurfaceArea;
+                    //entitys.TheoreticalWeight = entity.TheoreticalWeight;
+                    //entitys.SectionalSize_h = entity.SectionalSize_h;
+                    //entitys.SectionalSizeB = entity.SectionalSizeB;
+                    //entitys.SectionalSize_b = entity.SectionalSize_b;
+                    //entitys.SectionalSizeD = entity.SectionalSizeD;
+                    //entitys.SectionalSize_d = entity.SectionalSize_d;
+                    //entitys.SectionalSize_t = entity.SectionalSize_t;
+                    //entitys.SectionalSize_r = entity.SectionalSize_r;
+                    //entitys.SectionalSize_r1 = entity.SectionalSize_r1;
+                    //entitys.InertiaDistance_x = entity.InertiaDistance_x;
+                    //entitys.InertiaDistance_y = entity.InertiaDistance_y;
+                    //entitys.InertiaDistance_x0 = entity.InertiaDistance_x0;
+                    //entitys.InertiaDistance_y0 = entity.InertiaDistance_y0;
+                    //entitys.InertiaDistance_y1 = entity.InertiaDistance_y1;
+                    //entitys.InertiaDistance_u = entity.InertiaDistance_u;
+                    //entitys.InertiaRadius_x = entity.InertiaRadius_x;
+                    //entitys.InertiaRadius_x0 = entity.InertiaRadius_x0;
+                    //entitys.InertiaRadius_y = entity.InertiaRadius_y;
+                    //entitys.InertiaRadius_y0 = entity.InertiaRadius_y0;
+                    //entitys.InertiaRadius_u = entity.InertiaRadius_u;
+                    //entitys.SectionalModulus_x = entity.SectionalModulus_x;
+                    //entitys.SectionalModulus_y = entity.SectionalModulus_y;
+                    //entitys.SectionalModulus_x0 = entity.SectionalModulus_x0;
+                    //entitys.SectionalModulus_y0 = entity.SectionalModulus_y0;
+                    //entitys.SectionalModulus_u = entity.SectionalModulus_u;
+                    //entitys.GravityCenterDistance_0 = entity.GravityCenterDistance_0;
+                    //entitys.GravityCenterDistance_x0 = entity.GravityCenterDistance_x0;
+                    //entitys.GravityCenterDistance_y0 = entity.GravityCenterDistance_y0;
                     entitys.MemberUnit = entity.MemberUnit;
                     entitys.UnitPrice = entity.UnitPrice;
 
@@ -2205,9 +2203,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 List<string> MemberRawMaterial1 = new List<string>();
                 List<string> MemberRawMaterial2 = new List<string>();
 
-                int TreeId = Convert.ToInt32(MaterialClassId);
                 int _MemberId = Convert.ToInt32(MemberId);
-                var Entity = RawMaterialCurrent.Find(f => f.TreeId == TreeId).ToList();
+                var Entity = RawMaterialCurrent.Find(f => f.TreeId == MaterialClassId).ToList();
                 if (Entity.Count() > 0)
                 {
                     foreach (var item in Entity)

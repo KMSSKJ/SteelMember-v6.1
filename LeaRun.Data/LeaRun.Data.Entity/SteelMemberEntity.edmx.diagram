@@ -4,25 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a49c93821f7940b2aa8b5847ec859ac5" Name="Diagram1" ZoomLevel="80">
+      <Diagram DiagramId="a49c93821f7940b2aa8b5847ec859ac5" Name="Diagram1" ZoomLevel="76">
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Collar" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_CollarMember" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_FactoryWarehouse" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberProcess" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberUnit" Width="1.5" PointX="4.75" PointY="3.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_OrderMember" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProcessManagement" Width="1.5" PointX="6.75" PointY="4.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectDemand" Width="1.5" PointX="8.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectInfo" Width="1.5" PointX="2.75" PointY="8.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectOrder" Width="1.5" PointX="8.75" PointY="7.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberProcess" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberUnit" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_OrderMember" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProcessManagement" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectDemand" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectInfo" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectOrder" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse" Width="1.5" PointX="8.75" PointY="6.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Purchase" Width="1.5" PointX="10.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" Width="1.5" PointX="10.75" PointY="3.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase" Width="1.5" PointX="10.75" PointY="7.75" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ShipManagement" Width="1.5" PointX="12.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" Width="1.5" PointX="10.75" PointY="12.75" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" Width="1.5" PointX="10.75" PointY="3.625" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" Width="1.5" PointX="0.75" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -21,7 +21,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
         public ActionResult Index()
         {
-            Session["moduleId"] = Request.QueryString["username"];
+            Session["moduleId"] = Request.QueryString["moduleId"];
             return View();
         }
 

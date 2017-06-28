@@ -110,6 +110,7 @@
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
       <Private>True</Private>
@@ -121,9 +122,11 @@
     </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -196,8 +199,6 @@
     <Compile Include="Areas\SteelMember\Controllers\CollarManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\MemberProduceController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\MemberSettlementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />

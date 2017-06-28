@@ -10,7 +10,7 @@ namespace LeaRun.Util
     public class FileViewModel
     {
         public int MemberID { get; set; }
-        public int TreeID { get; set; }
+        public string TreeID { get; set; }
         public string MemberModel { get; set; }
         public string RawMaterialName { get; set; }
         public string OrderNumbering { get; set; }

@@ -15,7 +15,7 @@ namespace LeaRun.Data.Entity
     public partial class RMC_ShipManagement
     {
         public int ShipId { get; set; }
-        public Nullable<int> TreeId { get; set; }
+        public string TreeId { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> MemberClassId { get; set; }
         public Nullable<int> MemberId { get; set; }

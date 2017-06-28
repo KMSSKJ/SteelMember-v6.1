@@ -15,7 +15,7 @@ namespace LeaRun.Data.Entity
     public partial class RMC_ProjectDemand
     {
         public int ProjectDemandId { get; set; }
-        public Nullable<int> TreeId { get; set; }
+        public string TreeId { get; set; }
         public string TreeName { get; set; }
         public Nullable<int> MemberId { get; set; }
         public string MemberNumbering { get; set; }
