@@ -54,6 +54,8 @@
     <Compile Include="PublicInfoManage\ScheduleService.cs" />
     <Compile Include="SystemManage\AreaService.cs" />
     <Compile Include="SystemManage\CodeRuleService.cs" />
+    <Compile Include="SystemManage\DatabaseLinkService.cs" />
+    <Compile Include="SystemManage\DataBaseTableService.cs" />
     <Compile Include="SystemManage\DataItemDetailService.cs" />
     <Compile Include="SystemManage\DataItemService.cs" />
     <Compile Include="SystemManage\LogService.cs" />

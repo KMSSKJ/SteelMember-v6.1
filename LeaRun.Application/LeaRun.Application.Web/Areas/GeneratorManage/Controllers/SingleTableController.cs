@@ -125,14 +125,16 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
         /// </summary>
         /// <param name="baseInfoJson">基本信息配置Json</param>
         /// <param name="moduleEntity">功能实体</param>
-        /// <param name="moduleButtonList">按钮实体列表</param>
-        /// <param name="moduleColumnList">视图实体列表</param>
+        /// <param name="moduleButtonListJson">按钮实体列表</param>
+        /// <param name="moduleColumnListJson">视图实体列表</param>
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
         public ActionResult PublishModule(string baseInfoJson, ModuleEntity moduleEntity, string moduleButtonListJson, string moduleColumnListJson)
         {
             BaseConfigModel baseConfigModel = baseInfoJson.ToObject<BaseConfigModel>();
+            var moduleButtonList = moduleButtonListJson.ToList<ModuleButtonEntity>();
+            var moduleColumnList = moduleColumnListJson.ToList<ModuleColumnEntity>();
             var urlAddress = "/" + baseConfigModel.OutputAreas + "/" + CommonHelper.DelLastLength(baseConfigModel.ControllerName, 10) + "/" + baseConfigModel.IndexPageName;
 
             moduleEntity.SortCode = moduleBLL.GetSortCode();
@@ -140,7 +142,7 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
             moduleEntity.EnabledMark = 1;
             moduleEntity.Target = "iframe";
             moduleEntity.UrlAddress = urlAddress;
-            moduleBLL.SaveForm("", moduleEntity, moduleButtonListJson, moduleColumnListJson);
+            moduleBLL.SaveForm("", moduleEntity, moduleButtonList, moduleColumnList);
             return Success("发布成功！");
         }
         #endregion

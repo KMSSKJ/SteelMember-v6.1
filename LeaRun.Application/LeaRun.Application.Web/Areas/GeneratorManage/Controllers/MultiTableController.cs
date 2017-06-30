@@ -11,6 +11,8 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
 {
     /// <summary>
     /// 版 本 6.3.1
+    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
+    /// 创建人：佘赐雄
     /// 日 期：2016.2.13 14:29
     /// 描 述：生成器多表
     /// </summary>
@@ -128,10 +130,9 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
         [AjaxOnly]
         public ActionResult PublishModule(string baseInfoJson, ModuleEntity moduleEntity, string moduleButtonListJson, string moduleColumnListJson)
         {
+            MultiTableConfigModel baseConfigModel = baseInfoJson.ToObject<MultiTableConfigModel>();
             var moduleButtonList = moduleButtonListJson.ToList<ModuleButtonEntity>();
             var moduleColumnList = moduleColumnListJson.ToList<ModuleColumnEntity>();
-
-            MultiTableConfigModel baseConfigModel = baseInfoJson.ToObject<MultiTableConfigModel>();
             var urlAddress = "/" + baseConfigModel.OutputAreas + "/" + CommonHelper.DelLastLength(baseConfigModel.ControllerName, 10) + "/" + baseConfigModel.IndexPageName;
 
             moduleEntity.SortCode = moduleBLL.GetSortCode();

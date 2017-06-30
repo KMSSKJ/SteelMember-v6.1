@@ -192,6 +192,8 @@
     <Compile Include="Areas\BaseManage\Controllers\PostController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\UserGroupController.cs" />
     <Compile Include="Areas\GeneratorManage\Controllers\MultiTableController.cs" />
+    <Compile Include="Areas\GeneratorManage\Controllers\SingleTableController.cs" />
+    <Compile Include="Areas\GeneratorManage\Controllers\TemplateController.cs" />
     <Compile Include="Areas\GeneratorManage\GeneratorManageAreaRegistration.cs" />
     <Compile Include="Areas\PublicInfoManage\Controllers\EmailController.cs" />
     <Compile Include="Areas\PublicInfoManage\Controllers\ResourceFileController.cs" />
@@ -227,6 +229,8 @@
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterIPController.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterTimeController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\AreaController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\DataBaseLinkController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\DataBaseTableController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DataItemController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DataItemDetailController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DataItemListController.cs" />
@@ -1223,7 +1227,16 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\MemberForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\RawMaterialNumForm.cshtml" />
+    <Content Include="Areas\GeneratorManage\Views\SingleTable\CodeBuilder.cshtml" />
+    <Content Include="Areas\GeneratorManage\Views\SingleTable\EditControl.cshtml" />
+    <Content Include="Areas\GeneratorManage\Views\SingleTable\EditGrid.cshtml" />
+    <Content Include="Areas\GeneratorManage\Views\Template\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataBaseTable\FieldForm.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataBaseTable\Form.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataBaseTable\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataBaseTable\TableData.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataBaseLink\Form.cshtml" />
+    <Content Include="Areas\SystemManage\Views\DataBaseLink\Index.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

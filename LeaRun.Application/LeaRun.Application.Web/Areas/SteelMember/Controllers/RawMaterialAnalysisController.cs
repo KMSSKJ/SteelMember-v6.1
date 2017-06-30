@@ -92,6 +92,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                              , f => f.Id.ToString()
                                              , out total
                                              ).ToList();
+                                             
             if (data.Count() > 0 && keyword != "" && keyword != null)
             {
                 data = data.FindAll(t => t.RawMaterialId.ToString().Contains(keyword));
@@ -119,5 +120,66 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(data.ToJson());
         }
 
+        /// <summary>
+        /// 原材料类型实体 返回字符串
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetTreeName(string keyValue)
+        {
+            var data = treeBll.Find(r => r.TreeID == keyValue).Single();
+            return Content(data.TreeName.ToString());
+        }
+        
+
+        /// <summary>
+        /// 保存原材料分析表单（新增、修改）
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="rawMaterialAnalysisEntity">原材料实体</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult SaveForm(string keyValue, RMC_RawMaterialAnalysis rawMaterialAnalysisEntity)
+        {
+
+            if (keyValue == "" || keyValue == null)
+            {
+                rawMaterialAnalysisBll.Add(rawMaterialAnalysisEntity);
+            }
+            else
+            {
+                var data = rawMaterialAnalysisBll.Find(r => r.Id.ToString() == keyValue).Single();
+                data.RawMaterialId = rawMaterialAnalysisEntity.RawMaterialId;
+                data.RawMaterialTreeId = rawMaterialAnalysisEntity.RawMaterialTreeId;
+                data.TreeId = rawMaterialAnalysisEntity.TreeId;
+                data.RawMaterialDosage = rawMaterialAnalysisEntity.RawMaterialDosage;
+                data.Description = rawMaterialAnalysisEntity.Description;
+
+                rawMaterialAnalysisBll.Modified(data);
+
+            }
+            return Success("操作成功。");
+        }
+        /// <summary>
+        /// 删除原材料分析
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult RemoveForm(string keyValue)
+        {
+            List<int> ids = new List<int>();
+            if (keyValue != "" || keyValue != null)
+            {
+                ids.Add(Convert.ToInt32(keyValue));
+            }
+            rawMaterialAnalysisBll.Remove(ids);
+            return Success("删除成功。");
+        }
     }
 }

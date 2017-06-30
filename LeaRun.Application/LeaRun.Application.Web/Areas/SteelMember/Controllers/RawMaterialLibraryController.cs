@@ -78,7 +78,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <param name="pagination">分页参数</param>
         /// <returns>返回分页列表Json</returns>
         [HttpGet]
-        public ActionResult GetPageListJson(string parentid, /*string condition, */string keyword, Pagination pagination)
+        public ActionResult GetPageListJson(string parentid, string keyword, Pagination pagination)
         {
             Expression<Func<RMC_RawMaterialLibrary, bool>> func = f => f.RawMaterialId != 0;
             if (parentid != "0" && parentid != "")
@@ -109,6 +109,33 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             };
             return Content(JsonData.ToJson());
         }
+        /// <summary>
+        /// 原材料列表
+        /// </summary>
+        /// <param name="parentid"></param>
+        /// <returns>返回分页列表Json</returns>
+        [HttpGet]
+        public ActionResult GetListJson(string parentid)
+        {
+            var data = rawMaterialBll.Find(r=>r.TreeId==parentid).ToList();
+            var treeList = new List<TreeEntity>();
+            foreach (RMC_RawMaterialLibrary item in data)
+            {
+                TreeEntity tree = new TreeEntity();
+                bool hasChildren = data.Count(t => t.ParentId == item.RawMaterialId.ToString()) == 0 ? false : true;
+                tree.id = item.RawMaterialId.ToString();
+                tree.text = item.RawMaterialModel;
+                tree.value = item.RawMaterialId.ToString();
+                tree.isexpand = true;
+                tree.complete = true;
+                tree.hasChildren = hasChildren;
+                tree.parentId = item.ParentId;
+                //tree.img = item.Icon;
+                treeList.Add(tree);
+            }
+            return Content(treeList.ToJson());
+        }
+
 
         /// <summary>
         /// 原材料实体 返回对象Json
@@ -120,6 +147,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var data = rawMaterialBll.Find(r => r.RawMaterialId.ToString() == keyValue).Single();
             return Content(data.ToJson());
+        }
+
+        [HttpGet]
+        public ActionResult GetUnitName(string keyValue)
+        {
+            var data = rawMaterialBll.Find(r => r.RawMaterialId.ToString() == keyValue).Single();
+            var model = unitBll.Find(u => u.UnitId == data.UnitId).Single();
+            return Content(model.UnitName.ToString());
         }
 
         /// <summary>
