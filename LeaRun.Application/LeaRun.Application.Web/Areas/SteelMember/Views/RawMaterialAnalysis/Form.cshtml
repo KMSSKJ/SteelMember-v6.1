@@ -19,7 +19,7 @@
             height: "120px",
             allowSearch: true
         });
-        //类型
+        //工程
         $("#TreeId").ComboBoxTree({
             url: "../../SteelMember/RawMaterialAnalysis/GetTreeJson",
             description: "==请选择==",
@@ -30,13 +30,37 @@
             }
         })
 
+        //原材料类型
+        $("#RawMaterialTreeId").ComboBoxTree({
+            url: "../../SteelMember/RawMaterialLibrary/GetTreeJson",
+            description: "==请选择==",
+            height: "150px",
+            allowSearch: true,
+        }).bind("change", function () {
+            var value = $(this).attr('data-value');
+            //加载规格或型号
+            $("#RawMaterialId").ComboBoxTree({
+                url: "../../SteelMember/RawMaterialLibrary/GetListJson?parentid=" + value,
+                description: "==请选择==",
+                allowSearch: true
+            });            
+        });
+        //规格或型号
+        $("#RawMaterialId").ComboBoxTree({
+            description: "==请选择==",
+            //height: "200px",
+            allowSearch: true
+        })
         //获取表单
         if (!!keyValue) {
+            alert(keyValue);
             $.SetForm({
                 url: "../../SteelMember/RawMaterialAnalysis/GetFormJson",
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
+                    $("#RawMaterialTreeId").trigger("change");
+                    $("#RawMaterialId").ComboBoxTreeSetValue(data.RawMaterialId);
                 }
             });
         } else {
@@ -101,29 +125,32 @@
     <table class="form">
         <tr>
 
-            <td class="formTitle">类型<font face="宋体">*</font></td>
+            <td class="formTitle">工程<font face="宋体">*</font></td>
             <td class="formValue">
                 <div id="TreeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
-            <th class="formTitle">规格或型号<font face="宋体">*</font></th>
+
+            <td class="formTitle">原材料类型<font face="宋体">*</font></td>
             <td class="formValue">
-                <input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" checkexpession="NotNull" />
+                <div id="RawMaterialTreeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
+
+
             @*<th class="formTitle">规格<font face="宋体">*</font></th>
                 <td class="formValue">
                     <input id="RawMaterialStandard" type="text" class="form-control" placeholder="请输入规格" isvalid="yes" checkexpession="NotNull" />
                 </td>*@
         </tr>
         <tr>
-            <th class="formTitle">单位<font face="宋体">*</font></th>
+            <td class="formTitle">规格或型号<font face="宋体">*</font></td>
             <td class="formValue">
-                <div id="UnitId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull">
-                </div>
+                <div id="RawMaterialId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
-            @*<td class="formTitle">类型<font face="宋体">*</font></td>
-                <td class="formValue">
-                    <div id="TreeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                </td>*@
+            <th class="formTitle">数量<font face="宋体">*</font></th>
+            <td class="formValue">
+                <input id="RawMaterialDosage" type="text" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="PositiveInteger" />
+            </td>
+
         </tr>
         <tr>
             <th class="formTitle" valign="top" style="padding-top: 4px;">

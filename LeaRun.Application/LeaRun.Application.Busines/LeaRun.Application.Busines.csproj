@@ -54,6 +54,8 @@
     <Compile Include="PublicInfoManage\ScheduleBLL.cs" />
     <Compile Include="SystemManage\AreaBLL.cs" />
     <Compile Include="SystemManage\CodeRuleBLL.cs" />
+    <Compile Include="SystemManage\DatabaseLinkBLL.cs" />
+    <Compile Include="SystemManage\DataBaseTableBLL.cs" />
     <Compile Include="SystemManage\DataItemBLL.cs" />
     <Compile Include="SystemManage\DataItemDetailBLL.cs" />
     <Compile Include="SystemManage\LogBLL.cs" />

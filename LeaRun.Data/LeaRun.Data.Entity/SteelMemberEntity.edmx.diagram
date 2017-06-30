@@ -19,12 +19,12 @@
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectOrder" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Purchase" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialAnalysis" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialPurchase" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_ShipManagement" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_Tree" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_AnalysisRawMaterial" Width="1.5" PointX="12.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialAnalysis" Width="1.5" PointX="13.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

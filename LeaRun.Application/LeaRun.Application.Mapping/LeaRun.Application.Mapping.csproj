@@ -83,6 +83,7 @@
     <Compile Include="PublicInfoManage\EmailContentMap.cs" />
     <Compile Include="SystemManage\CodeRuleMap.cs" />
     <Compile Include="SystemManage\CodeRuleSeedMap.cs" />
+    <Compile Include="SystemManage\DatabaseLinkMap.cs" />
     <Compile Include="SystemManage\DataItemDetailMap.cs" />
     <Compile Include="SystemManage\DataItemMap.cs" />
     <Compile Include="SystemManage\LogMap.cs" />
