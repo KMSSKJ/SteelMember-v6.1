@@ -203,7 +203,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     ProjectWarehouse.ProjectWarehouseId = item.ProjectWarehouseId;
                     //var projectinfo = ProjectInfoCurrent.Find(f => f.ProjectId == item.ProjectId).SingleOrDefault();
                     //projectdemand.ProjectName = projectinfo.ProjectName;
-                    var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberID == item.MemberId).SingleOrDefault();
+                    var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberId == item.MemberId).SingleOrDefault();
                     ProjectWarehouse.MemberName = memberlibrary.MemberName;
                     ProjectWarehouse.MemberModel = item.MemberModel;
                     ProjectWarehouse.MemberNumbering = memberlibrary.MemberNumbering.ToString();

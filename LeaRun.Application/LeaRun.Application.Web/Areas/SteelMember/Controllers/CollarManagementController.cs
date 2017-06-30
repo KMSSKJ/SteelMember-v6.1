@@ -454,7 +454,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 if (model.MemberModel != null && model.MemberModel != "")
                 {
                     var member = MemberLibraryCurrent.Find(fm => fm.MemberModel == model.MemberModel).SingleOrDefault();
-                    func = func.And(f => f.MemberId == member.MemberID);
+                    func = func.And(f => f.MemberId == member.MemberId);
                 }
                 if (model.InBeginTime != null && model.InBeginTime.ToString() != "0001/1/1 0:00:00")
                 {
@@ -493,7 +493,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     ProjectWarehouse.ProjectWarehouseId = item.ProjectWarehouseId;
                     ProjectWarehouse.ProjectDemandId = item.ProjectDemandId;
                     ProjectWarehouse.MemberId = item.MemberId;
-                    var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberID == item.MemberId).SingleOrDefault();
+                    var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberId== item.MemberId).SingleOrDefault();
                     ProjectWarehouse.MemberName = memberlibrary.MemberName;
                     ProjectWarehouse.MemberModel = memberlibrary.MemberModel;
                     ProjectWarehouse.MemberNumbering = memberlibrary.MemberNumbering.ToString();
@@ -594,13 +594,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     foreach (var item in array)
                     {
-                        int id = Convert.ToInt32(item);
-                        var listfile = ProjectWarehouseCurrent.Find(f=>f.MemberId== id).SingleOrDefault();
+                        var listfile = ProjectWarehouseCurrent.Find(f=>f.MemberId== item).SingleOrDefault();
                         ProjectWarehouseModel ProjectWarehouse = new ProjectWarehouseModel();
                         ProjectWarehouse.ProjectWarehouseId = listfile.ProjectWarehouseId;
                         ProjectWarehouse.ProjectDemandId = listfile.ProjectDemandId;
                         ProjectWarehouse.MemberId = listfile.MemberId;
-                        var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberID == listfile.MemberId).SingleOrDefault();
+                        var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberId == listfile.MemberId).SingleOrDefault();
                         ProjectWarehouse.MemberName = memberlibrary.MemberName;
                         ProjectWarehouse.MemberModel = memberlibrary.MemberModel;
                         ProjectWarehouse.MemberNumbering = memberlibrary.MemberNumbering.ToString();

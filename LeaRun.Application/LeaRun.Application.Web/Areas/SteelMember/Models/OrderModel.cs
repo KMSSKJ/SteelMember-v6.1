@@ -41,7 +41,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// </summary>
         /// <returns></returns>
         [DisplayName("构件主键")]
-        public string MemberID { get; set; }
+        public string MemberId { get; set; }
     /// <summary>
     /// 需求主键
     /// </summary>
@@ -54,12 +54,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// <returns></returns>
         [DisplayName("编号")]
         public string OrderNumbering { get; set; }
-        /// <summary>
-        /// 物料主键
-        /// </summary>
-        /// <returns></returns>
-        [DisplayName("构件主键")]
-        public string MemberId { get; set; }
         /// <summary>
         /// 物料代码
         /// </summary>

@@ -22,7 +22,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public Nullable<int> MemberClassId { get; set; }
         public string MemberClassName { get; set; }
         public string ProjectName { get; set; }
-        public Nullable<int> MemberId { get; set; }
+        public string MemberId { get; set; }
         public Nullable<int> UnitId { get; set; }
         public string MemberUnit { get; set; }
         public string MemberName { get; set; }

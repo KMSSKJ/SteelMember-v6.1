@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "原材料用量";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var TreeId;
+    var MemberId = request('MemberId');
+    //var TreeId = request('TreeId');
+    $(function () {
+        initControl();
+    })
+    var dataJson = top.MemberForm.RawMaterialJson;
+    //初始化控件
+    function initControl() {
+        //加载原材料
+        $("#RawMaterialModel").ComboBox({
+            description: "==请选择==",
+            height: "200px",
+        });
+        //原材料类型
+      
+        $("#TreeId").ComboBoxTree({
+            url: '/SteelMember/RawMaterialLibrary/GetTreeJson',
+            description: "==请选择==",
+            height: "200px",
+            allowSearch: true,
+        }).bind("change", function () {
+            TreeId = $(this).attr('data-value');
+            //加载原材料
+            $("#RawMaterialModel").ComboBox({
+                url: '/SteelMember/File/GetRawMaterialJson',
+                param: { KeyValue: TreeId },
+                id: "RawMaterialModel",
+                text: "RawMaterialStandard",
+                description: "==请选择==",
+            });
+        });
+
+            //获取表单
+            if (!!MemberId) {
+                $.SetForm({
+                    url: "/SteelMember/RawMaterialLibrary/GetFormJson",
+                    param: { keyValue: MemberId },
+                    success: function (data) {
+                        $("#form1").SetWebControls(data);
+                    }
+                });
+            } 
+        }
+
+        //if (!!MemberId) {
+        //    $.each(dataJson, function (i) {
+        //        var row = dataJson[i];
+        //        if (row.MemberId == MemberId) {
+        //            $("#form1").SetWebControls(row);
+        //        }
+        //    });
+        //} else {
+        //}
+
+    $._ExistField = function (controlId, url, param) {
+        //var $control = $("#" + controlId);
+        if ($("#ui-select-text").html() == "==请选择==" || MemberId == undefined || MemberId == "" || MemberId == '' || MemberId == null) {
+            return false;
+        }
+        var data = {
+            MemberId: MemberId,
+            treeId: TreeId
+        };
+        data["RawMaterialModel"] = $("#ui-select-text").html();
+        var options = $.extend(data, param);
+        $.ajax({
+            url: url,
+            data: options,
+            type: "get",
+            dataType: "text",
+            async: false,
+            success: function (data) {
+                if (data.toLocaleLowerCase() == 'false') {
+                    ValidationMessage("#RawMaterialModel", '已存在,请重新输入');
+                    $("#RawMaterialModel").attr('fieldexist', 'yes');
+                } else {
+                    $("#RawMaterialModel").attr('fieldexist', 'no');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                dialogMsg(errorThrown, -1);
+            }
+        });
+    }
+
+    //保存表单
+    function AcceptClick(callback) {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        var data = $("#form1").GetWebControls(RawMaterialModel);
+        if (data["TreeId"] == "") {
+            data["TreeId"] = 0;
+        }
+        callback(data);
+        dialogClose();
+    }
+
+    ////保存表单
+    //function AcceptClick() {
+    //    if (!$('#form1').Validform()) {
+    //        return false;
+    //    }
+    //    var postData = $("#form1").GetWebControls(keyValue);
+    //    if (postData["TreeId"] == "") {
+    //        postData["TreeId"] = 0;
+    //    }
+    //    $.SaveForm({
+    //        url: "/SteelMember/RawMaterialLibrary/SaveForm?keyValue=" + keyValue,
+    //        param: postData,
+    //        loading: "正在保存数据...",
+    //        success: function () {
+    //            $.currentIframe().$("#gridTable").resetSelection();
+    //            $.currentIframe().$("#gridTable").trigger("reloadGrid");
+    //        }
+    //    })
+    //}
+
+  
+
+</script>
+<div style="margin-left: 10px; margin-top: 30px; margin-right: 30px;">
+    <table class="form">
+        <tr>
+            <td class="formTitle">
+                材料类型<font face="宋体">*</font>
+            </td>
+            <td class="formValue">
+                <div id="TreeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">
+                材料规格或型号<font face="宋体">*</font>
+            </td>
+            <td class="formValue">@*onblur="$._ExistField(this.id,'/SteelMember/RawMaterialLibrary/ExistFullName')"*@
+                <div id="RawMaterialModel" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">
+                用量<font face="宋体">*</font>
+            </td>
+            <td class="formValue">
+                <input id="Sort" type="text"  onmouseover="$._ExistField(this.id,'/SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
+            </td>
+        </tr>
+
+    </table>
+</div>
