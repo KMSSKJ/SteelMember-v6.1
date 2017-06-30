@@ -81,6 +81,8 @@
     <Compile Include="SystemManage\CodeRuleEntity.cs" />
     <Compile Include="SystemManage\CodeRuleFormatEntity.cs" />
     <Compile Include="SystemManage\CodeRuleSeedEntity.cs" />
+    <Compile Include="SystemManage\DatabaseLinkEntity.cs" />
+    <Compile Include="SystemManage\DataBaseTableFieldEntity.cs" />
     <Compile Include="SystemManage\DataItemDetailEntity.cs" />
     <Compile Include="SystemManage\DataItemEntity.cs" />
     <Compile Include="SystemManage\LogEntity.cs" />

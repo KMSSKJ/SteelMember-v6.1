@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LeaRunFramework_Base_2016Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LeaRunFramework_Base_2016Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--生成过程中发现错误:
 警告 6002: 表/视图“LeaRunFramework_Base_2016.dbo.RMC_AnalysisRawMaterial”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="RMC_AnalysisRawMaterial">
@@ -289,8 +289,10 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TreeId" Type="nvarchar" MaxLength="50" />
+          <Property Name="RawMaterialTreeId" Type="nvarchar" MaxLength="50" />
           <Property Name="RawMaterialId" Type="int" />
           <Property Name="RawMaterialDosage" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="RMC_RawMaterialLibrary">
           <Key>
@@ -422,8 +424,7 @@
     FROM [dbo].[RMC_AnalysisRawMaterial] AS [RMC_AnalysisRawMaterial]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LeaRunFramework_Base_2016Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -681,15 +682,6 @@
           <Property Name="ReviewMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="RMC_RawMaterialAnalysis">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RawMaterialId" Type="Int32" />
-          <Property Name="RawMaterialDosage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="RMC_RawMaterialLibrary">
           <Key>
             <PropertyRef Name="RawMaterialId" />
@@ -815,13 +807,24 @@
           <EntitySet Name="RMC_ProjectOrder" EntityType="Self.RMC_ProjectOrder" />
           <EntitySet Name="RMC_ProjectWarehouse" EntityType="Self.RMC_ProjectWarehouse" />
           <EntitySet Name="RMC_Purchase" EntityType="Self.RMC_Purchase" />
-          <EntitySet Name="RMC_RawMaterialAnalysis" EntityType="Self.RMC_RawMaterialAnalysis" />
           <EntitySet Name="RMC_RawMaterialLibrary" EntityType="Self.RMC_RawMaterialLibrary" />
           <EntitySet Name="RMC_RawMaterialPurchase" EntityType="Self.RMC_RawMaterialPurchase" />
           <EntitySet Name="RMC_ShipManagement" EntityType="Self.RMC_ShipManagement" />
           <EntitySet Name="RMC_Tree" EntityType="Self.RMC_Tree" />
           <EntitySet Name="RMC_AnalysisRawMaterial" EntityType="Self.RMC_AnalysisRawMaterial" />
+          <EntitySet Name="RMC_RawMaterialAnalysis" EntityType="LeaRunFramework_Base_2016Model.RMC_RawMaterialAnalysis" />
         </EntityContainer>
+        <EntityType Name="RMC_RawMaterialAnalysis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RawMaterialTreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RawMaterialId" Type="Int32" />
+          <Property Name="RawMaterialDosage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1096,16 +1099,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RMC_RawMaterialAnalysis">
-            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialAnalysis">
-              <MappingFragment StoreEntitySet="RMC_RawMaterialAnalysis">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
-                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
-                <ScalarProperty Name="RawMaterialDosage" ColumnName="RawMaterialDosage" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RMC_RawMaterialLibrary">
             <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialLibrary">
               <MappingFragment StoreEntitySet="RMC_RawMaterialLibrary">
@@ -1218,6 +1211,18 @@
                 <ScalarProperty Name="AnalysisTime" ColumnName="AnalysisTime" />
                 <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMC_RawMaterialAnalysis">
+            <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_RawMaterialAnalysis">
+              <MappingFragment StoreEntitySet="RMC_RawMaterialAnalysis">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RawMaterialDosage" ColumnName="RawMaterialDosage" />
+                <ScalarProperty Name="RawMaterialId" ColumnName="RawMaterialId" />
+                <ScalarProperty Name="RawMaterialTreeId" ColumnName="RawMaterialTreeId" />
+                <ScalarProperty Name="TreeId" ColumnName="TreeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

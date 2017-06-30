@@ -53,13 +53,59 @@
             autowidth: true,
             colModel: [
                 { label: "主键", name: "Id", index: "Id", hidden: true },
-                { label: "原材料类型", name: "TreeId", index: "TreeId", width: 350, align: "left" },
-                { label: "规格或型号", name: "RawMaterialId", index: "RawMaterialId", width: 350, align: "left" },
+                {
+                    label: "原材料类型", name: "RawMaterialTreeId", index: "RawMaterialTreeId", width: 350, align: "left",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var a = "";
+                        $.ajax({
+                            url: "../../SteelMember/RawMaterialAnalysis/GetTreeName",
+                            data: { keyValue: cellvalue },
+                            type: "get",
+                            dataType: "text",
+                            async: false,
+                            success: function (data) {
+                                a = data;
+                            },
+
+                        })
+                        return a;
+                    }
+                },
+                {
+                    label: "规格或型号", name: "RawMaterialId", index: "RawMaterialId", width: 350, align: "left",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var a = "";
+                        $.ajax({
+                            url: "../../SteelMember/RawMaterialLibrary/GetFormJson",
+                            data: { keyValue: cellvalue },
+                            type: "get",
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                a = data.RawMaterialModel;
+                            },
+
+                        })
+                        return a;
+                    }
+                },
                 { label: "数量", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 150, align: "left" },
                 {
-                    label: "单位", name: "UnitId", index: "UnitId", width: 100, align: "left",
+                    label: "单位", name: "RawMaterialId", index: "RawMaterialId", width: 100, align: "left",
                     formatter: function (cellvalue, options, rowObject) {
-                        return top.clientunitData[cellvalue] == null ? "" : top.clientunitData[cellvalue].UnitName;
+                        var a = "";
+                        $.ajax({
+                            url: "../../SteelMember/RawMaterialLibrary/GetUnitName",
+                            data: { keyValue: cellvalue },
+                            type: "get",
+                            dataType: "text",
+                            async: false,
+                            success: function (data) {
+                                a = data;
+                            },
+
+                        })
+                        return a;
                     }
                 }
             ],
@@ -117,7 +163,7 @@
     };
     //编辑
     function btn_edit() {
-        var keyValue = $("#gridTable").jqGridRowValue("RawMaterialId");
+        var keyValue = $("#gridTable").jqGridRowValue("Id");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "Form",
@@ -133,7 +179,7 @@
     };
     //删除
     function btn_delete() {
-        var keyValue = $("#gridTable").jqGridRowValue("RawMaterialId");
+        var keyValue = $("#gridTable").jqGridRowValue("Id");
         if (keyValue) {
             $.RemoveForm({
                 url: "../../SteelMember/RawMaterialAnalysis/RemoveForm",
@@ -162,10 +208,10 @@
                     <table>
                         <tr>
                             @*<td>
-                                <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default">型号</a>
-                                </div>
-                            </td>*@
+                                    <div id="queryCondition" class="btn-group">
+                                        <a class="btn btn-default">型号</a>
+                                    </div>
+                                </td>*@
                             <td style="padding-left: 2px;">
                                 <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询的型号" style="width: 200px;" />
                             </td>
