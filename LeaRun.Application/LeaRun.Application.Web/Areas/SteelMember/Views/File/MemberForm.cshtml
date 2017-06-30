@@ -4,42 +4,83 @@
 }
 <link href="~/Content/scripts/plugins/uploadify/uploadify.css" rel="stylesheet" />
 <script src="~/Content/scripts/plugins/uploadify/jquery.uploadify.js"></script>
+
+<!--jqgrid表格组件start-->
+<link href="~/Content/scripts/plugins/jqgrid/jqgrid.css" rel="stylesheet" />
+<script src="~/Content/scripts/plugins/jqgrid/grid.locale-cn.js"></script>
+<script src="~/Content/scripts/plugins/jqgrid/jqgrid.min.js"></script>
+<!--表格组件end-->
+
 <script type="text/javascript">
     var KeyValue = request('KeyValue');
-    var ItemID = request('ItemID');
+    //var ItemID = request('ItemID');
     var TreeId = request('TreeId');
 
     $(function () {
-        InitControl();
+        initialPage();
         UploadFile();
+        buttonOperation();
+        getGridRawMaterial();
     })
+    //初始化页面
+    function initialPage() {
+        //加载导向
+        $('#wizard').wizard().on('change', function (e, data) {
+            var $finish = $("#btn_finish");
+            var $next = $("#btn_next");
+            if (data.direction == "next") {
+                if (data.step == 2) {
+                    $finish.removeAttr('disabled');
+                    $next.attr('disabled', 'disabled');
+                } else {
+                    $finish.attr('disabled', 'disabled');
+                }
+            } else {
+                $finish.attr('disabled', 'disabled');
+                $next.removeAttr('disabled');
+            }
+        });
+        InitControl();
+    }
+
+    //按钮操作（上一步、下一步、完成、关闭）
+    function buttonOperation() {
+        var $last = $("#btn_last");
+        var $next = $("#btn_next");
+        var $finish = $("#btn_finish");
+
+        $next.removeAttr('disabled');
+        $finish.removeAttr('disabled');
+        //如果是菜单，开启 上一步、下一步
+        //$("#IsMenu").click(function () {
+        //    if (!$(this).attr("checked")) {
+        //        $(this).attr("checked", true)
+        //        $next.removeAttr('disabled');
+        //        $finish.attr('disabled', 'disabled');
+        //    } else {
+        //        $(this).attr("checked", false)
+        //        $next.attr('disabled', 'disabled');
+        //        $finish.removeAttr('disabled');
+        //    }
+        //});
+         
+        //完成提交保存
+        $finish.click(function () {
+            AcceptClick();
+        })
+    }
+
 
     //得到一个对象实体
     function InitControl() {
+
+         /*添加构件开始====================================*/
         //构件类型
         $("#TreeId").ComboBoxTree({
             url: "/SteelMember/File/TreeJson",
             description: "==请选择==",
             height: "200px",
             allowSearch: true,
-        });
-
-        //原材料类型
-        $("#RawMaterialClassId").ComboBoxTree({
-            url: '/SteelMember/RawMaterialLibrary/TreeJson',
-            description: "==请选择==",
-            height: "200px",
-            allowSearch: true,
-        }).bind("change", function () {
-            var value = $(this).attr('data-value');
-            //加载原材料
-            $("#RawMaterialId").ComboBox({
-                url: "/SteelMember/RawMaterialLibrary/GetListJson?organizeId=" + value,
-                id: "RawMaterialId",
-                text: "FullName",
-                description: "==请选择==",
-                allowSearch: true
-            });
         });
             //获取表单
             if (!!KeyValue) {
@@ -67,20 +108,8 @@
                             document.getElementById("DelAvatar1").value = "删除图片";
                         }
 
-                        //filename2 = data.Icon;
-                        //if (filename2 != "1.png") {
-                        //    filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
-                        //    filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
-                        //    document.getElementById("_Icon").src = filename2;
-                        //    document.getElementById("DelAvatar2").setAttribute("type", "button");
-                        //    document.getElementById("DelAvatar2").value = "删除图片";
-                        //}
                         $("#form1").SetWebControls(data);
                         $("#TreeId").ComboBoxTreeSetValue(data.TreeId);//.trigger("change");
-                    
-
-                        Data = data;
-                        document.getElementById("MemberModel").readOnly = true;
 
                         //加载单位
                         $("#MemberUnit").ComboBox({
@@ -95,7 +124,6 @@
                 });
             } else {
                 $("#TreeId").ComboBoxTreeSetValue(TreeId);
-
                 //获取单位
                 $("#MemberUnit").ComboBox({
                     url: "../../SteelMember/ProjectManagement/GetMemderUnit",
@@ -107,8 +135,8 @@
                   
                 });
             }
-        }
-    
+    }
+
         function UploadFile() {
             $('#Avatar').uploadify({
                 uploader: '/SteelMember/File/SubmitUploadify',
@@ -152,27 +180,6 @@
                 },
             });
 
-            //$('#Avatar2').uploadify({
-            //    uploader: '/SteelMember/File/SubmitUploadify',
-            //    swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-            //    buttonText: "选择图片",
-            //    height: 24,
-            //    width: 70,
-            //    fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            //    fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
-            //    fileSizeLimit: '5MB',
-
-            //    onFallback: function () {
-            //        alert("您未安装FLASH控件，无法上传！请安装FLASH控件后再试。");
-            //    },
-            //    onUploadSuccess: function (file, data, response) {
-            //        document.getElementById("Icon").value = data;
-            //        document.getElementById("_Icon").src = data;
-            //        document.getElementById("DelAvatar2").setAttribute("type", "button");
-            //        document.getElementById("DelAvatar2").value = "删除图片";
-
-            //    },
-            //});
         }
 
         function DelCAD_Drawing() {
@@ -186,12 +193,145 @@
             document.getElementById("Model_Drawing").value = "";
             document.getElementById("DelAvatar1").setAttribute("type", "hidden");
         }
+      /*添加构件结束====================================*/
 
-        //function DelIcon() {
-        //    document.getElementById("_Icon").src = "";
-        //    document.getElementById("Icon").value = "";
-        //    document.getElementById("DelAvatar2").setAttribute("type", "hidden");
-        //}
+     /*添加原材料开始====================================*/
+
+        var RawMaterialJson = "";
+        function getGridRawMaterial() {
+            var MemberId = $("#MemberId").val();
+            $.ajax({
+                url: "/SteelMember/RawMaterialLibrary/GetMemberRawMaterialJson?MemberId=" + escape(MemberId),
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    RawMaterialJson = data;
+                },
+            });
+            var $grid = $("#gridTable-RawMaterial");
+            $grid.jqGrid({
+                unwritten: false,
+                url: "/SteelMember/RawMaterialLibrary/GetMemberRawMaterialJson?MemberId=" + escape(MemberId),
+                datatype: "json",
+                height: $(window).height() - 165,
+                width: $(window).width() - 11,
+                colModel: [
+                    { label: "主键", name: "RawMaterialId", hidden: true },
+                    { label: "外键", name: "TreeId", hidden: true },
+                    { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
+                    { label: "规格", name: "RawMaterialStandard", width: 140, align: "left", sortable: false },
+                    { label: "数量", name: "Qty", width: 500, align: "left", sortable: false },
+                ],
+                treeGrid: true,
+                treeGridModel: "nested",
+                //ExpandColumn: "TreeName",
+                rowNum: "all",
+                rownumbers: true
+            });
+            //处理Json
+            function RawMaterialListToListTreeJson(RawMaterialJson) {
+                $.ajax({
+                    url: "/SteelMember/RawMaterialLibrary/ListToRawMaterialJson",
+                    data: { RawMaterialJson: JSON.stringify(RawMaterialJson) },
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+                        $grid.clearGridData();
+                        $grid[0].addJSONData(data);
+                    },
+                });
+            }
+            //新增
+            $("#lr-add-RawMaterial").click(function () {
+                //var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
+                dialogOpen({
+                    id: "RawMaterialNumForm",
+                    title: '添加材料',
+                    url: '/SteelMember/RawMaterialLibrary/RawMaterialNumForm?MemberId =' + MemberId,// 
+                    width: "450px",
+                    height: "400px",
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick(function (data) {
+                            RawMaterialJson.push(data);
+                            RawMaterialListToListTreeJson(RawMaterialJson);
+                        });
+                    }
+                });
+            })
+            //编辑
+            $("#lr-edit-RawMaterial").click(function () {
+                var MemberMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
+                if (checkedRow(MemberMaterialId)) {
+                    dialogOpen({
+                        id: "RawMaterialNumForm",
+                        title: '编辑目录',
+                       // url: '/SteelMember/RawMaterial/Form?treeId=' + treeId + "&moduleId=" + escape(moduleId) + "&type=edit",
+                        url: '/SteelMember/RawMaterialLibrary/RawMaterialNumForm?MemberId=' + MemberId + '&type=edit',
+                        width: "450px",
+                        height: "400px",
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick(function (data) {
+                                $.each(RawMaterialJson, function (i) {
+                                    if (RawMaterialJson[i].MemberMaterialId == MemberMaterialId) {
+                                        RawMaterialJson[i] = data;
+                                    }
+                                });
+                                RawMaterialListToListTreeJson(RawMaterialJson);
+                            });
+                        }
+                    });
+                }
+            })
+            //删除
+            $("#lr-delete-RawMaterial").click(function () {
+                var MemberMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("MemberMaterialId");
+                if (checkedRow(MemberMaterialId)) {
+                    $.each(RawMaterialJson, function (i) {
+                        if (RawMaterialJson[i].MemberMaterialId == MemberMaterialId) {
+                            RawMaterialJson.splice(i, 1);
+                            RawMaterialListToListTreeJson(RawMaterialJson);
+                            return false;
+                        }
+                    });
+                }
+            });
+        }
+
+
+        /*添加原材料结束====================================*/
+
+        $._ExistField = function (controlId, url, param) {
+            var a = $("#TreeId").attr('data-value');
+            var $control = $("#" + controlId);
+            if (!$control.val() || a == undefined || a == "" || a == '' || a == null) {
+                return false;
+            }
+
+            var data = {
+                keyValue: keyValue,
+                treeId: a
+            };
+            data[controlId] = $control.val();
+            var options = $.extend(data, param);
+            $.ajax({
+                url: url,
+                data: options,
+                type: "get",
+                dataType: "text",
+                async: false,
+                success: function (data) {
+                    if (data.toLocaleLowerCase() == 'false') {
+                        ValidationMessage($control, '已存在,请重新输入');
+                        $control.attr('fieldexist', 'yes');
+                    } else {
+                        $control.attr('fieldexist', 'no');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    dialogMsg(errorThrown, -1);
+                }
+            });
+        }
 
 
         //保存表单
@@ -201,6 +341,7 @@
             }
             var postData = $("#form1").GetWebControls(KeyValue);
             postData["MemberUnit"] = $("#MemberUnit").attr('data-text');
+            postData["moduleRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
             $.SaveForm({
                 url: "../../SteelMember/File/SubmitMember?KeyValue="+ KeyValue,
                 param: postData,
@@ -216,89 +357,97 @@
         display: none;
     }
 </style>
-<div style="margin-left: 10px; margin-top: 20px; margin-right: 30px;">
-    <input id="CAD_Drawing" type="hidden" />
-    <input id="Model_Drawing" type="hidden" />
-    <input id="Icon" type="hidden" />
-    <div id="message" style="display: none"></div>
-    <table class="form">
-        <tr>
-            <td class="formTitle">
-                构件类型<font face="宋体">*</font>
-            </td>
-            <td class="formValue">
-                <div id="TreeId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-            </td>
-            <td class="formTitle">
-                构件名称<font face="宋体">*</font>
-            </td>
-            <td class="formValue">
-                <input id="MemberName" type="text" class="form-control" placeholder="请输入构件名称" isvalid="yes" checkexpession="NotNull" />
-                @*<input id="MemberModel" type="text" class="txt required" datacol="yes" err="型号" checkexpession="NotNull" />*@
-            </td>
-        </tr>
-        <tr>
-            @*<td class="formTitle">
-            材料类型<font face="宋体">*</font>
-        </td>
-        <td class="formValue">
-            <div id="RawMaterialClassId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-        </td>
-        <td class="formTitle">
-            材料名称<font face="宋体">*</font>
-        </td>
-        <td class="formValue">
-            <div id="RawMaterialId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="formTitle">
-            单位<font face="宋体">*</font>
-        </td>
-        <td class="formValue">
-            <div id="MemberUnit" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-        </td>
-        <td class="formTitle">
-            单价<font face="宋体">*</font>
-        </td>
-        <td class="formValue">
-            <input id="UnitPrice" type="text" class="form-control" placeholder="请输入单价" isvalid="yes" checkexpession="Double" />
-        </td>
-    </tr>*@
-        <tr>
-            <td class="formTitle">
-                图纸
-            </td>
-            <td class="formValue">
-                <div style="float:left;margin:5px;" class="showImg;"><img id="_CAD_Drawing" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
-                <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                    <input id="DelAvatar" onclick="DelCAD_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:20px" />
-                    <input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
 
+<div class="widget-body">
+    <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
+        <ul class="steps">
+            <li data-target="#step-1" class="active"><span class="step">1</span>添加构件<span class="chevron"></span></li>
+            <li data-target="#step-2"><span class="step">2</span>添加原材料<span class="chevron"></span></li>
+        </ul>
+    </div>
+    <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+        <div class="step-pane active" id="step-1" style="margin-left: 0px; margin-top: 15px; margin-right: 30px;">
+            @*<input id="MemberId" type="hidden"/>*@
+            <input id="CAD_Drawing" type="hidden" />
+            <input id="Model_Drawing" type="hidden" />
+            <input id="Icon" type="hidden" />
+            <div id="message" style="display: none"></div>
+            <table class="form">
+                <tr>
+                    <td class="formTitle">
+                        构件类型<font face="宋体">*</font>
+                    </td>
+                    <td class="formValue">
+                        <div id="TreeId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    </td>
+                    <td class="formTitle">
+                        构件名称<font face="宋体">*</font>
+                    </td>
+                    <td class="formValue">
+                        <input id="MemberName" type="text" onblur="$._ExistField(this.id,'../../SteelMember/File/ExistMember')"  class="form-control" placeholder="请输入构件名称" isvalid="yes" checkexpession="NotNull" />
+                        @*<input id="MemberModel" type="text" class="txt required" datacol="yes" err="型号" checkexpession="NotNull" />*@
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">
+                        单价<font face="宋体">*</font>
+                    </td>
+                    <td class="formValue">
+                        <input id="UnitPrice" type="text" class="form-control" placeholder="请输入单价" isvalid="yes" checkexpession="Double" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">
+                        图纸
+                    </td>
+                    <td class="formValue">
+                        <div style="float:left;margin:5px;" class="showImg;"><img id="_CAD_Drawing" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
+                        <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
+                            <input id="DelAvatar" onclick="DelCAD_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:20px" />
+                            <input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                        </div>
+                    </td>
+                    <td class="formTitle">
+                        模型
+                    </td>
+                    <td class="formValue">
+                        <div style="float:left;margin:5px;" class="showImg;"><img id="_Model_Drawing" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
+                        <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
+                            <input id="DelAvatar1" onclick="DelModel_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:20px" />
+                            <input id="Avatar1" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                        </div>
+                    </td>
+                </tr>
+                @*<tr>
+                <td class="formTitle">
+                    图标
+                </td>
+                <td class="formValue">
+                    <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
+                    <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
+                        <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
+                        <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                    </div>
+                </td>
+            </tr>*@
+            </table>
+
+        </div>
+        <div class="step-pane" id="step-2" style="margin: 5px;">
+            <div style="height: 40px; line-height: 33px; text-align: right;">
+                <div class="btn-group">
+                    <a id="lr-add-RawMaterial" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                    <a id="lr-edit-RawMaterial" class="btn btn-default"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                    <a id="lr-delete-RawMaterial" class="btn btn-default"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                 </div>
-            </td>
-            <td class="formTitle">
-                模型
-            </td>
-            <td class="formValue">
-                <div style="float:left;margin:5px;" class="showImg;"><img id="_Model_Drawing" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
-                <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                    <input id="DelAvatar1" onclick="DelModel_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:20px" />
-                    <input id="Avatar1" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
-                </div>
-            </td>
-        </tr>
-        @*<tr>
-            <td class="formTitle">
-                图标
-            </td>
-            <td class="formValue">
-                <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
-                <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                    <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                    <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
-                </div>
-            </td>
-        </tr>*@
-    </table>
+            </div>
+            <table id="gridTable-RawMaterial"></table>
+        </div>
+ 
+    </div>
+</div>
+<div class="form-button" id="wizard-actions">
+    <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
+    <a id="btn_next" disabled class="btn btn-default btn-next">下一步</a>
+    <a id="btn_finish" class="btn btn-success">完成</a>
 </div>

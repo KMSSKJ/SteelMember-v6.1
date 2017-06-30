@@ -8,7 +8,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
     public class MemberMaterialModel
     {
         public int MemberMaterialId { get; set; }
-        public int? MemberId { get; set; }
+        public string MemberId { get; set; }
         public int? MaterialNumber { get; set; }
         public string Description { get; set; }
         public int? RawMaterialId { get; set; }

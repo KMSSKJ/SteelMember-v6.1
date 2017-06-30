@@ -17,7 +17,7 @@ namespace LeaRun.Data.Entity
         public int ProjectDemandId { get; set; }
         public string TreeId { get; set; }
         public string TreeName { get; set; }
-        public Nullable<int> MemberId { get; set; }
+        public string MemberId { get; set; }
         public string MemberNumbering { get; set; }
         public string MemberModel { get; set; }
         public Nullable<int> MemberCompanyId { get; set; }

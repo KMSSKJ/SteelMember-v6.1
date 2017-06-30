@@ -16,7 +16,7 @@ namespace LeaRun.Data.Entity
     {
         public int ProcessId { get; set; }
         public Nullable<int> OrderId { get; set; }
-        public Nullable<int> MemberId { get; set; }
+        public string MemberId { get; set; }
         public Nullable<int> MemberProcessId { get; set; }
         public Nullable<System.DateTime> ProduceStartDate { get; set; }
         public Nullable<System.DateTime> ProduceEndDate { get; set; }

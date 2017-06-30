@@ -22,15 +22,18 @@ namespace LeaRun.Application.Repository.SteelMember.BLL
         {
             return CurrentDAL.Add(model);
         }
-
         public int Remove(List<int> delbyid)
+        {
+            throw new NotImplementedException();
+        }
+        public string Remove_str(List<string> delbyid)
         {
             delbyid.ToList().ForEach(id =>
             {
-                CurrentDAL.Remove(Find(p => p.MemberID == id).Single());
+                CurrentDAL.Remove(Find(p => p.MemberId == id).Single());
             });
 
-            return CurrentDAL.SaveChange();
+            return CurrentDAL.SaveChange().ToString();
         }
 
         public IEnumerable<RMC_MemberLibrary> Find(Expression<Func<RMC_MemberLibrary, bool>> whereLambda)
@@ -56,11 +59,6 @@ namespace LeaRun.Application.Repository.SteelMember.BLL
         public int Modified(RMC_MemberLibrary model)
         {
             return CurrentDAL.Modified(model);
-        }
-
-        public string Remove_str(List<string> delbyid)
-        {
-            throw new NotImplementedException();
         }
     }
 }

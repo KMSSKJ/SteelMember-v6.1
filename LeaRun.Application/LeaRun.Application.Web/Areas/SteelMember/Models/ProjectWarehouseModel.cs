@@ -10,7 +10,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
 
         public int ProjectWarehouseId { get; set; }
         public int? ProjectDemandId { get; set; }
-        public int? MemberId { get; set; }
+        public string MemberId { get; set; }
         public string MemberModel { get; set; }
         public string MemberName { get; set; }
         public string MemberNumbering { get; set; }//Nullable<long>

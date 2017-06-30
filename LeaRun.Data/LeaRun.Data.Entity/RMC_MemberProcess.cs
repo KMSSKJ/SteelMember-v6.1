@@ -15,7 +15,7 @@ namespace LeaRun.Data.Entity
     public partial class RMC_MemberProcess
     {
         public int MemberProcessId { get; set; }
-        public Nullable<int> MemberId { get; set; }
+        public string MemberId { get; set; }
         public string ProcessName { get; set; }
         public string OperationTime { get; set; }
         public string ProcessRequirements { get; set; }

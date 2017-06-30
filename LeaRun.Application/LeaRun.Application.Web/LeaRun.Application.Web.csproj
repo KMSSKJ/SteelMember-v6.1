@@ -1223,6 +1223,7 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\MemberForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\RawMaterialNumForm.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

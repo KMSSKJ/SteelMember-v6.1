@@ -1,4 +1,5 @@
 ﻿using LeaRun.Application.Repository.SteelMember.IBLL;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Data.Entity;
 using LeaRun.Util;
 using LeaRun.Util.Extension;
@@ -21,6 +22,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public MemberUnitIBLL unitBll { get; set; }
         [Inject]
         public RawMaterialIBLL rawMaterialBll { get; set; }
+
+        [Inject]
+        public MemberMaterialIBLL MemberRawMaterialBll { get; set; }
         //
         // GET: /SteelMember/RawMaterialLibrary/
 
@@ -169,25 +173,49 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// 型号不能重复
+        /// 原材料中型号不能重复
         /// </summary>
         /// <param name="RawMaterialModel">型号</param>
         /// <param name="keyValue"></param>
         /// <param name="treeId"></param>
         /// <returns></returns>
+        /// 
         [HttpGet]
-        public ActionResult ExistFullName(string RawMaterialModel, string keyValue,string treeId)
+        public ActionResult ExistFullName(string RawMaterialModel, string keyValue, string treeId)
         {
             bool IsOk = false;
 
             var expression = LinqExtensions.True<RMC_RawMaterialLibrary>();
-            expression = expression.And(t => t.RawMaterialModel.Trim() == RawMaterialModel.Trim()&&t.TreeId.Trim()==treeId.Trim());
+            expression = expression.And(t => t.RawMaterialModel.Trim() == RawMaterialModel.Trim() && t.TreeId.Trim() == treeId.Trim());
             if (!string.IsNullOrEmpty(keyValue))
             {
                 expression = expression.And(t => t.RawMaterialId.ToString() != keyValue);
             }
 
             IsOk = rawMaterialBll.Find(expression).Count() == 0 ? true : false;
+            return Content(IsOk.ToString());
+        }
+
+        /// <summary>
+        ///构件材料中型号不能重复
+        /// </summary>
+        /// <param name="RawMaterialModel">型号</param>
+        /// <param name="MemberId"></param>
+        /// <param name="treeId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ExistMemberMaterial(string RawMaterialModel, string MemberId, string treeId)
+        {
+            bool IsOk = false;
+
+            var expression = LinqExtensions.True<RMC_MemberMaterial>();
+            expression = expression.And(t => t.RawMaterialModel.Trim() == RawMaterialModel.Trim() && t.MemberId.Trim() == MemberId.Trim());
+            if (!string.IsNullOrEmpty(MemberId))
+            {
+                expression = expression.And(t => t.RawMaterialModel != RawMaterialModel);
+            }
+
+            IsOk = MemberRawMaterialBll.Find(expression).Count() == 0 ? true : false;
             return Content(IsOk.ToString());
         }
 
@@ -200,6 +228,49 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var data = unitBll.Find(u => u.UnitId > 0).ToList();
             return Content(data.ToJson());
+        }
+
+        /// <summary>
+        /// 材料用量表单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RawMaterialNumForm()
+        {
+            return View();
+        }
+
+        public ActionResult GetMemberRawMaterialJson(string MemberId)
+        {
+            var MemberMaterial = MemberRawMaterialBll.Find(f => f.MemberId == MemberId).ToList();
+            return Content(MemberMaterial.ToJson());
+        }
+
+
+        /// <summary>
+        /// 返回原材料实体
+        /// </summary>
+        /// <param name="RawMaterialJson"></param>
+        /// <param name="TreeId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ListToRawMaterialJson(string RawMaterialJson)
+        {
+            var RawMaterialLibraryList = new List<RawMaterialLibraryModel>();
+            var data = RawMaterialJson.ToList<RMC_RawMaterialLibrary>();
+            foreach (var item in data)
+            {
+                var RawMaterialLibraryModels = new RawMaterialLibraryModel();
+                RawMaterialLibraryModels.RawMaterialModel = item.RawMaterialModel.ToString();
+                RawMaterialLibraryModels.TreeId = item.TreeId;
+                var RawMaterialEntity = rawMaterialBll.Find(f => f.RawMaterialModel == item.RawMaterialModel).SingleOrDefault();
+                RawMaterialLibraryModels.RawMaterialStandard = RawMaterialEntity.RawMaterialStandard;
+                RawMaterialLibraryModels.RawMaterialId = RawMaterialEntity.RawMaterialId.ToString();
+                var TreeEntity = treeBll.Find(f => f.TreeID == item.TreeId).SingleOrDefault();
+                RawMaterialLibraryModels.TreeName = TreeEntity.TreeName;
+                RawMaterialLibraryModels.Qty = item.Sort.ToString();
+                RawMaterialLibraryList.Add(RawMaterialLibraryModels);
+            }
+            return Content(RawMaterialLibraryList.ToJson());
         }
     }
 }

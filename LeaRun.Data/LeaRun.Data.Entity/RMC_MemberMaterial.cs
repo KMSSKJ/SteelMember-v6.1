@@ -16,9 +16,10 @@ namespace LeaRun.Data.Entity
     {
         public int MemberMaterialId { get; set; }
         public Nullable<int> RawMaterialId { get; set; }
-        public Nullable<int> MemberId { get; set; }
-        public Nullable<int> RawMaterialClassId { get; set; }
-        public Nullable<int> MaterialNumber { get; set; }
+        public string MemberId { get; set; }
+        public string TreeId { get; set; }
+        public string RawMaterialModel { get; set; }
         public string Description { get; set; }
+        public Nullable<int> RawMaterialNumber { get; set; }
     }
 }

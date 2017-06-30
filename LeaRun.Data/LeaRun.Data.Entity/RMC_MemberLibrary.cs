@@ -14,7 +14,7 @@ namespace LeaRun.Data.Entity
     
     public partial class RMC_MemberLibrary
     {
-        public int MemberID { get; set; }
+        public string MemberId { get; set; }
         public string TreeId { get; set; }
         public string MemberName { get; set; }
         public string MemberModel { get; set; }

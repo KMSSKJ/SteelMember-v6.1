@@ -15,7 +15,7 @@ namespace LeaRun.Data.Entity
     public partial class RMC_ProjectWarehouse
     {
         public int ProjectWarehouseId { get; set; }
-        public Nullable<int> MemberId { get; set; }
+        public string MemberId { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> DeleteFlag { get; set; }
         public string TreeId { get; set; }

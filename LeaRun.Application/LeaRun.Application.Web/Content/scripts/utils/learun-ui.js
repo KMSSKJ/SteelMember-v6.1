@@ -56,7 +56,7 @@ $.fn.ComboBox = function (options) {
     if (options) {
         if ($select.find('.ui-select-text').length == 0) {
             var $select_html = "";
-            $select_html += "<div class=\"ui-select-text\" style='color:#999;'>" + options.description + "</div>";
+            $select_html += "<div class=\"ui-select-text\" id='ui-select-text' style='color:#999;'>" + options.description + "</div>";
             $select_html += "<div class=\"ui-select-option\">";
             $select_html += "<div class=\"ui-select-option-content\" style=\"max-height: " + options.height + "\">" + $select.html() + "</div>";
             if (options.allowSearch) {

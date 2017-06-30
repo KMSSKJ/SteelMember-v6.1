@@ -11,6 +11,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
 
         public string UnitName { get; set; }
         public string RawMaterialId { get; set; }
+        public string RawMaterialModel { get; set; }
         public DateTime? WarehousingTime { get; set; }
         public string RawMaterialName { get; set; }
         public Nullable<int> RawMaterialNumber { get; set; }
@@ -20,6 +21,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string PriceAmount { get; set; }
         public string Qty { get; set; }
         public string TreeId { get; set; }
+        public string TreeName { get; set; }
         public string Description { get; set; }
     }
 }

@@ -223,14 +223,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     ProjectDemandModel projectdemand = new ProjectDemandModel();
                     projectdemand.ProjectDemandId = item.ProjectDemandId;
                     var memberunit = MemberUnitCurrent.Find(f => f.UnitId == item.UnitId).SingleOrDefault();
-                    var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberID == item.MemberId).SingleOrDefault();
+                    var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberId == item.MemberId).SingleOrDefault();
                     projectdemand.MemberName = memberlibrary.MemberName;
                     projectdemand.MemberModel = memberlibrary.MemberModel;
                     projectdemand.Icon = memberlibrary.Icon;
                     projectdemand.CreateTime = item.CreateTime;
                     projectdemand.MemberUnit = memberunit.UnitName;
                     projectdemand.UnitPrice = memberlibrary.UnitPrice;
-                    projectdemand.MemberId = memberlibrary.MemberID;
+                    projectdemand.MemberId = memberlibrary.MemberId;
                     projectdemand.MemberNumbering = memberlibrary.MemberNumbering.ToString();
                     projectdemand.IsReview = item.IsReview;
                     projectdemand.ReviewMan = item.ReviewMan;
@@ -338,13 +338,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 int ProjectDemandId = Convert.ToInt32(KeyValue);
                 var entity = ProjectManagementCurrent.Find(f => f.ProjectDemandId == ProjectDemandId).SingleOrDefault();
-                var entity1 = MemberLibraryCurrent.Find(f => f.MemberID == entity.MemberId).SingleOrDefault();
+                var entity1 = MemberLibraryCurrent.Find(f => f.MemberId == entity.MemberId).SingleOrDefault();
                 var entity_tree = TreeCurrent.Find(f => f.TreeID == entity.MemberClassId.ToString()).SingleOrDefault();
                 projectdemand.TreeName = entity.TreeName;
                 projectdemand.ProjectDemandId = ProjectDemandId;
                 projectdemand.MemberClassId = entity.MemberClassId;
                 projectdemand.MemberClassName = entity_tree.TreeName;
-                projectdemand.MemberId = entity1.MemberID;
+                projectdemand.MemberId = entity1.MemberId;
                 projectdemand.UnitId = entity.UnitId;
                 projectdemand.MemberModel = entity1.MemberModel;
                 projectdemand.MemberNumber = entity.MemberNumber;
@@ -398,7 +398,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.MemberClassId = entity.MemberClassId;
                     Oldentity.TreeName = entity.TreeName;
                     Oldentity.MemberId = entity.MemberId;
-                    var Member = MemberLibraryCurrent.Find(f => f.MemberID == entity.MemberId).SingleOrDefault();
+                    var Member = MemberLibraryCurrent.Find(f => f.MemberId == entity.MemberId).SingleOrDefault();
                     Oldentity.MemberNumbering = Member.MemberNumbering;
                     Oldentity.MemberModel = Member.MemberModel;
                     Oldentity.UnitId = entity.UnitId;
@@ -451,11 +451,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             int TreeId = Convert.ToInt32(KeyValue);
             RMC_Tree entity = TreeCurrent.Find(f => f.TreeID == KeyValue).SingleOrDefault();
-            //string JsonData = entity.ToJson();
-            ////自定义
-            //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
+            
             return Content(entity.ToJson());
-            //return Json(entity);
         }
 
         /// <summary>
@@ -523,8 +520,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             ProjectDemandModel projectdemand = new ProjectDemandModel();
             if (KeyValue != "")
             {
-                int memberid = Convert.ToInt32(KeyValue);
-                var Entity = MemberLibraryCurrent.Find(f => f.MemberID == memberid).SingleOrDefault();
+                var Entity = MemberLibraryCurrent.Find(f => f.MemberId == KeyValue).SingleOrDefault();
                 var filename = Entity.CAD_Drawing.Substring(0, Entity.CAD_Drawing.LastIndexOf('.'));//获取文件名称，去除后缀名
                 string virtualPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename + "/";
                 var filename1 = Entity.Model_Drawing.Substring(0, Entity.Model_Drawing.LastIndexOf('.'));//获取文件名称，去除后缀名
