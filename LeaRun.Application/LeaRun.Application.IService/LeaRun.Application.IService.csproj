@@ -58,6 +58,7 @@
     <Compile Include="BaseManage\IJobService.cs" />
     <Compile Include="BaseManage\IUserGroupService.cs" />
     <Compile Include="IAccountService.cs" />
+    <Compile Include="IBaseService.cs" />
     <Compile Include="PublicInfoManage\IScheduleService.cs" />
     <Compile Include="SystemManage\IAreaService.cs" />
     <Compile Include="SystemManage\ICodeRuleService.cs" />
