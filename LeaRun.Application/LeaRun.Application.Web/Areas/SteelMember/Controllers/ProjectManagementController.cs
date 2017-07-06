@@ -459,9 +459,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 获取构件名称
         /// </summary>
         /// <param name="KeyValue"></param>
-        /// <param name="TreeId"></param>
+        /// <param name="SubProjectId"></param>
         /// <returns></returns>
-        public ActionResult GetMemderName(string KeyValue,string TreeId)
+        public ActionResult GetMemderName(string KeyValue,string SubProjectId)
         {
             var Entitys=new List<RMC_MemberLibrary>();
             if (KeyValue != "")
@@ -469,9 +469,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 List<string> MemberModel1 = new List<string>();
                 List<string> MemberModel2 = new List<string>();
 
-                int _TreeId = Convert.ToInt32(TreeId);
+                int _TreeId = Convert.ToInt32(SubProjectId);
                 int treeid = Convert.ToInt32(KeyValue);
-                var Entity = MemberLibraryCurrent.Find(f => f.TreeId == TreeId).ToList();
+                var Entity = MemberLibraryCurrent.Find(f => f.SubProjectId == SubProjectId).ToList();
                 if (Entity.Count()>0)
                 {
                     foreach (var item in Entity)
@@ -479,7 +479,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         MemberModel1.Add(item.MemberModel);
                     }
                 }
-                 var Entity1 = ProjectManagementCurrent.Find(f=>f.TreeId== TreeId && f.MemberClassId== treeid).ToList();
+                 var Entity1 = ProjectManagementCurrent.Find(f=>f.TreeId== SubProjectId && f.MemberClassId== treeid).ToList();
                 if (Entity1.Count()>0)
                 {
                     foreach (var item1 in Entity1)

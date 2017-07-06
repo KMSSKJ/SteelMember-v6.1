@@ -19,8 +19,6 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// Copyright (c) 2013-2016 上海力软信息技术有限公司
-    /// 创建人：佘赐雄
     /// 日 期：2016.2.2 10:29
     /// 描 述：生成器单表
     /// </summary>

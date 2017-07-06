@@ -1,0 +1,104 @@
+@{;
+    ViewBag.Title = "表单页面";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = request('keyValue');
+    var parentId = request('parentId');
+    $(function () {
+        initControl();
+    });
+    //初始化控件
+    function initControl() {
+        //上级
+        $("#ParentId").ComboBoxTree({
+            url: "../../SteelMember/SubProject/GetTreeJson",
+            description: "==请选择==",
+            height: "120px",
+            allowSearch: false
+        });
+        //获取表单
+        if (!!keyValue) {
+            $.SetForm({
+                url: "../../SteelMember/SubProject/GetFormJson",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data);
+                }
+            })
+        } else {
+            $("#ParentId").ComboBoxTreeSetValue(parentId);
+        }
+    }
+
+    //分类型是否有数据重复验证
+    $._ExistField = function (controlId, url, param) {
+        var a = $("#ParentId").attr('data-value');
+        var $control = $("#" + controlId);
+        if (!$control.val() || a == undefined || a == "" || a == '' || a == null) {
+            return false;
+        }
+
+        //if (keyValue == "" || keyValue == null) {
+        //    keyValue = a;
+        //}
+        var data = {
+            keyValue: keyValue,
+            treeId: a
+        };
+        data[controlId] = $control.val();
+        var options = $.extend(data, param);
+        $.ajax({
+            url: url,
+            data: options,
+            type: "get",
+            dataType: "text",
+            async: false,
+            success: function (data) {
+                if (data.toLocaleLowerCase() == 'false') {
+                    ValidationMessage($control, '已存在,请重新输入');
+                    $control.attr('fieldexist', 'yes');
+                } else {
+                    $control.attr('fieldexist', 'no');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                dialogMsg(errorThrown, -1);
+            }
+        });
+    }
+
+
+    //保存表单;
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        var postData = $("#form1").GetWebControls(keyValue);
+        $.SaveForm({
+            url: "../../SteelMember/SubProject/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+<div style="margin-top: 20px; margin-right: 30px;">
+    <table class="form">
+        <tr>
+            <td class="formTitle">上级</td>
+            <td class="formValue">
+                <div id="ParentId" type="selectTree" class="ui-select" ></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">工程名称<font face="宋体">*</font></td>
+            <td class="formValue">
+                <input id="FullName" type="text" onblur="$._ExistField(this.id,'../../SteelMember/SubProject/ExistFullName')" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+       
+    </table>
+</div>

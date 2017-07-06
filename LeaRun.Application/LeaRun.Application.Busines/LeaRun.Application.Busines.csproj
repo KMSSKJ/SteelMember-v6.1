@@ -52,6 +52,12 @@
     <Compile Include="AuthorizeManage\ModuleFormInstanceBLL.cs" />
     <Compile Include="BaseManage\OrganizeBLL.cs" />
     <Compile Include="PublicInfoManage\ScheduleBLL.cs" />
+    <Compile Include="SteelMember\MemberLibraryBLL.cs" />
+    <Compile Include="SteelMember\MemberMaterialBLL.cs" />
+    <Compile Include="SteelMember\MemberProcessBLL.cs" />
+    <Compile Include="SteelMember\ProjectInfoBLL.cs" />
+    <Compile Include="SteelMember\RawMaterialLibraryBLL.cs" />
+    <Compile Include="SteelMember\SubProjectBLL.cs" />
     <Compile Include="SystemManage\AreaBLL.cs" />
     <Compile Include="SystemManage\CodeRuleBLL.cs" />
     <Compile Include="SystemManage\DatabaseLinkBLL.cs" />
@@ -144,6 +150,7 @@
       <Name>LeaRun.Application.Service</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

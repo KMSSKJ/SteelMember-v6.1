@@ -51,6 +51,12 @@
     <Compile Include="AuthorizeManage\AuthorizeService.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceService.cs" />
     <Compile Include="AuthorizeManage\ModuleFormService.cs" />
+    <Compile Include="SteelMember\MemberLibraryService.cs" />
+    <Compile Include="SteelMember\MemberMaterialService.cs" />
+    <Compile Include="SteelMember\MemberProcessService.cs" />
+    <Compile Include="SteelMember\ProjectInfoService.cs" />
+    <Compile Include="SteelMember\RawMaterialLibraryService.cs" />
+    <Compile Include="SteelMember\SubProjectService.cs" />
     <Compile Include="PublicInfoManage\ScheduleService.cs" />
     <Compile Include="SystemManage\AreaService.cs" />
     <Compile Include="SystemManage\CodeRuleService.cs" />

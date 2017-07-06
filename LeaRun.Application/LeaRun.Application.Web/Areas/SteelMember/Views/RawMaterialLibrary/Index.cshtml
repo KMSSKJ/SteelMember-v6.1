@@ -1,24 +1,24 @@
-ï»¿@{
-    ViewBag.Title = "åŸææ–™åº“";
+@{;
+    ViewBag.Title = "ÁĞ±íÒ³Ãæ";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-
 <script>
+;
     $(function () {
         InitialPage();
         GetTree();
         GetGrid();
     });
-    //åˆå§‹åŒ–é¡µé¢
+    //³õÊ¼»¯Ò³Ãæ
     function InitialPage() {
-        //layoutå¸ƒå±€
+        //layout²¼¾Ö
         $('#layout').layout({
             applyDemoStyles: true,
             onresize: function () {
                 $(window).resize()
             }
         });
-        //resizeé‡è®¾(è¡¨æ ¼ã€æ ‘å½¢)å®½é«˜
+        //resizeÖØÉè(±í¸ñ¡¢Ê÷ĞÎ)¿í¸ß
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
@@ -28,65 +28,35 @@
             e.stopPropagation();
         });
     }
-    //åŠ è½½æ ‘
-    var _parentId = "";
+    //¼ÓÔØÊ÷
+    var _Category;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            url: "../../SteelMember/RawMaterialLibrary/GetTreeJson",
+            param: { EnCode: "RawMaterialType" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             onnodeclick: function (item) {
-                _parentId = item.id;
+                _Category = item.value;
                 $('#btn_Search').trigger("click");
             }
         };
-        //åˆå§‹åŒ–
+        //³õÊ¼»¯
         $("#itemTree").treeview(item);
     }
-    //åŠ è½½è¡¨æ ¼
+    //¼ÓÔØ±í¸ñ
     function GetGrid() {
         var selectedRowIndex = 0;
-        var $gridTable = $('#gridTable');
-        $gridTable.jqGrid({
-            url: "../../SteelMember/RawMaterialLibrary/GetPageListJson?parentid=0",
-            datatype: "json",
-            height: $(window).height() - 170,
+        var $grid = $('#gridTable');
+        $grid.jqGrid({
             autowidth: true,
+            height: $(window).height() - 170,
+            url: "../../SteelMember/RawMaterialLibrary/GetPageListJson",
+            datatype: "json",
             colModel: [
-                { label: "ä¸»é”®", name: "RawMaterialId", index: "RawMaterialId", hidden: true },
-                { label: "è§„æ ¼æˆ–å‹å·", name: "RawMaterialModel", index: "RawMaterialModel", width: 150, align: "left" },
-                //{ label: "è§„æ ¼", name: "RawMaterialStandard", index: "RawMaterialStandard", width: 150, align: "left" },
-                {
-                    label: "å•ä½", name: "UnitId", index: "UnitId", width: 350, align: "left",
-                    formatter: function (cellvalue, options, rowObject) {
-                        return top.clientunitData[cellvalue] == null ? "" : top.clientunitData[cellvalue].UnitName;
-                    }
-                },
-                //{ label: "ç›®æ ‡", name: "Target", index: "Target", width: 60, align: "center" },
-                //{
-                //    label: "èœå•", name: "IsMenu", index: "IsMenu", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i value=" + cellvalue + " class=\"fa fa-toggle-on\"></i>" : "<i value=" + cellvalue + " class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                //{
-                //    label: "å±•å¼€", name: "AllowExpand", index: "AllowExpand", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                //{
-                //    label: "å…¬å…±", name: "IsPublic", index: "IsPublic", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                //{
-                //    label: "æœ‰æ•ˆ", name: "EnabledMark", index: "EnabledMark", width: 50, align: "center",
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                //    }
-                //},
-                { label: "æè¿°", name: "Description", index: "Description", width: 100, align: "left" }
+                { label: "Ö÷¼ü", name: "RawMaterialId", index: "RawMaterialId", hidden: true },
+                { label: "¹æ¸ñ»òĞÍºÅ", name: "RawMaterialModel", index: "RawMaterialModel", width: 150, align: "left" },
+                { label: "µ¥Î»", name: "Unit", index: "Unit", width: 350, align: "left" },
+                { label: "ÃèÊö", name: "Description", index: "Description", width: 100, align: "left" }
             ],
             viewrecords: true,
             rowNum: 30,
@@ -103,109 +73,91 @@
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //æŸ¥è¯¢æ¡ä»¶
-        $("#queryCondition .dropdown-menu li").click(function () {
-            var text = $(this).find('a').html();
-            var value = $(this).find('a').attr('data-value');
-            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
-        });
-        //æŸ¥è¯¢äº‹ä»¶
+        //²éÑ¯ÊÂ¼ş
         $("#btn_Search").click(function () {
-            $gridTable.jqGrid('setGridParam', {
-                url: "../../SteelMember/RawMaterialLibrary/GetPageListJson",
-                postData: {
-                    parentid: _parentId,
-                    //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                    keyword: $("#txt_Keyword").val()
-                }
+            var queryJson = {
+                Category: _Category,
+                RawMaterialModel: $("#txt_Keyword").val()
+            }
+            $grid.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) },
             }).trigger('reloadGrid');
         });
-        //æŸ¥è¯¢å›è½¦
-        $('#txt_Keyword').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                $('#btn_Search').trigger("click");
-            }
-        });
     }
-    //æ–°å¢
+    //ĞÂÔö
     function btn_add() {
         dialogOpen({
-            id: "Form",
-            title: 'æ–°å¢åŸææ–™',
-            url: '/SteelMember/RawMaterialLibrary/Form?parentId=' + _parentId,
-            width: "600px",
-            height: "330px",
+            id: 'Form',
+            title: 'Ìí¼ÓÔ­²ÄÁÏ¹ÜÀí',
+            url: '/SteelMember/RawMaterialLibrary/Form?category=' + escape(_Category),
+            width: '600px',
+            height: '330px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
         });
-    };
-    //ç¼–è¾‘
+    }
+    //±à¼­
     function btn_edit() {
-        var keyValue = $("#gridTable").jqGridRowValue("RawMaterialId");
+        var keyValue = $('#gridTable').jqGridRowValue('RawMaterialId');
         if (checkedRow(keyValue)) {
             dialogOpen({
-                id: "Form",
-                title: 'ç¼–è¾‘åŸææ–™',
+                id: 'Form',
+                title: '±à¼­Ô­²ÄÁÏ¹ÜÀí',
                 url: '/SteelMember/RawMaterialLibrary/Form?keyValue=' + keyValue,
-                width: "600px",
-                height: "330px",
+                width: '600px',
+                height: '330px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
-            });
+            })
         }
-    };
-    //åˆ é™¤
+    }
+    //É¾³ı
     function btn_delete() {
-        var keyValue = $("#gridTable").jqGridRowValue("RawMaterialId");
+        var keyValue = $('#gridTable').jqGridRowValue('RawMaterialId');
         if (keyValue) {
             $.RemoveForm({
-                url: "../../SteelMember/RawMaterialLibrary/RemoveForm",
+                url: '../../SteelMember/RawMaterialLibrary/RemoveForm',
                 param: { keyValue: keyValue },
                 success: function (data) {
-                    $("#gridTable").trigger("reloadGrid");
+                    $('#gridTable').trigger('reloadGrid');
                 }
             })
         } else {
-            dialogMsg('è¯·é€‰æ‹©éœ€è¦åˆ é™¤çš„æ•°æ®é¡¹ï¼', 0);
+            dialogMsg('ÇëÑ¡ÔñĞèÒªÉ¾³ıµÄÔ­²ÄÁÏ¹ÜÀí£¡', 0);
         }
     }
 </script>
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">åŸææ–™ç±»å‹</div>
+            <div class="panel-Title">Ô­²ÄÁÏÀàĞÍ</div>
             <div id="itemTree"></div>
         </div>
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">åŸææ–™ä¿¡æ¯</div>
+            <div class="panel-Title">Ô­²ÄÁÏĞÅÏ¢</div>
             <div class="titlePanel">
                 <div class="title-search">
                     <table>
                         <tr>
                             <td>
-                                <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default">å‹å·</a>
-                                </div>
-                            </td>
-                            <td style="padding-left: 2px;">
-                                <input id="txt_Keyword" type="text" class="form-control" placeholder="è¯·è¾“å…¥è¦æŸ¥è¯¢å…³é”®å­—" style="width: 200px;" />
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="ÇëÊäÈëÒª²éÑ¯¹Ø¼ü×Ö" style="width: 200px;" />
                             </td>
                             <td style="padding-left: 5px;">
-                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;æŸ¥è¯¢</a>
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;²éÑ¯</a>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="toolbar">
                     <div class="btn-group">
-                        <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;åˆ·æ–°</a>
-                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;æ–°å¢</a>
-                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;ç¼–è¾‘</a>
-                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;åˆ é™¤</a>
+                        <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;Ë¢ĞÂ</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;ĞÂÔö</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;±à¼­</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;É¾³ı</a>
                     </div>
                     <script>$('.toolbar').authorizeButton()</script>
                 </div>
@@ -217,3 +169,6 @@
         </div>
     </div>
 </div>
+
+
+

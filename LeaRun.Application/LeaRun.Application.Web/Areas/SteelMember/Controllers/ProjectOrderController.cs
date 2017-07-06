@@ -740,11 +740,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 获取构件名称
         /// </summary>
         /// <returns></returns>
-        public ActionResult MemberName(string TreeId)
+        public ActionResult MemberName(string SubProjectId)
         {
-            int _TreeId = Convert.ToInt32(TreeId);
             List<SelectListItem> List = new List<SelectListItem>();
-            List<RMC_MemberLibrary> ProjectList = MemberLibraryCurrent.Find(f => f.TreeId == TreeId).ToList();
+            List<RMC_MemberLibrary> ProjectList = MemberLibraryCurrent.Find(f => f.SubProjectId == SubProjectId).ToList();
             foreach (var Item in ProjectList)
             {
                 SelectListItem item = new SelectListItem();
@@ -880,7 +879,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         projectwarehouse.OrderId = OrderId;
                         projectwarehouse.MemberId = item.MemberId;
                         var Member = MemberLibraryCurrent.Find(f => f.MemberId == item.MemberId).SingleOrDefault();
-                        projectwarehouse.MemberTreeId = Member.TreeId;
+                        projectwarehouse.MemberTreeId = Member.SubProjectId;
                         projectwarehouse.TreeId = file.TreeId;
                         projectwarehouse.ModifyTime = DateTime.Now;
                         projectwarehouse.MemberModel = item.MemberModel;
