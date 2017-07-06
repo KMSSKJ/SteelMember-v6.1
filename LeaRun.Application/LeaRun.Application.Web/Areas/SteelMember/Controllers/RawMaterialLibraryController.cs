@@ -1,41 +1,37 @@
-ï»¿using LeaRun.Application.Repository.SteelMember.IBLL;
-using LeaRun.Application.Web.Areas.SteelMember.Models;
-using LeaRun.Data.Entity;
+using LeaRun.Application.Entity.SteelMember;
+using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
-using LeaRun.Util.Extension;
 using LeaRun.Util.WebControl;
-using Ninject;
-using System;
+using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
-using System.Web.Mvc;
+using Ninject;
+using LeaRun.Application.Repository.SteelMember.IBLL;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
+    /// <summary>
+    /// °æ ±¾ 6.1
+    /// ÈÕ ÆÚ£º2017-07-06 10:42
+    /// Ãè Êö£ºÔ­²ÄÁÏ¹ÜÀí
+    /// </summary>
     public class RawMaterialLibraryController : MvcControllerBase
     {
-        [Inject]
-        public TreeIBLL treeBll { get; set; }
-        [Inject]
-        public MemberUnitIBLL unitBll { get; set; }
-        [Inject]
-        public RawMaterialIBLL rawMaterialBll { get; set; }
 
-        [Inject]
-        public MemberMaterialIBLL MemberRawMaterialBll { get; set; }
-        //
-        // GET: /SteelMember/RawMaterialLibrary/
+        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
 
+        #region ÊÓÍ¼¹¦ÄÜ
+        /// <summary>
+        /// ÁĞ±íÒ³Ãæ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public ActionResult Index()
         {
-            Session["moduleId"] = Request["moduleId"];
-
             return View();
         }
         /// <summary>
-        /// åŸææ–™è¡¨å•
+        /// ±íµ¥Ò³Ãæ
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -43,62 +39,21 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-        /// <summary>
-        /// åŸææ–™åˆ—è¡¨ 
-        /// </summary>
-        /// <returns>è¿”å›æ ‘å½¢Json</returns>
-        [HttpGet]
-        public ActionResult GetTreeJson()
-        {
-            string moduleId = Session["moduleId"].ToString();
-            var data = treeBll.Find(t => t.ModuleId == "b59c689d-dcc7-40ca-b3b8-5b81d3b080b4").ToList();
-            var treeList = new List<TreeEntity>();
-            foreach (RMC_Tree item in data)
-            {
-                TreeEntity tree = new TreeEntity();
-                bool hasChildren = data.Count(t => t.ParentID == item.TreeID) == 0 ? false : true;
-                tree.id = item.TreeID;
-                tree.text = item.TreeName;
-                tree.value = item.TreeID;
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = hasChildren;
-                tree.parentId = item.ParentID;
-                tree.img = item.Icon;
-                treeList.Add(tree);
-            }
-            return Content(treeList.TreeToJson());
-        }
 
-        /// <summary>
-        /// åŸææ–™åˆ—è¡¨
-        /// </summary>
-        /// <param name="parentid"></param>
-        /// <param name="keyword"></param>
-        /// <param name="pagination">åˆ†é¡µå‚æ•°</param>
-        /// <returns>è¿”å›åˆ†é¡µåˆ—è¡¨Json</returns>
-        [HttpGet]
-        public ActionResult GetPageListJson(string parentid, string keyword, Pagination pagination)
-        {
-            Expression<Func<RMC_RawMaterialLibrary, bool>> func = f => f.RawMaterialId != 0;
-            if (parentid != "0" && parentid != "")
-            {
-                func = f => f.TreeId == parentid;
-            }
+        #endregion
 
+        #region »ñÈ¡Êı¾İ
+        /// <summary>
+        /// »ñÈ¡ÁĞ±í
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
+        /// <returns>·µ»ØÁĞ±íJson</returns>
+        [HttpGet]
+        public ActionResult GetPageListJson(Pagination pagination, string queryJson)
+        {
             var watch = CommonHelper.TimerStart();
-            int total = 0;
-            var data = rawMaterialBll.FindPage(pagination.page
-                                             , pagination.rows
-                                             , func
-                                             , false
-                                             , f => f.Sort.ToString()
-                                             , out total
-                                             ).ToList();
-            if (data.Count() > 0 && keyword != "" && keyword != null)
-            {
-                data = data.FindAll(t => t.RawMaterialModel.Contains(keyword));
-            }
+            var data = rawmateriallibrarybll.GetList(pagination, queryJson);
             var JsonData = new
             {
                 rows = data,
@@ -110,202 +65,65 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(JsonData.ToJson());
         }
         /// <summary>
-        /// åŸææ–™åˆ—è¡¨
+        /// »ñÈ¡ÊµÌå 
         /// </summary>
-        /// <param name="parentid"></param>
-        /// <returns>è¿”å›åˆ†é¡µåˆ—è¡¨Json</returns>
-        [HttpGet]
-        public ActionResult GetListJson(string parentid)
-        {
-            var data = rawMaterialBll.Find(r=>r.TreeId==parentid).ToList();
-            var treeList = new List<TreeEntity>();
-            foreach (RMC_RawMaterialLibrary item in data)
-            {
-                TreeEntity tree = new TreeEntity();
-                bool hasChildren = data.Count(t => t.ParentId == item.RawMaterialId.ToString()) == 0 ? false : true;
-                tree.id = item.RawMaterialId.ToString();
-                tree.text = item.RawMaterialModel;
-                tree.value = item.RawMaterialId.ToString();
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = hasChildren;
-                tree.parentId = item.ParentId;
-                //tree.img = item.Icon;
-                treeList.Add(tree);
-            }
-            return Content(treeList.ToJson());
-        }
-
-
-        /// <summary>
-        /// åŸææ–™å®ä½“ è¿”å›å¯¹è±¡Json
-        /// </summary>
-        /// <param name="keyValue">ä¸»é”®å€¼</param>
-        /// <returns></returns>
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <returns>·µ»Ø¶ÔÏóJson</returns>
         [HttpGet]
         public ActionResult GetFormJson(string keyValue)
         {
-            var data = rawMaterialBll.Find(r => r.RawMaterialId.ToString() == keyValue).Single();
-            return Content(data.ToJson());
+            var data = rawmateriallibrarybll.GetEntity(keyValue);
+            return ToJsonResult(data);
         }
 
-        [HttpGet]
-        public ActionResult GetUnitName(string keyValue)
-        {
-            var data = rawMaterialBll.Find(r => r.RawMaterialId.ToString() == keyValue).Single();
-            var model = unitBll.Find(u => u.UnitId == data.UnitId).Single();
-            return Content(model.UnitName.ToString());
-        }
+        #endregion
 
+        #region Ìá½»Êı¾İ
         /// <summary>
-        /// ä¿å­˜åŸææ–™è¡¨å•ï¼ˆæ–°å¢ã€ä¿®æ”¹ï¼‰
+        /// É¾³ıÊı¾İ
         /// </summary>
-        /// <param name="keyValue">ä¸»é”®å€¼</param>
-        /// <param name="rawMaterialLibraryEntity">åŸææ–™å®ä½“</param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, RMC_RawMaterialLibrary rawMaterialLibraryEntity)
-        {
-
-            if (keyValue == "" || keyValue == null)
-            {
-                rawMaterialBll.Add(rawMaterialLibraryEntity);
-            }
-            else
-            {
-                var data = rawMaterialBll.Find(r => r.RawMaterialId.ToString() == keyValue).Single();
-                data.RawMaterialModel = rawMaterialLibraryEntity.RawMaterialModel;
-                data.RawMaterialStandard = rawMaterialLibraryEntity.RawMaterialStandard;
-                data.TreeId = rawMaterialLibraryEntity.TreeId;
-                data.UnitId = rawMaterialLibraryEntity.UnitId;
-                data.Description = rawMaterialLibraryEntity.Description;
-
-                rawMaterialBll.Modified(data);
-
-            }
-            return Success("æ“ä½œæˆåŠŸã€‚");
-        }
-
-        /// <summary>
-        /// åˆ é™¤åŸææ–™
-        /// </summary>
-        /// <param name="keyValue">ä¸»é”®å€¼</param>
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
-            List<int> ids = new List<int>();
-            if (keyValue != "" || keyValue != null)
-            {
-                ids.Add(Convert.ToInt32(keyValue));
-            }
-            rawMaterialBll.Remove(ids);
-            return Success("åˆ é™¤æˆåŠŸã€‚");
+            rawmateriallibrarybll.RemoveForm(keyValue);
+            return Success("É¾³ı³É¹¦¡£");
         }
+        /// <summary>
+        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
+        /// </summary>
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <param name="entity">ÊµÌå¶ÔÏó</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult SaveForm(string keyValue, RawMaterialLibraryEntity entity)
+        {
+            rawmateriallibrarybll.SaveForm(keyValue, entity);
+            return Success("²Ù×÷³É¹¦¡£");
+        }
+        #endregion
+
+        #region ÑéÖ¤Êı¾İ
 
         /// <summary>
-        /// åŸææ–™ä¸­å‹å·ä¸èƒ½é‡å¤
+        /// Ô­²ÄÁÏÖĞĞÍºÅ²»ÄÜÖØ¸´
         /// </summary>
-        /// <param name="RawMaterialModel">å‹å·</param>
+        /// <param name="RawMaterialModel">ĞÍºÅ</param>
         /// <param name="keyValue"></param>
-        /// <param name="treeId"></param>
+        /// <param name="category"></param>
         /// <returns></returns>
         /// 
         [HttpGet]
-        public ActionResult ExistFullName(string RawMaterialModel, string keyValue, string treeId)
+        public ActionResult ExistFullName(string RawMaterialModel,string category, string keyValue)
         {
-            bool IsOk = false;
-
-            var expression = LinqExtensions.True<RMC_RawMaterialLibrary>();
-            expression = expression.And(t => t.RawMaterialModel.Trim() == RawMaterialModel.Trim() && t.TreeId.Trim() == treeId.Trim());
-            if (!string.IsNullOrEmpty(keyValue))
-            {
-                expression = expression.And(t => t.RawMaterialId.ToString() != keyValue);
-            }
-
-            IsOk = rawMaterialBll.Find(expression).Count() == 0 ? true : false;
+            bool IsOk = rawmateriallibrarybll.ExistFullName(RawMaterialModel, category, keyValue);
             return Content(IsOk.ToString());
         }
-
-        /// <summary>
-        ///æ„ä»¶ææ–™ä¸­å‹å·ä¸èƒ½é‡å¤
-        /// </summary>
-        /// <param name="RawMaterialModel">å‹å·</param>
-        /// <param name="MemberId"></param>
-        /// <param name="treeId"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult ExistMemberMaterial(string RawMaterialModel, string MemberId, string treeId)
-        {
-            bool IsOk = false;
-
-            var expression = LinqExtensions.True<RMC_MemberMaterial>();
-            expression = expression.And(t => t.RawMaterialModel.Trim() == RawMaterialModel.Trim() && t.MemberId.Trim() == MemberId.Trim());
-            if (!string.IsNullOrEmpty(MemberId))
-            {
-                expression = expression.And(t => t.RawMaterialModel != RawMaterialModel);
-            }
-
-            IsOk = MemberRawMaterialBll.Find(expression).Count() == 0 ? true : false;
-            return Content(IsOk.ToString());
-        }
-
-        /// <summary>
-        /// å•ä½åˆ—è¡¨ 
-        /// </summary>
-        /// <returns>è¿”å›æ ‘å½¢Json</returns>
-        [HttpGet]
-        public ActionResult GetUnitJson()
-        {
-            var data = unitBll.Find(u => u.UnitId > 0).ToList();
-            return Content(data.ToJson());
-        }
-
-        /// <summary>
-        /// ææ–™ç”¨é‡è¡¨å•
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult RawMaterialNumForm()
-        {
-            return View();
-        }
-
-        public ActionResult GetMemberRawMaterialJson(string MemberId)
-        {
-            var MemberMaterial = MemberRawMaterialBll.Find(f => f.MemberId == MemberId).ToList();
-            return Content(MemberMaterial.ToJson());
-        }
-
-
-        /// <summary>
-        /// è¿”å›åŸææ–™å®ä½“
-        /// </summary>
-        /// <param name="RawMaterialJson"></param>
-        /// <param name="TreeId"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult ListToRawMaterialJson(string RawMaterialJson)
-        {
-            var RawMaterialLibraryList = new List<RawMaterialLibraryModel>();
-            var data = RawMaterialJson.ToList<RMC_RawMaterialLibrary>();
-            foreach (var item in data)
-            {
-                var RawMaterialLibraryModels = new RawMaterialLibraryModel();
-                RawMaterialLibraryModels.RawMaterialModel = item.RawMaterialModel.ToString();
-                RawMaterialLibraryModels.TreeId = item.TreeId;
-                var RawMaterialEntity = rawMaterialBll.Find(f => f.RawMaterialModel == item.RawMaterialModel).SingleOrDefault();
-                RawMaterialLibraryModels.RawMaterialStandard = RawMaterialEntity.RawMaterialStandard;
-                RawMaterialLibraryModels.RawMaterialId = RawMaterialEntity.RawMaterialId.ToString();
-                var TreeEntity = treeBll.Find(f => f.TreeID == item.TreeId).SingleOrDefault();
-                RawMaterialLibraryModels.TreeName = TreeEntity.TreeName;
-                RawMaterialLibraryModels.Qty = item.Sort.ToString();
-                RawMaterialLibraryList.Add(RawMaterialLibraryModels);
-            }
-            return Content(RawMaterialLibraryList.ToJson());
-        }
+        #endregion
     }
 }

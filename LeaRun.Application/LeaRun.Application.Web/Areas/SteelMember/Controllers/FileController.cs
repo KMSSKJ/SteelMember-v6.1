@@ -28,19 +28,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     using LeaRun.Application.Code;
     using LeaRun.Application.Web.Areas.SteelMember.Models;
     using LeaRun.Util.Extension;
+    using LeaRun.Application.Busines.SteelMember;
+    using LeaRun.Application.Entity.SteelMember;
 
     public class FileController : MvcControllerBase
     {
 
-        //public Base_ModuleBll Sys_modulebll = new Base_ModuleBll();
-        //public Base_ButtonBll Sys_buttonbll = new Base_ButtonBll();
-        /// <summary>
-        /// 
-        /// </summary>
-        public UserBLL userBLL = new UserBLL();
-        /// <summary>
-        /// 
-        /// </summary>
+        private UserBLL userBLL = new UserBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
         [Inject]
         public TreeIBLL TreeCurrent { get; set; }
         [Inject]
@@ -59,668 +54,105 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [Inject]
         public ProcessManagementIBLL ProcessManagementCurrent { get; set; }
 
-        #region 已注销代码
-        ///// <summary>
-        ///// 文件在线查看
-        ///// </summary>
-        ///// <param name="KeyValue"></param>
-        ///// <returns></returns>
-        //#region 文件在线查看
-        //public ActionResult OnlineLook(string KeyValue)
-        //{
-        //    ViewData["aa"] = RequestFile(KeyValue);
-        //    return View();
-        //}
+        
 
-        //protected string RequestFile(string KeyValue)
-        //{
-        //    string file = "";
-        //    RMC_MemberLibrary ht = new RMC_MemberLibrary();
-        //    if (!string.IsNullOrEmpty(KeyValue))
-        //    {
-        //        int fileid = Convert.ToInt32(KeyValue);
-        //        ht = MemberLibraryCurrent.Find(f => f.MemberID == fileid).SingleOrDefault();
-        //        if (ht != null)
-        //        {
-        //            if (ht.MemberName != null)
-        //            {
 
-        //                //file = /*System.Web.HttpContext.Current.Server.MapPath("~")+ "Plugins/SteelMember" +*/ht.FullPath.Replace("~","");
-        //                // file = ht.FileGuid + ht.FileExtensions;
-        //            }
+        #region 试图功能
 
-        //        }
-        //    }
-
-        //    string extension = file.Substring(file.LastIndexOf('.'));//获取文件后缀名
-        //    string time = DateTime.Now.ToString("yyyyMMdd"); //file.Substring(0, file.LastIndexOf('\\'));//获取日期格式(yyyy-MM-dd)的文件名
-        //    #region 创建pdf、swf保存的路径
-
-        //    string pdf_path = "LoadFile\\file_pdf\\" + time + "\\";//设置存放路径
-        //    string pdfUrl = System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/" + pdf_path;//保存文件路径
-
-        //    string swf_path = "LoadFile\\file_swf\\" + time + "\\";//设置swf存放路径
-        //    string swfUrl = System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/" + swf_path;//保存文件路径
-        //    if (Directory.Exists(System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/LoadFile/file_pdf") || Directory.Exists(System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/LoadFile/file_swf"))
-        //    {
-
-        //        Directory.Delete(System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/LoadFile/file_pdf", true);//pdf路径
-        //        Directory.Delete(System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/LoadFile/file_swf", true);//创建swf路径
-        //    }
-        //    //如果文件不存在，则从新创建，文件夹以(yyyy-MM-d)的格式创建
-        //    if (!Directory.Exists(pdf_path) || !Directory.Exists(swf_path))
-        //    {
-        //        Directory.CreateDirectory(pdfUrl);//创建pdf路径
-        //        Directory.CreateDirectory(swfUrl);//创建swf路径
-        //    }
-        //    #endregion
-
-        //    #region 文件重新命名为pdf、swf格式
-        //    string fname = file.Substring(file.LastIndexOf('\\') + 1);//获取文件名称，去除后缀名
-        //    string filename = fname.Substring(0, fname.LastIndexOf('.'));//获取文件名称，去除后缀名
-
-        //    pdfUrl += filename + ".pdf";//把文件更改成pdf格式
-        //    swfUrl += filename + ".swf";//把文件更改成swf格式
-        //    string strfile = filename + ".swf";//把文件更改成swf格式
-        //    #endregion
-
-        //    bool blpdf = System.IO.File.Exists(pdfUrl);//判断pdf是否已经存在
-        //    bool blswf = System.IO.File.Exists(swfUrl);//判断swf是否已经存在
-        //    if (extension == ".doc" || extension == ".docx")
-        //    {
-        //        Document doc = new Document(System.Web.HttpContext.Current.Server.MapPath("~") + ht.FullPath.Replace("~", ""));
-        //        doc.Save(pdfUrl, Aspose.Words.SaveFormat.Pdf);
-        //        PDFConvertToSWF(pdfUrl, swfUrl);
-        //    }
-        //    else if (extension == ".ppt" || extension == ".pptx")
-        //    {
-        //        Presentation pres = new Presentation(System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/" + ht.FullPath.Replace("~", ""));
-        //        pres.Save(pdfUrl, Aspose.Slides.Export.SaveFormat.Pdf);
-        //        PDFConvertToSWF(pdfUrl, swfUrl);
-        //        // pdf2swf.PDFConvertToSWF("G:/doc.pdf", " G:/1.swf");
-        //    }
-        //    else if (extension == ".xls" || extension == ".xlsx")
-        //    {
-        //        Workbook book = new Workbook(System.Web.HttpContext.Current.Server.MapPath("~") + "Plugins/SteelMember/" + ht.FullPath.Replace("~", ""));
-        //        book.Save(pdfUrl, Aspose.Cells.SaveFormat.Pdf);
-        //        //office2pdf.XLSConvertToPDF(ArticlePath, pdfpath);
-        //        PDFConvertToSWF(pdfUrl, swfUrl);
-        //    }
-        //    else if (extension == ".pdf")
-        //    {
-        //        PDFConvertToSWF(file, swfUrl);
-        //    }
-        //    #region 文件转换---暂不用
-        //    //if (!blpdf && !blswf)//pdf和swf都不存在
-        //    //{
-        //    //    //FileUpload ffile = new FileUpload();
-        //    //   // ffile.SaveAs(pdfUrl); //讲pdf文件保存到服务器
-        //    //    if (extension == ".doc" || extension == ".docx")
-        //    //    {
-        //    //        DOCConvertToPDF(file, pdfUrl);
-        //    //        PDFConvertToSWF(pdfUrl, swfUrl);//pdf转换swf保存在服务器
-        //    //    }
-        //    //    else if (extension == ".xls" || extension == ".xlsx")
-        //    //    {
-        //    //        XLSConvertToPDF(file, pdfUrl);
-        //    //        PDFConvertToSWF(pdfUrl, swfUrl);//pdf转换swf保存在服务器
-        //    //    }
-        //    //    else if (extension == ".ppt" || extension == ".pptx")
-        //    //    {
-        //    //        PPTConvertToPDF(file, pdfUrl);
-        //    //        PDFConvertToSWF(pdfUrl, swfUrl);//pdf转换swf保存在服务器
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        PDFConvertToSWF(file, swfUrl);//pdf转换swf保存在服务器
-        //    //    }
-
-        //    //}
-        //    //if (blpdf && !blswf)
-        //    //{
-        //    //    PDFConvertToSWF(pdfUrl, swfUrl);//pdf转换swf保存在服务器
-        //    //}
-        //    #endregion
-        //    RMC_MemberLibrary model = new RMC_MemberLibrary();
-        //    return model.MemberName = "Plugins/SteelMember/LoadFile/file_swf/" + time + "/" + strfile;
-        //}
-        //public string PDFConvertToSWF(string pdfPath, string swfPath)
-        //{
-        //    //string cmdStr = HttpContext.Current .Server.MapPath("~/SWFTools/pdf2swf.exe");
-        //    string cmdStr = System.Web.HttpContext.Current.Server.MapPath("~~/SWFTools/pdf2swf.exe");
-        //    string sourcePath = @"""" + pdfPath + @"""";
-        //    string targetPath = @"""" + swfPath + @"""";
-        //    string argsStr = "  -t " + sourcePath + " -s flashversion=9 -o " + targetPath;
-        //    return ExcutedCmd(cmdStr, argsStr);
-        //}
-        //public static void ExecuteCmd(string cmd, string args)
-        //{
-        //    using (Process p = new Process())
-        //    {
-        //        p.StartInfo.FileName = cmd;
-        //        p.StartInfo.Arguments = args;
-        //        p.StartInfo.UseShellExecute = false;
-        //        p.StartInfo.RedirectStandardOutput = false;
-        //        p.StartInfo.CreateNoWindow = true;
-        //        p.Start();
-        //        p.PriorityClass = ProcessPriorityClass.Normal;
-        //        p.WaitForExit();
-        //    }
-        //}
-        //private static string ExcutedCmd(string cmd, string args)
-        //{
-        //    string b = "1";
-        //    using (Process p = new Process())
-        //    {
-        //        ProcessStartInfo psi = new ProcessStartInfo(cmd, args);
-        //        p.StartInfo = psi;
-        //        psi.UseShellExecute = false;
-        //        p.Start();
-        //        p.WaitForExit();
-        //    }
-        //    return b;
-        //}
-        //#endregion
-
-        ///// <summary>
-        ///// 返回上一级
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[ValidateInput(false)]
-        //public virtual ActionResult ReturnSuperior(string KeyValue)
-        //{
-        //    try
-        //    {
-        //        int FolderId = Convert.ToInt32(KeyValue);
-        //        //string UserId = ManageProvider.Provider.Current().UserId;
-        //        RMC_MemberLibrary ListData = null;
-        //        RMC_Tree ListData1 = null;
-        //        List<RMC_Tree> listtree = TreeCurrent.Find(t => t.TreeID == FolderId).ToList();
-        //        List<RMC_MemberLibrary> listfile = MemberLibraryCurrent.Find(t => t.TreeID == FolderId).ToList();
-        //        if (listfile.Count() > 0 && listtree.Count() > 0)
-        //        {
-        //            ListData = MemberLibraryCurrent.Find(t => t.TreeID == FolderId).First();
-        //        }
-        //        else if (listfile.Count() > 0)
-        //        {
-        //            ListData = MemberLibraryCurrent.Find(t => t.TreeID == FolderId).FirstOrDefault();
-        //        }
-        //        else if (listtree.Count() > 0)
-        //        {
-        //            ListData1 = TreeCurrent.Find(t => t.TreeID == FolderId).FirstOrDefault();
-        //        }
-        //        else
-        //        {
-        //            ListData = null;
-        //        }
-        //        if (ListData == null)
-        //        {
-        //            return Content(ListData1.ToJson());
-        //        }
-        //        else
-        //        {
-        //            return Content(ListData.ToJson());
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 审核文件（夹）
-        ///// </summary>
-        ///// <param name="FolderId"></param>
-        ///// <returns></returns>
-        //public ActionResult ReviewFolder(string FolderId)
-        //{
-        //    try
-        //    {
-        //        int folderid = Convert.ToInt32(FolderId);
-        //        var tree = TreeCurrent.Find(u => u.TreeID == folderid).First();
-        //        tree.ModifiedTime = DateTime.Now;
-        //        tree.IsReview = 1;
-        //        TreeCurrent.Modified(tree);
-        //        List<RMC_MemberLibrary> files = MemberLibraryCurrent.Find(u => u.TreeID == folderid).ToList();
-        //        if (files.Count() > 0)
-        //        {
-        //            foreach (var item in files)
-        //            {
-        //                var file = MemberLibraryCurrent.Find(u => u.TreeID == folderid).First();
-        //                tree.ModifiedTime = DateTime.Now;
-        //                tree.IsReview = 1;
-        //                MemberLibraryCurrent.Modified(file);
-        //            }
-        //        }
-        //        List<RMC_Tree> trees = TreeCurrent.Find(u => u.TreeID > 0).ToList();
-        //        List<RMC_Tree> trees1 = trees.Where(t => t.ParentID == folderid).ToList();
-        //        for (int i = 0; i < trees.Count(); i++)
-        //        {
-        //            foreach (var item in trees1)
-        //            {
-        //                tree = trees.Where(u => u.TreeID == item.TreeID).First();
-        //                tree.ModifiedTime = DateTime.Now;
-        //                tree.IsReview = 1;
-        //                TreeCurrent.Modified(tree);
-        //                files = MemberLibraryCurrent.Find(u => u.TreeID == item.TreeID).ToList();
-        //                if (files.Count() > 0)
-        //                {
-        //                    foreach (var itemfile in files)
-        //                    {
-        //                        var file1 = MemberLibraryCurrent.Find(u => u.MemberID == itemfile.MemberID).First();
-        //                        file1.ModifiedTime = DateTime.Now;
-        //                        file1.IsReview = 1;
-        //                        MemberLibraryCurrent.Modified(file1);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        return Content(new JsonMessage { Success = true, Code = "1", Message = "审核成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //       throw new Exception(ex.ToString());
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 审核文件
-        ///// </summary>
-        ///// <param name="FolderId"></param>
-        ///// <returns></returns>
-        //public ActionResult ReviewFile(string MemberID)
-        //{
-        //    try
-        //    {
-        //        int fileid = Convert.ToInt32(MemberID);
-        //        var file = MemberLibraryCurrent.Find(u => u.MemberID == fileid).First();
-        //        file.ModifiedTime = DateTime.Now;
-        //        file.IsReview = 1;
-        //        MemberLibraryCurrent.Modified(file);
-        //        return Content(new JsonMessage { Success = true, Code = "1", Message = "删除成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content(new JsonMessage
-        //        {
-        //            Success = false,
-        //            Code = "-1",
-        //            Message = "操作失败：" + ex.Message
-        //        }.ToString());
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 文档申请（文件或文件夹）
-        ///// </summary>
-        ///// <param name="MemberID"></param>
-        ///// <returns></returns>      
-        //public ActionResult WikipediFile(string MemberID, string FolderId, string Sort)
-        //{
-        //    try
-        //    {
-        //        if (Sort != "1")
-        //        {
-        //            int folderid = Convert.ToInt32(FolderId);
-        //            var tree = TreeCurrent.Find(u => u.TreeID == folderid).First();
-        //            tree.ModifiedTime = DateTime.Now;
-        //            tree.IsMenu = 0;
-        //            TreeCurrent.Modified(tree);
-        //            List<RMC_MemberLibrary> files = MemberLibraryCurrent.Find(u => u.TreeID == folderid).ToList();
-        //            if (files.Count() > 0)
-        //            {
-        //                foreach (var item in files)
-        //                {
-        //                    var file = MemberLibraryCurrent.Find(u => u.TreeID == folderid).First();
-        //                    tree.ModifiedTime = DateTime.Now;
-        //                    tree.IsMenu = 0;
-        //                    MemberLibraryCurrent.Modified(file);
-        //                }
-        //            }
-        //            List<RMC_Tree> trees = TreeCurrent.Find(u => u.TreeID > 0).ToList();
-        //            List<RMC_Tree> trees1 = trees.Where(t => t.ParentID == folderid).ToList();
-        //            for (int i = 0; i < trees.Count(); i++)
-        //            {
-        //                foreach (var item in trees1)
-        //                {
-        //                    tree = trees.Where(u => u.TreeID == item.TreeID).First();
-        //                    tree.ModifiedTime = DateTime.Now;
-        //                    //tree.IsAuthorize = 1;
-        //                    TreeCurrent.Modified(tree);
-        //                    files = MemberLibraryCurrent.Find(u => u.TreeID == item.TreeID).ToList();
-        //                    if (files.Count() > 0)
-        //                    {
-        //                        foreach (var itemfile in files)
-        //                        {
-        //                            var file1 = MemberLibraryCurrent.Find(u => u.MemberID == itemfile.MemberID).First();
-        //                            file1.ModifiedTime = DateTime.Now;
-        //                            //file1.IsAuthorize = 1;
-        //                            MemberLibraryCurrent.Modified(file1);
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            int fileid = Convert.ToInt32(MemberID);
-        //            var file = MemberLibraryCurrent.Find(u => u.MemberID == fileid).First();
-        //            file.ModifiedTime = DateTime.Now;
-        //            //file.IsAuthorize = 1;
-        //            MemberLibraryCurrent.Modified(file);
-        //        }
-        //        return Content(new JsonMessage { Success = true, Code = "1", Message = "申请成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //       throw new Exception(ex.ToString());
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 申请表单视图
-        ///// </summary>
-        ///// <returns></returns>
-        ////[ManagerPermission(PermissionMode.Enforce)]
-        //public ActionResult ApplicationForm()
-        //{
-        //    return View();
-        //}
-
-        ///// <summary>
-        ///// 文件表单视图
-        ///// </summary>
-        ///// <returns></returns>
-        ////[ManagerPermission(PermissionMode.Enforce)]
-        //public ActionResult AuthorizeFileForm()
-        //{
-        //    return View();
-        //}
-
-        //public ActionResult SubmitAuthorizeFileForm(string MemberID, string FolderId, string Sort)
-        //{
-        //    try
-        //    {
-        //        if (Sort != "1")
-        //        {
-        //            int folderid = Convert.ToInt32(FolderId);
-        //            var tree = TreeCurrent.Find(u => u.TreeID == folderid).First();
-        //            tree.ModifiedTime = DateTime.Now;
-        //            tree.IsMenu = 0;
-        //            //tree.ItemID = Convert.ToInt32(Folderid);
-        //            TreeCurrent.Modified(tree);
-        //            List<RMC_MemberLibrary> files = MemberLibraryCurrent.Find(u => u.TreeID == folderid).ToList();
-        //            if (files.Count() > 0)
-        //            {
-        //                foreach (var item in files)
-        //                {
-        //                    var file = MemberLibraryCurrent.Find(u => u.TreeID == folderid).First();
-        //                    tree.ModifiedTime = DateTime.Now;
-        //                    tree.IsMenu = 0;
-        //                    MemberLibraryCurrent.Modified(file);
-        //                }
-        //            }
-        //            List<RMC_Tree> trees = TreeCurrent.Find(u => u.TreeID > 0).ToList();
-        //            List<RMC_Tree> trees1 = trees.Where(t => t.ParentID == folderid).ToList();
-        //            for (int i = 0; i < trees.Count(); i++)
-        //            {
-        //                foreach (var item in trees1)
-        //                {
-        //                    tree = trees.Where(u => u.TreeID == item.TreeID).First();
-        //                    tree.ModifiedTime = DateTime.Now;
-        //                    tree.IsMenu = 0;
-        //                    TreeCurrent.Modified(tree);
-        //                    files = MemberLibraryCurrent.Find(u => u.TreeID == item.TreeID).ToList();
-        //                    if (files.Count() > 0)
-        //                    {
-        //                        foreach (var itemfile in files)
-        //                        {
-        //                            var file1 = MemberLibraryCurrent.Find(u => u.MemberID == itemfile.MemberID).First();
-        //                            file1.ModifiedTime = DateTime.Now;
-        //                            //file1.IsAuthorize = 1;
-        //                            MemberLibraryCurrent.Modified(file1);
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            int fileid = Convert.ToInt32(MemberID);
-        //            var file = MemberLibraryCurrent.Find(u => u.MemberID == fileid).First();
-        //            file.ModifiedTime = DateTime.Now;
-        //            //file.IsAuthorize = 1;
-        //            MemberLibraryCurrent.Modified(file);
-        //        }
-        //        return Content(new JsonMessage { Success = true, Code = "1", Message = "申请成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //       throw new Exception(ex.ToString());
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 标记删除文件（夹）
-        ///// </summary>
-        ///// <param name="FolderId"></param>
-        ///// <returns></returns>
-        //public ActionResult MarkFolder(string FolderId)
-        //{
-        //    try
-        //    {
-        //        int folderid = Convert.ToInt32(FolderId);
-        //        var tree = TreeCurrent.Find(u => u.TreeID == folderid).First();
-        //        tree.ModifiedTime = DateTime.Now;
-        //        tree.DeleteFlag = 1;
-        //        TreeCurrent.Modified(tree);
-        //        List<RMC_MemberLibrary> files = MemberLibraryCurrent.Find(u => u.TreeID == folderid).ToList();
-        //        if (files.Count() > 0)
-        //        {
-        //            foreach (var item in files)
-        //            {
-        //                var file = MemberLibraryCurrent.Find(u => u.TreeID == folderid).First();
-        //                tree.ModifiedTime = DateTime.Now;
-        //                tree.DeleteFlag = 1;
-        //                MemberLibraryCurrent.Modified(file);
-        //            }
-        //        }
-        //        List<RMC_Tree> trees = TreeCurrent.Find(u => u.TreeID > 0).ToList();
-        //        List<RMC_Tree> trees1 = trees.Where(t => t.ParentID == folderid).ToList();
-        //        for (int i = 0; i < trees.Count(); i++)
-        //        {
-        //            foreach (var item in trees1)
-        //            {
-        //                tree = trees.Where(u => u.TreeID == item.TreeID).First();
-        //                tree.ModifiedTime = DateTime.Now;
-        //                tree.DeleteFlag = 1;
-        //                TreeCurrent.Modified(tree);
-        //                files = MemberLibraryCurrent.Find(u => u.TreeID == item.TreeID).ToList();
-        //                if (files.Count() > 0)
-        //                {
-        //                    foreach (var itemfile in files)
-        //                    {
-        //                        var file1 = MemberLibraryCurrent.Find(u => u.MemberID == itemfile.MemberID).First();
-        //                        file1.ModifiedTime = DateTime.Now;
-        //                        file1.DeleteFlag = 1;
-        //                        MemberLibraryCurrent.Modified(file1);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        return Content(new JsonMessage { Success = true, Code = "1", Message = "删除成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //       throw new Exception(ex.ToString());
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 标记(删除)文件
-        ///// </summary>
-        ///// <param name="FolderId"></param>
-        ///// <returns></returns>
-        //public ActionResult MarkFile(string MemberID)
-        //{
-        //    try
-        //    {
-        //        int fileid = Convert.ToInt32(MemberID);
-        //        var file = MemberLibraryCurrent.Find(u => u.MemberID == fileid).First();
-        //        file.ModifiedTime = DateTime.Now;
-        //        file.DeleteFlag = 1;
-        //        MemberLibraryCurrent.Modified(file);
-        //        return Content(new JsonMessage { Success = true, Code = "1", Message = "删除成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content(new JsonMessage
-        //        {
-        //            Success = false,
-        //            Code = "-1",
-        //            Message = "操作失败：" + ex.Message
-        //        }.ToString());
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 文件重命名
-        ///// </summary>
-        ///// <returns></returns>
-        //public ActionResult FileReName()
-        //{
-        //    return View();
-        //}
-
-        ///// <summary>
-        ///// 【控制测量文档管理】返回文件对象JSON
-        ///// </summary>
-        ///// <param name="KeyValue">主键值</param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[ValidateInput(false)]
-        //// [LoginAuthorize]
-        //public virtual ActionResult SetFileForm(string MemberID)
-        //{
-        //    int fileid = Convert.ToInt32(MemberID);
-        //    RMC_MemberLibrary entity = MemberLibraryCurrent.Find(f => f.MemberID == fileid).SingleOrDefault();
-        //    //string JsonData = entity.ToJson();
-        //    ////自定义
-        //    //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
-        //    return Content(entity.ToJson());
-        //}
-
-        ///// <summary>
-        ///// 文件 重命名 提交保存
-        ///// </summary>
-        ///// <param name="KeyValue">主键</param>
-        ///// <param name="MemberName">重命名</param>
-        ///// <returns></returns>
-        //public ActionResult SubmitFileReName(/*string MemberID, string MemberName*/RMC_MemberLibrary file)
-        //{
-        //    try
-        //    {
-        //        //int fileid = Convert.ToInt32(MemberID);
-        //        RMC_MemberLibrary entity = MemberLibraryCurrent.Find(f => f.MemberID == file.MemberID).SingleOrDefault();
-        //        entity.MemberName = file.MemberName;
-        //        entity.ModifiedTime = DateTime.Now;
-        //        MemberLibraryCurrent.Modified(entity);
-        //        int IsOk = 1;
-        //        return Content(new JsonMessage { Success = true, Code = IsOk.ToString(), Message = "编辑成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //       throw new Exception(ex.ToString());
-        //    }
-
-        //}
-
-        ///// <summary>
-        ///// 移动文件（夹）
-        ///// </summary>
-        ///// <returns></returns>
-        //public ActionResult MoveLocation()
-        //{
-        //    return View();
-        //}
-
-        ///// <summary>
-        ///// 移动文件（夹）提交保存
-        ///// </summary>
-        ///// <param name="KeyValue">主键</param>
-        ///// <param name="MoveFolderId">选择移动文件夹Id</param>
-        ///// <param name="sort">分类0-文件、1-文件夹</param>
-        ///// <returns></returns>
-        //public ActionResult SubmitMoveLocation(string KeyValue, string MoveFolderId, string Sort)
-        //{
-        //    try
-        //    {
-        //        int keyvalue = Convert.ToInt32(KeyValue);
-        //        int IsOk = 0;
-        //        if (Sort == "1")
-        //        {
-        //            RMC_MemberLibrary networkfile = MemberLibraryCurrent.Find(t => t.TreeID == keyvalue).SingleOrDefault(); ;
-        //            //networkfile.MemberID = keyvalue;
-        //            networkfile.TreeID = Convert.ToInt32(MoveFolderId);
-        //            MemberLibraryCurrent.Modified(networkfile);
-        //            IsOk = 1;
-        //        }
-        //        else
-        //        {
-        //            RMC_Tree networkfolder = TreeCurrent.Find(t => t.TreeID == keyvalue).SingleOrDefault();
-        //            networkfolder.ParentID = Convert.ToInt32(MoveFolderId);
-        //            TreeCurrent.Modified(networkfolder);
-        //            IsOk = 1;
-
-        //        }
-        //        return Content(new JsonMessage { Success = true, Code = IsOk.ToString(), Message = "移动成功。" }.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //       throw new Exception(ex.ToString());
-        //    }
-
-        //}
-        #endregion
-
-        public ActionResult Partial1()
+        /// <summary>
+        /// 数据列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult Index()
         {
+            Session["moduleId"] = Request.QueryString["moduleId"];
             return View();
         }
 
         /// <summary>
-        /// 【控制测量文档管理】返回树JONS
+        /// 表单视图
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public virtual ActionResult Form()
+        {
+            return View();
+        }
+
+
+        #endregion
+
+        #region 获取数据
+        /// <summary>
+        /// 获取工程树JONS
         /// </summary>
         /// <returns></returns>      
-        public ActionResult TreeJson()
+        [HttpGet]
+        public ActionResult SubProjectTreeJson(int Levels)
         {
-            string moduleId = Session["moduleId"].ToString();
-            List<RMC_Tree> list = TreeCurrent.Find(t => t.ModuleId == moduleId).ToList();
+            
+            var data = subprojectbll.GetList(null).ToList();
+            data = data.FindAll(t => t.Levels == Levels);
             List<TreeEntity> TreeList = new List<TreeEntity>();
-            foreach (RMC_Tree item in list)
+            foreach (SubProjectEntity item in data)
             {
                 TreeEntity tree = new TreeEntity();
                 bool hasChildren = false;
-                List<RMC_Tree> childnode = list.FindAll(t => t.ParentID == item.TreeID);
+                List<SubProjectEntity> childnode = data.FindAll(t => t.ParentId == item.Id);
                 if (childnode.Count > 0)
                 {
                     hasChildren = true;
                 }
-                tree.id = item.TreeID.ToString();
-                tree.text = item.TreeName;
-                tree.value = item.TreeID.ToString();
-                tree.isexpand = item.State == 1 ? true : false;
+                tree.id = item.Id;
+                tree.text = item.FullName;
+                tree.value = item.Id;
+                tree.isexpand = true; //item.State == 1 ? true : false;
                 tree.complete = true;
                 tree.hasChildren = hasChildren;
-                tree.parentId = item.ParentID.ToString();
+                tree.parentId = item.ParentId;
                 //tree.iconCls = item.Icon != null ? "/Content/Images/Icon16/" + item.Icon : item.Icon;
                 TreeList.Add(tree);
             }
             return Content(TreeList.TreeToJson());
         }
-        #region 获取数据
+        /// <summary>
+        /// 获取构件类型
+        /// </summary>
+        /// <param name="Levels"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult MemberClassJson(int Levels)
+        {
+
+            var data = subprojectbll.GetList(null).ToList();
+            data = data.FindAll(t => t.Levels == Levels);
+            List<TreeEntity> TreeList = new List<TreeEntity>();
+            foreach (SubProjectEntity item in data)
+            {
+                TreeEntity tree = new TreeEntity();
+                bool hasChildren = false;
+                List<SubProjectEntity> childnode = data.FindAll(t => t.ParentId == item.Id);
+                if (childnode.Count > 0)
+                {
+                    hasChildren = true;
+                }
+                tree.id = item.Id;
+                tree.text = item.FullName;
+                tree.value = item.Id;
+                tree.isexpand = true; //item.State == 1 ? true : false;
+                tree.complete = true;
+                tree.hasChildren = hasChildren;
+                tree.parentId = item.ParentId;
+                //tree.iconCls = item.Icon != null ? "/Content/Images/Icon16/" + item.Icon : item.Icon;
+                TreeList.Add(tree);
+            }
+            return Content(TreeList.TreeToJson());
+        }
+
+
         /// <summary>
         /// 获取原材料
         /// </summary>
@@ -733,20 +165,22 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(RawMaterial.ToJson());
         }
 
+
+        #region 验证数据
         /// <summary>
         ///构件不能重复
         /// </summary>
         /// <param name="MemberName">型号</param>
         /// <param name="MemberId"></param>
-        /// <param name="treeId"></param>
+        /// <param name="SubProjectId"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ExistMember(string MemberName, string MemberId, string treeId)
+        public ActionResult ExistMember(string MemberName, string MemberId, string SubProjectId)
         {
             bool IsOk = false;
 
             var expression = LinqExtensions.True<RMC_MemberLibrary>();
-            expression = expression.And(t => t.MemberModel.Trim() == MemberName.Trim() && t.TreeId.Trim() == treeId.Trim());
+            expression = expression.And(t => t.MemberModel.Trim() == MemberName.Trim() && t.SubProjectId.Trim() == SubProjectId.Trim());
             if (!string.IsNullOrEmpty(MemberId))
             {
                 expression = expression.And(t => t.MemberName.ToString() != MemberName);
@@ -755,7 +189,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             IsOk = MemberLibraryCurrent.Find(expression).Count() == 0 ? true : false;
             return Content(IsOk.ToString());
         }
-
+        #endregion
         ///// <summary>
         ///// 获取原材料
         ///// </summary>
@@ -799,15 +233,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    return Json(Entitys);
         //}
         #endregion
-        /// <summary>
-        /// 文件表单视图
-        /// </summary>
-        /// <returns></returns>
-        //[ManagerPermission(PermissionMode.Enforce)]
-        public virtual ActionResult Form()
-        {
-            return View();
-        }
+
         /// <summary>
         /// 【控制测量文档管理】返回对象JSON
         /// </summary>
@@ -912,17 +338,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         #region 数据查询与呈现
-        public ActionResult Index()
-        {
-            Session["moduleId"] = Request.QueryString["moduleId"];
-            return View();
-        }
-
-        public ActionResult QueryPage()
-        {
-            return View();
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -952,7 +367,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
 
                 Expression<Func<RMC_MemberLibrary, bool>> func = ExpressionExtensions.True<RMC_MemberLibrary>();
-                Func<RMC_MemberLibrary, bool> func1 = f => f.TreeId != "";
+                Func<RMC_MemberLibrary, bool> func1 = f => f.SubProjectId != "";
 
                 var _a = model.MemberModel != null && model.MemberModel.ToString() != "";
                 var _b = model.InBeginTime != null && model.InBeginTime.ToString() != "0001/1/1 0:00:00";
@@ -1018,7 +433,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                     foreach (var item in list)
                     {
-                        var _MemberList = MemberLibraryCurrent.Find(m => m.TreeId == item.TreeID).ToList();
+                        var _MemberList = MemberLibraryCurrent.Find(m => m.SubProjectId == item.TreeID).ToList();
                         if (_MemberList.Count() > 0)
                         {
                             MemberList = MemberList.Concat(_MemberList).ToList();
@@ -1068,18 +483,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-
-        //public ActionResult SubmitImportFile()
-        //{
-        //    List<string> list = new List<string>();
-
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        list.Add(i.ToString());
-        //    }
-
-        //    return View(list);
-        //}
 
         public ContentResult SubmitImportFile(string KeyValue, RMC_MemberLibrary MemberLibrary)
         {
@@ -1186,7 +589,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             var _MemberLibrary = MemberLibraryCurrent.Find(f => f.MemberModel == MemberModel).SingleOrDefault();
                             if (_MemberLibrary == null)
                             {
-                                MemberLibrary.TreeId = KeyValue;
+                                MemberLibrary.SubProjectId = KeyValue;
                                 var tree = TreeCurrent.Find(f => f.TreeID == KeyValue).SingleOrDefault();
                                 MemberLibrary.MemberName = tree.TreeName;
                                 MemberLibrary.UploadTime = DateTime.Now;
@@ -1761,21 +1164,23 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
-        /// <param name="TreeId">主键值</param>
+        /// <param name="MemberRawMaterialListJson">主键值</param>
+        ///  <param name="TreeId">主键值</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult SubmitMember(RMC_MemberLibrary entity, string KeyValue)
+        public virtual ActionResult SubmitMember(RMC_MemberLibrary entity,string TreeId, string MemberRawMaterialListJson, string KeyValue)
         {
             try
             {
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
+                var moduleButtonList = MemberRawMaterialListJson.ToList<RMC_MemberMaterial>();
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
                    
                     RMC_MemberLibrary Oldentity = MemberLibraryCurrent.Find(t => t.MemberId == KeyValue).SingleOrDefault();//获取没更新之前实体对象
                     Oldentity.MemberName = entity.MemberName;
-                    //Oldentity.SectionalArea = entity.SectionalArea;
+                      //Oldentity.SectionalArea = entity.SectionalArea;
                     //Oldentity.SurfaceArea = entity.SurfaceArea;
                     //Oldentity.TheoreticalWeight = entity.TheoreticalWeight;
                     //Oldentity.SectionalSize_h = entity.SectionalSize_h;
@@ -1806,7 +1211,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     //Oldentity.GravityCenterDistance_0 = entity.GravityCenterDistance_0;
                     //Oldentity.GravityCenterDistance_x0 = entity.GravityCenterDistance_x0;
                     //Oldentity.GravityCenterDistance_y0 = entity.GravityCenterDistance_y0;
-                    if (entity.CAD_Drawing == null)
+                                        if (entity.CAD_Drawing == null)
                     {
                         entity.CAD_Drawing = "1.png";
                     }
@@ -1834,25 +1239,31 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     string str = "";
+                    string str1 = "";
                     RMC_MemberLibrary entitys = new RMC_MemberLibrary();
-                    var tree = TreeCurrent.Find(f => f.TreeID == entity.TreeId).SingleOrDefault();
-                    var TreeIdList = GetParentId(tree.ParentID).OrderBy(s => s.TreeID);
-                    foreach (var item in TreeIdList)
-                    {
-                        str += GetCharSpellCode(item.TreeName.Substring(0, 1));
-                    }
-                    str = str + GetCharSpellCode(tree.TreeName.Substring(0, 1));
+                
+                    var data = subprojectbll.GetList(null).ToList().FindAll(f=>f.Id == entity.SubProjectId).SingleOrDefault();
+                    str = Str.PinYin(data.FullName.Substring(0, 1)+ entity.Category.Substring(0, 1)).ToUpper();
 
                     int Num = 0001;
-                    var MemberList = MemberLibraryCurrent.Find(f => f.TreeId == entity.TreeId).ToList();
+                    var MemberList = MemberLibraryCurrent.Find(f => f.SubProjectId == entity.SubProjectId).ToList();
                     Num = Num + MemberList.Count();
-
-                    entitys.MemberNumbering = str + Num.ToString();
-                    entitys.TreeId = entity.TreeId;
+                    entitys.MemberId = entity.MemberId;
+                   
+                    for (int i = 0; i <4-Num.ToString().Length; i++)
+                    {
+                        str1 += "0";
+                    }
+                    entitys.MemberNumbering = str + str1+ Num.ToString();
+                    entitys.SubProjectId = entity.SubProjectId;
                     entitys.MemberName = entity.MemberName;
                     entitys.UploadTime = DateTime.Now;
+                    entitys.MemberUnit = entity.MemberUnit;
+                    entitys.UnitPrice = entity.UnitPrice;
+                    entitys.IsRawMaterial = 0;
+                    entitys.IsProcess = 0;
 
-                    //entitys.SectionalArea = entity.SectionalArea;
+                     //entitys.SectionalArea = entity.SectionalArea;
                     //entitys.SurfaceArea = entity.SurfaceArea;
                     //entitys.TheoreticalWeight = entity.TheoreticalWeight;
                     //entitys.SectionalSize_h = entity.SectionalSize_h;
@@ -1882,9 +1293,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     //entitys.GravityCenterDistance_0 = entity.GravityCenterDistance_0;
                     //entitys.GravityCenterDistance_x0 = entity.GravityCenterDistance_x0;
                     //entitys.GravityCenterDistance_y0 = entity.GravityCenterDistance_y0;
-                    entitys.MemberUnit = entity.MemberUnit;
-                    entitys.UnitPrice = entity.UnitPrice;
-
                     if (entity.CAD_Drawing == null)
                     {
                         entity.CAD_Drawing = "1.png";
@@ -1905,10 +1313,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     }
                     string filename2 = System.IO.Path.GetFileName(entity.Icon);
                     entitys.Icon = filename2;
-
-                    entitys.IsRawMaterial = 0;
-                    entitys.IsProcess = 0;
                     MemberLibraryCurrent.Add(entitys);
+
+                    var MemberRawMaterial = MemberMaterialCurrent.Find(f => f.MemberId == entity.MemberId).ToList();
+                    
+                    //moduleButtonList
+
+
+
                 }
                 return Success(Message);
             }
