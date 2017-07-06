@@ -8,8 +8,6 @@ using System.Web.Mvc;
 namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
 {
     /// <summary>
-    /// 版 本 6.1
-    /// 日 期：2016.1.11 14:29
     /// 描 述：模板管理
     /// </summary>
     public class TemplateController : MvcControllerBase

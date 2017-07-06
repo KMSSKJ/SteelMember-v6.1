@@ -55,6 +55,7 @@
     <Compile Include="SteelMember\MemberMaterialService.cs" />
     <Compile Include="SteelMember\MemberProcessService.cs" />
     <Compile Include="SteelMember\ProjectInfoService.cs" />
+    <Compile Include="SteelMember\RawMaterialAnalysisService.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryService.cs" />
     <Compile Include="SteelMember\SubProjectService.cs" />
     <Compile Include="PublicInfoManage\ScheduleService.cs" />

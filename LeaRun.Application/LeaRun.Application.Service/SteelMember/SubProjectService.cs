@@ -22,25 +22,20 @@ namespace LeaRun.Application.Service.SteelMember
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="queryJson">查询参数</param>
+        /// <param name="levels">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<SubProjectEntity> GetList(string queryJson)
+        public IEnumerable<SubProjectEntity> GetList(string levels)
         {
             var expression = LinqExtensions.True<SubProjectEntity>();
-            var queryParam = queryJson.ToJObject();
             //查询条件
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            if (!string.IsNullOrEmpty(levels))
             {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-                    case "FullName":              //工程名称
-                        expression = expression.And(t => t.FullName.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
+                int level = Convert.ToInt32(levels);
+                expression = expression.And(t => t.Levels<=level);
+            }
+            else
+            {
+                expression = expression.And(t => t.Levels > 0);
             }
             return this.BaseRepository().IQueryable(expression).ToList();
         }
@@ -107,7 +102,7 @@ namespace LeaRun.Application.Service.SteelMember
                 else
                 {
                     var level = BaseRepository().IQueryable(s => s.Id == entity.ParentId).ToList()[0].Levels;
-                    entity.Levels = level+1;
+                    entity.Levels = level + 1;
                 }
 
                 this.BaseRepository().Insert(entity);

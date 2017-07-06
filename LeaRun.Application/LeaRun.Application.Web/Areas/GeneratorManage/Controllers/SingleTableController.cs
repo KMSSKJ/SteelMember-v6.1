@@ -7,12 +7,9 @@ using LeaRun.CodeGenerator;
 using LeaRun.CodeGenerator.Model;
 using LeaRun.CodeGenerator.Template;
 using LeaRun.Util;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers

@@ -47,12 +47,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 子项目树 
         /// </summary>
-        /// <param name="keyword">关键字</param>
+        /// <param name="Levels">关键字</param>
         /// <returns>返回树形Json</returns>
         [HttpGet]
-        public ActionResult GetTreeJson(string keyword)
+        public ActionResult GetTreeJson(string Levels)
         {
-            var data = subprojectbll.GetList(keyword);
+            var data = subprojectbll.GetList(Levels);
             var treeList = new List<TreeEntity>();
             foreach (SubProjectEntity item in data)
             {
