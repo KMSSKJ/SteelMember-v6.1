@@ -15,7 +15,6 @@
     var KeyValue = request('KeyValue');
     //var ItemID = request('ItemID');
     var TreeId = request('TreeId');
-
     $(function () {
         initialPage();
         UploadFile();
@@ -33,10 +32,12 @@
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
                 } else {
-                    $finish.attr('disabled', 'disabled');
+                   // $finish.attr('disabled', 'disabled');
+                    $finish.removeAttr('disabled');
+                    $next.attr('disabled', 'disabled');
                 }
             } else {
-                $finish.attr('disabled', 'disabled');
+               // $finish.attr('disabled', 'disabled');
                 $next.removeAttr('disabled');
             }
         });
@@ -63,7 +64,7 @@
         //        $finish.removeAttr('disabled');
         //    }
         //});
-         
+
         //完成提交保存
         $finish.click(function () {
             AcceptClick();
@@ -75,13 +76,25 @@
     function InitControl() {
 
          /*添加构件开始====================================*/
-        //构件类型
-        $("#TreeId").ComboBoxTree({
-            url: "/SteelMember/File/TreeJson",
+        //子项目
+        $("#SubProjectId").ComboBoxTree({
+            param: { Levels: 1 },
+            url: '../../SteelMember/File/SubProjectTreeJson',
             description: "==请选择==",
             height: "200px",
             allowSearch: true,
         });
+
+        //构件类别
+        $("#Category").ComboBox({
+            param: { EnCode: "MemberType" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            description: "==请选择==",
+            id: "ItemValue",
+            text: "ItemName",
+            height: "230px"
+        });
+
             //获取表单
             if (!!KeyValue) {
                 $.SetForm({
@@ -110,6 +123,7 @@
 
                         $("#form1").SetWebControls(data);
                         $("#TreeId").ComboBoxTreeSetValue(data.TreeId);//.trigger("change");
+                        $("#Category").ComboBoxTreeSetValue(data.Category);
 
                         //加载单位
                         $("#MemberUnit").ComboBox({
@@ -123,7 +137,9 @@
                     }
                 });
             } else {
-                $("#TreeId").ComboBoxTreeSetValue(TreeId);
+                $("#SubProjectId").ComboBoxTreeSetValue(TreeId);
+               // $("#MemberId").val()="@Guid.NewGuid().ToString()"
+
                 //获取单位
                 $("#MemberUnit").ComboBox({
                     url: "../../SteelMember/ProjectManagement/GetMemderUnit",
@@ -132,7 +148,6 @@
                     description: "==请选择==",
                     height: "200px",
                     allowSearch: false,
-                  
                 });
             }
     }
@@ -216,9 +231,12 @@
                 height: $(window).height() - 165,
                 width: $(window).width() - 11,
                 colModel: [
-                    { label: "主键", name: "RawMaterialId", hidden: true },
+                    { label: "主键", name: "MemberRawMaterialId", hidden: true },
+                    { label: "外键", name: "RawMaterialId", hidden: true },
+                    { label: "外键", name: "MemberId", hidden: true },
                     { label: "外键", name: "TreeId", hidden: true },
                     { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
+                    { label: "型号", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
                     { label: "规格", name: "RawMaterialStandard", width: 140, align: "left", sortable: false },
                     { label: "数量", name: "Qty", width: 500, align: "left", sortable: false },
                 ],
@@ -247,32 +265,33 @@
                 dialogOpen({
                     id: "RawMaterialNumForm",
                     title: '添加材料',
-                    url: '/SteelMember/RawMaterialLibrary/RawMaterialNumForm?MemberId =' + MemberId,// 
+                    url: '/SteelMember/RawMaterialLibrary/RawMaterialNumForm?MemberId =' + MemberId,
                     width: "450px",
                     height: "400px",
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick(function (data) {
-                            RawMaterialJson.push(data);
-                            RawMaterialListToListTreeJson(RawMaterialJson);
+                                RawMaterialJson.push(data);
+                                RawMaterialListToListTreeJson(RawMaterialJson);
                         });
                     }
                 });
             })
             //编辑
             $("#lr-edit-RawMaterial").click(function () {
-                var MemberMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
-                if (checkedRow(MemberMaterialId)) {
+                var RawMaterialModel = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialModel");
+                var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
+                if (checkedRow(RawMaterialModel)) {
                     dialogOpen({
                         id: "RawMaterialNumForm",
                         title: '编辑目录',
                        // url: '/SteelMember/RawMaterial/Form?treeId=' + treeId + "&moduleId=" + escape(moduleId) + "&type=edit",
-                        url: '/SteelMember/RawMaterialLibrary/RawMaterialNumForm?MemberId=' + MemberId + '&type=edit',
+                        url: '/SteelMember/RawMaterialLibrary/RawMaterialNumForm?RawMaterialModel=' + RawMaterialModel + '&MemberId=' + MemberId+ '&type=edit',
                         width: "450px",
                         height: "400px",
                         callBack: function (iframeId) {
                             top.frames[iframeId].AcceptClick(function (data) {
                                 $.each(RawMaterialJson, function (i) {
-                                    if (RawMaterialJson[i].MemberMaterialId == MemberMaterialId) {
+                                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
                                         RawMaterialJson[i] = data;
                                     }
                                 });
@@ -284,10 +303,10 @@
             })
             //删除
             $("#lr-delete-RawMaterial").click(function () {
-                var MemberMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("MemberMaterialId");
-                if (checkedRow(MemberMaterialId)) {
+                var RawMaterialModel = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialModel");
+                if (checkedRow(RawMaterialModel)) {
                     $.each(RawMaterialJson, function (i) {
-                        if (RawMaterialJson[i].MemberMaterialId == MemberMaterialId) {
+                        if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
                             RawMaterialJson.splice(i, 1);
                             RawMaterialListToListTreeJson(RawMaterialJson);
                             return false;
@@ -299,17 +318,16 @@
 
 
         /*添加原材料结束====================================*/
-
+        var SubProjectId = $("#SubProjectId").attr('data-value');
         $._ExistField = function (controlId, url, param) {
-            var a = $("#TreeId").attr('data-value');
             var $control = $("#" + controlId);
-            if (!$control.val() || a == undefined || a == "" || a == '' || a == null) {
+            if (!$control.val() || SubProjectId == undefined || SubProjectId == "" || SubProjectId == '' || SubProjectId == null) {
                 return false;
             }
 
             var data = {
-                keyValue: keyValue,
-                treeId: a
+                keyValue: $control.val(),
+                SubProjectId: SubProjectId
             };
             data[controlId] = $control.val();
             var options = $.extend(data, param);
@@ -333,6 +351,47 @@
             });
         }
 
+        //返回原材料验证值
+        function ExistRawMaterial(RawMaterialModel) {
+            var a;
+            if (RawMaterialJson.length > 0) {
+                $.each(RawMaterialJson, function (i) {
+                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
+                       a=1;
+                    } else {
+                       a=0;
+                    }
+                })
+            } else {
+                a = 0;
+            }
+            if (a==0) {
+                return false;
+            } else {
+                return true;
+            }
+         }
+
+        //返回原材料实体
+        function RawMaterialModel(RawMaterialModel) {
+            var data;
+            if (RawMaterialJson.length > 0) {
+                $.each(RawMaterialJson, function (i) {
+                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
+                        data = RawMaterialJson[i];
+                    } else {
+                        data = 0;
+                    }
+                })
+            } else {
+                data = 0;
+            }
+            if (data == 0) {
+                return false;
+            } else {
+                return data;
+            }
+        }
 
         //保存表单
         function AcceptClick() {
@@ -341,9 +400,9 @@
             }
             var postData = $("#form1").GetWebControls(KeyValue);
             postData["MemberUnit"] = $("#MemberUnit").attr('data-text');
-            postData["moduleRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
+            postData["MemberRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
             $.SaveForm({
-                url: "../../SteelMember/File/SubmitMember?KeyValue="+ KeyValue,
+                url: "../../SteelMember/File/SubmitMember?KeyValue=" + KeyValue + "&SubProjectId=" + SubProjectId,
                 param: postData,
                 loading: "正在保存数据...",
                 success: function () {
@@ -351,6 +410,8 @@
                 }
             })
         }
+
+
 </script>
 <style>
     .uploadify-queue {
@@ -367,34 +428,63 @@
     </div>
     <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
         <div class="step-pane active" id="step-1" style="margin-left: 0px; margin-top: 15px; margin-right: 30px;">
-            @*<input id="MemberId" type="hidden"/>*@
+            <input id="MemberId" type="hidden" value="@Guid.NewGuid().ToString()" />
             <input id="CAD_Drawing" type="hidden" />
             <input id="Model_Drawing" type="hidden" />
             <input id="Icon" type="hidden" />
+
             <div id="message" style="display: none"></div>
             <table class="form">
                 <tr>
                     <td class="formTitle">
+                        工程类型<font face="宋体">*</font>
+                    </td>
+                    <td class="formValue">
+                        <div id="SubProjectId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    </td>
+                    <td class="formTitle">
                         构件类型<font face="宋体">*</font>
                     </td>
                     <td class="formValue">
-                        <div id="TreeId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                    </td>
-                    <td class="formTitle">
-                        构件名称<font face="宋体">*</font>
-                    </td>
-                    <td class="formValue">
-                        <input id="MemberName" type="text" onblur="$._ExistField(this.id,'../../SteelMember/File/ExistMember')"  class="form-control" placeholder="请输入构件名称" isvalid="yes" checkexpession="NotNull" />
-                        @*<input id="MemberModel" type="text" class="txt required" datacol="yes" err="型号" checkexpession="NotNull" />*@
+                        <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
                 </tr>
                 <tr>
                     <td class="formTitle">
-                        单价<font face="宋体">*</font>
+                        构件名称<font face="宋体">*</font>
                     </td>
                     <td class="formValue">
-                        <input id="UnitPrice" type="text" class="form-control" placeholder="请输入单价" isvalid="yes" checkexpession="Double" />
+                        <input id="MemberName" type="text" onblur="$._ExistField(this.id,'../../SteelMember/File/ExistMember')" class="form-control" placeholder="请输入构件名称" isvalid="yes" checkexpession="NotNull" />
+                        @*<input id="MemberModel" type="text" class="txt required" datacol="yes" err="型号" checkexpession="NotNull" />*@
                     </td>
+                    <td class="formTitle">规格或型号</td>
+                    <td class="formValue">
+                        <input id="MemberModel" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="formTitle">构件单位</td>
+                    <td class="formValue">
+                        <div id="MemberUnit" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    </td>
+                    @*<td class="formTitle">
+                            单价<font face="宋体">*</font>
+                        </td>
+                        <td class="formValue">
+                            <input id="UnitPrice" type="text" class="form-control" placeholder="请输入单价" isvalid="yes" checkexpession="Double" />
+                        </td>*@
+                    <td class="formTitle">
+                        图标
+                    </td>
+                    <td class="formValue">
+                        <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
+                        <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
+                            <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
+                            <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                        </div>
+                    </td>
+
                 </tr>
                 <tr>
                     <td class="formTitle">
@@ -418,18 +508,6 @@
                         </div>
                     </td>
                 </tr>
-                @*<tr>
-                <td class="formTitle">
-                    图标
-                </td>
-                <td class="formValue">
-                    <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
-                    <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                        <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                        <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
-                    </div>
-                </td>
-            </tr>*@
             </table>
 
         </div>
@@ -443,7 +521,7 @@
             </div>
             <table id="gridTable-RawMaterial"></table>
         </div>
- 
+
     </div>
 </div>
 <div class="form-button" id="wizard-actions">
