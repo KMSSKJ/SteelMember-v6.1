@@ -35,7 +35,7 @@
             text: "ItemName",
             height: "150px",
         }).bind("change", function () {
-            var value = $(this).attr('data-text');
+            var value = $(this).attr('data-value');
             //加载规格或型号
             $("#RawMaterialStandard").ComboBox({
                 url: "../../SteelMember/RawMaterialAnalysis/RawMateriaType?type=" + value,
@@ -47,9 +47,7 @@
         //规格或型号
         $("#RawMaterialStandard").ComboBox({
             description: "==请选择==",
-            id: "ItemValue",
-            text: "ItemName",
-            //height: "200px",
+            height: "200px",
         })
         //获取表单
         if (!!keyValue) {
@@ -58,8 +56,12 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
+                    $("#RawMaterialCategory").trigger("change");
+                    $("#RawMaterialStandard").ComboBoxSetValue(data.RawMaterialStandard);
                 }
             })
+        } else {
+            $("#Category").ComboBoxTreeSetValue(category);
         }
     }
     //保存表单;

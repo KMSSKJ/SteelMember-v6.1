@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Util;
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
+using System;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -21,9 +23,9 @@ namespace LeaRun.Application.Service.SteelMember
         /// 获取列表
         /// </summary>
         /// <returns>返回列表</returns>
-        public List<RawMaterialLibraryEntity> GetList()
+        public List<RawMaterialLibraryEntity> GetList(Expression<Func<RawMaterialLibraryEntity, bool>> condition)
         {
-            return this.BaseRepository().IQueryable().ToList();
+            return this.BaseRepository().IQueryable(condition).ToList();
         }
         /// <summary>
         /// 获取列表

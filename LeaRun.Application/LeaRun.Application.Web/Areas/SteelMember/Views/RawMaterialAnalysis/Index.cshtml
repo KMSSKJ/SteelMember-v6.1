@@ -2,7 +2,8 @@
     ViewBag.Title = "列表页面";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-<script>;
+<script>
+;
     $(function () {
         InitialPage();
         GetTree();
@@ -30,6 +31,7 @@
 
     //加载树
     var _Category;
+    var HavesChildren;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
@@ -37,6 +39,10 @@
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
                 _Category = item.value;
+                HavesChildren = item.hasChildren;
+                //if (!HavesChildren) {
+                //    $('#btn_Search').trigger("click");
+                //}
                 $('#btn_Search').trigger("click");
             }
         };
@@ -54,10 +60,11 @@
             datatype: "json",
             colModel: [
                 { label: "主键", name: "Id", index: "Id", hidden: true },
-                { label: "原材料类型", name: "RawMaterialCategory", index: "RawMaterialCategory", width: 350, align: "left"},
-                { label: "规格或型号", name: "RawMaterialStandard", index: "RawMaterialStandard", width: 350, align: "left"},
+                { label: "原材料类型", name: "RawMaterialCategory", index: "RawMaterialCategory", width: 350, align: "left" },
+                { label: "规格或型号", name: "RawMaterialStandard", index: "RawMaterialStandard", width: 350, align: "left" },
                 { label: "数量", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 150, align: "left" },
-                { label: "单位", name: "RawMaterialUnit", index: "RawMaterialUnit", width: 100, align: "left"}
+                { label: "单位", name: "RawMaterialUnit", index: "RawMaterialUnit", width: 100, align: "left" },
+                { label: "描述", name: "Description", index: "Description", width: 100, align: "left" }
             ],
             viewrecords: true,
             rowNum: 30,
@@ -85,8 +92,8 @@
         $("#btn_Search").click(function () {
             var queryJson = {
                 //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                parentid: TreeId,
-                keyword: $("#txt_Keyword").val()
+                category: _Category,
+                rawMaterialModel: $("#txt_Keyword").val()
             }
             $gridTable.jqGrid('setGridParam', {
                 postData: { queryJson: JSON.stringify(queryJson) },
@@ -141,7 +148,7 @@
                 }
             })
         } else {
-            dialogMsg('请选择需要删除的原材料分析！', 0);
+            dialogMsg('请选择需要删除的数据！', 0);
         }
     }
 </script>

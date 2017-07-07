@@ -5,6 +5,7 @@ using LeaRun.Util.WebControl;
 using System.Web.Mvc;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System.Collections.Generic;
+using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -52,16 +53,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var watch = CommonHelper.TimerStart();
             var list = rawmaterialanalysisbll.GetPageList(pagination, queryJson);
             var data = new List<RawMaterialAnalysisModel>();
-            if (list.Count>0)
+            if (list.Count > 0)
             {
                 foreach (var item in list)
                 {
                     var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
                     var _model = new RawMaterialAnalysisModel();
+                    _model.Id = item.Id;
                     _model.RawMaterialCategory = model.Category;
                     _model.RawMaterialStandard = model.RawMaterialModel;
                     _model.RawMaterialDosage = item.RawMaterialDosage;
                     _model.RawMaterialUnit = model.Unit;
+                    _model.Description = item.Description;
                     data.Add(_model);
 
                 }
@@ -77,24 +80,29 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             };
             return ToJsonResult(jsonData);
         }
-
-        [HttpGet]
-        public ActionResult RawMateriaType(string type)
-        {
-            var data = rawmateriallibrarybll.GetList().FindAll(r=>r.Category.Trim()==type.Trim());
-            return ToJsonResult(data);
-        }
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="queryJson">查询参数</param>
+        /// <param name="type">查询参数</param>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetListJson(string queryJson)
+        public ActionResult RawMateriaType(string type)
         {
-            var data = rawmaterialanalysisbll.GetList(queryJson);
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            if (!string.IsNullOrEmpty(type))
+            {
+                expression = expression.And(r => r.Category.Trim() == type.Trim());
+            }
+            var data = rawmateriallibrarybll.GetList(expression);
             return ToJsonResult(data);
         }
+
+        //[HttpGet]
+        //public ActionResult GetListJson(string queryJson)
+        //{
+        //    var data = rawmaterialanalysisbll.GetList(queryJson);
+        //    return ToJsonResult(data);
+        //}
         /// <summary>
         /// 获取实体 
         /// </summary>
@@ -104,7 +112,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson(string keyValue)
         {
             var data = rawmaterialanalysisbll.GetEntity(keyValue);
-            return ToJsonResult(data);
+            var model = rawmateriallibrarybll.GetEntity(data.RawMaterialId);
+
+            var _model = new RawMaterialAnalysisModel();
+            _model.Category = data.Category;
+            _model.RawMaterialCategory = model.Category;
+            _model.RawMaterialStandard = model.RawMaterialModel;
+            _model.RawMaterialDosage = data.RawMaterialDosage;
+            _model.RawMaterialUnit = model.Unit;
+            _model.Description = data.Description;
+
+            return Content(_model.ToJson());
         }
         #endregion
 
@@ -131,9 +149,25 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, RawMaterialAnalysisEntity entity)
+        public ActionResult SaveForm(string keyValue, RawMaterialAnalysisModel entity)
         {
-            rawmaterialanalysisbll.SaveForm(keyValue, entity);
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            if (!string.IsNullOrEmpty(entity.RawMaterialCategory))
+            {
+                expression = expression.And(r => r.Category.Trim() == entity.RawMaterialCategory.Trim());
+            }
+            if (!string.IsNullOrEmpty(entity.RawMaterialStandard))
+            {
+                expression = expression.And(r => r.RawMaterialModel.Trim() == entity.RawMaterialStandard.Trim());
+            }
+            var data = rawmateriallibrarybll.GetList(expression)[0];
+            var model = new RawMaterialAnalysisEntity();
+            model.RawMaterialId = data.RawMaterialId;
+            model.RawMaterialDosage = entity.RawMaterialDosage;
+            model.Category = entity.Category;
+            model.Description = entity.Description;
+
+            rawmaterialanalysisbll.SaveForm(keyValue, model);
             return Success("操作成功。");
         }
         #endregion
