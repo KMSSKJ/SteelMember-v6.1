@@ -16,7 +16,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// 日 期：2017-07-06 10:42
     /// 描 述：原材料管理
     /// </summary>
-    public class RawMaterialLibraryService : RepositoryFactory<RawMaterialLibraryEntity>, RawMaterialLibraryIService
+    public class RawMaterialLibraryService : RepositoryFactory<RawMaterialLibraryEntity>,RawMaterialLibraryIService
     {
         #region 获取数据
         /// <summary>
@@ -70,6 +70,22 @@ namespace LeaRun.Application.Service.SteelMember
         public void RemoveForm(string keyValue)
         {
             this.BaseRepository().Delete(keyValue);
+        }
+        /// <summary>
+        /// 删除数据（批量）
+        /// </summary>
+        /// <param name="list"></param>
+        public void RemoveList(List<RawMaterialLibraryEntity> list)
+        {
+            this.BaseRepository().Delete(list);
+        }
+        /// <summary>
+        /// 批量修改
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<RawMaterialLibraryEntity> list)
+        {
+            this.BaseRepository().Update(list);
         }
         /// <summary>
         /// 保存表单（新增、修改）
@@ -129,7 +145,7 @@ namespace LeaRun.Application.Service.SteelMember
                 expression = expression.And(t => t.RawMaterialId != keyValue);
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
-        }
+        }        
         #endregion
 
     }

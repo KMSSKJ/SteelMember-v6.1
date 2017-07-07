@@ -3,7 +3,6 @@
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 <script>
-;
     $(function () {
         InitialPage();
         GetTree();
@@ -28,7 +27,6 @@
             e.stopPropagation();
         });
     }
-
     //加载树
     var _Category;
     var HavesChildren;
@@ -43,7 +41,8 @@
                 //if (!HavesChildren) {
                 //    $('#btn_Search').trigger("click");
                 //}
-                $('#btn_Search').trigger("click");
+                //$('#btn_Search').trigger("click");
+                query();
             }
         };
         //初始化
@@ -60,11 +59,29 @@
             datatype: "json",
             colModel: [
                 { label: "主键", name: "Id", index: "Id", hidden: true },
-                { label: "原材料类型", name: "RawMaterialCategory", index: "RawMaterialCategory", width: 350, align: "left" },
-                { label: "规格或型号", name: "RawMaterialStandard", index: "RawMaterialStandard", width: 350, align: "left" },
+                { label: "原材料类型", name: "RawMaterialCategory", index: "RawMaterialCategory", width: 150, align: "left" },
+                { label: "规格或型号", name: "RawMaterialStandard", index: "RawMaterialStandard", width: 150, align: "left" },
                 { label: "数量", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 150, align: "left" },
                 { label: "单位", name: "RawMaterialUnit", index: "RawMaterialUnit", width: 100, align: "left" },
-                { label: "描述", name: "Description", index: "Description", width: 100, align: "left" }
+                {
+                    label: "提交状态", name: "IsSubmitReview", index: "IsSubmitReview", width: 100, align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                {
+                    label: "审核状态", name: "IsPassed", index: "IsPassed", width: 100, align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未审核</span>";
+                        } else if (cellvalue == 1) {
+                            return "<span class=\"label label-success\">通过</span>";
+                        } else {
+                            return "<span class=\"label label-danger\">失败</span>";
+                        }
+                    }
+                },
+                { label: "描述", name: "Description", index: "Description", width: 300, align: "left" }
             ],
             viewrecords: true,
             rowNum: 30,
@@ -75,6 +92,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -82,30 +101,14 @@
                 $('#' + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //查询条件
-        $("#queryCondition .dropdown-menu li").click(function () {
-            var text = $(this).find('a').html();
-            var value = $(this).find('a').attr('data-value');
-            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
-        });
-        //查询事件
-        $("#btn_Search").click(function () {
-            var queryJson = {
-                //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                category: _Category,
-                rawMaterialModel: $("#txt_Keyword").val()
-            }
-            $gridTable.jqGrid('setGridParam', {
-                postData: { queryJson: JSON.stringify(queryJson) },
-                page: 1
-            }).trigger('reloadGrid');
-        });
-        //查询回车
-        $('#txt_Keyword').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                $('#btn_Search').trigger("click");
-            }
-        });
+    }
+    //查询事件
+    function query() {
+        var queryJson = { category: _Category }
+        $('#gridTable').jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
     }
     //新增
     function btn_add() {
@@ -123,17 +126,24 @@
     //编辑
     function btn_edit() {
         var keyValue = $('#gridTable').jqGridRowValue('Id');
+        var review = $('#gridTable').jqGridRowValue('IsSubmitReview');
+        var passed = $('#gridTable').jqGridRowValue('IsPassed');
         if (checkedRow(keyValue)) {
-            dialogOpen({
-                id: 'Form',
-                title: '编辑原材料分析',
-                url: '/SteelMember/RawMaterialAnalysis/Form?keyValue=' + keyValue,
-                width: '600px',
-                height: '330px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                }
-            })
+            if (review != "<i class=\"fa fa-toggle-on\"></i>" || passed == "<span class=\"label label-danger\">失败</span>") {
+                dialogOpen({
+                    id: 'Form',
+                    title: '编辑原材料分析',
+                    url: '/SteelMember/RawMaterialAnalysis/Form?keyValue=' + keyValue,
+                    width: '600px',
+                    height: '330px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            } else {
+                dialogMsg("已提交的数据只有审核失败后才能作编辑！", 0);
+                return false;
+            }
         }
     }
     //删除
@@ -151,6 +161,101 @@
             dialogMsg('请选择需要删除的数据！', 0);
         }
     }
+    //提交
+    function btn_submitReview() {
+        var keyValues = $('#gridTable').jqGridRowValue('Id');
+        var reviews = $('#gridTable').jqGridRowValue('IsSubmitReview');
+        if (checkedArray(keyValues)) {
+            var reviewsArr = reviews.split(",");
+            if (reviewsArr.length > 0) {
+                for (var i in reviewsArr) {
+                    if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
+                        dialogMsg("所选数据中包含已提交的数据，请重新选择！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            dialogConfirm("注：您确定要提交所选中的数据吗？", function (r) {
+                if (r) {
+                    Loading(true, "正在提交...");
+                    window.setTimeout(function () {
+                        $.ajax({
+                            url: "../../SteelMember/RawMaterialAnalysis/SubmitReview",
+                            data: { keyValues: keyValues },
+                            type: "post",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.type == "3") {
+                                    dialogAlert(data.message, -1);
+                                } else {
+                                    Loading(false);
+                                    dialogMsg(data.message, 1);
+                                }
+                                $('#gridTable').trigger('reloadGrid');
+                            }
+                        });
+                    }, 500);
+                }
+            });
+        }
+    }
+    //审核
+    function btn_passed(type) {
+        var keyValues = $('#gridTable').jqGridRowValue('Id');
+        var reviews = $('#gridTable').jqGridRowValue('IsSubmitReview');
+        var passeds = $('#gridTable').jqGridRowValue('IsPassed');
+        if (checkedArray(keyValues)) {
+            var reviewsArr = reviews.split(",");
+            var passedsArr = passeds.split(",");
+            if (reviewsArr.length > 0) {
+                for (var i in reviewsArr) {
+                    if (reviewsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
+                        dialogMsg("所选数据中包含未提交的数据，请重新选择！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            if (passedsArr.length > 0) {
+                for (var i in passedsArr) {
+                    if (passedsArr[i] == "<span class=\"label label-success\">通过</span>" || passedsArr[i] == "<span class=\"label label-danger\">失败</span>") {
+                        dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            var message = "";
+            if (type == 1) {
+                message = "注：您确定要对所选中的数据进行审核通过吗？";
+            } else {
+                message = "注：您确定要对所选中的数据进行审核失败吗？";
+            }
+            dialogConfirm(message, function (r) {
+                if (r) {
+                    Loading(true, "正在处理...");
+                    window.setTimeout(function () {
+                        $.ajax({
+                            url: "../../SteelMember/RawMaterialAnalysis/ReviewOperation",
+                            data: { keyValues: keyValues, type: type },
+                            type: "post",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.type == "3") {
+                                    dialogAlert(data.message, -1);
+                                } else {
+                                    Loading(false);
+                                    dialogMsg(data.message, 1);
+                                }
+                                $('#gridTable').trigger('reloadGrid');
+                            }
+                        });
+                    }, 500);
+                }
+            });
+        }
+    }
 </script>
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
@@ -164,24 +269,21 @@
         <div class="center-Panel">
             <div class="panel-Title">分析列表</div>
             <div class="titlePanel">
-                <div class="title-search">
-                    <table>
-                        <tr>
-                            <td style="padding-left: 2px;">
-                                <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询的型号" style="width: 200px;" />
-                            </td>
-                            <td style="padding-left: 5px;">
-                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
                         <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
                         <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>&nbsp;提交</a>
+                        <a id="lr-passed" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-legal"></i>&nbsp;审核<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li id="lr-success"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
+                            <li id="lr-danger"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
+                        </ul>
+
                     </div>
                     <script>$('.toolbar').authorizeButton()</script>
                 </div>

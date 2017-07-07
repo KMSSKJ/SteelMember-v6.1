@@ -11,7 +11,7 @@ namespace LeaRun.Application.IService.SteelMember
     /// 日 期：2017-07-06 22:03
     /// 描 述：原材料分析
     /// </summary>
-    public interface RawMaterialAnalysisIService
+    public interface RawMaterialAnalysisIService:IBaseService<RawMaterialAnalysisEntity>
     {
         #region 获取数据
         /// <summary>
@@ -48,6 +48,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
         void SaveForm(string keyValue, RawMaterialAnalysisEntity entity);
+
         #endregion
     }
 }
