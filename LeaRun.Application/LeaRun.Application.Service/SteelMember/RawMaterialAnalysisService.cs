@@ -8,6 +8,8 @@ using System.Linq;
 using LeaRun.Util;
 
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
+using System;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -29,14 +31,14 @@ namespace LeaRun.Application.Service.SteelMember
         {
             var expression = LinqExtensions.True<RawMaterialAnalysisEntity>();
             var queryParam = queryJson.ToJObject();
-            if (!queryParam["RawMaterialModel"].IsEmpty())
+            if (!queryParam["rawMaterialModel"].IsEmpty())
             {
-                string RawMaterialModel = queryParam["RawMaterialModel"].ToString();
+                string RawMaterialModel = queryParam["rawMaterialModel"].ToString();
                 expression = expression.And(t => t.RawMaterialEntitys.RawMaterialModel.Contains(RawMaterialModel));
             }
-            if (!queryParam["Category"].IsEmpty())
+            if (!queryParam["category"].IsEmpty())
             {
-                string Category = queryParam["Category"].ToString();
+                string Category = queryParam["category"].ToString();
                 expression = expression.And(t => t.Category == Category);
             }
             return this.BaseRepository().FindList(expression, pagination).ToList();
@@ -44,11 +46,10 @@ namespace LeaRun.Application.Service.SteelMember
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public List<RawMaterialAnalysisEntity> GetList()
+        public List<RawMaterialAnalysisEntity> GetList(Expression<Func<RawMaterialAnalysisEntity, bool>> condition)
         {
-            return this.BaseRepository().IQueryable().ToList();
+            return this.BaseRepository().IQueryable(condition).ToList();
         }
         /// <summary>
         /// 获取实体

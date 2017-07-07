@@ -1,6 +1,8 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
@@ -16,7 +18,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// 获取列表
         /// </summary>
         /// <returns>返回列表</returns>
-        List<RawMaterialLibraryEntity> GetList();
+        List<RawMaterialLibraryEntity> GetList(Expression<Func<RawMaterialLibraryEntity, bool>> condition);
         /// <summary>
         /// 获取列表
         /// </summary>
