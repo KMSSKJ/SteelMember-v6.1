@@ -1,24 +1,24 @@
-ï»¿@{
-    ViewBag.Title = "åŸææ–™åˆ†æ";
+@{;
+    ViewBag.Title = "ÁĞ±íÒ³Ãæ";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-
 <script>
+;
     $(function () {
         InitialPage();
         GetTree();
         GetGrid();
     });
-    //åˆå§‹åŒ–é¡µé¢
+    //³õÊ¼»¯Ò³Ãæ
     function InitialPage() {
-        //layoutå¸ƒå±€
+        //layout²¼¾Ö
         $('#layout').layout({
             applyDemoStyles: true,
             onresize: function () {
                 $(window).resize()
             }
         });
-        //resizeé‡è®¾(è¡¨æ ¼ã€æ ‘å½¢)å®½é«˜
+        //resizeÖØÉè(±í¸ñ¡¢Ê÷ĞÎ)¿í¸ß
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
@@ -28,205 +28,160 @@
             e.stopPropagation();
         });
     }
-    //åŠ è½½æ ‘
-    var _parentId = "";
+
+    //¼ÓÔØÊ÷
+    var _Category;
+    var HavesChildren;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            url: "../../SteelMember/RawMaterialAnalysis/GetTreeJson",
+            param: { Levels: 2 },
+            url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
-                _parentId = item.id;
+                _Category = item.value;
+                HavesChildren = item.hasChildren;
+                //if (!HavesChildren) {
+                //    $('#btn_Search').trigger("click");
+                //}
                 $('#btn_Search').trigger("click");
             }
         };
-        //åˆå§‹åŒ–
+        //³õÊ¼»¯
         $("#itemTree").treeview(item);
     }
-    //åŠ è½½è¡¨æ ¼
+    //¼ÓÔØ±í¸ñ
     function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
-            url: "../../SteelMember/RawMaterialAnalysis/GetPageListJson?parentid=0",
-            datatype: "json",
-            height: $(window).height() - 170,
             autowidth: true,
+            height: $(window).height() - 170,
+            url: "../../SteelMember/RawMaterialAnalysis/GetPageListJson",
+            datatype: "json",
             colModel: [
-                { label: "ä¸»é”®", name: "Id", index: "Id", hidden: true },
-                {
-                    label: "åŸææ–™ç±»å‹", name: "RawMaterialTreeId", index: "RawMaterialTreeId", width: 350, align: "left",
-                    formatter: function (cellvalue, options, rowObject) {
-                        var a = "";
-                        $.ajax({
-                            url: "../../SteelMember/RawMaterialAnalysis/GetTreeName",
-                            data: { keyValue: cellvalue },
-                            type: "get",
-                            dataType: "text",
-                            async: false,
-                            success: function (data) {
-                                a = data;
-                            },
-
-                        })
-                        return a;
-                    }
-                },
-                {
-                    label: "è§„æ ¼æˆ–å‹å·", name: "RawMaterialId", index: "RawMaterialId", width: 350, align: "left",
-                    formatter: function (cellvalue, options, rowObject) {
-                        var a = "";
-                        $.ajax({
-                            url: "../../SteelMember/RawMaterialLibrary/GetFormJson",
-                            data: { keyValue: cellvalue },
-                            type: "get",
-                            dataType: "json",
-                            async: false,
-                            success: function (data) {
-                                a = data.RawMaterialModel;
-                            },
-
-                        })
-                        return a;
-                    }
-                },
-                { label: "æ•°é‡", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 150, align: "left" },
-                {
-                    label: "å•ä½", name: "RawMaterialId", index: "RawMaterialId", width: 100, align: "left",
-                    formatter: function (cellvalue, options, rowObject) {
-                        var a = "";
-                        $.ajax({
-                            url: "../../SteelMember/RawMaterialLibrary/GetUnitName",
-                            data: { keyValue: cellvalue },
-                            type: "get",
-                            dataType: "text",
-                            async: false,
-                            success: function (data) {
-                                a = data;
-                            },
-
-                        })
-                        return a;
-                    }
-                }
+                { label: "Ö÷¼ü", name: "Id", index: "Id", hidden: true },
+                { label: "Ô­²ÄÁÏÀàĞÍ", name: "RawMaterialCategory", index: "RawMaterialCategory", width: 350, align: "left" },
+                { label: "¹æ¸ñ»òĞÍºÅ", name: "RawMaterialStandard", index: "RawMaterialStandard", width: 350, align: "left" },
+                { label: "ÊıÁ¿", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 150, align: "left" },
+                { label: "µ¥Î»", name: "RawMaterialUnit", index: "RawMaterialUnit", width: 100, align: "left" },
+                { label: "ÃèÊö", name: "Description", index: "Description", width: 100, align: "left" }
             ],
             viewrecords: true,
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
             sortname: 'Id',
+            sortorder: 'desc',
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
             onSelectRow: function () {
-                selectedRowIndex = $("#" + this.id).getGridParam('selrow');
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
             gridComplete: function () {
-                $("#" + this.id).setSelection(selectedRowIndex, false);
+                $('#' + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //æŸ¥è¯¢æ¡ä»¶
+        //²éÑ¯Ìõ¼ş
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
             var value = $(this).find('a').attr('data-value');
             $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
         });
-        //æŸ¥è¯¢äº‹ä»¶
+        //²éÑ¯ÊÂ¼ş
         $("#btn_Search").click(function () {
+            var queryJson = {
+                //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                category: _Category,
+                rawMaterialModel: $("#txt_Keyword").val()
+            }
             $gridTable.jqGrid('setGridParam', {
-                url: "../../SteelMember/RawMaterialAnalysis/GetPageListJson",
-                postData: {
-                    parentid: _parentId,
-                    //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                    keyword: $("#txt_Keyword").val()
-                }
+                postData: { queryJson: JSON.stringify(queryJson) },
+                page: 1
             }).trigger('reloadGrid');
         });
-        //æŸ¥è¯¢å›è½¦
+        //²éÑ¯»Ø³µ
         $('#txt_Keyword').bind('keypress', function (event) {
             if (event.keyCode == "13") {
                 $('#btn_Search').trigger("click");
             }
         });
     }
-    //æ–°å¢
+    //ĞÂÔö
     function btn_add() {
         dialogOpen({
-            id: "Form",
-            title: 'æ–°å¢åŸææ–™',
-            url: '/SteelMember/RawMaterialAnalysis/Form?parentId=' + _parentId,
-            width: "600px",
-            height: "330px",
+            id: 'Form',
+            title: 'Ìí¼ÓÔ­²ÄÁÏ·ÖÎö',
+            url: '/SteelMember/RawMaterialAnalysis/Form?category=' + escape(_Category),
+            width: '600px',
+            height: '330px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
         });
-    };
-    //ç¼–è¾‘
+    }
+    //±à¼­
     function btn_edit() {
-        var keyValue = $("#gridTable").jqGridRowValue("Id");
+        var keyValue = $('#gridTable').jqGridRowValue('Id');
         if (checkedRow(keyValue)) {
             dialogOpen({
-                id: "Form",
-                title: 'ç¼–è¾‘åŸææ–™',
+                id: 'Form',
+                title: '±à¼­Ô­²ÄÁÏ·ÖÎö',
                 url: '/SteelMember/RawMaterialAnalysis/Form?keyValue=' + keyValue,
-                width: "600px",
-                height: "330px",
+                width: '600px',
+                height: '330px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
-            });
+            })
         }
-    };
-    //åˆ é™¤
+    }
+    //É¾³ı
     function btn_delete() {
-        var keyValue = $("#gridTable").jqGridRowValue("Id");
+        var keyValue = $('#gridTable').jqGridRowValue('Id');
         if (keyValue) {
             $.RemoveForm({
-                url: "../../SteelMember/RawMaterialAnalysis/RemoveForm",
+                url: '../../SteelMember/RawMaterialAnalysis/RemoveForm',
                 param: { keyValue: keyValue },
                 success: function (data) {
-                    $("#gridTable").trigger("reloadGrid");
+                    $('#gridTable').trigger('reloadGrid');
                 }
             })
         } else {
-            dialogMsg('è¯·é€‰æ‹©éœ€è¦åˆ é™¤çš„æ•°æ®é¡¹ï¼', 0);
+            dialogMsg('ÇëÑ¡ÔñĞèÒªÉ¾³ıµÄÊı¾İ£¡', 0);
         }
     }
 </script>
+
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">å·¥ç¨‹ç›®å½•</div>
+            <div class="panel-Title">¹¤³ÌÄ¿Â¼</div>
             <div id="itemTree"></div>
         </div>
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">åˆ†æåˆ—è¡¨</div>
+            <div class="panel-Title">·ÖÎöÁĞ±í</div>
             <div class="titlePanel">
                 <div class="title-search">
                     <table>
                         <tr>
-                            @*<td>
-                                    <div id="queryCondition" class="btn-group">
-                                        <a class="btn btn-default">å‹å·</a>
-                                    </div>
-                                </td>*@
                             <td style="padding-left: 2px;">
-                                <input id="txt_Keyword" type="text" class="form-control" placeholder="è¯·è¾“å…¥è¦æŸ¥è¯¢çš„å‹å·" style="width: 200px;" />
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="ÇëÊäÈëÒª²éÑ¯µÄĞÍºÅ" style="width: 200px;" />
                             </td>
                             <td style="padding-left: 5px;">
-                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;æŸ¥è¯¢</a>
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;²éÑ¯</a>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="toolbar">
                     <div class="btn-group">
-                        <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;åˆ·æ–°</a>
-                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;æ–°å¢</a>
-                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;ç¼–è¾‘</a>
-                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;åˆ é™¤</a>
+                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;Ë¢ĞÂ</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;ĞÂÔö</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;±à¼­</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;É¾³ı</a>
                     </div>
                     <script>$('.toolbar').authorizeButton()</script>
                 </div>
@@ -238,3 +193,4 @@
         </div>
     </div>
 </div>
+

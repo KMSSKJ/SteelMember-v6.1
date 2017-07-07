@@ -1,160 +1,113 @@
-ï»¿@{
-    ViewBag.Title = "åŸææ–™åˆ†æ";
+@{;
+    ViewBag.Title = "±íµ¥Ò³Ãæ";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
 <script>
     var keyValue = request('keyValue');
-    var parentId = request('parentId');
+    var category = request('category');
     $(function () {
         initControl();
-    })
-    //åˆå§‹åŒ–æ§ä»¶
+    });
+    //³õÊ¼»¯¿Ø¼ş
     function initControl() {
-        //å•ä½
-        $("#UnitId").ComboBox({
-            url: "../../SteelMember/RawMaterialAnalysis/GetUnitJson",
-            id: "UnitId",
-            text: "UnitName",
-            description: "==è¯·é€‰æ‹©==",
-            height: "120px",
-            allowSearch: true
+        //µ¥Î»
+        //$("#RawMaterialUnit").ComboBox({
+        //    param: { EnCode: "UnitName" },
+        //    url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+        //    id: "ItemValue",
+        //    text: "ItemName",
+        //    description: "==ÇëÑ¡Ôñ==",
+        //    height: "120px",
+        //});
+        //¹¤³Ì
+        $("#Category").ComboBoxTree({
+            param: { Levels: 2 },
+            url: "../../SteelMember/SubProject/GetTreeJson",
+            description: "==ÇëÑ¡Ôñ==",
+            height: "150px"
         });
-        //å·¥ç¨‹
-        $("#TreeId").ComboBoxTree({
-            url: "../../SteelMember/RawMaterialAnalysis/GetTreeJson",
-            description: "==è¯·é€‰æ‹©==",
+        //Ô­²ÄÁÏÀàĞÍ
+        $("#RawMaterialCategory").ComboBox({
+            param: { EnCode: "RawMaterialType" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            description: "==ÇëÑ¡Ôñ==",
+            id: "ItemValue",
+            text: "ItemName",
             height: "150px",
-            allowSearch: true,
-            onSelect: function (record) {
-                alert(record.id);
-            }
-        })
-
-        //åŸææ–™ç±»å‹
-        $("#RawMaterialTreeId").ComboBoxTree({
-            url: "../../SteelMember/RawMaterialLibrary/GetTreeJson",
-            description: "==è¯·é€‰æ‹©==",
-            height: "150px",
-            allowSearch: true,
         }).bind("change", function () {
             var value = $(this).attr('data-value');
-            //åŠ è½½è§„æ ¼æˆ–å‹å·
-            $("#RawMaterialId").ComboBoxTree({
-                url: "../../SteelMember/RawMaterialLibrary/GetListJson?parentid=" + value,
-                description: "==è¯·é€‰æ‹©==",
-                allowSearch: true
-            });            
+            //¼ÓÔØ¹æ¸ñ»òĞÍºÅ
+            $("#RawMaterialStandard").ComboBox({
+                url: "../../SteelMember/RawMaterialAnalysis/RawMateriaType?type=" + value,
+                description: "==ÇëÑ¡Ôñ==",
+                id: "RawMaterialModel",
+                text: "RawMaterialModel",
+            });
         });
-        //è§„æ ¼æˆ–å‹å·
-        $("#RawMaterialId").ComboBoxTree({
-            description: "==è¯·é€‰æ‹©==",
-            //height: "200px",
-            allowSearch: true
+        //¹æ¸ñ»òĞÍºÅ
+        $("#RawMaterialStandard").ComboBox({
+            description: "==ÇëÑ¡Ôñ==",
+            height: "200px",
         })
-        //è·å–è¡¨å•
+        //»ñÈ¡±íµ¥
         if (!!keyValue) {
-            alert(keyValue);
             $.SetForm({
                 url: "../../SteelMember/RawMaterialAnalysis/GetFormJson",
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
-                    $("#RawMaterialTreeId").trigger("change");
-                    $("#RawMaterialId").ComboBoxTreeSetValue(data.RawMaterialId);
+                    $("#RawMaterialCategory").trigger("change");
+                    $("#RawMaterialStandard").ComboBoxSetValue(data.RawMaterialStandard);
                 }
-            });
+            })
         } else {
-            $("#TreeId").ComboBoxTreeSetValue(parentId);
+            $("#Category").ComboBoxTreeSetValue(category);
         }
     }
-    //ä¿å­˜è¡¨å•
+    //±£´æ±íµ¥;
     function AcceptClick() {
         if (!$('#form1').Validform()) {
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
-        if (postData["TreeId"] == "") {
-            postData["TreeId"] = 0;
-        }
         $.SaveForm({
             url: "../../SteelMember/RawMaterialAnalysis/SaveForm?keyValue=" + keyValue,
             param: postData,
-            loading: "æ­£åœ¨ä¿å­˜æ•°æ®...",
+            loading: "ÕıÔÚ±£´æÊı¾İ...",
             success: function () {
-                $.currentIframe().$("#gridTable").resetSelection();
                 $.currentIframe().$("#gridTable").trigger("reloadGrid");
             }
         })
     }
-
-    $._ExistField = function (controlId, url, param) {
-        var a = $("#TreeId").attr('data-value');
-        var $control = $("#" + controlId);
-        if (!$control.val() || a == undefined || a == "" || a == '' || a == null) {
-            return false;
-        }
-        var data = {
-            keyValue: keyValue,
-            treeId: a
-        };
-        data[controlId] = $control.val();
-        var options = $.extend(data, param);
-        $.ajax({
-            url: url,
-            data: options,
-            type: "get",
-            dataType: "text",
-            async: false,
-            success: function (data) {
-                if (data.toLocaleLowerCase() == 'false') {
-                    ValidationMessage($control, 'å·²å­˜åœ¨,è¯·é‡æ–°è¾“å…¥');
-                    $control.attr('fieldexist', 'yes');
-                } else {
-                    $control.attr('fieldexist', 'no');
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                dialogMsg(errorThrown, -1);
-            }
-        });
-    }
-
-
 </script>
-<div style="margin-left: 10px; margin-top: 30px; margin-right: 30px;">
+<div style="margin-top: 20px; margin-right: 30px;">
     <table class="form">
         <tr>
 
-            <td class="formTitle">å·¥ç¨‹<font face="å®‹ä½“">*</font></td>
+            <td class="formTitle">¹¤³Ì<font face="ËÎÌå">*</font></td>
             <td class="formValue">
-                <div id="TreeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="Category" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
 
-            <td class="formTitle">åŸææ–™ç±»å‹<font face="å®‹ä½“">*</font></td>
+            <td class="formTitle">Ô­²ÄÁÏÀàĞÍ<font face="ËÎÌå">*</font></td>
             <td class="formValue">
-                <div id="RawMaterialTreeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
-
-
-            @*<th class="formTitle">è§„æ ¼<font face="å®‹ä½“">*</font></th>
-                <td class="formValue">
-                    <input id="RawMaterialStandard" type="text" class="form-control" placeholder="è¯·è¾“å…¥è§„æ ¼" isvalid="yes" checkexpession="NotNull" />
-                </td>*@
         </tr>
         <tr>
-            <td class="formTitle">è§„æ ¼æˆ–å‹å·<font face="å®‹ä½“">*</font></td>
+            <td class="formTitle">¹æ¸ñ»òĞÍºÅ<font face="ËÎÌå">*</font></td>
             <td class="formValue">
-                <div id="RawMaterialId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="RawMaterialStandard" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
-            <th class="formTitle">æ•°é‡<font face="å®‹ä½“">*</font></th>
+            <th class="formTitle">ÊıÁ¿<font face="ËÎÌå">*</font></th>
             <td class="formValue">
-                <input id="RawMaterialDosage" type="text" class="form-control" placeholder="è¯·è¾“å…¥æ•°é‡" isvalid="yes" checkexpession="PositiveInteger" />
+                <input id="RawMaterialDosage" type="text" class="form-control" placeholder="ÇëÊäÈëÊıÁ¿" isvalid="yes" checkexpession="PositiveInteger" />
             </td>
 
         </tr>
         <tr>
             <th class="formTitle" valign="top" style="padding-top: 4px;">
-                æè¿°
+                ÃèÊö
             </th>
             <td class="formValue" colspan="3">
                 <textarea id="Description" class="form-control" style="height: 70px;"></textarea>

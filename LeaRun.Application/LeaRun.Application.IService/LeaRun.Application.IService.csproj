@@ -61,9 +61,11 @@
     <Compile Include="SteelMember\MemberMaterialIService.cs" />
     <Compile Include="SteelMember\MemberProcessIService.cs" />
     <Compile Include="SteelMember\ProjectInfoIService.cs" />
+    <Compile Include="SteelMember\RawMaterialAnalysisIService.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryIService.cs" />
     <Compile Include="SteelMember\SubProjectIService.cs" />
     <Compile Include="IAccountService.cs" />
+    <Compile Include="IBaseService.cs" />
     <Compile Include="PublicInfoManage\IScheduleService.cs" />
     <Compile Include="SystemManage\IAreaService.cs" />
     <Compile Include="SystemManage\ICodeRuleService.cs" />

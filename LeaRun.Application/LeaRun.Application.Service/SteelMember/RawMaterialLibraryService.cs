@@ -4,10 +4,9 @@ using LeaRun.Data.Repository;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System.Linq;
-
 using LeaRun.Util;
-
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
 using System;
 
 namespace LeaRun.Application.Service.SteelMember
@@ -24,9 +23,9 @@ namespace LeaRun.Application.Service.SteelMember
         /// 获取列表
         /// </summary>
         /// <returns>返回列表</returns>
-        public IEnumerable<RawMaterialLibraryEntity> GetList()
+        public List<RawMaterialLibraryEntity> GetList(Expression<Func<RawMaterialLibraryEntity, bool>> condition)
         {
-            return this.BaseRepository().IQueryable().ToList();
+            return this.BaseRepository().IQueryable(condition).ToList();
         }
         /// <summary>
         /// 获取列表
@@ -91,18 +90,20 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
+        #endregion 
+
         #region 验证数据
         /// <summary>
         /// 名称不能重复
         /// </summary>
-        /// <param name="FullName">名称</param>
+        /// <param name="query">名称</param>
         /// <param name="category"></param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
-        public bool ExistFullName(string FullName,string category, string keyValue)
+        public bool Exist(string query, string category, string keyValue)
         {
             var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
-            expression = expression.And(t => t.RawMaterialModel == FullName);
+            expression = expression.And(t => t.RawMaterialModel == query);
             if (!string.IsNullOrEmpty(keyValue))
             {
                 expression = expression.And(t => t.RawMaterialId != keyValue);
@@ -113,8 +114,23 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        public bool Exist(string query, string keyValue)
+        {
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            expression = expression.And(t => t.RawMaterialModel == query);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                expression = expression.And(t => t.RawMaterialId != keyValue);
+            }
+            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
+        }
         #endregion
 
-        #endregion
     }
 }

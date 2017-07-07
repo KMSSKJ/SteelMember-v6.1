@@ -4,6 +4,7 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SteelMember
 {
@@ -21,9 +22,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// 获取列表
         /// </summary>
         /// <returns>返回列表</returns>
-        public IEnumerable<RawMaterialLibraryEntity> GetList()
+        public List<RawMaterialLibraryEntity> GetList(Expression<Func<RawMaterialLibraryEntity, bool>> condition)
         {
-            return service.GetList();
+            return service.GetList(condition);
         }
         /// <summary>
         /// 获取列表
@@ -84,12 +85,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <summary>
         /// 名称不能重复
         /// </summary>
-        /// <param name="account">账户值</param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
         public bool ExistFullName(string FullName, string category, string keyValue = "")
         {
-            return service.ExistFullName(FullName, category,keyValue);
+            return service.Exist(FullName, category, keyValue);
         }
         #endregion
     }

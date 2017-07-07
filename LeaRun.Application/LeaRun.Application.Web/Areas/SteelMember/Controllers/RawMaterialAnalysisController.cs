@@ -1,38 +1,36 @@
-ï»¿using LeaRun.Application.Repository.SteelMember.IBLL;
-using LeaRun.Data.Entity;
+using LeaRun.Application.Entity.SteelMember;
+using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
-using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
+using System.Collections.Generic;
+using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
+    /// <summary>
+    /// °æ ±¾ 6.1
+    /// ÈÕ ÆÚ£º2017-07-06 22:03
+    /// Ãè Êö£ºÔ­²ÄÁÏ·ÖÎö
+    /// </summary>
     public class RawMaterialAnalysisController : MvcControllerBase
     {
-        [Inject]
-        public TreeIBLL treeBll { get; set; }
-        [Inject]
-        public MemberUnitIBLL unitBll { get; set; }
-        [Inject]
-        public RawMaterialIBLL rawMaterialBll { get; set; }
-        [Inject]
-        public RawMaterialAnalysisIBLL rawMaterialAnalysisBll { get; set; }
-        //
-        // GET: /SteelMember/RawMaterialAnalysis/
+        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
+        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
 
+        #region ÊÓÍ¼¹¦ÄÜ
+        /// <summary>
+        /// ÁĞ±íÒ³Ãæ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public ActionResult Index()
         {
-            Session["moduleId"] = Request["moduleId"];
             return View();
         }
-
         /// <summary>
-        /// åŸææ–™åˆ†æè¡¨å•
+        /// ±íµ¥Ò³Ãæ
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -40,64 +38,39 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-        /// <summary>
-        /// åŸææ–™åˆ†æåˆ—è¡¨ 
-        /// </summary>
-        /// <returns>è¿”å›æ ‘å½¢Json</returns>
-        [HttpGet]
-        public ActionResult GetTreeJson()
-        {
-            string moduleId = Session["moduleId"].ToString();
-            var data = treeBll.Find(t => t.ModuleId == moduleId).ToList();
-            var treeList = new List<TreeEntity>();
-            foreach (RMC_Tree item in data)
-            {
-                TreeEntity tree = new TreeEntity();
-                bool hasChildren = data.Count(t => t.ParentID == item.TreeID) == 0 ? false : true;
-                tree.id = item.TreeID;
-                tree.text = item.TreeName;
-                tree.value = item.TreeID;
-                tree.isexpand = true;
-                tree.complete = true;
-                tree.hasChildren = hasChildren;
-                tree.parentId = item.ParentID;
-                tree.img = item.Icon;
-                treeList.Add(tree);
-            }
-            return Content(treeList.TreeToJson());
-        }
+        #endregion
 
+        #region »ñÈ¡Êı¾İ
         /// <summary>
-        /// åŸææ–™åˆ†æåˆ—è¡¨
+        /// »ñÈ¡ÁĞ±í
         /// </summary>
-        /// <param name="parentid"></param>
-        /// <param name="keyword"></param>
-        /// <param name="pagination">åˆ†é¡µå‚æ•°</param>
-        /// <returns>è¿”å›åˆ†é¡µåˆ—è¡¨Json</returns>
+        /// <param name="pagination">·ÖÒ³²ÎÊı</param>
+        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
+        /// <returns>·µ»Ø·ÖÒ³ÁĞ±íJson</returns>
         [HttpGet]
-        public ActionResult GetPageListJson(string parentid, string keyword, Pagination pagination)
+        public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
-            Expression<Func<RMC_RawMaterialAnalysis, bool>> func = f => f.Id != 0;
-            if (parentid != "0" && parentid != "")
-            {
-                func = f => f.TreeId == parentid;
-            }
-
             var watch = CommonHelper.TimerStart();
-            int total = 0;
-            var data = rawMaterialAnalysisBll.FindPage(pagination.page
-                                             , pagination.rows
-                                             , func
-                                             , false
-                                             , f => f.Id.ToString()
-                                             , out total
-                                             ).ToList();
-                                             
-            if (data.Count() > 0 && keyword != "" && keyword != null)
+            var list = rawmaterialanalysisbll.GetPageList(pagination, queryJson);
+            var data = new List<RawMaterialAnalysisModel>();
+            if (list.Count > 0)
             {
-                data = data.FindAll(t => t.RawMaterialId.ToString().Contains(keyword));
+                foreach (var item in list)
+                {
+                    var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+                    var _model = new RawMaterialAnalysisModel();
+                    _model.Id = item.Id;
+                    _model.RawMaterialCategory = model.Category;
+                    _model.RawMaterialStandard = model.RawMaterialModel;
+                    _model.RawMaterialDosage = item.RawMaterialDosage;
+                    _model.RawMaterialUnit = model.Unit;
+                    _model.Description = item.Description;
+                    data.Add(_model);
+
+                }
             }
-            var JsonData = new
+
+            var jsonData = new
             {
                 rows = data,
                 total = pagination.total,
@@ -105,81 +78,98 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 records = pagination.records,
                 costtime = CommonHelper.TimerEnd(watch)
             };
-            return Content(JsonData.ToJson());
+            return ToJsonResult(jsonData);
+        }
+        /// <summary>
+        /// »ñÈ¡ÁĞ±í
+        /// </summary>
+        /// <param name="type">²éÑ¯²ÎÊı</param>
+        /// <returns>·µ»ØÁĞ±íJson</returns>
+        [HttpGet]
+        public ActionResult RawMateriaType(string type)
+        {
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            if (!string.IsNullOrEmpty(type))
+            {
+                expression = expression.And(r => r.Category.Trim() == type.Trim());
+            }
+            var data = rawmateriallibrarybll.GetList(expression);
+            return ToJsonResult(data);
         }
 
+        //[HttpGet]
+        //public ActionResult GetListJson(string queryJson)
+        //{
+        //    var data = rawmaterialanalysisbll.GetList(queryJson);
+        //    return ToJsonResult(data);
+        //}
         /// <summary>
-        /// åŸææ–™åˆ†æå®ä½“ è¿”å›å¯¹è±¡Json
+        /// »ñÈ¡ÊµÌå 
         /// </summary>
-        /// <param name="keyValue">ä¸»é”®å€¼</param>
-        /// <returns></returns>
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <returns>·µ»Ø¶ÔÏóJson</returns>
         [HttpGet]
         public ActionResult GetFormJson(string keyValue)
         {
-            var data = rawMaterialAnalysisBll.Find(r => r.Id.ToString() == keyValue).Single();
-            return Content(data.ToJson());
+            var data = rawmaterialanalysisbll.GetEntity(keyValue);
+            var model = rawmateriallibrarybll.GetEntity(data.RawMaterialId);
+
+            var _model = new RawMaterialAnalysisModel();
+            _model.Category = data.Category;
+            _model.RawMaterialCategory = model.Category;
+            _model.RawMaterialStandard = model.RawMaterialModel;
+            _model.RawMaterialDosage = data.RawMaterialDosage;
+            _model.RawMaterialUnit = model.Unit;
+            _model.Description = data.Description;
+
+            return Content(_model.ToJson());
         }
+        #endregion
 
+        #region Ìá½»Êı¾İ
         /// <summary>
-        /// åŸææ–™ç±»å‹å®ä½“ è¿”å›å­—ç¬¦ä¸²
+        /// É¾³ıÊı¾İ
         /// </summary>
-        /// <param name="keyValue">ä¸»é”®å€¼</param>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult GetTreeName(string keyValue)
-        {
-            var data = treeBll.Find(r => r.TreeID == keyValue).Single();
-            return Content(data.TreeName.ToString());
-        }
-        
-
-        /// <summary>
-        /// ä¿å­˜åŸææ–™åˆ†æè¡¨å•ï¼ˆæ–°å¢ã€ä¿®æ”¹ï¼‰
-        /// </summary>
-        /// <param name="keyValue">ä¸»é”®å€¼</param>
-        /// <param name="rawMaterialAnalysisEntity">åŸææ–™å®ä½“</param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, RMC_RawMaterialAnalysis rawMaterialAnalysisEntity)
-        {
-
-            if (keyValue == "" || keyValue == null)
-            {
-                rawMaterialAnalysisBll.Add(rawMaterialAnalysisEntity);
-            }
-            else
-            {
-                var data = rawMaterialAnalysisBll.Find(r => r.Id.ToString() == keyValue).Single();
-                data.RawMaterialId = rawMaterialAnalysisEntity.RawMaterialId;
-                data.RawMaterialTreeId = rawMaterialAnalysisEntity.RawMaterialTreeId;
-                data.TreeId = rawMaterialAnalysisEntity.TreeId;
-                data.RawMaterialDosage = rawMaterialAnalysisEntity.RawMaterialDosage;
-                data.Description = rawMaterialAnalysisEntity.Description;
-
-                rawMaterialAnalysisBll.Modified(data);
-
-            }
-            return Success("æ“ä½œæˆåŠŸã€‚");
-        }
-        /// <summary>
-        /// åˆ é™¤åŸææ–™åˆ†æ
-        /// </summary>
-        /// <param name="keyValue">ä¸»é”®å€¼</param>
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
-            List<int> ids = new List<int>();
-            if (keyValue != "" || keyValue != null)
-            {
-                ids.Add(Convert.ToInt32(keyValue));
-            }
-            rawMaterialAnalysisBll.Remove(ids);
-            return Success("åˆ é™¤æˆåŠŸã€‚");
+            rawmaterialanalysisbll.RemoveForm(keyValue);
+            return Success("É¾³ı³É¹¦¡£");
         }
+        /// <summary>
+        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
+        /// </summary>
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <param name="entity">ÊµÌå¶ÔÏó</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult SaveForm(string keyValue, RawMaterialAnalysisModel entity)
+        {
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            if (!string.IsNullOrEmpty(entity.RawMaterialCategory))
+            {
+                expression = expression.And(r => r.Category.Trim() == entity.RawMaterialCategory.Trim());
+            }
+            if (!string.IsNullOrEmpty(entity.RawMaterialStandard))
+            {
+                expression = expression.And(r => r.RawMaterialModel.Trim() == entity.RawMaterialStandard.Trim());
+            }
+            var data = rawmateriallibrarybll.GetList(expression)[0];
+            var model = new RawMaterialAnalysisEntity();
+            model.RawMaterialId = data.RawMaterialId;
+            model.RawMaterialDosage = entity.RawMaterialDosage;
+            model.Category = entity.Category;
+            model.Description = entity.Description;
+
+            rawmaterialanalysisbll.SaveForm(keyValue, model);
+            return Success("²Ù×÷³É¹¦¡£");
+        }
+        #endregion
     }
 }

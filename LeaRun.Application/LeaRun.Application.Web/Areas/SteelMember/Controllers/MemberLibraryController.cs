@@ -103,7 +103,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         public virtual ActionResult GetRawMaterialJson(string KeyValue)
         {
-            var RawMaterial = rawmateriallibrarybll.GetList().ToList().FindAll(f => f.Category == KeyValue);
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            if (!string.IsNullOrEmpty(KeyValue.Trim()))
+            {
+                expression = expression.And(r => r.Category.Trim() == KeyValue.Trim());
+            }
+            var RawMaterial = rawmateriallibrarybll.GetList(expression);
             return Content(RawMaterial.ToJson());
         }
 

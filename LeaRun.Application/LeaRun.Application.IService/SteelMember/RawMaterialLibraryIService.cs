@@ -1,6 +1,8 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
@@ -9,14 +11,14 @@ namespace LeaRun.Application.IService.SteelMember
     /// 日 期：2017-07-06 10:42
     /// 描 述：原材料管理
     /// </summary>
-    public interface RawMaterialLibraryIService
+    public interface RawMaterialLibraryIService:IBaseService<RawMaterialLibraryEntity>
     {
         #region 获取数据
         /// <summary>
         /// 获取列表
         /// </summary>
         /// <returns>返回列表</returns>
-        IEnumerable<RawMaterialLibraryEntity> GetList();
+        List<RawMaterialLibraryEntity> GetList(Expression<Func<RawMaterialLibraryEntity, bool>> condition);
         /// <summary>
         /// 获取列表
         /// </summary>
@@ -44,16 +46,6 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
         void SaveForm(string keyValue, RawMaterialLibraryEntity entity);
-        #endregion
-
-        #region 验证数据
-        /// <summary>
-        /// 名称不能重复
-        /// </summary>
-        /// <param name="FullName">名称值</param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        bool ExistFullName(string FullName,string category, string keyValue);
         #endregion
     }
 }
