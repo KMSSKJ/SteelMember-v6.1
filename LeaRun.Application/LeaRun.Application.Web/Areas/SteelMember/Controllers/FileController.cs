@@ -1245,7 +1245,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var data = subprojectbll.GetList(null).ToList().FindAll(f=>f.Id == entity.SubProjectId).SingleOrDefault();
                     str = Str.PinYin(data.FullName.Substring(0, 1)+ entity.Category.Substring(0, 1)).ToUpper();
 
-                    int Num = 0001;
+                    int Num = 1;
                     var MemberList = MemberLibraryCurrent.Find(f => f.SubProjectId == entity.SubProjectId).ToList();
                     Num = Num + MemberList.Count();
                     entitys.MemberId = entity.MemberId;
@@ -1259,11 +1259,30 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     entitys.MemberName = entity.MemberName;
                     entitys.UploadTime = DateTime.Now;
                     entitys.MemberUnit = entity.MemberUnit;
-                    entitys.UnitPrice = entity.UnitPrice;
                     entitys.IsRawMaterial = 0;
                     entitys.IsProcess = 0;
 
-                     //entitys.SectionalArea = entity.SectionalArea;
+                    if (entity.CAD_Drawing == null)
+                    {
+                        entity.CAD_Drawing = "1.png";
+                    }
+                    string filename = System.IO.Path.GetFileName(entity.CAD_Drawing);
+                    entitys.CAD_Drawing = filename;
+
+                    if (entity.Model_Drawing == null)
+                    {
+                        entity.Model_Drawing = "1.png";
+                    }
+                    string filename1 = System.IO.Path.GetFileName(entity.Model_Drawing);
+                    entitys.Model_Drawing = filename1;
+
+                    if (entity.Icon == null)
+                    {
+                        entity.Icon = "1.png";
+                    }
+                    string filename2 = System.IO.Path.GetFileName(entity.Icon);
+                    entitys.Icon = filename2;
+                    //entitys.SectionalArea = entity.SectionalArea;
                     //entitys.SurfaceArea = entity.SurfaceArea;
                     //entitys.TheoreticalWeight = entity.TheoreticalWeight;
                     //entitys.SectionalSize_h = entity.SectionalSize_h;
@@ -1293,26 +1312,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     //entitys.GravityCenterDistance_0 = entity.GravityCenterDistance_0;
                     //entitys.GravityCenterDistance_x0 = entity.GravityCenterDistance_x0;
                     //entitys.GravityCenterDistance_y0 = entity.GravityCenterDistance_y0;
-                    if (entity.CAD_Drawing == null)
-                    {
-                        entity.CAD_Drawing = "1.png";
-                    }
-                    string filename = System.IO.Path.GetFileName(entity.CAD_Drawing);
-                    entitys.CAD_Drawing = filename;
 
-                    if (entity.Model_Drawing == null)
-                    {
-                        entity.Model_Drawing = "1.png";
-                    }
-                    string filename1 = System.IO.Path.GetFileName(entity.Model_Drawing);
-                    entitys.Model_Drawing = filename1;
-
-                    if (entity.Icon == null)
-                    {
-                        entity.Icon = "1.png";
-                    }
-                    string filename2 = System.IO.Path.GetFileName(entity.Icon);
-                    entitys.Icon = filename2;
                     MemberLibraryCurrent.Add(entitys);
 
                     var MemberRawMaterial = MemberMaterialCurrent.Find(f => f.MemberId == entity.MemberId).ToList();
@@ -1556,15 +1556,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberMaterialModel EntityModel = new MemberMaterialModel();
                     EntityModel.MemberMaterialId = item.MemberMaterialId;
                     EntityModel.MemberId = item.MemberId;
-                    EntityModel.RawMaterialId = item.RawMaterialId;
-                   
-                    EntityModel.MaterialNumber =item.RawMaterialNumber;
+                    EntityModel.RawMaterialId = item.RawMaterialId.ToString();
+                    EntityModel.RawMaterialNumber =item.RawMaterialNumber;
                     EntityModel.Description = item.Description;
                     var RawMaterial =RawMaterialLibraryCurrent.Find(f => f.RawMaterialId == item.RawMaterialId).SingleOrDefault();
                     var Unit = MemberUnitCurrent.Find(f => f.UnitId == RawMaterial.UnitId).SingleOrDefault();
                     var Tree = TreeCurrent.Find(f => f.TreeID == item.TreeId).SingleOrDefault();
-                    EntityModel.RawMaterialName = Tree.TreeName + item.RawMaterialModel;
-                    EntityModel.RawMaterialStandard = RawMaterial.RawMaterialStandard;
+                    EntityModel.RawMaterialModel = Tree.TreeName + item.RawMaterialModel;
                     EntityModel.UnitName = Unit.UnitName;
                     EntityModelList.Add(EntityModel);
                 }

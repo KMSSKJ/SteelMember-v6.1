@@ -79,9 +79,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="account">ÕË»§Öµ</param>
         /// <param name="keyValue">Ö÷¼ü</param>
         /// <returns></returns>
-        public bool ExistFullName(string FullName, string keyValue = "")
+        public bool ExistFullName(string FullName, string TreeName, string keyValue = "")
         {
-            return service.ExistFullName(FullName, keyValue);
+            return service.ExistFullName(FullName, TreeName, keyValue);
         }
         #endregion
     }

@@ -48,7 +48,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="FullName">Ãû³ÆÖµ</param>
         /// <param name="keyValue">Ö÷¼ü</param>
         /// <returns></returns>
-        bool ExistFullName(string FullName, string keyValue);
+        bool ExistFullName(string FullName, string TreeName, string keyValue);
         #endregion
     }
 }
