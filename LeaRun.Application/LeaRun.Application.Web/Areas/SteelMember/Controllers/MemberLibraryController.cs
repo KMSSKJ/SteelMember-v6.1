@@ -11,6 +11,9 @@ using System.IO;
 using System;
 using System.Data.OleDb;
 using LeaRun.Util.Extension;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
+using LeaRun.Application.Busines.SystemManage;
+using System.Threading;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -27,6 +30,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberProcessBLL memberprocessbll = new MemberProcessBLL();
         private ProjectInfoBLL projectinfobll = new ProjectInfoBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
 
         #region 视图功能
         /// <summary>
@@ -146,6 +150,37 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = memberlibrarybll.GetEntity(keyValue);
             return ToJsonResult(data);
         }
+
+        /// <summary>
+        /// 按钮列表Json转换原材料Json 
+        /// </summary>
+        /// <param name="RawMaterialJson">按钮列表</param>
+        /// <returns>返回列表Json</returns>
+        [HttpGet]
+        public ActionResult ListToRawMaterialJson(string RawMaterialJson)
+        {
+            var data = RawMaterialJson.ToList<MemberMaterialModel>();
+            var DataList = new List<MemberMaterialModel>();
+            foreach (MemberMaterialModel item in data)
+            {
+                MemberMaterialModel Entity = new MemberMaterialModel();
+                Entity.MemberMaterialId = item.MemberMaterialId;
+                Entity.RawMaterialModel = item.RawMaterialModel;
+                var data1 = rawmateriallibrarybll.GetList().ToList().Find(f => f.RawMaterialModel == item.RawMaterialModel);
+                Entity.RawMaterialId = data1.RawMaterialId;
+                Entity.TreeName = item.TreeName;
+                Entity.RawMaterialNumber = item.RawMaterialNumber;
+                DataList.Add(Entity);
+            }
+            return Content(DataList.ToJson());
+        }
+
+    public ActionResult GetMemberRawMaterialJson(string MemberId)
+        {
+            var data = membermaterialbll.GetList(null).ToList().FindAll(f => f.MemberId == MemberId).ToJson();
+            return Content(data);
+        }
+
         #endregion
 
         #region 提交数据
@@ -189,14 +224,78 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
+        /// <param name="keyValue1"></param>
         /// <param name="entity">实体对象</param>
+        /// <param name="MemberRawMaterialListJson"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, MemberLibraryEntity entity)
+        public ActionResult SaveForm(string keyValue, MemberLibraryEntity entity,string MemberRawMaterialListJson)
         {
-            memberlibrarybll.SaveForm(keyValue, entity);
+            string str = "";
+            string str1 = "";
+            MemberLibraryEntity entitys = new MemberLibraryEntity();
+
+            var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == entity.SubProjectId);
+            str = Str.PinYin(data.FullName.Substring(0, 1) + entity.Category.Substring(0, 1)).ToUpper();
+
+            int Num = 1;
+            var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.SubProjectId== entity.SubProjectId);
+            Num = Num + MemberList.Count();
+
+            for (int i = 0; i < 4 - Num.ToString().Length; i++)
+            {
+                str1 += "0";
+            }
+            entitys.MemberNumbering = str + str1 + Num.ToString();
+            entitys.MemberId = entity.MemberId;
+            entitys.Category = entity.Category;
+            entitys.SubProjectId = entity.SubProjectId;
+            entitys.MemberName = entity.MemberName.Trim();
+            entitys.MemberModel = entity.MemberModel.Trim();
+            entitys.UploadTime = DateTime.Now;
+            entitys.MemberUnit = entity.MemberUnit;
+            entitys.IsRawMaterial = 0;
+            entitys.IsProcess = 0;
+
+            if (entity.CAD_Drawing == null)
+            {
+                entity.CAD_Drawing = "1.png";
+            }
+            string filename = System.IO.Path.GetFileName(entity.CAD_Drawing);
+            entitys.CAD_Drawing = filename;
+
+            if (entity.Model_Drawing == null)
+            {
+                entity.Model_Drawing = "1.png";
+            }
+            string filename1 = System.IO.Path.GetFileName(entity.Model_Drawing);
+            entitys.Model_Drawing = filename1;
+
+            if (entity.Icon == null)
+            {
+                entity.Icon = "1.png";
+            }
+            string filename2 = System.IO.Path.GetFileName(entity.Icon);
+            entitys.Icon = filename2;
+
+            memberlibrarybll.SaveForm(keyValue, entitys);
+
+            var data1 = MemberRawMaterialListJson.ToList<MemberMaterialModel>();
+            if (data1.Count()>0)
+            {
+                foreach (var item in data1)
+                {
+                    MemberMaterialEntity _MemberLibraryEntity = new MemberMaterialEntity();
+                    _MemberLibraryEntity.MemberId = entity.MemberId;
+                    _MemberLibraryEntity.RawMaterialId = item.RawMaterialId;
+                    _MemberLibraryEntity.RawMaterialModel = item.RawMaterialModel;
+                    _MemberLibraryEntity.RawMaterialNumber = item.RawMaterialNumber;
+                    _MemberLibraryEntity.TreeName = item.TreeName;
+                    membermaterialbll.SaveForm(_MemberLibraryEntity.MemberMaterialId, _MemberLibraryEntity);
+                }
+            }
             return Success("操作成功。");
         }
 
@@ -633,6 +732,50 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         #endregion
 
+        #region 图片上传
+        /// <summary>
+        /// 上传用户头像
+        /// </summary>
+        /// <param name="Filedata">用户图片对象</param>
+        /// <returns></returns>
+        public ActionResult SubmitUploadify(HttpPostedFileBase Filedata)
+        {
+            try
+            {
+                Thread.Sleep(1000);////延迟500毫秒
+                                   //没有文件上传，直接返回
+                if (Filedata == null || string.IsNullOrEmpty(Filedata.FileName) || Filedata.ContentLength == 0)
+                {
+                    return HttpNotFound();
+                }
+                //获取文件完整文件名(包含绝对路径)
+                //文件存放路径格式：/Resource/Document/NetworkDisk/{日期}/{guid}.{后缀名}
+                //例如：/Resource/Document/Email/20130913/43CA215D947F8C1F1DDFCED383C4D706.jpg
+
+                string filename = Filedata.FileName;
+                string filename1 = filename.Substring(0, filename.LastIndexOf('.'));//获取文件名称，去除后缀名
+                string NewPath = string.Format("/Resource/Document/NetworkDisk/System/{0}/{1}", "Member", filename1);
+                long filesize = Filedata.ContentLength;
+                string FileEextension = Path.GetExtension(Filedata.FileName);
+
+                // virtualPath = string.Format("/Content/Images/Avatar/{0}/{1}/{2}{3}", UserId, uploadDate, fileGuid, FileEextension);
+                string fullFileName = this.Server.MapPath(NewPath + "/");
+                //创建文件夹，保存文件
+                string path = Path.GetDirectoryName(fullFileName);
+                Directory.CreateDirectory(path);
+                if (!System.IO.File.Exists(fullFileName))
+                {
+                    Filedata.SaveAs(fullFileName + filename);
+                }
+                return Content("../.." + NewPath + "/" + filename);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+        }
+        #endregion
+
         #region JqGrid导出Excel
         /// <summary>
         /// 导出Excell模板
@@ -707,12 +850,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         ///构件不能重复
         /// </summary>
         /// <param name="MemberName">型号</param>
+        /// <param name="Category"></param>
         /// <param name="KeyValue"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ExistMember(string MemberName, string KeyValue)
+        public ActionResult ExistMember(string MemberName,string Category, string KeyValue)
         {
-            bool IsOk = subprojectbll.ExistFullName(MemberName, KeyValue);
+            bool IsOk = memberlibrarybll.ExistFullName(MemberName.Trim(), Category, KeyValue);
             return Content(IsOk.ToString());
         }
 
@@ -720,13 +864,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         ///构件材料中型号不能重复
         /// </summary>
         /// <param name="RawMaterialModel">型号</param>
+        /// <param name="TreeName"></param>
         /// <param name="MemberId"></param>
 
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ExistMemberMaterial(string RawMaterialModel, string MemberId)
+        public ActionResult ExistMemberMaterial(string RawMaterialModel,string TreeName, string MemberId)
         {
-            bool IsOk = membermaterialbll.ExistFullName(RawMaterialModel, MemberId);
+            bool IsOk = membermaterialbll.ExistFullName(RawMaterialModel, TreeName, MemberId);
             return Content(IsOk.ToString());
         }
         #endregion
