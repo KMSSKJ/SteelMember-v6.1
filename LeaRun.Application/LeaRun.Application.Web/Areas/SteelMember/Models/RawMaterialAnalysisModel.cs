@@ -7,9 +7,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
 {
     public class RawMaterialAnalysisModel
     {
+        public string Id { get; set; }
         public string RawMaterialCategory { get; set; }
         public string RawMaterialStandard { get; set; }
         public string RawMaterialDosage { get; set; }
         public string RawMaterialUnit { get; set; }
+        public string Category { get; set; }
+        public string Description { get; set; }
     }
 }
