@@ -139,14 +139,3 @@ D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\Newtonsoft.Json.xml
 D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.dll
 D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.pdb
 D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.csprojResolveAssemblyReference.cache
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.CodeGenerator.dll
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.CodeGenerator.pdb
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.dll
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.Extension.dll
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\Newtonsoft.Json.dll
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.Extension.pdb
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.pdb
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\Newtonsoft.Json.xml
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.csprojResolveAssemblyReference.cache
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.dll
-E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.pdb
