@@ -214,7 +214,6 @@
     <Compile Include="Areas\SteelMember\Controllers\ProjectOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController1.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />

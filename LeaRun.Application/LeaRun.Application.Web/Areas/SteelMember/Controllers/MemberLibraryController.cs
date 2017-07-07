@@ -166,12 +166,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var data = RawMaterialJson.ToList<MemberMaterialModel>();
             var DataList = new List<MemberMaterialModel>();
+
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
             foreach (MemberMaterialModel item in data)
             {
                 MemberMaterialModel Entity = new MemberMaterialModel();
                 Entity.MemberMaterialId = item.MemberMaterialId;
                 Entity.RawMaterialModel = item.RawMaterialModel;
-                var data1 = rawmateriallibrarybll.GetList().ToList().Find(f => f.RawMaterialModel == item.RawMaterialModel);
+                expression = expression.And(f => f.RawMaterialModel == item.RawMaterialModel);
+                var data1 = rawmateriallibrarybll.GetList(expression)[0];
                 Entity.RawMaterialId = data1.RawMaterialId;
                 Entity.TreeName = item.TreeName;
                 Entity.RawMaterialNumber = item.RawMaterialNumber;
