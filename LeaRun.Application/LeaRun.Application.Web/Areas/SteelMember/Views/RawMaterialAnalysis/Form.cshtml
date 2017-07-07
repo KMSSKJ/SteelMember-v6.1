@@ -10,21 +10,32 @@
     });
     //初始化控件
     function initControl() {
-        //单位
-        //$("#RawMaterialUnit").ComboBox({
-        //    param: { EnCode: "UnitName" },
-        //    url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-        //    id: "ItemValue",
-        //    text: "ItemName",
-        //    description: "==请选择==",
-        //    height: "120px",
-        //});
         //工程
         $("#Category").ComboBoxTree({
             param: { Levels: 2 },
             url: "../../SteelMember/SubProject/GetTreeJson",
             description: "==请选择==",
-            height: "150px"
+            height: "150px",
+            click: function (item) {
+                //for (var i in item) {
+                //    alert(i);
+                //    alert(item[i]);
+                //}
+                if (!item.hasChildren) {
+                    //$(".tip_container").remove();
+                    //parameter.baseInfo.F_ObjectId = item.id;
+                    //parameter.baseInfo.F_ObjectName = item.text;
+                    //parameter.baseInfo.F_ObjectFormId = "";
+                    //$("#gridTable").jqGrid('setGridParam', {
+                    //    postData: { moduleId: item.id },
+                    //    url: "../../AuthorizeManage/ModuleButton/GetTreeListJson"
+                    //}).trigger('reloadGrid');
+                }
+                else {
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return false;
+                }
+            }
         });
         //原材料类型
         $("#RawMaterialCategory").ComboBox({
@@ -83,12 +94,10 @@
 <div style="margin-top: 20px; margin-right: 30px;">
     <table class="form">
         <tr>
-
             <td class="formTitle">工程<font face="宋体">*</font></td>
             <td class="formValue">
                 <div id="Category" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
-
             <td class="formTitle">原材料类型<font face="宋体">*</font></td>
             <td class="formValue">
                 <div id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
@@ -103,7 +112,6 @@
             <td class="formValue">
                 <input id="RawMaterialDosage" type="text" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="PositiveInteger" />
             </td>
-
         </tr>
         <tr>
             <th class="formTitle" valign="top" style="padding-top: 4px;">

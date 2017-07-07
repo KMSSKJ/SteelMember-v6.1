@@ -18,7 +18,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// 日 期：2017-07-06 22:03
     /// 描 述：原材料分析
     /// </summary>
-    public class RawMaterialAnalysisService : RepositoryFactory<RawMaterialAnalysisEntity>,RawMaterialAnalysisIService
+    public class RawMaterialAnalysisService : RepositoryFactory<RawMaterialAnalysisEntity>, RawMaterialAnalysisIService
     {
         #region 获取数据
         /// <summary>
@@ -72,6 +72,14 @@ namespace LeaRun.Application.Service.SteelMember
             this.BaseRepository().Delete(keyValue);
         }
         /// <summary>
+        /// 删除数据（批量）
+        /// </summary>
+        /// <param name="list"></param>
+        public void RemoveList(List<RawMaterialAnalysisEntity> list)
+        {
+            this.BaseRepository().Delete(list);
+        }
+        /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
@@ -90,6 +98,55 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
+        /// <summary>
+        /// 批量修改
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<RawMaterialAnalysisEntity> list)
+        {
+            this.BaseRepository().Update(list);
+        }
         #endregion
+
+        #region 验证数据
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        public bool Exist(string query, string keyValue)
+        {
+            var expression = LinqExtensions.True<RawMaterialAnalysisEntity>();
+            expression = expression.And(t => t.RawMaterialId == query);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                expression = expression.And(t => t.Id != keyValue);
+            }
+            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
+        }
+        /// <summary>
+        /// Exist
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="category"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        public bool Exist(string query, string category, string keyValue)
+        {
+            var expression = LinqExtensions.True<RawMaterialAnalysisEntity>();
+            expression = expression.And(t => t.RawMaterialId == query);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                expression = expression.And(t => t.Id != keyValue);
+            }
+            if (!string.IsNullOrEmpty(category))
+            {
+                expression = expression.And(t => t.Category == category);
+            }
+            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
+        }
+        #endregion
+
     }
 }
