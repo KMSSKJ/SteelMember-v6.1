@@ -81,5 +81,19 @@ namespace LeaRun.Application.Busines.SteelMember
             }
         }
         #endregion
+
+        #region 验证数据
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        /// <param name="account">账户值</param>
+        /// <param name="keyValue">主键</param>
+        /// <returns></returns>
+        public bool ExistFullName(string FullName, string Category, string keyValue = "")
+        {
+            return service.ExistFullName(FullName, Category, keyValue);
+        }
+        #endregion
     }
 }
+

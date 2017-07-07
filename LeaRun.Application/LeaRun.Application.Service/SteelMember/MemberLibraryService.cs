@@ -36,6 +36,7 @@ namespace LeaRun.Application.Service.SteelMember
                 string keyword = queryParam["keyword"].ToString();
                 switch (condition)
                 {
+                  
                     case "Category":              //构件类型
                         expression = expression.And(t => t.Category.Contains(keyword));
                         break;
@@ -48,6 +49,11 @@ namespace LeaRun.Application.Service.SteelMember
                     default:
                         break;
                 }
+            }
+            if(!queryParam["SubProject"].IsEmpty())
+            {
+                var SubProjectId = queryParam["SubProjectId"].ToString();
+                expression = expression.And(t => t.SubProjectId == SubProjectId);
             }
             return this.BaseRepository().FindList(expression,pagination);
         }
@@ -117,9 +123,32 @@ namespace LeaRun.Application.Service.SteelMember
             }
             else
             {
-                entity.Create();
+                //entity.Create();
                 this.BaseRepository().Insert(entity);
             }
+        }
+        #endregion
+
+        #region 验证数据
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        /// <param name="FullName">名称</param>
+        /// <param name="Category"></param>
+        /// <param name="keyValue">主键</param>
+        /// <returns></returns>
+        public bool ExistFullName(string FullName,string Category, string keyValue)
+        {
+            var expression = LinqExtensions.True<MemberLibraryEntity>();
+            expression = expression.And(t => t.MemberName.Trim() == FullName);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                expression = expression.And(t => t.SubProjectId.Trim() == keyValue);
+            }
+            if (!string.IsNullOrEmpty(Category)) { 
+                expression = expression.And(t => t.Category == Category);
+            }
+            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
         #endregion
     }

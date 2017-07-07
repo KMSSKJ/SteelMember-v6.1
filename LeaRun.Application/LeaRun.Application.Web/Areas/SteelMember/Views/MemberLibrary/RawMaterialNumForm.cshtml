@@ -10,7 +10,7 @@
         initControl();
     })
     var dataJson = top.Form.RawMaterialJson;
-    var frames = window.parent.window.document.getElementById("Form");
+    
     //初始化控件
     function initControl() {
         //加载原材料
@@ -20,7 +20,7 @@
         });
 
         //原材料类型
-        $("#TreeId").ComboBox({
+        $("#TreeName").ComboBox({
             param: { EnCode: "RawMaterialType" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
             description: "==请选择==",
@@ -41,6 +41,11 @@
 
         //获取表单
         if (!!RawMaterialModel) {
+            var frames = window.parent.window.document.getElementById("Form");
+            var data = frames.contentWindow.RawMaterialModel(RawMaterialModel);
+            $("#form1").SetWebControls(data);
+            $("#RawMaterialModel").ComboBoxSetValue(data.RawMaterialModel);
+
             //$.SetForm({
             //    url: "/SteelMember/RawMaterialLibrary/GetFormJson",
             //    param: { keyValue: MemberId },
@@ -49,9 +54,6 @@
             //    }
             //});
         } else {
-            var data = frames.contentWindow.RawMaterialModel(RawMaterialModel);
-            $("#form1").SetWebControls(data);
-            // $("#ui-select-text").html() = data.RawMaterialModel;
             //document.getElementById("#RawMaterialModel").innerHTML = data.RawMaterialModel;
            
         }
@@ -59,17 +61,21 @@
 
     //验证原材料不能重复
     $._ExistField = function (controlId, url, param) {
-        var TreeId = $("#TreeId").attr('data-value');
-        var RawMaterialModel = $("#ui-select-text").html();
-        if ($("#ui-select-text").html() == "==请选择==" || TreeId == undefined || TreeId == "" || TreeId == '' || TreeId == null) {
+        var TreeName= $("#TreeName").attr('data-value');
+        var RawMaterialModel = $("#RawMaterialModel").attr('data-value');
+        if (RawMaterialModel == "==请选择==" || TreeName == undefined || TreeName == "" || TreeName == '' || TreeName == null) {
             return false;
+        }
+        if (MemberId == "") {
+            MemberId = "M";
         }
         var data = {
             MemberId: MemberId,
-            treeId: TreeId
+            TreeName: TreeName
         };
         data["RawMaterialModel"] = RawMaterialModel;
         var options = $.extend(data, param);
+        var frames = window.parent.window.document.getElementById("Form");
         if (frames.contentWindow.ExistRawMaterial(RawMaterialModel)) {
             ValidationMessage($("#RawMaterialModel"), '数据表中已存在,请重新输入');
             $("#RawMaterialModel").attr('fieldexist', 'yes');
@@ -139,7 +145,7 @@
                 材料类型<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <div id="TreeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="TreeName" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
         <tr>
@@ -156,7 +162,7 @@
                 用量<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <input id="Sort" type="text" onmouseout="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMemberMaterial')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
+                <input id="RawMaterialNumber" type="text" onmouseout="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMemberMaterial')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
             </td>
         </tr>
     </table>

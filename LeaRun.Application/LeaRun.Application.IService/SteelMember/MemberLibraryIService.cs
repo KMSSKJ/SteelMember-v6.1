@@ -47,5 +47,15 @@ namespace LeaRun.Application.IService.SteelMember
         /// <returns></returns>
         void SaveForm(string keyValue, MemberLibraryEntity entity);
         #endregion
+
+        #region 验证数据
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        /// <param name="FullName">名称值</param>
+        /// <param name="keyValue">主键</param>
+        /// <returns></returns>
+        bool ExistFullName(string FullName, string Category, string keyValue);
+        #endregion
     }
 }

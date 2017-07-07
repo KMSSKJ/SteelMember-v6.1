@@ -15,12 +15,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// MemberMaterialId
         /// </summary>
         /// <returns></returns>
-        public int? MemberMaterialId { get; set; }
+        public string MemberMaterialId { get; set; }
         /// <summary>
         /// RawMaterialId
         /// </summary>
         /// <returns></returns>
-        public int? RawMaterialId { get; set; }
+        public string RawMaterialId { get; set; }
         /// <summary>
         /// MemberId
         /// </summary>
@@ -30,7 +30,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// TreeId
         /// </summary>
         /// <returns></returns>
-        public string TreeId { get; set; }
+        public string TreeName { get; set; }
         /// <summary>
         /// RawMaterialModel
         /// </summary>
@@ -52,18 +52,18 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <summary>
         /// 新增调用
         /// </summary>
-        //public override void Create()
-        //{
-        //    this.MemberMaterialId = Guid.NewGuid().ToString();
-        //                                    }
+        public override void Create()
+        {
+            this.MemberMaterialId = Guid.NewGuid().ToString();
+        }
         /// <summary>
         /// 编辑调用
         /// </summary>
         /// <param name="keyValue"></param>
-        //public override void Modify(string keyValue)
-        //{
-        //    this.MemberMaterialId = keyValue;
-        //                                    }
+        public override void Modify(string keyValue)
+        {
+            this.MemberMaterialId = keyValue;
+        }
         #endregion
     }
 }

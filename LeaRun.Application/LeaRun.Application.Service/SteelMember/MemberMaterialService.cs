@@ -75,15 +75,20 @@ namespace LeaRun.Application.Service.SteelMember
         /// 名称不能重复
         /// </summary>
         /// <param name="FullName">名称</param>
+        /// <param name="TreeName"></param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
-        public bool ExistFullName(string FullName, string keyValue)
+        public bool ExistFullName(string FullName, string TreeName, string keyValue)
         {
             var expression = LinqExtensions.True<MemberMaterialEntity>();
             expression = expression.And(t => t.RawMaterialModel == FullName);
+            if (!string.IsNullOrEmpty(TreeName))
+            {
+                expression = expression.And(t => t.TreeName == TreeName);
+            }
             if (!string.IsNullOrEmpty(keyValue))
             {
-                expression = expression.And(t => t.MemberId != keyValue);
+                expression = expression.And(t => t.MemberId == keyValue);
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
