@@ -215,9 +215,9 @@
     <Compile Include="Areas\SteelMember\Controllers\ProjectWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialPurchaseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
-    <Compile Include="Areas\SteelMember\Models\AnalysisRawMaterialModel.cs" />
     <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ListModel.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberMaterialModel.cs" />
@@ -230,6 +230,7 @@
     <Compile Include="Areas\SteelMember\Models\QueryMemberModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialAnalysisModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialLibraryModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialPurchaseModel.cs" />
     <Compile Include="Areas\SteelMember\SteelMemberAreaRegistration.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterIPController.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterTimeController.cs" />
@@ -1255,6 +1256,8 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\SubmitReview.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Index.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

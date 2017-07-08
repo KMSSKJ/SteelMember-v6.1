@@ -75,6 +75,8 @@
     <Compile Include="SteelMember\ProjectInfoEntity.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisEntity.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryEntity.cs" />
+    <Compile Include="SteelMember\RawMaterialPurchaseEntity.cs" />
+    <Compile Include="SteelMember\RawMaterialPurchaseInfoEntity.cs" />
     <Compile Include="SteelMember\SubProjectEntity.cs" />
     <Compile Include="SystemManage\AreaEntity.cs" />
     <Compile Include="AuthorizeManage\ModuleEntity.cs" />
