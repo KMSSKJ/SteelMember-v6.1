@@ -15,7 +15,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// MemberProcessId
         /// </summary>
         /// <returns></returns>
-        public int? MemberProcessId { get; set; }
+        public string MemberProcessId { get; set; }
         /// <summary>
         /// MemberId
         /// </summary>
@@ -57,18 +57,18 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <summary>
         /// 新增调用
         /// </summary>
-        //public override void Create()
-        //{
-        //    this.MemberProcessId = Guid.NewGuid().ToString();
-        //                                    }
+        public override void Create()
+        {
+            this.MemberProcessId = Guid.NewGuid().ToString();
+        }
         /// <summary>
         /// 编辑调用
         /// </summary>
         /// <param name="keyValue"></param>
-        //public override void Modify(string keyValue)
-        //{
-        //    this.MemberProcessId = keyValue;
-        //                                    }
+        public override void Modify(string keyValue)
+        {
+            this.MemberProcessId = keyValue;
+        }
         #endregion
     }
 }

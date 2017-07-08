@@ -214,11 +214,10 @@
     <Compile Include="Areas\SteelMember\Controllers\ProjectOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController1.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialPurchaseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
-    <Compile Include="Areas\SteelMember\Models\AnalysisRawMaterialModel.cs" />
     <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ListModel.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberMaterialModel.cs" />
@@ -231,6 +230,7 @@
     <Compile Include="Areas\SteelMember\Models\QueryMemberModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialAnalysisModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialLibraryModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialPurchaseModel.cs" />
     <Compile Include="Areas\SteelMember\SteelMemberAreaRegistration.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterIPController.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterTimeController.cs" />
@@ -1227,8 +1227,6 @@
     <Content Include="Areas\SteelMember\Views\ProjectWarehouse\QueryPage.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\FolderForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis1\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis1\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\MemberForm.cshtml" />
     <Content Include="Areas\GeneratorManage\Views\SingleTable\CodeBuilder.cshtml" />
@@ -1257,6 +1255,9 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\SubmitReview.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Index.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

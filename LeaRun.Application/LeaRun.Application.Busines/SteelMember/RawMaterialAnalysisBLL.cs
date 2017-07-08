@@ -65,6 +65,20 @@ namespace LeaRun.Application.Busines.SteelMember
             }
         }
         /// <summary>
+        /// 删除数据(批量)
+        /// </summary>
+        public void RemoveList(List<RawMaterialAnalysisEntity> list)
+        {
+            try
+            {
+                service.RemoveList(list);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
@@ -81,6 +95,33 @@ namespace LeaRun.Application.Busines.SteelMember
                 throw;
             }
         }
+        /// <summary>
+        /// 批量修改
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<RawMaterialAnalysisEntity> list)
+        {
+            try
+            {
+                service.UpdataList(list);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         #endregion
+
+        #region 验证数据
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        public bool ExistFullName(string FullName, string category, string keyValue = "")
+        {
+            return service.Exist(FullName, category, keyValue);
+        }
+        #endregion
+
     }
 }

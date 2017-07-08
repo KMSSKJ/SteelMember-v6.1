@@ -9,31 +9,41 @@ namespace LeaRun.Application.Busines.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-06 09:49
-    /// 描 述：构件原材料
+    /// 日 期：2017-07-08 11:58
+    /// 描 述：原材料采购管理
     /// </summary>
-    public class MemberMaterialBLL
+    public class RawMaterialPurchaseBLL
     {
-        private MemberMaterialIService service = new MemberMaterialService();
+        private RawMaterialPurchaseIService service = new RawMaterialPurchaseService();
 
         #region 获取数据
         /// <summary>
         /// 获取列表
         /// </summary>
+        /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
-        /// <returns>返回列表</returns>
-        public IEnumerable<MemberMaterialEntity> GetList(string queryJson)
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<RawMaterialPurchaseEntity> GetPageList(Pagination pagination, string queryJson)
         {
-            return service.GetList(queryJson);
+            return service.GetPageList(pagination, queryJson);
         }
         /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
-        public MemberMaterialEntity GetEntity(string keyValue)
+        public RawMaterialPurchaseEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
+        }
+        /// <summary>
+        /// 获取子表详细信息
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        public IEnumerable<RawMaterialPurchaseInfoEntity> GetDetails(string keyValue)
+        {
+            return service.GetDetails(keyValue);
         }
         #endregion
 
@@ -59,29 +69,16 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        public void SaveForm(string keyValue, MemberMaterialEntity entity)
+        public void SaveForm(string keyValue, RawMaterialPurchaseEntity entity,List<RawMaterialPurchaseInfoEntity> entryList)
         {
             try
             {
-                service.SaveForm(keyValue, entity);
+                service.SaveForm(keyValue, entity, entryList);
             }
             catch (Exception)
             {
                 throw;
             }
-        }
-        #endregion
-
-        #region 验证数据
-        /// <summary>
-        /// 名称不能重复
-        /// </summary>
-        /// <param name="account">账户值</param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        public bool ExistFullName(string FullName, string TreeName, string keyValue = "")
-        {
-            return service.ExistFullName(FullName, TreeName, keyValue);
         }
         #endregion
     }

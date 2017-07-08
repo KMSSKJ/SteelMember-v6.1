@@ -6,10 +6,10 @@ namespace LeaRun.Application.IService.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-05 17:15
-    /// 描 述：构件库管理
+    /// 日 期：2017-07-08 11:58
+    /// 描 述：原材料采购管理
     /// </summary>
-    public interface MemberLibraryIService
+    public interface RawMaterialPurchaseIService
     {
         #region 获取数据
         /// <summary>
@@ -18,19 +18,19 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        IEnumerable<MemberLibraryEntity> GetPageList(Pagination pagination, string queryJson);
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="queryJson">查询参数</param>
-        /// <returns>返回列表</returns>
-        IEnumerable<MemberLibraryEntity> GetList(string queryJson);
+        IEnumerable<RawMaterialPurchaseEntity> GetPageList(Pagination pagination, string queryJson);
         /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
-        MemberLibraryEntity GetEntity(string keyValue);
+        RawMaterialPurchaseEntity GetEntity(string keyValue);
+        /// <summary>
+        /// 获取子表详细信息
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        IEnumerable<RawMaterialPurchaseInfoEntity> GetDetails(string keyValue);
         #endregion
 
         #region 提交数据
@@ -45,17 +45,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        void SaveForm(string keyValue, MemberLibraryEntity entity);
-        #endregion
-
-        #region 验证数据
-        /// <summary>
-        /// 名称不能重复
-        /// </summary>
-        /// <param name="FullName">名称值</param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        bool ExistFullName(string FullName, string Category, string keyValue);
+        void SaveForm(string keyValue, RawMaterialPurchaseEntity entity,List<RawMaterialPurchaseInfoEntity> entryList);
         #endregion
     }
 }

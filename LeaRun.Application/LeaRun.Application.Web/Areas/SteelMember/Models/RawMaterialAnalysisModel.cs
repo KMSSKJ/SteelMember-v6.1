@@ -14,5 +14,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string RawMaterialUnit { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
+        public int IsPassed { get; set; }
+        public int IsSubmitReview { get; set; }
     }
 }

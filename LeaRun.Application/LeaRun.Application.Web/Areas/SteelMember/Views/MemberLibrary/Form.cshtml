@@ -13,8 +13,8 @@
 
 <script type="text/javascript">
     var KeyValue = request('KeyValue');
-    //var ItemID = request('ItemID');
-    var TreeId = request('TreeId');
+    var SubProject = request('SubProject');
+    //var SubProjectId = request('SubProjectId');
     $(function () {
         initialPage();
         UploadFile();
@@ -28,6 +28,10 @@
             var $finish = $("#btn_finish");
             var $next = $("#btn_next");
             if (data.direction == "next") {
+                //非空验证
+                if (!$('#form1').Validform()) {
+                    return false;
+                }
                 if (data.step == 2) {
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
@@ -64,7 +68,6 @@
         //        $finish.removeAttr('disabled');
         //    }
         //});
-
         //完成提交保存
         $finish.click(function () {
             AcceptClick();
@@ -122,7 +125,7 @@
                         }
 
                         $("#form1").SetWebControls(data);
-                        $("#TreeId").ComboBoxTreeSetValue(data.TreeId);//.trigger("change");
+                        $("#SubProjectId").ComboBoxTreeSetValue(data.SubProjectId);//.trigger("change");
                         $("#Category").ComboBoxTreeSetValue(data.Category);
 
                         //加载单位
@@ -137,9 +140,8 @@
                     }
                 });
             } else {
-                $("#SubProjectId").ComboBoxTreeSetValue(TreeId);
-               // $("#MemberId").val()="@Guid.NewGuid().ToString()"
-
+                $("#SubProjectId").ComboBoxTreeSetValue(SubProject);
+ 
                 //获取单位
                 $("#MemberUnit").ComboBox({
                     url: "../../SteelMember/ProjectManagement/GetMemderUnit",
@@ -234,7 +236,7 @@
 
      /*添加原材料开始====================================*/
 
-        var RawMaterialJson = "";
+        var RawMaterialJson = [];
         function getGridRawMaterial() {
             var MemberId = $("#MemberId").val();
             $.ajax({
@@ -258,11 +260,10 @@
                     { label: "外键", name: "MemberId", hidden: true },
                     { label: "外键", name: "TreeId", hidden: true },
                     { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
-                    { label: "型号", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
-                    { label: "规格", name: "RawMaterialStandard", width: 140, align: "left", sortable: false },
-                    { label: "数量", name: "Qty", width: 500, align: "left", sortable: false },
+                    { label: "型号/规格", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
+                    { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false },
                 ],
-                treeGrid: true,
+                treeGrid: true, 
                 treeGridModel: "nested",
                 //ExpandColumn: "TreeName",
                 rowNum: "all",
@@ -340,16 +341,19 @@
 
 
         /*添加原材料结束====================================*/
-        var SubProjectId = $("#SubProjectId").attr('data-value');
         $._ExistField = function (controlId, url, param) {
+            var SubProjectId = $("#SubProjectId").attr('data-value');
+            var Category = $("#Category").attr('data-text');
+            if (controlId != "MemberName") {
+                controlId = "MemberName";
+            }
             var $control = $("#" + controlId);
             if (!$control.val() || SubProjectId == undefined || SubProjectId == "" || SubProjectId == '' || SubProjectId == null) {
                 return false;
             }
-
             var data = {
-                keyValue: $control.val(),
-                SubProjectId: SubProjectId
+                Category: Category,
+                keyValue: SubProjectId
             };
             data[controlId] = $control.val();
             var options = $.extend(data, param);
@@ -421,10 +425,11 @@
                 return false;
             }
             var postData = $("#form1").GetWebControls(KeyValue);
+            postData["Category"] = $("#Category").attr('data-text');
             postData["MemberUnit"] = $("#MemberUnit").attr('data-text');
             postData["MemberRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
             $.SaveForm({
-                url: "../../SteelMember/MemberLibrary/SubmitMember?KeyValue=" + KeyValue + "&SubProjectId=" + SubProjectId,
+                url: "../../SteelMember/MemberLibrary/SaveForm",//?KeyValue=" + KeyValue
                 param: postData,
                 loading: "正在保存数据...",
                 success: function () {
@@ -475,9 +480,8 @@
                     <td class="formTitle">
                         构件名称<font face="宋体">*</font>
                     </td>
-                    <td class="formValue">
+                    <td class="formValue"> @*onmouseout*@
                         <input id="MemberName" type="text" onblur="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMember')" class="form-control" placeholder="请输入构件名称" isvalid="yes" checkexpession="NotNull" />
-                        @*<input id="MemberModel" type="text" class="txt required" datacol="yes" err="型号" checkexpession="NotNull" />*@
                     </td>
                     <td class="formTitle">
                         规格或型号<font face="宋体">*</font>

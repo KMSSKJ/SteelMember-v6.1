@@ -63,7 +63,7 @@ namespace LeaRun.Application.Service.SteelMember
             expression = expression.And(t => t.FullName == FullName);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                expression = expression.And(t => t.Id != keyValue);
+                expression = expression.And(t => t.Id == keyValue);
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }

@@ -41,7 +41,8 @@
         });
     }
     //加载树
-    var TreeId = "";
+    var SubProject = "";
+    var SubProjectId = "";
     var HavesChildren;
     function GetTree() {
         var item = {
@@ -49,7 +50,8 @@
             param: { Levels: 1 },
             url: '../../SteelMember/MemberLibrary/SubProjectTreeJson',
             onnodeclick: function (item) {
-                TreeId = item.id;
+                SubProject = item.value;
+                SubProjectId = item.id;
                 HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
             }
@@ -128,6 +130,7 @@
         $("#btn_Search").click(function () {
             var queryJson = {
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                SubProjectId: SubProjectId,
                 keyword: $("#txt_Keyword").val()
             }
             $gridTable.jqGrid('setGridParam', {
@@ -146,8 +149,8 @@
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: '添加构件库管理',
-            url: '/SteelMember/MemberLibrary/Form',
+            title: '添加构件',
+            url: '/SteelMember/MemberLibrary/Form?SubProject=' + escape(SubProject) + "&SubProjectId=" + SubProjectId,
             width: '700px',
             height: '600px',
             callBack: function (iframeId) {
@@ -162,7 +165,7 @@
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'Form',
-                title: '编辑构件库管理',
+                title: '编辑构件',
                 url: '/SteelMember/MemberLibrary/Form?keyValue=' + keyValue,
                 width: '700px',
                 height: '600px',
@@ -184,7 +187,7 @@
                 }
             })
         } else {
-            dialogMsg('请选择需要删除的构件库管理！', 0);
+            dialogMsg('请选择需要删除的构件！', 0);
         }
     }
 
