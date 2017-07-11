@@ -681,23 +681,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 if (array != null)
                     foreach (var item in array)
                     {
-                        int _TreeId = Convert.ToInt32(TreeId);
-                        var a = ProjectManagementCurrent.Find(f => f.MemberId == item && f.TreeId == TreeId).SingleOrDefault();
+                        //int _TreeId = Convert.ToInt32(TreeId);
+                        //var a = ProjectManagementCurrent.Find(f => f.MemberId == item && f.TreeId == TreeId).SingleOrDefault();
                         ProjectDemandModel projectdemand = new ProjectDemandModel();
-                        projectdemand.ProjectDemandId = a.ProjectDemandId;
-                        var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberId == a.MemberId).SingleOrDefault();
-                        projectdemand.MemberName = memberlibrary.MemberName;
-                        projectdemand.MemberModel = memberlibrary.MemberModel;
-                        projectdemand.MemberUnit = memberlibrary.MemberUnit;
-                        projectdemand.UnitPrice = memberlibrary.UnitPrice;
-                        projectdemand.MemberId = memberlibrary.MemberId;
-                        projectdemand.MemberNumbering = memberlibrary.MemberNumbering.ToString();
-                        projectdemand.IsReview = a.IsReview;
-                        projectdemand.ReviewMan = a.ReviewMan;
-                        projectdemand.MemberNumber = a.MemberNumber;
-                        projectdemand.OrderQuantityed = a.OrderQuantityed;
-                        projectdemand.Productioned = a.Productioned;
-                        projectdemand.Description = a.Description;
+                        projectdemand.MemberName = "11111";
+                        projectdemand.MemberModel = "2222";
+                        projectdemand.MemberUnit = "个";
+                        projectdemand.UnitPrice = "2";
+                        projectdemand.MemberNumbering = item;
+                        projectdemand.MemberNumber = 1000;
                         listmember.Add(projectdemand);
                     }
             }
