@@ -60,6 +60,7 @@
     <Compile Include="SteelMember\MemberLibraryIService.cs" />
     <Compile Include="SteelMember\MemberMaterialIService.cs" />
     <Compile Include="SteelMember\MemberProcessIService.cs" />
+    <Compile Include="SteelMember\MemberProductionOrderIService.cs" />
     <Compile Include="SteelMember\ProjectInfoIService.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisIService.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryIService.cs" />

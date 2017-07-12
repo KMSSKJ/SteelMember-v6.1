@@ -208,6 +208,7 @@
     <Compile Include="Areas\SteelMember\Controllers\MemberLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberMaterialController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberProcessController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\MemberProductionOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ListModel.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberMaterialModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\MemberProductionOrderModel.cs" />
     <Compile Include="Areas\SteelMember\Models\OrderModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ProcessManagementModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ProduceOrderModel.cs" />
@@ -1258,6 +1260,10 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\SubmitReview.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProductionOrder\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProductionOrder\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProductionOrder\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberProductionOrder\OrderForm.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
