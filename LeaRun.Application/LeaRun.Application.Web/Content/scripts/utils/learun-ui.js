@@ -483,7 +483,7 @@ $.fn.Contextmenu = function () {
                 showTimer = setTimeout(function () {
                     for (i = 0; i < oThis.parentNode.children.length; i++) {
                         oThis.parentNode.children[i].getElementsByTagName("ul")[0] &&
-						(oThis.parentNode.children[i].getElementsByTagName("ul")[0].style.display = "none");
+                            (oThis.parentNode.children[i].getElementsByTagName("ul")[0].style.display = "none");
                     }
                     oUl[0].style.display = "block";
                     oUl[0].style.top = oThis.offsetTop + "px";
@@ -510,7 +510,7 @@ $.fn.Contextmenu = function () {
             hideTimer = setTimeout(function () {
                 for (i = 0; i < oThis.parentNode.children.length; i++) {
                     oThis.parentNode.children[i].getElementsByTagName("ul")[0] &&
-					(oThis.parentNode.children[i].getElementsByTagName("ul")[0].style.display = "none");
+                        (oThis.parentNode.children[i].getElementsByTagName("ul")[0].style.display = "none");
                 }
             }, 300);
         };
@@ -694,7 +694,7 @@ $.fn.jqGridRowValue = function (code) {
     var selectedRowIds = $jgrid.jqGrid("getGridParam", "selarrrow");
     if (selectedRowIds != undefined && selectedRowIds != "") {
         var len = selectedRowIds.length;
-        for (var i = 0; i < len ; i++) {
+        for (var i = 0; i < len; i++) {
             var rowData = $jgrid.jqGrid('getRowData', selectedRowIds[i]);
             json.push(rowData[code]);
         }
@@ -710,7 +710,7 @@ $.fn.jqGridRow = function () {
     var selectedRowIds = $jgrid.jqGrid("getGridParam", "selarrrow");
     if (selectedRowIds != "") {
         var len = selectedRowIds.length;
-        for (var i = 0; i < len ; i++) {
+        for (var i = 0; i < len; i++) {
             var rowData = $jgrid.jqGrid('getRowData', selectedRowIds[i]);
             json.push(rowData);
         }
@@ -770,8 +770,7 @@ dialogOpen = function (options) {
         yes: function () {
             options.callBack(options.id)
         }, cancel: function () {
-            if (options.cancel != undefined)
-            {
+            if (options.cancel != undefined) {
                 options.cancel();
             }
             return true;
@@ -899,9 +898,9 @@ toDecimal = function (num) {
     num = Math.floor(num / 100).toString();
     if (cents < 10)
         cents = "0" + cents;
-    for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+    for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
         num = num.substring(0, num.length - (4 * i + 3)) + '' +
-                num.substring(num.length - (4 * i + 3));
+            num.substring(num.length - (4 * i + 3));
     return (((sign) ? '' : '-') + num + '.' + cents);
 }
 Date.prototype.DateAdd = function (strInterval, Number) {
@@ -951,14 +950,23 @@ changeUrlParam = function (url, key, value) {
 }
 
 
-$.currentIframe = function () {
-    if ((top.frames[tabiframeId()].contentWindow != undefined) && ($.isbrowsername() == "Chrome" || $.isbrowsername() == "FF")) {
-        return top.frames[tabiframeId()].contentWindow;
-    }
-    else {
-        return top.frames[tabiframeId()];
+$.currentIframe = function (id) {
+    if (id == "" || id == undefined || id==null) {
+        if ((top.frames[tabiframeId()].contentWindow != undefined) && ($.isbrowsername() == "Chrome" || $.isbrowsername() == "FF")) {
+            return top.frames[tabiframeId()].contentWindow;
+        }
+        else {
+            return top.frames[tabiframeId()];
+        }
+    } else {
+        return window.parent.window.document.getElementById(id).contentWindow;
     }
 }
+
+//$.Iframe = function (id) {
+//    return window.parent.window.document.getElementById(id).contentWindow;
+//}
+
 $.isbrowsername = function () {
     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
     var isOpera = userAgent.indexOf("Opera") > -1;

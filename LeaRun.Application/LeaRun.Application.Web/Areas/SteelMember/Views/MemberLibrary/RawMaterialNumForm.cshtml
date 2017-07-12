@@ -41,8 +41,7 @@
 
         //获取表单
         if (!!RawMaterialModel) {
-            var frames = window.parent.window.document.getElementById("Form");
-            var data = frames.contentWindow.RawMaterialModel(RawMaterialModel);
+            var data = $.currentIframe("Form").RawMaterialModel(RawMaterialModel);
             $("#form1").SetWebControls(data);
             $("#RawMaterialModel").ComboBoxSetValue(data.RawMaterialModel);
 
@@ -75,8 +74,7 @@
         };
         data["RawMaterialModel"] = RawMaterialModel;
         var options = $.extend(data, param);
-        var frames = window.parent.window.document.getElementById("Form");
-        if (frames.contentWindow.ExistRawMaterial(RawMaterialModel)) {
+        if ($.currentIframe("Form").ExistRawMaterial(RawMaterialModel)) {
             ValidationMessage($("#RawMaterialModel"), '数据表中已存在,请重新输入');
             $("#RawMaterialModel").attr('fieldexist', 'yes');
         }
@@ -138,7 +136,9 @@
 
 </script>
 <div style="margin-left: 10px; margin-top: 30px; margin-right: 30px;">
-    @*<input id="MemberRawMaterialId" type="hidden" value="@Guid.NewGuid().ToString()" />*@
+    <input id="MemberMaterialId" type="hidden" />
+    <input id="RawMaterialId" type="hidden" />
+    <input id="MemberId" type="hidden" />
     <table class="form">
         <tr>
             <td class="formTitle">
