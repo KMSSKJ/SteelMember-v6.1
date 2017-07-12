@@ -63,17 +63,34 @@ namespace LeaRun.Application.Busines.SteelMember
                 throw;
             }
         }
+        ///// <summary>
+        ///// 保存表单（新增、修改）
+        ///// </summary>
+        ///// <param name="keyValue">主键值</param>
+        ///// <param name="entity">实体对象</param>
+        ///// <returns></returns>
+        //public void SaveForm(string keyValue, MemberLibraryEntity entity)
+        //{
+        //    try
+        //    {
+        //        service.SaveForm(keyValue, entity);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        public void SaveForm(string keyValue, MemberLibraryEntity entity)
+        public string SaveForm(string keyValue, MemberLibraryEntity entity)
         {
             try
             {
-                service.SaveForm(keyValue, entity);
+              return service.SaveForm(keyValue, entity);
             }
             catch (Exception)
             {

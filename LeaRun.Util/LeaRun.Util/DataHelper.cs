@@ -116,6 +116,7 @@ namespace LeaRun.Util
         }
         #endregion
 
+        #region 实体类Model转Hashtable(反射)
         /// <summary>
         /// 实体类Model转Hashtable(反射)
         /// </summary>
@@ -130,6 +131,7 @@ namespace LeaRun.Util
             }
             return ht;
         }
+        #endregion
 
         #region List转换DataTable
         /// <summary>

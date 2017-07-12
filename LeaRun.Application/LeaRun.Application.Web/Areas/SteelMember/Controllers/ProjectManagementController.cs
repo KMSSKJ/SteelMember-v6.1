@@ -498,17 +498,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Json(Entitys);
         }
 
-        /// <summary>
-        /// 获取构件单位
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult GetMemderUnit()
-        {
-            List<RMC_MemberUnit> Entity = null;
-            Entity = MemberUnitCurrent.Find(f => f.UnitId != 0).ToList();
-            return Content(Entity.ToJson());
+        ///// <summary>
+        ///// 获取构件单位
+        ///// </summary>
+        ///// <returns></returns>
+        //public ActionResult GetMemderUnit()
+        //{
+        //    List<RMC_MemberUnit> Entity = null;
+        //    Entity = MemberUnitCurrent.Find(f => f.UnitId != 0).ToList();
+        //    return Content(Entity.ToJson());
 
-        }
+        //}
 
         /// <summary>
         /// 获取构件图纸模型

@@ -52,14 +52,60 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return View();
         }
         /// <summary>
-        /// 材料用量表单
+        /// 材料用量表单视图
         /// </summary>
         /// <returns></returns>
         public ActionResult RawMaterialNumForm()
         {
             return View();
         }
+        /// <summary>
+        /// 构件类别页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MemberCategoryIndex()
+        {
+            return View();
+        }
+        /// <summary>
+        ///  构件详情
+        /// </summary>
+        /// <param name="KeyValue"></param>
+        /// <param name="FileNamePath"></param>
+        /// <returns></returns>
+        public ActionResult DrawingManagement(string KeyValue, string FileNamePath)
+        {
+            if (KeyValue == "")
+            {
+                ViewData["CADDrawing"] = FileNamePath;
+                ViewData["ModelDrawing"] = FileNamePath;
+            }
+            else
+            {
 
+                var ht = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == KeyValue);
+                if (ht.CAD_Drawing == null || ht.CAD_Drawing == "")
+                {
+                    ht.CAD_Drawing = "1.png";
+                }
+                if (ht.Model_Drawing == null || ht.Model_Drawing == "")
+                {
+                    ht.Model_Drawing = "1.png";
+                }
+                var filename = ht.CAD_Drawing.Substring(0, ht.CAD_Drawing.LastIndexOf('.'));//获取文件名称，去除后缀名
+                string virtualPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename + "/";
+
+                var filename1 = ht.Model_Drawing.Substring(0, ht.Model_Drawing.LastIndexOf('.'));//获取文件名称，去除后缀名
+                string virtualPath1 = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/";
+                var file = virtualPath + ht.CAD_Drawing;
+                var file1 = virtualPath1 + ht.Model_Drawing;
+
+                ViewData["CADDrawing"] = file;
+                ViewData["ModelDrawing"] = file1;
+                ViewData["MemberId"] = KeyValue;
+            }
+            return View();
+        }
         #endregion
 
         #region 获取数据
@@ -96,21 +142,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(TreeList.TreeToJson());
         }
 
-        /// <summary>
-        /// 获取原材料
-        /// </summary>
-        /// <param name="KeyValue"></param>
-        /// <returns></returns>
-        public virtual ActionResult GetRawMaterialJson(string KeyValue)
-        {
-            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
-            if (!string.IsNullOrEmpty(KeyValue.Trim()))
-            {
-                expression = expression.And(r => r.Category.Trim() == KeyValue.Trim());
-            }
-            var RawMaterial = rawmateriallibrarybll.GetList(expression);
-            return Content(RawMaterial.ToJson());
-        }
+
 
         /// <summary>
         /// 获取列表
@@ -122,7 +154,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = memberlibrarybll.GetPageList(pagination, queryJson);
+            var data = memberlibrarybll.GetPageList(pagination, queryJson).OrderBy(o=>o.MemberNumbering);
             var jsonData = new
             {
                 rows = data,
@@ -164,29 +196,46 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult ListToRawMaterialJson(string RawMaterialJson)
         {
-            var data = RawMaterialJson.ToList<MemberMaterialModel>();
+            var data0 = RawMaterialJson.Replace(",\"undefined\":\"\"", "");
+            var data = data0.ToList<MemberMaterialModel>();
             var DataList = new List<MemberMaterialModel>();
-
-            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
             foreach (MemberMaterialModel item in data)
             {
                 MemberMaterialModel Entity = new MemberMaterialModel();
-                Entity.MemberMaterialId = item.MemberMaterialId;
+                // Entity.MemberMaterialId = item.MemberMaterialId;
                 Entity.RawMaterialModel = item.RawMaterialModel;
-                expression = expression.And(f => f.RawMaterialModel == item.RawMaterialModel);
-                var data1 = rawmateriallibrarybll.GetList(expression)[0];
-                Entity.RawMaterialId = data1.RawMaterialId;
                 Entity.TreeName = item.TreeName;
                 Entity.RawMaterialNumber = item.RawMaterialNumber;
                 DataList.Add(Entity);
             }
-            return Content(DataList.ToJson());
+            return ToJsonResult(DataList);
         }
 
-    public ActionResult GetMemberRawMaterialJson(string MemberId)
+        /// <summary>
+        /// 获取构件原材料
+        /// </summary>
+        /// <param name="MemberId"></param>
+        /// <returns></returns>
+        public ActionResult GetMemberRawMaterialJson(string MemberId)
         {
-            var data = membermaterialbll.GetList(null).ToList().FindAll(f => f.MemberId == MemberId).ToJson();
-            return Content(data);
+            var data = membermaterialbll.GetList(null).ToList().FindAll(f => f.MemberId == MemberId);
+            return ToJsonResult(data);
+        }
+
+        /// <summary>
+        /// 获取原材料
+        /// </summary>
+        /// <param name="KeyValue"></param>
+        /// <returns></returns>
+        public virtual ActionResult GetRawMaterialJson(string KeyValue)
+        {
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            if (!string.IsNullOrEmpty(KeyValue.Trim()))
+            {
+                expression = expression.And(r => r.Category.Trim() == KeyValue.Trim());
+            }
+            var RawMaterial = rawmateriallibrarybll.GetList(expression);
+            return ToJsonResult(RawMaterial);
         }
 
         #endregion
@@ -202,44 +251,74 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
-            memberlibrarybll.RemoveForm(keyValue);
-
-            //删除构件原材料
-            var MemberMaterial = membermaterialbll.GetList(null).ToList().FindAll(t => t.MemberId== keyValue);
-
-            if (MemberMaterial.Count() > 0)
+            string[] Arry = keyValue.Split(',');//字符串转数组
+            foreach (var item in Arry)
             {
-                for (int i = 0; i < MemberMaterial.Count(); i++)
-                {
-                    membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId.ToString());
-                }
-            }
-            //
+              var data= memberlibrarybll.GetList(null).ToList();
+              var MemberEntity = data.Find(f => f.MemberId == item);
+              memberlibrarybll.RemoveForm(keyValue);
 
-            //删除构件制程
-            var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
-            if (MemberProcess.Count() > 0)
-            {
-                for (int i = 0; i < MemberProcess.Count(); i++)
+                var MemberEntity1 = data.FindAll(f => f.MarkId > MemberEntity.MarkId && f.SubProjectId == MemberEntity.SubProjectId);
+                foreach (var item1 in MemberEntity1)
                 {
-                    memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
+                    var MemberEntity2 = data.Find(f => f.MemberId == item1.MemberId);
+
+                    char[] Number = MemberEntity2.MemberNumbering.ToArray();
+                    string MemberNumbering = "";
+                    for (int I = 0; I < Number.Length; I++)
+                    {
+                        if (("0123456789").IndexOf(Number[I] + "") != -1)
+                        {
+                            MemberNumbering += Number[I];
+                        }
+                    }
+
+
+                   // MemberEntity2.MemberNumbering== MemberNumbering;
+
+                    memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
                 }
+
+
+
+
+                //删除构件原材料
+                var MemberMaterial = membermaterialbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
+
+                if (MemberMaterial.Count() > 0)
+                {
+                    for (int i = 0; i < MemberMaterial.Count(); i++)
+                    {
+                        membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId.ToString());
+                    }
+                }
+                //
+
+                //删除构件制程
+                var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
+                if (MemberProcess.Count() > 0)
+                {
+                    for (int i = 0; i < MemberProcess.Count(); i++)
+                    {
+                        memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
+                    }
+                }
+                //
             }
-            //
+
             return Success("删除成功。");
         }
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="keyValue1"></param>
         /// <param name="entity">实体对象</param>
         /// <param name="MemberRawMaterialListJson"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, MemberLibraryEntity entity,string MemberRawMaterialListJson)
+        public ActionResult SaveForm(string keyValue, MemberLibraryEntity entity, string MemberRawMaterialListJson)
         {
             string str = "";
             string str1 = "";
@@ -247,16 +326,20 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == entity.SubProjectId);
             str = Str.PinYin(data.FullName.Substring(0, 1) + entity.Category.Substring(0, 1)).ToUpper();
-
-            int Num = 1;
-            var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.SubProjectId== entity.SubProjectId);
-            Num = Num + MemberList.Count();
-
-            for (int i = 0; i < 4 - Num.ToString().Length; i++)
+            if (keyValue == null || keyValue == "")
             {
-                str1 += "0";
+                int Num = 1;
+                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.SubProjectId == entity.SubProjectId);
+                Num = Num + MemberList.Count();
+
+                for (int i = 0; i < 4 - Num.ToString().Length; i++)
+                {
+                    str1 += "0";
+                }
+                entitys.MemberNumbering = str + str1 + Num.ToString();
+                entitys.IsRawMaterial = 0;
+                entitys.IsProcess = 0;
             }
-            entitys.MemberNumbering = str + str1 + Num.ToString();
             entitys.MemberId = entity.MemberId;
             entitys.Category = entity.Category;
             entitys.SubProjectId = entity.SubProjectId;
@@ -264,8 +347,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             entitys.MemberModel = entity.MemberModel.Trim();
             entitys.UploadTime = DateTime.Now;
             entitys.MemberUnit = entity.MemberUnit;
-            entitys.IsRawMaterial = 0;
-            entitys.IsProcess = 0;
 
             if (entity.CAD_Drawing == null)
             {
@@ -288,20 +369,32 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string filename2 = System.IO.Path.GetFileName(entity.Icon);
             entitys.Icon = filename2;
 
-            memberlibrarybll.SaveForm(keyValue, entitys);
+            var MemberId = memberlibrarybll.SaveForm(keyValue, entitys);
 
             var data1 = MemberRawMaterialListJson.ToList<MemberMaterialModel>();
-            if (data1.Count()>0)
+            if (data1.Count() > 0)
             {
+                // if (keyValue != null || keyValue != "") {
+                var MemberMaterial = membermaterialbll.GetList(null).ToList().FindAll(f => f.MemberId == keyValue);
+                if (MemberMaterial.Count() > 0)
+                {
+                    foreach (var item in MemberMaterial)
+                    {
+                        membermaterialbll.RemoveForm(item.MemberMaterialId);
+                    }
+                }
                 foreach (var item in data1)
                 {
                     MemberMaterialEntity _MemberLibraryEntity = new MemberMaterialEntity();
-                    _MemberLibraryEntity.MemberId = entity.MemberId;
-                    _MemberLibraryEntity.RawMaterialId = item.RawMaterialId;
+                    _MemberLibraryEntity.MemberId = MemberId;
+                   
                     _MemberLibraryEntity.RawMaterialModel = item.RawMaterialModel;
+                    var data2 = rawmateriallibrarybll.GetList(f => f.RawMaterialModel == item.RawMaterialModel).Find(f => f.RawMaterialModel == item.RawMaterialModel);
+                    _MemberLibraryEntity.RawMaterialId = data2.RawMaterialId;
                     _MemberLibraryEntity.RawMaterialNumber = item.RawMaterialNumber;
                     _MemberLibraryEntity.TreeName = item.TreeName;
-                    membermaterialbll.SaveForm(_MemberLibraryEntity.MemberMaterialId, _MemberLibraryEntity);
+                    _MemberLibraryEntity.CreatTime = DateTime.Now;
+                    membermaterialbll.SaveForm("", _MemberLibraryEntity);
                 }
             }
             return Success("操作成功。");
@@ -416,83 +509,55 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         if (!table.Rows[i].IsNull(0))
                         {
-                            string MemberModel = table.Rows[i][0].ToString();
+                            string MemberModel = table.Rows[i][0].ToString().Trim();
                             var _MemberLibrary = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberModel == MemberModel);
                             if (_MemberLibrary == null)
                             {
                                 MemberLibrary.SubProjectId = KeyValue;
-                                //var tree = Find(f => f.TreeID == KeyValue).SingleOrDefault();
-                                //MemberLibrary.MemberName = tree.TreeName;
                                 MemberLibrary.UploadTime = DateTime.Now;
-                                MemberLibrary.MemberModel = table.Rows[i][0].ToString();
-                                MemberModel = MemberLibrary.MemberModel;
-                                char[] Number = MemberModel.ToArray();
-                                string MemberNumbering = "";
-                                for (int I = 0; I < Number.Length; I++)
-                                {
-                                    if (("0123456789").IndexOf(Number[I] + "") != -1)
-                                    {
-                                        MemberNumbering += Number[I];
-                                    }
-                                }
+                                MemberLibrary.MemberModel = MemberModel;
 
-                                MemberLibrary.MemberNumbering = (MemberNumbering + "-" + DateTime.Now.ToString("yyyyMMddhhmmssffff")).ToString();
-                                //MemberLibrary.SectionalArea = Convert.ToDecimal(table.Rows[i][1]);
-                                //MemberLibrary.SurfaceArea = Convert.ToDecimal(table.Rows[i][2]);
-                                //MemberLibrary.TheoreticalWeight = table.Rows[i][3].ToString();
-                                //MemberLibrary.SectionalSize_h = Convert.ToInt32(table.Rows[i][4]);
-                                //MemberLibrary.SectionalSizeB = Convert.ToInt32(table.Rows[i][5]);
-                                //MemberLibrary.SectionalSize_b = Convert.ToInt32(table.Rows[i][6]);
-                                //MemberLibrary.SectionalSizeD = Convert.ToDecimal(table.Rows[i][7]);
-                                //MemberLibrary.SectionalSize_d = Convert.ToInt32(table.Rows[i][8]);
-                                //MemberLibrary.SectionalSize_t = Convert.ToDecimal(table.Rows[i][9]);
-                                //MemberLibrary.SectionalSize_r = Convert.ToDecimal(table.Rows[i][10]);
-                                //MemberLibrary.SectionalSize_r1 = Convert.ToDecimal(table.Rows[i][11]);
-                                //MemberLibrary.InertiaDistance_x = Convert.ToDecimal(table.Rows[i][12]);
-                                //MemberLibrary.InertiaDistance_y = Convert.ToDecimal(table.Rows[i][13]);
-                                //MemberLibrary.InertiaDistance_x0 = Convert.ToDecimal(table.Rows[i][14]);
-                                //MemberLibrary.InertiaDistance_y0 = Convert.ToDecimal(table.Rows[i][15]);
-                                //MemberLibrary.InertiaDistance_x1 = Convert.ToDecimal(table.Rows[i][16]);
-                                //MemberLibrary.InertiaDistance_y1 = Convert.ToDecimal(table.Rows[i][17]);
-                                //MemberLibrary.InertiaDistance_u = Convert.ToDecimal(table.Rows[i][18]);
-                                //MemberLibrary.InertiaRadius_x = Convert.ToDecimal(table.Rows[i][19]);
-                                //MemberLibrary.InertiaRadius_x0 = Convert.ToDecimal(table.Rows[i][20]);
-                                //MemberLibrary.InertiaRadius_y = Convert.ToDecimal(table.Rows[i][21]);
-                                //MemberLibrary.InertiaRadius_y0 = Convert.ToDecimal(table.Rows[i][22]);
-                                //MemberLibrary.InertiaRadius_u = Convert.ToDecimal(table.Rows[i][23]);
-                                //MemberLibrary.SectionalModulus_x = Convert.ToDecimal(table.Rows[i][24]);
-                                //MemberLibrary.SectionalModulus_y = Convert.ToDecimal(table.Rows[i][25]);
-                                //MemberLibrary.SectionalModulus_x0 = Convert.ToDecimal(table.Rows[i][26]);
-                                //MemberLibrary.SectionalModulus_y0 = Convert.ToDecimal(table.Rows[i][27]);
-                                //MemberLibrary.SectionalModulus_u = Convert.ToDecimal(table.Rows[i][28]);
-                                //MemberLibrary.GravityCenterDistance_0 = Convert.ToDecimal(table.Rows[i][29]);
-                                //MemberLibrary.GravityCenterDistance_x0 = Convert.ToDecimal(table.Rows[i][30]);
-                                //MemberLibrary.GravityCenterDistance_y0 = Convert.ToDecimal(table.Rows[i][31]);
-                                MemberLibrary.MemberUnit = table.Rows[i][32].ToString();
-                                MemberLibrary.UnitPrice = table.Rows[i][33].ToString();
+                                //生成构件编号
+                                string str = "";
+                                string str1 = "";
+                                var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == KeyValue);
+                                str = Str.PinYin(data.FullName.Substring(0, 1) + table.Rows[i][1].ToString().Substring(0, 1)).ToUpper().Trim();
+                                int Num = 1;
+                                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.SubProjectId == KeyValue);
+                                Num = Num + MemberList.Count();
+
+                                for (int i0 = 0; i0 < 4 - Num.ToString().Length; i0++)
+                                {
+                                    str1 += "0";
+                                }
+                                MemberLibrary.MemberNumbering = str + str1 + Num.ToString();
+                                //end
+                                MemberLibrary.Category = table.Rows[i][1].ToString().Trim();
+                                MemberLibrary.MemberName = table.Rows[i][2].ToString().Trim();
+                                MemberLibrary.MemberUnit = table.Rows[i][3].ToString().Trim();
                                 string CAD_Drawing = "1.png";
                                 string Model_Drawing = "1.png";
                                 string Icon = "1.png";
-                                if (table.Rows[i][34].ToString() != "")
+                                if (table.Rows[i][4].ToString() != "")
                                 {
-                                    CAD_Drawing = table.Rows[i][34].ToString().Trim();
+                                    CAD_Drawing = table.Rows[i][4].ToString().Trim();
                                     if (CAD_Drawing != "1.png")
                                     {
                                         Photo += CAD_Drawing + "、";
 
                                     }
                                 }
-                                if (table.Rows[i][35].ToString() != "")
+                                if (table.Rows[i][5].ToString() != "")
                                 {
-                                    Model_Drawing = table.Rows[i][35].ToString().Trim();
+                                    Model_Drawing = table.Rows[i][5].ToString().Trim();
                                     if (Model_Drawing != "1.png")
                                     {
                                         Photo += Model_Drawing + "、";
                                     }
                                 }
-                                if (table.Rows[i][36].ToString() != "")
+                                if (table.Rows[i][6].ToString() != "")
                                 {
-                                    Icon = table.Rows[i][36].ToString().Trim();
+                                    Icon = table.Rows[i][6].ToString().Trim();
                                     if (Icon != "1.png")
                                     {
                                         Photo += Icon + "、";
@@ -504,7 +569,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 MemberLibrary.Icon = Icon;
                                 MemberLibrary.IsProcess = 0;
                                 MemberLibrary.IsRawMaterial = 0;
-                                memberlibrarybll.SaveForm(KeyValue,MemberLibrary);
+                                memberlibrarybll.SaveForm(MemberLibrary.MemberId, MemberLibrary);
                             }
                             else
                             {
@@ -607,7 +672,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Filedata.SaveAs(fullFileName);
                     oldentity1.ProjectLogo = Filedata.FileName;
                     oldentity1.ModifiedTime = DateTime.Now;
-                    projectinfobll.SaveForm(KeyValue,oldentity1);
+                    projectinfobll.SaveForm(KeyValue, oldentity1);
                 }
                 else if (Img == "Background")
                 {
@@ -634,7 +699,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Filedata.SaveAs(fullFileName);
                     oldentity1.ProjectBackground = Filedata.FileName;
                     oldentity1.ModifiedTime = DateTime.Now;
-                    projectinfobll.SaveForm(KeyValue,oldentity1);
+                    projectinfobll.SaveForm(KeyValue, oldentity1);
                 }
                 IsOk = 1;
                 //IsOk = DataFactory.Database().Insert<Base_NetworkFile>(entity).ToString();
@@ -795,62 +860,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             DataTable data = new DataTable();
             string fileName = "导入构件模板.xlsx";
             //string TableHeader = "构件模板";
-            string DataColumn = "型号 | 截面面积/cm²| 外表面积/(m²/m)|理论重量/(㎏/m)|";
-            DataColumn += "h|B|b|D|d| t|r|r1|Ix | Ix0 | Ix1 | Iy | Iy0 | Iy1 | Iu | ix |";
-            DataColumn += " iy | ix0 | iy0 | iu | Wx | Wy | Wx0 | Wy0 | Wu | Z0 | X0 | Yu|单位|单价|图纸|模型|图标";
+            string DataColumn = "型号|";
+            DataColumn += "构件类型|构件名称|单位|图纸|模型|图标";
             //DeriveExcel.DataTableToExcel(data, DataColumn.Split('|'), fileName);
             // ExcelHelper.ExcelDownload(exportTable, excelconfig);
             // userBLL.GetExportList();
         }
-
-        ///// <summary>                                                                                            
-        ///// 获取要导出表头字段                                                                                   
-        ///// </summary>                                                                                          
-        ///// <returns></returns>                                                                                 
-        //public ActionResult GetDeriveExcelColumn()
-        //{
-        //    string JsonColumn = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonColumn_DeriveExcel"));
-        //    return Content(JsonColumn);
-        //}
-        ///// <summary>                                                                                            
-        ///// 导出Excel                                                                                            
-        ///// </summary>                                                                                           
-        ///// <param name="ExportField">要导出字段</param>                                                         
-        //public void GetDeriveExcel(string ExportField)
-        //{
-        //    string JsonColumn = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonColumn_DeriveExcel"));
-        //    string JsonData = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonData_DeriveExcel"));
-        //    string JsonFooter = GZipHelper.Uncompress(CookieHelper.GetCookie("JsonFooter_DeriveExcel"));
-        //    string fileName = GZipHelper.Uncompress(CookieHelper.GetCookie("FileName_DeriveExcel"));
-        //    DeriveExcel.JqGridToExcel(JsonColumn, JsonData, ExportField, fileName);
-        //}
-        ///// <summary>
-        ///// 写入数据到Cookie
-        ///// </summary>
-        ///// <param name="JsonColumn">表头</param>
-        ///// <param name="JsonData">数据</param>
-        ///// <param name="JsonFooter">底部合计</param>
-        //[ValidateInput(false)]
-        //public void SetDeriveExcel(string JsonColumn, string JsonData, string JsonFooter, string FileName,string TableHeader)
-        //{
-        //    CookieHelper.WriteCookie("JsonColumn_DeriveExcel", GZipHelper.Compress(JsonColumn));
-        //    CookieHelper.WriteCookie("JsonData_DeriveExcel", GZipHelper.Compress(JsonData));
-        //    CookieHelper.WriteCookie("JsonFooter_DeriveExcel", GZipHelper.Compress(JsonFooter));
-        //    CookieHelper.WriteCookie("FileName_DeriveExcel", GZipHelper.Compress(FileName));
-        //    CookieHelper.WriteCookie("TabelHeader_DeriveExcel", GZipHelper.Compress(TableHeader));
-        //}
-
-        /// <summary>
-        /// 导出Excel
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult DeriveFile()
-        {
-            return View();
-        }
-
         #endregion
-
         #endregion
 
         #region 验证数据
@@ -862,7 +878,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <param name="KeyValue"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ExistMember(string MemberName,string Category, string KeyValue)
+        public ActionResult ExistMember(string MemberName, string Category, string KeyValue)
         {
             bool IsOk = memberlibrarybll.ExistFullName(MemberName.Trim(), Category, KeyValue);
             return Content(IsOk.ToString());
@@ -877,7 +893,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ExistMemberMaterial(string RawMaterialModel,string TreeName, string MemberId)
+        public ActionResult ExistMemberMaterial(string RawMaterialModel, string TreeName, string MemberId)
         {
             bool IsOk = membermaterialbll.ExistFullName(RawMaterialModel, TreeName, MemberId);
             return Content(IsOk.ToString());

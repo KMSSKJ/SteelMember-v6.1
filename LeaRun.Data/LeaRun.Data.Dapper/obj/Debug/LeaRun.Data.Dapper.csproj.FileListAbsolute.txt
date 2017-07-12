@@ -174,3 +174,26 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\S
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Dapper\obj\Debug\LeaRun.Data.Dapper.csprojResolveAssemblyReference.cache
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Dapper\obj\Debug\LeaRun.Data.Dapper.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Data\LeaRun.Data.Dapper\obj\Debug\LeaRun.Data.Dapper.pdb
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Data.Dapper.dll.config
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Data.Dapper.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Data.Dapper.pdb
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\Dapper.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Data.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Util.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\MySql.Data.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\SQLinq.Dapper.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\SQLinq.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\Newtonsoft.Json.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Util.Extension.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\Oracle.DataAccess.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\System.Data.SQLite.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Util.pdb
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Data.pdb
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\Dapper.pdb
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\Newtonsoft.Json.xml
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\LeaRun.Util.Extension.pdb
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\System.Data.SQLite.xml
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\obj\Debug\LeaRun.Data.Dapper.csprojResolveAssemblyReference.cache
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\obj\Debug\LeaRun.Data.Dapper.dll
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\obj\Debug\LeaRun.Data.Dapper.pdb
+E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Dapper\bin\Debug\SharpZipLib.dll

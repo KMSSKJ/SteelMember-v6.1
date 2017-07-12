@@ -29,3 +29,19 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Repo
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Repository\obj\Debug\LeaRun.Application.Repository.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Repository\obj\Debug\LeaRun.Application.Repository.pdb
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\LeaRun.Application.Repository.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\LeaRun.Application.Repository.pdb
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\EntityFramework.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\EntityFramework.SqlServer.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\LeaRun.Data.Entity.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\Ninject.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\LeaRun.Data.Entity.pdb
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\LeaRun.Data.Entity.dll.config
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\EntityFramework.xml
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\EntityFramework.SqlServer.xml
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\Ninject.xml
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\obj\Debug\LeaRun.Application.Repository.csprojResolveAssemblyReference.cache
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\obj\Debug\LeaRun.Application.Repository.dll
+E:\SSKJProject\SteelMember\LeaRun.Application\LeaRun.Application.Repository\obj\Debug\LeaRun.Application.Repository.pdb
