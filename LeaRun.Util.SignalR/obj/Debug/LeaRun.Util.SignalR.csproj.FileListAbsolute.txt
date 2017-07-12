@@ -154,16 +154,3 @@ C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.csprojResolveAssemblyReference.cache
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.dll
 C:\Users\YCY\Desktop\SteelMember V6.1\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.pdb
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.SignalR.dll
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.SignalR.pdb
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.dll
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\Newtonsoft.Json.dll
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.Extension.dll
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.pdb
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\Newtonsoft.Json.xml
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.Extension.pdb
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.csprojResolveAssemblyReference.cache
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.dll
-D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.pdb
