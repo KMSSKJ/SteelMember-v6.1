@@ -8,6 +8,19 @@ namespace LeaRun.Application.IService
 {
    public interface IBaseService<T> where T : class
     {
+        #region 提交数据(批量)
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        void RemoveList(List<T> list);
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        void UpdataList(List<T> list);
+
+        #endregion
+
         #region 验证数据
         /// <summary>
         /// 字段不能重复（从全部数据里验证）

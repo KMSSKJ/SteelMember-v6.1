@@ -65,6 +65,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     _model.RawMaterialDosage = item.RawMaterialDosage;
                     _model.RawMaterialUnit = model.Unit;
                     _model.Description = item.Description;
+                    _model.IsSubmitReview = item.IsSubmitReview;
+                    _model.IsPassed = item.IsPassed;
                     data.Add(_model);
 
                 }
@@ -97,12 +99,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return ToJsonResult(data);
         }
 
-        //[HttpGet]
-        //public ActionResult GetListJson(string queryJson)
-        //{
-        //    var data = rawmaterialanalysisbll.GetList(queryJson);
-        //    return ToJsonResult(data);
-        //}
         /// <summary>
         /// 获取实体 
         /// </summary>
@@ -137,7 +133,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
-            rawmaterialanalysisbll.RemoveForm(keyValue);
+            string[] idsArr = keyValue.Split(',');
+            List<RawMaterialAnalysisEntity> List = new List<RawMaterialAnalysisEntity>();
+            foreach (var item in idsArr)
+            {
+                var model = rawmaterialanalysisbll.GetEntity(item);
+                List.Add(model);
+            }
+            rawmaterialanalysisbll.RemoveList(List);
             return Success("删除成功。");
         }
         /// <summary>
@@ -166,8 +169,81 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             model.RawMaterialDosage = entity.RawMaterialDosage;
             model.Category = entity.Category;
             model.Description = entity.Description;
-
+            if (keyValue == "" || keyValue == null)
+            {
+                model.IsSubmitReview = 0;
+                model.IsPassed = 0;
+            }
             rawmaterialanalysisbll.SaveForm(keyValue, model);
+            return Success("操作成功。");
+        }
+        
+        /// <summary>
+        /// 提交审核
+        /// </summary>
+        /// <param name="keyValues">要审核的数据的主键些</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult SubmitReview(string keyValues)
+        {
+            string[] ids = new string[] { };
+            if (!string.IsNullOrEmpty(keyValues))
+            {
+                ids = keyValues.Split(',');
+            }
+            if (!ids.IsEmpty())
+            {
+                List<RawMaterialAnalysisEntity> list = new List<RawMaterialAnalysisEntity>();
+                foreach (var item in ids)
+                {
+                    var model = rawmaterialanalysisbll.GetEntity(item.Trim());
+                    if (model != null)
+                    {
+                        model.IsSubmitReview = 1;
+                        list.Add(model);
+                    }
+                }
+                if (list.Count > 0)
+                {
+                    rawmaterialanalysisbll.UpdataList(list);
+                }
+            }
+            return Success("操作成功。");
+        }
+
+        /// <summary>
+        /// 审核处理
+        /// </summary>
+        /// <param name="keyValues">要审核的数据的主键些</param>
+        /// <param name="type">1通过，2失败</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult ReviewOperation(string keyValues,int type)
+        {
+            string[] ids = new string[] { };
+            if (!string.IsNullOrEmpty(keyValues))
+            {
+                ids = keyValues.Split(',');
+            }
+            if (!ids.IsEmpty())
+            {
+                List<RawMaterialAnalysisEntity> list = new List<RawMaterialAnalysisEntity>();
+                foreach (var item in ids)
+                {
+                    var model = rawmaterialanalysisbll.GetEntity(item.Trim());
+                    if (model != null)
+                    {
+                        model.IsPassed = type;
+                        list.Add(model);
+                    }
+                }
+                if (list.Count > 0)
+                {
+                    rawmaterialanalysisbll.UpdataList(list);
+                }
+            }
             return Success("操作成功。");
         }
         #endregion

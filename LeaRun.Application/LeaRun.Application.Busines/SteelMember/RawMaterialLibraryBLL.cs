@@ -63,6 +63,20 @@ namespace LeaRun.Application.Busines.SteelMember
             }
         }
         /// <summary>
+        /// 删除数据(批量)
+        /// </summary>
+        public void RemoveList(List<RawMaterialLibraryEntity>list)
+        {
+            try
+            {
+                service.RemoveList(list);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>

@@ -38,6 +38,14 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string Description { get; set; }
         /// <summary>
+        /// IsSubmitReview
+        /// </summary>
+        public int IsSubmitReview { get; set; }
+        /// <summary>
+        /// IsPassed
+        /// </summary>
+        public int IsPassed { get; set; }
+        /// <summary>
         /// RawMaterialLibraryEntitys
         /// </summary>
         public RawMaterialLibraryEntity RawMaterialEntitys { get; }

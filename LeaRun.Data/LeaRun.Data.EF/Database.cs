@@ -277,7 +277,19 @@ namespace LeaRun.Data.EF
         {
             foreach (var entity in entities)
             {
-                this.Update(entity);
+                dbcontext.Set<T>().Attach(entity);
+                Hashtable props = ConvertExtension.GetPropertyInfo<T>(entity);
+                foreach (string item in props.Keys)
+                {
+                    object value = dbcontext.Entry(entity).Property(item).CurrentValue;
+                    if (value != null)
+                    {
+                        if (value.ToString() == "&nbsp;")
+                            dbcontext.Entry(entity).Property(item).CurrentValue = null;
+                        dbcontext.Entry(entity).Property(item).IsModified = true;
+                    }
+                }
+                //this.Update(entity);
             }
             return dbTransaction == null ? this.Commit() : 0;
         }

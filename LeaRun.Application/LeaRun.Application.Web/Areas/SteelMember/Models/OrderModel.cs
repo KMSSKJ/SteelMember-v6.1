@@ -42,11 +42,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// <returns></returns>
         [DisplayName("构件主键")]
         public string MemberId { get; set; }
-    /// <summary>
-    /// 需求主键
-    /// </summary>
-    /// <returns></returns>
-    [DisplayName("需求主键")]
+        /// <summary>
+        /// 需求主键
+        /// </summary>
+        /// <returns></returns>
+        [DisplayName("需求主键")]
         public string ProjectDemandId { get; set; }
         /// <summary>
         /// 批号
