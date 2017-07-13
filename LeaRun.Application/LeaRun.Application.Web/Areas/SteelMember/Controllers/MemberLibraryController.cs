@@ -256,31 +256,42 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
               var data= memberlibrarybll.GetList(null).ToList();
               var MemberEntity = data.Find(f => f.MemberId == item);
-              memberlibrarybll.RemoveForm(keyValue);
+               memberlibrarybll.RemoveForm(keyValue);
 
-                var MemberEntity1 = data.FindAll(f => f.MarkId > MemberEntity.MarkId && f.SubProjectId == MemberEntity.SubProjectId);
-                foreach (var item1 in MemberEntity1)
+                var MemberEntity1 = data.FindAll(f =>f.MarkId > MemberEntity.MarkId && f.SubProjectId == MemberEntity.SubProjectId);
+                if (MemberEntity1.Count()>0)
                 {
-                    var MemberEntity2 = data.Find(f => f.MemberId == item1.MemberId);
-
-                    char[] Number = MemberEntity2.MemberNumbering.ToArray();
-                    string MemberNumbering = "";
-                    for (int I = 0; I < Number.Length; I++)
+                    foreach (var item1 in MemberEntity1)
                     {
-                        if (("0123456789").IndexOf(Number[I] + "") != -1)
+                        var MemberEntity2 = data.Find(f => f.MemberId == item1.MemberId);
+
+                        char[] Number = MemberEntity2.MemberNumbering.ToArray();
+                        string MemberNumbering = "";
+                        string Letter = "";
+                        for (int I = 0; I < Number.Length; I++)
                         {
-                            MemberNumbering += Number[I];
+                            if (("0123456789").IndexOf(Number[I] + "") != -1)
+                            {
+                                if (Number[I].ToString() != "0")
+                                {
+                                    MemberNumbering += Number[I];//获取不等于0的数字
+                                }
+                                else
+                                {
+                                    Letter += Number[I];//获取0
+                                }
+
+                            }
+                            else
+                            {
+                                Letter += Number[I];//获取字母（字符）
+                            }
                         }
+                        MemberEntity2.MarkId--;
+                        MemberEntity2.MemberNumbering = Letter + (Convert.ToInt32(MemberNumbering) -1);
+                        memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
                     }
-
-
-                   // MemberEntity2.MemberNumbering== MemberNumbering;
-
-                    memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
                 }
-
-
-
 
                 //删除构件原材料
                 var MemberMaterial = membermaterialbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
@@ -336,6 +347,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     str1 += "0";
                 }
+                entitys.MarkId = Num;
                 entitys.MemberNumbering = str + str1 + Num.ToString();
                 entitys.IsRawMaterial = 0;
                 entitys.IsProcess = 0;
@@ -532,6 +544,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 }
                                 MemberLibrary.MemberNumbering = str + str1 + Num.ToString();
                                 //end
+                                MemberLibrary.MarkId = Num;
                                 MemberLibrary.Category = table.Rows[i][1].ToString().Trim();
                                 MemberLibrary.MemberName = table.Rows[i][2].ToString().Trim();
                                 MemberLibrary.MemberUnit = table.Rows[i][3].ToString().Trim();
@@ -569,7 +582,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 MemberLibrary.Icon = Icon;
                                 MemberLibrary.IsProcess = 0;
                                 MemberLibrary.IsRawMaterial = 0;
-                                memberlibrarybll.SaveForm(MemberLibrary.MemberId, MemberLibrary);
+                                memberlibrarybll.SaveForm("", MemberLibrary);
                             }
                             else
                             {

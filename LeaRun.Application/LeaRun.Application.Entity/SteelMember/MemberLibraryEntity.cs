@@ -20,7 +20,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// MarkId
         /// </summary>
         /// <returns></returns>
-        public int MarkId { get; set; }
+        public int? MarkId { get; set; }
         /// <summary>
         /// SubProjectId
         /// </summary>
