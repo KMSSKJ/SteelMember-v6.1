@@ -39,13 +39,21 @@ namespace LeaRun.Application.IService.SteelMember
         /// </summary>
         /// <param name="keyValue">主键</param>
         void RemoveForm(string keyValue);
+        ///// <summary>
+        ///// 保存表单（新增、修改）
+        ///// </summary>
+        ///// <param name="keyValue">主键值</param>
+        ///// <param name="entity">实体对象</param>
+        ///// <returns></returns>
+        //void SaveForm(string keyValue, MemberLibraryEntity entity);
+
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        void SaveForm(string keyValue, MemberLibraryEntity entity);
+        string SaveForm(string keyValue, MemberLibraryEntity entity);
         #endregion
 
         #region 验证数据

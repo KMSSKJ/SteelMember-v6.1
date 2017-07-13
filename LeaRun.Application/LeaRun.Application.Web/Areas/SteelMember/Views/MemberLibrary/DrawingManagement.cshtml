@@ -1,0 +1,133 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<title>图片放大缩小向左向右网页特效</title>*@
+    
+    <script src="~/Content/scripts/plugins/jqueryPicture/js/jquery.mousewheel.min.js"></script>
+    <script src="~/Content/scripts/plugins/jqueryPicture/js/jquery.iviewer.js"></script>
+   
+    <script type="text/javascript">
+        var $ = jQuery;
+        $(document).ready(function () {
+            var mole_fileURL = $("#model_file").val();
+            var cad_fileURL = $("#cad_file").val();
+            GetGrid();
+            document.getElementById("model").style.display = "none";
+            document.getElementById("process").style.display = "none";
+            $("#viewer_cad").iviewer(
+                {
+                    src: cad_fileURL,
+                    update_on_resize: false,
+                    initCallback: function () {
+                        var object = this;
+                        $("#in").click(function () { object.zoom_by(1); });
+                        $("#out").click(function () { object.zoom_by(-1); });
+                        $("#fit").click(function () { object.fit(); });
+                        $("#orig").click(function () { object.set_zoom(100); });
+                        $("#update").click(function () { object.update_container_info(); });
+                    },
+                    onMouseMove: function (object, coords) { },
+                    onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+                    onDrag: function (object, coords) { }
+                });
+
+            $("#viewer_model").iviewer(
+                {
+                    src: mole_fileURL,
+                    update_on_resize: false,
+                    initCallback: function () {
+                        var object = this;
+                        $("#in").click(function () { object.zoom_by(1); });
+                        $("#out").click(function () { object.zoom_by(-1); });
+                        $("#fit").click(function () { object.fit(); });
+                        $("#orig").click(function () { object.set_zoom(100); });
+                        $("#update").click(function () { object.update_container_info(); });
+                    },
+                    onMouseMove: function (object, coords) { },
+                    onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+                    onDrag: function (object, coords) { }
+                });
+        });
+
+        //加载表格
+        function GetGrid() {
+            var MemberId ="@ViewData["MemberId"]";
+            var $grid = $("#gridTable");
+        $grid.jqGrid({
+            unwritten: false,
+            url: "../../SteelMember/MemberLibrary/GetMemberRawMaterialJson?MemberId="+ MemberId,
+            datatype: "json",
+            height: $(window).height() - 165,
+            width: $(window).width() - 11,
+            colModel: [
+                { label: "外键", name: "RawMaterialId", hidden: true },
+                { label: "外键", name: "MemberId", hidden: true },
+                { label: "外键", name: "TreeId", hidden: true },
+                { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
+                { label: "型号/规格", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
+                { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false },
+            ],
+            treeGrid: true,
+            treeGridModel: "nested",
+            //ExpandColumn: "TreeName",
+            rowNum: "all",
+            rownumbers: true
+        });
+        }
+
+    </script>
+    <link href="~/Content/scripts/plugins/jqueryPicture/css/jquery.iviewer.css" rel="stylesheet" />
+   
+    <style>
+        .viewer {
+            width: 99.6%;
+            height: 99.6%;
+            border: 1px solid black;
+            position: relative;
+        }
+        #viewer_model img {
+            margin-left: 220px;
+            margin-top: 220px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form1">
+        <div class="bd" style="border-bottom: none; margin: 1px;">
+            <div class="tipstitle_title settingtable bold bd todayInfoPanelTab rightPanelTitle_normal">
+                <div class="tab_list_top" style="position: absolute">
+                    <div id="Tabcad" class="tab_list bd actived" onclick="Tabchange('cad')">构件图纸</div>
+                    <div id="Tabmodel" class="tab_list bd " onclick="Tabchange('model')">三维模型</div>
+                    <div id="Tabprocess" class="tab_list bd " onclick="Tabchange('process')">原材料用量</div>
+                </div>
+            </div>
+        </div>
+        <div class="ScrollBar" style="margin: 1px; overflow: hidden;">
+            <!--构件图纸-->
+            <div id="cad" class="tabPanel" style="width:700px;height:540px;">
+                <input type="hidden" id="cad_file" value='@ViewData["CADDrawing"]' />
+                <div id="viewer_cad" class="viewer"></div>
+                @*<input type="button" onclick="btn_uploadCADDrawing(@ViewData["MemberId"])" value="修改/上传" style="margin-left:120px" />
+                <input type="button" onclick="btn_delCADDrawing(@ViewData["MemberId"])" value="删除" style="margin-left:20px" />*@
+            </div>
+            <!--构件模型-->
+            <div id="model" class="tabPanel" style="width:700px;height:540px;">
+                <input type="hidden" id="model_file" value='@ViewData["ModelDrawing"]' />
+                <div id="viewer_model" class="viewer"></div>
+                @*<input type="button" onclick="btn_uploadModelDrawing(@ViewData["MemberId"])" value="修改/上传" style="margin-left:120px" />
+                <input type="button" onclick="btn_delModelDrawing(@ViewData["MemberId"])" value="删除" style="margin-left:20px" />*@
+            </div>
+            <!--构件制程-->
+            <div id="process" class="tabPanel"  style="width:700px;height:540px;">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

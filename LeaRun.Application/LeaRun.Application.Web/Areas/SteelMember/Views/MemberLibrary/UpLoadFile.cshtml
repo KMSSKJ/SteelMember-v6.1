@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "构件库管理》上传图片页面";
-   // Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    Layout = "~/Views/Shared/_Index.cshtml";
 }
 <div>
     <p>提示！</p>
@@ -11,8 +11,6 @@
     </p>
 </div>
 <br />
-<script src="~/Content/Scripts/jquery/jquery-1.9.1.min.js"></script>
-<script src="~/Content/Scripts/learunui-framework.js"></script>
 
 <script type="text/javascript">
     //var array = new Array();
@@ -70,14 +68,14 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                tipDialog(data, 3);
+                dialogMsg(data, 0);
                 if (data == "操作成功！") {
-                    top.frames["tabs_iframe_f231bbf7-f1fa-4f99-9991-167548f5243a"].windowload();
-                    closeDialog();
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                    dialogClose();
                 }
             },
             error: function (e) {
-                tipDialog(e,3);
+                dialogMsg(e,0);
 
             }
         });

@@ -1554,7 +1554,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 foreach (var item in listfile)
                 {
                     MemberMaterialModel EntityModel = new MemberMaterialModel();
-                    EntityModel.MemberMaterialId = item.MemberMaterialId;
+                   // EntityModel.MemberMaterialId = item.MemberMaterialId;
                     EntityModel.MemberId = item.MemberId;
                     EntityModel.RawMaterialId = item.RawMaterialId.ToString();
                     EntityModel.RawMaterialNumber =item.RawMaterialNumber;
