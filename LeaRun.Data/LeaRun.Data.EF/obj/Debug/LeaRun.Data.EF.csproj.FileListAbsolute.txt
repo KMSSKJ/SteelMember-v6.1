@@ -432,3 +432,4 @@ D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\zh-Hans\Entity
 D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.csprojResolveAssemblyReference.cache
 D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.dll
 D:\GitHubProject\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.pdb
+D:\Source\Repos\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\EntityFramework.SqlServer.xml
