@@ -97,6 +97,7 @@
     <Compile Include="SystemManage\DataItemDetailEntity.cs" />
     <Compile Include="SystemManage\DataItemEntity.cs" />
     <Compile Include="SystemManage\LogEntity.cs" />
+    <Compile Include="SystemManage\ProjectDemandEntity.cs" />
     <Compile Include="SystemManage\ViewModel\DataItemModel.cs" />
     <Compile Include="UserInfoModel.cs" />
   </ItemGroup>

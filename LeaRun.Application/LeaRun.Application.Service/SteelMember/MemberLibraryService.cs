@@ -50,7 +50,7 @@ namespace LeaRun.Application.Service.SteelMember
                         break;
                 }
             }
-            if(!queryParam["SubProject"].IsEmpty())
+            if(!queryParam["SubProjectId"].IsEmpty())
             {
                 var SubProjectId = queryParam["SubProjectId"].ToString();
                 expression = expression.And(t => t.SubProjectId == SubProjectId);
@@ -108,13 +108,33 @@ namespace LeaRun.Application.Service.SteelMember
         {
             this.BaseRepository().Delete(keyValue);
         }
+        ///// <summary>
+        ///// 保存表单（新增、修改）
+        ///// </summary>
+        ///// <param name="keyValue">主键值</param>
+        ///// <param name="entity">实体对象</param>
+        ///// <returns></returns>
+        //public void SaveForm(string keyValue, MemberLibraryEntity entity)
+        //{
+        //    if (!string.IsNullOrEmpty(keyValue))
+        //    {
+        //        entity.Modify(keyValue);
+        //        this.BaseRepository().Update(entity);
+        //    }
+        //    else
+        //    {
+        //        entity.Create();
+        //        this.BaseRepository().Insert(entity);
+        //    }
+        //}
+
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        public void SaveForm(string keyValue, MemberLibraryEntity entity)
+        public string SaveForm(string keyValue, MemberLibraryEntity entity)
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
@@ -123,9 +143,10 @@ namespace LeaRun.Application.Service.SteelMember
             }
             else
             {
-                //entity.Create();
+                entity.Create();
                 this.BaseRepository().Insert(entity);
             }
+           return entity.MemberId;
         }
         #endregion
 

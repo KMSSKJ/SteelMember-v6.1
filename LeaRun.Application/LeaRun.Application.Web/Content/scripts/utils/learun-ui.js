@@ -950,14 +950,23 @@ changeUrlParam = function (url, key, value) {
 }
 
 
-$.currentIframe = function () {
-    if ((top.frames[tabiframeId()].contentWindow != undefined) && ($.isbrowsername() == "Chrome" || $.isbrowsername() == "FF")) {
-        return top.frames[tabiframeId()].contentWindow;
-    }
-    else {
-        return top.frames[tabiframeId()];
+$.currentIframe = function (id) {
+    if (id == "" || id == undefined || id==null) {
+        if ((top.frames[tabiframeId()].contentWindow != undefined) && ($.isbrowsername() == "Chrome" || $.isbrowsername() == "FF")) {
+            return top.frames[tabiframeId()].contentWindow;
+        }
+        else {
+            return top.frames[tabiframeId()];
+        }
+    } else {
+        return window.parent.window.document.getElementById(id).contentWindow;
     }
 }
+
+//$.Iframe = function (id) {
+//    return window.parent.window.document.getElementById(id).contentWindow;
+//}
+
 $.isbrowsername = function () {
     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
     var isOpera = userAgent.indexOf("Opera") > -1;

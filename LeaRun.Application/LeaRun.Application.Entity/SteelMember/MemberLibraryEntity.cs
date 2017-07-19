@@ -17,6 +17,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string MemberId { get; set; }
         /// <summary>
+        /// MarkId
+        /// </summary>
+        /// <returns></returns>
+        public int? MarkId { get; set; }
+        /// <summary>
         /// SubProjectId
         /// </summary>
         /// <returns></returns>

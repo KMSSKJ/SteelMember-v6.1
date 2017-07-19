@@ -37,15 +37,15 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string RawMaterialModel { get; set; }
         /// <summary>
-        /// Description
-        /// </summary>
-        /// <returns></returns>
-        public string Description { get; set; }
-        /// <summary>
         /// RawMaterialNumber
         /// </summary>
         /// <returns></returns>
         public int? RawMaterialNumber { get; set; }
+        /// <summary>
+        /// CreatTime
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? CreatTime { get; set; }
         #endregion
 
         #region À©Õ¹²Ù×÷

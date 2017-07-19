@@ -55,11 +55,10 @@
     <Compile Include="SteelMember\MemberLibraryBLL.cs" />
     <Compile Include="SteelMember\MemberMaterialBLL.cs" />
     <Compile Include="SteelMember\MemberProcessBLL.cs" />
-    <Compile Include="SteelMember\MemberProductionOrderBLL.cs" />
+    <Compile Include="SteelMember\ProjectDemandBLL.cs" />
     <Compile Include="SteelMember\ProjectInfoBLL.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisBLL.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryBLL.cs" />
-    <Compile Include="SteelMember\RawMaterialPurchaseBLL.cs" />
     <Compile Include="SteelMember\SubProjectBLL.cs" />
     <Compile Include="SystemManage\AreaBLL.cs" />
     <Compile Include="SystemManage\CodeRuleBLL.cs" />
