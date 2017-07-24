@@ -16,8 +16,10 @@ namespace LeaRun.Application.Service.SteelMember
     /// 日 期：2017-07-06 10:42
     /// 描 述：原材料管理
     /// </summary>
-    public class RawMaterialLibraryService : RepositoryFactory<RawMaterialLibraryEntity>,RawMaterialLibraryIService
+    public class RawMaterialLibraryService : RepositoryFactory<RawMaterialLibraryEntity>, RawMaterialLibraryIService
     {
+        private RawMaterialInventoryIService service = new RawMaterialInventoryService();
+
         #region 获取数据
         /// <summary>
         /// 获取列表
@@ -70,6 +72,13 @@ namespace LeaRun.Application.Service.SteelMember
         public void RemoveForm(string keyValue)
         {
             this.BaseRepository().Delete(keyValue);
+
+            var inventory = service.GetList("").Where(i => i.RawMaterialId.Trim() == keyValue.Trim()).SingleOrDefault();
+            if (!inventory.IsEmpty())
+            {
+                service.RemoveForm(inventory.InventoryId);
+            }
+
         }
         /// <summary>
         /// 删除数据（批量）
@@ -77,6 +86,19 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="list"></param>
         public void RemoveList(List<RawMaterialLibraryEntity> list)
         {
+            var inventoryList = new List<RawMaterialInventoryEntity>();
+            if (list.Count()>0)
+            {
+                foreach (var item in list)
+                {
+                    var inventoryModel = service.GetEntityByRawMaterialId(item.RawMaterialId);
+                    if (!inventoryModel.IsEmpty())
+                    {
+                        inventoryList.Add(inventoryModel);
+                    }
+                }
+            }
+            service.RemoveList(inventoryList);
             this.BaseRepository().Delete(list);
         }
         /// <summary>
@@ -104,6 +126,15 @@ namespace LeaRun.Application.Service.SteelMember
             {
                 entity.Create();
                 this.BaseRepository().Insert(entity);
+
+                var model = new RawMaterialInventoryEntity();
+                model.Create();
+                model.RawMaterialId = entity.RawMaterialId;
+                model.Category = entity.Category;
+                model.Quantity = 0;
+                service.SaveForm(null, model);
+
+
             }
         }
         #endregion 
@@ -145,7 +176,7 @@ namespace LeaRun.Application.Service.SteelMember
                 expression = expression.And(t => t.RawMaterialId != keyValue);
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
-        }        
+        }
         #endregion
 
     }

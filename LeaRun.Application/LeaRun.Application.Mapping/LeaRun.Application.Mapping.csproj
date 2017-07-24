@@ -76,6 +76,7 @@
     <Compile Include="SteelMember\ProjectDemandMap.cs" />
     <Compile Include="SteelMember\ProjectInfoMap.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisMap.cs" />
+    <Compile Include="SteelMember\RawMaterialInventoryMap.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryMap.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseInfoMap.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseMap.cs" />
