@@ -71,10 +71,14 @@
     <Compile Include="SteelMember\MemberLibraryMap.cs" />
     <Compile Include="SteelMember\MemberMaterialMap.cs" />
     <Compile Include="SteelMember\MemberProcessMap.cs" />
+    <Compile Include="SteelMember\MemberProductionOrderInfoMap.cs" />
+    <Compile Include="SteelMember\MemberProductionOrderMap.cs" />
     <Compile Include="SteelMember\ProjectDemandMap.cs" />
     <Compile Include="SteelMember\ProjectInfoMap.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisMap.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryMap.cs" />
+    <Compile Include="SteelMember\RawMaterialPurchaseInfoMap.cs" />
+    <Compile Include="SteelMember\RawMaterialPurchaseMap.cs" />
     <Compile Include="SteelMember\SubProjectMap.cs" />
     <Compile Include="SystemManage\AreaMap.cs" />
     <Compile Include="AuthorizeManage\ModuleMap.cs" />
