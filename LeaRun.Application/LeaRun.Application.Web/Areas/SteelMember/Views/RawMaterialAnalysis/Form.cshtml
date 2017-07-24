@@ -15,27 +15,7 @@
             param: { Levels: 2 },
             url: "../../SteelMember/SubProject/GetTreeJson",
             description: "==请选择==",
-            height: "150px",
-            click: function (item) {
-                //for (var i in item) {
-                //    alert(i);
-                //    alert(item[i]);
-                //}
-                if (!item.hasChildren) {
-                    //$(".tip_container").remove();
-                    //parameter.baseInfo.F_ObjectId = item.id;
-                    //parameter.baseInfo.F_ObjectName = item.text;
-                    //parameter.baseInfo.F_ObjectFormId = "";
-                    //$("#gridTable").jqGrid('setGridParam', {
-                    //    postData: { moduleId: item.id },
-                    //    url: "../../AuthorizeManage/ModuleButton/GetTreeListJson"
-                    //}).trigger('reloadGrid');
-                }
-                else {
-                    dialogTop("请选择工程名称而不是工程分类", "error");
-                    return "false";
-                }
-            }
+            
         });
         //原材料类型
         $("#RawMaterialCategory").ComboBox({

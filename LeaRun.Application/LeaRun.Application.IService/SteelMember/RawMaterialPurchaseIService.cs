@@ -1,7 +1,7 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
-
+using System.Linq.Expressions;
 namespace LeaRun.Application.IService.SteelMember
 {
     /// <summary>
@@ -9,7 +9,7 @@ namespace LeaRun.Application.IService.SteelMember
     /// 日 期：2017-07-08 11:58
     /// 描 述：原材料采购管理
     /// </summary>
-    public interface RawMaterialPurchaseIService
+    public interface RawMaterialPurchaseIService: IService.IBaseService<RawMaterialPurchaseEntity>
     {
         #region 获取数据
         /// <summary>
@@ -19,6 +19,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
         IEnumerable<RawMaterialPurchaseEntity> GetPageList(Pagination pagination, string queryJson);
+
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -31,6 +32,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         IEnumerable<RawMaterialPurchaseInfoEntity> GetDetails(string keyValue);
+        List<RawMaterialPurchaseInfoEntity> GetList(Expression<System.Func<RawMaterialPurchaseInfoEntity, bool>> condition);
         #endregion
 
         #region 提交数据
@@ -39,12 +41,8 @@ namespace LeaRun.Application.IService.SteelMember
         /// </summary>
         /// <param name="keyValue">主键</param>
         void RemoveForm(string keyValue);
-        /// <summary>
-        /// 保存表单（新增、修改）
-        /// </summary>
-        /// <param name="keyValue">主键值</param>
-        /// <param name="entity">实体对象</param>
-        /// <returns></returns>
+        
+
         void SaveForm(string keyValue, RawMaterialPurchaseEntity entity,List<RawMaterialPurchaseInfoEntity> entryList);
         #endregion
     }

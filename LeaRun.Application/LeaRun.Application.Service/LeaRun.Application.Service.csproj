@@ -54,10 +54,12 @@
     <Compile Include="SteelMember\MemberLibraryService.cs" />
     <Compile Include="SteelMember\MemberMaterialService.cs" />
     <Compile Include="SteelMember\MemberProcessService.cs" />
+    <Compile Include="SteelMember\MemberProductionOrderService.cs" />
     <Compile Include="SteelMember\ProjectDemandService.cs" />
     <Compile Include="SteelMember\ProjectInfoService.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisService.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryService.cs" />
+    <Compile Include="SteelMember\RawMaterialPurchaseService.cs" />
     <Compile Include="SteelMember\SubProjectService.cs" />
     <Compile Include="PublicInfoManage\ScheduleService.cs" />
     <Compile Include="SystemManage\AreaService.cs" />

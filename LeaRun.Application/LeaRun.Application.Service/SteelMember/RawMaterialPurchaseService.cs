@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Util;
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -26,6 +27,9 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns>返回分页列表</returns>
         public IEnumerable<RawMaterialPurchaseEntity> GetPageList(Pagination pagination, string queryJson)
         {
+            if (queryJson!=null) {
+                return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(p=>p.Category==queryJson, pagination);
+            }
             return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(pagination);
         }
         /// <summary>
@@ -58,7 +62,7 @@ namespace LeaRun.Application.Service.SteelMember
             try
             {
                 db.Delete<RawMaterialPurchaseEntity>(keyValue);
-                db.Delete<RawMaterialPurchaseInfoEntity>(t => t.InfoId.Equals(keyValue));
+                db.Delete<RawMaterialPurchaseInfoEntity>(t => t.RawMaterialPurchaseId.Equals(keyValue));
                 db.Commit();
             }
             catch (Exception)
@@ -114,6 +118,33 @@ namespace LeaRun.Application.Service.SteelMember
             throw;
         }
         }
+
+        public List<RawMaterialPurchaseInfoEntity> GetList(Expression<Func<RawMaterialPurchaseInfoEntity, bool>> condition)
+        {
+            // throw new NotImplementedException();
+            return this.BaseRepository().IQueryable(condition).ToList();
+        }
+
+        public void RemoveList(List<RawMaterialPurchaseEntity> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdataList(List<RawMaterialPurchaseEntity> list)
+        {
+            this.BaseRepository().Update(list);
+        }
+
+        public bool Exist(string query, string keyValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Exist(string query, string category, string keyValue)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

@@ -1,0 +1,274 @@
+﻿@{
+    ViewBag.Title = "编辑原材料采购单";
+    Layout = "~/Views/Shared/_OrderForm.cshtml";
+}
+
+<script>
+    var keyValue = request('keyValue');
+    //alert(keyValue);Description
+    var Description = request("Description");
+    //var category = request("category");
+    var category = request("keyValue");
+    $(function () {
+        InitialPage();
+        GetOrderEntryGrid();
+        initControl();
+       
+    });
+    //初始化页面
+    function InitialPage() {;
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#gridTable').setGridWidth(($('.gridPanel').width()));
+                $('#gridTable').setGridHeight($(window).height() - 240.5);
+            }, 200);
+            e.stopPropagation();
+        });
+    } 
+    var length=0;
+    //加载明细表
+    function GetOrderEntryGrid() {
+        var $grid = $('#gridTable');
+        $grid.jqGrid({
+            // cellEdit:true,
+            //cellEdit: true,//是否开启单元格的编辑功能  
+            //cellsubmit: 'clientArray',//or 'clientArray',remote代表每次编辑提交后进行服务器保存，clientArray只保存到数据表格不保存到服务器  
+            //cellurl: 'xxx',//cellsubmit要提交的后台路径 
+            //unwritten: false,
+            //DetailRawMaterialPurchaseInfo
+            //url: "../../SteelMember/RawMaterialPurchase/DetailRawMaterialPurchaseInfo?rawMaterialPurchaseId="+keyValue,
+            datatype: 'json',
+            height: $(window).height() - 240.5,
+            autowidth: true,
+            colModel: [
+                { label: '采购单据', name: 'RawMaterialPurchaseId', width: 80, align: 'center', sortable: false, resizable: false },
+                { label: '原材料类型', name: "RawMaterialName", id: "RawMaterialName", align: 'center', width: 100, sortable: false },
+                { label: '分析ID', name: 'RawMaterialAnalysisId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+
+                { label: '型号', name: "RawMaterialModel", align: 'center', width: 100, sortable: false },
+                { label: '规格', name: "RawMaterialStandard", align: 'center', width: 100, sortable: false },
+                { label: '采购量', name: "SuggestQuantity", id: "SuggestQuantity", align: 'center', width: 100, editable: true },
+
+                { label: '单位', name: "UnitName", align: 'center', width: 80, sortable: false },
+                { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
+            ],
+            pager: false,
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+            footerrow: false,
+            gridComplete: function () {
+            }
+        });
+        $.ajax({
+            method: 'post',
+            url: "../../SteelMember/RawMaterialPurchase/DetailRawMaterialPurchaseInfo?rawMaterialPurchaseId=" + keyValue,
+            //url: "../../SteelMember/RawMaterialPurchase/GetDetailsJson?rawMaterialPurchaseId=" + keyValue,
+            dataType: 'json',
+            success: function (data) {
+                var dp = eval(data);
+                length+= dp.length;
+                //alert(dp.length);
+                //默认添加13行 空行
+                for (var i = 0; i < 13; i++) {
+
+                    var rowdata = {
+                        RawMaterialPurchaseId: '<input value="' + dp[i].RawMaterialPurchaseId + '" id="RawMaterialPurchaseId➩' + i + '" class="editable disabled" type="text" describedby="yes" disabled="disabled"/>',
+                        RawMaterialAnalysisId: '<input value="' + dp[i].RawMaterialAnalysisId + '"  id="RawMaterialAnalysisId' + i + '" class="editable disabled center" type="text" disabled="disabled"/>',
+                        RawMaterialName: '<input value="' + dp[i].RawMaterialName + '" id="RawMaterialName➩' + i + '" class="editable center" type="text"/>',
+                        RawMaterialModel: '<input value="' + dp[i].RawMaterialModel + '" id="RawMaterialModel➩' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
+                        RawMaterialStandard: '<input value="' + dp[i].RawMaterialStandard + '" id="RawMaterialStandard➩' + i + '" class="editable disabled center" type="text" disabled="disabled"/>',
+                        SuggestQuantity: '<input value="' + dp[i].SuggestQuantity + '" id="SuggestQuantity' + i + '" class="editable disabled center" type="text" />',
+                        Inventory: '<input value="' + dp[i].Inventory + '" id="Inventory➩' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
+                        //SuggestQuantity: '<input value="' + dp[i].SuggestQuantity +'" id="SuggestQuantity➩' + i + '" class="editable disabled center" type="number" />',
+                        UnitName: '<input value="' + dp[i].UnitName + '" id="UnitName➩' + i + '" class="editable center" type="text" disabled="disabled" />',
+                        Description: '<input value="' + dp[i].Description + '" id="Description➩' + i + '" class="editable disabled" type="text" disabled="disabled" />',
+
+                    }
+                    $('#gridTable').jqGrid('addRowData', i, rowdata);
+                }
+            }
+        });
+
+
+        $("#gridTable tbody tr").find('td:eq(1)').find('input').click(function () {
+            // Category
+            var _category = $("#Category").attr('data-value');
+            //var _category = $("#ObjectName").attr('data-value');
+            // alert(_category);
+            if (_category == undefined || _category == "" || _category == null) {
+                dialogTop("请选择工程名称", "error");
+                return false;
+            }
+            if ($(this).attr('disabled') == 'disabled') {
+                return false;
+            }
+            // var index = $(this).attr('id').split('➩')[1];
+
+            //dialogOpen({
+            //    id: 'ItemList',
+            //    title: '选取材料',
+            //    url: '/SteelMember/RawMaterialPurchase/ItemList?category=' + _category,
+            //    width: '700px',
+            //    height: '500px',
+            //    callBack: function (iframeId) {
+            //        top.frames[iframeId].btn_add_();
+            //    }
+            //});
+                });
+            }
+
+
+            //初始化控件
+            function initControl() {
+                //Category
+                //$("#ObjectName").ComboBoxTree({
+                $("#Category").ComboBoxTree({
+                    param: { Levels: 2 },
+                    url: "../../SteelMember/SubProject/GetTreeJson",
+                    description: "==请选择==",
+                    allowSearch: true
+
+                });
+
+                //获取表单
+                if (!!keyValue) {
+
+                    $.SetForm({
+                        url: "../../SteelMember/RawMaterialPurchase/GetFormJson",
+                        param: { keyValue: keyValue },
+                        success: function (data) {
+                            $("#form1").SetWebControls(data.entity);
+                            //明细
+                            var childEntity = data.childEntity;
+                            //alert(1 +"获取表单");
+                            $('#gridTable').find('[role=row]').each(function (i) {
+                                // alert("1" + row);
+                                var row = childEntity[i - 1];
+                                if (row != undefined) {
+                                    $(this).find('input[id="SuggestQuantity"]').val(row.SuggestQuantity);
+                                    $(this).find('input[id="RawMaterialPurchaseId"]').val(row.RawMaterialPurchaseId);
+                                    $(this).find('input[id="RawMaterialAnalysisId"]').val(row.RawMaterialAnalysisId);
+                                }
+                            });
+                        }
+                    })
+                } else {
+
+                    $("#Category").ComboBoxTreeSetValue(category);
+               }
+            }
+            //保存表单;
+            function AcceptClick() {
+                // var val = $("#gridTable tbody tr[id=1] td input").val();
+
+                //if (val == undefined || val == "" || val == null) {
+                //    dialogMsg('请选取材料！', 0);
+                //    return false;
+                //}
+                if (!$('#form1').Validform()) {
+                    return false;
+                }
+
+                var allpostData = $("#form1").GetWebControls(keyValue);
+                var Description= allpostData.Description = allpostData.Description =="&nbsp;" ? "": allpostData.Description;
+                var postData = { Category: allpostData.Category, Description: Description};
+                //var postData = [];
+                //postData[0] = allpostData.Category;
+                //postData[1] = allpostData.Description = allpostData.Description = "&nbsp;" ? "" : allpostData.Description;
+                //alert("12121我" + length);
+                //alert("12121哈哈" + allpostData.Description);
+                var childEntryJson = [];
+                for (var i = 0; i < length; i++){
+                    //var pp = $('#gridTable').find('input[id="PurchaseQuantity' + i + '"]').val() 
+                    childEntryJson.push({
+                        PurchaseQuantity: $('#gridTable').find('input[id="SuggestQuantity' + i + '"]').val(),
+                        RawMaterialAnalysisId:$('#gridTable').find('input[id="RawMaterialAnalysisId' + i + '"]').val()
+                    });
+                }
+                //$('#gridTable').find('[role=row]').each(function (i) {
+
+                //    var quantity = parseInt($(this).find('input[id="PurchaseQuantity➩' + i + '"]').val());
+                //    if (quantity < 0) {
+                //        postData = null
+                //        return false;
+                //    }
+                //    if (!!$(this).find('input[id="PurchaseQuantity➩' + i + '"]').val()) {
+                //        childEntryJson.push({
+                //            //InfoId: $(this).find('input[id="PurchaseQuantity➩' + i + '"]').val() + 1,
+                //            PurchaseQuantity: $(this).find('input[id="PurchaseQuantity➩' + i + '"]').val(),
+                //            //RawMaterialPurchaseId: $(this).find('input[id="RawMaterialPurchaseId➩'+i+'"]').val(),
+                //            RawMaterialAnalysisId: $(this).find('input[id="RawMaterialAnalysisId➩' + i + '"]').val(),
+                //        });
+                //    }
+                //});
+                if (postData == null) {
+                    dialogMsg('采购量不能小于0', 0);
+                    return false;
+                }
+
+                $.SaveForm({
+                    url: "../../SteelMember/RawMaterialPurchase/SaveForm?keyValue=" + keyValue,
+                    param: { "strEntity": JSON.stringify(postData), "strChildEntitys": JSON.stringify(childEntryJson) },
+                    loading: "正在保存数据...",
+                    success: function () {
+                        $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                    }
+                })
+            }
+        //}  
+</script>
+<div class="bills">
+    <div style="height:180px;overflow-y:auto;margin:0px 10px;">
+        <table class="form" style="width: 100%;border-collapse:separate;border-spacing:30px;">
+            <tr>
+                <td align="center" colspan="10">
+                    <div style="font-family: 华文楷体; font-size: x-large; height: 50px; line-height: 50px;">
+                        编辑采购订单&nbsp;
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    工程:
+                </th>
+                <td colspan="4">
+                    <div id="Category" type="select" class="ui-select" style="width:95%" disabled="true"></div>
+                </td>
+                <th>
+                    备注:
+                </th>
+                <td colspan="4">
+                    <input  id="Description" type="text" class="form-control" style="width:95%;">
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+    <div class="gridPanel">
+        <table id="gridTable"></table>
+    </div>
+</div>
+<style>
+    body {
+        margin: 0px;
+    }
+
+    .bills {
+        overflow: hidden;
+        border-radius: 0px;
+        position: relative;
+        background: #FFFFFF;
+        border: 0px solid rgb(204, 204, 204);
+        box-shadow: none;
+        padding: 0px;
+    }
+
+    .ui-widget-content {
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 0px;
+    }
+</style>

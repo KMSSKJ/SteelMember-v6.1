@@ -33,7 +33,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// </summary>
         /// <param name="condition">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<RawMaterialAnalysisEntity> GetList(Expression<Func<RawMaterialAnalysisEntity, bool>> condition)
+        public List<RawMaterialAnalysisEntity> GetList(Expression<Func<RawMaterialAnalysisEntity, bool>> condition)
         {
             return service.GetList(condition);
         }
