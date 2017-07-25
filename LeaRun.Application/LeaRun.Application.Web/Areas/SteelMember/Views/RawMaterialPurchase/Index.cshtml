@@ -50,7 +50,7 @@
             param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
-                _Category = item.value;
+                //_Category = item.value;
                 //if (_Category != null) {
                 //    alert(item.value);
                     
@@ -354,7 +354,7 @@
                     }
                 }
             }
-            dialogConfirm("注：您确定要采购所选中的数据吗？", function (r) {
+            dialogConfirm("注：您确定要所选中的数据都已经采购了吗？", function (r) {
                 if (r) {
                     Loading(true, "正在提交...");
                     window.setTimeout(function () {

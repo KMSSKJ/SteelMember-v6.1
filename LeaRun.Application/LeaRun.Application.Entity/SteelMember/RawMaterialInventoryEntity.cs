@@ -31,6 +31,27 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string Category { get; set; }
+        /// <summary>
+        /// RawMaterialStandard  
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialStandard { get; set; }
+
+        /// <summary>
+        /// RawMaterialModel    
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialModel { get; set; }
+        /// <summary>
+        /// Unit    
+        /// </summary>
+        /// <returns></returns>
+        public string Unit { get; set; }
+        /// <summary>
+        /// InventoryTime    
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? InventoryTime { get; set; }
         #endregion
 
         #region À©Õ¹²Ù×÷

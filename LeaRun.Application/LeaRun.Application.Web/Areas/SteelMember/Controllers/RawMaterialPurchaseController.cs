@@ -20,6 +20,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
         private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
+
 
         #region 视图功能
         /// <summary>
@@ -380,11 +382,61 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         model.IsPurchase = 1;
                         list.Add(model);
+                        
                     }
                 }
                 if (list.Count > 0)
                 {
                     rawmaterialpurchasebll.UpdataList(list);
+                    //将已采购的加入原材料库
+                    for (var i = 0; i < ids.Length; i++) {
+                        try
+                        {
+                            var model = rawmaterialpurchasebll.GetEntity(ids[i]);
+                            //先取到采购单据
+                            if (model.RawMaterialPurchaseId != null) {
+                                //再拿去订单详情取到每一条
+                                var listInfo = rawmaterialpurchasebll.GetList(p => p.RawMaterialPurchaseId == model.RawMaterialPurchaseId && model.IsPurchase==1);
+                                //得到采购单下的详情
+                                for (var j=0;j<listInfo.Count;j++)
+                                {
+                                    RawMaterialInventoryEntity rawMaterialInventoryEntity = new RawMaterialInventoryEntity();
+                                   var quantity=listInfo[j].PurchaseQuantity;//采购的数量
+                                   var rawmaterialanalysis=rawmaterialanalysisbll.GetEntity(listInfo[j].RawMaterialAnalysisId);//通过分析ID取得分析数据
+                                   var rawMaterialId = rawmaterialanalysis.RawMaterialId;//取得材料ID
+                                   var rawmateriallibrary=rawmateriallibrarybll.GetEntity(rawMaterialId);//根据材料ID取得原材料所有信息
+
+                                    rawMaterialInventoryEntity.RawMaterialId = rawMaterialId;
+                                    rawMaterialInventoryEntity.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
+                                    rawMaterialInventoryEntity.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
+                                    rawMaterialInventoryEntity.Quantity = quantity;
+                                    rawMaterialInventoryEntity.Unit = rawmateriallibrary.Unit;
+                                    rawMaterialInventoryEntity.Category = rawmateriallibrary.Category;
+                                    rawMaterialInventoryEntity.InventoryTime = System.DateTime.Now;  //入库时间
+
+                                    //查看原材料库中是否有该材料，有就直接加库存rawMaterialId
+                                    //var linventoryEntity =rawmaterialinventorybll.GetEntity(rawMaterialId);
+                                    //if (linventoryEntity != null)
+                                    //{
+                                    //    RawMaterialInventoryEntity Entity = new RawMaterialInventoryEntity();
+                                    //    var allquantity=linventoryEntity.Quantity + quantity;
+                                    //    Entity.Quantity = allquantity;
+                                    //    Entity.InventoryTime = System.DateTime.Now;
+                                    //    rawmaterialinventorybll.SaveForm(linventoryEntity.InventoryId, Entity);
+                                    //}
+                                    string keyvalue=null;
+                                    rawmaterialinventorybll.SaveForm(keyvalue,rawMaterialInventoryEntity);
+                                    
+
+                                }
+                            }
+                        }
+                        catch (System.Exception e)
+                        {
+                            throw (e);
+                        }
+                    }
+                    
                 }
             }
             return Success("操作成功。");
