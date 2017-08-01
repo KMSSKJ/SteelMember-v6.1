@@ -1294,7 +1294,6 @@
     <Content Include="Views\Error\ErrorMessage.cshtml" />
     <Content Include="Views\Error\ErrorPath404.cshtml" />
     <Content Include="Views\Home\AdminDefault.cshtml" />
-    <Content Include="Views\Home\AdminDefaultDesktop.cshtml" />
     <Content Include="Views\Home\AdminLTE.cshtml" />
     <Content Include="Views\Home\AdminLTEDesktop.cshtml" />
     <Content Include="Views\Home\AdminWindos.cshtml" />
@@ -1315,6 +1314,7 @@
     <Content Include="Views\Login\Index2.cshtml" />
     <Content Include="Views\Home\AdminPretty.cshtml" />
     <Content Include="Views\Home\AdminPrettyDesktop.cshtml" />
+    <Content Include="Views\Home\AdminDefaultDesktop.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

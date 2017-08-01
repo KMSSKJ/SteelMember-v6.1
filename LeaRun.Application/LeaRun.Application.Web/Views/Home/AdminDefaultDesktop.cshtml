@@ -72,13 +72,12 @@
                 },
                 series: [{
                     data: [
-                        ['枢纽楼', 10],
-                        ['IDC中心', 10],
-                        ['端局', 10],
-                        ['模块局', 10],
-                        ['营业厅', 10],
-                        ['办公大楼', 10],
-                        ['C网基站', 40],
+                        ['立昌隧道', 10],
+                        ['龙潭隧道', 10],
+                        ['禄充隧道', 30],
+                        ['其它隧道', 15],
+                        ['抚仙立交', 10],
+                        ['其它桥梁', 25],
                     ]
                 }]
             });
@@ -97,11 +96,11 @@
                 },
                 yAxis: {
                     title: {
-                        text: '电量（度）'
+                        text: '损耗量（%）'
                     },
                     labels: {
                         formatter: function () {
-                            return this.value + '度'
+                            return this.value + '%'
                         }
                     }
                 },
@@ -125,14 +124,14 @@
                     }
                 },
                 series: [{
-                    name: '预算',
+                    name: '理论值',
                     marker: {
                         symbol: 'square'
                     },
                     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 23.3, 18.3, 13.9, 9.6, 1]
 
                 }, {
-                    name: '实际',
+                    name: '实际值',
                     marker: {
                         symbol: 'diamond'
                     },
@@ -163,10 +162,10 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        128
+                                        128吨
                                     </div>
                                     <div class="desc">
-                                        最新商机量
+                                        原材料库存总量
                                     </div>
                                 </div>
                                 <a class="more" style="background-color: #4884b8;" href="javascript:;" onclick="OpenNav('66f6301c-1789-4525-a7d2-2b83272aafa6')">查看更多 <i class="fa fa-arrow-circle-right"></i>
@@ -180,10 +179,10 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        266
+                                        266吨
                                     </div>
                                     <div class="desc">
-                                        最新客户量
+                                        构件库存总量
                                     </div>
                                 </div>
                                 <a class="more" style="background-color: #e04a49;" href="javascript:;" onclick="OpenNav('1d3797f6-5cd2-41bc-b769-27f2513d61a9')">查看更多 <i class="fa fa-arrow-circle-right"></i>
@@ -197,7 +196,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        39
+                                        39条
                                     </div>
                                     <div class="desc">
                                         新签订单量
@@ -303,7 +302,7 @@
             <div class="row" style="overflow: hidden; height: 460px;">
                 <div style="width: 50%; float: left;">
                     <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;局站分类型总用电占比
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区单项工程构件总量占比
                     </div>
                     <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
                         <div id="piecontainer">
@@ -312,13 +311,33 @@
                 </div>
                 <div style="width: 50%; float: left;">
                     <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;预算与实际用电量对比
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;原材料损耗率
                     </div>
                     <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
                         <div id="container"></div>
                     </div>
                 </div>
             </div>
+
+            @*<div class="row" style="overflow: hidden; height: 460px;">
+                <div style="width: 50%; float: left;">
+                    <div class="portal-panel-title">
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区单项工程进度图
+                    </div>
+                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
+                        <div id="piecontainer">
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 50%; float: left;">
+                    <div class="portal-panel-title">
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;原材料损耗率
+                    </div>
+                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
+                        <div id="container"></div>
+                    </div>
+                </div>
+            </div>*@
         </div>
     </div>
 </body>

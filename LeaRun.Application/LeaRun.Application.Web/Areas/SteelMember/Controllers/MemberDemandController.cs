@@ -143,7 +143,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
-            memberdemandbll.RemoveForm(keyValue);
+            string[] Arry = keyValue.Split(',');//字符串转数组
+            foreach (var item in Arry)
+            {
+                memberdemandbll.RemoveForm(item);
+            }
             return Success("删除成功。");
         }
         /// <summary>
@@ -177,20 +181,23 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 审核需求
         /// </summary>
-        /// <param name="KeyValue"></param>
-        /// <param name="IsReview"></param>
+        /// <param name="keyValue"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
-        public ActionResult ReviewMemberDemand(string KeyValue, string IsReview)
+        public ActionResult ReviewMemberDemand(string keyValue, int type)
         {
             try
             {
-                string Message = IsReview == "2" ? "驳回成功。" : "审核成功。";
-             
-                var file = memberdemandbll.GetList(null).ToList().Find(f => f.MemberDemandId == KeyValue);
-                file.ModifiedTime = DateTime.Now;
-                file.ReviewMan = OperatorProvider.Provider.Current().UserName;
-                file.IsReview = Convert.ToInt32(IsReview);
-                memberdemandbll.SaveForm(KeyValue, file);
+                string[] Arry = keyValue.Split(',');//字符串转数组
+                string Message = type == 2 ? "驳回成功。" : "审核成功。";
+                foreach (var item in Arry)
+                {
+                    var file = memberdemandbll.GetList(null).ToList().Find(f => f.MemberDemandId == item);
+                    file.ModifiedTime = DateTime.Now;
+                    file.ReviewMan = OperatorProvider.Provider.Current().UserName;
+                    file.IsReview = type;
+                    memberdemandbll.SaveForm(item, file);
+                }
                 return Success(Message);
             }
             catch (Exception ex)

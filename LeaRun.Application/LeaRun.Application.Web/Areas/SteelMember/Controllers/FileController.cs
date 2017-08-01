@@ -715,7 +715,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
 
             DataTable data = new DataTable();
-            string fileName = "导入构件模板.xlsx";
+            //string fileName = "导入构件模板.xlsx";
             //string TableHeader = "构件模板";
             string DataColumn = "型号 | 截面面积/cm²| 外表面积/(m²/m)|理论重量/(㎏/m)|";
             DataColumn += "h|B|b|D|d| t|r|r1|Ix | Ix0 | Ix1 | Iy | Iy0 | Iy1 | Iu | ix |";

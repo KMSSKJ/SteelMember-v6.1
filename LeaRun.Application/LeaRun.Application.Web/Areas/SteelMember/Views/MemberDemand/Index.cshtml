@@ -82,7 +82,7 @@
                             if (Icon == "1.png") {
                                 //<div style='cursor:pointer;padding-top:1px;'><img style='padding-bottom:3px;padding-right:2px;' src='../../Content/Scripts/tree/images/folder.gif' onmouseover=\"showBigImg(event,'../../Content/Scripts/tree/images/folder.gif')\" onmouseout=\"leaveBigImg(event)\"/>"</div>
                                 //<img style='width:32px;height:18px;padding-bottom:3px;padding-right:2px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
-                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/baton.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/baton.png')\"onmouseout=\"leaveBigImg(event)\"/>";
+                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
                             } else {
                                 return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
                             }
@@ -92,6 +92,7 @@
                     }
                 },
                 { label: '构件编号', name: "MemberNumbering", index: "MemberNumbering", align: ' center' },
+                { label: '构件类型', name: "Category", index: "Category", align: ' center' },
                 { label: '构件名', name: "MemberName", index: "MemberName", align: ' center' },
                 { label: '构件型号', name: "MemberModel", index: "MemberModel", align: ' center' },
                 { label: '需求量', name: "MemberNumber", index: "MemberNumber", align: ' center' },
@@ -105,13 +106,20 @@
                 {
                     label: '审核状态', name: 'IsReview', index: 'IsReview', align: ' center',
                     formatter: function (cellvalue, value, row, index) {
-                        var _IsReview = cellvalue;
-                        if (_IsReview == 0) {
-                            return "<img src='../../Content/Images/checknomark.gif'/>";
-                        } else if (_IsReview == 1) {
-                            return "<img src='../../Content/Images/checkokmark.gif'/>";
-                        } else if (_IsReview == 2) {
-                            return "<img src='../../Content/Images/checkerrormark.gif'/>";
+                          //var _IsReview = cellvalue;
+                        //if (_IsReview == 0) {
+                        //    return "<img src='../../Content/Images/checknomark.gif'/>";
+                        //} else if (_IsReview == 1) {
+                        //    return "<img src='../../Content/Images/checkokmark.gif'/>";
+                        //} else if (_IsReview == 2) {
+                        //    return "<img src='../../Content/Images/checkerrormark.gif'/>";
+                        //}
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未审核</span>";
+                        } else if (cellvalue == 1) {
+                            return "<span class=\"label label-success\">通过</span>";
+                        } else {
+                            return "<span class=\"label label-danger\">失败</span>";
                         }
                     }
                 },
@@ -217,57 +225,61 @@
     }
 
     //审核信息
-    function btn_review() {
-        var _IsReview = $("#gridTable").jqGridRowValue("IsReview");
-        var KeyValue = $("#gridTable").jqGridRowValue("MemberDemandId");
-        var IsReview = 1;
-        if (checkedRow(KeyValue)) {
-            if (_IsReview.replace(/"/, "'").replace(/"/, "'") == "<img src='../../Content/Images/checknomark.gif'>") {
-                $.ConfirmAjax({
-                    url: '/SteelMember/MemberDemand/ReviewMemberDemand',
-                    param: { KeyValue: KeyValue, IsReview: IsReview },
-                    success: function (data) {
-                        $("#gridTable").trigger("reloadGrid");
+    function btn_review(type) {
+        var keyValue = $("#gridTable").jqGridRowValue("MemberDemandId");
+        //var reviews = $('#gridTable').jqGridRowValue('IsReview');
+        //var passeds = $('#gridTable').jqGridRowValue('IsPassed');
+        var passeds = $('#gridTable').jqGridRowValue('IsReview');
+        if (checkedArray(keyValue)) {
+            //var reviewsArr = reviews.split(",");
+            var passedsArr = passeds.split(",");
+            //if (reviewsArr.length > 0) {
+            //    for (var i in reviewsArr) {
+            //        if (reviewsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
+            //            dialogMsg("所选数据中包含未提交的数据，请重新选择！", 0);
+            //            return false;
+            //            break;
+            //        }
+            //    }
+            //}
+            if (passedsArr.length > 0) {
+                for (var i in passedsArr) {
+                    if (passedsArr[i] == "<span class=\"label label-success\">通过</span>" || passedsArr[i] == "<span class=\"label label-danger\">失败</span>") {
+                        dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
+                        return false;
+                        break;
                     }
-                })
-            } else {
-                dialogMsg("该信息已审核！", 0);
-            }
-        }
-    }
-    //审核信息
-    function btn_no_review() {
-        var _IsReview = $("#gridTable").jqGridRowValue("IsReview");
-        var KeyValue = $("#gridTable").jqGridRowValue("MemberDemandId");
-        var IsReview = 2;
-        if (checkedRow(KeyValue)) {
-            if (_IsReview.replace(/"/, "'").replace(/"/, "'") == "<img src='../../Content/Images/checkenomark.gif'>") {
-                $.ConfirmAjax({
-                    url: '/SteelMember/MemberDemand/ReviewMemberDemand',
-                    param: { KeyValue: KeyValue, IsReview: IsReview },
-                    success: function (data) {
-                        $("#gridTable").trigger("reloadGrid");
-                    }
-                })
-            } else {
-                dialogMsg("该信息已审核！", 0);
-            }
-        }
-    }
-
-    //提交信息
-    function btn_SubmitItem() {
-        var KeyValue = $("#gridTable").jqGridRowValue("ProjectDemandId");
-        if (checkedRow(KeyValue)) {
-            $.ConfirmAjax({
-                url: '/SteelMember/ProjectManagement/SubmitProjectItemDemand',
-                param: { KeyValue: KeyValue },
-                success: function (data) {
-                    $("#gridTable").trigger("reloadGrid");
                 }
-            })
+            }
+            var message = "";
+            if (type == 1) {
+                message = "注：您确定要对所选中的数据进行审核通过吗？";
+            } else {
+                message = "注：您确定要对所选中的数据进行审核失败吗？";
+            }
+            dialogConfirm(message, function (r) {
+                if (r) {
+                    Loading(true, "正在处理...");
+                    window.setTimeout(function () {
+                        $.ajax({
+                            url: "../../SteelMember//MemberDemand/ReviewMemberDemand",
+                            data: { keyValue: keyValue, type: type },
+                            type: "post",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.type == "3") {
+                                    dialogAlert(data.message, -1);
+                                } else {
+                                    Loading(false);
+                                    dialogMsg(data.message, 1);
+                                }
+                                $('#gridTable').trigger('reloadGrid');
+                            }
+                        });
+                    }, 500);
+                }
+            });
         }
-        $("#gridTable").trigger("reloadGrid"); //重新载入
     }
 
     //构件图纸/模型管理
@@ -277,7 +289,7 @@
             dialogOpen({
                 id: "DrawingManagement",
                 title: '构件信息',
-                url: '/SteelMember/MemberDemand/DrawingManagement?KeyValue=' + KeyValue,
+                url: '/SteelMember/MemberLibrary/DrawingManagement?KeyValue=' + KeyValue,
                 width: "700px",
                 height: "580px",
                 btn: null
@@ -288,22 +300,29 @@
     //导出文件
     var JsonData1 = ""; var TableObject = "";
     //function btn_derive() {
-    //    SetDeriveExcel("#gridTable", "构件信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
-    //    openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "构件信息导出", 900, 500, function (iframe) {
-    //        top.frames[iframe].AcceptClick();
-    //    })
+    //    dialogOpen({
+    //        id: "ExcelIExportDialog",
+    //        title: '导出Excel数据',
+    //        url: '/Utility/ExcelExportForm?gridId=gridTable',
+    //        width: "500px",
+    //        height: "380px",
+    //        callBack: function (iframeId) {
+    //            top.frames[iframeId].AcceptClick();
+    //        }, btn: ['导出Excel', '关闭']
+    //    });
     //}
-
+   
     function btn_derive() {
+        SetDeriveExcel("#gridTable", "构件信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
         dialogOpen({
-            id: "ExcelIExportDialog",
-            title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=gridTable',
-            width: "500px",
-            height: "380px",
+            id: "DeriveFile",
+            title: '构件需求导出',
+            url: '/Utility/DeriveFile',
+            width: "700px",
+            height: "435px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
-            }, btn: ['导出Excel', '关闭']
+            },
         });
     }
 </script>
@@ -352,8 +371,8 @@
                             <i class="fa fa-filter"></i>&nbsp;审核<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu pull-right">
-                            <li id="lr-review"><a onclick="btn_review()"><i class="fa fa-filter"></i>&nbsp;通过</a></li>
-                            <li id="lr-no_review"><a onclick="btn_no_review()"><i class="fa fa-filter"></i>&nbsp;失败</a></li>
+                            <li id="lr-review"><a onclick="btn_review(1)"><i class="fa fa-filter"></i>&nbsp;通过</a></li>
+                            <li id="lr-no_review"><a onclick="btn_review(2)"><i class="fa fa-filter"></i>&nbsp;失败</a></li>
                         </ul>
                         <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
 

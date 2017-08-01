@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LeaRunFramework_Base_2016Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="RMC_Collar">
+    <Key>
+      <PropertyRef Name="CollarId" />
+    </Key>
+    <Property Name="CollarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CollarNumbering" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TreeId" Type="Int32" />
+    <Property Name="Use" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Librarian" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CollarMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CollarTime" Type="DateTime" Precision="3" />
+    <Property Name="Borrow" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_CollarMember">
+    <Key>
+      <PropertyRef Name="CollarMemberId" />
+    </Key>
+    <Property Name="CollarMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CollarId" Type="Int32" />
+    <Property Name="CollarNumbering" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="ProjectDemandId" Type="Int32" />
+    <Property Name="MemberNumbering" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="MemberModel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="MemberUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_FactoryWarehouse">
+    <Key>
+      <PropertyRef Name="FactoryWarehouseId" />
+    </Key>
+    <Property Name="FactoryWarehouseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="MemberModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="InStockNumber" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_MemberUnit">
+    <Key>
+      <PropertyRef Name="UnitId" />
+    </Key>
+    <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UnitName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_ProjectInfo">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="TreeID" Type="Int32" />
+    <Property Name="ProjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectSystemTitel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectLogo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectBackground" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="Int32" />
+    <Property Name="ProjectAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ConstructionPermitId" Type="Int32" />
+    <Property Name="ConstructionUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ConstructionPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ConstructionPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DesignUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DesignPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DesignPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SupervisionUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SupervisionPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SupervisionPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GeneralContractor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GeneralContractorPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GeneralContractorPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProfessionalContractor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProfessionalContractorPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProfessionalContractorPrincipalTEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_ProjectOrder">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectDemandId" Type="Int32" />
+    <Property Name="OrderNumbering" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Icon" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="OrderBudget" Type="Decimal" Precision="8" Scale="2" />
+    <Property Name="IsReview" Type="Int32" />
+    <Property Name="ReviewMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ReviewTime" Type="DateTime" Precision="3" />
+    <Property Name="IsSubmit" Type="Int32" />
+    <Property Name="SubmitMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+    <Property Name="ConfirmOrder" Type="Int32" />
+    <Property Name="ConfirmMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="CreateMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="Productioned" Type="Int32" />
+    <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Priority" Type="Int32" />
+    <Property Name="EngineeringPosition" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_Purchase">
+    <Key>
+      <PropertyRef Name="PurchaseId" />
+    </Key>
+    <Property Name="PurchaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PurchaseNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="CreateMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ReviewMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_RawMaterialAnalysis">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialId" Type="Int32" />
+    <Property Name="RawMaterialDosage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialTreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_RawMaterialLibrary">
+    <Key>
+      <PropertyRef Name="RawMaterialId" />
+    </Key>
+    <Property Name="RawMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialStandard" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="UnitId" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="Sort" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RMC_RawMaterialPurchase">
+    <Key>
+      <PropertyRef Name="RawMaterialPurchaseId" />
+    </Key>
+    <Property Name="RawMaterialPurchaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TreeId" Type="Int32" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="RawMaterialId" Type="Int32" />
+    <Property Name="PurchaseId" Type="Int32" />
+    <Property Name="MaterialClassId" Type="Int32" />
+    <Property Name="OrderNumbering" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialStandard" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="UnitName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="5" Scale="2" />
+    <Property Name="PriceAmount" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="MaterialBudget" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsPurchase" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RMC_Tree">
+    <Key>
+      <PropertyRef Name="TreeID" />
+    </Key>
+    <Property Name="TreeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ParentID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModuleId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsItem" Type="Int32" />
+    <Property Name="ItemClass" Type="Int32" />
+    <Property Name="ItemClassRemark" Type="Int32" />
+    <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Url" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Icon" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsMenu" Type="Int32" />
+    <Property Name="State" Type="Int32" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="Enabled" Type="Int32" />
+    <Property Name="Oderby" Type="Int32" />
+    <Property Name="UploadTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+    <Property Name="OverdueTime" Type="DateTime" Precision="3" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsReview" Type="Int32" />
+    <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_AnalysisRawMaterial">
+    <Key>
+      <PropertyRef Name="AnalysisRawMaterialId" />
+    </Key>
+    <Property Name="AnalysisRawMaterialId" Type="Int32" Nullable="false" />
+    <Property Name="TreeId" Type="Int32" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="RawMaterialId" Type="Int32" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="MaterialClassId" Type="Int32" />
+    <Property Name="OrderNumbering" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="MaterialName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="MaterialStandard" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Number" Type="Int32" />
+    <Property Name="UnitId" Type="Int32" />
+    <Property Name="UnitPrice" Type="Int32" />
+    <Property Name="MaterialBudget" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="AnalysisMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="AnalysisTime" Type="DateTime" Precision="3" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="LeaRunFramework_Base_2016Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="RMC_Collar" EntityType="Self.RMC_Collar" />
+    <EntitySet Name="RMC_CollarMember" EntityType="Self.RMC_CollarMember" />
+    <EntitySet Name="RMC_FactoryWarehouse" EntityType="Self.RMC_FactoryWarehouse" />
+    <EntitySet Name="RMC_MemberUnit" EntityType="Self.RMC_MemberUnit" />
+    <EntitySet Name="RMC_ProjectInfo" EntityType="Self.RMC_ProjectInfo" />
+    <EntitySet Name="RMC_ProjectOrder" EntityType="Self.RMC_ProjectOrder" />
+    <EntitySet Name="RMC_Purchase" EntityType="Self.RMC_Purchase" />
+    <EntitySet Name="RMC_RawMaterialAnalysis" EntityType="Self.RMC_RawMaterialAnalysis" />
+    <EntitySet Name="RMC_RawMaterialLibrary" EntityType="Self.RMC_RawMaterialLibrary" />
+    <EntitySet Name="RMC_RawMaterialPurchase" EntityType="Self.RMC_RawMaterialPurchase" />
+    <EntitySet Name="RMC_Tree" EntityType="Self.RMC_Tree" />
+    <EntitySet Name="RMC_AnalysisRawMaterial" EntityType="Self.RMC_AnalysisRawMaterial" />
+    <EntitySet Name="RMC_ProjectWarehouse" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectWarehouse" />
+    <EntitySet Name="RMC_MemberProcess" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberProcess" />
+    <EntitySet Name="RMC_OrderMember" EntityType="LeaRunFramework_Base_2016Model.RMC_OrderMember" />
+    <EntitySet Name="RMC_ProjectDemand" EntityType="LeaRunFramework_Base_2016Model.RMC_ProjectDemand" />
+    <EntitySet Name="RMC_ShipManagement" EntityType="LeaRunFramework_Base_2016Model.RMC_ShipManagement" />
+    <EntitySet Name="RMC_ProcessManagement" EntityType="LeaRunFramework_Base_2016Model.RMC_ProcessManagement" />
+    <EntitySet Name="RMC_MemberMaterial" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberMaterial" />
+    <EntitySet Name="RMC_MemberLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" />
+  </EntityContainer>
+  <EntityType Name="RMC_ProjectWarehouse">
+    <Key>
+      <PropertyRef Name="ProjectWarehouseId" />
+    </Key>
+    <Property Name="ProjectWarehouseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InStock" Type="Int32" />
+    <Property Name="Damage" Type="Int32" />
+    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsShiped" Type="Int32" />
+    <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+    <Property Name="Librarian" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Leader" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MemberTreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectDemandId" Type="Int32" />
+    <Property Name="MemberModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_MemberProcess">
+    <Key>
+      <PropertyRef Name="MemberProcessId" />
+    </Key>
+    <Property Name="MemberProcessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProcessName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="OperationTime" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="ProcessRequirements" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SortCode" Type="Int32" />
+    <Property Name="ProcessMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_OrderMember">
+    <Key>
+      <PropertyRef Name="OrderMemberId" />
+    </Key>
+    <Property Name="OrderMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="ProjectDemandId" Type="Int32" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="MemberName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="MemberModel" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="MemberUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PriceAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_ProjectDemand">
+    <Key>
+      <PropertyRef Name="ProjectDemandId" />
+    </Key>
+    <Property Name="ProjectDemandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TreeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberNumbering" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="MemberModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="MemberCompanyId" Type="Int32" />
+    <Property Name="MemberClassId" Type="Int32" />
+    <Property Name="UnitId" Type="Int32" />
+    <Property Name="MemberWeight" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="UnitPrice" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CostBudget" Type="Decimal" Precision="8" Scale="2" />
+    <Property Name="IsReview" Type="Int32" />
+    <Property Name="ReviewMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsDemandSubmit" Type="Int32" />
+    <Property Name="IsSubmit" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DeleteFlag" Type="Int32" />
+    <Property Name="MemberNumber" Type="Int32" />
+    <Property Name="OrderQuantityed" Type="Int32" />
+    <Property Name="Productioned" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+    <Property Name="CollarNumbered" Type="Int32" />
+    <Property Name="CreateMan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ProductionNumber" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RMC_ShipManagement">
+    <Key>
+      <PropertyRef Name="ShipId" />
+    </Key>
+    <Property Name="ShipId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="MemberClassId" Type="Int32" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="MemberModel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="MemberName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="ShipNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsPackaged" Type="Int32" />
+    <Property Name="UnitPrice" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="TotalPrice" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="ShipDate" Type="DateTime" Precision="3" />
+    <Property Name="ShipMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LogisticsStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingTEL" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingMan" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LibraryNumber" Type="Int32" />
+    <Property Name="ShipNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RMC_ProcessManagement">
+    <Key>
+      <PropertyRef Name="ProcessId" />
+    </Key>
+    <Property Name="ProcessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberProcessId" Type="Int32" />
+    <Property Name="ProduceStartDate" Type="DateTime" Precision="3" />
+    <Property Name="ProduceEndDate" Type="DateTime" Precision="3" />
+    <Property Name="ProcessMan" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="UnqualifiedNumber" Type="Int32" />
+    <Property Name="QualifiedNumber" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsProcessStatus" Type="Int32" />
+    <Property Name="ProcessManImge" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="ProcessName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ProcessNumbered" Type="Int32" />
+    <Property Name="IsProcessTask" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RMC_MemberMaterial">
+    <Key>
+      <PropertyRef Name="MemberMaterialId" />
+    </Key>
+    <Property Name="MemberMaterialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RawMaterialId" Type="Int32" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TreeId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialModel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="RawMaterialNumber" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RMC_MemberLibrary">
+    <Key>
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="MemberId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SubProjectId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="MemberModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="MemberUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="UnitPrice" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CAD_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Model_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsRawMaterial" Type="Int32" />
+    <Property Name="IsProcess" Type="Int32" />
+    <Property Name="Icon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+    <Property Name="IsReview" Type="Int32" />
+    <Property Name="UploadTime" Type="DateTime" Precision="3" />
+    <Property Name="FullPath" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

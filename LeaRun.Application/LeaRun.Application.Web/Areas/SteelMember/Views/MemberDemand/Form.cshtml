@@ -12,15 +12,6 @@
 
     //初始化控件
     function initControl() {
-        //加载构件
-        $("#MemberId").ComboBox({
-            url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
-            param: { SubProjectId: SubProjectId },
-            id: "MemberId",
-            text: "MemberNumbering",
-            description: "==请选择==",
-            height: "200px",
-        });
         //子项目
         $("#SubProjectId").ComboBoxTree({
             param: { Levels: 1 },
@@ -39,17 +30,36 @@
                 description: "==请选择==",
             })
         });
-
+        if (SubProjectId != "") {
+            //加载构件
+            $("#MemberId").ComboBox({
+                url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+                param: { SubProjectId: SubProjectId },
+                id: "MemberId",
+                text: "MemberNumbering",
+                description: "==请选择==",
+            })
+        }
         if (!!keyValue) {
             $.SetForm({
-                url: "/SteelMember/MemberDemand/SetDataForm",
-                param: { KeyValue: KeyValue },
+                url: "/SteelMember/MemberDemand/GetFormJson",
+                param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
+                    //加载构件
+                    $("#MemberId").ComboBox({
+                        description: data.MemberNumbering + ">" + data.Category + ">" + data.MemberName + ">" + data.MemberModel,
+                        height: "200px",
+                    });
                 }
             })
         }
         else {
+            //加载构件
+            $("#MemberId").ComboBox({
+                description: "==请选择==",
+                height: "200px",
+            });
             $("#SubProjectId").ComboBoxTreeSetValue(SubProject);
         }
     }
@@ -75,8 +85,8 @@
 
     //构件详情
     function btn_member_info() {
-        if (KeyValueId != "") {
-            var url = "/SteelMember/File/DrawingManagement?KeyValue= " + KeyValueId;
+        if (keyValue != "") {
+            var url = "/SteelMember/File/DrawingManagement?KeyValue= " + keyValue;
             Dialog(url, "DrawingManagement", "构件信息", 700, 580, function (iframe) {
                 top.frames[iframe].AcceptClick();
             });
@@ -87,7 +97,7 @@
 
     //验证构件不能重复
     $._ExistField = function (controlId, url, param) {
-        var TreeName = $("#TreeName").attr('data-value');
+        var SubProject = $("#SubProjectId").attr('data-value');
         var RawMaterialModel = $("#RawMaterialModel").attr('data-value');
         if (RawMaterialModel == "==请选择==" || TreeName == undefined || TreeName == "" || TreeName == '' || TreeName == null) {
             return false;
@@ -128,7 +138,7 @@
     }
 </script>
 <div style="margin-top: 20px; margin-right: 30px;">
-    <input id="MemberNumbering" type="hidden"/>
+    <input id="MemberNumbering" type="hidden" />
     <input id="Category" type="hidden" />
     <input id="MemberName" type="hidden" />
     <table class="form">
