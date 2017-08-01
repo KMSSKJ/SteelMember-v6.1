@@ -254,6 +254,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\SteelMember\Views\MemberDemand\Index.cshtml" />
     <Content Include="Areas\SystemManage\Views\Area\Detail.cshtml" />
     <Content Include="Areas\SystemManage\Views\Area\Form.cshtml" />
     <Content Include="Areas\SystemManage\Views\Area\Index.cshtml" />
@@ -1278,7 +1279,6 @@
     <Content Include="Areas\SteelMember\Views\MemberLibrary\MemberCategoryIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\DrawingManagement.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberDemand\Form.cshtml" />
-    <Content Include="Areas\SteelMember\Views\MemberDemand\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\Index.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
