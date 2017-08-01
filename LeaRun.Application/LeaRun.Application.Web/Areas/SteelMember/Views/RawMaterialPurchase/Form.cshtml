@@ -1,17 +1,19 @@
-@{;
-    ViewBag.Title = "±íµ¥Ò³Ãæ";
+ï»¿@{;
+    ViewBag.Title = "è¡¨å•é¡µé¢";
     Layout = "~/Views/Shared/_OrderForm.cshtml";
 }
 <script>
     var keyValue = request('keyValue');
+   
+    var category = request("category");
     $(function () {
         InitialPage();
         GetOrderEntryGrid();
         initControl();
     });
-    //³õÊ¼»¯Ò³Ãæ
+    //åˆå§‹åŒ–é¡µé¢
     function InitialPage() {;
-        //resizeÖØÉè(±í¸ñ¡¢Ê÷ĞÎ)¿í¸ß
+        //resizeé‡è®¾(è¡¨æ ¼ã€æ ‘å½¢)å®½é«˜
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
@@ -20,7 +22,7 @@
             e.stopPropagation();
         });
     }
-    //¼ÓÔØÃ÷Ï¸±í
+    //åŠ è½½æ˜ç»†è¡¨
     function GetOrderEntryGrid() {
         var $grid = $('#gridTable');
         $grid.jqGrid({
@@ -29,9 +31,20 @@
             height: $(window).height() - 240.5,
             autowidth: true,
             colModel: [
-{ label: '²É¹ºÊıÁ¿', name: 'PurchaseQuantity', width: 80, align: '', sortable: false, resizable: false  },
-{ label: '²É¹ºµ¥¾İ', name: 'RawMaterialPurchaseId', width: 80, align: '', sortable: false, resizable: false  },
-{ label: 'Ô­²ÄÁÏ', name: 'RawMaterialAnalysisId', width: 80, align: '', sortable: false, resizable: false  },
+                //{ label: 'é‡‡è´­æ•°é‡', name: 'PurchaseQuantity', width: 80, align: '', sortable: false, resizable: false  },
+                { label: 'åŸææ–™ç±»å‹', name: "RawMaterialName", align: 'center', width: 100, sortable: false },
+                { label: 'é‡‡è´­å•æ®', name: 'RawMaterialPurchaseId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+                { label: 'åˆ†æID', name: 'RawMaterialAnalysisId', width: 80, align: 'center', sortable: false, resizable: false,hidden: true },
+                //{ label: 'åˆ†æç¼–å·', name: "AnalysisId", align: ' center', width: 100, sortable: false, hidden: true },
+                //{ label: 'åŸææ–™ID', name: "RawMaterialId", align: ' center', width: 100, sortable: false, hidden: true },
+                
+                { label: 'å‹å·', name: "RawMaterialModel", align: 'center', width: 100, sortable: false },
+                { label: 'è§„æ ¼', name: "RawMaterialStandard", align: 'center', width: 100, sortable: false },
+                { label: 'éœ€æ±‚é‡', name:"PurchaseQuantity", align: 'center', width: 100, sortable: false },
+                { label: 'åº“å­˜é‡', name:"Inventory",align: 'center', width: 100, sortable: false },
+                { label: 'å»ºè®®é‡‡è´­é‡', name:"SuggestQuantity",align: 'center', width: 100, sortable: false },
+                { label: 'å•ä½', name: "UnitName", align: 'center', width: 80, sortable: false },
+                { label: 'æè¿°', name: "Description", align: 'center', width: 100, sortable: false },
             ],
             pager: false,
             rownumbers: true,
@@ -41,59 +54,139 @@
             gridComplete: function () {
             }
         });
-        //Ä¬ÈÏÌí¼Ó13ĞĞ ¿ÕĞĞ
+        //é»˜è®¤æ·»åŠ 13è¡Œ ç©ºè¡Œ
         for (var i = 1; i < 13; i++) {
-            var rowdata = {
-PurchaseQuantity: '<input name="PurchaseQuantity" type="text" class="editable center" />',
-RawMaterialPurchaseId: '<input name="RawMaterialPurchaseId" type="text" class="editable center" />',
-RawMaterialAnalysisId: '<input name="RawMaterialAnalysisId" type="text" class="editable center" />',
+            var rowdata = { 
+                RawMaterialPurchaseId: '<input id="RawMaterialPurchaseIdâ©' + i + '" class="editable disabled" type="text" describedby="yes" disabled="disabled" />',
+                RawMaterialAnalysisId: '<input id="RawMaterialAnalysisIdâ©' + i + '" class="editable disabled center" type="text" disabled="disabled"/>',
+                RawMaterialName: '<input id="RawMaterialNameâ©' + i + '" class="editable center" type="text"/>',
+                RawMaterialModel: '<input id="RawMaterialModelâ©' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
+                RawMaterialStandard: '<input id="RawMaterialStandardâ©' + i + '" class="editable disabled center" type="text" disabled="disabled"/>',
+                PurchaseQuantity: '<input id="PurchaseQuantityâ©' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
+                Inventory: '<input id="Inventoryâ©' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
+                SuggestQuantity: '<input id="SuggestQuantityâ©' + i + '" class="editable disabled center" type="number" />',
+                UnitName: '<input id="UnitNameâ©' + i + '" class="editable center" type="text" disabled="disabled" />',
+                Description: '<input id="Descriptionâ©' + i + '" class="editable disabled" type="text" disabled="disabled" />',
+                
             }
-            $grid.jqGrid('addRowData', i, rowdata);
-        };
+            $('#gridTable').jqGrid('addRowData', i, rowdata);
+        }
+//        for (var i = 1; i < 13; i++) {
+//            var rowdata = {
+//PurchaseQuantity: '<input name="PurchaseQuantity" type="text" class="editable center" />',
+//RawMaterialPurchaseId: '<input name="RawMaterialPurchaseId" type="text" class="editable center" />',
+//RawMaterialAnalysisId: '<input name="RawMaterialAnalysisId" type="text" class="editable center" />',
+//            }
+//            $grid.jqGrid('addRowData', i, rowdata);
+//        };
+
+        $("#gridTable tbody tr").find('td:eq(1)').find('input').click(function () {
+            // Category
+            var _category = $("#Category").attr('data-value');
+            //var _category = $("#ObjectName").attr('data-value');
+           // alert(_category);
+            if (_category == undefined || _category == "" || _category == null) {
+                dialogTop("è¯·é€‰æ‹©å·¥ç¨‹åç§°", "error");
+                return false;
+            }
+            if ($(this).attr('disabled') == 'disabled') {
+                return false;
+            }
+           // var index = $(this).attr('id').split('â©')[1];
+            dialogOpen({
+                id: 'ItemList',
+                title: 'é€‰å–ææ–™',
+                url: '/SteelMember/RawMaterialPurchase/ItemList?category=' + _category,
+                width: '700px',
+                height: '500px',
+                callBack: function (iframeId) {
+                    top.frames[iframeId].btn_add_();
+                }
+            });
+        });
     }
-    //³õÊ¼»¯¿Ø¼ş
+    
+   
+    //åˆå§‹åŒ–æ§ä»¶
     function initControl() {
-        //»ñÈ¡±íµ¥
+        Category
+        //$("#ObjectName").ComboBoxTree({
+        $("#Category").ComboBoxTree({
+            param: { Levels: 2 },
+            url: "../../SteelMember/SubProject/GetTreeJson",
+            description: "==è¯·é€‰æ‹©==",
+            allowSearch: true
+
+        });
+ 
+        //è·å–è¡¨å•
         if (!!keyValue) {
+            
             $.SetForm({
                 url: "../../SteelMember/RawMaterialPurchase/GetFormJson",
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data.entity);
-                    //Ã÷Ï¸
+                    //æ˜ç»†
                     var childEntity = data.childEntity;
+                    //alert(1 +"è·å–è¡¨å•");
                     $('#gridTable').find('[role=row]').each(function (i) {
+                       // alert("1" + row);
                         var row = childEntity[i - 1];
                         if (row != undefined) {
-$(this).find('input[name="PurchaseQuantity"]').val(row.PurchaseQuantity);
-$(this).find('input[name="RawMaterialPurchaseId"]').val(row.RawMaterialPurchaseId);
-$(this).find('input[name="RawMaterialAnalysisId"]').val(row.RawMaterialAnalysisId);
+                            $(this).find('input[id="PurchaseQuantity"]').val(row.PurchaseQuantity);
+                            $(this).find('input[id="RawMaterialPurchaseId"]').val(row.RawMaterialPurchaseId);
+                            $(this).find('input[id="RawMaterialAnalysisId"]').val(row.RawMaterialAnalysisId);
                         }
                     });
                 }
             })
+        } else {
+           // alert(category);
+            // $("#ObjectName").ComboBoxTreeSetValue(category);
+            //alert(category);
+            $("#Category").ComboBoxTreeSetValue(category);
         }
     }
-    //±£´æ±íµ¥;
+    //ä¿å­˜è¡¨å•;
     function AcceptClick() {
+        var val = $("#gridTable tbody tr[id=1] td input").val();
+        
+        if (val == undefined || val == "" || val == null) {
+            dialogMsg('è¯·é€‰å–ææ–™ï¼', 0);
+            return false;
+        }
         if (!$('#form1').Validform()) {
             return false;
         }
+        
         var postData = $("#form1").GetWebControls(keyValue);
+        
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
-        if (!!$(this).find('input[name="PurchaseQuantity"]').val()) {
-            childEntryJson.push({
-PurchaseQuantity: $(this).find('input[name="PurchaseQuantity"]').val(),
-RawMaterialPurchaseId: $(this).find('input[name="RawMaterialPurchaseId"]').val(),
-RawMaterialAnalysisId: $(this).find('input[name="RawMaterialAnalysisId"]').val(),
-                 });
+
+            var quantity = parseInt($(this).find('input[id="SuggestQuantityâ©' + i + '"]').val());
+            if (quantity < 0) {
+                postData = null
+            return false;
             }
+            if (!!$(this).find('input[id="SuggestQuantityâ©' + i + '"]').val()) { 
+                childEntryJson.push({
+                    //InfoId: $(this).find('input[id="PurchaseQuantityâ©' + i + '"]').val() + 1,
+                    PurchaseQuantity: $(this).find('input[id="SuggestQuantityâ©' + i + '"]').val(),
+                    //RawMaterialPurchaseId: $(this).find('input[id="RawMaterialPurchaseIdâ©'+i+'"]').val(),
+                    RawMaterialAnalysisId: $(this).find('input[id="RawMaterialAnalysisIdâ©' + i + '"]').val(),
+                });
+            } 
         });
+        if (postData == null) {
+            dialogMsg('é‡‡è´­é‡ä¸èƒ½å°äº0', 0);
+            return false;
+        }
         $.SaveForm({
             url: "../../SteelMember/RawMaterialPurchase/SaveForm?keyValue=" + keyValue,
-            param: { "strEntity": JSON.stringify(postData), "strChildEntitys": JSON.stringify(childEntryJson) },
-            loading: "ÕıÔÚ±£´æÊı¾İ...",
+            param: { "strEntity": JSON.stringify(postData), "strChildEntitys": JSON.stringify(childEntryJson) }, 
+            loading: "æ­£åœ¨ä¿å­˜æ•°æ®...",
             success: function () {
                 $.currentIframe().$("#gridTable").trigger("reloadGrid");
             }
@@ -101,14 +194,44 @@ RawMaterialAnalysisId: $(this).find('input[name="RawMaterialAnalysisId"]').val()
     }
 </script>
 <div class="bills" >
- <div style="height:190px;overflow-y:auto;margin:10px 10px;">
-    <table class="form" style="width: 100%;">
+ <div style="height:180px;overflow-y:auto;margin:0px 10px;">
+    <table class="form" style="width: 100%;border-collapse:separate;border-spacing:30px;">
         <tr>
-<th class="formTitle" style="width: 60px;">¹¤³Ì</th>
-<td class="formValue"><input id="Category" type="text"  class="form-control" ></td>
-<th class="formTitle" style="width: 60px;">±¸×¢</th>
+            <td align="center" colspan="10">
+                <div style="font-family: åæ–‡æ¥·ä½“; font-size: x-large; height: 50px; line-height: 50px;">
+                    åŸææ–™é‡‡è´­è®¢å•&nbsp;
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                å·¥ç¨‹:
+            </th>
+            <td  colspan="4">
+                <div id="Category" type="select" class="ui-select"style="width:95%"></div>
+            </td>
+            <th>
+                å¤‡æ³¨:
+            </th>
+            <td  colspan="4">
+                <input id="Description" type="text" class="form-control" style="width:95%;">
+            </td>
+        </tr>
+        @*<tr rowspan="3">
+            <th style="width:60px;">
+                å¤‡æ³¨:
+            </th>
+            <td style="width:100%" colspan="8" >
+                <input id="Description" type="text" class="form-control" style="width:95%">
+            </td>
+        </tr>*@
+        @*<tr>
+<th class="formTitle" style="width: 60px;">å·¥ç¨‹</th>
+<td class="formValue"><div id="Category" type="select"class="ui-select"></div></td>
+<th class="formTitle" style="width: 60px;">å¤‡æ³¨</th>
 <td class="formValue"><input id="Description" type="text"  class="form-control" ></td>
-     </tr>
+     </tr>*@
     </table>
  </div>
  <div class="gridPanel" >
@@ -133,4 +256,5 @@ RawMaterialAnalysisId: $(this).find('input[name="RawMaterialAnalysisId"]').val()
         border-right: 0px;
         border-bottom: 0px;
     }
+    
 </style>

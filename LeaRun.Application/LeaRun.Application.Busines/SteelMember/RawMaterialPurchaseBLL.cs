@@ -4,7 +4,7 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
-
+using System.Linq.Expressions;
 namespace LeaRun.Application.Busines.SteelMember
 {
     /// <summary>
@@ -45,6 +45,10 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetDetails(keyValue);
         }
+        public List<RawMaterialPurchaseInfoEntity> GetList(Expression<Func<RawMaterialPurchaseInfoEntity, bool>> condition)
+        {
+            return service.GetList(condition);
+        }
         #endregion
 
         #region 提交数据
@@ -77,6 +81,23 @@ namespace LeaRun.Application.Busines.SteelMember
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 批量修改
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<RawMaterialPurchaseEntity> list)
+        {
+            try
+            {
+
+                service.UpdataList(list);
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

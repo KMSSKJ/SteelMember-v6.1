@@ -5,67 +5,53 @@ namespace LeaRun.Application.Entity.SteelMember
 {
     /// <summary>
     /// 版 本
-    /// 日 期：2017-07-06 10:42
-    /// 描 述：原材料管理
+    /// 日 期：2017-07-19 10:03
+    /// 描 述：原材料库存
     /// </summary>
-    public class RawMaterialLibraryEntity : BaseEntity
+    public class RawMaterialInventoryEntity : BaseEntity
     {
         #region 实体成员
+        /// <summary>
+        /// InventoryId
+        /// </summary>
+        /// <returns></returns>
+        public string InventoryId { get; set; }
         /// <summary>
         /// RawMaterialId
         /// </summary>
         /// <returns></returns>
         public string RawMaterialId { get; set; }
         /// <summary>
-        /// TreeId
+        /// Quantity
         /// </summary>
         /// <returns></returns>
-        public string TreeId { get; set; }
+        public decimal? Quantity { get; set; }
         /// <summary>
-        /// 所属类别
-        /// </summary>		
+        /// Category
+        /// </summary>
+        /// <returns></returns>
         public string Category { get; set; }
-
         /// <summary>
-        /// RawMaterialName
-        /// </summary>
-        /// <returns></returns>
-        public string RawMaterialName { get; set; }
-        /// <summary>
-        /// RawMaterialStandard
+        /// RawMaterialStandard  
         /// </summary>
         /// <returns></returns>
         public string RawMaterialStandard { get; set; }
+
         /// <summary>
-        /// UnitId
-        /// </summary>
-        /// <returns></returns>
-        public string Unit { get; set; }
-        /// <summary>
-        /// Description
-        /// </summary>
-        /// <returns></returns>
-        public string Description { get; set; }
-        /// <summary>
-        /// RawMaterialModel
+        /// RawMaterialModel    
         /// </summary>
         /// <returns></returns>
         public string RawMaterialModel { get; set; }
         /// <summary>
-        /// ParentId
+        /// Unit    
         /// </summary>
         /// <returns></returns>
-        public string ParentId { get; set; }
+        public string Unit { get; set; }
         /// <summary>
-        /// DeleteFlag
+        /// InventoryTime    
         /// </summary>
         /// <returns></returns>
-        public int? DeleteFlag { get; set; }
-        /// <summary>
-        /// Sort
-        /// </summary>
-        /// <returns></returns>
-        public int? Sort { get; set; }
+        public DateTime? InventoryTime { get; set; }
         #endregion
 
         #region 扩展操作
@@ -74,17 +60,16 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         public override void Create()
         {
-            this.RawMaterialId = Guid.NewGuid().ToString();
-        }
+            this.InventoryId = Guid.NewGuid().ToString();
+                                            }
         /// <summary>
         /// 编辑调用
         /// </summary>
         /// <param name="keyValue"></param>
         public override void Modify(string keyValue)
         {
-            this.RawMaterialId = keyValue;
-        }
+            this.InventoryId = keyValue;
+                                            }
         #endregion
     }
-
 }
