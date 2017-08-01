@@ -89,22 +89,39 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public void RemoveList(List<RawMaterialInventoryEntity> list)
         {
             this.BaseRepository().Delete(list);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public void UpdataList(List<RawMaterialInventoryEntity> list)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string keyValue)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="category"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string category, string keyValue)
         {
             throw new NotImplementedException();

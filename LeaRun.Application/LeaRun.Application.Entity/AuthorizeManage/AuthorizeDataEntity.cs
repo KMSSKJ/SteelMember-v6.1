@@ -7,7 +7,7 @@ namespace LeaRun.Application.Entity.AuthorizeManage
     /// 版 本 6.1
     /// 日 期：2015.11.27
     /// 描 述：授权数据范围
-    /// </summary
+    /// </summary>
     public class AuthorizeDataEntity : BaseEntity
     {
         #region 实体成员

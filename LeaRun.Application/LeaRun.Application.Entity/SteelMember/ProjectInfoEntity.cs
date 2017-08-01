@@ -154,9 +154,9 @@ namespace LeaRun.Application.Entity.SteelMember
         #endregion
 
         #region 扩展操作
-        /// <summary>
-        /// 新增调用
-        /// </summary>
+        ///// <summary>
+        ///// 新增调用
+        ///// </summary>
         //public override void Create()
         //{
         //    this.ProjectId = Guid.NewGuid().ToString();

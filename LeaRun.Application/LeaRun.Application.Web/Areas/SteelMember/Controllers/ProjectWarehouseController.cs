@@ -90,8 +90,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 【工程项目管理】返回文件（夹）列表JSON
         /// </summary>
-        /// <param name="keywords">文件名搜索条件</param>
-        /// <param name="FolderId">文件夹ID</param>
+        /// <param name="model"></param>
+        /// <param name="ParameterJson">文件名搜索条件</param>
+        /// <param name="TreeId">文件夹ID</param>
+        /// <param name="jqgridparam"></param>
         /// <param name="IsPublic">是否公共 1-公共、0-我的</param>
         /// <returns></returns>         
         public ActionResult GridListJson(FileViewModel model, string ParameterJson, string TreeId, Pagination jqgridparam, string IsPublic)
@@ -274,6 +276,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="TreeId"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
@@ -282,7 +285,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             try
             {
-                int IsOk = 0;
                 string Message = KeyValue == "" ? "新增成功。" : "编辑成功。";
                 if (!string.IsNullOrEmpty(KeyValue))
                 {
@@ -294,7 +296,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Oldentity.Leader = entity.Leader;
                     Oldentity.Description = entity.Description;
                     ProjectWarehouseCurrent.Modified(Oldentity);
-                    IsOk = 1;//更新实体对象
                     //this.WriteLog(IsOk, entity, Oldentity, KeyValue, Message);
                 }
                 else
@@ -324,7 +325,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 删除文件
         /// </summary>
-        /// <param name="FolderId"></param>
+        /// <param name="KeyValue"></param>
         /// <returns></returns>
         public ActionResult DeleteData(string KeyValue)
         {
