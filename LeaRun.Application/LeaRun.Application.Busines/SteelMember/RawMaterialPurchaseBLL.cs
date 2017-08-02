@@ -28,6 +28,16 @@ namespace LeaRun.Application.Busines.SteelMember
             return service.GetPageList(pagination, queryJson);
         }
         /// <summary>
+        /// 获取列表(已采购)
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<RawMaterialPurchaseEntity> GetPageListByIsWarehousing(Pagination pagination, int IsWarehousing)
+        {
+            return service.GetPageListByIsWarehousing(pagination, IsWarehousing);
+        }
+        /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
@@ -35,6 +45,10 @@ namespace LeaRun.Application.Busines.SteelMember
         public RawMaterialPurchaseEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
+        }
+        public List<RawMaterialPurchaseEntity> GetpurchaseList(Expression<Func<RawMaterialPurchaseEntity, bool>> condition)
+        {
+            return service.GetpurchaseList(condition);
         }
         /// <summary>
         /// 获取子表详细信息
@@ -84,6 +98,18 @@ namespace LeaRun.Application.Busines.SteelMember
                 throw;
             }
         }
+        public void SavePurchaseForm(string keyValue, RawMaterialPurchaseEntity entity)
+        {
+            try
+            {
+                service.SavePurchaseForm(keyValue, entity);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
         /// <summary>
         /// 批量修改
         /// </summary>

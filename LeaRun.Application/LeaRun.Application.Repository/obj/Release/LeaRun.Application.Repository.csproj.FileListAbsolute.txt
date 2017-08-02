@@ -1,0 +1,16 @@
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\LeaRun.Application.Repository.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\LeaRun.Application.Repository.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\EntityFramework.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\EntityFramework.SqlServer.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\LeaRun.Data.Entity.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\Ninject.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\LeaRun.Data.Entity.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\LeaRun.Data.Entity.dll.config
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\EntityFramework.xml
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\EntityFramework.SqlServer.xml
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\Ninject.xml
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\zh-Hans\EntityFramework.resources.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\obj\Release\LeaRun.Application.Repository.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Application\LeaRun.Application.Repository\obj\Release\LeaRun.Application.Repository.dll
+D:\project\LeaRun.Application\LeaRun.Application.Repository\obj\Release\LeaRun.Application.Repository.pdb

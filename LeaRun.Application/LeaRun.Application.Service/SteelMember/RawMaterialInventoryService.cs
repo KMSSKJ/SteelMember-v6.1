@@ -26,9 +26,22 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<RawMaterialInventoryEntity> GetPageList(Pagination pagination, string queryJson)
+        public List<RawMaterialInventoryEntity> GetPageList(Pagination pagination, string queryJson)
         {
-            return this.BaseRepository().FindList(pagination);
+            var expression = LinqExtensions.True<RawMaterialInventoryEntity>();
+            var queryParam = queryJson.ToJObject();
+            if (!queryParam["RawMaterialModel"].IsEmpty())
+            {
+                string RawMaterialModel = queryParam["RawMaterialModel"].ToString();
+                expression = expression.And(t => t.Category.Contains(RawMaterialModel));
+            }
+            if (!queryParam["Category"].IsEmpty())
+            {
+                string Category = queryParam["Category"].ToString();
+                expression = expression.And(t => t.Category == Category);
+            }
+            //return this.BaseRepository().FindList(pagination);
+            return this.BaseRepository().FindList(expression, pagination).ToList();
         }
         /// <summary>
         /// 获取列表

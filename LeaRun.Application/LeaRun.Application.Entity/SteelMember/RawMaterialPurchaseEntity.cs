@@ -43,6 +43,10 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("ISPURCHASE")]
         public int? IsPurchase { get; set; }
         /// <summary>
+        /// 入库
+        /// </summary>
+        public int? IsWarehousing { get; set; }
+        /// <summary>
         /// 制单人
         /// </summary>
         /// <returns></returns>

@@ -12,3 +12,17 @@ D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framew
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.dll
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.pdb
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\LeaRun.Util.Ioc.dll
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\LeaRun.Util.Ioc.pdb
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.ServiceLocation.dll
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.Configuration.dll
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.dll
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.ServiceLocation.pdb
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.ServiceLocation.xml
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.xml
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.Configuration.xml
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.dll
+D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.pdb

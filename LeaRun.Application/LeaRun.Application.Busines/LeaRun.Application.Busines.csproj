@@ -64,6 +64,8 @@
     <Compile Include="SteelMember\RawMaterialInventoryBLL.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryBLL.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseBLL.cs" />
+    <Compile Include="SteelMember\RawMaterialWarehouseBLL.cs" />
+    <Compile Include="SteelMember\RawMterialCollarBLL.cs" />
     <Compile Include="SteelMember\SubProjectBLL.cs" />
     <Compile Include="SystemManage\AreaBLL.cs" />
     <Compile Include="SystemManage\CodeRuleBLL.cs" />

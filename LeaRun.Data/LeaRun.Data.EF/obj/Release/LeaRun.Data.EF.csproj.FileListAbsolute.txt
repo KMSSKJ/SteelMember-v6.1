@@ -64,3 +64,39 @@ D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaR
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Data\LeaRun.Data.EF\obj\Release\LeaRun.Data.EF.csprojResolveAssemblyReference.cache
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Data\LeaRun.Data.EF\obj\Release\LeaRun.Data.EF.dll
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Data\LeaRun.Data.EF\obj\Release\LeaRun.Data.EF.pdb
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Data.EF.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Data.EF.pdb
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\EntityFramework.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\EntityFramework.SqlServer.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Data.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Util.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Util.Ioc.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.ServiceLocation.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.Unity.Configuration.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.Unity.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\MySql.Data.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\MySql.Data.Entity.EF6.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\SharpZipLib.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Newtonsoft.Json.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Util.Extension.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Oracle.DataAccess.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\System.Data.SQLite.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Util.Ioc.pdb
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Util.pdb
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Data.pdb
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\EntityFramework.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\EntityFramework.SqlServer.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.ServiceLocation.pdb
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.ServiceLocation.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.Unity.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.Unity.Configuration.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\Newtonsoft.Json.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\LeaRun.Util.Extension.pdb
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\System.Data.SQLite.xml
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\zh-Hans\EntityFramework.resources.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\obj\Release\LeaRun.Data.EF.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Data\LeaRun.Data.EF\obj\Release\LeaRun.Data.EF.dll
+D:\project\LeaRun.Data\LeaRun.Data.EF\obj\Release\LeaRun.Data.EF.pdb

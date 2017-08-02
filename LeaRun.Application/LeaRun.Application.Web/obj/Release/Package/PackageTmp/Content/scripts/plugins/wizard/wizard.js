@@ -6,7 +6,7 @@
         this.currentStep = 1;
         this.numSteps = this.$element.find("li").length;
         /*Customized to Enable Out Of Wizard Buttons*/
-        this.$prevBtn = $('#'+this.$element[0].id+'-actions').find("a.btn-prev");
+        this.$prevBtn = $('#' + this.$element[0].id + '-actions').find("a.btn-prev");
         this.$nextBtn = $('#' + this.$element[0].id + '-actions').find("a.btn-next");
         /*End Customized to Enable Out Of Wizard Buttons*/
         d = this.$nextBtn.children().detach();
@@ -27,6 +27,7 @@
             this.$prevBtn.attr("disabled", (o === true || n === false));
             var h = this.$nextBtn.data();
             if (h && h.last) {
+                alert(h.last);
                 this.lastText = h.last;
                 if (typeof this.lastText !== "undefined") {
                     var l = (d !== true) ? this.nextText : this.lastText;
@@ -69,7 +70,7 @@
                 this.$element.trigger(f, {
                     step: this.currentStep,
                     direction: "previous",
-                    currentStep:this.currentStep-1
+                    currentStep: this.currentStep - 1
                 });
                 if (f.isDefaultPrevented()) {
                     return

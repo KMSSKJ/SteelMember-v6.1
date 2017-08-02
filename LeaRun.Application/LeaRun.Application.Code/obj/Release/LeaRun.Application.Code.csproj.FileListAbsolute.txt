@@ -46,3 +46,39 @@ D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaR
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Release\LeaRun.Application.Code.csprojResolveAssemblyReference.cache
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Release\LeaRun.Application.Code.dll
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Application\LeaRun.Application.Code\obj\Release\LeaRun.Application.Code.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Application.Code.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Application.Code.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Cache.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Cache.Factory.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Util.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Util.Extension.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\System.Web.Mvc.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Cache.Redis.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\SharpZipLib.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\Newtonsoft.Json.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\System.Web.Razor.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\System.Web.WebPages.Razor.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\System.Web.WebPages.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\Microsoft.Web.Infrastructure.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\ServiceStack.Redis.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\ServiceStack.Interfaces.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\ServiceStack.Text.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\System.Web.WebPages.Deployment.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\ServiceStack.Common.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Cache.Factory.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Cache.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Util.Extension.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Util.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\LeaRun.Cache.Redis.pdb
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\Newtonsoft.Json.xml
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\ServiceStack.Redis.xml
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\ServiceStack.Text.xml
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\ServiceStack.Common.xml
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\zh-Hans\System.Web.Mvc.resources.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\zh-Hans\System.Web.Razor.resources.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\zh-Hans\System.Web.WebPages.Razor.resources.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\zh-Hans\System.Web.WebPages.resources.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\bin\Release\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\obj\Release\LeaRun.Application.Code.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Application\LeaRun.Application.Code\obj\Release\LeaRun.Application.Code.dll
+D:\project\LeaRun.Application\LeaRun.Application.Code\obj\Release\LeaRun.Application.Code.pdb

@@ -382,11 +382,11 @@
                                 _itemHtml += '<div class="popover-menu-sub"><ul class="treeview-menu">';
                                 $.each(subchildNodes, function (i) {
                                     var subchildNodesrow = subchildNodes[i];
-                                    _itemHtml += '<li><a class="menuItem menuiframe" data-id="' + subchildNodesrow.ModuleId + '" href="' + subchildNodesrow.UrlAddress + '"><i class="' + subchildNodesrow.Icon + ' firstIcon"></i>' + subchildNodesrow.FullName + '</a></li>';
+                                    _itemHtml += '<li><a class="menuItem menuiframe" data-id="' + subchildNodesrow.ModuleId + '" href="' + subchildNodesrow.UrlAddress +'?moduleId='+subchildNodesrow.ModuleId+'"><i class="' + subchildNodesrow.Icon + ' firstIcon"></i>' + subchildNodesrow.FullName + '</a></li>';
                                 });
                                 _itemHtml += '</ul></div>';
                             } else {
-                                _itemHtml += '<a class="menuItem menuiframe" data-id="' + subrow.ModuleId + '" href="' + subrow.UrlAddress + '"><i class="' + subrow.Icon + ' firstIcon"></i>' + subrow.FullName + '</a>';
+                                _itemHtml += '<a class="menuItem menuiframe" data-id="' + subrow.ModuleId + '" href="' + subrow.UrlAddress + '?moduleId=' + subrow.ModuleId+ '"><i class="' + subrow.Icon + ' firstIcon"></i>' + subrow.FullName + '</a>';
                             }
                             _itemHtml += '</li>';
                         });
@@ -403,14 +403,17 @@
                     else {
                         _html += _itemHtml;
                     }
+                    //_html += ' <li class="treeview" id="UserSetting"><a ><i class="fa fa-user"></i><span>个人中心</span></a></li>';
                 }
             });
             if (menuWidth > topMenuWidth) {
                 _html2 = _html1 + _html2;
+                _html += ' <li class="treeview dropdown user user-menu"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><span>个人中心</span></a> <ul class="dropdown-menu pull-right"><li> <a id="UserSetting"><i class="fa fa-user"></i>个人信息</a></li><li><a href="javascript:void();"><i class="fa fa-trash-o"></i>清空缓存</a></li><li class="divider"></li><li><a onclick="$.learunindex.indexOut()"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li></ul></li>';
                 _html += ' <li class="treeview" id="moreMenu"><a ><i class="fa fa-reorder"></i><span>更多应用</span></a></li>';
                 flag = true;
             }
             else {
+                _html += ' <li class="treeview dropdown user user-menu"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><span>个人中心</span></a> <ul class="dropdown-menu pull-right"><li> <a id="UserSetting"><i class="fa fa-user"></i>个人信息</a></li><li><a href="javascript:void();"><i class="fa fa-trash-o"></i>清空缓存</a></li><li class="divider"></li><li><a onclick="$.learunindex.indexOut()"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li></ul></li>';
                 _html += _html1;
             }
 

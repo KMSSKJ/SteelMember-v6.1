@@ -1,0 +1,12 @@
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\LeaRun.Data.Entity.dll.config
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\LeaRun.Data.Entity.dll
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\LeaRun.Data.Entity.pdb
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\EntityFramework.dll
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\EntityFramework.SqlServer.dll
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\EntityFramework.xml
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\EntityFramework.SqlServer.xml
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\zh-Hans\EntityFramework.resources.dll
+D:\project\LeaRun.Data\LeaRun.Data.Entity\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll
+D:\project\LeaRun.Data\LeaRun.Data.Entity\obj\Release\LeaRun.Data.Entity.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Data\LeaRun.Data.Entity\obj\Release\LeaRun.Data.Entity.dll
+D:\project\LeaRun.Data\LeaRun.Data.Entity\obj\Release\LeaRun.Data.Entity.pdb

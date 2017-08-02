@@ -113,7 +113,7 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>bin\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
@@ -122,14 +122,14 @@
     </Reference>
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>bin\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>bin\System.Web.Http.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>bin\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -205,18 +205,20 @@
     <Compile Include="Areas\SteelMember\Controllers\CollarManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\MemberDemandController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberMaterialController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberProcessController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\MemberWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProjectWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialInventoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialPurchaseController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialWarehouseController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMterialCollarController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
     <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
@@ -230,7 +232,11 @@
     <Compile Include="Areas\SteelMember\Models\QRCodeModel.cs" />
     <Compile Include="Areas\SteelMember\Models\QueryMemberModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialAnalysisModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialCollarModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialInventoryModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialLibraryModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialPurchaseModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawmaterialWarehouseModel.cs" />
     <Compile Include="Areas\SteelMember\SteelMemberAreaRegistration.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterIPController.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterTimeController.cs" />
@@ -254,7 +260,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\SteelMember\Views\MemberDemand\Index.cshtml" />
     <Content Include="Areas\SystemManage\Views\Area\Detail.cshtml" />
     <Content Include="Areas\SystemManage\Views\Area\Form.cshtml" />
     <Content Include="Areas\SystemManage\Views\Area\Index.cshtml" />
@@ -1201,7 +1206,6 @@
     <Content Include="Areas\SteelMember\Views\ProjectInfo\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectInfo\ManIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\Web.config" />
-    <Content Include="Areas\SteelMember\Views\ProjectInfo\Index - 复制.cshtml" />
     <Content Include="Areas\SteelMember\Views\Directory\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\CollarManagement\CollarForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\CollarManagement\DetailForm.cshtml" />
@@ -1246,8 +1250,6 @@
     <Content Include="Areas\SteelMember\Views\ProjectWarehouse\QueryPage.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\FolderForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis1\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis1\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\MemberForm.cshtml" />
     <Content Include="Areas\GeneratorManage\Views\SingleTable\CodeBuilder.cshtml" />
@@ -1278,9 +1280,18 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\MemberCategoryIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\DrawingManagement.cshtml" />
-    <Content Include="Areas\SteelMember\Views\MemberDemand\Form.cshtml" />
-    <Content Include="Areas\SteelMember\Views\MemberWarehouse\Form.cshtml" />
-    <Content Include="Areas\SteelMember\Views\MemberWarehouse\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\DetailForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\EditForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Purchase.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\InventoryInfo.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\Collar.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\IntoInventoryDetail.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\OutInventoryDetail.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
@@ -1294,6 +1305,7 @@
     <Content Include="Views\Error\ErrorMessage.cshtml" />
     <Content Include="Views\Error\ErrorPath404.cshtml" />
     <Content Include="Views\Home\AdminDefault.cshtml" />
+    <Content Include="Views\Home\AdminDefaultDesktop.cshtml" />
     <Content Include="Views\Home\AdminLTE.cshtml" />
     <Content Include="Views\Home\AdminLTEDesktop.cshtml" />
     <Content Include="Views\Home\AdminWindos.cshtml" />
@@ -1314,7 +1326,7 @@
     <Content Include="Views\Login\Index2.cshtml" />
     <Content Include="Views\Home\AdminPretty.cshtml" />
     <Content Include="Views\Home\AdminPrettyDesktop.cshtml" />
-    <Content Include="Views\Home\AdminDefaultDesktop.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

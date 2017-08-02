@@ -82,6 +82,8 @@
     <Compile Include="SteelMember\RawMaterialLibraryMap.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseInfoMap.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseMap.cs" />
+    <Compile Include="SteelMember\RawMaterialWarehouseMap.cs" />
+    <Compile Include="SteelMember\RawMterialCollarMap.cs" />
     <Compile Include="SteelMember\SubProjectMap.cs" />
     <Compile Include="SystemManage\AreaMap.cs" />
     <Compile Include="AuthorizeManage\ModuleMap.cs" />

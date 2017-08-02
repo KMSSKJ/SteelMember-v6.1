@@ -11,3 +11,16 @@ D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framew
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Offices\obj\Release\LeaRun.Util.Offices.csprojResolveAssemblyReference.cache
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Offices\obj\Release\LeaRun.Util.Offices.dll
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Offices\obj\Release\LeaRun.Util.Offices.pdb
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\LeaRun.Util.Offices.dll
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\LeaRun.Util.Offices.pdb
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\NPOI.dll
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\NPOI.OOXML.dll
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\NPOI.OpenXml4Net.dll
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\NPOI.OpenXmlFormats.dll
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\NPOI.xml
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\NPOI.OOXML.xml
+D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Release\NPOI.OpenXml4Net.xml
+D:\project\LeaRun.Util\LeaRun.Util.Offices\obj\Release\LeaRun.Util.Offices.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Util\LeaRun.Util.Offices\obj\Release\LeaRun.Util.Offices.dll
+D:\project\LeaRun.Util\LeaRun.Util.Offices\obj\Release\LeaRun.Util.Offices.pdb

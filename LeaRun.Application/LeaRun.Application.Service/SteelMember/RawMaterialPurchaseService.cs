@@ -166,6 +166,57 @@ namespace LeaRun.Application.Service.SteelMember
             throw new NotImplementedException();
         }
 
+        public List<RawMaterialPurchaseEntity> GetpurchaseList(Expression<Func<RawMaterialPurchaseEntity, bool>> condition)
+        {
+            //throw new NotImplementedException();
+            return this.BaseRepository().IQueryable(condition).ToList();
+        }
+
+        public void SavePurchaseForm(string keyValue, RawMaterialPurchaseEntity entity)
+        {
+            IRepository db = this.BaseRepository().BeginTrans();
+            try
+            {
+                if (!string.IsNullOrEmpty(keyValue))
+                {
+                   
+                    entity.Modify(keyValue);
+                    db.Update(entity);
+                  
+                }
+                else
+                {
+                   
+                    entity.Create();
+                    db.Insert(entity);
+                    
+
+                }
+                db.Commit();
+            }
+            catch (Exception)
+            {
+                db.Rollback();
+                throw;
+            }
+        }
+
+        public IEnumerable<RawMaterialPurchaseEntity> GetPageListByIsWarehousing(Pagination pagination, int IsWarehousing)
+        {
+            try {
+                if (IsWarehousing == 0)
+                {
+                    return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(p => p.IsWarehousing == IsWarehousing, pagination);
+                }
+            }
+            catch(Exception) {
+                throw;
+            }
+
+            // return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(pagination);
+            throw new NotImplementedException();
+        }
+        
         #endregion
     }
 }

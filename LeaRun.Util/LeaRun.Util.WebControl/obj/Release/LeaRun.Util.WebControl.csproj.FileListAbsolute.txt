@@ -20,3 +20,15 @@ D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaR
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.WebControl\obj\Release\LeaRun.Util.WebControl.csprojResolveAssemblyReference.cache
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.WebControl\obj\Release\LeaRun.Util.WebControl.dll
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)_20170103\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.WebControl\obj\Release\LeaRun.Util.WebControl.pdb
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\LeaRun.Util.WebControl.dll
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\LeaRun.Util.WebControl.pdb
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\LeaRun.Util.dll
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\LeaRun.Util.Extension.dll
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\SharpZipLib.dll
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\Newtonsoft.Json.dll
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\LeaRun.Util.Extension.pdb
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\LeaRun.Util.pdb
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\bin\Release\Newtonsoft.Json.xml
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\obj\Release\LeaRun.Util.WebControl.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\obj\Release\LeaRun.Util.WebControl.dll
+D:\project\LeaRun.Util\LeaRun.Util.WebControl\obj\Release\LeaRun.Util.WebControl.pdb

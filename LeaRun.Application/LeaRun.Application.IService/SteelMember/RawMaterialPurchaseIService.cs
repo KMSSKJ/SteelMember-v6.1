@@ -21,11 +21,19 @@ namespace LeaRun.Application.IService.SteelMember
         IEnumerable<RawMaterialPurchaseEntity> GetPageList(Pagination pagination, string queryJson);
 
         /// <summary>
+        /// 获取列表(已采购)
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        IEnumerable<RawMaterialPurchaseEntity> GetPageListByIsWarehousing(Pagination pagination, int IsWarehousing);
+        /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         RawMaterialPurchaseEntity GetEntity(string keyValue);
+        List<RawMaterialPurchaseEntity> GetpurchaseList(Expression<System.Func<RawMaterialPurchaseEntity, bool>> condition);
         /// <summary>
         /// 获取子表详细信息
         /// </summary>
@@ -44,6 +52,7 @@ namespace LeaRun.Application.IService.SteelMember
         
 
         void SaveForm(string keyValue, RawMaterialPurchaseEntity entity,List<RawMaterialPurchaseInfoEntity> entryList);
+        void SavePurchaseForm(string keyValue, RawMaterialPurchaseEntity entity);
         #endregion
     }
 }

@@ -36,6 +36,15 @@ namespace LeaRun.Application.Busines.SteelMember
             return service.GetPageList(pagination, queryJson);
         }
         /// <summary>
+        /// 模糊查询(Category)
+        /// </summary>
+        /// <param name="category">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<RawMaterialLibraryEntity> GetPageListByLikeCategory(Pagination pagination, string category)
+        {
+            return service.GetPageListByLikeCategory(pagination, category);
+        }
+        /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>

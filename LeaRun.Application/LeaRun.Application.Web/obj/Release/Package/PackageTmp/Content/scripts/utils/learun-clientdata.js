@@ -11,6 +11,8 @@ var clientuserData = [];
 var authorizeMenuData = [];
 var authorizeButtonData = [];
 var authorizeColumnData = [];
+var clientunitData = [];
+
 $.getclientdata = function () {
     $.ajax({
         url: contentPath + "/ClientData/GetClientDataJson",
@@ -25,6 +27,7 @@ $.getclientdata = function () {
             clientroleData = data.role;
             clientuserGroup = data.userGroup;
             clientuserData = data.user;
+            clientunitData = data.unit;
             authorizeMenuData = data.authorizeMenu;
             authorizeButtonData = data.authorizeButton;
             authorizeColumnData = data.authorizeColumn;
