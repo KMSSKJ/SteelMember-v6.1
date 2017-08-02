@@ -112,6 +112,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="TreeId"></param>
+        /// <param name="ItemID"></param>
+        /// <param name="ItemClassId"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]

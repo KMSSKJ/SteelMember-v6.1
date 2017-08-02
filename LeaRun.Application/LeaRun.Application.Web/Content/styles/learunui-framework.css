@@ -11,6 +11,9 @@ body{margin:0px;padding:0px;font-family:微软雅黑,宋体,Arial,Helvetica,Verd
 *{margin:0;padding:0;}
 select{outline:none;}
 ul{list-style:none;}
+/*button, select, textarea {
+    outline: none
+}*/
 input,button,select,textarea{outline:none}
 input[type="checkbox"]{vertical-align:middle;border:1px solid #F7F7F7; margin-bottom:1px; cursor:pointer;}
 .alink{color:blue;cursor:pointer;text-decoration:underline;}
@@ -168,13 +171,13 @@ input.disabled{cursor:not-allowed;display:block;overflow:hidden;color:#666;backg
 .form-error-text{padding-left:30px;height: 26px;color:red; line-height: 25px; background:url('../Images/validatebox_warning.png') center left no-repeat; background-position: 10px 4px;}
 .form-succeed-text{padding-left:30px;height: 26px;color:green; line-height: 25px; background:url('../Images/Icon16/accept.png') center left no-repeat; background-position: 10px 4px;}
 /*复选框css*/
-.custom-checkbox,.custom-radio{position:relative;float:left;}
+/*.custom-checkbox,.custom-radio{position:relative;float:left;}*/
 /* input, label positioning */
-.custom-checkbox input{position:absolute;left:2px;top:2px;margin:0; display:none;}
-.custom-checkbox label{display:block;position:relative;margin:0 0 .3em; margin-top:1.5px;cursor:pointer; padding-left:20px;padding-right:10px;}
+/*.custom-checkbox input{position:absolute;left:2px;top:2px;margin:0; display:none;}*/
+/*.custom-checkbox label{display:block;position:relative;margin:0 0 .3em; margin-top:1.5px;cursor:pointer; padding-left:20px;padding-right:10px;}*/
 /* states */
-.custom-checkbox label{background:url(../images/checknomark.gif) no-repeat scroll 5px 3px;}
-.custom-checkbox label.checked{background:url(../images/checkokmark.gif) no-repeat scroll 4px 2px;}
+/*.custom-checkbox label{background:url(../images/checknomark.gif) no-repeat scroll 5px 3px;}
+.custom-checkbox label.checked{background:url(../images/checkokmark.gif) no-repeat scroll 4px 2px;}*/
 /*表单样式end*/
 /*提示信息begin*/
 .note-prompt{height:40px;line-height:40px;padding-left:30px;border:1px solid #ccc;background:#FFFDCD url('../Images/Icon16/lightbulb.png') no-repeat scroll 7px 12px;color:#8F5700;margin-bottom:1px;}

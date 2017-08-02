@@ -68,11 +68,13 @@
     <Compile Include="PublicInfoManage\NewsMap.cs" />
     <Compile Include="AuthorizeManage\FilterIPMap.cs" />
     <Compile Include="AuthorizeManage\FilterTimeMap.cs" />
+    <Compile Include="SteelMember\MemberDemandMap.cs" />
     <Compile Include="SteelMember\MemberLibraryMap.cs" />
     <Compile Include="SteelMember\MemberMaterialMap.cs" />
     <Compile Include="SteelMember\MemberProcessMap.cs" />
     <Compile Include="SteelMember\MemberProductionOrderInfoMap.cs" />
     <Compile Include="SteelMember\MemberProductionOrderMap.cs" />
+    <Compile Include="SteelMember\MemberWarehouseMap.cs" />
     <Compile Include="SteelMember\ProjectDemandMap.cs" />
     <Compile Include="SteelMember\ProjectInfoMap.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisMap.cs" />

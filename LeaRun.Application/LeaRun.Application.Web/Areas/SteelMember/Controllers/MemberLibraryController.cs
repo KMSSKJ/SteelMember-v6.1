@@ -256,7 +256,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
               var data= memberlibrarybll.GetList(null).ToList();
               var MemberEntity = data.Find(f => f.MemberId == item);
-               memberlibrarybll.RemoveForm(keyValue);
+               memberlibrarybll.RemoveForm(item);
 
                 var MemberEntity1 = data.FindAll(f =>f.MarkId > MemberEntity.MarkId && f.SubProjectId == MemberEntity.SubProjectId);
                 if (MemberEntity1.Count()>0)
@@ -272,15 +272,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         {
                             if (("0123456789").IndexOf(Number[I] + "") != -1)
                             {
-                                if (Number[I].ToString() != "0")
-                                {
-                                    MemberNumbering += Number[I];//获取不等于0的数字
-                                }
-                                else
-                                {
-                                    Letter += Number[I];//获取0
-                                }
-
+                                //if (Number[I].ToString() != "0")
+                                //{
+                                //    MemberNumbering += Number[I];//获取不等于0的数字
+                                //}
+                                //else
+                                //{
+                                //    Letter += Number[I];//获取0
+                                //}
+                                MemberNumbering += Number[I];//获取数字
                             }
                             else
                             {
@@ -288,7 +288,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             }
                         }
                         MemberEntity2.MarkId--;
-                        MemberEntity2.MemberNumbering = Letter + (Convert.ToInt32(MemberNumbering) -1);
+                        MemberEntity2.MemberNumbering = (Convert.ToInt64(MemberNumbering) -1).ToString();
                         memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
                     }
                 }
@@ -335,15 +335,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string str1 = "";
             MemberLibraryEntity entitys = new MemberLibraryEntity();
 
-            var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == entity.SubProjectId);
-            str = Str.PinYin(data.FullName.Substring(0, 1) + entity.Category.Substring(0, 1)).ToUpper();
+            //var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == entity.SubProjectId);
+            //str = Str.PinYin(data.FullName.Substring(0, 1) + entity.Category.Substring(0, 1)).ToUpper();
+            str = DateTime.Now.ToString("yyyyMMdd");
             if (keyValue == null || keyValue == "")
             {
                 int Num = 1;
-                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.SubProjectId == entity.SubProjectId);
+                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.MemberId != "");
                 Num = Num + MemberList.Count();
 
-                for (int i = 0; i < 4 - Num.ToString().Length; i++)
+                for (int i = 0; i < 6 - Num.ToString().Length; i++)
                 {
                     str1 += "0";
                 }
@@ -871,7 +872,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
 
             DataTable data = new DataTable();
-            string fileName = "导入构件模板.xlsx";
+            //string fileName = "导入构件模板.xlsx";
             //string TableHeader = "构件模板";
             string DataColumn = "型号|";
             DataColumn += "构件类型|构件名称|单位|图纸|模型|图标";

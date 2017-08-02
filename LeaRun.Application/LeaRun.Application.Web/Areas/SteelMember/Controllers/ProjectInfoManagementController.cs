@@ -93,8 +93,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 【项目管理】返回文件（夹）列表JSON
         /// </summary>
-        /// <param name="keywords">文件名搜索条件</param>
-        /// <param name="FolderId">文件夹ID</param>
+        /// <param name="TreeID">文件夹ID</param>
+        /// <param name="jqgridparam"></param>
         /// <param name="IsPublic">是否公共 1-公共、0-我的</param>
         /// <returns></returns>         
         public ActionResult GridListJson(/*ProjectInfoViewModel model,*/ string TreeID, Pagination jqgridparam, string IsPublic)
@@ -216,7 +216,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 【项目信息管理】返回文件夹对象JSON
         /// </summary>
-        /// <param name="KeyValue">主键值</param>
         /// <returns></returns>
         [HttpGet]
         [ValidateInput(false)]
@@ -244,6 +243,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="KeyValue">主键值</param>
+        /// <param name="TreeId"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
@@ -323,7 +323,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 删除（销毁）文件
         /// </summary>
-        /// <param name="FolderId"></param>
+        /// <param name="KeyValue"></param>
         /// <returns></returns>
         public ActionResult DeleteProjectInfo(string KeyValue)
         {

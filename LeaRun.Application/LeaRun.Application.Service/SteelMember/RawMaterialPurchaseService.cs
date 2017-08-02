@@ -118,28 +118,49 @@ namespace LeaRun.Application.Service.SteelMember
             throw;
         }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public List<RawMaterialPurchaseInfoEntity> GetList(Expression<Func<RawMaterialPurchaseInfoEntity, bool>> condition)
         {
             // throw new NotImplementedException();
             return this.BaseRepository().IQueryable(condition).ToList();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public void RemoveList(List<RawMaterialPurchaseEntity> list)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public void UpdataList(List<RawMaterialPurchaseEntity> list)
         {
             this.BaseRepository().Update(list);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string keyValue)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="category"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string category, string keyValue)
         {
             throw new NotImplementedException();
