@@ -97,44 +97,36 @@
 
     //验证构件不能重复
     $._ExistField = function (controlId, url, param) {
-        var SubProject = $("#SubProjectId").attr('data-value');
-        var RawMaterialModel = $("#RawMaterialModel").attr('data-value');
-        if (RawMaterialModel == "==请选择==" || TreeName == undefined || TreeName == "" || TreeName == '' || TreeName == null) {
+        var SubProjectId = $("#SubProjectId").attr('data-value');
+        var Member = $("#MemberId").attr('data-text');
+        if (Member == "==请选择==" || Member == undefined || Member == "" || Member == '' || Member == null) {
             return false;
         }
         if (MemberId == "") {
             MemberId = "M";
         }
-        var data = {
-            MemberId: MemberId,
-            TreeName: TreeName
+        var Data = {
+            SubProjectId: SubProjectId,
+            Member: Member
         };
-        data["RawMaterialModel"] = RawMaterialModel;
-        var options = $.extend(data, param);
-        if ($.currentIframe("Form").ExistRawMaterial(RawMaterialModel)) {
-            ValidationMessage($("#RawMaterialModel"), '数据表中已存在,请重新输入');
-            $("#RawMaterialModel").attr('fieldexist', 'yes');
-        }
-        else {
             $.ajax({
                 url: url,
-                data: options,
+                data: Data,
                 type: "get",
                 dataType: "text",
                 async: false,
                 success: function (data) {
                     if (data.toLocaleLowerCase() == 'false') {
-                        ValidationMessage($("#RawMaterialModel"), '数据库中已存在,请重新输入');
-                        $("#RawMaterialModel").attr('fieldexist', 'yes');
+                        ValidationMessage($("#MemberId"), '数据库中已存在,请重新输入');
+                        $("#MemberId").attr('fieldexist', 'yes');
                     } else {
-                        $("#RawMaterialModel").attr('fieldexist', 'no');
+                        $("#MemberId").attr('fieldexist', 'no');
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     dialogMsg(errorThrown, -1);
                 }
             })
-        }
     }
 </script>
 <div style="margin-top: 20px; margin-right: 30px;">
@@ -164,7 +156,7 @@
                 需求量<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <input id="MemberNumber" type="text" @*onmouseout="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMemberMaterial')"*@ class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
+                <input id="MemberNumber" type="text"onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
             </td>
         </tr>
         <tr>

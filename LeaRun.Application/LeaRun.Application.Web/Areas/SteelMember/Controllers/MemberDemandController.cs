@@ -207,5 +207,25 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         #endregion
         #endregion
+
+        #region 验证数据
+        /// <summary>
+        ///构件不能重复
+        /// </summary>
+        /// <param name="Member"></param>
+        /// <param name="SubProjectId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ExistMember(string Member, string SubProjectId)
+        { string[] arry = Member.Split('>');//字符串转数组
+            var MemberNumbering = "";
+            for (int i = 0; i < arry.Length; i++)
+            {
+                MemberNumbering = arry[0];
+            }
+                bool IsOk = memberdemandbll.ExistFullName(MemberNumbering.Trim(), SubProjectId);
+            return Content(IsOk.ToString());
+        }
+        #endregion
     }
 }

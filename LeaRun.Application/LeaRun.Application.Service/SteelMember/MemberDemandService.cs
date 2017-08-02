@@ -4,9 +4,7 @@ using LeaRun.Data.Repository;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System.Linq;
-
 using LeaRun.Util;
-
 using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Service.SteelMember
@@ -105,6 +103,46 @@ namespace LeaRun.Application.Service.SteelMember
                 entity.Create();
                 this.BaseRepository().Insert(entity);
             }
+        }
+        #endregion
+
+        #region 验证数据
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        /// <param name="query">名称</param>
+        /// <param name="category"></param>
+        /// <param name="keyValue">主键</param>
+        /// <returns></returns>
+        public bool Exist(string query, string category, string keyValue)
+        {
+            var expression = LinqExtensions.True<MemberDemandEntity>();
+            expression = expression.And(t => t.MemberDemandId == query);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                expression = expression.And(t => t.MemberDemandId != keyValue);
+            }
+            if (!string.IsNullOrEmpty(category))
+            {
+                expression = expression.And(t => t.Category == category);
+            }
+            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
+        }
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        public bool Exist(string query, string keyValue)
+        {
+            var expression = LinqExtensions.True<MemberDemandEntity>();
+            expression = expression.And(t => t.SubProjectId== keyValue);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                expression = expression.And(t => t.MemberNumbering == query);
+            }
+            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
         #endregion
     }
