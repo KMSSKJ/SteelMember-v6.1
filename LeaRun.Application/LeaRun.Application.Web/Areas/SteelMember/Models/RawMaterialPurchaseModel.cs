@@ -31,6 +31,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// <returns></returns>
        
         public decimal? PurchaseQuantity { get; set; }
-      
+        /// <summary>
+        /// 单价
+        /// </summary>
+        /// <returns></returns>
+
+        public decimal? RawMaterialPurchaseModelPrice { get; set; }
+
     }
 }

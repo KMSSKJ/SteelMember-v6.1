@@ -80,6 +80,8 @@
     <Compile Include="SteelMember\RawMaterialPurchaseEntity.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseInfoEntity.cs" />
     <Compile Include="SteelMember\MemberProductionOrderInfoEntity.cs" />
+    <Compile Include="SteelMember\RawMaterialWarehouseEntity.cs" />
+    <Compile Include="SteelMember\RawMterialCollarEntity.cs" />
     <Compile Include="SteelMember\SubProjectEntity.cs" />
     <Compile Include="SystemManage\AreaEntity.cs" />
     <Compile Include="AuthorizeManage\ModuleEntity.cs" />

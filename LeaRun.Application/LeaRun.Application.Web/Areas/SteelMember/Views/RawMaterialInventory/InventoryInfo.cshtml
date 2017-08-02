@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "InventoryInfo";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script>
+$(function () {
+       
+        GetGrid();
+
+    });
+  
+
+
+    //加载表格
+    function GetGrid() {
+        var selectedRowIndex = 0;
+        var $gridTable = $('#gridTable');
+        $gridTable.jqGrid({
+            autowidth: true,
+            height: $(window).height() - 136.5,
+            url: "../../SteelMember/RawMaterialInventory/GetNoIswarehousing",
+            datatype: "json",
+            //height: $(window).height() - 100,
+            colModel: [
+                { label: '采购单据', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', width: 80, align: 'center',sortable: true  },
+                {
+                    label: '提交', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }},
+                {
+                    label: '审核', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未审核</span>";
+                        } else if (cellvalue == 1) {
+                            return "<span class=\"label label-success\">通过</span>";
+                        } else {
+                            return "<span class=\"label label-danger\">失败</span>";
+                        }
+                    }
+                },
+                {
+                    label: '是否采购', name: 'IsPurchase', index: 'IsPurchase', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 80, align: 'center',sortable: true  },
+                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: 'center',sortable: true  },
+                { label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 80, align: 'center',sortable: true  },
+                { label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 80, align: 'center',sortable: true  },
+                { label: '备注', name: 'Description', index: 'Description', width: 80, align: 'center',sortable: true  },
+            ],
+            viewrecords: true,
+            rowNum: 30,
+            rowList: [30, 50, 100],
+            pager: "#gridPager",
+            sortname: 'RawMaterialPurchaseId',
+            sortorder: 'desc',
+            rownumbers: true,
+            multiselect: true,
+            shrinkToFit: false,
+            gridview: true,
+            onSelectRow: function () {
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $('#' + this.id).setSelection(selectedRowIndex, false);
+            },
+            subGrid: true,
+            subGridRowExpanded: function (subgrid_id, row_id) {
+                var keyValue = $gridTable.jqGrid('getRowData', row_id)['RawMaterialPurchaseId'];
+                var subgrid_table_id = subgrid_id + "_t";
+                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "'></table>");
+                $("#" + subgrid_table_id).jqGrid({
+                    url: "../../SteelMember/RawMaterialInventory/GetDetailsJson",
+                    postData: { keyValue: keyValue },
+                    datatype: "json",
+                    height: "100%",
+                    colModel: [
+                { label: '主键', name: 'InfoId', index: 'InfoId', width: 80, align: '',sortable: true ,hidden: true },
+                { label: '采购单据', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', width: 80, align: '', sortable: true },
+                { label: '分析主键', name: 'RawMaterialAnalysisId', index: 'RawMaterialAnalysisId', width: 80, align: '', sortable: true, hidden: true },
+                { label: '原材料类型', name: "RawMaterialName", align: 'center', width: 100, sortable: false },
+                { label: '型号', name: "RawMaterialModel", align: 'center', width: 100, sortable: false },
+                { label: '规格', name: "RawMaterialStandard", align: 'center', width: 100, sortable: false },
+                { label: '采购量', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
+                { label: '单位', name: "UnitName", align: 'center', width: 80, sortable: false },
+                { label: '单价(元)', name: "RawMaterialPurchaseModelPrice", align: 'center', width: 80, sortable: false },
+                { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
+                    ],
+                    caption: "明细",
+                    rowNum: "1000",
+                    rownumbers: true,
+                    shrinkToFit: false,
+                    gridview: true,
+                    hidegrid: false
+                });
+            }
+        });
+    }
+    function AcceptClick() {
+        
+        var RawMaterialPurchaseId = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        //alert(RawMaterialPurchaseId);
+        if (RawMaterialPurchaseId != "") {
+           
+            $.ajax({
+                url: "/SteelMember/RawMaterialInventory/Inventory",
+                type: "post",
+                datatype: 'json',
+                data: {
+                    RawMaterialPurchaseId: RawMaterialPurchaseId  
+                },
+                loading: "正在保存数据...",
+                success: function (data) {
+                    // rowData.message;
+                    var datamodel = JSON.parse(data);
+                    if (datamodel.type == 1) {
+                        Loading(false);
+                        dialogMsg(datamodel.message, 1);
+                        
+                    } else {
+                       dialogAlert(datamodel.message, -1);
+                    } 
+                    dialogClose();
+
+                },
+                error: function (e) {
+                    dialogAlert(e, -1);
+                    //dialogTop(e, "error");
+                }
+            });
+
+        } else {
+            dialogMsg("入库数据不能为空！！，请选择。", 0);
+        }
+
+    }
+</script>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="panel-Title">已采购列表</div>
+            <div class="titlePanel">
+                <div class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="gridPanel">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+   

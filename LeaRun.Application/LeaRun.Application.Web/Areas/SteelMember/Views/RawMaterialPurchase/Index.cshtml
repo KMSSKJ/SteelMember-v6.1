@@ -50,7 +50,7 @@
             param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
-                //_Category = item.value;
+                _Category = item.value;
                 //if (_Category != null) {
                 //    alert(item.value);
                     
@@ -141,6 +141,7 @@
                 { label: '规格', name: "RawMaterialStandard", align: 'center', width: 100, sortable: false },
                 { label: '采购量', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
                 { label: '单位', name: "UnitName", align: 'center', width: 80, sortable: false },
+                { label: '单价(元)', name: "RawMaterialPurchaseModelPrice", align: 'center', width: 80, sortable: false },
                 { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
                     ],
                     caption: "明细",
@@ -156,6 +157,7 @@
     function query() {
         //var queryJson = { category: _Category }
         var queryJson = _Category
+        //alert(queryJson);
         $('#gridTable').jqGrid('setGridParam', {
            // postData: { queryJson: JSON.stringify(queryJson) },
            // postData: { queryJson: JSON.stringify(_Category) },
@@ -354,28 +356,45 @@
                     }
                 }
             }
-            dialogConfirm("注：您确定要所选中的数据都已经采购了吗？", function (r) {
-                if (r) {
-                    Loading(true, "正在提交...");
-                    window.setTimeout(function () {
-                        $.ajax({
-                            url: "../../SteelMember/RawMaterialPurchase/SubmitIsPurchase",
-                            data: { keyValues: keyValues },
-                            type: "post",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.type == "3") {
-                                    dialogAlert(data.message, -1);
-                                } else {
-                                    Loading(false);
-                                    dialogMsg(data.message, 1);
-                                }
-                                $('#gridTable').trigger('reloadGrid');
+            //dialogConfirm("注：您确定要所选中的数据都已经采购了吗？", function (r) {
+                //if (r) {
+                   // alert(keyValues);
+                    var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+                    var Description = $('#gridTable').jqGridRowValue('Description');
+                    if (checkedRow(keyValue)) {
+                        dialogOpen({
+                            id: 'Form',
+                            title: '采购详情',
+                            url: '/SteelMember/RawMaterialPurchase/Purchase?keyValue=' + keyValue + '&&Description=' + Description + '',
+                            width: '1000px',
+                            height: '750px',
+                           // btn: null,
+                            callBack: function (iframeId) {
+                                top.frames[iframeId].AcceptClick();
                             }
-                        });
-                    }, 500);
-                }
-            });
+                        })
+                        $('#gridTable').trigger('reloadGrid');
+                    }
+                    //Loading(true, "正在提交...");
+                    //window.setTimeout(function () {
+                    //    $.ajax({
+                    //        url: "../../SteelMember/RawMaterialPurchase/SubmitIsPurchase",
+                    //        data: { keyValues: keyValues },
+                    //        type: "post",
+                    //        dataType: "json",
+                    //        success: function (data) {
+                    //            if (data.type == "3") {
+                    //                dialogAlert(data.message, -1);
+                    //            } else {
+                    //                Loading(false);
+                    //                dialogMsg(data.message, 1);
+                    //            }
+                    //            $('#gridTable').trigger('reloadGrid');
+                    //        }
+                    //    });
+                    //}, 500);
+                //}
+            //});
         }
     }
 </script>

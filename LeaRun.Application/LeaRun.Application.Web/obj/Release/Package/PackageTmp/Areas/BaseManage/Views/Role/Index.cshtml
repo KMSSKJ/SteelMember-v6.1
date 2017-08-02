@@ -32,7 +32,7 @@
                 { label: '角色编号', name: 'EnCode', index: 'EnCode', width: 100, align: 'left' },
                 { label: '角色名称', name: 'FullName', index: 'FullName', width: 200, align: 'left' },
                 {
-                    label: '所在公司', name: 'OrganizeId', index: 'OrganizeId', width: 250, align: 'left',
+                    label: '所属单位', name: 'OrganizeId', index: 'OrganizeId', width: 250, align: 'left',
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientorganizeData[cellvalue] == null ? "" : top.clientorganizeData[cellvalue].FullName;
                     }

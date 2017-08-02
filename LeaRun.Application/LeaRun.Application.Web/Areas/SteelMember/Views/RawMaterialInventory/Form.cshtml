@@ -27,7 +27,7 @@
         }
         var postData = $("#form1").GetWebControls(keyValue);
         $.SaveForm({
-            url: "../../SteelMember/RawMaterialInventory/SaveForm?keyValue=" + keyValue,
+            url: '../../SteelMember/RawMaterialInventory/SaveForm?keyValue="'+keyValue+'"',
             param: postData,
             loading: "正在保存数据...",
             success: function () {

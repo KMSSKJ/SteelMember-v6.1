@@ -13,10 +13,10 @@ namespace LeaRun.Application.Service.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-06 10:42
+    /// 日 期：2017-07-06 10:42  RepositoryFactory<RawMaterialLibraryEntity>
     /// 描 述：原材料管理
     /// </summary>
-    public class RawMaterialLibraryService : RepositoryFactory<RawMaterialLibraryEntity>, RawMaterialLibraryIService
+    public class RawMaterialLibraryService : RepositoryFactory, RawMaterialLibraryIService
     {
         private RawMaterialInventoryIService service = new RawMaterialInventoryService();
 
@@ -60,7 +60,8 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns></returns>
         public RawMaterialLibraryEntity GetEntity(string keyValue)
         {
-            return this.BaseRepository().FindEntity(keyValue);
+            // return this.BaseRepository().FindEntity(keyValue);
+            return this.BaseRepository().FindEntity<RawMaterialLibraryEntity>(keyValue);
         }
         #endregion
 
@@ -176,6 +177,17 @@ namespace LeaRun.Application.Service.SteelMember
                 expression = expression.And(t => t.RawMaterialId != keyValue);
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 模糊查询(Category)
+        /// </summary>
+        /// <param name="category">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<RawMaterialLibraryEntity> GetPageListByLikeCategory(Pagination pagination, string category)
+        {
+            //throw new NotImplementedException();
+            return this.BaseRepository().FindList<RawMaterialLibraryEntity>("select * from RMC_RawMaterialLibrary where Category like'%"+category+"%'");
         }
         #endregion
 

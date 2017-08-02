@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System.Linq;
 using LeaRun.Util.Extension;
+using System;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -22,7 +23,30 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
         private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
 
+        //测试用
+        //private RawMaterialWarehouseBLL rawmaterialwarehousebll = new RawMaterialWarehouseBLL();
 
+        //public ActionResult Text(string begintim, string endtime)
+        //{
+        //    //var data = "哈哈哈";
+
+        //    //var begintim1 = Convert.ToDateTime("2017-8-1");
+        //    //var endtime1 = Convert.ToDateTime("2017-8-31");
+        //    //var data = rawmaterialwarehousebll.GetpurchaseList(p => p.WarehouseTime >= begintim1 && p.WarehouseTime <= endtime1);
+        //    rawmaterialwarehousebll.GetList
+        //    return ToJsonResult(data);
+        //}
+        //public ActionResult Text(Pagination pagination, string catetory)
+        //{
+        //    var catetorys = "工";
+        //    pagination.sidx = "RawMaterialId";
+        //    pagination.sord = "desc";
+        //    pagination.rows = 30;
+        //    pagination.page = 1;
+            
+        //    var data=rawmateriallibrarybll.GetPageListByLikeCategory(pagination,catetorys);
+        //    return ToJsonResult(data);
+        //}
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -55,6 +79,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult EditForm() {
             return View();
         }
+        public ActionResult Purchase()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据
@@ -66,7 +94,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var entityrawMaterialPurchaseId = rawmaterialpurchasebll.GetEntity(rawMaterialPurchaseId);
             //entityrawMaterialPurchaseId.CreateTime; 
-            return ToJsonResult(entityrawMaterialPurchaseId);
+            var data = ToJsonResult(entityrawMaterialPurchaseId);
+            return data;
         }
         /// <summary>
         /// 获取订单下children详情
@@ -86,6 +115,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     Text projectdemand = new Text();
                     projectdemand.PurchaseQuantity = entityrawmaterialanalysis.RawMaterialDosage;//分析数量
 
+                    projectdemand.InfoId=listrawmaterialpurchaseInfo[i].InfoId;
                     projectdemand.SuggestQuantity = SuggestQuantity;
                     projectdemand.RawMaterialAnalysisId = entityrawmaterialanalysis.Id;   //分析ID                                                                      // // projectdemand.RawMaterialAnalysisId = arrayAnalysisId[i];
                     projectdemand.RawMaterialPurchaseId = rawMaterialPurchaseId;
@@ -94,6 +124,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     projectdemand.RawMaterialStandard = Entitymateriallibrary.RawMaterialStandard;
                     projectdemand.UnitName = Entitymateriallibrary.Unit;
                     projectdemand.Description = entityrawmaterialanalysis.Description;
+                    projectdemand.Price = listrawmaterialpurchaseInfo[i].Price==null?0:listrawmaterialpurchaseInfo[i].Price;
                     list.Add(projectdemand);
                 }
                 return ToJsonResult(list);
@@ -241,7 +272,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawMaterialPurchaseModelEntity.UnitName = entityrawmateriallibrary.Unit;
                     rawMaterialPurchaseModelEntity.Description = entityrawmaterialanalysis.Description;
                     rawMaterialPurchaseModelEntity.RawMaterialName = entityrawmateriallibrary.Category;
-
+                    rawMaterialPurchaseModelEntity.RawMaterialPurchaseModelPrice = item.Price;
                     list.Add(rawMaterialPurchaseModelEntity);
                 }
             }
@@ -284,6 +315,26 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             entity.IsPassed = entity.IsPassed == null ? 0 : entity.IsPassed;
             entity.IsPurchase = entity.IsPurchase == null ? 0 : entity.IsPurchase;
             entity.CreateMan = entity.CreateMan == null ? "测试管理员" : entity.CreateMan;
+            List<RawMaterialPurchaseInfoEntity> childEntitys = strChildEntitys.ToList<RawMaterialPurchaseInfoEntity>();
+            rawmaterialpurchasebll.SaveForm(keyValue, entity, childEntitys);
+            return Success("操作成功。");
+        }
+        /// <summary>
+        /// 保存已采购
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="strEntity">实体对象</param>
+        /// <param name="strChildEntitys">子表对象集</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult PurchaseSaveForm(string keyValue, string strEntity, string strChildEntitys)
+        {
+            //Session
+            var entity = strEntity.ToObject<RawMaterialPurchaseEntity>();
+            entity.IsPurchase = 1;
+            entity.IsWarehousing = entity.IsWarehousing == null ? 0 : entity.IsWarehousing;
             List<RawMaterialPurchaseInfoEntity> childEntitys = strChildEntitys.ToList<RawMaterialPurchaseInfoEntity>();
             rawmaterialpurchasebll.SaveForm(keyValue, entity, childEntitys);
             return Success("操作成功。");
@@ -363,84 +414,87 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="keyValues">要审核的数据的主键些0(默认)未采购；1已采购</param>
         /// <returns></returns>
-        [HttpPost]
-        [AjaxOnly]
-        public ActionResult SubmitIsPurchase(string keyValues)
-        {
-            string[] ids = new string[] { };
-            if (!string.IsNullOrEmpty(keyValues))
-            {
-                ids = keyValues.Split(',');
-            }
-            if (!ids.IsEmpty())
-            {
-                List<RawMaterialPurchaseEntity> list = new List<RawMaterialPurchaseEntity>();
-                foreach (var item in ids)
-                {
-                    var model = rawmaterialpurchasebll.GetEntity(item.Trim());
-                    if (model != null)
-                    {
-                        model.IsPurchase = 1;
-                        list.Add(model);
+        //[HttpPost]
+        //[AjaxOnly]
+        //public ActionResult SubmitIsPurchase(string keyValues)
+        //{
+        //    string[] ids = new string[] { };
+        //    if (!string.IsNullOrEmpty(keyValues))
+        //    {
+        //        ids = keyValues.Split(',');
+        //    }
+        //    if (!ids.IsEmpty())
+        //    {
+        //        List<RawMaterialPurchaseEntity> list = new List<RawMaterialPurchaseEntity>();
+        //        foreach (var item in ids)
+        //        {
+        //            var model = rawmaterialpurchasebll.GetEntity(item.Trim());
+        //            if (model != null)
+        //            {
+        //                model.IsPurchase = 1;
+        //                list.Add(model);
                         
-                    }
-                }
-                if (list.Count > 0)
-                {
-                    rawmaterialpurchasebll.UpdataList(list);
-                    //将已采购的加入原材料库
-                    for (var i = 0; i < ids.Length; i++) {
-                        try
-                        {
-                            var model = rawmaterialpurchasebll.GetEntity(ids[i]);
-                            //先取到采购单据
-                            if (model.RawMaterialPurchaseId != null) {
-                                //再拿去订单详情取到每一条
-                                var listInfo = rawmaterialpurchasebll.GetList(p => p.RawMaterialPurchaseId == model.RawMaterialPurchaseId && model.IsPurchase==1);
-                                //得到采购单下的详情
-                                for (var j=0;j<listInfo.Count;j++)
-                                {
-                                    RawMaterialInventoryEntity rawMaterialInventoryEntity = new RawMaterialInventoryEntity();
-                                   var quantity=listInfo[j].PurchaseQuantity;//采购的数量
-                                   var rawmaterialanalysis=rawmaterialanalysisbll.GetEntity(listInfo[j].RawMaterialAnalysisId);//通过分析ID取得分析数据
-                                   var rawMaterialId = rawmaterialanalysis.RawMaterialId;//取得材料ID
-                                   var rawmateriallibrary=rawmateriallibrarybll.GetEntity(rawMaterialId);//根据材料ID取得原材料所有信息
+        //            }
+        //        }
+        //        if (list.Count > 0)
+        //        {
+        //            rawmaterialpurchasebll.UpdataList(list);
+        //            //将已采购的加入原材料库
+        //            for (var i = 0; i < ids.Length; i++) {
+        //                try
+        //                {
+        //                    var model = rawmaterialpurchasebll.GetEntity(ids[i]);
+        //                    //先取到采购单据
+        //                    if (model.RawMaterialPurchaseId != null) {
+        //                        //再拿去订单详情取到每一条
+        //                        var listInfo = rawmaterialpurchasebll.GetList(p => p.RawMaterialPurchaseId == model.RawMaterialPurchaseId && model.IsPurchase==1);
+        //                        //得到采购单下的详情
+        //                        for (var j=0;j<listInfo.Count;j++)
+        //                        {
+        //                            RawMaterialInventoryEntity rawMaterialInventoryEntity = new RawMaterialInventoryEntity();
+        //                           var quantity=listInfo[j].PurchaseQuantity;//采购的数量
+        //                           var rawmaterialanalysis=rawmaterialanalysisbll.GetEntity(listInfo[j].RawMaterialAnalysisId);//通过分析ID取得分析数据
+        //                           var rawMaterialId = rawmaterialanalysis.RawMaterialId;//取得材料ID
+        //                           var rawmateriallibrary=rawmateriallibrarybll.GetEntity(rawMaterialId);//根据材料ID取得原材料所有信息
 
-                                    rawMaterialInventoryEntity.RawMaterialId = rawMaterialId;
-                                    rawMaterialInventoryEntity.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
-                                    rawMaterialInventoryEntity.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
-                                    rawMaterialInventoryEntity.Quantity = quantity;
-                                    rawMaterialInventoryEntity.Unit = rawmateriallibrary.Unit;
-                                    rawMaterialInventoryEntity.Category = rawmateriallibrary.Category;
-                                    rawMaterialInventoryEntity.InventoryTime = System.DateTime.Now;  //入库时间
+        //                            rawMaterialInventoryEntity.RawMaterialId = rawMaterialId;
+        //                            rawMaterialInventoryEntity.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
+        //                            rawMaterialInventoryEntity.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
+        //                            rawMaterialInventoryEntity.Quantity = quantity;
+        //                            rawMaterialInventoryEntity.Unit = rawmateriallibrary.Unit;
+        //                            rawMaterialInventoryEntity.Category = rawmateriallibrary.Category;
+        //                            rawMaterialInventoryEntity.InventoryTime = System.DateTime.Now;  //入库时间
 
-                                    //查看原材料库中是否有该材料，有就直接加库存rawMaterialId
-                                    //var linventoryEntity =rawmaterialinventorybll.GetEntity(rawMaterialId);
-                                    //if (linventoryEntity != null)
-                                    //{
-                                    //    RawMaterialInventoryEntity Entity = new RawMaterialInventoryEntity();
-                                    //    var allquantity=linventoryEntity.Quantity + quantity;
-                                    //    Entity.Quantity = allquantity;
-                                    //    Entity.InventoryTime = System.DateTime.Now;
-                                    //    rawmaterialinventorybll.SaveForm(linventoryEntity.InventoryId, Entity);
-                                    //}
-                                    string keyvalue=null;
-                                    rawmaterialinventorybll.SaveForm(keyvalue,rawMaterialInventoryEntity);
+        //                            //查看原材料库中是否有该材料，有就直接加库存rawMaterialId
+        //                            var linventoryEntity = rawmaterialinventorybll.GetEntityByRawMaterialId(rawMaterialId);
+        //                            if (linventoryEntity != null)
+        //                            {
+        //                                RawMaterialInventoryEntity Entity = new RawMaterialInventoryEntity();
+        //                                var allquantity = linventoryEntity.Quantity + quantity;
+        //                                Entity.Quantity = allquantity;
+        //                                Entity.InventoryTime = System.DateTime.Now;
+        //                                rawmaterialinventorybll.SaveForm(linventoryEntity.InventoryId, Entity);
+        //                            }
+        //                            else {
+        //                                string keyvalue = null;
+        //                                rawmaterialinventorybll.SaveForm(keyvalue, rawMaterialInventoryEntity);
+        //                            }
+                                   
                                     
 
-                                }
-                            }
-                        }
-                        catch (System.Exception e)
-                        {
-                            throw (e);
-                        }
-                    }
+        //                        }
+        //                    }
+        //                }
+        //                catch (System.Exception e)
+        //                {
+        //                    throw (e);
+        //                }
+        //            }
                     
-                }
-            }
-            return Success("操作成功。");
-        }
+        //        }
+        //    }
+        //    return Success("操作成功。");
+        //}
         #endregion
     }
 }

@@ -1,24 +1,10 @@
 @{;
     ViewBag.Title = "列表页面";
-    //Layout = "~/Views/Shared/_Index.cshtml";
+   
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 <script>;
-    //$(function () {
-    //    InitialPage();
-    //    GetGrid();
-    //});
-    ////初始化页面
-    //function InitialPage() {
-    //    //resize重设布局;
-    //    $(window).resize(function (e) {
-    //        window.setTimeout(function () {
-    //            $('#gridTable').setGridWidth(($('.gridPanel').width()));
-    //            $('#gridTable').setGridHeight($(window).height() - 136.5);
-    //        }, 200);
-    //        e.stopPropagation();
-    //    });
-    //}
+    
     $(function () {
         InitialPage();
         GetTree();
@@ -66,23 +52,24 @@
             url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             onnodeclick: function (item) {
                 _Category = item.value;
-                if (_Category != null) {
-                    alert(item.value);
+               
+                //if (_Category != null) {
+                //    alert(item.value);
 
-                }
+                //}
 
-                HavesChildren = item.hasChildren;
+               // HavesChildren = item.hasChildren;
                 //if (!HavesChildren) {
                 //    $('#btn_Search').trigger("click");
                 //}
                 //$('#btn_Search').trigger("click");
-               // query();
+                query();
             }
         };
         //初始化
         $("#itemTree").treeview(item);
     }
-    //加载表格
+    //加载表格  Category  RawMaterialStandard  RawMaterialModel Unit InventoryTime
     function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
@@ -90,17 +77,23 @@
             autowidth: true,
             height: $(window).height() - 136.5,
             url: "../../SteelMember/RawMaterialInventory/GetPageListJson",
+            //url: "../../SteelMember/RawMaterialInventory/GetListJson",
             datatype: "json",
             colModel: [
-                { label: '主键', name: 'InventoryId', index: 'InventoryId', width: 100, align: 'left',sortable: true ,hidden: true },
-                { label: '外键', name: 'RawMaterialId', index: 'RawMaterialId', width: 100, align: 'left',sortable: true ,hidden: true },
-                { label: '库存量', name: 'Quantity', index: 'Quantity', width: 100, align: 'left',sortable: true  },
+                { label: '主键', name: 'InventoryId', index: 'InventoryId', width: 100, align: 'left',sortable: true  },
+                //{ label: '外键', name: 'RawMaterialId', index: 'RawMaterialId', width: 100, align: 'left', sortable: true, hidden: true },
+                { label: '材料类型', name: 'Category', index: 'Category', width: 100, align: 'center', sortable: true },
+                { label: '规格', name: 'RawMaterialStandard', index: 'RawMaterialStandard', width: 100, align: 'center', sortable: true },
+                { label: '型号', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 100, align: 'center', sortable: true },
+                { label: '单位', name: 'Unit', index: 'Unit', width: 100, align: 'center', sortable: true },
+                { label: '库存量', name: 'Quantity', index: 'Quantity', width: 100, align: 'left', sortable: true },
+               
             ],
             viewrecords: true,
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'InventoryId',
+            sortname:'RawMaterialId',
             sortorder: 'desc',
             rownumbers: true,
             shrinkToFit: false,
@@ -111,58 +104,120 @@
             gridComplete: function () {
                 $('#' + this.id).setSelection(selectedRowIndex, false);
             }
-        });
+        }); 
     }
-    //新增
-    function btn_add() {
-        dialogOpen({
-            id: 'Form',
-            title: '添加原材料库存',
-            url: '/SteelMember/RawMaterialInventory/Form',
-            width: '500px',
-            height: '600px',
-            callBack: function (iframeId) {
-                top.frames[iframeId].AcceptClick();
-            }
-        });
+    function query() {
+       //// var queryJson = { Category: _Category }
+       // var queryJson = _Category;
+       // $('#gridTable').jqGrid('setGridParam', {
+       //      //postData: { queryJson: JSON.stringify(queryJson) },
+       //      //postData: { queryJson: JSON.stringify(_Category) },
+       //        postData: { queryJson: queryJson },
+       //     page: 1
+        // }).trigger('reloadGrid');
+        
+        var queryJson = {
+            Category: _Category
+            //RawMaterialModel: $("#txt_Keyword").val()
+        }
+        //$grid.jqGrid('setGridParam',{
+          $('#gridTable').jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+        }).trigger('reloadGrid');
     }
-    //编辑
-    function btn_edit() {
-        var keyValue = $('#gridTable').jqGridRowValue('InventoryId');
+
+    //领用
+    function btn_Collar() {
+        //alert(_Category);
+        var keyValue = $('#gridTable').jqGridRowValue('InventoryId'); 
+        var Quantity = $('#gridTable').jqGridRowValue('Quantity');
+        if (Quantity=="0") {
+            dialogMsg("库存中暂时没有该材料了!!! 0.0", 0);
+            return false;
+        }
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'Form',
-                title: '编辑原材料库存',
-                url: '/SteelMember/RawMaterialInventory/Form?keyValue=' + keyValue,
-                width: '500px',
-                height: '600px',
+                title: '原材料领用',
+                url: '/SteelMember/RawMaterialInventory/Collar?InventoryId=' + keyValue,
+                width: '900px',
+                height: '500px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
+                    $("#gridTable").trigger("reloadGrid");
                 }
-            })
+            });
         }
     }
-    //删除
-    function btn_delete() {
+    //入库
+    function btn_InventoryInfo() {
         var keyValue = $('#gridTable').jqGridRowValue('InventoryId');
-        if (keyValue) {
-            $.RemoveForm({
-                url: '../../SteelMember/RawMaterialInventory/RemoveForm',
-                param: { keyValue: keyValue },
-                success: function (data) {
-                    $('#gridTable').trigger('reloadGrid');
+       // if (checkedRow(keyValue)) {
+            dialogOpen({
+                id: 'Form',
+                title: '已采购材料',
+                url: '/SteelMember/RawMaterialInventory/InventoryInfo',
+                width: '1000px',
+                height: '750px',
+                //btn: null,
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                    $("#gridTable").trigger("reloadGrid");
                 }
             })
-        } else {
-            dialogMsg('请选择需要删除的原材料库存！2222', 0);
-        }
+        //}
     }
+    //入库信息
+    function btn_IntoInventoryDetail() {
+        dialogOpen({
+            id: 'Form',
+            title: '入库信息',
+            url: '/SteelMember/RawMaterialInventory/IntoInventoryDetail',
+            width: '1000px',
+            height: '750px',
+            btn: null,
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+              
+            }
+        })
+    }
+    function btn_OutInventoryDetail() {
+        dialogOpen({
+            id: 'Form',
+            title: '出库信息',
+            url: '/SteelMember/RawMaterialInventory/OutInventoryDetail',
+            width: '1000px',
+            height: '750px',
+            btn: null,
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+
+            }
+        })
+
+    }
+    ////删除
+    //function btn_delete() {
+    //    var keyValue = $('#gridTable').jqGridRowValue('InventoryId');
+    //    if (keyValue) {
+    //        $.RemoveForm({
+    //            url: '../../SteelMember/RawMaterialInventory/RemoveForm',
+    //            param: { keyValue: keyValue },
+    //            success: function (data) {
+    //                $('#gridTable').trigger('reloadGrid');
+    //            }
+    //        })
+    //    } else {
+    //        dialogMsg('请选择需要删除的原材料库存！2222', 0);
+    //    }
+    //}
 </script>
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">工程目录</div>
+            <div class="panel-Title">原材料类型</div>
             <div id="itemTree"></div>
         </div>
     </div>
@@ -173,10 +228,12 @@
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
-                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>新增订单</a>
-                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>编辑</a>
-                        <a id="lr-details" class="btn btn-default" onclick="btn_details()"><i class="fa fa-list-alt"></i>详细</a>
-                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+                        @*<a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>新增订单</a>*@
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_InventoryInfo()"><i class="fa fa-list-alt"></i>入库</a>
+                        <a id="lr-details" class="btn btn-default" onclick="btn_Collar()"><i class="fa  fa-pencil-square-o"></i>领用</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_IntoInventoryDetail()"><i class="fa fa-qq"></i>入库详情</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_OutInventoryDetail()"><i class="fa fa-send"></i>出库详情</a>
+                       
                     </div>
 
                 </div>

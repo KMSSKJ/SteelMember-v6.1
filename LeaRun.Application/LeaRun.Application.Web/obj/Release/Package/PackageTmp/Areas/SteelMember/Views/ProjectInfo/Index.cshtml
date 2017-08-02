@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "项目信息预览";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+@*<link href="~/Content/Scripts/uploadify/uploadify.css" rel="stylesheet" />
+    <script src="~/Content/Scripts/uploadify/jquery.uploadify.js"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        // GetTree();
+        GetGrid();
+
+    });
+
+    //加载左边树
+    //注意 FolderId 默认等于1 这样就可以加载一级目录下的子节点文件夹
+    var ItemId = 2;
+    var TreeId = "";
+    var data_id = "";
+    var TreeName = "";
+    var Img = "";
+   
+    //加载表格
+    function GetGrid(TreeId) {
+
+        $.ajax({
+            url: "/SteelMember/ProjectInfo/GetItemInfo",
+            type: "get",
+            data: { KeyValue: TreeId },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data != null) {
+                    $("#form1").SetWebControls(data);
+                    data_id = data.ProjectId;
+                    var filename = data.ProjectLogo, filename1 = data.ProjectBackground;
+
+                    if (filename1 != null) {
+                        filename1 = filename1.substring(0, filename1.lastIndexOf('.'));//获取文件名称，去除后缀名
+                        filename1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.ProjectBackground;
+                        document.getElementById("txImg1").src = filename1;
+                    }
+                    if (filename != null) {
+                        filename = filename.substring(0, filename.lastIndexOf('.'));//获取文件名称，去除后缀名
+                        filename = "../../Resource/Document/NetworkDisk/System/Project/" + filename + "/" + data.ProjectLogo;
+                        document.getElementById("txImg").src = filename;
+                    }
+                }
+            },
+        });
+    }
+
+</script>
+
+@*<div class="tools_bar leftline rightline" style="margin-bottom: 0px; margin: 1px;">
+        <div class="PartialButton">
+                @Html.Partial("_PartialButton")
+            </div>
+    </div>*@
+<br />
+<div class="rightline" style="margin: 1px; margin-top: -1px;">
+    <div id="table_project">
+        <table class="form">
+            <tr>
+                <td class="formTitle">
+                    系统标题
+                </td>
+                <td class="formValue" colspan="5">
+                    <input readonly id="ProjectSystemTitel" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">
+                    项目地址
+                </td>
+                <td class="formValue" colspan="5">
+                    <input readonly id="ProjectAddress" type="text" class="form-control" rowspan="4" />
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">
+                    业主单位
+                </td>
+                <td class="formValue">
+                    <input readonly id="ConstructionUnit" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    负责人
+                </td>
+                <td class="formValue">
+                    <input readonly id="ConstructionPrincipal" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input readonly id="ConstructionPrincipalTEL" type="text" class="form-control"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="formTitle">
+                    设计单位
+                </td>
+                <td class="formValue">
+                    <input readonly id="DesignUnit" type="text" class="form-control"/>
+                </td>
+                <td class="formTitle">
+                    负责人
+                </td>
+                <td class="formValue">
+                    <input readonly id="DesignPrincipal" type="text" class="form-control"/>
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input readonly id="DesignPrincipalTEL" type="text" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">监理单位</td>
+                <td class="formValue">
+                    <input readonly id="SupervisionUnit" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    负责人
+                </td>
+                <td class="formValue">
+                    <input readonly id="SupervisionPrincipal" type="text" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input readonly id="SupervisionPrincipalTEL" type="text" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">总承包商</td>
+                <td class="formValue">
+                    <input readonly id="GeneralContractor" type="text" class="form-control"/>
+                </td>
+                <td class="formTitle">
+                    负责人
+                </td>
+                <td class="formValue">
+                    <input readonly id="GeneralContractorPrincipal" type="text" class="form-control"/>
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input readonly id="GeneralContractorPrincipalTEL" type="text" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">专业承包商</td>
+                <td class="formValue">
+                    <input readonly id="ProfessionalContractor" type="text" class="form-control"/>
+                </td>
+                <td class="formTitle">
+                    负责人
+                </td>
+                <td class="formValue">
+                    <input readonly id="ProfessionalContractorPrincipal" type="text" class="form-control"/>
+                </td>
+                <td class="formTitle">
+                    联系电话
+                </td>
+                <td class="formValue">
+                    <input readonly id="ProfessionalContractorPrincipalTEL" type="text" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">
+                    工程概况
+                </td>
+                <td class="formValue" colspan="5">
+                    <textarea readonly id="Description" name="Description" maxlengtd="200"  class="form-control" rows="5"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div>
+        <table class="form">
+            <tr>
+                <td class="formTitle">
+                    系统Logo
+                </td>
+
+                <td class="formTitle">
+                    系统图片
+                </td>
+            </tr>
+            <tr>
+                <td class="formValue">
+                    <div style="text-align:center; margin:8px;" class="showImg;"><img id="txImg" name="txImg" class="txImg" src="" height="380" widtd="500" /></div>
+                </td>
+
+                <td class="formValue">
+                    <div style="text-align:center;margin:8px;" class="showImg;"><img id="txImg1" name="txImg" class="txImg" src="" height="380" widtd="560" /></div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -36,6 +36,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("PURCHASEQUANTITY")]
         public decimal? PurchaseQuantity { get; set; }
+        /// <summary>
+        /// 单价
+        /// </summary>
+        /// <returns></returns>
+        public decimal? Price { get; set; }
         #endregion
 
         #region 扩展操作

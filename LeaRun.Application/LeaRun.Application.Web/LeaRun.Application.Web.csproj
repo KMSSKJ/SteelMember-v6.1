@@ -217,6 +217,8 @@
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialInventoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialPurchaseController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMaterialWarehouseController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\RawMterialCollarController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
     <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
@@ -230,8 +232,11 @@
     <Compile Include="Areas\SteelMember\Models\QRCodeModel.cs" />
     <Compile Include="Areas\SteelMember\Models\QueryMemberModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialAnalysisModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialCollarModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialInventoryModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialLibraryModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialPurchaseModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawmaterialWarehouseModel.cs" />
     <Compile Include="Areas\SteelMember\SteelMemberAreaRegistration.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterIPController.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterTimeController.cs" />
@@ -1201,7 +1206,6 @@
     <Content Include="Areas\SteelMember\Views\ProjectInfo\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectInfo\ManIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\Web.config" />
-    <Content Include="Areas\SteelMember\Views\ProjectInfo\Index - 复制.cshtml" />
     <Content Include="Areas\SteelMember\Views\Directory\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\CollarManagement\CollarForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\CollarManagement\DetailForm.cshtml" />
@@ -1246,8 +1250,6 @@
     <Content Include="Areas\SteelMember\Views\ProjectWarehouse\QueryPage.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\FolderForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\Tree\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis1\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis1\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\File\MemberForm.cshtml" />
     <Content Include="Areas\GeneratorManage\Views\SingleTable\CodeBuilder.cshtml" />
@@ -1285,6 +1287,11 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Purchase.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\InventoryInfo.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\Collar.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\IntoInventoryDetail.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\OutInventoryDetail.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
@@ -1319,6 +1326,7 @@
     <Content Include="Views\Login\Index2.cshtml" />
     <Content Include="Views\Home\AdminPretty.cshtml" />
     <Content Include="Views\Home\AdminPrettyDesktop.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
