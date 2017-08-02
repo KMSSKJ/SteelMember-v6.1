@@ -47,8 +47,8 @@
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            param: { Levels: 1 },
-            url: '../../SteelMember/MemberLibrary/SubProjectTreeJson',
+            param: { Levels: 2 },
+            url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
                 SubProject = item.value;
                 SubProjectId = item.id;
