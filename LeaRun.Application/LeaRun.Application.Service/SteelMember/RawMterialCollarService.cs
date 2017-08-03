@@ -17,7 +17,8 @@ namespace LeaRun.Application.Service.SteelMember
     /// 版 本 6.1
     /// 日 期：2017-07-26 17:19  RepositoryFactory<RawMterialCollarEntity>
     /// 描 述：领用管理
-    /// </summary>
+    ///</summary>
+    
     public class RawMterialCollarService : RepositoryFactory, RawMterialCollarIService
     {
         #region 获取数据
@@ -46,8 +47,10 @@ namespace LeaRun.Application.Service.SteelMember
         #region 提交数据
         /// <summary>
         /// 删除数据
-        /// </summary>
         /// <param name="keyValue">主键</param>
+        /// </summary>
+
+
         public void RemoveForm(string keyValue)
         {
             this.BaseRepository().Delete(keyValue);
@@ -71,7 +74,12 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="queryJson"></param>
+        /// <returns></returns>
         public IEnumerable<RawMterialCollarEntity> OutInventoryDetailInfo(Pagination pagination, string queryJson)
         {
             //throw new NotImplementedException();

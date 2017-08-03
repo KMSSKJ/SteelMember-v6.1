@@ -165,13 +165,21 @@ namespace LeaRun.Application.Service.SteelMember
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public List<RawMaterialPurchaseEntity> GetpurchaseList(Expression<Func<RawMaterialPurchaseEntity, bool>> condition)
         {
             //throw new NotImplementedException();
             return this.BaseRepository().IQueryable(condition).ToList();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <param name="entity"></param>
         public void SavePurchaseForm(string keyValue, RawMaterialPurchaseEntity entity)
         {
             IRepository db = this.BaseRepository().BeginTrans();
@@ -200,7 +208,12 @@ namespace LeaRun.Application.Service.SteelMember
                 throw;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="IsWarehousing"></param>
+        /// <returns></returns>
         public IEnumerable<RawMaterialPurchaseEntity> GetPageListByIsWarehousing(Pagination pagination, int IsWarehousing)
         {
             try {

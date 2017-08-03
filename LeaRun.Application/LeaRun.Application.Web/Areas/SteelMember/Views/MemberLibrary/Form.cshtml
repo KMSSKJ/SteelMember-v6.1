@@ -14,7 +14,7 @@
 <script type="text/javascript">
     var KeyValue = request('keyValue');
     var SubProject = request('SubProject');
-    //var SubProjectId = request('SubProjectId');
+    var SubProjectId = request('SubProjectId');
     $(function () {
         initialPage();
         UploadFile();
@@ -79,10 +79,12 @@
     function InitControl() {
 
          /*添加构件开始====================================*/
-        //子项目
-        $("#SubProjectId").ComboBoxTree({
-            param: { Levels: 1 },
-            url: '../../SteelMember/MemberLibrary/SubProjectTreeJson',
+        //工程类型
+        $("#EngineeringId").ComboBox({
+            param: { EnCode: "EngineeringType"  },
+            url: '../../SystemManage/DataItemDetail/GetDataItemListJson',
+            id: "ItemDetailId",
+            text: "ItemName",
             description: "==请选择==",
             height: "200px",
             allowSearch: true,
@@ -142,13 +144,13 @@
                             document.getElementById("DelAvatar2").value = "删除图片";
                         }
                         $("#form1").SetWebControls(data);
-                        $("#SubProjectId").ComboBoxTreeSetValue(data.SubProjectId);//.trigger("change");
+                        $("#EngineeringId").ComboBoxSetValue(data.EngineeringId);//.trigger("change");
                         $("#Category").ComboBoxTreeSetValue(data.Category);
                         $("#MemberUnit").ComboBoxTreeSetValue(data.MemberUnit);
                     }
                 });
             } else {
-                $("#SubProjectId").ComboBoxTreeSetValue(SubProject);
+            $("#EngineeringId").ComboBoxSetValue(SubProjectId);
                 ////获取单位
                 //$("#MemberUnit").ComboBox({
                 //    url: "../../SteelMember/ProjectManagement/GetMemderUnit",
@@ -352,8 +354,9 @@
 
 
         /*添加原材料结束====================================*/
+    //验证构件
         $._ExistField = function (controlId, url, param) {
-            var SubProjectId = $("#SubProjectId").attr('data-value');
+            var SubProjectId = $("#EngineeringId").attr('data-value');
             var Category = $("#Category").attr('data-text');
             if (controlId != "MemberName") {
                 controlId = "MemberName";
@@ -436,6 +439,7 @@
                 return false;
             }
             var postData = $("#form1").GetWebControls(KeyValue);
+            postData["EngineeringId"] = $("#EngineeringId").attr('data-value');
             postData["Category"] = $("#Category").attr('data-text');
             postData["MemberUnit"] = $("#MemberUnit").attr('data-text');
             postData["MemberRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
@@ -478,7 +482,7 @@
                         工程类型<font face="宋体">*</font>
                     </td>
                     <td class="formValue">
-                        <div id="SubProjectId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                        <div id="EngineeringId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
                     <td class="formTitle">
                         构件类型<font face="宋体">*</font>

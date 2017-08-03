@@ -111,7 +111,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetListJsonMemberlibrary(string SubProjectId)
         {
-            var data = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.SubProjectId==SubProjectId);
+            var data = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.EngineeringId == SubProjectId);
             var JsonData = data.Select(p => new
             {
                 MemberId = p.MemberId,

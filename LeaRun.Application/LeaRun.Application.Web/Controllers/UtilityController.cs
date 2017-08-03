@@ -121,6 +121,9 @@ namespace LeaRun.Application.Web.Controllers
         /// <param name="JsonColumn">表头</param>
         /// <param name="JsonData">数据</param>
         /// <param name="JsonFooter">底部合计</param>
+        /// <param name="FileName"></param>
+        /// <param name="TableHeader"></param>
+        /// <param name="TableObject"></param>
         [ValidateInput(false)]
         public void SetDeriveExcel(string JsonColumn, string JsonData, string JsonFooter, string FileName, string TableHeader, string TableObject)
         {

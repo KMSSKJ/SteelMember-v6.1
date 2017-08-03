@@ -20,7 +20,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// RawMaterialId
         /// </summary>
         /// <returns></returns>
-        public string RawMaterialId { get; set; }
+        public new string RawMaterialId { get; set; }
         /// <summary>
         /// WarehouseQuantity
         /// </summary>
@@ -35,6 +35,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// Description
         /// </summary>
         /// <returns></returns>
-        public string Description { get; set; }
+        public new string Description { get; set; }
     }
 }

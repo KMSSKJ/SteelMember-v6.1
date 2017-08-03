@@ -40,8 +40,8 @@
             loading: "正在保存数据...",
             success: function () {
                 $.currentIframe().$("#gridTable").resetSelection();
-                //$.currentIframe().$("#gridTable").trigger("reloadGrid");
-                $.currentIframe("MemberCategoryIndex").windowsload();
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                //$.currentIframe("MemberCategoryIndex").windowsload();
             }
         })
     }

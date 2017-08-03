@@ -182,6 +182,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <summary>
         /// 模糊查询(Category)
         /// </summary>
+        /// <param name="pagination"></param>
         /// <param name="category">查询参数</param>
         /// <returns>返回列表</returns>
         public IEnumerable<RawMaterialLibraryEntity> GetPageListByLikeCategory(Pagination pagination, string category)
