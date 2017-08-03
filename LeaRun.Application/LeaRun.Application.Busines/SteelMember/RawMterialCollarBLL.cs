@@ -4,6 +4,7 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SteelMember
 {
@@ -35,6 +36,10 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             //return service.GetList(queryJson);
             return service.OutInventoryDetailInfo(pagination, queryJson);
+        }
+        public List<RawMterialCollarEntity> GetCallarList(Expression<Func<RawMterialCollarEntity, bool>> condition)
+        {
+            return service.GetCallarList(condition);
         }
         /// <summary>
         /// 获取实体

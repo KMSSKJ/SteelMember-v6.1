@@ -81,7 +81,14 @@
             dialogMsg("请将信息填写完整！！", 0);
             return false;
         }
+       //var CollarCategory = $("#CollarCategory").val() == "生产领用" ? 1 : 2;
+        //var CollarCategor;
+        if ($("#CollarCategory").val() != "生产领用" && $("#CollarCategory").val() != "工程领用") {
+            dialogMsg("在(领用类型)一项请做选择，不要通过填写！！", 0);
+            return false;
+        }
         var CollarCategory = $("#CollarCategory").val() == "生产领用" ? 1 : 2;
+
         var collarinfo = {
             InventoryId: InventoryId,
             CollarType: CollarCategory,
@@ -202,9 +209,7 @@
           
         </table>
     </div>
-    @*<div class="gridPanel">
-        <table id="gridTable"></table>
-    </div>*@
+ 
 </div>
 <style>
     body {

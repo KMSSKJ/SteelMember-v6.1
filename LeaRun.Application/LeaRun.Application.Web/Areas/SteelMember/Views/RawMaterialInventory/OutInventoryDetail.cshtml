@@ -7,6 +7,40 @@
     $(function () {
         GetGrid();
     });
+
+    //模糊
+    function QueryByInputRawMaterialCategory() {
+        var category = $("#txt_Keyword").val();
+        var categorys = $.trim(category);
+        $("#gridTable").jqGrid("setGridParam", {
+           
+            postData: { category: category },
+            page: 1
+        }).trigger('reloadGrid');
+        
+
+    }
+    //
+    function btn_SearchBytime() {
+        var category = $("#txt_Keyword").val();
+        var begintime = $("#txt_BeginTime").val();
+        var endtime = $("#txt_EndTime").val();
+        if (begintime == "" || endtime == "") {
+            dialogMsg("请把两个时间填写完整！！", 0)
+            return;
+        }
+
+        $("#gridTable").jqGrid("setGridParam", {
+            //postData: { queryJson: JSON.stringify(category) },
+            postData: {
+                category: category,
+                begintime: begintime,
+                endtime: endtime
+            },
+            page: 1
+        }).trigger('reloadGrid');
+
+    }
     //加载表格
     function GetGrid() {
         var selectedRowIndex = 0;
@@ -26,6 +60,7 @@
                 { label: '规格', name: 'RawMaterialStandard', index: 'RawMaterialStandard', width: 80, align: 'center', sortable: true },
                 { label: '出库数量', name: 'CollarQuantity', index: 'CollarQuantity', width: 80, align: 'center', sortable: true },
                 { label: '单位', name: 'Unit', index: 'Unit', width: 80, align: 'center', sortable: true },
+                { label: '类型', name: 'CollarType', index: 'CollarType', width: 80, align: 'center', sortable: true },
                 { label: '领用人', name: 'CollarMan', index: 'CollarMan', width: 80, align: 'center', sortable: true },
                 { label: '出库时间', name: 'CollarTime', index: 'CollarTime', width: 80, align: 'center', sortable: true },
                 { label: '描述', name: 'Description', index: 'Description', width: 80, align: 'center', sortable: true },
