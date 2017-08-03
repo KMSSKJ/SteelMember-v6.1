@@ -339,7 +339,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == entity.SubProjectId);
             //str = Str.PinYin(data.FullName.Substring(0, 1) + entity.Category.Substring(0, 1)).ToUpper();
 
-            entitys1.MemberId= entitys.MemberId = entity.MemberId;\
+            entitys1.MemberId= entitys.MemberId = entity.MemberId;
             entitys1.EngineeringId = entitys.EngineeringId = entity.EngineeringId;
             entitys.Category = entity.Category;
             entitys.MemberName = entity.MemberName.Trim();
@@ -364,7 +364,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 entitys.IsProcess = 0;
 
 
-               memberwarehousebll.SaveForm(keyValue, entitys);
+               memberwarehousebll.SaveForm(keyValue, entitys1);
             }
            
 
