@@ -52,3 +52,7 @@ E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Ut
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.dll
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.pdb
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.pdb

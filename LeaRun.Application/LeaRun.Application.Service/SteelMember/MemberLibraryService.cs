@@ -53,7 +53,7 @@ namespace LeaRun.Application.Service.SteelMember
             if(!queryParam["SubProjectId"].IsEmpty())
             {
                 var SubProjectId = queryParam["SubProjectId"].ToString();
-                expression = expression.And(t => t.SubProjectId == SubProjectId);
+                expression = expression.And(t => t.EngineeringId == SubProjectId);
             }
             return this.BaseRepository().FindList(expression,pagination);
         }
@@ -164,7 +164,7 @@ namespace LeaRun.Application.Service.SteelMember
             expression = expression.And(t => t.MemberName.Trim() == FullName);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                expression = expression.And(t => t.SubProjectId.Trim() == keyValue);
+                expression = expression.And(t => t.EngineeringId.Trim() == keyValue);
             }
             if (!string.IsNullOrEmpty(Category)) { 
                 expression = expression.And(t => t.Category == Category);

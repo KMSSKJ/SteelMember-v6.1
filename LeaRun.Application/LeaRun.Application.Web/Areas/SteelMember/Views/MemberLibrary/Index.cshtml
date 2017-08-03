@@ -43,16 +43,14 @@
     //º”‘ÿ ˜
     var SubProject = "";
     var SubProjectId = "";
-    var HavesChildren;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            param: { Levels: 1 },
-            url: '../../SteelMember/MemberLibrary/SubProjectTreeJson',
+            param: { EnCode: "EngineeringType" },
+            url: '../../SystemManage/DataItemDetail/GetDataItemTreeJson',
             onnodeclick: function (item) {
                 SubProject = item.value;
                 SubProjectId = item.id;
-                HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
             }
         };

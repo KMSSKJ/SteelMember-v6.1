@@ -28,6 +28,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private SubProjectBLL subprojectbll = new SubProjectBLL();
         private MemberMaterialBLL membermaterialbll = new MemberMaterialBLL();
         private MemberProcessBLL memberprocessbll = new MemberProcessBLL();
+        private MemberWarehouseBLL memberwarehousebll = new MemberWarehouseBLL();
         private ProjectInfoBLL projectinfobll = new ProjectInfoBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
         private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
@@ -258,7 +259,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
               var MemberEntity = data.Find(f => f.MemberId == item);
                memberlibrarybll.RemoveForm(item);
 
-                var MemberEntity1 = data.FindAll(f =>f.MarkId > MemberEntity.MarkId && f.SubProjectId == MemberEntity.SubProjectId);
+                var MemberEntity1 = data.FindAll(f =>f.MarkId > MemberEntity.MarkId && f.EngineeringId == MemberEntity.EngineeringId);
                 if (MemberEntity1.Count()>0)
                 {
                     foreach (var item1 in MemberEntity1)
@@ -334,9 +335,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string str = "";
             string str1 = "";
             MemberLibraryEntity entitys = new MemberLibraryEntity();
-
+            MemberWarehouseEntity entitys1 = new MemberWarehouseEntity();
             //var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == entity.SubProjectId);
             //str = Str.PinYin(data.FullName.Substring(0, 1) + entity.Category.Substring(0, 1)).ToUpper();
+
+            entitys1.MemberId= entitys.MemberId = entity.MemberId;\
+            entitys1.EngineeringId = entitys.EngineeringId = entity.EngineeringId;
+            entitys.Category = entity.Category;
+            entitys.MemberName = entity.MemberName.Trim();
+            entitys.MemberModel = entity.MemberModel.Trim();
+            entitys.UploadTime = DateTime.Now;
+            entitys.MemberUnit = entity.MemberUnit;
+
             str = DateTime.Now.ToString("yyyyMMdd");
             if (keyValue == null || keyValue == "")
             {
@@ -352,14 +362,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 entitys.MemberNumbering = str + str1 + Num.ToString();
                 entitys.IsRawMaterial = 0;
                 entitys.IsProcess = 0;
+
+
+               memberwarehousebll.SaveForm(keyValue, entitys);
             }
-            entitys.MemberId = entity.MemberId;
-            entitys.Category = entity.Category;
-            entitys.SubProjectId = entity.SubProjectId;
-            entitys.MemberName = entity.MemberName.Trim();
-            entitys.MemberModel = entity.MemberModel.Trim();
-            entitys.UploadTime = DateTime.Now;
-            entitys.MemberUnit = entity.MemberUnit;
+           
 
             if (entity.CAD_Drawing == null)
             {
@@ -526,7 +533,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             var _MemberLibrary = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberModel == MemberModel);
                             if (_MemberLibrary == null)
                             {
-                                MemberLibrary.SubProjectId = KeyValue;
+                                MemberLibrary.EngineeringId = KeyValue;
                                 MemberLibrary.UploadTime = DateTime.Now;
                                 MemberLibrary.MemberModel = MemberModel;
 
@@ -536,7 +543,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == KeyValue);
                                 str = Str.PinYin(data.FullName.Substring(0, 1) + table.Rows[i][1].ToString().Substring(0, 1)).ToUpper().Trim();
                                 int Num = 1;
-                                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.SubProjectId == KeyValue);
+                                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.EngineeringId == KeyValue);
                                 Num = Num + MemberList.Count();
 
                                 for (int i0 = 0; i0 < 4 - Num.ToString().Length; i0++)

@@ -80,7 +80,7 @@
 
          /*添加构件开始====================================*/
         //子项目
-        $("#SubProjectId").ComboBoxTree({
+        $("#EngineeringId").ComboBoxTree({
             param: { Levels: 1 },
             url: '../../SteelMember/MemberLibrary/SubProjectTreeJson',
             description: "==请选择==",
@@ -142,13 +142,13 @@
                             document.getElementById("DelAvatar2").value = "删除图片";
                         }
                         $("#form1").SetWebControls(data);
-                        $("#SubProjectId").ComboBoxTreeSetValue(data.SubProjectId);//.trigger("change");
+                        $("#EngineeringId").ComboBoxTreeSetValue(data.SubProjectId);//.trigger("change");
                         $("#Category").ComboBoxTreeSetValue(data.Category);
                         $("#MemberUnit").ComboBoxTreeSetValue(data.MemberUnit);
                     }
                 });
             } else {
-                $("#SubProjectId").ComboBoxTreeSetValue(SubProject);
+            $("#EngineeringId").ComboBoxTreeSetValue(SubProject);
                 ////获取单位
                 //$("#MemberUnit").ComboBox({
                 //    url: "../../SteelMember/ProjectManagement/GetMemderUnit",
@@ -478,7 +478,7 @@
                         工程类型<font face="宋体">*</font>
                     </td>
                     <td class="formValue">
-                        <div id="SubProjectId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                        <div id="EngineeringId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
                     <td class="formTitle">
                         构件类型<font face="宋体">*</font>
