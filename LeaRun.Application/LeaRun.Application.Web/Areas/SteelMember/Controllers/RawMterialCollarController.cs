@@ -47,39 +47,78 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 分页查询出库信息
         /// </summary>
         /// <returns></returns>
-        public ActionResult OutInventoryDetailInfo(Pagination pagination, string queryJson)
+         public ActionResult OutInventoryDetailInfo(Pagination pagination, string category)
         {
-            var data = rawmterialcollarbll.OutInventoryDetailInfo(pagination, queryJson);
+            var degintime = Convert.ToDateTime(Request["begintime"]) == Convert.ToDateTime(null) ? Convert.ToDateTime(null) : Convert.ToDateTime(Request["begintime"]);
+            var endtime = Convert.ToDateTime(Request["endtime"]) == Convert.ToDateTime(null) ? System.DateTime.Now : Convert.ToDateTime(Request["endtime"]);
+
+            var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
             List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
             foreach (var item in data)
             {
-                RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
-                var inventorymodel = rawmaterialinventorybll.GetEntity(item.InventoryId);
-                var librarymodel = rawmateriallibrarybll.GetEntity(inventorymodel.RawMaterialId);
-                //取出树的value
-                var subproject = subprojectbll.GetEntity(item.CollarEngineering);
+               var linventory=rawmaterialinventorybll.GetEntityByRawMaterialId(item.RawMaterialId);
+               var collarlist= rawmterialcollarbll.GetCallarList(p=>p.InventoryId== linventory.InventoryId&&p.CollarTime>= degintime&&p.CollarTime<= endtime);
+                for (var i=0;i< collarlist.Count;i++) {
+                    RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
+                    var subproject = subprojectbll.GetEntity(collarlist[i].CollarEngineering);
 
-                rawMaterialCollarModel.CollarId = item.CollarId;
-                rawMaterialCollarModel.InventoryId = item.InventoryId;
-                rawMaterialCollarModel.CollarType = item.CollarType;
-                //rawMaterialCollarModel.CollarEngineering = item.CollarEngineering;
-                rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名
+                    rawMaterialCollarModel.CollarId = collarlist[i].CollarId;
+                    rawMaterialCollarModel.InventoryId = collarlist[i].InventoryId;
+                    //rawMaterialCollarModel.CollarType = collarlist[i].CollarType;
+                    //rawMaterialCollarModel.CollarEngineering = item.CollarEngineering;
+                    rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名 生产领用
 
-                rawMaterialCollarModel.CollarTime = item.CollarTime;
-                rawMaterialCollarModel.CollarQuantity = item.CollarQuantity;
-                rawMaterialCollarModel.CollarMan = item.CollarMan;
-                rawMaterialCollarModel.Description = item.Description;
+                    rawMaterialCollarModel.CollarTime = collarlist[i].CollarTime;
+                    rawMaterialCollarModel.CollarQuantity = collarlist[i].CollarQuantity;
+                    rawMaterialCollarModel.CollarMan = collarlist[i].CollarMan;
+                    rawMaterialCollarModel.Description = collarlist[i].Description;
+                    rawMaterialCollarModel.CollarType = collarlist[i].CollarType==1? "生产领用" : "工程领用";
 
-                rawMaterialCollarModel.Category = librarymodel.Category;
-                rawMaterialCollarModel.RawMaterialModel = librarymodel.RawMaterialModel;
-                rawMaterialCollarModel.RawMaterialStandard = librarymodel.RawMaterialStandard;
-                rawMaterialCollarModel.Unit = librarymodel.Unit;
+                    rawMaterialCollarModel.Category = item.Category;
+                    rawMaterialCollarModel.RawMaterialModel = item.RawMaterialModel;
+                    rawMaterialCollarModel.RawMaterialStandard = item.RawMaterialStandard;
+                    rawMaterialCollarModel.Unit = item.Unit;
 
-                list.Add(rawMaterialCollarModel);
+                    list.Add(rawMaterialCollarModel);
 
+                }
+               
             }
             return ToJsonResult(list);
         }
+        //public ActionResult OutInventoryDetailInfo(Pagination pagination, string queryJson)
+        //{
+        //    var data = rawmterialcollarbll.OutInventoryDetailInfo(pagination, queryJson);
+        //    List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
+        //    foreach (var item in data)
+        //    {
+        //        RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
+        //        var inventorymodel = rawmaterialinventorybll.GetEntity(item.InventoryId);
+        //        var librarymodel = rawmateriallibrarybll.GetEntity(inventorymodel.RawMaterialId);
+        //        //取出树的value
+        //        var subproject = subprojectbll.GetEntity(item.CollarEngineering);
+
+        //        rawMaterialCollarModel.CollarId = item.CollarId;
+        //        rawMaterialCollarModel.InventoryId = item.InventoryId;
+        //        rawMaterialCollarModel.CollarType = item.CollarType;
+        //        //rawMaterialCollarModel.CollarEngineering = item.CollarEngineering;
+        //        rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名
+
+        //        rawMaterialCollarModel.CollarTime = item.CollarTime;
+        //        rawMaterialCollarModel.CollarQuantity = item.CollarQuantity;
+        //        rawMaterialCollarModel.CollarMan = item.CollarMan;
+        //        rawMaterialCollarModel.Description = item.Description;
+
+        //        rawMaterialCollarModel.Category = librarymodel.Category;
+        //        rawMaterialCollarModel.RawMaterialModel = librarymodel.RawMaterialModel;
+        //        rawMaterialCollarModel.RawMaterialStandard = librarymodel.RawMaterialStandard;
+        //        rawMaterialCollarModel.Unit = librarymodel.Unit;
+
+        //        list.Add(rawMaterialCollarModel);
+
+        //    }
+        //    return ToJsonResult(list);
+        //}
 
         /// <summary>
         /// 获取列表

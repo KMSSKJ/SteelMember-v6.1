@@ -1,6 +1,7 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
@@ -18,6 +19,8 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
         IEnumerable<RawMterialCollarEntity> GetList(string queryJson);
+
+        List<RawMterialCollarEntity> GetCallarList(Expression<System.Func<RawMterialCollarEntity, bool>> condition);
         /// <summary>
         /// 分页查询出库信息
         /// </summary>
