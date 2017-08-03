@@ -341,11 +341,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             entitys1.MemberId= entitys.MemberId = entity.MemberId;
             entitys1.EngineeringId = entitys.EngineeringId = entity.EngineeringId;
-            entitys.Category = entity.Category;
-            entitys.MemberName = entity.MemberName.Trim();
-            entitys.MemberModel = entity.MemberModel.Trim();
-            entitys.UploadTime = DateTime.Now;
-            entitys.MemberUnit = entity.MemberUnit;
+            entitys1.Category=entitys.Category = entity.Category;
+            entitys1.UpdateTime=entitys.UploadTime = DateTime.Now;
+            entitys1.MemberModel=entitys.MemberModel = entity.MemberModel.Trim();
+            entitys1.MemberName = entitys.MemberName = entity.MemberName.Trim();
+            entitys1.MemberUnit = entitys.MemberUnit = entity.MemberUnit;
 
             str = DateTime.Now.ToString("yyyyMMdd");
             if (keyValue == null || keyValue == "")
@@ -363,7 +363,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 entitys.IsRawMaterial = 0;
                 entitys.IsProcess = 0;
 
-
+                entitys1.InStock = 0;
                memberwarehousebll.SaveForm(keyValue, entitys1);
             }
            

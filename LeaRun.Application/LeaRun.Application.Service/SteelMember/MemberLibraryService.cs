@@ -30,6 +30,22 @@ namespace LeaRun.Application.Service.SteelMember
             var expression = LinqExtensions.True<MemberLibraryEntity>();
             var queryParam = queryJson.ToJObject();
             //²éÑ¯Ìõ¼þ
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UploadTime >= BeginTime);
+                expression = expression.And(t => t.UploadTime <= EndTime);
+            }
+            else if (!queryParam["BeginTime"].IsEmpty() || queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UploadTime >= BeginTime);
+            }
+            else
+            {
+                expression = expression.And(t => t.UploadTime <= EndTime);
+            }
+
             if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
             {
                 string condition = queryParam["condition"].ToString();

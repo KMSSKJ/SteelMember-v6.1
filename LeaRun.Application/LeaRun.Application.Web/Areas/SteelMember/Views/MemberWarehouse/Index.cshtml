@@ -47,7 +47,7 @@
     }
 
     //加载表格
-    function GetGrid() {
+    function GetGrid(obj) {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
@@ -64,7 +64,7 @@
                 { label: '构件单位', name: 'MemberUnit', index: 'MemberUnit', width: 100, align: 'left', sortable: true },
                 { label: '库存量', name: 'InStock', index: 'InStock', width: 100, align: 'left', sortable: true },
                 { label: '库管员', name: 'Librarian', index: 'Librarian', width: 100, align: 'left', sortable: true },
-                { label: '更新时间', name: 'ModifyTime', index: 'ModifyTime', width: 100, align: 'left', sortable: true },
+                { label: '更新时间', name: 'UpdateTime', index: 'UpdateTime', width: 100, align: 'left', sortable: true },
                 { label: '备注', name: 'Description', index: 'Description', width: 100, align: 'left', sortable: true },
                
             ],
@@ -87,6 +87,8 @@
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 keyword: $("#txt_Keyword").val(),
                 EngineeringId: EngineeringId,
+                BeginTime: $("#txt_BeginTime").val(),
+                EndTime: $("#txt_EndTime").val()
             }
             $gridTable.jqGrid('setGridParam', {
                 postData: { queryJson: JSON.stringify(queryJson) },
@@ -166,10 +168,24 @@
                     <table>
                         <tr>
                             <td>
+                                <label>时间(起)</label>
+                            </td>
+                            <td>
+                                <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
+                            </td>
+                            <td>
+                                <label style="margin-left:5px">时间(束)</label>
+                            </td>
+                            <td>
+                                <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
+                            </td>
+
+                            <td>
                                 <div id="queryCondition" class="btn-group">
                                     <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
+                                        <li><a data-value="Category">构件类型</a></li>
                                         <li><a data-value="MemberModel">构件型号</a></li>
                                     </ul>
                                 </div>
