@@ -29,12 +29,32 @@ namespace LeaRun.Application.Service.SteelMember
             var expression = LinqExtensions.True<MemberWarehouseEntity>();
             var queryParam = queryJson.ToJObject();
             //查询条件
+
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
+                expression = expression.And(t => t.UpdateTime <= EndTime);
+            }
+            else if (!queryParam["BeginTime"].IsEmpty() || queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
+            }
+            else
+            {
+                expression = expression.And(t => t.UpdateTime <= EndTime);
+            }
+
             if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
             {
                 string condition = queryParam["condition"].ToString();
                 string keyword = queryParam["keyword"].ToString();
                 switch (condition)
                 {
+                    case "Category":              //构件类型
+                        expression = expression.And(t => t.Category.Contains(keyword));
+                        break;
                     case "MemberModel":              //构件型号
                         expression = expression.And(t => t.MemberModel.Contains(keyword));
                         break;

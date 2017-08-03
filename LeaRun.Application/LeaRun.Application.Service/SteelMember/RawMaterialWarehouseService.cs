@@ -71,7 +71,12 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="queryJson"></param>
+        /// <returns></returns>
         public IEnumerable<RawMaterialWarehouseEntity> GetPageList(Pagination pagination, string queryJson)
         {
             //throw new NotImplementedException();
@@ -81,27 +86,48 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().FindList<RawMaterialWarehouseEntity>(pagination);
         }
-      
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="list"></param>
         public void RemoveList(List<RawMaterialWarehouseEntity> list)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public void UpdataList(List<RawMaterialWarehouseEntity> list)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string keyValue)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="category"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string category, string keyValue)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public List<RawMaterialWarehouseEntity> GetpurchaseList(Expression<Func<RawMaterialWarehouseEntity, bool>> condition)
         {
             //throw new NotImplementedException();

@@ -30,6 +30,22 @@ namespace LeaRun.Application.Service.SteelMember
             var expression = LinqExtensions.True<MemberLibraryEntity>();
             var queryParam = queryJson.ToJObject();
             //²éÑ¯Ìõ¼þ
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UploadTime >= BeginTime);
+                expression = expression.And(t => t.UploadTime <= EndTime);
+            }
+            else if (!queryParam["BeginTime"].IsEmpty() || queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UploadTime >= BeginTime);
+            }
+            else
+            {
+                expression = expression.And(t => t.UploadTime <= EndTime);
+            }
+
             if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
             {
                 string condition = queryParam["condition"].ToString();
@@ -53,7 +69,7 @@ namespace LeaRun.Application.Service.SteelMember
             if(!queryParam["SubProjectId"].IsEmpty())
             {
                 var SubProjectId = queryParam["SubProjectId"].ToString();
-                expression = expression.And(t => t.SubProjectId == SubProjectId);
+                expression = expression.And(t => t.EngineeringId == SubProjectId);
             }
             return this.BaseRepository().FindList(expression,pagination);
         }
@@ -164,7 +180,7 @@ namespace LeaRun.Application.Service.SteelMember
             expression = expression.And(t => t.MemberName.Trim() == FullName);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                expression = expression.And(t => t.SubProjectId.Trim() == keyValue);
+                expression = expression.And(t => t.EngineeringId.Trim() == keyValue);
             }
             if (!string.IsNullOrEmpty(Category)) { 
                 expression = expression.And(t => t.Category == Category);

@@ -22,75 +22,45 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string MemberId { get; set; }
         /// <summary>
-        /// OrderId
+        /// Category
         /// </summary>
-        /// <returns></returns>
-        public string OrderId { get; set; }
+        public string Category { get; set; }
         /// <summary>
-        /// DeleteFlag
+        /// MemberModel
         /// </summary>
-        /// <returns></returns>
-        public int? DeleteFlag { get; set; }
+        public string MemberModel { get; set; }
         /// <summary>
-        /// SubProjectId
+        /// EngineeringId
         /// </summary>
-        /// <returns></returns>
-        public string SubProjectId { get; set; }
+        public string EngineeringId { get; set; }
+        /// <summary>
+        /// MemberName
+        /// </summary>
+        public string MemberName { get; set; }
+        /// <summary>
+        /// MemberUnit
+        /// </summary>
+        public string MemberUnit { get; set; }
         /// <summary>
         /// InStock
         /// </summary>
         /// <returns></returns>
         public int? InStock { get; set; }
         /// <summary>
-        /// Damage
-        /// </summary>
-        /// <returns></returns>
-        public int? Damage { get; set; }
-        /// <summary>
-        /// Class
-        /// </summary>
-        /// <returns></returns>
-        public string Class { get; set; }
-        /// <summary>
-        /// IsShiped
-        /// </summary>
-        /// <returns></returns>
-        public int? IsShiped { get; set; }
-        /// <summary>
         /// ModifyTime
         /// </summary>
         /// <returns></returns>
-        public DateTime? ModifyTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
         /// <summary>
         /// Librarian
         /// </summary>
         /// <returns></returns>
         public string Librarian { get; set; }
         /// <summary>
-        /// Leader
-        /// </summary>
-        /// <returns></returns>
-        public string Leader { get; set; }
-        /// <summary>
         /// Description
         /// </summary>
         /// <returns></returns>
         public string Description { get; set; }
-        /// <summary>
-        /// MemberTreeId
-        /// </summary>
-        /// <returns></returns>
-        public string MemberTreeId { get; set; }
-        /// <summary>
-        /// ProjectDemandId
-        /// </summary>
-        /// <returns></returns>
-        public int? ProjectDemandId { get; set; }
-        /// <summary>
-        /// MemberModel
-        /// </summary>
-        /// <returns></returns>
-        public string MemberModel { get; set; }
         #endregion
 
         #region À©Õ¹²Ù×÷
