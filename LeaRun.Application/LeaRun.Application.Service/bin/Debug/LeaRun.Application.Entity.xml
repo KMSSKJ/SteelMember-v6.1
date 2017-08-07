@@ -3065,7 +3065,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberLibraryEntity.SubProjectId">
+        <member name="P:LeaRun.Application.Entity.SteelMember.MemberLibraryEntity.EngineeringId">
             <summary>
             SubProjectId
             </summary>
@@ -3407,23 +3407,30 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.OrderId">
+        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.Category">
             <summary>
-            OrderId
+            Category
             </summary>
-            <returns></returns>
         </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.DeleteFlag">
+        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.MemberModel">
             <summary>
-            DeleteFlag
+            MemberModel
             </summary>
-            <returns></returns>
         </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.SubProjectId">
+        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.EngineeringId">
             <summary>
-            SubProjectId
+            EngineeringId
             </summary>
-            <returns></returns>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.MemberName">
+            <summary>
+            MemberName
+            </summary>
+        </member>
+        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.MemberUnit">
+            <summary>
+            MemberUnit
+            </summary>
         </member>
         <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.InStock">
             <summary>
@@ -3431,25 +3438,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.Damage">
-            <summary>
-            Damage
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.Class">
-            <summary>
-            Class
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.IsShiped">
-            <summary>
-            IsShiped
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.ModifyTime">
+        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.UpdateTime">
             <summary>
             ModifyTime
             </summary>
@@ -3461,33 +3450,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.Leader">
-            <summary>
-            Leader
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.Description">
             <summary>
             Description
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.MemberTreeId">
-            <summary>
-            MemberTreeId
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.ProjectDemandId">
-            <summary>
-            ProjectDemandId
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LeaRun.Application.Entity.SteelMember.MemberWarehouseEntity.MemberModel">
-            <summary>
-            MemberModel
             </summary>
             <returns></returns>
         </member>

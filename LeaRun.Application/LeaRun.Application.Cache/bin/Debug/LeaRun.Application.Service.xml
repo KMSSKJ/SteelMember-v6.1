@@ -799,6 +799,7 @@
             <summary>
             模糊查询(Category)
             </summary>
+            <param name="pagination"></param>
             <param name="category">查询参数</param>
             <returns>返回列表</returns>
         </member>
@@ -882,6 +883,28 @@
             <param name="keyValue"></param>
             <returns></returns>
         </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialPurchaseService.GetpurchaseList(System.Linq.Expressions.Expression{System.Func{LeaRun.Application.Entity.SteelMember.RawMaterialPurchaseEntity,System.Boolean}})">
+            <summary>
+            
+            </summary>
+            <param name="condition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialPurchaseService.SavePurchaseForm(System.String,LeaRun.Application.Entity.SteelMember.RawMaterialPurchaseEntity)">
+            <summary>
+            
+            </summary>
+            <param name="keyValue"></param>
+            <param name="entity"></param>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialPurchaseService.GetPageListByIsWarehousing(LeaRun.Util.WebControl.Pagination,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="pagination"></param>
+            <param name="IsWarehousing"></param>
+            <returns></returns>
+        </member>
         <!-- 对于成员“T:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService”忽略有格式错误的 XML 注释 -->
         <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService.GetList(System.String)">
             <summary>
@@ -911,6 +934,50 @@
             <param name="entity">实体对象</param>
             <returns></returns>
         </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService.GetPageList(LeaRun.Util.WebControl.Pagination,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="pagination"></param>
+            <param name="queryJson"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService.RemoveList(System.Collections.Generic.List{LeaRun.Application.Entity.SteelMember.RawMaterialWarehouseEntity})">
+            <summary>
+            
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService.UpdataList(System.Collections.Generic.List{LeaRun.Application.Entity.SteelMember.RawMaterialWarehouseEntity})">
+            <summary>
+            
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService.Exist(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <param name="keyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService.Exist(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <param name="category"></param>
+            <param name="keyValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMaterialWarehouseService.GetpurchaseList(System.Linq.Expressions.Expression{System.Func{LeaRun.Application.Entity.SteelMember.RawMaterialWarehouseEntity,System.Boolean}})">
+            <summary>
+            
+            </summary>
+            <param name="condition"></param>
+            <returns></returns>
+        </member>
         <!-- 对于成员“T:LeaRun.Application.Service.SteelMember.RawMterialCollarService”忽略有格式错误的 XML 注释 -->
         <member name="M:LeaRun.Application.Service.SteelMember.RawMterialCollarService.GetList(System.String)">
             <summary>
@@ -929,8 +996,8 @@
         <member name="M:LeaRun.Application.Service.SteelMember.RawMterialCollarService.RemoveForm(System.String)">
             <summary>
             删除数据
-            </summary>
             <param name="keyValue">主键</param>
+            </summary>
         </member>
         <member name="M:LeaRun.Application.Service.SteelMember.RawMterialCollarService.SaveForm(System.String,LeaRun.Application.Entity.SteelMember.RawMterialCollarEntity)">
             <summary>
@@ -938,6 +1005,14 @@
             </summary>
             <param name="keyValue">主键值</param>
             <param name="entity">实体对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeaRun.Application.Service.SteelMember.RawMterialCollarService.OutInventoryDetailInfo(LeaRun.Util.WebControl.Pagination,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="pagination"></param>
+            <param name="queryJson"></param>
             <returns></returns>
         </member>
         <member name="T:LeaRun.Application.Service.SteelMember.SubProjectService">
