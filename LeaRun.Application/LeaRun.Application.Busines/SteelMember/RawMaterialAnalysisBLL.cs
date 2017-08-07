@@ -28,6 +28,10 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetPageList(pagination, queryJson);
         }
+        public List<RawMaterialAnalysisEntity> GetPageList1(Expression<Func<RawMaterialAnalysisEntity, bool>> condition,Pagination pagination)
+        {
+            return service.GetPageList1(condition, pagination);
+        }
         /// <summary>
         /// 获取列表
         /// </summary>

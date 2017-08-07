@@ -19,7 +19,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// 描 述：领用管理
     ///</summary>
     
-    public class RawMterialCollarService : RepositoryFactory, RawMterialCollarIService
+    public class RawMterialCollarService : RepositoryFactory<RawMterialCollarEntity>, RawMterialCollarIService
     {
         #region 获取数据
         /// <summary>
@@ -40,7 +40,8 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns></returns>
         public RawMterialCollarEntity GetEntity(string keyValue)
         {
-            return this.BaseRepository().FindEntity<RawMterialCollarEntity>(keyValue);
+            throw new NotImplementedException();
+            //return this.BaseRepository().FindEntity<RawMterialCollarEntity>(keyValue);
         }
         #endregion
 
@@ -82,12 +83,13 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns></returns>
         public IEnumerable<RawMterialCollarEntity> OutInventoryDetailInfo(Pagination pagination, string queryJson)
         {
-            //throw new NotImplementedException();
-            if (queryJson != null)
-            {
-                return this.BaseRepository().FindList<RawMterialCollarEntity>(p => p.CollarId == queryJson, pagination);
-            }
-            return this.BaseRepository().FindList<RawMterialCollarEntity>(pagination);
+            throw new NotImplementedException();
+            //if (queryJson != null)
+            //{
+
+            //    return this.BaseRepository().FindList<RawMterialCollarEntity>(p => p.CollarId == queryJson, pagination);
+            //}
+            //return this.BaseRepository().FindList<RawMterialCollarEntity>(pagination);
         }
 
         public List<RawMterialCollarEntity> GetCallarList(Expression<Func<RawMterialCollarEntity, bool>> condition)
@@ -95,6 +97,28 @@ namespace LeaRun.Application.Service.SteelMember
             //throw new NotImplementedException();
             return this.BaseRepository().IQueryable(condition).ToList();
            // return this.BaseRepository().FindList<RawMterialCollarEntity>(condition);
+        }
+        /// <summary>
+        /// 分页查询出库信息
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表</returns>
+        public List<RawMterialCollarEntity> GetPageList(Pagination pagination, string queryJson)
+        {
+            string[] arraryquery = queryJson.Split(',');
+            var expression = LinqExtensions.True<RawMterialCollarEntity>();
+
+            string InventoryId = arraryquery[0];
+            var degintime = Convert.ToDateTime(arraryquery[1]);
+            var endtime = Convert.ToDateTime(arraryquery[2]);
+
+            expression = expression.And(p => p.InventoryId == InventoryId);
+            expression = expression.And(p => p.CollarTime >= degintime);
+            expression = expression.And(p => p.CollarTime <= endtime);
+
+            return this.BaseRepository().FindList(expression, pagination).ToList();
+
+            //throw new NotImplementedException();
         }
         #endregion
     }

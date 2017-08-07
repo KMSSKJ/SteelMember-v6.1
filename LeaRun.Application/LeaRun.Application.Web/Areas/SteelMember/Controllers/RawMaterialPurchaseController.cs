@@ -113,7 +113,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var entityrawmaterialanalysis = rawmaterialanalysisbll.GetEntity(listrawmaterialpurchaseInfo[i].RawMaterialAnalysisId);
                     var Entitymateriallibrary = rawmateriallibrarybll.GetEntity(entityrawmaterialanalysis.RawMaterialId);
                     Text projectdemand = new Text();
-                    projectdemand.PurchaseQuantity = entityrawmaterialanalysis.RawMaterialDosage;//分析数量
+                    projectdemand.PurchaseQuantity =entityrawmaterialanalysis.RawMaterialDosage.ToString();//分析数量
 
                     projectdemand.InfoId=listrawmaterialpurchaseInfo[i].InfoId;
                     projectdemand.SuggestQuantity = SuggestQuantity;
@@ -150,7 +150,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var rawMaterialDosage = item.RawMaterialDosage;
                     var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
                     _data.RawMaterialId = model.RawMaterialId;
-                    _data.RawMaterialDosage = rawMaterialDosage;
+                    _data.RawMaterialDosage = rawMaterialDosage.ToString();
                     _data.AnalysisId = item.Id;
                     _data.RawMaterialName = model.Category;
                     _data.RawMaterialModel = model.RawMaterialModel;

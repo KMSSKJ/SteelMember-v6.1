@@ -4,6 +4,7 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SteelMember
 {
@@ -34,6 +35,10 @@ namespace LeaRun.Application.Busines.SteelMember
         public SubProjectEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
+        }
+        public List<SubProjectEntity> GetListWant(Expression<Func<SubProjectEntity, bool>> condition)
+        {
+            return service.GetListWant(condition);
         }
         #endregion
 
