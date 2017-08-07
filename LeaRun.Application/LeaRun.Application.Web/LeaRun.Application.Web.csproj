@@ -1297,8 +1297,6 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialInventory\OutInventoryDetail.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberDemand\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberDemand\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialWarehouse\Form.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialWarehouse\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\Collar.cshtml" />

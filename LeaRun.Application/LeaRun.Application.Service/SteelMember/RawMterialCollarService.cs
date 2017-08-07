@@ -9,6 +9,7 @@ using LeaRun.Util;
 
 using LeaRun.Util.Extension;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -87,6 +88,13 @@ namespace LeaRun.Application.Service.SteelMember
                 return this.BaseRepository().FindList<RawMterialCollarEntity>(p => p.CollarId == queryJson, pagination);
             }
             return this.BaseRepository().FindList<RawMterialCollarEntity>(pagination);
+        }
+
+        public List<RawMterialCollarEntity> GetCallarList(Expression<Func<RawMterialCollarEntity, bool>> condition)
+        {
+            //throw new NotImplementedException();
+            return this.BaseRepository().IQueryable(condition).ToList();
+           // return this.BaseRepository().FindList<RawMterialCollarEntity>(condition);
         }
         #endregion
     }

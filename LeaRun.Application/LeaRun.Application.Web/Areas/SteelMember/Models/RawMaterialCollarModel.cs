@@ -21,7 +21,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// CollarType
         /// </summary>
         /// <returns></returns>
-        public int? CollarType { get; set; }
+        //public int? CollarType { get; set; }
+        public string CollarType { get; set; }
         /// <summary>
         /// CollarEngineering
         /// </summary>
