@@ -20,9 +20,19 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <summary>
         /// 获取列表
         /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<MemberWarehouseEntity> GetPageList(Pagination pagination, string queryJson)
+        {
+            return service.GetPageList(pagination, queryJson);
+        }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<MemberWarehouseEntity> GetList(string queryJson)
+        public List<MemberWarehouseEntity> GetList(string queryJson)
         {
             return service.GetList(queryJson);
         }

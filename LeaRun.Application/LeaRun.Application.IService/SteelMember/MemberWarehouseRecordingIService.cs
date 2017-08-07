@@ -6,10 +6,10 @@ namespace LeaRun.Application.IService.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-05 17:15
-    /// 描 述：构件库管理
+    /// 日 期：2017-07-28 11:34
+    /// 描 述：构件库存
     /// </summary>
-    public interface MemberLibraryIService
+    public interface MemberWarehouseRecordingIService
     {
         #region 获取数据
         /// <summary>
@@ -18,19 +18,19 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        IEnumerable<MemberLibraryEntity> GetPageList(Pagination pagination, string queryJson);
+        IEnumerable<MemberWarehouseRecordingEntity> GetPageList(Pagination pagination, string queryJson);
         /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        List<MemberLibraryEntity> GetList(string queryJson);
+        IEnumerable<MemberWarehouseRecordingEntity> GetList(string queryJson);
         /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
-        MemberLibraryEntity GetEntity(string keyValue);
+        MemberWarehouseRecordingEntity GetEntity(string keyValue);
         #endregion
 
         #region 提交数据
@@ -39,31 +39,13 @@ namespace LeaRun.Application.IService.SteelMember
         /// </summary>
         /// <param name="keyValue">主键</param>
         void RemoveForm(string keyValue);
-        ///// <summary>
-        ///// 保存表单（新增、修改）
-        ///// </summary>
-        ///// <param name="keyValue">主键值</param>
-        ///// <param name="entity">实体对象</param>
-        ///// <returns></returns>
-        //void SaveForm(string keyValue, MemberLibraryEntity entity);
-
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        string SaveForm(string keyValue, MemberLibraryEntity entity);
-        #endregion
-
-        #region 验证数据
-        /// <summary>
-        /// 名称不能重复
-        /// </summary>
-        /// <param name="FullName">名称值</param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        bool ExistFullName(string FullName, string Category, string keyValue);
+        void SaveForm(string keyValue, MemberWarehouseRecordingEntity entity);
         #endregion
     }
 }

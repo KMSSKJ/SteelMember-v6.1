@@ -3,18 +3,17 @@ using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using System.Web.Mvc;
-using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-06 09:51
-    /// 描 述：构件制程
+    /// 日 期：2017-08-04 10:24
+    /// 描 述：订单子表
     /// </summary>
-    public class MemberProcessController : MvcControllerBase
+    public class MemberProductionOrderInfoController : MvcControllerBase
     {
-        private MemberProcessBLL memberprocessbll = new MemberProcessBLL();
+        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
 
         #region 视图功能
         /// <summary>
@@ -22,7 +21,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
@@ -32,7 +30,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
@@ -48,7 +45,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetListJson(string queryJson)
         {
-            var data = memberprocessbll.GetList(queryJson);
+            var data = memberproductionorderinfobll.GetList(queryJson);
             return ToJsonResult(data);
         }
         /// <summary>
@@ -59,7 +56,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetFormJson(string keyValue)
         {
-            var data = memberprocessbll.GetEntity(keyValue);
+            var data = memberproductionorderinfobll.GetEntity(keyValue);
             return ToJsonResult(data);
         }
         #endregion
@@ -75,7 +72,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
-            memberprocessbll.RemoveForm(keyValue);
+            memberproductionorderinfobll.RemoveForm(keyValue);
             return Success("删除成功。");
         }
         /// <summary>
@@ -87,9 +84,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, MemberProcessEntity entity)
+        public ActionResult SaveForm(string keyValue, MemberProductionOrderInfoEntity entity)
         {
-            memberprocessbll.SaveForm(keyValue, entity);
+            memberproductionorderinfobll.SaveForm(keyValue, entity);
             return Success("操作成功。");
         }
         #endregion

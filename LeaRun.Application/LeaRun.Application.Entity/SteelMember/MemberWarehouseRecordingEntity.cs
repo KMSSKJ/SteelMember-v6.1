@@ -1,100 +1,107 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Entity.SteelMember
 {
     /// <summary>
     /// 版 本
-    /// 日 期：2017-07-11 10:12
-    /// 描 述：构件生产订单
+    /// 日 期：2017-07-05 17:15
+    /// 描 述：构件库管理
     /// </summary>
-    public class MemberProductionOrderEntity : BaseEntity
+    public class MemberWarehouseRecordingEntity : BaseEntity
     {
         #region 实体成员
         /// <summary>
-        /// 主键
+        /// RecordingId
         /// </summary>
         /// <returns></returns>
-        [Column("ORDERID")]
-        public string OrderId { get; set; }
+        public string RecordingId { get; set; }
+
         /// <summary>
-        /// 主键
+        /// MemberWarehouseId
         /// </summary>
         /// <returns></returns>
-        [Column("ORDERNUMBERING")]
-        public string OrderNumbering { get; set; }
+        public string MemberWarehouseId { get; set; }
         /// <summary>
-        /// 工程
+        /// MemberId
         /// </summary>
         /// <returns></returns>
-        [Column("CATEGORY")]
+        public string MemberId { get; set; }
+        /// <summary>
+        /// SubProjectId
+        /// </summary>
+        /// <returns></returns>
+        public string EngineeringId { get; set; }
+        /// <summary>
+        /// SubProject
+        /// </summary>
+        /// <returns></returns>
+        public string SubProject { get; set; }
+        /// <summary>
+        /// Category
+        /// </summary>
+        /// <returns></returns>
         public string Category { get; set; }
         /// <summary>
-        /// 制单人
+        /// MemberName
         /// </summary>
         /// <returns></returns>
-        [Column("CREATEMAN")]
-        public string CreateMan { get; set; }
+        public string MemberName { get; set; }
         /// <summary>
-        /// 制单时间
+        /// MemberModel
         /// </summary>
         /// <returns></returns>
-        [Column("CREATETIME")]
-        public DateTime? CreateTime { get; set; }
+        public string MemberModel { get; set; }
         /// <summary>
-        /// 优先级
+        /// MemberUnit
         /// </summary>
         /// <returns></returns>
-        [Column("PRIORITY")]
-        public int? Priority { get; set; }
+        public string MemberUnit { get; set; }
         /// <summary>
-        /// 是否专用
+        /// Quantity
         /// </summary>
         /// <returns></returns>
-        [Column("ISDDDICATED")]
-        public int? IsDddicated { get; set; }
+        public int? InStock { get; set; }
         /// <summary>
-        /// 提交状态
+        /// CAD_Drawing
         /// </summary>
         /// <returns></returns>
-        [Column("ISSUBMIT")]
-        public int? IsSubmit { get; set; }
+        public string Librarian { get; set; }
         /// <summary>
-        /// 审核状态
+        /// Model_Drawing
         /// </summary>
         /// <returns></returns>
-        [Column("ISPASSED")]
-        public int? IsPassed { get; set; }
+        public string ToReportPeople { get; set; }
         /// <summary>
-        /// OrderStatus
+        /// IsRawMaterial
         /// </summary>
         /// <returns></returns>
-        [Column("ORDERSTATUS")]
-        public int? OrderStatus { get; set; }
+        public string CollarDepartment { get; set; }
         /// <summary>
-        /// ProductionStatus
+        /// IsProcess
         /// </summary>
         /// <returns></returns>
-        [Column("PRODUCTIONSTATUS")]
-        public int? ProductionStatus { get; set; }
+        public string Receiver { get; set; }
         /// <summary>
-        /// 审核人
+        /// Icon
         /// </summary>
         /// <returns></returns>
-        [Column("REVIEWMAN")]
-        public string ReviewMan { get; set; }
+        public string ReceiverTel { get; set; }
+
         /// <summary>
-        /// 审核时间
+        /// UpdateTime
         /// </summary>
         /// <returns></returns>
-        [Column("REVIEWTIME")]
-        public DateTime? ReviewTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
         /// <summary>
-        /// 备注
+        /// Class
         /// </summary>
         /// <returns></returns>
-        [Column("DESCRIPTION")]
+        public string Class { get; set; }
+        /// <summary>
+        /// FullPath
+        /// </summary>
+        /// <returns></returns>
         public string Description { get; set; }
         #endregion
 
@@ -104,7 +111,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         public override void Create()
         {
-            this.OrderId = Guid.NewGuid().ToString();
+            this.RecordingId = Guid.NewGuid().ToString();
                                             }
         /// <summary>
         /// 编辑调用
@@ -112,7 +119,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <param name="keyValue"></param>
         public override void Modify(string keyValue)
         {
-            this.OrderId = keyValue;
+            this.RecordingId = keyValue;
                                             }
         #endregion
     }

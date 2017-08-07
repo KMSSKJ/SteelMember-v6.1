@@ -9,12 +9,12 @@ namespace LeaRun.Application.Busines.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-05 17:15
-    /// 描 述：构件库管理
+    /// 日 期：2017-07-28 11:34
+    /// 描 述：构件库存
     /// </summary>
-    public class MemberLibraryBLL
+    public class MemberWarehouseRecordingBLL
     {
-        private MemberLibraryIService service = new MemberLibraryService();
+        private MemberWarehouseRecordingIService service = new MemberWarehouseRecordingService();
 
         #region 获取数据
         /// <summary>
@@ -23,7 +23,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberLibraryEntity> GetPageList(Pagination pagination, string queryJson)
+        public IEnumerable<MemberWarehouseRecordingEntity> GetPageList(Pagination pagination, string queryJson)
         {
             return service.GetPageList(pagination, queryJson);
         }
@@ -32,7 +32,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public List<MemberLibraryEntity> GetList(string queryJson)
+        public IEnumerable<MemberWarehouseRecordingEntity> GetList(string queryJson)
         {
             return service.GetList(queryJson);
         }
@@ -41,7 +41,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
-        public MemberLibraryEntity GetEntity(string keyValue)
+        public MemberWarehouseRecordingEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
         }
@@ -63,34 +63,17 @@ namespace LeaRun.Application.Busines.SteelMember
                 throw;
             }
         }
-        ///// <summary>
-        ///// 保存表单（新增、修改）
-        ///// </summary>
-        ///// <param name="keyValue">主键值</param>
-        ///// <param name="entity">实体对象</param>
-        ///// <returns></returns>
-        //public void SaveForm(string keyValue, MemberLibraryEntity entity)
-        //{
-        //    try
-        //    {
-        //        service.SaveForm(keyValue, entity);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        public string SaveForm(string keyValue, MemberLibraryEntity entity)
+        public void SaveForm(string keyValue, MemberWarehouseRecordingEntity entity)
         {
             try
             {
-                return service.SaveForm(keyValue, entity);
+                service.SaveForm(keyValue, entity);
             }
             catch (Exception)
             {
@@ -98,19 +81,5 @@ namespace LeaRun.Application.Busines.SteelMember
             }
         }
         #endregion
-
-        #region 验证数据
-        /// <summary>
-        /// 名称不能重复
-        /// </summary>
-        /// <param name="account">账户值</param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        public bool ExistFullName(string FullName, string Category, string keyValue = "")
-        {
-            return service.ExistFullName(FullName, Category, keyValue);
-        }
-        #endregion
     }
 }
-

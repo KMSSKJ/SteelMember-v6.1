@@ -8,42 +8,44 @@ using System.Linq;
 using LeaRun.Util;
 
 using LeaRun.Util.Extension;
+using System;
 
 namespace LeaRun.Application.Service.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-05 17:15
-    /// 描 述：构件库管理
+    /// 日 期：2017-07-28 11:34
+    /// 描 述：构件库存
     /// </summary>
-    public class MemberLibraryService : RepositoryFactory<MemberLibraryEntity>, MemberLibraryIService
+    public class MemberWarehouseRecordingService : RepositoryFactory<MemberWarehouseRecordingEntity>, MemberWarehouseRecordingIService
     {
         #region 获取数据
+
         /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberLibraryEntity> GetPageList(Pagination pagination, string queryJson)
+        public IEnumerable<MemberWarehouseRecordingEntity> GetPageList(Pagination pagination, string queryJson)
         {
-            var expression = LinqExtensions.True<MemberLibraryEntity>();
+            var expression = LinqExtensions.True<MemberWarehouseRecordingEntity>();
             var queryParam = queryJson.ToJObject();
             //查询条件
             var BeginTime = queryParam["BeginTime"].ToDate();
             var EndTime = queryParam["EndTime"].ToDate();
             if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty())
             {
-                expression = expression.And(t => t.UploadTime >= BeginTime);
-                expression = expression.And(t => t.UploadTime <= EndTime);
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
+                expression = expression.And(t => t.UpdateTime <= EndTime);
             }
             else if (!queryParam["BeginTime"].IsEmpty() || queryParam["EndTime"].IsEmpty())
             {
-                expression = expression.And(t => t.UploadTime >= BeginTime);
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
             }
             else
             {
-                expression = expression.And(t => t.UploadTime <= EndTime);
+                expression = expression.And(t => t.UpdateTime <= EndTime);
             }
 
             if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
@@ -52,35 +54,35 @@ namespace LeaRun.Application.Service.SteelMember
                 string keyword = queryParam["keyword"].ToString();
                 switch (condition)
                 {
-                  
+
                     case "Category":              //构件类型
                         expression = expression.And(t => t.Category.Contains(keyword));
                         break;
-                    case "MemberName":              //构件名称
-                        expression = expression.And(t => t.MemberName.Contains(keyword));
+                    case "MemberModel":              //构件型号
+                        expression = expression.And(t => t.MemberModel.Contains(keyword));
                         break;
-                    case "MemberNumbering":              //编号
-                        expression = expression.And(t => t.MemberNumbering.Contains(keyword));
+                    case "EngineeringId":              //编号
+                        expression = expression.And(t => t.EngineeringId.Contains(keyword));
                         break;
                     default:
                         break;
                 }
             }
-            if(!queryParam["SubProjectId"].IsEmpty())
+            if (!queryParam["Class"].IsEmpty())
             {
-                var SubProjectId = queryParam["SubProjectId"].ToString();
-                expression = expression.And(t => t.EngineeringId == SubProjectId);
+                var SubProjectId = queryParam["Class"].ToString();
+                expression = expression.And(t => t.Class == SubProjectId);
             }
-            return this.BaseRepository().FindList(expression,pagination);
+            return this.BaseRepository().FindList(expression, pagination);
         }
         /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public List<MemberLibraryEntity> GetList(string queryJson)
+        public IEnumerable<MemberWarehouseRecordingEntity> GetList(string queryJson)
         {
-            var expression = LinqExtensions.True<MemberLibraryEntity>();
+            var expression = LinqExtensions.True<MemberWarehouseRecordingEntity>();
             var queryParam = queryJson.ToJObject();
             //查询条件
             if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
@@ -92,11 +94,8 @@ namespace LeaRun.Application.Service.SteelMember
                     case "Category":              //构件类型
                         expression = expression.And(t => t.Category.Contains(keyword));
                         break;
-                    case "MemberName":              //构件名称
-                        expression = expression.And(t => t.MemberName.Contains(keyword));
-                        break;
-                    case "MemberNumbering":              //编号
-                        expression = expression.And(t => t.MemberNumbering.Contains(keyword));
+                    case "MemberModel":              //构件型号
+                        expression = expression.And(t => t.MemberModel.Contains(keyword));
                         break;
                     default:
                         break;
@@ -109,7 +108,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
-        public MemberLibraryEntity GetEntity(string keyValue)
+        public MemberWarehouseRecordingEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
         }
@@ -124,33 +123,13 @@ namespace LeaRun.Application.Service.SteelMember
         {
             this.BaseRepository().Delete(keyValue);
         }
-        ///// <summary>
-        ///// 保存表单（新增、修改）
-        ///// </summary>
-        ///// <param name="keyValue">主键值</param>
-        ///// <param name="entity">实体对象</param>
-        ///// <returns></returns>
-        //public void SaveForm(string keyValue, MemberLibraryEntity entity)
-        //{
-        //    if (!string.IsNullOrEmpty(keyValue))
-        //    {
-        //        entity.Modify(keyValue);
-        //        this.BaseRepository().Update(entity);
-        //    }
-        //    else
-        //    {
-        //        entity.Create();
-        //        this.BaseRepository().Insert(entity);
-        //    }
-        //}
-
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        public string SaveForm(string keyValue, MemberLibraryEntity entity)
+        public void SaveForm(string keyValue, MemberWarehouseRecordingEntity entity)
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
@@ -162,30 +141,6 @@ namespace LeaRun.Application.Service.SteelMember
                 entity.Create();
                 this.BaseRepository().Insert(entity);
             }
-           return entity.MemberId;
-        }
-        #endregion
-
-        #region 验证数据
-        /// <summary>
-        /// 名称不能重复
-        /// </summary>
-        /// <param name="FullName">名称</param>
-        /// <param name="Category"></param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        public bool ExistFullName(string FullName,string Category, string keyValue)
-        {
-            var expression = LinqExtensions.True<MemberLibraryEntity>();
-            expression = expression.And(t => t.MemberName.Trim() == FullName);
-            if (!string.IsNullOrEmpty(keyValue))
-            {
-                expression = expression.And(t => t.EngineeringId.Trim() == keyValue);
-            }
-            if (!string.IsNullOrEmpty(Category)) { 
-                expression = expression.And(t => t.Category == Category);
-            }
-            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
         #endregion
     }

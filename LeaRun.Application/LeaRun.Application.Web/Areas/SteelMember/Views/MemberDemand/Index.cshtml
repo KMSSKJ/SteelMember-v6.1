@@ -43,7 +43,7 @@
     }
 
     //º”‘ÿ ˜
-    var SubProject, SubProjectId;
+    var SubProject, SubProjectId, HavesChildren;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
@@ -52,6 +52,7 @@
             onnodeclick: function (item) {
                 SubProject = item.value;
                 SubProjectId = item.id;
+                HavesChildren = item.HavesChildren;
                 $('#btn_Search').trigger("click");
             }
         };
@@ -163,6 +164,7 @@
             var queryJson = {
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 SubProjectId: SubProjectId,
+                HavesChildren: HavesChildren,
                 keyword: $("#txt_Keyword").val(),
                 BeginTime: $("#txt_BeginTime").val(),
                 EndTime: $("#txt_EndTime").val()

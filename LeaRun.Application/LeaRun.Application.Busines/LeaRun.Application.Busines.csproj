@@ -57,6 +57,8 @@
     <Compile Include="SteelMember\MemberMaterialBLL.cs" />
     <Compile Include="SteelMember\MemberProcessBLL.cs" />
     <Compile Include="SteelMember\MemberProductionOrderBLL.cs" />
+    <Compile Include="SteelMember\MemberProductionOrderInfoBLL.cs" />
+    <Compile Include="SteelMember\MemberWarehouseRecordingBLL.cs" />
     <Compile Include="SteelMember\MemberWarehouseBLL.cs" />
     <Compile Include="SteelMember\ProjectDemandBLL.cs" />
     <Compile Include="SteelMember\ProjectInfoBLL.cs" />

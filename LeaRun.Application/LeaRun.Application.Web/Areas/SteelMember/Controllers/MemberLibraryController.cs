@@ -14,6 +14,7 @@ using LeaRun.Util.Extension;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Application.Busines.SystemManage;
 using System.Threading;
+using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -39,6 +40,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
@@ -48,6 +50,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
@@ -258,8 +261,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
               var data= memberlibrarybll.GetList(null).ToList();
               var MemberEntity = data.Find(f => f.MemberId == item);
                memberlibrarybll.RemoveForm(item);
-
-                var MemberEntity1 = data.FindAll(f =>f.MarkId > MemberEntity.MarkId && f.EngineeringId == MemberEntity.EngineeringId);
+               memberwarehousebll.RemoveForm(item);
+            
+                 var MemberEntity1 = data.FindAll(f =>f.MarkId > MemberEntity.MarkId);//&& f.EngineeringId == MemberEntity.EngineeringId
                 if (MemberEntity1.Count()>0)
                 {
                     foreach (var item1 in MemberEntity1)
@@ -339,34 +343,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == entity.SubProjectId);
             //str = Str.PinYin(data.FullName.Substring(0, 1) + entity.Category.Substring(0, 1)).ToUpper();
 
-            entitys1.MemberId= entitys.MemberId = entity.MemberId;
+            entitys.MemberId = entity.MemberId;
             entitys1.EngineeringId = entitys.EngineeringId = entity.EngineeringId;
             entitys1.Category=entitys.Category = entity.Category;
             entitys1.UpdateTime=entitys.UploadTime = DateTime.Now;
             entitys1.MemberModel=entitys.MemberModel = entity.MemberModel.Trim();
             entitys1.MemberName = entitys.MemberName = entity.MemberName.Trim();
             entitys1.MemberUnit = entitys.MemberUnit = entity.MemberUnit;
-
-            str = DateTime.Now.ToString("yyyyMMdd");
-            if (keyValue == null || keyValue == "")
-            {
-                int Num = 1;
-                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.MemberId != "");
-                Num = Num + MemberList.Count();
-
-                for (int i = 0; i < 6 - Num.ToString().Length; i++)
-                {
-                    str1 += "0";
-                }
-                entitys.MarkId = Num;
-                entitys.MemberNumbering = str + str1 + Num.ToString();
-                entitys.IsRawMaterial = 0;
-                entitys.IsProcess = 0;
-
-                entitys1.InStock = 0;
-               memberwarehousebll.SaveForm(keyValue, entitys1);
-            }
-           
 
             if (entity.CAD_Drawing == null)
             {
@@ -389,7 +372,31 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string filename2 = System.IO.Path.GetFileName(entity.Icon);
             entitys.Icon = filename2;
 
+            str = DateTime.Now.ToString("yyyyMMdd");
+            if (keyValue == null || keyValue == "")
+            {
+                int Num = 1;
+                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.MemberId != "");
+                Num = Num + MemberList.Count();
+
+                for (int i = 0; i < 6 - Num.ToString().Length; i++)
+                {
+                    str1 += "0";
+                }
+                entitys.MarkId = Num;
+                entitys.MemberNumbering = str + str1 + Num.ToString();
+                entitys.IsRawMaterial = 0;
+                entitys.IsProcess = 0;
+
+                entitys1.InStock = 0;
+              
+            }
             var MemberId = memberlibrarybll.SaveForm(keyValue, entitys);
+            if (keyValue == null || keyValue == "")
+            {
+                   entitys1.MemberId = MemberId;
+                   memberwarehousebll.SaveForm(keyValue, entitys1);
+            }
 
             var data1 = MemberRawMaterialListJson.ToList<MemberMaterialModel>();
             if (data1.Count() > 0)

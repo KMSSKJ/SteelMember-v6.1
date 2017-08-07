@@ -20,6 +20,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
         private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
         private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
 
         #region 视图功能
         /// <summary>
@@ -27,6 +28,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
@@ -36,6 +38,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
@@ -53,11 +56,72 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
+            var data = new List<MemberDemandEntity>();
             var watch = CommonHelper.TimerStart();
-            //var data = memberdemandbll.GetList(queryJson);
-            //var data1 = memberlibrarybll.GetPageList(pagination, queryJson).OrderBy(o=>o.MemberNumbering);
-           
-            var data = memberdemandbll.GetPageList(pagination, queryJson).OrderBy(o => o.MemberNumbering);
+            var HavesChildren = "";
+            var SubProjectId = "";
+            var queryParam = queryJson.ToJObject();
+            if (queryJson != null)
+            {
+                HavesChildren = queryParam["HavesChildren"].ToString();
+                SubProjectId = queryParam["category"].ToString();
+            }
+            if (HavesChildren == "True")
+            {
+                var list = GetSonId(SubProjectId);
+
+                foreach (var item1 in list)
+                {
+                    data = memberdemandbll.GetPageList1(pagination, f => f.SubProjectId == item1.Id).ToList();
+                    //if (E.Count()> 0)
+                    //{
+                    //    foreach (var item in E)
+                    //    {
+                    //        var _model = new RawMaterialAnalysisModel();
+                    //        var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+                    //        _model.RawMaterialId = model.RawMaterialId;
+                    //        _model.Id = item.Id;
+                    //        _model.RawMaterialCategory = model.Category;
+                    //        _model.RawMaterialStandard = model.RawMaterialModel;
+                    //        _model.RawMaterialUnit = model.Unit;
+                    //        _model.Description = item.Description;
+                    //        _model.IsSubmitReview = item.IsSubmitReview;
+                    //        _model.IsPassed = item.IsPassed;
+                    //        _model.RawMaterialDosage = item.RawMaterialDosage;
+                    //        data.Add(_model);
+                    //    }
+                    //}
+                }
+
+                if (data != null)
+                {
+                    for (var i = 0; i < data.Count; i++)
+                    {
+                        for (var j = i + 1; j < data.Count; j++)
+                        {
+                            if (data[i].MemberId == data[j].MemberId)
+                            {
+
+                                data[i].MemberNumber = data[i].MemberNumber + data[j].MemberNumber;
+                                data.Remove(data[j]);
+                            }
+                        }
+                    }
+                    var Data = new
+                    {
+                        rows = data,
+                        total = pagination.total,
+                        page = pagination.page,
+                        records = pagination.records,
+                        costtime = CommonHelper.TimerEnd(watch)
+                    };
+
+                    return ToJsonResult(Data);
+                }
+
+            }
+            else { 
+            data = memberdemandbll.GetPageList(pagination, queryJson).OrderBy(o => o.MemberNumbering).ToList();
             foreach (var item in data)
             {
                 var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
@@ -65,30 +129,27 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 item.MemberUnit = data1.MemberUnit;
                 item.Icon = data1.Icon;
             }
-
+            }
             var jsonData = new
             {
-                //rows = data,
                 rows = data,
-                //.Select(p => new
-                //{
-                //    Icon = p.Icon,
-                //    FileName = p.FileName,
-                //    FullPath = p.FullPath,
-                //    FileType = p.FileType,
-                //    FileSize = p.FileSize,
-                //    UploadTime = p.UploadTime,
-                //    ModifiedTime = p.ModifiedTime,
-                //    OverdueTime = p.OverdueTime,
-                //    Status = p.Status,
-                //    //temp.Where(r => r.FileID == p.FileID).Count() == 0 ? "" :
-                //})
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records,
                 costtime = CommonHelper.TimerEnd(watch)
             };
             return ToJsonResult(jsonData);
+        }
+        /// <summary>
+        /// 获取树字节子节点(自循环)
+        /// </summary>
+        /// <param name="SubProjectId"></param>
+        /// <returns></returns>
+        public List<SubProjectEntity> GetSonId(string SubProjectId)
+        {
+            List<SubProjectEntity> list = subprojectbll.GetListWant(f => f.ParentId == SubProjectId);
+            var sb = list.SelectMany(p => GetSonId(p.Id));
+            return list.Concat(list.SelectMany(t => GetSonId(t.Id))).ToList();
         }
 
         /// <summary>
@@ -106,12 +167,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 获取构件库列表
         /// </summary>
-        /// <param name="SubProjectId">查询参数</param>
+        /// <param name="EngineeringId">查询参数</param>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetListJsonMemberlibrary(string SubProjectId)
+        public ActionResult GetListJsonMemberlibrary(string EngineeringId)
         {
-            var data = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.EngineeringId == SubProjectId);
+            var data = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.EngineeringId == EngineeringId);
             var JsonData = data.Select(p => new
             {
                 MemberId = p.MemberId,

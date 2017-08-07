@@ -10,40 +10,20 @@ namespace LeaRun.Application.Busines.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-26 16:54
-    /// 描 述：构件需求
+    /// 日 期：2017-08-04 10:24
+    /// 描 述：订单子表
     /// </summary>
-    public class MemberDemandBLL
+    public class MemberProductionOrderInfoBLL
     {
-        private MemberDemandIService service = new MemberDemandService();
+        private MemberProductionOrderInfoIService service = new MemberProductionOrderInfoService();
 
         #region 获取数据
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="pagination">分页</param>
-        /// <param name="queryJson">查询参数</param>
-        /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberDemandEntity> GetPageList(Pagination pagination, string queryJson)
-        {
-            return service.GetPageList(pagination, queryJson);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pagination"></param>
-        /// <param name="condition"></param>
-        /// <returns></returns>
-        public IEnumerable<MemberDemandEntity> GetPageList1(Pagination pagination, Expression<Func<MemberDemandEntity, bool>> condition)
-        {
-            return service.GetPageList1(pagination, condition);
-        }
-        /// <summary>
-        /// 获取列表
-        /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<MemberDemandEntity> GetList(string queryJson)
+        public List<MemberProductionOrderInfoEntity> GetList(Expression<Func<MemberProductionOrderInfoEntity, bool>> queryJson)
         {
             return service.GetList(queryJson);
         }
@@ -52,7 +32,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
-        public MemberDemandEntity GetEntity(string keyValue)
+        public MemberProductionOrderInfoEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
         }
@@ -80,7 +60,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        public void SaveForm(string keyValue, MemberDemandEntity entity)
+        public void SaveForm(string keyValue, MemberProductionOrderInfoEntity entity)
         {
             try
             {
@@ -90,19 +70,6 @@ namespace LeaRun.Application.Busines.SteelMember
             {
                 throw;
             }
-        }
-        #endregion
-
-        #region 验证数据
-        /// <summary>
-        /// 名称不能重复
-        /// </summary>
-        /// <param name="account">账户值</param>
-        /// <param name="keyValue">主键</param>
-        /// <returns></returns>
-        public bool ExistFullName(string FullName, string keyValue)
-        {
-            return service.Exist(FullName,keyValue);
         }
         #endregion
     }
