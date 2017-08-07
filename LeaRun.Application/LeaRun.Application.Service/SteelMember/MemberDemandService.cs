@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Util;
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
+using System;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -71,13 +73,22 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().FindList(expression, pagination);
         }
-
         /// <summary>
-        /// 获取列表
+        /// 
         /// </summary>
-        /// <param name="queryJson">查询参数</param>
-        /// <returns>返回列表</returns>
-        public IEnumerable<MemberDemandEntity> GetList(string queryJson)
+        /// <param name="pagination"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public IEnumerable<MemberDemandEntity> GetPageList1(Pagination pagination, Expression<Func<MemberDemandEntity, bool>> condition)
+        {
+            return this.BaseRepository().FindList(condition, pagination);
+        }
+            /// <summary>
+            /// 获取列表
+            /// </summary>
+            /// <param name="queryJson">查询参数</param>
+            /// <returns>返回列表</returns>
+            public IEnumerable<MemberDemandEntity> GetList(string queryJson)
         {
             return this.BaseRepository().IQueryable().ToList();
         }

@@ -78,7 +78,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<MemberLibraryEntity> GetList(string queryJson)
+        public List<MemberLibraryEntity> GetList(string queryJson)
         {
             var expression = LinqExtensions.True<MemberLibraryEntity>();
             var queryParam = queryJson.ToJObject();

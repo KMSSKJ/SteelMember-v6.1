@@ -22,6 +22,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string SubProjectId { get; set; }
         /// <summary>
+        /// EngineeringId
+        /// </summary>
+        /// <returns></returns>
+        public string EngineeringId { get; set; }
+        /// <summary>
         /// TreeName
         /// </summary>
         /// <returns></returns>

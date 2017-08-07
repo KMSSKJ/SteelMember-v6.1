@@ -74,6 +74,7 @@
     <Compile Include="SteelMember\MemberProcessMap.cs" />
     <Compile Include="SteelMember\MemberProductionOrderInfoMap.cs" />
     <Compile Include="SteelMember\MemberProductionOrderMap.cs" />
+    <Compile Include="SteelMember\MemberWarehouseRecordingMap.cs" />
     <Compile Include="SteelMember\MemberWarehouseMap.cs" />
     <Compile Include="SteelMember\ProjectDemandMap.cs" />
     <Compile Include="SteelMember\ProjectInfoMap.cs" />

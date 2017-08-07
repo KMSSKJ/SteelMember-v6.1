@@ -19,17 +19,18 @@ namespace LeaRun.Application.Service.SteelMember
     public class MemberWarehouseService : RepositoryFactory<MemberWarehouseEntity>, MemberWarehouseIService
     {
         #region 获取数据
+
         /// <summary>
         /// 获取列表
         /// </summary>
+        /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
-        /// <returns>返回列表</returns>
-        public IEnumerable<MemberWarehouseEntity> GetList(string queryJson)
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<MemberWarehouseEntity> GetPageList(Pagination pagination, string queryJson)
         {
             var expression = LinqExtensions.True<MemberWarehouseEntity>();
             var queryParam = queryJson.ToJObject();
             //查询条件
-
             var BeginTime = queryParam["BeginTime"].ToDate();
             var EndTime = queryParam["EndTime"].ToDate();
             if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty())
@@ -46,6 +47,43 @@ namespace LeaRun.Application.Service.SteelMember
                 expression = expression.And(t => t.UpdateTime <= EndTime);
             }
 
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+
+                    case "Category":              //构件类型
+                        expression = expression.And(t => t.Category.Contains(keyword));
+                        break;
+                    case "MemberModel":              //构件型号
+                        expression = expression.And(t => t.MemberModel.Contains(keyword));
+                        break;
+                    case "EngineeringId":              //编号
+                        expression = expression.And(t => t.EngineeringId.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (!queryParam["EngineeringId"].IsEmpty())
+            {
+                var SubProjectId = queryParam["EngineeringId"].ToString();
+                expression = expression.And(t => t.EngineeringId == SubProjectId);
+            }
+            return this.BaseRepository().FindList(expression, pagination);
+        }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表</returns>
+        public List<MemberWarehouseEntity> GetList(string queryJson)
+        {
+            var expression = LinqExtensions.True<MemberWarehouseEntity>();
+            var queryParam = queryJson.ToJObject();
+            //查询条件
             if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
             {
                 string condition = queryParam["condition"].ToString();

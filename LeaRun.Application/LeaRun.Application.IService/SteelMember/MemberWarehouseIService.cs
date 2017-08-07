@@ -15,9 +15,16 @@ namespace LeaRun.Application.IService.SteelMember
         /// <summary>
         /// 获取列表
         /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        IEnumerable<MemberWarehouseEntity> GetPageList(Pagination pagination, string queryJson);
+        /// <summary>
+        /// 获取列表
+        /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        IEnumerable<MemberWarehouseEntity> GetList(string queryJson);
+        List<MemberWarehouseEntity> GetList(string queryJson);
         /// <summary>
         /// 获取实体
         /// </summary>
