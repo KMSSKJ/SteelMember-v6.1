@@ -3,6 +3,7 @@ using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using System.Web.Mvc;
+using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -21,6 +22,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
@@ -30,6 +32,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();

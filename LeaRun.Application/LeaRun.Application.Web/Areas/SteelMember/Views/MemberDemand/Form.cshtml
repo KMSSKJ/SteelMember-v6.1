@@ -14,32 +14,45 @@
     function initControl() {
         //子项目
         $("#SubProjectId").ComboBoxTree({
-            param: { Levels: 1 },
+            param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',///MemberLibrary/SubProjectTreeJson
+            id: "Id",
+            text: "FullName",
             description: "==请选择==",
             height: "200px",
             allowSearch: true,
+        })
+        //构件所属工程
+        $("#EngineeringId").ComboBox({
+            param: { EnCode: "EngineeringType" },
+            url: '../../SystemManage/DataItemDetail/GetDataItemListJson',///MemberLibrary/SubProjectTreeJson
+            id: "ItemDetailId",
+            text: "ItemName",
+            description: "==请选择==",
+            height: "170px",
+            allowSearch: true,
         }).bind("change", function () {
-            SubProjectId = $(this).attr('data-value');//$("#Category").attr('data-text'),
+            EngineeringId = $(this).attr('data-value');//$("#Category").attr('data-text'),
             //加载构件
             $("#MemberId").ComboBox({
                 url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
-                param: { SubProjectId: SubProjectId },
+                param: { EngineeringId: EngineeringId },
                 id: "MemberId",
                 text: "MemberNumbering",
                 description: "==请选择==",
             })
         });
-        if (SubProjectId != "") {
-            //加载构件
-            $("#MemberId").ComboBox({
-                url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
-                param: { SubProjectId: SubProjectId },
-                id: "MemberId",
-                text: "MemberNumbering",
-                description: "==请选择==",
-            })
-        }
+        //if (SubProjectId != "") {
+        //    //加载构件
+        //    $("#MemberId").ComboBox({
+        //        url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+        //        param: { EngineeringId: EngineeringId },
+        //        id: "MemberId",
+        //        text: "MemberNumbering",
+        //        description: "==请选择==",
+        //    })
+        //    $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
+        //}
         if (!!keyValue) {
             $.SetForm({
                 url: "/SteelMember/MemberDemand/GetFormJson",
@@ -51,6 +64,7 @@
                         description: data.MemberNumbering + ">" + data.Category + ">" + data.MemberName + ">" + data.MemberModel,
                         height: "200px",
                     });
+                    //$("#SubProjectId").ComboBoxTreeSetValue(data.SubProjectId);
                 }
             })
         }
@@ -60,7 +74,7 @@
                 description: "==请选择==",
                 height: "200px",
             });
-            $("#SubProjectId").ComboBoxTreeSetValue(SubProject);
+            $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
         }
     }
 
@@ -147,6 +161,8 @@
                 需求构件<font face="宋体">*</font>
             </td>
             <td class="formValue">
+                <div id="EngineeringId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <br />
                 <div id="MemberId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 <input id="btn_MemberInfo" type="hidden" onclick="btn_member_info()" value="构件详情" />
             </td>

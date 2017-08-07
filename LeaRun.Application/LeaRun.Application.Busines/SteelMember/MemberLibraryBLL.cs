@@ -32,7 +32,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<MemberLibraryEntity> GetList(string queryJson)
+        public List<MemberLibraryEntity> GetList(string queryJson)
         {
             return service.GetList(queryJson);
         }

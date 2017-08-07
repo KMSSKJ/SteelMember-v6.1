@@ -19,6 +19,12 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("ORDERID")]
         public string OrderId { get; set; }
         /// <summary>
+        /// 主键
+        /// </summary>
+        /// <returns></returns>
+        [Column("ORDERNUMBERING")]
+        public string OrderNumbering { get; set; }
+        /// <summary>
         /// 工程
         /// </summary>
         /// <returns></returns>
@@ -66,6 +72,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("ORDERSTATUS")]
         public int? OrderStatus { get; set; }
+        /// <summary>
+        /// ProductionStatus
+        /// </summary>
+        /// <returns></returns>
+        [Column("PRODUCTIONSTATUS")]
+        public int? ProductionStatus { get; set; }
         /// <summary>
         /// 审核人
         /// </summary>

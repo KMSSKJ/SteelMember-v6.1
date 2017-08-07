@@ -25,11 +25,17 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("ORDERID")]
         public string OrderId { get; set; }
         /// <summary>
+        /// OrderId
+        /// </summary>
+        /// <returns></returns>
+        [Column("MEMBERID")]
+        public string MemberId { get; set; }
+        /// <summary>
         /// 生产数量
         /// </summary>
         /// <returns></returns>
         [Column("PRODUCTIONQUANTITY")]
-        public decimal? ProductionQuantity { get; set; }
+        public int? ProductionQuantity { get; set; }
         #endregion
 
         #region 扩展操作

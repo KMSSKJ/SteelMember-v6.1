@@ -24,7 +24,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        IEnumerable<MemberLibraryEntity> GetList(string queryJson);
+        List<MemberLibraryEntity> GetList(string queryJson);
         /// <summary>
         /// 获取实体
         /// </summary>

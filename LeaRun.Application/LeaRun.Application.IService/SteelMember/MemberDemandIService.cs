@@ -1,6 +1,8 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
@@ -19,6 +21,14 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
         IEnumerable<MemberDemandEntity> GetPageList(Pagination pagination, string queryJson);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        IEnumerable<MemberDemandEntity> GetPageList1(Pagination pagination, Expression<Func<MemberDemandEntity, bool>> condition);
 
         /// <summary>
         /// 获取列表

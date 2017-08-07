@@ -2,7 +2,7 @@
     ViewBag.Title = "列表页面";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-<script>;
+<script type="text/javascript">
     $(function () {
         InitialPage();
         GetTree();
@@ -68,7 +68,7 @@
             url: "../../SteelMember/MemberLibrary/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: '主键', name: 'MemberId', index: 'MemberId', width: 100, align: 'left',sortable: true ,hidden: true },
+                { label: '主键', name: 'MemberId', index: 'MemberId', width: 100, align: 'left', sortable: true, hidden: true },
                 { label: '外键', name: 'SubProjectId', index: 'SubProjectId', width: 100, align: 'left', sortable: true, hidden: true },
                 {
                     label: '图标', name: "Icon",
@@ -95,10 +95,10 @@
                     }
                 },
                 { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 100, align: 'left', sortable: true },
-                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left',sortable: true  },
-                { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left',sortable: true  },
+                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
+                { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
                 { label: '规格或型号', name: 'MemberModel', index: 'MemberModel', width: 100, align: 'left', sortable: true },
-                { label: '构件单位', name: 'MemberUnit', index: 'MemberUnit', width: 100, align: 'left',sortable: true  },
+                { label: '构件单位', name: 'MemberUnit', index: 'MemberUnit', width: 100, align: 'left', sortable: true },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -147,6 +147,7 @@
             case "Search":
                 $('#btn_Search').trigger("click");
                 break;
+        }
     }
     //新增
     function btn_add() {
@@ -295,7 +296,7 @@
                                 <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
                             </td>
 
-                            <td>
+                            <td style="padding-left: 10px;">
                                 <div id="queryCondition" class="btn-group">
                                     <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>

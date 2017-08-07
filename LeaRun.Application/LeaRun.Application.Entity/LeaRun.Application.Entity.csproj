@@ -70,6 +70,7 @@
     <Compile Include="AuthorizeManage\FilterIPEntity.cs" />
     <Compile Include="AuthorizeManage\FilterTimeEntity.cs" />
     <Compile Include="SteelMember\MemberDemandEntity.cs" />
+    <Compile Include="SteelMember\MemberWarehouseRecordingEntity.cs" />
     <Compile Include="SteelMember\MemberLibraryEntity.cs" />
     <Compile Include="SteelMember\MemberMaterialEntity.cs" />
     <Compile Include="SteelMember\MemberProcessEntity.cs" />
