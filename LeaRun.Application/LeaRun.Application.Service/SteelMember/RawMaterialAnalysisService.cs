@@ -31,6 +31,7 @@ namespace LeaRun.Application.Service.SteelMember
         {
             var expression = LinqExtensions.True<RawMaterialAnalysisEntity>();
             var queryParam = queryJson.ToJObject();
+
             if (!queryParam["rawMaterialModel"].IsEmpty())
             {
                 string RawMaterialModel = queryParam["rawMaterialModel"].ToString();
@@ -41,7 +42,32 @@ namespace LeaRun.Application.Service.SteelMember
                 string Category = queryParam["category"].ToString();
                 expression = expression.And(t => t.Category == Category);
             }
+   
             return this.BaseRepository().FindList(expression, pagination).ToList();
+        }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public List<RawMaterialAnalysisEntity> GetPageList1(Expression<Func<RawMaterialAnalysisEntity, bool>> queryJson,Pagination pagination)
+        {
+            //var expression = LinqExtensions.True<RawMaterialAnalysisEntity>();
+            //var queryParam = queryJson.ToJObject();
+
+            //if (!queryParam["rawMaterialModel"].IsEmpty())
+            //{
+            //    string RawMaterialModel = queryParam["rawMaterialModel"].ToString();
+            //    expression = expression.And(t => t.RawMaterialEntitys.RawMaterialModel.Contains(RawMaterialModel));
+            //}
+            //if (!queryParam["category"].IsEmpty())
+            //{
+            //    string Category = queryParam["category"].ToString();
+            //    expression = expression.And(t => t.Category == Category);
+            //}
+
+            return this.BaseRepository().FindList(queryJson, pagination).ToList();
         }
         /// <summary>
         /// 获取列表

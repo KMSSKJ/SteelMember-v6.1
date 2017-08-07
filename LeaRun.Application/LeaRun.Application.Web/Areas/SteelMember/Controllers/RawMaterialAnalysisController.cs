@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System.Collections.Generic;
 using LeaRun.Util.Extension;
+using System.Linq;
+using System;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -18,6 +20,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
         private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
 
         #region 视图功能
         /// <summary>
@@ -50,9 +53,83 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
-            var watch = CommonHelper.TimerStart();
-            var list = rawmaterialanalysisbll.GetPageList(pagination, queryJson);
             var data = new List<RawMaterialAnalysisModel>();
+            var watch = CommonHelper.TimerStart();
+            var HavesChildren = "";
+            var SubProjectId = "";
+            var queryParam = queryJson.ToJObject();
+            if (queryJson != null) {
+             HavesChildren = queryParam["HavesChildren"].ToString();
+             SubProjectId = queryParam["category"].ToString();
+            }
+            if (HavesChildren=="True")
+            {
+                //List<string> SubProjectIds = new List<string>();
+                var list = GetSonId(SubProjectId);
+                
+                foreach (var item1 in list)
+                {
+                    //var _model = new RawMaterialAnalysisModel();
+                    var E= rawmaterialanalysisbll.GetPageList1(f=>f.Category==item1.Id, pagination);
+                    if (E.Count > 0)
+                    {
+                        foreach (var item in E)
+                        {
+                            var _model = new RawMaterialAnalysisModel();
+                            var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+                            _model.RawMaterialId = model.RawMaterialId;
+                            _model.Id = item.Id;
+                            _model.RawMaterialCategory = model.Category;
+                            _model.RawMaterialStandard = model.RawMaterialModel;
+                            _model.RawMaterialUnit = model.Unit;
+                            _model.Description = item.Description;
+                            _model.IsSubmitReview = item.IsSubmitReview;
+                            _model.IsPassed = item.IsPassed;
+                            _model.RawMaterialDosage = item.RawMaterialDosage;
+                            data.Add(_model);
+                            //var a = data.Where(w => w.RawMaterialId == item.RawMaterialId).ToList();
+                            //if (a.Count()==0)
+                            //{
+                            //    data.Add(_model);
+                            //}
+                            //else
+                            //{
+                            //    // _model.RawMaterialDosage =_model.RawMaterialDosage+item.RawMaterialDosage;
+                            //    _model.RawMaterialDosage = data.RawMaterialDosage + item.RawMaterialDosage;
+                            //}
+
+                        }
+                    }
+                }
+
+                if (data!=null)
+                {
+                    for (var i=0;i<data.Count;i++) {
+                        for (var j=i+1;j<data.Count;j++)
+                        {
+                            if (data[i].RawMaterialId == data[j].RawMaterialId){
+
+                                data[i].RawMaterialDosage = data[i].RawMaterialDosage + data[j].RawMaterialDosage;
+                                data.Remove(data[j]);
+                            }
+                        }
+                    }
+                    var Data = new
+                    {
+                        rows = data,
+                        total = pagination.total,
+                        page = pagination.page,
+                        records = pagination.records,
+                        costtime = CommonHelper.TimerEnd(watch)
+                    };
+
+                    return ToJsonResult(Data);
+                }
+
+            }
+            else {
+            var list = rawmaterialanalysisbll.GetPageList(pagination, queryJson);
+            //var data = new List<RawMaterialAnalysisModel>();
             if (list.Count > 0)
             {
                 foreach (var item in list)
@@ -69,19 +146,30 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     _model.IsPassed = item.IsPassed;
                     data.Add(_model);
 
+
                 }
             }
-
+            }
             var jsonData = new
-            {
-                rows = data,
-                total = pagination.total,
-                page = pagination.page,
-                records = pagination.records,
-                costtime = CommonHelper.TimerEnd(watch)
-            };
+        {
+            rows = data,
+            total = pagination.total,
+            page = pagination.page,
+            records = pagination.records,
+            costtime = CommonHelper.TimerEnd(watch)
+        };
+          
             return ToJsonResult(jsonData);
         }
+
+        //获取树字节子节点(自循环)
+        public List<SubProjectEntity> GetSonId(string SubProjectId)
+        {
+            List<SubProjectEntity> list = subprojectbll.GetListWant(f=>f.ParentId== SubProjectId);
+            var sb = list.SelectMany(p => GetSonId(p.Id));
+            return list.Concat(list.SelectMany(t => GetSonId(t.Id))).ToList();
+        }
+        
         /// <summary>
         /// 获取列表
         /// </summary>

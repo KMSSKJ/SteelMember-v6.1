@@ -8,6 +8,7 @@ using System;
 using LeaRun.Util;
 
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -47,6 +48,12 @@ namespace LeaRun.Application.Service.SteelMember
         public SubProjectEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
+        }
+
+        public List<SubProjectEntity> GetListWant(Expression<Func<SubProjectEntity, bool>> condition)
+        {
+            //throw new NotImplementedException();
+            return this.BaseRepository().IQueryable(condition).ToList();
         }
         #endregion
 
@@ -108,6 +115,8 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
+
+        
         #endregion
     }
 }

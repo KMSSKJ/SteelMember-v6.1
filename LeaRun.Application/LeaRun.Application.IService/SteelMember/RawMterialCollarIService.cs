@@ -27,6 +27,13 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
         IEnumerable<RawMterialCollarEntity> OutInventoryDetailInfo(Pagination pagination, string queryJson);
+
+        /// <summary>
+        /// 分页查询出库信息
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表</returns>
+        List<RawMterialCollarEntity> GetPageList(Pagination pagination, string queryJson);
         /// <summary>
         /// 获取实体
         /// </summary>
