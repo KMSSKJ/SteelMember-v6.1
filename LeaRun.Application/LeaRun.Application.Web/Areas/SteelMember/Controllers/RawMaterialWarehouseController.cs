@@ -78,9 +78,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
              var data=rawmateriallibrarybll.GetPageListByLikeCategory(pagination,category);
             List<RawmaterialWarehouseModel> list = new List<RawmaterialWarehouseModel>();
             foreach (var item in data) {
-               
-                var warehoused = rawmaterialwarehousebll.GetpurchaseList(p => p.RawMaterialId == item.RawMaterialId&&p.WarehouseTime>= degintime&&p.WarehouseTime<= endtime);
-
+                //var warehoused = rawmaterialwarehousebll.GetpurchaseList(p => p.RawMaterialId == item.RawMaterialId&&p.WarehouseTime>= degintime&&p.WarehouseTime<= endtime);
+                var query = item.RawMaterialId + "," + degintime + "," + endtime;
+                var warehoused = rawmaterialwarehousebll.GetPageList(pagination, query);
                 for (int i=0; i<warehoused.Count;i++) {
                     RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
                     RawmaterialWarehouseModel.WarehouseId = warehoused[i].WarehouseId;

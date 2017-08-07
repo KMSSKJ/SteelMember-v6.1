@@ -31,7 +31,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// RawMaterialDosage
         /// </summary>
         /// <returns></returns>
-        public string RawMaterialDosage { get; set; }
+        public int RawMaterialDosage { get; set; }
         /// <summary>
         /// Description
         /// </summary>

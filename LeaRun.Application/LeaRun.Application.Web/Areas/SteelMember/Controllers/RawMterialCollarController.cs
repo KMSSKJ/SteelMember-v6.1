@@ -57,7 +57,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             foreach (var item in data)
             {
                var linventory=rawmaterialinventorybll.GetEntityByRawMaterialId(item.RawMaterialId);
-               var collarlist= rawmterialcollarbll.GetCallarList(p=>p.InventoryId== linventory.InventoryId&&p.CollarTime>= degintime&&p.CollarTime<= endtime);
+                //var collarlist= rawmterialcollarbll.GetCallarList(p=>p.InventoryId== linventory.InventoryId&&p.CollarTime>= degintime&&p.CollarTime<= endtime);
+                var query = linventory.InventoryId + "," + degintime + "," + endtime;
+                var collarlist = rawmterialcollarbll.GetPageList(pagination, query);
                 for (var i=0;i< collarlist.Count;i++) {
                     RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
                     var subproject = subprojectbll.GetEntity(collarlist[i].CollarEngineering);

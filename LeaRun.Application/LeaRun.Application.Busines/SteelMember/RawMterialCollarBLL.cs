@@ -37,10 +37,21 @@ namespace LeaRun.Application.Busines.SteelMember
             //return service.GetList(queryJson);
             return service.OutInventoryDetailInfo(pagination, queryJson);
         }
+        /// <summary>
+        /// 分页查询出库信息
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表</returns>
+        public List<RawMterialCollarEntity> GetPageList(Pagination pagination, string queryJson)
+        {
+            //return service.GetList(queryJson);
+            return service.GetPageList(pagination, queryJson);
+        }
         public List<RawMterialCollarEntity> GetCallarList(Expression<Func<RawMterialCollarEntity, bool>> condition)
         {
             return service.GetCallarList(condition);
         }
+
         /// <summary>
         /// 获取实体
         /// </summary>

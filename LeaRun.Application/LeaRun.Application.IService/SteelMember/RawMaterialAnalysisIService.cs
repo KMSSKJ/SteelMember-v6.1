@@ -21,6 +21,8 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
         List<RawMaterialAnalysisEntity> GetPageList(Pagination pagination, string queryJson);
+
+        List<RawMaterialAnalysisEntity> GetPageList1(Expression<Func<RawMaterialAnalysisEntity, bool>> condition, Pagination pagination);
         /// <summary>
         /// 获取列表
         /// </summary>
