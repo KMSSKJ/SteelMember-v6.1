@@ -19,6 +19,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public int IsSubmitReview { get; set; }
     }
     public class Text {
+        
+        public string Supplier { get; set; }
         public string InfoId { get; set; }
         public string RawMaterialId { get; set; }
         public string RawMaterialName { get; set; }

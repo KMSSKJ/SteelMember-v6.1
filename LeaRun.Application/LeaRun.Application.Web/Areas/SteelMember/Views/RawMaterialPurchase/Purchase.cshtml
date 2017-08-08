@@ -53,7 +53,8 @@
                 { label: '采购量', name: "SuggestQuantity", id: "SuggestQuantity", align: 'center', width: 100, editable: true },
 
                 { label: '单位', name: "UnitName", align: 'center', width: 80, sortable: false },
-                { label: '单价', name: "Price", align: 'center', width: 80, sortable: false },
+                { label: '单价(元)', name: "Price", align: 'center', width: 80, sortable: false },
+                { label: '供应商', name: "Supplier", align: 'center', width: 100, sortable: false },
                 { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
             ],
             pager: false,
@@ -87,9 +88,12 @@
                         Inventory: '<input value="' + dp[i].Inventory + '" id="Inventory➩' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
                         //SuggestQuantity: '<input value="' + dp[i].SuggestQuantity +'" id="SuggestQuantity➩' + i + '" class="editable disabled center" type="number" />',
                         UnitName: '<input value="' + dp[i].UnitName + '" id="UnitName➩' + i + '" class="editable center" type="text" disabled="disabled" />',
-                        Price: '<input value="' + dp[i].Price + '" id="Price' + i + '" class="editable disabled center" type="number"/>',
-                        //Price: '<input value="' + dp[i].Price + '" id="UnitName' + i + '" class="editable center" type="text" />',
+                        Price: '<input value="' + dp[i].Price + '" id="Price' + i + '" class="editable center" type="number" />',
+                        Supplier: '<input value="' + dp[i].Supplier + '" id="Supplier' + i + '" class="editable center" type="text" />',
+                        //哈哈//Price: '<input value="' + dp[i].Price + '" id="Price' + i + '" class="editable disabled center" type="number"/>',
+                        //Price: '<input value="' + dp[i].Price + '" id="UnitName' + i + '" class="editable center" type="text" />',Supplier
                         Description: '<input value="' + dp[i].Description + '" id="Description➩' + i + '" class="editable disabled" type="text" disabled="disabled" />',
+                        
 
                     }
                     $('#gridTable').jqGrid('addRowData', i, rowdata);
@@ -176,8 +180,9 @@
                 }
 
                 var allpostData = $("#form1").GetWebControls(keyValue);
-                var Description= allpostData.Description = allpostData.Description =="&nbsp;" ? "": allpostData.Description;
-                var postData = { Category: allpostData.Category, Description: Description};
+                var Description = allpostData.Description = allpostData.Description == "&nbsp;" ? "" : allpostData.Description;
+
+                var postData = { Category: allpostData.Category, Description: Description,};
                 
                 var childEntryJson = [];
                 for (var i = 0; i < length; i++){
@@ -192,6 +197,7 @@
                     childEntryJson.push({
                         InfoId: $('#gridTable').find('input[id="InfoId' + i + '"]').val(),
                         Price: $('#gridTable').find('input[id="Price' + i + '"]').val(),
+                        Supplier: $('#gridTable').find('input[id="Supplier' + i + '"]').val(),
                         PurchaseQuantity: $('#gridTable').find('input[id="SuggestQuantity' + i + '"]').val(),
                         RawMaterialAnalysisId: $('#gridTable').find('input[id="RawMaterialAnalysisId' + i + '"]').val()
                     });

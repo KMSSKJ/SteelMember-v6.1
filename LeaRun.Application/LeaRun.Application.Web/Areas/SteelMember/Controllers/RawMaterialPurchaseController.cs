@@ -122,9 +122,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     projectdemand.RawMaterialName = Entitymateriallibrary.Category;
                     projectdemand.RawMaterialModel = Entitymateriallibrary.RawMaterialModel;
                     projectdemand.RawMaterialStandard = Entitymateriallibrary.RawMaterialStandard;
-                    projectdemand.UnitName = Entitymateriallibrary.Unit;
+                    projectdemand.UnitName = Entitymateriallibrary.Unit; 
                     projectdemand.Description = entityrawmaterialanalysis.Description;
                     projectdemand.Price = listrawmaterialpurchaseInfo[i].Price==null?0:listrawmaterialpurchaseInfo[i].Price;
+                    //projectdemand.   
+                    projectdemand.Supplier = listrawmaterialpurchaseInfo[i].Supplier;
                     list.Add(projectdemand);
                 }
                 return ToJsonResult(list);
@@ -165,7 +167,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult ListMember(string AnalysisId, string RawMaterialId, string RawMaterialName,
             string RawMaterialModel, string RawMaterialStandard, string RawMaterialDosage, string UnitName, string Description)
         {
-            var inventory = 0; //库存量
+           // var inventory = 0; //库存量
             var listmember = new List<Text>();
             if (AnalysisId != null && AnalysisId != "")
             {
@@ -182,9 +184,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     if (arrayAnalysisId != null)
                         for (int i = 0; i < arrayAnalysisId.Length; i++)
                         {
+                            var sb = arrayRawMaterialId[i];
+                            //var rawmaterialinventory=rawmaterialinventorybll.GetEntity(arrayRawMaterialId[i].ToString());
+                            var rawmaterialinventory = rawmaterialinventorybll.GetEntityByRawMaterialId(arrayRawMaterialId[i].ToString());
+                            var inventory = Convert.ToInt32(rawmaterialinventory.Quantity); ; //库存量
                             Text projectdemand = new Text();
+
                             projectdemand.PurchaseQuantity = arrayRawMaterialDosage[i];
+
                             projectdemand.Inventory = inventory;
+
                             projectdemand.SuggestQuantity = int.Parse(arrayRawMaterialDosage[i]) - inventory;//建议采购量=需求量-库存量
                             projectdemand.RawMaterialAnalysisId = arrayAnalysisId[i];
                             projectdemand.RawMaterialPurchaseId = arrayRawMaterialId[i];
@@ -273,6 +282,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawMaterialPurchaseModelEntity.Description = entityrawmaterialanalysis.Description;
                     rawMaterialPurchaseModelEntity.RawMaterialName = entityrawmateriallibrary.Category;
                     rawMaterialPurchaseModelEntity.RawMaterialPurchaseModelPrice = item.Price;
+                    rawMaterialPurchaseModelEntity.Supplier = item.Supplier;
                     list.Add(rawMaterialPurchaseModelEntity);
                 }
             }
@@ -321,7 +331,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         /// <summary>
         /// 保存已采购
-        /// </summary>
+        /// </summary>  获取分析表中审核通过的材料  IsPassed=1表示通过
+        /// /// <param name="keyValues">要审核的数据的主键些0(默认)未提交；1提交</param>
         /// <param name="keyValue">主键值</param>
         /// <param name="strEntity">实体对象</param>
         /// <param name="strChildEntitys">子表对象集</param>
@@ -334,7 +345,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //Session
             var entity = strEntity.ToObject<RawMaterialPurchaseEntity>();
             entity.IsPurchase = 1;
+            entity.IsPassed = 1;
+            entity.IsSubmit = 1;
             entity.IsWarehousing = entity.IsWarehousing == null ? 0 : entity.IsWarehousing;
+            //entity.IsWarehousing = 1;
             List<RawMaterialPurchaseInfoEntity> childEntitys = strChildEntitys.ToList<RawMaterialPurchaseInfoEntity>();
             rawmaterialpurchasebll.SaveForm(keyValue, entity, childEntitys);
             return Success("操作成功。");

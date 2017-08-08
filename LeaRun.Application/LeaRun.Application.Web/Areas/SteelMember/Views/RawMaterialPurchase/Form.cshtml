@@ -42,8 +42,10 @@
                 { label: '规格', name: "RawMaterialStandard", align: 'center', width: 100, sortable: false },
                 { label: '需求量', name:"PurchaseQuantity", align: 'center', width: 100, sortable: false },
                 { label: '库存量', name:"Inventory",align: 'center', width: 100, sortable: false },
-                { label: '建议采购量', name:"SuggestQuantity",align: 'center', width: 100, sortable: false },
+                { label: '建议采购量', name: "SuggestQuantity", align: 'center', width: 100, sortable: false },
                 { label: '单位', name: "UnitName", align: 'center', width: 80, sortable: false },
+                { label: '单价(元)', name: "Price", align: 'center', width: 100, sortable: false }, 
+                { label: '供应商名称', name: "Supplier", align: 'center', width: 120, sortable: false },
                 { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
             ],
             pager: false,
@@ -66,11 +68,13 @@
                 Inventory: '<input id="Inventory➩' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
                 SuggestQuantity: '<input id="SuggestQuantity➩' + i + '" class="editable disabled center" type="number" />',
                 UnitName: '<input id="UnitName➩' + i + '" class="editable center" type="text" disabled="disabled" />',
+                Price: '<input id="Price' + i + '" class="editable disabled center" type="number"/>',
+                Supplier: '<input id="Supplier' + i + '" class="editable disabled center" type="text"/>',
                 Description: '<input id="Description➩' + i + '" class="editable disabled" type="text" disabled="disabled" />',
                 
             }
             $('#gridTable').jqGrid('addRowData', i, rowdata);
-        }
+        } 
 //        for (var i = 1; i < 13; i++) {
 //            var rowdata = {
 //PurchaseQuantity: '<input name="PurchaseQuantity" type="text" class="editable center" />',
@@ -101,8 +105,10 @@
                 height: '500px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].btn_add_();
+                    $('#SuggestQuantity➩1').focus();
                 }
             });
+            
         });
     }
     
@@ -160,25 +166,49 @@
             return false;
         }
         
+        ////val = $("#gridTable").
+        //for (var i = 0; i < length; i++) {
+        //    var Price = $('#gridTable').find('input[id="Price' + i + '"]').val();
+        //    alert(Price);
+        //    if (Price <= 0) {
+        //        dialogMsg('单价不能小于0或等于0', 0);
+        //        return false;
+        //    }
+        //}
+        //var prices = $("#form1").GetWebControls(Price);
+        var AllPrice =1;
         var postData = $("#form1").GetWebControls(keyValue);
         
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
-
+           
             var quantity = parseInt($(this).find('input[id="SuggestQuantity➩' + i + '"]').val());
             if (quantity < 0) {
                 postData = null
             return false;
             }
-            if (!!$(this).find('input[id="SuggestQuantity➩' + i + '"]').val()) { 
+            if (!!$(this).find('input[id="SuggestQuantity➩' + i + '"]').val()) {  
+            var Price = $('#gridTable').find('input[id="Price' + i + '"]').val();
+            //alert(Price);
+            if (Price <= 0 || Price==""){
+                AllPrice = 2;
+               
+            }
                 childEntryJson.push({
                     //InfoId: $(this).find('input[id="PurchaseQuantity➩' + i + '"]').val() + 1,
                     PurchaseQuantity: $(this).find('input[id="SuggestQuantity➩' + i + '"]').val(),
+                    Price: $(this).find('input[id="Price' + i + '"]').val(),
                     //RawMaterialPurchaseId: $(this).find('input[id="RawMaterialPurchaseId➩'+i+'"]').val(),
                     RawMaterialAnalysisId: $(this).find('input[id="RawMaterialAnalysisId➩' + i + '"]').val(),
+                    Supplier: $(this).find('input[id="Supplier' + i + '"]').val(),
                 });
             } 
         });
+        if (AllPrice == 2) {
+            dialogMsg('单价不能小于0或等于0或为空！！，同时也要记得填写供应商信息哟。', 0);
+            AllPrice = 1;
+             return false;
+        }
         if (postData == null) {
             dialogMsg('采购量不能小于0', 0);
             return false;
