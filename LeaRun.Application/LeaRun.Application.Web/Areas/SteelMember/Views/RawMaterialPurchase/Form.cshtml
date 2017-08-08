@@ -181,11 +181,12 @@
         
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
-           
-            var quantity = parseInt($(this).find('input[id="SuggestQuantity➩' + i + '"]').val());
-            if (quantity < 0) {
-                postData = null
-            return false;
+            if (!!$(this).find('input[id="RawMaterialName➩' + i + '"]').val()) {
+                var quantity = parseInt($(this).find('input[id="SuggestQuantity➩' + i + '"]').val());
+                if (quantity <= 0 || isNaN(quantity)) {
+                    postData = null
+                    return false;
+                }
             }
             if (!!$(this).find('input[id="SuggestQuantity➩' + i + '"]').val()) {  
             var Price = $('#gridTable').find('input[id="Price' + i + '"]').val();
@@ -210,7 +211,7 @@
              return false;
         }
         if (postData == null) {
-            dialogMsg('采购量不能小于0', 0);
+            dialogMsg('采购量不能小于0或等于0或为空！！', 0);
             return false;
         }
         $.SaveForm({
