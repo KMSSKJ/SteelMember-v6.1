@@ -1338,7 +1338,6 @@
     <Content Include="Views\Shared\_ReportIndex.cshtml" />
     <Content Include="Views\Shared\_WebAppIndex.cshtml" />
     <Content Include="Views\Utility\ExcelExportForm.cshtml" />
-    <Content Include="Views\Web.config" />
     <Content Include="Views\Login\Index2.cshtml" />
     <Content Include="Views\Home\AdminPretty.cshtml" />
     <Content Include="Views\Home\AdminPrettyDesktop.cshtml" />
