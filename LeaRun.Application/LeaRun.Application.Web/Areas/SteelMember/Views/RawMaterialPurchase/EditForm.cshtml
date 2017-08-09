@@ -15,6 +15,8 @@
         initControl();
        
     });
+
+
     //初始化页面
     function InitialPage() {;
         //resize重设(表格、树形)宽高
@@ -51,6 +53,9 @@
                 { label: '采购量', name: "SuggestQuantity", id: "SuggestQuantity", align: 'center', width: 100, editable: true },
 
                 { label: '单位', name: "UnitName", align: 'center', width: 80, sortable: false },
+                { label: '单价(元)', name: "Price", align: 'center', width: 80, sortable: false },
+                { label: '供应商', name: "Supplier", align: 'center', width: 100, sortable: false },
+
                 { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
             ],
             pager: false,
@@ -71,27 +76,31 @@
                 length+= dp.length;
                 //alert(dp.length);
                 //默认添加13行 空行
-                for (var i = 0; i < 13; i++) {
-
+                //for (var i = 0; i < 13; i++) {
+                for (var i = 0; i <length; i++) {
                     var rowdata = {
                         RawMaterialPurchaseId: '<input value="' + dp[i].RawMaterialPurchaseId + '" id="RawMaterialPurchaseId➩' + i + '" class="editable disabled" type="text" describedby="yes" disabled="disabled"/>',
                         RawMaterialAnalysisId: '<input value="' + dp[i].RawMaterialAnalysisId + '"  id="RawMaterialAnalysisId' + i + '" class="editable disabled center" type="text" disabled="disabled"/>',
                         RawMaterialName: '<input value="' + dp[i].RawMaterialName + '" id="RawMaterialName➩' + i + '" class="editable center" type="text"/>',
                         RawMaterialModel: '<input value="' + dp[i].RawMaterialModel + '" id="RawMaterialModel➩' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
                         RawMaterialStandard: '<input value="' + dp[i].RawMaterialStandard + '" id="RawMaterialStandard➩' + i + '" class="editable disabled center" type="text" disabled="disabled"/>',
-                        SuggestQuantity: '<input value="' + dp[i].SuggestQuantity + '" id="SuggestQuantity' + i + '" class="editable disabled center" type="text" />',
                         Inventory: '<input value="' + dp[i].Inventory + '" id="Inventory➩' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
+                        SuggestQuantity: '<input value="' + dp[i].SuggestQuantity + '" id="SuggestQuantity' + i + '" class="editable disabled center" type="text" />',
+                        Price: '<input value="' + dp[i].Price + '" id="Price' + i + '" class="editable center" type="number" />',
+                        Supplier: '<input value="' + dp[i].Supplier + '" id="Supplier' + i + '" class="editable center" type="text" />',
                         //SuggestQuantity: '<input value="' + dp[i].SuggestQuantity +'" id="SuggestQuantity➩' + i + '" class="editable disabled center" type="number" />',
                         UnitName: '<input value="' + dp[i].UnitName + '" id="UnitName➩' + i + '" class="editable center" type="text" disabled="disabled" />',
                         Description: '<input value="' + dp[i].Description + '" id="Description➩' + i + '" class="editable disabled" type="text" disabled="disabled" />',
 
                     }
+
                     $('#gridTable').jqGrid('addRowData', i, rowdata);
                 }
-                $('#SuggestQuantity0').focus();
+                $("#SuggestQuantity0").focus();
+               
             }
         });
-
+        
 
         $("#gridTable tbody tr").find('td:eq(1)').find('input').click(function () {
             // Category
@@ -132,7 +141,7 @@
                     allowSearch: true
 
                 });
-
+                
                 //获取表单
                 if (!!keyValue) {
 
@@ -145,8 +154,9 @@
                             var childEntity = data.childEntity;
                             //alert(1 +"获取表单");
                             $('#gridTable').find('[role=row]').each(function (i) {
-                                // alert("1" + row);
-                                var row = childEntity[i - 1];
+                                
+                                 var row = childEntity[i - 1];
+                                 //alert("1" + row);
                                 if (row != undefined) {
                                     $(this).find('input[id="SuggestQuantity"]').val(row.SuggestQuantity);
                                     $(this).find('input[id="RawMaterialPurchaseId"]').val(row.RawMaterialPurchaseId);
@@ -158,6 +168,7 @@
                 } else {
 
                     $("#Category").ComboBoxTreeSetValue(category);
+                   
                }
             }
             //保存表单;
@@ -184,6 +195,8 @@
                 for (var i = 0; i < length; i++){
                     //var pp = $('#gridTable').find('input[id="PurchaseQuantity' + i + '"]').val() 
                     childEntryJson.push({
+                        Price: $('#gridTable').find('input[id="Price' + i + '"]').val(),
+                        Supplier: $('#gridTable').find('input[id="Supplier' + i + '"]').val(),
                         PurchaseQuantity: $('#gridTable').find('input[id="SuggestQuantity' + i + '"]').val(),
                         RawMaterialAnalysisId:$('#gridTable').find('input[id="RawMaterialAnalysisId' + i + '"]').val()
                     });

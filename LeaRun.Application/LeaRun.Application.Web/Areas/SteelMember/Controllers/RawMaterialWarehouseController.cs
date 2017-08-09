@@ -73,30 +73,36 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //var notime = "0001/1/1/1 0:00:00";
             var degintime = Convert.ToDateTime(Request["begintime"])== Convert.ToDateTime(null) ? Convert.ToDateTime(null) : Convert.ToDateTime(Request["begintime"]);
             var endtime = Convert.ToDateTime(Request["endtime"]) == Convert.ToDateTime(null) ? System.DateTime.Now : Convert.ToDateTime(Request["endtime"]);
-            
-
-             var data=rawmateriallibrarybll.GetPageListByLikeCategory(pagination,category);
             List<RawmaterialWarehouseModel> list = new List<RawmaterialWarehouseModel>();
-            foreach (var item in data) {
-                //var warehoused = rawmaterialwarehousebll.GetpurchaseList(p => p.RawMaterialId == item.RawMaterialId&&p.WarehouseTime>= degintime&&p.WarehouseTime<= endtime);
-                var query = item.RawMaterialId + "," + degintime + "," + endtime;
-                var warehoused = rawmaterialwarehousebll.GetPageList(pagination, query);
-                for (int i=0; i<warehoused.Count;i++) {
-                    RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
-                    RawmaterialWarehouseModel.WarehouseId = warehoused[i].WarehouseId;
-                    RawmaterialWarehouseModel.WarehouseQuantity = warehoused[i].WarehouseQuantity;
-                    RawmaterialWarehouseModel.WarehouseTime = warehoused[i].WarehouseTime;
-                    RawmaterialWarehouseModel.Description = warehoused[i].Description;
+            try {
+                var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
+                foreach (var item in data)
+                {
+                    //var warehoused = rawmaterialwarehousebll.GetpurchaseList(p => p.RawMaterialId == item.RawMaterialId&&p.WarehouseTime>= degintime&&p.WarehouseTime<= endtime);
+                    var query = item.RawMaterialId + "," + degintime + "," + endtime;
+                    var warehoused = rawmaterialwarehousebll.GetPageList(pagination, query);
+                    for (int i = 0; i < warehoused.Count; i++)
+                    {
+                        RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
+                        RawmaterialWarehouseModel.WarehouseId = warehoused[i].WarehouseId;
+                        RawmaterialWarehouseModel.WarehouseQuantity = warehoused[i].WarehouseQuantity;
+                        RawmaterialWarehouseModel.WarehouseTime = warehoused[i].WarehouseTime;
+                        RawmaterialWarehouseModel.Description = warehoused[i].Description;
 
-                    RawmaterialWarehouseModel.RawMaterialModel = item.RawMaterialModel;
-                    RawmaterialWarehouseModel.RawMaterialStandard = item.RawMaterialStandard;
-                    RawmaterialWarehouseModel.Category = item.Category;
-                    RawmaterialWarehouseModel.Unit = item.Unit;
+                        RawmaterialWarehouseModel.RawMaterialModel = item.RawMaterialModel;
+                        RawmaterialWarehouseModel.RawMaterialStandard = item.RawMaterialStandard;
+                        RawmaterialWarehouseModel.Category = item.Category;
+                        RawmaterialWarehouseModel.Unit = item.Unit;
 
-                    list.Add(RawmaterialWarehouseModel);
+                        list.Add(RawmaterialWarehouseModel);
+                    }
+
                 }
-                
+            } catch (Exception e) {
+                return ToJsonResult(e);
             }
+            
+            
            
             return ToJsonResult(list);
 

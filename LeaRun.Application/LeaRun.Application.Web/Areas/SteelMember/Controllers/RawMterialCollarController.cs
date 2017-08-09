@@ -51,40 +51,48 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var degintime = Convert.ToDateTime(Request["begintime"]) == Convert.ToDateTime(null) ? Convert.ToDateTime(null) : Convert.ToDateTime(Request["begintime"]);
             var endtime = Convert.ToDateTime(Request["endtime"]) == Convert.ToDateTime(null) ? System.DateTime.Now : Convert.ToDateTime(Request["endtime"]);
-
-            var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
             List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
-            foreach (var item in data)
+            try
             {
-               var linventory=rawmaterialinventorybll.GetEntityByRawMaterialId(item.RawMaterialId);
-                //var collarlist= rawmterialcollarbll.GetCallarList(p=>p.InventoryId== linventory.InventoryId&&p.CollarTime>= degintime&&p.CollarTime<= endtime);
-                var query = linventory.InventoryId + "," + degintime + "," + endtime;
-                var collarlist = rawmterialcollarbll.GetPageList(pagination, query);
-                for (var i=0;i< collarlist.Count;i++) {
-                    RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
-                    var subproject = subprojectbll.GetEntity(collarlist[i].CollarEngineering);
+                var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
+                //List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
+                foreach (var item in data)
+                {
+                    var linventory = rawmaterialinventorybll.GetEntityByRawMaterialId(item.RawMaterialId);
+                    //var collarlist= rawmterialcollarbll.GetCallarList(p=>p.InventoryId== linventory.InventoryId&&p.CollarTime>= degintime&&p.CollarTime<= endtime);
+                    var query = linventory.InventoryId + "," + degintime + "," + endtime;
+                    var collarlist = rawmterialcollarbll.GetPageList(pagination, query);
+                    for (var i = 0; i < collarlist.Count; i++)
+                    {
+                        RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
+                        var subproject = subprojectbll.GetEntity(collarlist[i].CollarEngineering);
 
-                    rawMaterialCollarModel.CollarId = collarlist[i].CollarId;
-                    rawMaterialCollarModel.InventoryId = collarlist[i].InventoryId;
-                    //rawMaterialCollarModel.CollarType = collarlist[i].CollarType;
-                    //rawMaterialCollarModel.CollarEngineering = item.CollarEngineering;
-                    rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名 生产领用
+                        rawMaterialCollarModel.CollarId = collarlist[i].CollarId;
+                        rawMaterialCollarModel.InventoryId = collarlist[i].InventoryId;
+                        //rawMaterialCollarModel.CollarType = collarlist[i].CollarType;
+                        //rawMaterialCollarModel.CollarEngineering = item.CollarEngineering;
+                        rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名 生产领用
 
-                    rawMaterialCollarModel.CollarTime = collarlist[i].CollarTime;
-                    rawMaterialCollarModel.CollarQuantity = collarlist[i].CollarQuantity;
-                    rawMaterialCollarModel.CollarMan = collarlist[i].CollarMan;
-                    rawMaterialCollarModel.Description = collarlist[i].Description;
-                    rawMaterialCollarModel.CollarType = collarlist[i].CollarType==1? "生产领用" : "工程领用";
+                        rawMaterialCollarModel.CollarTime = collarlist[i].CollarTime;
+                        rawMaterialCollarModel.CollarQuantity = collarlist[i].CollarQuantity;
+                        rawMaterialCollarModel.CollarMan = collarlist[i].CollarMan;
+                        rawMaterialCollarModel.Description = collarlist[i].Description;
+                        rawMaterialCollarModel.CollarType = collarlist[i].CollarType == 1 ? "生产领用" : "工程领用";
 
-                    rawMaterialCollarModel.Category = item.Category;
-                    rawMaterialCollarModel.RawMaterialModel = item.RawMaterialModel;
-                    rawMaterialCollarModel.RawMaterialStandard = item.RawMaterialStandard;
-                    rawMaterialCollarModel.Unit = item.Unit;
+                        rawMaterialCollarModel.Category = item.Category;
+                        rawMaterialCollarModel.RawMaterialModel = item.RawMaterialModel;
+                        rawMaterialCollarModel.RawMaterialStandard = item.RawMaterialStandard;
+                        rawMaterialCollarModel.Unit = item.Unit;
 
-                    list.Add(rawMaterialCollarModel);
+                        list.Add(rawMaterialCollarModel);
 
+                    }
                 }
-               
+            }
+            catch (Exception e)
+            {
+                return ToJsonResult(e);
+                //throw (e);
             }
             return ToJsonResult(list);
         }
