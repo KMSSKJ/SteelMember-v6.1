@@ -9,7 +9,7 @@ namespace LeaRun.Application.IService.SteelMember
     /// 日 期：2017-07-11 10:12
     /// 描 述：构件生产订单
     /// </summary>
-    public interface MemberProductionOrderIService
+    public interface MemberProductionOrderIService: IBaseService<MemberProductionOrderEntity>
     {
         #region 获取数据
         /// <summary>

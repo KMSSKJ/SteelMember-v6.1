@@ -46,6 +46,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         public int IsPassed { get; set; }
         /// <summary>
+        /// Unit
+        /// </summary>
+        /// <returns></returns>
+        public string Unit { get; set; }
+        /// <summary>
         /// RawMaterialLibraryEntitys
         /// </summary>
         public RawMaterialLibraryEntity RawMaterialEntitys { get; }
