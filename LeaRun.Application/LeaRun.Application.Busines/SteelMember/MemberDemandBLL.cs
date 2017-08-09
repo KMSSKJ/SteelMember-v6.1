@@ -34,9 +34,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="pagination"></param>
         /// <param name="condition"></param>
         /// <returns></returns>
-        public IEnumerable<MemberDemandEntity> GetPageList1(Pagination pagination, Expression<Func<MemberDemandEntity, bool>> condition)
+        public IEnumerable<MemberDemandEntity> GetPageList1(Expression<Func<MemberDemandEntity, bool>> condition, Pagination pagination)
         {
-            return service.GetPageList1(pagination, condition);
+            return service.GetPageList1(condition,pagination);
         }
         /// <summary>
         /// 获取列表

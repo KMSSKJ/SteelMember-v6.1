@@ -81,6 +81,8 @@
     <Compile Include="SteelMember\RawMaterialAnalysisMap.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryMap.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryMap.cs" />
+    <Compile Include="SteelMember\RawMaterialOrderInfoMap.cs" />
+    <Compile Include="SteelMember\RawMaterialOrderMap.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseInfoMap.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseMap.cs" />
     <Compile Include="SteelMember\RawMaterialWarehouseMap.cs" />

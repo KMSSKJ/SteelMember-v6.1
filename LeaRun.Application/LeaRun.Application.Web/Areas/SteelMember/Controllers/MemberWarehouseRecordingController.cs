@@ -87,6 +87,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表Json</returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
@@ -108,6 +109,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表Json</returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult GetListJson(string queryJson)
         {
             var data = memberwarehouserecordingbll.GetList(queryJson);

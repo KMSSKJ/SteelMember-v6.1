@@ -118,6 +118,21 @@ namespace LeaRun.Application.Busines.SteelMember
                 throw;
             }
         }
+        /// <summary>
+        /// ÅúÁ¿ÐÞ¸Ä
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<MemberProductionOrderEntity> list)
+        {
+            try
+            {
+                service.UpdataList(list);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }

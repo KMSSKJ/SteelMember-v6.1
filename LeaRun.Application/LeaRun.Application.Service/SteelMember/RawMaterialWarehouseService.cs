@@ -97,10 +97,10 @@ namespace LeaRun.Application.Service.SteelMember
             //}
             //return this.BaseRepository().FindList<RawMaterialWarehouseEntity>(pagination);
         }
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="list"></param>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public void RemoveList(List<RawMaterialWarehouseEntity> list)
         {
             throw new NotImplementedException();
