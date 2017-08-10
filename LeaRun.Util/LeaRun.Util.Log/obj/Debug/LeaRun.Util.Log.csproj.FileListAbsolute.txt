@@ -70,3 +70,9 @@ E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.xml
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.csprojResolveAssemblyReference.cache
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.dll
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.pdb
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Log\bin\Debug\LeaRun.Util.Log.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Log\bin\Debug\LeaRun.Util.Log.pdb
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.pdb
