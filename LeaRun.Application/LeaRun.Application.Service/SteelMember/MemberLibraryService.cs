@@ -32,16 +32,16 @@ namespace LeaRun.Application.Service.SteelMember
             //²éÑ¯Ìõ¼þ
             var BeginTime = queryParam["BeginTime"].ToDate();
             var EndTime = queryParam["EndTime"].ToDate();
-            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty())
             {
                 expression = expression.And(t => t.UploadTime >= BeginTime);
                 expression = expression.And(t => t.UploadTime <= EndTime);
             }
-            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            else if (!queryParam["BeginTime"].IsEmpty() || queryParam["EndTime"].IsEmpty())
             {
                 expression = expression.And(t => t.UploadTime >= BeginTime);
             }
-            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            else
             {
                 expression = expression.And(t => t.UploadTime <= EndTime);
             }

@@ -142,15 +142,3 @@ E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Uti
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.dll
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.pdb
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\SharpZipLib.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.FlowWork.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.FlowWork.pdb
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.Extension.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\Newtonsoft.Json.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\SharpZipLib.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.Extension.pdb
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.pdb
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\Newtonsoft.Json.xml
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.csprojResolveAssemblyReference.cache
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.pdb

@@ -4,7 +4,6 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
-using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SteelMember
 {
@@ -27,11 +26,6 @@ namespace LeaRun.Application.Busines.SteelMember
         public List<RawMaterialInventoryEntity> GetPageList(Pagination pagination, string queryJson)
         {
             return service.GetPageList(pagination, queryJson);
-        }
-
-        public IEnumerable<RawMaterialInventoryEntity> GetPageList1(Pagination pagination, Expression<Func<RawMaterialInventoryEntity, bool>> condition)
-        {
-            return service.GetPageList1(pagination, condition);
         }
         /// <summary>
         /// 获取列表
