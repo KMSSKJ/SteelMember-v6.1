@@ -30,7 +30,6 @@
             height: $(window).height()-100,
             autowidth: true,
             colModel: [
-                { label: '主键', name: "MemberId", align: ' center', width: 100, sortable: false ,hidden:true},
                 { label: '编号', name: "MemberNumbering", align:' center',width: 100, sortable: false },
                 { label: '名称', name: "MemberName", align:' center',width: 100, sortable: false },
                 { label: '规格或型号', name: "MemberModel", align:' center',width: 80, sortable: false},
@@ -38,9 +37,7 @@
                 { label: '单位', name: "MemberUnit", align:' center',width: 50, sortable: false},
             ],
             rowNum: 30,
-            viewrecords: true,
-            rowNum: 30,
-            sortname: 'MemberDemandId',
+            sortname: 'SortCode',
             sortorder: 'Desc',//降序 asc升序
             pager: "#gridPager",
             viewrecords: true,
@@ -77,9 +74,10 @@
 
     //添加
     function btn_add_() {
-        var KeyValue = $('#gridTable').jqGridRowValue('MemberId');
+        var KeyValue = $('#gridTable').jqGridRowValue('MemberNumbering');
+        alert(KeyValue);
             $.ajax({
-                url: "/SteelMember/MemberProductionOrder/ListMember",
+                url: "/SteelMember/ProjectOrder/ListMember",
                 type: "post",
                 datatype: 'json',
                 data: {
@@ -89,8 +87,7 @@
                 success: function (rowData) {
                     var rows = 1;
                     var $parentobj = top.frames["Form"];
-                    while (rows < 30) {
-                        $parentobj.$("#MemberId➩" + rows).val(null);
+                    while(rows<30){
                         $parentobj.$("#MemberNumbering➩" + rows).val(null);
                         $parentobj.$("#MemberName➩" + rows).val(null);
                         $parentobj.$("#MemberModel➩" + rows).val(null);
@@ -108,27 +105,27 @@
                         $.ajax({
                             type: 'post',
                             dataType: "text",
-                            url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
+                            url: "/SteelMember/ProjectOrder/AddMemberNumber",
                             data: {
                                 category: Category,
-                                KeyValue: rowData[i].MemberId
+                                KeyValue: rowData[i].MemberNumbering
                             },
                             cache: false,
                             async: false,
                             success: function (data) {
                                 data1 = data;
                             }
+                        
                         });
 
                         $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
-                        $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
                         $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
                         $parentobj.$("#MemberModel➩" + index).val(rowData[i].MemberModel);
                         $parentobj.$("#MemberUnit➩" + index).val(rowData[i].MemberUnit);
-                        $parentobj.$("#MemberNumber➩" + index).val(Number(data1));
+                        $parentobj.$("#MemberNumber➩" + index).val(Number(1000));
                         $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
                         $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
-                        $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
+                        $parentobj.$("#MaxNumber➩" + index).val(Number(1200));
                         $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
                         index++;
                         $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');

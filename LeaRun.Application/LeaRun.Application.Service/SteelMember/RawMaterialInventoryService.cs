@@ -9,7 +9,6 @@ using LeaRun.Util;
 
 using LeaRun.Util.Extension;
 using System;
-using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -43,16 +42,6 @@ namespace LeaRun.Application.Service.SteelMember
             }
             //return this.BaseRepository().FindList(pagination);
             return this.BaseRepository().FindList(expression, pagination).ToList();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pagination"></param>
-        /// <param name="condition"></param>
-        /// <returns></returns>
-        public IEnumerable<RawMaterialInventoryEntity> GetPageList1(Pagination pagination, Expression<Func<RawMaterialInventoryEntity, bool>> condition)
-        {
-            return this.BaseRepository().FindList(condition,pagination);
         }
         /// <summary>
         /// 获取列表
@@ -150,7 +139,6 @@ namespace LeaRun.Application.Service.SteelMember
         {
             throw new NotImplementedException();
         }
-
         #endregion
     }
 }
