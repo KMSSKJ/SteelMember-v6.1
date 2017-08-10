@@ -160,3 +160,16 @@ E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Pract
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.dll
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.pdb
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\LeaRun.Util.Ioc.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\LeaRun.Util.Ioc.pdb
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.pdb

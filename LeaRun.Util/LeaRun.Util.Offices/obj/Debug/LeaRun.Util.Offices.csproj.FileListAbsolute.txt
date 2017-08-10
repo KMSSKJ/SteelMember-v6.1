@@ -149,3 +149,15 @@ E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXm
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.csprojResolveAssemblyReference.cache
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.dll
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.pdb
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\LeaRun.Util.Offices.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\LeaRun.Util.Offices.pdb
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\ICSharpCode.SharpZipLib.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OOXML.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXml4Net.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXmlFormats.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OOXML.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXml4Net.xml
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.dll
+E:\TemSoft\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.pdb
