@@ -72,7 +72,9 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="keyValue">Ö÷¼ü</param>
         public void RemoveForm(string keyValue)
         {
-            this.BaseRepository().Delete(keyValue);
+            RawMaterialLibraryEntity entity = new RawMaterialLibraryEntity();
+            entity.RawMaterialId = keyValue;
+            this.BaseRepository().Delete(entity);
 
             var inventory = service.GetList("").Where(i => i.RawMaterialId.Trim() == keyValue.Trim()).SingleOrDefault();
             if (!inventory.IsEmpty())

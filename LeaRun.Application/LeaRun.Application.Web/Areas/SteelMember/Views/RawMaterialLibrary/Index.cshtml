@@ -37,6 +37,8 @@
             url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             onnodeclick: function (item) {
                 _Category = item.value;
+
+                //alert(_Category);
                 $('#btn_Search').trigger("click");
             }
         };
@@ -54,6 +56,7 @@
             datatype: "json",
             colModel: [
                 { label: "主键", name: "RawMaterialId", index: "RawMaterialId", hidden: true },
+                { label: "类型", name: "Category", index: "Category", width: 150, align: "center" },
                 { label: "规格或型号", name: "RawMaterialModel", index: "RawMaterialModel", width: 150, align: "left" },
                 { label: "单位", name: "Unit", index: "Unit", width: 350, align: "left" },
                 { label: "描述", name: "Description", index: "Description", width: 100, align: "left" }
@@ -90,8 +93,8 @@
             id: 'Form',
             title: '添加原材料管理',
             url: '/SteelMember/RawMaterialLibrary/Form?category=' + escape(_Category),
-            width: '600px',
-            height: '330px',
+            width: '600px', 
+            height: '400px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -106,7 +109,7 @@
                 title: '编辑原材料管理',
                 url: '/SteelMember/RawMaterialLibrary/Form?keyValue=' + keyValue,
                 width: '600px',
-                height: '330px',
+                height: '400px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }

@@ -76,6 +76,7 @@
 
     //保存表单;
     function AcceptClick() {
+        var SB = $('#form1').Validform();
         if (!$('#form1').Validform()) {
             return false;
         }
@@ -97,9 +98,10 @@
             <td class="formValue">
                 <div id="Category" type="select" class="ui-select"></div>
             </td>
-            <th class="formTitle">规格或型号<font face="宋体">*</font></th>
+            <th class="formTitle">规格或型号@*<font face="宋体">*</font>*@</th>
             <td class="formValue">
-                <input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" checkexpession="NotNull" />
+                @*<input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" checkexpession="NotNull" />*@
+                <input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" />
             </td>
         </tr>
         <tr>
