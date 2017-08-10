@@ -31,14 +31,3 @@ E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\zh-Hans\Enti
 E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.csprojResolveAssemblyReference.cache
 E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.dll
 E:\SSKJProject\SteelMember\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.pdb
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\LeaRun.Data.Entity.dll.config
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\LeaRun.Data.Entity.dll
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\LeaRun.Data.Entity.pdb
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.dll
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.SqlServer.dll
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.xml
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\EntityFramework.SqlServer.xml
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\zh-Hans\EntityFramework.resources.dll
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.dll
-E:\TemSoft\LeaRun.Data\LeaRun.Data.Entity\obj\Debug\LeaRun.Data.Entity.pdb

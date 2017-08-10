@@ -36,10 +36,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string Category { get; set; }
-        /// <summary>
-        /// Unit
-        /// </summary>
-        public string Unit { get; set; }
+        
         #endregion
 
         #region À©Õ¹²Ù×÷

@@ -17,7 +17,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string MemberDemandId { get; set; }
         /// <summary>
-        /// SubProjectId
+        /// TreeId
         /// </summary>
         /// <returns></returns>
         public string SubProjectId { get; set; }
@@ -27,7 +27,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string EngineeringId { get; set; }
         /// <summary>
-        /// FullName
+        /// TreeName
         /// </summary>
         /// <returns></returns>
         public string FullName { get; set; }
@@ -47,17 +47,17 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string MemberModel { get; set; }
         /// <summary>
-        /// MemberName
+        /// MemberCompanyId
         /// </summary>
         /// <returns></returns>
         public string MemberName { get; set; }
         /// <summary>
-        /// Category
+        /// MemberClassId
         /// </summary>
         /// <returns></returns>
         public string Category { get; set; }
         /// <summary>
-        /// MemberUnit
+        /// UnitId
         /// </summary>
         /// <returns></returns>
         public string MemberUnit { get; set; }
@@ -76,7 +76,6 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public decimal? CostBudget { get; set; }
-
         /// <summary>
         /// IsReview
         /// </summary>
@@ -87,17 +86,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string ReviewMan { get; set; }
-        /// <summary>
-        /// IsDemandSubmit
-        /// </summary>
-        /// <returns></returns>
-        public int? IsDemandSubmit { get; set; }
-        /// <summary>
-        /// IsReview
-        /// </summary>
-        /// <returns></returns>
-        public int? IsSubmit { get; set; }
-
+      
         /// <summary>
         /// Description
         /// </summary>
