@@ -141,15 +141,3 @@ E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WebControl\obj\Debug\LeaRun.U
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WebControl\obj\Debug\LeaRun.Util.WebControl.dll
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WebControl\obj\Debug\LeaRun.Util.WebControl.pdb
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\SharpZipLib.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\LeaRun.Util.WebControl.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\LeaRun.Util.WebControl.pdb
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\LeaRun.Util.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\LeaRun.Util.Extension.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\SharpZipLib.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\Newtonsoft.Json.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\LeaRun.Util.Extension.pdb
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\LeaRun.Util.pdb
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\bin\Debug\Newtonsoft.Json.xml
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\obj\Debug\LeaRun.Util.WebControl.csprojResolveAssemblyReference.cache
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\obj\Debug\LeaRun.Util.WebControl.dll
-E:\TemSoft\LeaRun.Util\LeaRun.Util.WebControl\obj\Debug\LeaRun.Util.WebControl.pdb
