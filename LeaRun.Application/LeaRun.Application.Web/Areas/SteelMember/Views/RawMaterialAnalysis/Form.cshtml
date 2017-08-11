@@ -38,14 +38,36 @@
             height: "150px",
         }).bind("change", function () {
             var value = $(this).attr('data-value');
-            //加载规格或型号
+            //加载材料名称
+            $("#RawMaterialName").ComboBox({
+                url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
+                description: "==请选择==",
+                id: "RawMaterialName",
+                text: "RawMaterialName",
+            });
+             //    //加载规格或型号
             $("#RawMaterialStandard").ComboBox({
-                url: "../../SteelMember/RawMaterialAnalysis/RawMateriaType?type=" + value,
+                url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
                 description: "==请选择==",
                 id: "RawMaterialModel",
                 text: "RawMaterialModel",
             });
         });
+        //}).bind("change", function () {
+        //    var value = $(this).attr('data-value');
+        //    //加载规格或型号
+        //    $("#RawMaterialStandard").ComboBox({
+        //        url: "../../SteelMember/RawMaterialAnalysis/RawMateriaType?type=" + value,
+        //        description: "==请选择==",
+        //        id: "RawMaterialModel",
+        //        text: "RawMaterialModel",
+        //    });
+       // });
+        //规格或型号
+        $("#RawMaterialName").ComboBox({
+            description: "==请选择==",
+            height: "200px",
+        })
         //规格或型号
         $("#RawMaterialStandard").ComboBox({
             description: "==请选择==",
@@ -95,14 +117,25 @@
             </td>
         </tr>
         <tr>
+            <td class="formTitle">材料名称<font face="宋体">*</font></td>
+            <td class="formValue">
+                <div id="RawMaterialName" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
             <td class="formTitle">规格或型号<font face="宋体">*</font></td>
             <td class="formValue">
                 <div id="RawMaterialStandard" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
+        </tr>
+        <tr>
+            @*<td class="formTitle">规格或型号<font face="宋体">*</font></td>
+            <td class="formValue">
+                <div id="RawMaterialStandard" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>*@
             <th class="formTitle">数量<font face="宋体">*</font></th>
             <td class="formValue">
                 <input id="RawMaterialDosage" type="text" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="PositiveInteger" />
             </td>
+           
         </tr>
         <tr>
             <th class="formTitle" valign="top" style="padding-top: 4px;">
