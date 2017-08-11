@@ -41,6 +41,11 @@ namespace LeaRun.Application.Busines.SystemManage
         {
             return service.GetEntity(keyValue);
         }
+        
+        public List< DataItemDetailEntity> GetByParentToItemIdIdList(string itemId)
+        {
+            return service.GetByParentToItemIdIdList(itemId);
+        }
         /// <summary>
         /// 数据字典列表
         /// </summary>

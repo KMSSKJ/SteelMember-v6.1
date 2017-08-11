@@ -6,6 +6,7 @@ using LeaRun.Util.Extension;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace LeaRun.Application.Service.SystemManage
 {
@@ -25,6 +26,10 @@ namespace LeaRun.Application.Service.SystemManage
         public IEnumerable<DataItemDetailEntity> GetList(string itemId)
         {
             return this.BaseRepository().IQueryable(t => t.ItemId == itemId).OrderBy(t => t.SortCode).ToList();
+        }
+        public List<DataItemDetailEntity> GetByParentToItemIdIdList(string ItemDetailId)
+        {
+            return this.BaseRepository().IQueryable(t => t.ItemId == ItemDetailId).ToList();
         }
         /// <summary>
         /// 明细实体

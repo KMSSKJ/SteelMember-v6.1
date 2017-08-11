@@ -18,6 +18,8 @@ namespace LeaRun.Application.IService.SystemManage
         /// <param name="itemId">分类Id</param>
         /// <returns></returns>
         IEnumerable<DataItemDetailEntity> GetList(string itemId);
+
+        List<DataItemDetailEntity> GetByParentToItemIdIdList(string itemId);
         /// <summary>
         /// 明细实体
         /// </summary>

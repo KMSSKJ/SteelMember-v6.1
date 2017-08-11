@@ -79,7 +79,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
                             _model.RawMaterialId = model.RawMaterialId;
                             _model.Id = item.Id;
-                            _model.RawMaterialCategory = model.Category;
+
+                            //_model.RawMaterialCategory = model.Category; 
+                            _model.RawMaterialCategory = model.RawMaterialName;
                             _model.RawMaterialStandard = model.RawMaterialModel;
                             _model.RawMaterialUnit = model.Unit;
                             _model.Description = item.Description;
@@ -137,7 +139,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
                     var _model = new RawMaterialAnalysisModel();
                     _model.Id = item.Id;
-                    _model.RawMaterialCategory = model.Category;
+                     //_model.RawMaterialCategory = model.Category;
+                    _model.RawMaterialCategory = model.RawMaterialName;
                     _model.RawMaterialStandard = model.RawMaterialModel;
                     _model.RawMaterialDosage = item.RawMaterialDosage;
                     _model.RawMaterialUnit = model.Unit;

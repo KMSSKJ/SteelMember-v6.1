@@ -17,10 +17,21 @@
             description: "==请选择==",
             
         });
+        //$("#Category").ComboBoxTree({
+
+        //    param: { EnCode: "RawMaterialType" },
+        //    //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+        //    url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+        //    description: "==请选择==",
+        //    allowSearch: true,
+
+
+        //});
         //原材料类型
-        $("#RawMaterialCategory").ComboBox({
+        $("#RawMaterialCategory").ComboBoxTree({
             param: { EnCode: "RawMaterialType" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             description: "==请选择==",
             id: "ItemValue",
             text: "ItemName",
