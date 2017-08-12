@@ -54,7 +54,7 @@
         $gridTable.jqGrid({
             autowidth: true,
             height: $(window).height() - 136.5,
-            url: "../../SteelMember/MemberProductionOrder/GetPageListJson",
+            url: "../../SteelMember/MemberProductionOrder/GetPageListJson?IsReceive=2",
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },
@@ -159,6 +159,7 @@
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 keyword: $("#txt_Keyword").val(),
                 SubProjectId: _Category,
+                IsReceive: 0,
                 BeginTime: $("#txt_BeginTime").val(),
                 EndTime: $("#txt_EndTime").val()
             }
@@ -365,21 +366,20 @@
                                 <label>时间(起)</label>
                             </td>
                             <td>
-                                <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
                             <td>
                                 <label style="margin-left:5px">时间(束)</label>
                             </td>
                             <td>
-                                <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
-                            <td style="padding-left: 10px;">
+
+                            @*<td style="padding-left: 10px;">
                                 <div id="queryCondition" class="btn-group">
                                     <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        @*<li><a data-value="Category">构件类型</a></li>
-                                        <li><a data-value="MemberName">构件名称</a></li>*@
                                         <li><a data-value="OrderNumbering">编号</a></li>
                                     </ul>
                                 </div>
@@ -390,7 +390,7 @@
 
                             <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                            </td>
+                            </td>*@
                         </tr>
                     </table>
                 </div>

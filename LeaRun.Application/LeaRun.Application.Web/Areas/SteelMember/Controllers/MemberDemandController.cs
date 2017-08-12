@@ -1,4 +1,4 @@
-using LeaRun.Application.Entity.SteelMember;
+ï»¿using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
@@ -8,13 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Application.Code;
 using System;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
     /// <summary>
-    /// °æ ±¾ 6.1
-    /// ÈÕ ÆÚ£º2017-07-26 16:54
-    /// Ãè Êö£º¹¹¼şĞèÇó
+    /// ç‰ˆ æœ¬ 6.1
+    /// æ—¥ æœŸï¼š2017-07-26 16:54
+    /// æ è¿°ï¼šæ„ä»¶éœ€æ±‚
     /// </summary>
     public class MemberDemandController : MvcControllerBase
     {
@@ -22,9 +23,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
         private SubProjectBLL subprojectbll = new SubProjectBLL();
 
-        #region ÊÓÍ¼¹¦ÄÜ
+        #region è§†å›¾åŠŸèƒ½
         /// <summary>
-        /// ÁĞ±íÒ³Ãæ
+        /// åˆ—è¡¨é¡µé¢
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -34,7 +35,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return View();
         }
         /// <summary>
-        /// ±íµ¥Ò³Ãæ
+        /// è¡¨å•é¡µé¢
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -45,18 +46,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         #endregion
 
-        #region »ñÈ¡Êı¾İ
+        #region è·å–æ•°æ®
 
          /// <summary>
-        /// »ñÈ¡ÁĞ±í
+        /// è·å–åˆ—è¡¨
         /// </summary>
-        /// <param name="pagination">·ÖÒ³²ÎÊı</param>
-        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
-        /// <returns>·µ»Ø·ÖÒ³ÁĞ±íJson</returns>
+        /// <param name="pagination">åˆ†é¡µå‚æ•°</param>
+        /// <param name="queryJson">æŸ¥è¯¢å‚æ•°</param>
+        /// <returns>è¿”å›åˆ†é¡µåˆ—è¡¨Json</returns>
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
-            var data = new List<MemberDemandEntity>();
+            var data = new List<MemberDemandModel>();
             var watch = CommonHelper.TimerStart();
             var HavesChildren = "";
             var SubProjectId = "";
@@ -77,32 +78,27 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         foreach (var item in E)
                         {
-                            var _model = new MemberDemandEntity();
+                            var _model = new MemberDemandModel();
 
                                 var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
-                            _model.MemberModel = data1.MemberModel;
-                            _model.MemberUnit = data1.MemberUnit;
+                            //_model.MemberUnit = data1.Unit.ItemName;
                             _model.Icon = data1.Icon;
-                            _model.Category = item.Category;
-                            _model.MemberId = item.MemberId;
-                            _model.CollarNumbered = item.CollarNumbered;
-                            _model.CostBudget = item.CostBudget;
+                            _model.Category = data1.Category;
+                            _model.MemberId = data1.MemberId;
+                            _model.CollarNumber = item.CollarNumber;
                             _model.CreateMan = item.CreateMan;
                             _model.CreateTime = item.CreateTime;
                             _model.Description = item.Description;
-                            _model.EngineeringId = item.EngineeringId;
-                            _model.FullName = item.FullName;
+                            _model.SubProjectId = item.SubProjectId;
                             _model.IsReview = item.IsReview;
                             _model.MemberDemandId= item.MemberDemandId;
-                            _model.MemberName= item.MemberName;
+                            _model.MemberName= data1.MemberName;
                             _model.MemberNumber = item.MemberNumber;
-                            _model.MemberNumbering = item.MemberNumbering;
-                            _model.MemberWeight= item.MemberWeight;
-                            _model.OrderQuantityed = item.OrderQuantityed;
-                            _model.Productioned = item.Productioned;
+                            _model.MemberNumbering = data1.MemberNumbering;
+                            _model.MemberWeight= data1.MemberWeight;
                             _model.ProductionNumber = item.ProductionNumber;
                             _model.ReviewMan = item.ReviewMan;
-                            _model.UnitPrice = item.UnitPrice;
+                            _model.UnitPrice = data1.UnitPrice;
                          
                             data.Add(_model);
                         }
@@ -127,14 +123,32 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             }
             else { 
-            data = memberdemandbll.GetPageList(pagination, queryJson).OrderBy(o => o.MemberNumbering).ToList();
-            foreach (var item in data)
+           var memberdemand = memberdemandbll.GetPageList(pagination, queryJson).ToList();
+            foreach (var item in memberdemand)
             {
-                var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
-                item.MemberModel = data1.MemberModel;
-                item.MemberUnit = data1.MemberUnit;
-                item.Icon = data1.Icon;
-            }
+                    var _model = new MemberDemandModel();
+                    var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
+                    var SubProject = subprojectbll.GetEntity(item.SubProjectId);
+                    //_model.MemberUnit = data1.Unit.ItemName;
+                    _model.Icon = data1.Icon;
+                    _model.Category = data1.Category;
+                    _model.MemberId = data1.MemberId;
+                    _model.CollarNumber = item.CollarNumber;
+                    _model.CreateMan = item.CreateMan;
+                    _model.CreateTime = item.CreateTime;
+                    _model.Description = item.Description;
+                    _model.SubProject = SubProject.FullName;
+                    _model.IsReview = item.IsReview;
+                    _model.MemberDemandId = item.MemberDemandId;
+                    _model.MemberName = data1.MemberName;
+                    _model.MemberNumber = item.MemberNumber;
+                    _model.MemberNumbering = data1.MemberNumbering;
+                    _model.MemberWeight = data1.MemberWeight;
+                    _model.ProductionNumber = item.ProductionNumber;
+                    _model.ReviewMan = item.ReviewMan;
+                    _model.UnitPrice = data1.UnitPrice;
+                    data.Add(_model);
+                }
             }
             var jsonData = new
             {
@@ -147,7 +161,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return ToJsonResult(jsonData);
         }
         /// <summary>
-        /// »ñÈ¡Ê÷×Ö½Ú×Ó½Úµã(×ÔÑ­»·)
+        /// è·å–æ ‘å­—èŠ‚å­èŠ‚ç‚¹(è‡ªå¾ªç¯)
         /// </summary>
         /// <param name="SubProjectId"></param>
         /// <returns></returns>
@@ -159,10 +173,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// »ñÈ¡ÁĞ±í
+        /// è·å–åˆ—è¡¨
         /// </summary>
-        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
-        /// <returns>·µ»ØÁĞ±íJson</returns>
+        /// <param name="queryJson">æŸ¥è¯¢å‚æ•°</param>
+        /// <returns>è¿”å›åˆ—è¡¨Json</returns>
         [HttpGet]
         public ActionResult GetListJson(string queryJson)
         {
@@ -171,10 +185,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// »ñÈ¡¹¹¼ş¿âÁĞ±í
+        /// è·å–æ„ä»¶åº“åˆ—è¡¨
         /// </summary>
-        /// <param name="EngineeringId">²éÑ¯²ÎÊı</param>
-        /// <returns>·µ»ØÁĞ±íJson</returns>
+        /// <param name="EngineeringId">æŸ¥è¯¢å‚æ•°</param>
+        /// <returns>è¿”å›åˆ—è¡¨Json</returns>
         [HttpGet]
         public ActionResult GetListJsonMemberlibrary(string EngineeringId)
         {
@@ -182,15 +196,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var JsonData = data.Select(p => new
             {
                 MemberId = p.MemberId,
-                MemberNumbering = p.MemberNumbering + ">" + p.Category + ">" + p.MemberName + ">" + p.MemberModel,
+                MemberNumbering = p.MemberNumbering + "â©" + p.Category + "â©" + p.MemberName,
             });
             return ToJsonResult(JsonData);
         }
         /// <summary>
-        /// »ñÈ¡ÊµÌå 
+        /// è·å–å®ä½“ 
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
-        /// <returns>·µ»Ø¶ÔÏóJson</returns>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
+        /// <returns>è¿”å›å¯¹è±¡Json</returns>
         [HttpGet]
         public ActionResult GetFormJson(string keyValue)
         {
@@ -199,54 +213,46 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         #endregion
 
-        #region Ìá½»Êı¾İ
+        #region æäº¤æ•°æ®
         /// <summary>
-        /// É¾³ıÊı¾İ
+        /// åˆ é™¤æ•°æ®
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
-            string[] Arry = keyValue.Split(',');//×Ö·û´®×ªÊı×é
+            string[] Arry = keyValue.Split(',');//å­—ç¬¦ä¸²è½¬æ•°ç»„
             foreach (var item in Arry)
             {
                 memberdemandbll.RemoveForm(item);
             }
-            return Success("É¾³ı³É¹¦¡£");
+            return Success("åˆ é™¤æˆåŠŸã€‚");
         }
         /// <summary>
-        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
+        /// ä¿å­˜è¡¨å•ï¼ˆæ–°å¢ã€ä¿®æ”¹ï¼‰
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
-        /// <param name="entity">ÊµÌå¶ÔÏó</param>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
+        /// <param name="entity">å®ä½“å¯¹è±¡</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
         public ActionResult SaveForm(string keyValue, MemberDemandEntity entity)
         {
-            string[] Member = entity.MemberNumbering.Split('>');
-            for (int i = 0; i < 1; i++)
-            {
-                entity.MemberNumbering = Member[i];
-                entity.Category = Member[i+1];
-                entity.MemberName= Member[i+2];
-                entity.MemberModel = Member[i + 3];
-            }
             entity.IsReview = 0;
             entity.CreateMan = OperatorProvider.Provider.Current().UserName;
             entity.CreateTime = DateTime.Now;
             memberdemandbll.SaveForm(keyValue, entity);
-            return Success("²Ù×÷³É¹¦¡£");
+            return Success("æ“ä½œæˆåŠŸã€‚");
         }
 
-        #region ÉóºËĞèÇó
+        #region å®¡æ ¸éœ€æ±‚
 
         /// <summary>
-        /// ÉóºËĞèÇó
+        /// å®¡æ ¸éœ€æ±‚
         /// </summary>
         /// <param name="keyValue"></param>
         /// <param name="type"></param>
@@ -255,12 +261,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             try
             {
-                string[] Arry = keyValue.Split(',');//×Ö·û´®×ªÊı×é
-                string Message = type == 2 ? "²µ»Ø³É¹¦¡£" : "ÉóºË³É¹¦¡£";
+                string[] Arry = keyValue.Split(',');//å­—ç¬¦ä¸²è½¬æ•°ç»„
+                string Message = type == 2 ? "é©³å›æˆåŠŸã€‚" : "å®¡æ ¸æˆåŠŸã€‚";
                 foreach (var item in Arry)
                 {
                     var file = memberdemandbll.GetList(null).ToList().Find(f => f.MemberDemandId == item);
-                    file.ModifiedTime = DateTime.Now;
+                    file.UpdateTime = DateTime.Now;
                     file.ReviewMan = OperatorProvider.Provider.Current().UserName;
                     file.IsReview = type;
                     memberdemandbll.SaveForm(item, file);
@@ -275,22 +281,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         #endregion
         #endregion
 
-        #region ÑéÖ¤Êı¾İ
+        #region éªŒè¯æ•°æ®
         /// <summary>
-        ///¹¹¼ş²»ÄÜÖØ¸´
+        ///æ„ä»¶ä¸èƒ½é‡å¤
         /// </summary>
         /// <param name="Member"></param>
-        /// <param name="SubProjectId"></param>
+        /// <param name="SubProject"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ExistMember(string Member, string SubProjectId)
-        { string[] arry = Member.Split('>');//×Ö·û´®×ªÊı×é
-            var MemberNumbering = "";
-            for (int i = 0; i < arry.Length; i++)
-            {
-                MemberNumbering = arry[0];
-            }
-                bool IsOk = memberdemandbll.ExistFullName(MemberNumbering.Trim(), SubProjectId);
+        public ActionResult ExistMember(string Member, string SubProject)
+        { 
+                bool IsOk = memberdemandbll.ExistFullName(Member, SubProject);
             return Content(IsOk.ToString());
         }
         #endregion

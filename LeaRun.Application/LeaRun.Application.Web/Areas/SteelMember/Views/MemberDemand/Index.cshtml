@@ -50,7 +50,7 @@
             param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
-                SubProject = item.value;
+                SubProject = item.text;
                 SubProjectId = item.id;
                 HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
@@ -91,10 +91,9 @@
                         }
                     }
                 },
-                { label: '构件编号', name: "MemberNumbering", index: "MemberNumbering", align: ' center' },
+                { label: '构件编号', name: "MemberNumbering", index: "MemberNumbering", align: ' center' }, 
                 { label: '构件类型', name: "Category", index: "Category", align: ' center' },
                 { label: '构件名', name: "MemberName", index: "MemberName", align: ' center' },
-                { label: '构件型号', name: "MemberModel", index: "MemberModel", align: ' center' },
                 { label: '需求量', name: "MemberNumber", index: "MemberNumber", align: ' center' },
                 {
                     label: '单位', name: "MemberUnit", index: "MemberUnit", align: ' center',
@@ -163,6 +162,7 @@
         $("#btn_Search").click(function () {
             var queryJson = {
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                SubProject: SubProject,
                 SubProjectId: SubProjectId,
                 HavesChildren: HavesChildren,
                 keyword: $("#txt_Keyword").val(),
@@ -194,7 +194,7 @@
             //    break;
         }
     }
-
+   
     //新增
     function btn_add() {
         dialogOpen({
@@ -360,13 +360,13 @@
                                 <label>时间(起)</label>
                             </td>
                             <td>
-                                <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
                             <td>
                                 <label style="margin-left:5px">时间(束)</label>
                             </td>
                             <td>
-                                <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
 
                             <td style="padding-left: 10px;">

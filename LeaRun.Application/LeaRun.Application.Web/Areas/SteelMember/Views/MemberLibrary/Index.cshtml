@@ -46,8 +46,10 @@
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            param: { EnCode: "EngineeringType" },
-            url: '../../SystemManage/DataItemDetail/GetDataItemTreeJson',
+            //param: { EnCode: "EngineeringType" },
+            //url: '../../SystemManage/DataItemDetail/GetDataItemTreeJson',
+            param: { Levels: 1 },
+            url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
                 SubProject = item.value;
                 SubProjectId = item.id;
@@ -56,6 +58,7 @@
         };
         //初始化
         $("#itemTree").treeview(item);
+        $("#itemTree_b51550ed_5f23_4de6_a509_b534c24ae2ee").hide();
     }
 
     //加载表格
@@ -97,8 +100,7 @@
                 { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 100, align: 'left', sortable: true },
                 { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
                 { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
-                { label: '规格或型号', name: 'MemberModel', index: 'MemberModel', width: 100, align: 'left', sortable: true },
-                { label: '构件单位', name: 'MemberUnit', index: 'MemberUnit', width: 100, align: 'left', sortable: true },
+                { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 100, align: 'left', sortable: true },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -266,7 +268,7 @@
             height: "500px",
             btn: null
         });
-    }
+    };
 </script>
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
@@ -287,13 +289,13 @@
                                 <label>时间(起)</label>
                             </td>
                             <td>
-                                <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
                             <td>
                                 <label style="margin-left:5px">时间(束)</label>
                             </td>
                             <td>
-                                <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
 
                             <td style="padding-left: 10px;">

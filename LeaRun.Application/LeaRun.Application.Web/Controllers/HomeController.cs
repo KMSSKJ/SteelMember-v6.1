@@ -30,9 +30,6 @@ namespace LeaRun.Application.Web.Controllers
         UserBLL user = new UserBLL();
         DepartmentBLL department = new DepartmentBLL();
 
-        [Ninject.Inject]
-        public LeaRun.Application.Repository.SteelMember.IBLL.ProjectInfoIBLL ProjectInfoCurrent { get; set; }
-        //string userId = OperatorProvider.Provider.Current().UserId;
 
         #region 视图功能
         /// <summary>
@@ -41,54 +38,26 @@ namespace LeaRun.Application.Web.Controllers
         /// <returns></returns>
         public ActionResult AdminDefault()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
-            {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
-            }
-            ViewData["prjLogo"] = prjLogo;
-            ViewData["prjName"] = prjName;
+            ViewData["prjLogo"] = "";
+            ViewData["prjName"] = "";
             return View();
         }
         public ActionResult AdminLTE()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
-            {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
-            }
-            ViewData["prjLogo"] = prjLogo;
-            ViewData["prjName"] = prjName;
+            ViewData["prjLogo"] = "";
+            ViewData["prjName"] = "";
             return View();
         }
         public ActionResult AdminWindos()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
-            {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
-            }
-            ViewData["prjLogo"] = prjLogo;
-            ViewData["prjName"] = prjName;
+            ViewData["prjLogo"] = "";
+            ViewData["prjName"] = "";
             return View();
         }
         public ActionResult AdminPretty()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
-            {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
-            }
-            ViewData["prjLogo"] = prjLogo;
-            ViewData["prjName"] = prjName;
+            ViewData["prjLogo"] = "";
+            ViewData["prjName"] = "";
             return View();
         }
         public ActionResult AdminDefaultDesktop()

@@ -55,7 +55,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             if (KeyValue == "" || KeyValue == null)
             {
-                ViewBag.OrderNumbering = "GJDD" + DateTime.Now.ToString("yyyyMMddhhmmssffff");
+                ViewBag.OrderNumbering = "GJDD" + DateTime.Now.ToString("yyyyMMddhhmmssff");
                 //ViewData["CreateMan"] = OperatorProvider.Provider.Current().UserName;
             }
             return View();
@@ -77,13 +77,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页参数</param>
+        /// <param name="IsReceive"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表Json</returns>
         [HttpGet]
-        public ActionResult GetPageListJson(Pagination pagination, string queryJson)
+        public ActionResult GetPageListJson(Pagination pagination, int IsReceive, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = memberproductionorderbll.GetPageList(pagination, queryJson);
+            var data = memberproductionorderbll.GetPageList(pagination, IsReceive, queryJson);
             var jsonData = new
             {
                 rows = data,
@@ -131,13 +132,21 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GridListJsonDemand(Pagination pagination, string category)
         {
-            //var data = new List<MemberDemandEntity>(); 
-            var data = memberdemandbll.GetPageList1(f => f.SubProjectId == category&&f.IsReview==1,pagination).ToList();//.OrderByDescending(o => o.MemberNumbering)
-          
-            foreach (var item in data)
+            var data = new List<MemberDemandModel>();
+            var memberdemand = memberdemandbll.GetPageList1(f => f.SubProjectId == category && f.IsReview == 1, pagination).ToList();//.OrderByDescending(o => o.MemberNumbering)
+
+            foreach (var item in memberdemand)
             {
+                MemberDemandModel MemberDemand = new MemberDemandModel();
                 var member = memberlibrarybll.GetList(null).Find(f => f.MemberId == item.MemberId);
-                item.MemberUnit = member.MemberUnit;
+                MemberDemand.MemberId = member.MemberId;
+                MemberDemand.Category = member.Category;
+                MemberDemand.MemberNumbering = member.MemberNumbering;
+                MemberDemand.MemberName = member.MemberName;
+                //MemberDemand.MemberUnit = member.Unit.ItemName;
+                MemberDemand.MemberNumber = item.MemberNumber;
+
+                data.Add(MemberDemand);
             }
             return ToJsonResult(data);
         }
@@ -148,7 +157,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         public ContentResult AddMemberNumber(string KeyValue, string category)
         {
-            var MemberDemand = memberdemandbll.GetList(null).Where(s=>s.SubProjectId== category&&s.MemberId== KeyValue).SingleOrDefault();
+            var MemberDemand = memberdemandbll.GetList(null).Where(s => s.SubProjectId == category && s.MemberId == KeyValue).SingleOrDefault();
             int MemberDemandNumber = 0;
             int Number = 0;
             var Order = memberproductionorderbll.GetList(null).FindAll(f => f.Category == category).ToList();
@@ -170,13 +179,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         public ContentResult EditMemberNumber(string KeyValue, string MemberId)
-        { 
+        {
 
             var OrderList = new List<MemberProductionOrderEntity>();
             var Order = memberproductionorderbll.GetList(KeyValue).SingleOrDefault();
             OrderList = memberproductionorderbll.GetList(Order.Category).ToList();
 
-            var MemberDemand = memberdemandbll.GetList(MemberId).Where(f=>f.Category == Order.Category).SingleOrDefault();
+            var MemberDemand = memberdemandbll.GetList(MemberId).Where(f => f.SubProjectId == Order.Category).SingleOrDefault();
             int MemberDemandNumber = 0;
             int Number = 0;
 
@@ -200,7 +209,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         public ActionResult ListMember(string KeyValue, string category)
         {
-            var listmember = new List<ProjectDemandModel>();
+            var listmember = new List<MemberDemandModel>();
             if (KeyValue != null)
             {
                 string[] array = KeyValue.Split(',');
@@ -210,15 +219,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         foreach (var item in array)
                         {
                             var a = memberdemandbll.GetList(null).ToList().Find(f => f.SubProjectId == category && f.MemberId == item);
-                            var member = memberlibrarybll.GetList(null).Find(f=>f.MemberId==a.MemberId);
-                            ProjectDemandModel projectdemand = new ProjectDemandModel();
-                            projectdemand.MemberId = a.MemberId;
-                            projectdemand.MemberName = a.MemberName;
-                            projectdemand.MemberModel = a.MemberModel;
-                            projectdemand.MemberUnit = member.MemberUnit;
-                            projectdemand.UnitPrice = a.UnitPrice;
-                            projectdemand.MemberNumbering =a.MemberNumbering;
-                            projectdemand.MemberNumber = a.MemberNumber;
+                            var member = memberlibrarybll.GetList(null).Find(f => f.MemberId == a.MemberId);
+                            MemberDemandModel projectdemand = new MemberDemandModel()
+                            {
+                                MemberId = a.MemberId,
+                                MemberName = member.MemberName,
+                                UnitPrice = member.UnitPrice,
+                                MemberNumbering = member.MemberNumbering,
+                                MemberNumber = a.MemberNumber,
+                            };
+
                             listmember.Add(projectdemand);
                         }
                 }
@@ -244,7 +254,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             memberproductionorderbll.RemoveForm(keyValue);
             var meminfo = memberproductionorderinfobll.GetList(f => f.OrderId == keyValue);
-            if (meminfo.Count()>0)
+            if (meminfo.Count() > 0)
             {
                 foreach (var item in meminfo)
                 {
@@ -266,9 +276,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult SaveForm(string keyValue, string strEntity, string strChildEntitys)
         {
             var entity = strEntity.ToObject<MemberProductionOrderEntity>();
-            if (keyValue == ""|| keyValue==null)
+            if (keyValue == "" || keyValue == null)
             {
-                entity.IsPassed = entity.IsSubmit = entity.ProductionStatus= 0;
+                entity.IsPassed = entity.IsSubmit = entity.ProductionStatus = entity.IsReceive = 0;
             }
             List<MemberProductionOrderInfoEntity> childEntitys = strChildEntitys.ToList<MemberProductionOrderInfoEntity>();
             memberproductionorderbll.SaveForm(keyValue, entity, childEntitys);
@@ -333,7 +343,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         model.IsPassed = type;
                         model.ReviewTime = System.DateTime.Now;
-                        model.ReviewMan = "测试管理员";
+                        model.ReviewMan = OperatorProvider.Provider.Current().UserName;
                         list.Add(model);
                     }
                 }

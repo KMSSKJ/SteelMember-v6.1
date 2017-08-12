@@ -45,7 +45,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             if (KeyValue == "" || KeyValue == null)
             {
-                ViewBag.OrderNumbering = "CLDD" + DateTime.Now.ToString("yyyyMMddhhmmssffff");
+                ViewBag.OrderNumbering = "CLDD" + DateTime.Now.ToString("yyyyMMddhhmmssff");
                 //ViewData["CreateMan"] = OperatorProvider.Provider.Current().UserName;
             }
             return View();

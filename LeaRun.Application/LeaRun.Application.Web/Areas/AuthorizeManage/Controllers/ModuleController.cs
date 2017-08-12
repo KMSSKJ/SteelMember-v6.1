@@ -1,7 +1,6 @@
 ﻿using LeaRun.Application.Busines.AuthorizeManage;
 using LeaRun.Application.Code;
 using LeaRun.Application.Entity.AuthorizeManage;
-using LeaRun.Application.Repository.SteelMember.IBLL;
 using LeaRun.Data.Entity;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
@@ -21,8 +20,6 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
     {
         private ModuleBLL moduleBLL = new ModuleBLL();
 
-        [Inject]
-        public TreeIBLL TreeCurrent { get; set; }
 
         #region 视图功能
         /// <summary>
@@ -211,79 +208,15 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="moduleEntity">功能实体</param>
-        /// <param name="moduleDirectoryListJson"></param>
         /// <param name="moduleButtonListJson">按钮实体列表</param>
         /// <param name="moduleColumnListJson">视图实体列表</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, ModuleEntity moduleEntity, string moduleDirectoryListJson, string moduleButtonListJson, string moduleColumnListJson)
+        public ActionResult SaveForm(string keyValue, ModuleEntity moduleEntity, string moduleButtonListJson, string moduleColumnListJson)
         {
-            var moduleDirectoryList = moduleDirectoryListJson.ToList<RMC_Tree>();
-            var moduleButtonList = moduleButtonListJson.ToList<ModuleButtonEntity>();
-            var moduleColumnList = moduleColumnListJson.ToList<ModuleColumnEntity>();
-            if (keyValue == "" || keyValue == null)
-            {
-                moduleEntity.Create();
-                if (moduleDirectoryList.Count()>0)
-                {
-                    foreach (var item in moduleDirectoryList)
-                    {
-                        item.ModuleId = moduleEntity.ModuleId;
-                    }
-                }
-                if (moduleButtonList.Count() > 0)
-                {
-                    foreach (var item in moduleButtonList)
-                    {
-                        item.ModuleId = moduleEntity.ModuleId;
-                    }
-                }
-                if (moduleColumnList.Count() > 0)
-                {
-                    foreach (var item in moduleColumnList)
-                    {
-                        item.ModuleId = moduleEntity.ModuleId;
-                    }
-                }
-            }
-            else
-            {
-                //if (moduleDirectoryList.Count() > 0)
-                //{
-                //    foreach (var item in moduleDirectoryList)
-                //    {
-                //        item.ModuleId = moduleEntity.ModuleId;
-                //    }
-                //}
-
-
-                List<string> ids = new List<string>();
-                var treeList = TreeCurrent.Find(t => t.ModuleId == keyValue).ToList();
-                if (treeList.Count()>0)
-                {
-                    foreach (var item in treeList)
-                    {
-                        ids.Add(item.TreeID);
-                    }
-                }
-                if (ids.Count()>0)
-                {
-                    TreeCurrent.Remove(ids);
-                }
-            }
-
-            if (moduleDirectoryList.Count() > 0)
-            {
-                foreach (var item in moduleDirectoryList)
-                {
-                    TreeCurrent.Add(item);
-                }
-            }
-
-
-            moduleBLL.SaveForm(keyValue, moduleEntity, moduleButtonList, moduleColumnList);
+            moduleBLL.SaveForm(keyValue, moduleEntity, moduleButtonListJson, moduleColumnListJson);
             return Success("保存成功。");
         }
         #endregion

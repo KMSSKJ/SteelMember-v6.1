@@ -53,7 +53,7 @@
         $gridTable.jqGrid({
             autowidth: true,
             height: $(window).height() - 108.5,
-            url: "../../SteelMember/MemberWarehouse/GetListJson",
+            url: "../../SteelMember/MemberWarehouse/GetPageListJson",
             datatype: "json",
             colModel: [
                 { label: 'MemberWarehouseId', name: 'MemberWarehouseId', index: 'MemberWarehouseId', width: 100, align: 'left', sortable: true, hidden: true },
@@ -62,7 +62,6 @@
                 //{ label: '构件编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 100, align: 'left', sortable: true },
                 { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
                 { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
-                { label: '构件型号', name: 'MemberModel', index: 'MemberModel', width: 100, align: 'left', sortable: true },
                 { label: '构件单位', name: 'MemberUnit', index: 'MemberUnit', width: 100, align: 'left', sortable: true },
                 { label: '库存量', name: 'InStock', index: 'InStock', width: 100, align: 'left', sortable: true },
                 { label: '库管员', name: 'Librarian', index: 'Librarian', width: 100, align: 'left', sortable: true },
@@ -70,6 +69,15 @@
                 { label: '备注', name: 'Description', index: 'Description', width: 100, align: 'left', sortable: true },
                
             ],
+            viewrecords: true,
+            rowNum: 30,
+            rowList: [30, 50, 100],
+            pager: "#gridPager",
+            sortname: 'MemberWarehouseId',
+            sortorder: 'desc',
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -216,32 +224,32 @@
                                 <label>时间(起)</label>
                             </td>
                             <td>
-                                <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
                             <td>
                                 <label style="margin-left:5px">时间(束)</label>
                             </td>
                             <td>
-                                <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
                             
-                            <td style="padding-left: 10px;">
-                                <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-value="Category">构件类型</a></li>
-                                        <li><a data-value="MemberName">构件名称</a></li>
-                                        @*<li><a data-value="MemberNumbering">编号</a></li>*@
-                                    </ul>
-                                </div>
-                            </td>
-                            <td style="padding-left: 2px;">
-                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
-                            </td>
-                            <td style="padding-left: 5px;">
-                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                            </td>
+                            @*<td style="padding-left: 10px;">
+        <div id="queryCondition" class="btn-group">
+            <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a data-value="Category">构件类型</a></li>
+                <li><a data-value="MemberName">构件名称</a></li>
+
+            </ul>
+        </div>
+    </td>
+    <td style="padding-left: 2px;">
+        <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+    </td>
+    <td style="padding-left: 5px;">
+        <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+    </td>*@
                         </tr>
                     </table>
                 </div>
