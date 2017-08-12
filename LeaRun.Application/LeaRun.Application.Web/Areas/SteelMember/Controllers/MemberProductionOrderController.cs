@@ -133,7 +133,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GridListJsonDemand(Pagination pagination, string category)
         {
             var data = new List<MemberDemandModel>();
-            var memberdemand = memberdemandbll.GetPageList1(f => f.SubProjectId == category && f.IsReview == 1, pagination).ToList();//.OrderByDescending(o => o.MemberNumbering)
+            var memberdemand = memberdemandbll.GetPageList1(pagination,f => f.SubProjectId == category && f.IsReview == 1).ToList();//.OrderByDescending(o => o.MemberNumbering)
 
             foreach (var item in memberdemand)
             {

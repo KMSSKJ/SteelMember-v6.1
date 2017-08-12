@@ -5,7 +5,6 @@ using LeaRun.Util.WebControl;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using Ninject;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {

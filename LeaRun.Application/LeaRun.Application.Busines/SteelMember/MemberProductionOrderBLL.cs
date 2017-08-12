@@ -66,6 +66,24 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetPageListByProductionOrderStatus(pagination, IsWarehousing);
         }
+
+        /// <summary>
+        /// 批量修改
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<MemberProductionOrderEntity> list)
+        {
+            try
+            {
+                service.UpdataList(list);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         #endregion
 
         #region 提交数据
