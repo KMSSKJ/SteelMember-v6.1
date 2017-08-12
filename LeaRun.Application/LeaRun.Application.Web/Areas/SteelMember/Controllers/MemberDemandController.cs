@@ -73,7 +73,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                 foreach (var item1 in list)
                 {
-                   var E = memberdemandbll.GetPageList1(f => f.SubProjectId == item1.Id,pagination).ToList();
+                   var E = memberdemandbll.GetPageList1(pagination, f => f.SubProjectId == item1.Id).ToList();
                     if (E.Count() > 0)
                     {
                         foreach (var item in E)
