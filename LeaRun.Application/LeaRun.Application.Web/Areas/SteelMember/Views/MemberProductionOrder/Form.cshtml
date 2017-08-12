@@ -31,15 +31,14 @@
             height: $(window).height() - 240.5,
             autowidth: true,
             colModel: [
-                { label: '构件编号<font face="宋体">*</font>', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                { label: '构件编号[<font face="宋体">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
                 { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
                 { label: '构件型号', name: "MemberModel", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
-                { label: '生产数量<font face="宋体">*</font>', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
-                { label: '单价<font face="宋体">*</font>', name: 'Price', align: ' center', width: 80, sortable: false },
-                { label: '金额<font face="宋体">*</font>', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
+                { label: '生产数量[<font face="宋体">*</font>]', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
+                { label: '单价[<font face="宋体">*</font>]', name: 'Price', align: ' center', width: 80, sortable: false },
+                { label: '金额[<font face="宋体">*</font>]', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
                 { label: 'InfoId', name: 'InfoId', width: 80, align: '', sortable: false, resizable: false, hidden: true },
-                { label: 'MemberId', name: "MemberId", align: ' center', width: 80, sortable: false, hidden: true},
             ],
             pager: false,
             rownumbers: true,
@@ -70,11 +69,10 @@
                 MemberName: '<input id="MemberName➩' + i + '" class="editable disabled" type="text" />',
                 MemberModel: '<input id="MemberModel➩' + i + '" class="editable disabled center" type="text" />',
                 MemberUnit: '<input id="MemberUnit➩' + i + '" class="editable disabled center" type="text" />',
-                MemberNumber: '<input id="MemberNumber➩' + i + '" type="text" class="editable center" />',
+                MemberNumber: '<input name="MemberNumber" type="text" class="editable center" />',
                 Price: '<input id="Price➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
                 PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="text" datacol="No" err="金额" checkexpession="Double" />',
-                InfoId: '<input id="InfoId' + i + '" type="text" class="editable center" />',
-                InfoId: '<input id="MemberId' + i + '" type="text" class="editable center" />',
+                InfoId: '<input name="InfoId" type="text" class="editable center" />',
             }
             $grid.jqGrid('addRowData', i, rowdata);
         };
@@ -138,13 +136,13 @@
             }
         }
     }
-    //订单明细换算+合计
+    //采购订单明细换算+合计
     function Conversion(index) {
         //alert(index);
         var MaxNumber = Number($("#MaxNumber➩" + index).val());
         var Qty = Number($("#MemberNumber➩" + index).val());//数量
         if (Qty > MaxNumber) {
-            tipDialog("您的输入不能超过" + MaxNumber, 0)
+            tipDialog("您的输入不能超过" + MaxNumber, 2)
             $("#MemberNumber➩" + index).val(MaxNumber);
             return
         }
@@ -232,10 +230,9 @@
                     $('#gridTable').find('[role=row]').each(function (i) {
                         var row = childEntity[i - 1];
                         if (row != undefined) {
-                            $(this).find('input[id="InfoId➩' + i + '"]').val(row.InfoId);
-                            $(this).find('input[id="OrderId➩' + i + '"]').val(row.OrderId);
-                            $(this).find('input[id="MemberId➩' + i + '"]').val(row.MemberId);
-                            $(this).find('input[id="MemberNumber➩' + i + '"]').val(row.ProductionQuantity);
+                            $(this).find('input[name="InfoId"]').val(row.InfoId);
+                            $(this).find('input[name="OrderId"]').val(row.OrderId);
+                            $(this).find('input[name="ProductionQuantity"]').val(row.ProductionQuantity);
                         }
                     });
                 }
@@ -253,12 +250,11 @@
         postData["CategoryName"] = $("#Category").attr('data-text');
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
-            if (!!$(this).find('input[id="MemberNumber➩' + i + '"]').val()) {
+            if (!!$(this).find('input[name="OrderId"]').val()) {
                 childEntryJson.push({
-                    InfoId: $(this).find('input[id = "InfoId➩' + i + '"]').val(),
-                    OrderId: $(this).find('input[id="OrderId➩' + i + '"]').val(),
-                    ProductionQuantity: $(this).find('input[id="MemberNumber➩' + i + '"]').val(),
-                    MemberId: $(this).find('input[id="MemberId➩' + i + '"]').val(),
+                    InfoId: $(this).find('input[name="InfoId"]').val(),
+                    OrderId: $(this).find('input[name="OrderId"]').val(),
+                    ProductionQuantity: $(this).find('input[name="ProductionQuantity"]').val(),
                 });
             }
         });
@@ -279,17 +275,17 @@
             <tr>
                 <td align="center" colspan="8">
                     <div style="font-family: 华文楷体; font-size: x-large; height: 50px; line-height: 50px;">
-                        构件订单&nbsp;
+                        构件生产订单&nbsp;
                         @*<img src="../../Content/Images/billstatis1.png" style="vertical-align: middle;" />*@
                     </div>
                 </td>
             </tr>
             <tr>
                 <th>
-                    订单编号<font face="宋体" color="red">*</font>：
+                    订单编号：
                 </th>
                 <td>
-                    <input readonly id="OrderNumbering" type="text" class="txt" datacol="yes" err="订单编号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" style="width: 95%" />
+                    <input readonly id="OrderId" type="text" class="txt" datacol="yes" err="订单编号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" style="width: 95%" />
                 </td>
                 <th>
                     制单员：
@@ -307,7 +303,7 @@
             <tr style="height:5px;"></tr>
             <tr>
                 <th>
-                    所属工程<font face="宋体" color="red">*</font>：
+                    所属工程[<font face="宋体" color="red">*</font>]：
                 </th>
                 <td class="formValue">
                     <div id="Category" type="selectTree" class="ui-select" style="width: 95%" isvalid="yes" checkexpession="NotNull"></div>

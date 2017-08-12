@@ -32,15 +32,15 @@ namespace LeaRun.Application.Service.SteelMember
             //²éÑ¯Ìõ¼þ
             var BeginTime = queryParam["BeginTime"].ToDate();
             var EndTime = queryParam["EndTime"].ToDate();
-            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty()) {
+            if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty()) {
                 expression = expression.And(t => t.CreateTime>=BeginTime);
                 expression = expression.And(t => t.CreateTime <= EndTime);
             }
-            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            else if (!queryParam["BeginTime"].IsEmpty() || queryParam["EndTime"].IsEmpty())
             {
                 expression = expression.And(t => t.CreateTime >= BeginTime);
             }
-            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            else
             {
                 expression = expression.And(t => t.CreateTime <= EndTime);
             }
@@ -79,7 +79,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="pagination"></param>
         /// <param name="condition"></param>
         /// <returns></returns>
-        public IEnumerable<MemberDemandEntity> GetPageList1(Expression<Func<MemberDemandEntity, bool>> condition,Pagination pagination)
+        public IEnumerable<MemberDemandEntity> GetPageList1(Pagination pagination, Expression<Func<MemberDemandEntity, bool>> condition)
         {
             return this.BaseRepository().FindList(condition, pagination);
         }

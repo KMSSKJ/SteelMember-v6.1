@@ -1,10 +1,14 @@
-﻿using System;
+﻿using LeaRun.Application.Entity.SteelMember;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Models
 {
+    public class RMLibraryModel:RawMaterialLibraryEntity
+        {
+         }
     public class RawMaterialLibraryModel
     {
         public int PurchaseId { get; set; }
@@ -25,7 +29,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string Description { get; set; }
     }
     public class RawMaterialLibraryEntityBill : RawMaterialLibraryModel {
-    public string RawMaterialDosage { get; set; }
-    public string AnalysisId { get; set; }
+        public string RawMaterialDosage { get; set; }
+        public string AnalysisId { get; set; }
     }
 }

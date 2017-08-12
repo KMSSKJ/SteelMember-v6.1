@@ -238,7 +238,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                     rawMaterialInventoryModel.InventoryId = item.InventoryId;
                     rawMaterialInventoryModel.Quantity = item.Quantity;
-                    rawMaterialInventoryModel.Category = item.Category;
+                    //rawMaterialInventoryModel.Category = item.Category;
+                    rawMaterialInventoryModel.Category = rawmateriallibrary.RawMaterialName;
                     rawMaterialInventoryModel.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
                     rawMaterialInventoryModel.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
                     rawMaterialInventoryModel.Unit = rawmateriallibrary.Unit;
