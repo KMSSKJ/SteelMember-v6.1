@@ -22,61 +22,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string SubProjectId { get; set; }
         /// <summary>
-        /// EngineeringId
-        /// </summary>
-        /// <returns></returns>
-        public string EngineeringId { get; set; }
-        /// <summary>
-        /// FullName
-        /// </summary>
-        /// <returns></returns>
-        public string FullName { get; set; }
-        /// <summary>
         /// MemberId
         /// </summary>
         /// <returns></returns>
         public string MemberId { get; set; }
-        /// <summary>
-        /// MemberNumbering
-        /// </summary>
-        /// <returns></returns>
-        public string MemberNumbering { get; set; }
-        /// <summary>
-        /// MemberModel
-        /// </summary>
-        /// <returns></returns>
-        public string MemberModel { get; set; }
-        /// <summary>
-        /// MemberName
-        /// </summary>
-        /// <returns></returns>
-        public string MemberName { get; set; }
-        /// <summary>
-        /// Category
-        /// </summary>
-        /// <returns></returns>
-        public string Category { get; set; }
-        /// <summary>
-        /// MemberUnit
-        /// </summary>
-        /// <returns></returns>
-        public string MemberUnit { get; set; }
-        /// <summary>
-        /// MemberWeight
-        /// </summary>
-        /// <returns></returns>
-        public string MemberWeight { get; set; }
-        /// <summary>
-        /// UnitPrice
-        /// </summary>
-        /// <returns></returns>
-        public string UnitPrice { get; set; }
-        /// <summary>
-        /// CostBudget
-        /// </summary>
-        /// <returns></returns>
-        public decimal? CostBudget { get; set; }
-
+       
         /// <summary>
         /// IsReview
         /// </summary>
@@ -104,25 +54,10 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string Description { get; set; }
         /// <summary>
-        /// Icon
-        /// </summary>
-        /// <returns></returns>
-        public string Icon { get; set; }
-        /// <summary>
         /// MemberNumber
         /// </summary>
         /// <returns></returns>
         public int? MemberNumber { get; set; }
-        /// <summary>
-        /// OrderQuantityed
-        /// </summary>
-        /// <returns></returns>
-        public int? OrderQuantityed { get; set; }
-        /// <summary>
-        /// Productioned
-        /// </summary>
-        /// <returns></returns>
-        public int? Productioned { get; set; }
         /// <summary>
         /// CreateTime
         /// </summary>
@@ -132,12 +67,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// ModifiedTime
         /// </summary>
         /// <returns></returns>
-        public DateTime? ModifiedTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
         /// <summary>
         /// CollarNumbered
         /// </summary>
         /// <returns></returns>
-        public int? CollarNumbered { get; set; }
+        public int? CollarNumber { get; set; }
         /// <summary>
         /// CreateMan
         /// </summary>

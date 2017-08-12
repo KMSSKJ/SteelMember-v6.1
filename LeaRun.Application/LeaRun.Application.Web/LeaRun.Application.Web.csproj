@@ -170,7 +170,6 @@
     <Compile Include="App_Start\01 Handler\MvcControllerBase.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\AuthorizeManage\AuthorizeManageAreaRegistration.cs" />
@@ -203,8 +202,6 @@
     <Compile Include="Areas\PublicInfoManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ClassController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberDemandController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberMaterialController.cs" />
@@ -212,10 +209,7 @@
     <Compile Include="Areas\SteelMember\Controllers\MemberProductionOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberWarehouseRecordingController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberWarehouseController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\ProjectOrderController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProductionProcessController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialInventoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
@@ -225,17 +219,13 @@
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMterialCollarController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
-    <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
-    <Compile Include="Areas\SteelMember\Models\ListModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\MemberDemandModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\RawMaterialNumberModel.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberMaterialModel.cs" />
     <Compile Include="Areas\SteelMember\Models\OrderModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ProcessManagementModel.cs" />
-    <Compile Include="Areas\SteelMember\Models\ProduceOrderModel.cs" />
-    <Compile Include="Areas\SteelMember\Models\ProjectDemandModel.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberWarehouseModel.cs" />
     <Compile Include="Areas\SteelMember\Models\QRCodeModel.cs" />
-    <Compile Include="Areas\SteelMember\Models\QueryMemberModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialAnalysisModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialCollarModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialInventoryModel.cs" />
@@ -1018,7 +1008,6 @@
     <Content Include="Content\styles\learun-report.css" />
     <Content Include="Content\styles\learun-ui.css" />
     <Content Include="Content\styles\learun-webApp.css" />
-    <Content Include="Content\styles\learunui-framework.css" />
     <Content Include="Content\webApp\css\learun-appui.css" />
     <Content Include="Content\webApp\css\learun-iframe.css" />
     <Content Include="Content\webApp\css\learun-ionic.css" />
@@ -1080,6 +1069,7 @@
     <Content Include="Content\webApp\templates\model.html" />
     <Content Include="Content\webApp\templates\tabs.html" />
     <Content Include="Index.htm" />
+    <Content Include="Views\Web.config" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1308,6 +1298,11 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialOrder\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialOrder\ItemList.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialOrder\OrderForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProductionProcess\ReceiveOrderIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProductionProcess\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProductionProcess\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProductionProcess\OrderForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProductionProcess\ReceiveRawMaterialIndex.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />

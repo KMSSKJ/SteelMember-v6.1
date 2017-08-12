@@ -13,49 +13,47 @@
     
     //初始化控件
     function initControl() {
-        //加载原材料
-        $("#RawMaterialModel").ComboBox({
-            description: "==请选择==",
-            height: "200px",
-        });
-
         //原材料类型
         $("#TreeName").ComboBox({
             param: { EnCode: "RawMaterialType" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
             description: "==请选择==",
-            id: "ItemValue",
+            id: "ItemDetailId",
             text: "ItemName",
             height: "200px"
         }).bind("change", function () {
-            TreeId = $(this).attr('data-text');//$("#Category").attr('data-text'),
+            TreeId = $(this).attr('data-value');//$("#Category").attr('data-text'),
             //加载原材料
             $("#RawMaterialModel").ComboBox({
                 url: '../../SteelMember/MemberLibrary/GetRawMaterialJson',
                 param: { KeyValue: TreeId },
-                id: "RawMaterialModel",
+                id: "RawMaterialId",
                 text: "RawMaterialModel",
                 description: "==请选择==",
+                height: "200px",
             });
-        });
-
+            });
+     
         //获取表单
         if (!!RawMaterialModel) {
             var data = $.currentIframe("Form").RawMaterialModel(RawMaterialModel);
             $("#form1").SetWebControls(data);
-            $("#RawMaterialModel").ComboBoxSetValue(data.RawMaterialModel);
-
-            //$.SetForm({
-            //    url: "/SteelMember/RawMaterialLibrary/GetFormJson",
-            //    param: { keyValue: MemberId },
-            //    success: function (data) {
-            //        $("#form1").SetWebControls(data);
-            //    }
-            //});
+            $("#TreeName").ComboBoxSetValue(data.Category);
+            //加载原材料
+            $("#RawMaterialModel").ComboBox({
+                url: '../../SteelMember/MemberLibrary/GetRawMaterialJson',
+                param: { KeyValue: data.Category },
+                id: "RawMaterialId",
+                text: "RawMaterialModel",
+                description: data.RawMaterialName + "(" + data.RawMaterialModel +")",
+                height: "200px",
+            });
         } else {
-            //document.getElementById("#RawMaterialModel").innerHTML = data.RawMaterialModel;
-           
-        }
+            $("#RawMaterialModel").ComboBox({
+                description: "==请选择==",
+                height: "200px",
+            });
+        } 
     }
 
     //验证原材料不能重复
@@ -100,13 +98,13 @@
         }
     }
 
-
     //保存表单
     function AcceptClick(callback) {
         if (!$('#form1').Validform()) {
             return false;
         }
         var data = $("#form1").GetWebControls(RawMaterialModel);
+        data["TreeName"]=$("#TreeName").attr('data-value');
         if (data["TreeId"] == "") {
             data["TreeId"] = 0;
         }
@@ -114,31 +112,12 @@
         dialogClose();
     }
 
-    ////保存表单
-    //function AcceptClick() {
-    //    if (!$('#form1').Validform()) {
-    //        return false;
-    //    }
-    //    var postData = $("#form1").GetWebControls(keyValue);
-    //    if (postData["TreeId"] == "") {
-    //        postData["TreeId"] = 0;
-    //    }
-    //    $.SaveForm({
-    //        url: "/SteelMember/RawMaterialLibrary/SaveForm?keyValue=" + keyValue,
-    //        param: postData,
-    //        loading: "正在保存数据...",
-    //        success: function () {
-    //            $.currentIframe().$("#gridTable").resetSelection();
-    //            $.currentIframe().$("#gridTable").trigger("reloadGrid");
-    //        }
-    //    })
-    //}
-
 </script>
 <div style="margin-left: 10px; margin-top: 30px; margin-right: 30px;">
     <input id="MemberMaterialId" type="hidden" />
     <input id="RawMaterialId" type="hidden" />
     <input id="MemberId" type="hidden" />
+    @*<input id="MemberId" type="hidden" />*@
     <table class="form">
         <tr>
             <td class="formTitle">
@@ -148,6 +127,7 @@
                 <div id="TreeName" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
+
         <tr>
             <td class="formTitle">
                 材料规格或型号<font face="宋体">*</font>

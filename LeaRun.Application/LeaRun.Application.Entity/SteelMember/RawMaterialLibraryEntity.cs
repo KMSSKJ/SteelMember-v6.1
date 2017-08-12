@@ -17,11 +17,6 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string RawMaterialId { get; set; }
         /// <summary>
-        /// TreeId
-        /// </summary>
-        /// <returns></returns>
-        public string TreeId { get; set; }
-        /// <summary>
         /// ËùÊôÀà±ğ
         /// </summary>		
         public string Category { get; set; }

@@ -22,11 +22,12 @@ namespace LeaRun.Application.Service.SteelMember
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页</param>
+        /// <param name="IsReceive"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, string queryJson)
+        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, int IsReceive, string queryJson)
         {
-            var expression = LinqExtensions.True<MemberProductionOrderEntity>();
+           var expression = LinqExtensions.True<MemberProductionOrderEntity>();
             var queryParam = queryJson.ToJObject();
             //查询条件
             var BeginTime = queryParam["BeginTime"].ToDate();
@@ -52,9 +53,9 @@ namespace LeaRun.Application.Service.SteelMember
                 switch (condition)
                 {
 
-                    case "Category":              //构件类型
-                        expression = expression.And(t => t.Category.Contains(keyword));
-                        break;
+                    //case "CategoryName":              //工程名
+                    //    expression = expression.And(t => t.CategoryName.Contains(keyword));
+                    //    break;
                     case "CreateMan":              //构件名称
                         expression = expression.And(t => t.CreateMan.Contains(keyword));
                         break;
@@ -67,9 +68,14 @@ namespace LeaRun.Application.Service.SteelMember
             }
             if (!queryParam["SubProjectId"].IsEmpty())
             {
-                var SubProjectId = queryParam["SubProjectId"].ToString();
+                var SubProjectId =queryParam["SubProjectId"].ToString();
                 expression = expression.And(t => t.Category == SubProjectId);
             }
+            if (IsReceive!=2)
+            {
+                expression = expression.And(t => t.IsReceive == IsReceive);
+            }
+            
             return this.BaseRepository().FindList(expression, pagination);
         }
         ///// <summary>
@@ -240,7 +246,10 @@ namespace LeaRun.Application.Service.SteelMember
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 更新集合
+        /// </summary>
+        /// <param name="list"></param>
         public void UpdataList(List<MemberProductionOrderEntity> list)
         {
             this.BaseRepository().Update(list);
