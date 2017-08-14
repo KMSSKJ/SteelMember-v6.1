@@ -43,6 +43,7 @@
     //加载树
     var SubProject = "";
     var SubProjectId = "";
+    var HavesChildren = "";
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
@@ -53,6 +54,7 @@
             onnodeclick: function (item) {
                 SubProject = item.value;
                 SubProjectId = item.id;
+                HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
             }
         };
@@ -73,30 +75,30 @@
             colModel: [
                 { label: '主键', name: 'MemberId', index: 'MemberId', width: 100, align: 'left', sortable: true, hidden: true },
                 { label: '外键', name: 'SubProjectId', index: 'SubProjectId', width: 100, align: 'left', sortable: true, hidden: true },
-                {
-                    label: '图标', name: "Icon",
-                    formatter: function (cellvalue, options, rowObject) {
-                        var Icon = cellvalue;
-                        if (Icon != "" || Icon != null) {
-                            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            filename = filename + "/" + Icon;
+                //{
+                //    label: '图标', name: "Icon", hidden: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        var Icon = cellvalue;
+                //        if (Icon != "" || Icon != null) {
+                //            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
+                //            filename = filename + "/" + Icon;
 
-                            var filename1 = rowObject.CAD_Drawing.substring(0, rowObject.CAD_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            CADPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + rowObject.CAD_Drawing;
+                //            var filename1 = rowObject.CAD_Drawing.substring(0, rowObject.CAD_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                //            CADPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + rowObject.CAD_Drawing;
 
-                            var filename2 = rowObject.Model_Drawing.substring(0, rowObject.Model_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            ModelPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + rowObject.Model_Drawing;
+                //            var filename2 = rowObject.Model_Drawing.substring(0, rowObject.Model_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                //            ModelPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + rowObject.Model_Drawing;
 
-                            if (Icon == "1.png") {
-                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
-                            } else {
-                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
-                            }
-                        } else {
-                            return "";
-                        }
-                    }
-                },
+                //            if (Icon == "1.png") {
+                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
+                //            } else {
+                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
+                //            }
+                //        } else {
+                //            return "";
+                //        }
+                //    }
+                //},
                 { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 100, align: 'left', sortable: true },
                 { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
                 { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
@@ -238,26 +240,19 @@
         }
     }
 
-    //导出文件
-    var JsonData1 = ""; var TableObject = "";
+    //导出
     function btn_derive() {
-        SetDeriveExcel("#gridTable", "构件信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
         dialogOpen({
-            id: "DeriveFile",
-            title: '构件信息导出',
-            url: '/Utility/DeriveFile',
-            width: "700px",
-            height: "435px",
+            id: "ExcelIExportDialog",
+            title: '导出Excel数据',
+            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("构件库导出"),
+            width: "500px",
+            height: "380px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
-            },
-           // btn: null
+            }, btn: ['导出Excel', '关闭']
         });
-        //openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "构件信息导出", 900, 500, function (iframe) {
-        //    top.frames[iframe].AcceptClick();
-        //})
     }
-
     //构件分类
     function btn_membercategory() {
         dialogOpen({

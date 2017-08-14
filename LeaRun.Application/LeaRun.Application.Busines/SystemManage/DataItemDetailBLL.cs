@@ -117,6 +117,26 @@ namespace LeaRun.Application.Busines.SystemManage
                 throw;
             }
         }
+        /// <summary>
+        /// 保存明细表单（新增、修改）并返回主键
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="dataItemDetailEntity">明细实体</param>
+        /// <returns></returns>
+        public string ReturnSaveForm(string keyValue, DataItemDetailEntity dataItemDetailEntity)
+        {
+            try
+            {
+                dataItemDetailEntity.SimpleSpelling = Str.PinYin(dataItemDetailEntity.ItemName);
+                var data=service.ReturnSaveForm(keyValue, dataItemDetailEntity);
+                CacheFactory.Cache().RemoveCache(cacheKey);
+                return data;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }

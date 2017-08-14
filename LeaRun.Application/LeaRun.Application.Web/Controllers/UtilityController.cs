@@ -31,10 +31,7 @@ namespace LeaRun.Application.Web.Controllers
         {
             return View();
         }
-        public ActionResult DeriveFile()
-        {
-            return View();
-        }
+       
         /// <summary>
         /// 执行导出Excel
         /// </summary>

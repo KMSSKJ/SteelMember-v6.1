@@ -134,6 +134,26 @@ namespace LeaRun.Application.Service.SystemManage
                 this.BaseRepository().Insert(dataItemDetailEntity);
             }
         }
+        /// <summary>
+        /// 保存明细表单（新增、修改）并返回
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="dataItemDetailEntity">明细实体</param>
+        /// <returns></returns>
+        public string ReturnSaveForm(string keyValue, DataItemDetailEntity dataItemDetailEntity)
+        {
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                dataItemDetailEntity.Modify(keyValue);
+                this.BaseRepository().Update(dataItemDetailEntity);
+            }
+            else
+            {
+                dataItemDetailEntity.Create();
+                this.BaseRepository().Insert(dataItemDetailEntity);
+            }
+            return dataItemDetailEntity.ItemDetailId;
+        }
         #endregion
     }
 }
