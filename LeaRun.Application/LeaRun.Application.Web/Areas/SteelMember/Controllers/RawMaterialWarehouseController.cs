@@ -91,7 +91,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                         RawmaterialWarehouseModel.RawMaterialModel = item.RawMaterialModel;
                         RawmaterialWarehouseModel.RawMaterialStandard = item.RawMaterialStandard;
-                        RawmaterialWarehouseModel.Category = item.Category;
+                        //RawmaterialWarehouseModel.Category = item.Category;
+                        RawmaterialWarehouseModel.Category = item.RawMaterialName;
                         RawmaterialWarehouseModel.Unit = item.Unit;
 
                         list.Add(RawmaterialWarehouseModel);
