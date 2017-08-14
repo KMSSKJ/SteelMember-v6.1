@@ -10,7 +10,12 @@
         $.each(columnModel, function (i) {
             var label = columnModel[i].label;
             var name = columnModel[i].name;
-            var hidden = columnModel[i].hidden;
+            var hidden;
+            if (name == "Icon") {
+                hidden = true;
+            } else {
+                hidden = columnModel[i].hidden;
+            }
             if (!!label && hidden == false) {
                 $(".sys_spec_text").append("<li data-value='" + name + "' title='" + label + "'><a>" + label + "</a><i></i></li>");
             }
@@ -47,6 +52,5 @@
     </div>
 </div>
 <div style="margin: 5px;">
-    <ul class="sys_spec_text">
-    </ul>
+    <ul class="sys_spec_text"></ul>
 </div>

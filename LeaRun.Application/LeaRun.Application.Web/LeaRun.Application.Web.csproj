@@ -1251,7 +1251,6 @@
     <Content Include="Areas\SteelMember\Views\MemberProcess\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\ImportFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\UpLoadFile.cshtml" />
-    <Content Include="Views\Utility\DeriveFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />

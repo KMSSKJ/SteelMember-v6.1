@@ -15,6 +15,8 @@ using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Application.Busines.SystemManage;
 using System.Threading;
 using LeaRun.Application.Code;
+using LeaRun.Application.Cache;
+using LeaRun.Application.Entity.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -34,6 +36,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
         private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
         private DataItemBLL dataitembll = new DataItemBLL();
+        private DataItemCache dataItemCache = new DataItemCache();
 
         #region 视图功能
         /// <summary>
@@ -230,8 +233,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberId = item.MemberId,
                     RawMaterialId = item.RawMaterialId,
                     RawMaterialNumber = item.RawMaterialNumber,
-                    Category = item.TreeName,
-                    TreeName = dataitemdetailbll.GetEntity(item.TreeName).ItemName,
+                    Category = item.Category,
+                    TreeName = dataitemdetailbll.GetEntity(item.Category).ItemName,
                     RawMaterialName = rawmateriallibrary.RawMaterialName,
                     RawMaterialModel = rawmateriallibrary.RawMaterialModel,
                 };
@@ -259,7 +262,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     RawMaterialId = data[i].RawMaterialId,
                     RawMaterialNumber = data[i].RawMaterialNumber,
                     RawMaterialName = rawmateriallibrary.RawMaterialName,
-                    Category= rawmateriallibrary.Category, 
+                    Category = rawmateriallibrary.Category,
                     TreeName = dataitemdetailbll.GetEntity(rawmateriallibrary.Category).ItemName,
                     RawMaterialModel = rawmateriallibrary.RawMaterialModel,
                     UnitName = rawmateriallibrary.Unit,
@@ -271,11 +274,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// 获取原材料
+        /// 获取原材料列表
         /// </summary>
         /// <param name="KeyValue"></param>
         /// <returns></returns>
-        public virtual ActionResult GetRawMaterialJson(string KeyValue)
+        public virtual ActionResult GetRawMaterialJsonList(string KeyValue)
         {
             var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
             if (!string.IsNullOrEmpty(KeyValue.Trim()))
@@ -286,9 +289,21 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var JsonData = RawMaterial.Select(p => new
             {
                 RawMaterialId = p.RawMaterialId,
-                RawMaterialModel =p.RawMaterialName+"(" +p.RawMaterialModel + ")",
+                RawMaterialModel = p.RawMaterialName + "(" + p.RawMaterialModel + ")",
             });
             return ToJsonResult(JsonData);
+        }
+
+        /// <summary>
+        /// 获取原材料
+        /// </summary>
+        /// <param name="KeyValue"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public virtual ActionResult GetRawMaterialJson(string KeyValue)
+        {
+            var RawMaterial = rawmateriallibrarybll.GetEntity(KeyValue);
+            return ToJsonResult(RawMaterial);
         }
 
         #endregion
@@ -457,11 +472,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 foreach (var item in data1)
                 {
-                    var data2 = rawmateriallibrarybll.GetList(f => f.RawMaterialModel == item.RawMaterialModel).Find(f => f.RawMaterialModel == item.RawMaterialModel);
                     var _MemberLibraryEntity = new MemberMaterialEntity()
                     {
                         MemberId = MemberId,
-                        RawMaterialId = data2.RawMaterialId,
+                        RawMaterialId = item.RawMaterialId,
                         RawMaterialNumber = item.RawMaterialNumber,
                         UpdateTime = DateTime.Now
                     };
@@ -557,7 +571,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 myCommand.Fill(myDataSet, "ExcelInfo");
                 // Data.Deleted();
                 DataTable table = myDataSet.Tables["ExcelInfo"].DefaultView.ToTable();
-                if (table.Columns.Count != 37)
+                if (table.Columns.Count != 6)
                 {
                     return Content("文件数据格式不正确");
                 }
@@ -582,6 +596,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         {
                             string MemberName = table.Rows[i][0].ToString().Trim();
                             string Category = table.Rows[i][1].ToString().Trim();
+
                             var _MemberLibrary = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberName == MemberName && f.Category == Category);
                             if (_MemberLibrary == null)
                             {
@@ -591,22 +606,68 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 //生成构件编号
                                 string str = "";
                                 string str1 = "";
-                                var data = subprojectbll.GetList(null).ToList().Find(f => f.Id == KeyValue);
-                                str = Str.PinYin(data.FullName.Substring(0, 1) + table.Rows[i][1].ToString().Substring(0, 1)).ToUpper().Trim();
+                                str = DateTime.Now.ToString("yyyyMMdd");
                                 int Num = 1;
-                                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.EngineeringId == KeyValue);
+                                var MemberList = memberlibrarybll.GetList(null).ToList().FindAll(f => f.MemberId != "");
                                 Num = Num + MemberList.Count();
 
-                                for (int i0 = 0; i0 < 4 - Num.ToString().Length; i0++)
+                                for (int i1 = 0; i1 < 6 - Num.ToString().Length; i1++)
                                 {
                                     str1 += "0";
                                 }
+                                MemberLibrary.MarkId = Num;
                                 MemberLibrary.MemberNumbering = str + str1 + Num.ToString();
                                 //end
-                                MemberLibrary.MarkId = Num;
+                                MemberLibrary.IsRawMaterial = 0;
+                                MemberLibrary.IsProcess = 0;
                                 MemberLibrary.MemberName = table.Rows[i][0].ToString().Trim();
-                                MemberLibrary.Category = table.Rows[i][1].ToString().Trim();
-                                //MemberLibrary.MemberUnit = table.Rows[i][2].ToString().Trim();
+                                //自动获取构件所属工程类型ID
+                                var category = dataItemCache.GetDataItemList("MemberType");
+                                if (table.Rows[i][1].ToString().Trim().Count() > 0)
+                                {
+                                    var _category = category.Where(w => w.ItemName == table.Rows[i][1].ToString().Trim()).SingleOrDefault();
+                                    if (_category != null)
+                                    {
+                                        MemberLibrary.Category = _category.ItemDetailId;
+                                    }
+                                    else
+                                    {
+                                        return Content("操作失败：系统中不存在"+table.Rows[i][1].ToString().Trim()+"的所属工程类型");
+                                    }
+                                }
+                                else
+                                {
+                                    return Content("操作失败：要导入的数据中所属工程类型长度为0");
+                                }
+                                //end
+
+                                //自动获取计量单位ID,没有就添加
+                                var MemberUnit = dataItemCache.GetDataItemList("UnitName");
+                                var a = MemberUnit.FirstOrDefault();
+                                if (table.Rows[i][2].ToString().Trim().Count() < 4&& table.Rows[i][2].ToString().Trim().Count() > 0)
+                                {
+                                    var Unit = MemberUnit.Where(w => w.ItemName == table.Rows[i][2].ToString().Trim()).SingleOrDefault();
+                                    if (Unit != null)
+                                    {
+                                        MemberLibrary.UnitId = Unit.ItemDetailId;
+                                    }
+                                    else
+                                    {
+                                        var DataItemDetail = new DataItemDetailEntity()
+                                        {
+                                            ItemId = a.ItemId,
+                                            ItemName = table.Rows[i][2].ToString().Trim(),
+                                            ItemValue = table.Rows[i][2].ToString().Trim()
+                                        };
+                                        var UnitId = dataitemdetailbll.ReturnSaveForm("", DataItemDetail);
+                                        MemberLibrary.UnitId = UnitId;
+                                    }
+                                }
+                                else
+                                {
+                                    return Content("操作失败：要导入的单位数据"+table.Rows[i][2].ToString().Trim()+ "数据长度过大");
+                                }
+                                //end
                                 string CAD_Drawing = "1.png";
                                 string Model_Drawing = "1.png";
                                 string Icon = "1.png";
@@ -641,7 +702,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 MemberLibrary.Icon = Icon;
                                 MemberLibrary.IsProcess = 0;
                                 MemberLibrary.IsRawMaterial = 0;
-                                memberlibrarybll.SaveForm("", MemberLibrary);
+                                var memberId = memberlibrarybll.SaveForm("", MemberLibrary);
+
+                                var entitys1 = new MemberWarehouseEntity()
+                                {
+                                    MemberId= memberId,
+                                    InStock = 0,
+                                    EngineeringId = KeyValue,
+                                    UpdateTime = DateTime.Now,
+                                };
+                                memberwarehousebll.SaveForm("", entitys1);
                             }
                             else
                             {

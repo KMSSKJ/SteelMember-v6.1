@@ -314,19 +314,19 @@
             })
             //编辑
             $("#lr-edit-RawMaterial").click(function () {
-                var RawMaterialModel = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialModel");
+                var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
                 var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
-                if (checkedRow(RawMaterialModel)) {
+                if (checkedRow(RawMaterialId)) {
                     dialogOpen({
                         id: "RawMaterialNumForm",
                         title: '编辑目录',
-                        url: '/SteelMember/MemberLibrary/RawMaterialNumForm?RawMaterialModel=' + RawMaterialModel + '&MemberId=' + KeyValue+ '&type=edit',
+                        url: '/SteelMember/MemberLibrary/RawMaterialNumForm?RawMaterialId=' + RawMaterialId + '&MemberId=' + KeyValue+ '&type=edit',
                         width: "450px",
                         height: "400px",
                         callBack: function (iframeId) {
                             top.frames[iframeId].AcceptClick(function (data) {
                                 $.each(RawMaterialJson, function (i) {
-                                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
+                                    if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
                                         RawMaterialJson[i] = data;
                                     }
                                 });
@@ -338,10 +338,10 @@
             })
             //删除
             $("#lr-delete-RawMaterial").click(function () {
-                var RawMaterialModel = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialModel");
-                if (checkedRow(RawMaterialModel)) {
+                var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
+                if (checkedRow(RawMaterialId)) {
                     $.each(RawMaterialJson, function (i) {
-                        if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
+                        if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
                             RawMaterialJson.splice(i, 1);
                             RawMaterialListToListTreeJson(RawMaterialJson);
                             return false;
@@ -350,7 +350,6 @@
                 }
             });
         }
-
 
         /*添加原材料结束====================================*/
     //验证构件
@@ -412,11 +411,11 @@
          }
 
         //返回原材料实体
-        function RawMaterialModel(RawMaterialModel) {
+        function RawMaterialModel(RawMaterialId) {
             var data;
             if (RawMaterialJson.length > 0) {
                 $.each(RawMaterialJson, function (i) {
-                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
+                    if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
                         data = RawMaterialJson[i];
                     } else {
                         data = 0;

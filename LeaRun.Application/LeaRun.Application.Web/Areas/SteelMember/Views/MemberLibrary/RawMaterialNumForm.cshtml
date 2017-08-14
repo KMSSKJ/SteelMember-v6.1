@@ -5,7 +5,7 @@
 <script>
     var TreeId;
     var MemberId = request('MemberId');
-    var RawMaterialModel = request('RawMaterialModel');
+    var RawMaterialId = request('RawMaterialId');
     $(function () {
         initControl();
     })
@@ -25,7 +25,7 @@
             TreeId = $(this).attr('data-value');//$("#Category").attr('data-text'),
             //加载原材料
             $("#RawMaterialModel").ComboBox({
-                url: '../../SteelMember/MemberLibrary/GetRawMaterialJson',
+                url: '../../SteelMember/MemberLibrary/GetRawMaterialJsonList',
                 param: { KeyValue: TreeId },
                 id: "RawMaterialId",
                 text: "RawMaterialModel",
@@ -35,13 +35,27 @@
             });
      
         //获取表单
-        if (!!RawMaterialModel) {
-            var data = $.currentIframe("Form").RawMaterialModel(RawMaterialModel);
+        if (!!RawMaterialId) {
+            var data = $.currentIframe("Form").RawMaterialModel(RawMaterialId);
             $("#form1").SetWebControls(data);
             $("#TreeName").ComboBoxSetValue(data.Category);
+            $.ajax({
+                url: '../../SteelMember/MemberLibrary/GetRawMaterialJson',
+                data: { KeyValue: data.RawMaterialId },
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#RawMaterialModel").ComboBox({
+                        description: data.RawMaterialName + "(" + data.RawMaterialModel + ")",
+                        height: "200px",
+                    });
+                }
+            });
+             
             //加载原材料
             $("#RawMaterialModel").ComboBox({
-                url: '../../SteelMember/MemberLibrary/GetRawMaterialJson',
+                url: '../../SteelMember/MemberLibrary/GetRawMaterialJsonList',
                 param: { KeyValue: data.Category },
                 id: "RawMaterialId",
                 text: "RawMaterialModel",
@@ -104,7 +118,9 @@
             return false;
         }
         var data = $("#form1").GetWebControls(RawMaterialModel);
-        data["TreeName"]=$("#TreeName").attr('data-value');
+        //data["TreeName"] = $("#TreeName").attr('data-value');
+        data["Category"] = $("#TreeName").attr('data-value');
+        data["RawMaterialId"] = $("#RawMaterialModel").attr('data-value');
         if (data["TreeId"] == "") {
             data["TreeId"] = 0;
         }
@@ -117,7 +133,7 @@
     <input id="MemberMaterialId" type="hidden" />
     <input id="RawMaterialId" type="hidden" />
     <input id="MemberId" type="hidden" />
-    @*<input id="MemberId" type="hidden" />*@
+    <input id="Category" type="hidden" />
     <table class="form">
         <tr>
             <td class="formTitle">
