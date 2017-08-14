@@ -22,8 +22,6 @@
                 { label: '所属工程', name: 'CollarEngineering', index: 'CollarEngineering', width: 80, align: 'center', sortable: true },
                 { label: '出库类型', name: 'CollarType', index: 'CollarType', width: 80, align: 'center', sortable: true },     
                 { label: '材料类型', name: 'Category', index: 'Category', width: 80, align: 'center', sortable: true },
-                { label: '型号', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 80, align: 'center', sortable: true },
-                { label: '规格', name: 'RawMaterialStandard', index: 'RawMaterialStandard', width: 80, align: 'center', sortable: true },
                 { label: '出库数量', name: 'CollarQuantity', index: 'CollarQuantity', width: 80, align: 'center', sortable: true },
                 { label: '单位', name: 'Unit', index: 'Unit', width: 80, align: 'center', sortable: true },
                 { label: '领用人', name: 'CollarMan', index: 'CollarMan', width: 80, align: 'center', sortable: true },
@@ -79,6 +77,19 @@
                         <tbody>
                             <tr>
                                 <td>
+                                    <label>时间(起)</label>
+                                </td>
+                                <td>
+                                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                                </td>
+                                <td>
+                                    <label style="margin-left:5px">时间(束)</label>
+                                </td>
+                                <td>
+                                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                                </td>
+
+                                <td>
                                     <input id="txt_Keyword" type="text" class="form-control" onkeyup="QueryByInputRawMaterialCategory()" placeholder="请输入材料类型" style="width:150px" />
                                 </td>
                                 <td style="padding-left:5px;">
@@ -87,28 +98,15 @@
                                         查询
                                     </a>
                                 </td>
-                                <td>
-
-                                    <label style="margin-left:20px">时间(起)</label>
-                                </td>
-                                <td>
-                                    <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
-                                </td>
-                                <td>
-
-                                    <label style="margin-left:10px">时间(束)</label>
-                                </td>
-                                <td>
-                                    <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
-                                </td>
-                                <td style="padding-left:5px;">
+                                
+                                @*<td style="padding-left:5px;">
                                     <a id="btn_SearchBytime" onclick="btn_SearchBytime()" class="btn btn-primary">
                                         <i class="fa fa-search"></i>
                                         查询
 
 
                                     </a>
-                                </td>
+                                </td>*@
                             </tr>
 
                         </tbody>

@@ -25,25 +25,7 @@ namespace LeaRun.Data.Entity
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<RMC_Collar> RMC_Collar { get; set; }
-        public virtual DbSet<RMC_CollarMember> RMC_CollarMember { get; set; }
-        public virtual DbSet<RMC_FactoryWarehouse> RMC_FactoryWarehouse { get; set; }
-        public virtual DbSet<RMC_MemberUnit> RMC_MemberUnit { get; set; }
-        public virtual DbSet<RMC_ProjectInfo> RMC_ProjectInfo { get; set; }
-        public virtual DbSet<RMC_ProjectOrder> RMC_ProjectOrder { get; set; }
-        public virtual DbSet<RMC_Purchase> RMC_Purchase { get; set; }
-        public virtual DbSet<RMC_RawMaterialAnalysis> RMC_RawMaterialAnalysis { get; set; }
-        public virtual DbSet<RMC_RawMaterialLibrary> RMC_RawMaterialLibrary { get; set; }
-        public virtual DbSet<RMC_RawMaterialPurchase> RMC_RawMaterialPurchase { get; set; }
-        public virtual DbSet<RMC_Tree> RMC_Tree { get; set; }
-        public virtual DbSet<RMC_AnalysisRawMaterial> RMC_AnalysisRawMaterial { get; set; }
-        public virtual DbSet<RMC_ProjectWarehouse> RMC_ProjectWarehouse { get; set; }
-        public virtual DbSet<RMC_MemberProcess> RMC_MemberProcess { get; set; }
-        public virtual DbSet<RMC_OrderMember> RMC_OrderMember { get; set; }
-        public virtual DbSet<RMC_ProjectDemand> RMC_ProjectDemand { get; set; }
-        public virtual DbSet<RMC_ShipManagement> RMC_ShipManagement { get; set; }
-        public virtual DbSet<RMC_ProcessManagement> RMC_ProcessManagement { get; set; }
-        public virtual DbSet<RMC_MemberMaterial> RMC_MemberMaterial { get; set; }
         public virtual DbSet<RMC_MemberLibrary> RMC_MemberLibrary { get; set; }
+        public virtual DbSet<RMC_SubProject> RMC_SubProject { get; set; }
     }
 }

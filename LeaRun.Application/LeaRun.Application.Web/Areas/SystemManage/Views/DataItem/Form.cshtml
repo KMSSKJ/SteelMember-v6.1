@@ -18,6 +18,7 @@
         });
         //获取表单
         if (!!keyValue) {
+         
             $.SetForm({
                 url: "../../SystemManage/DataItem/GetFormJson",
                 param: { keyValue: keyValue },
@@ -25,6 +26,8 @@
                     $("#form1").SetWebControls(data);
                 }
             });
+            //document.getElementById("ItemCode").style.readOnly = "readOnly";
+             $("#ItemCode").attr("readOnly", false);
         } else {
             $("#ParentId").ComboBoxTreeSetValue(parentId);
         }
@@ -65,8 +68,8 @@
         </tr>
         <tr>
             <td class="formTitle">编号<font face="宋体">*</font></td>
-            <td class="formValue">
-                <input id="ItemCode" type="text" onblur="$.ExistField(this.id,'../../SystemManage/DataItem/ExistItemCode')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
+            <td @*class="formValue"*@>
+                <input readonly="readonly" id="ItemCode" type="text" onblur="$.ExistField(this.id,'../../SystemManage/DataItem/ExistItemCode')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
             </td>
         </tr>
         <tr>

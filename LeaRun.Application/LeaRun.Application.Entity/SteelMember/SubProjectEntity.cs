@@ -1,5 +1,6 @@
 using System;
 using LeaRun.Application.Code;
+using System.Collections.Generic;
 
 namespace LeaRun.Application.Entity.SteelMember
 {
@@ -31,6 +32,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string FullName { get; set; }
+
         #endregion
 
         #region À©Õ¹²Ù×÷
