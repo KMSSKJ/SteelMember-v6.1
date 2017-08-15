@@ -37,6 +37,8 @@ namespace LeaRun.Application.Service.SteelMember
             }
             if (!queryParam["Category"].IsEmpty())
             {
+                //string Category = queryParam["Category"].ToString();
+                //expression = expression.And(t => t.Category == Category);
                 string Category = queryParam["Category"].ToString();
                 expression = expression.And(t => t.Category == Category);
             }

@@ -131,15 +131,27 @@ namespace LeaRun.Util
             string[] FieldInfo = ExportField.Split(',');
 
             //写出表头
+            //sbHtml.AppendLine("<tr style=\"font-weight:700; white-space: nowrap;\">");
             sbHtml.AppendLine("<tr style=\"font-weight:700; white-space: nowrap;\">");
-            int Column = FieldInfo.Count()-1;
+            //int Column = FieldInfo.Count()-1;
+            int Column = FieldInfo.Count();
 
-            sbHtml.AppendLine("<td colspan=" + Column + " style=\"height:40px;text-align:center \">" + TableHeader + "</td>");
+            //sbHtml.AppendLine("<td colspan=" + Column + " style=\"height:40px;text-align:center;font-family:'宋体';font-size:21px;font-weight:bolder\">" + TableHeader + "</td>");
+            //sbHtml.AppendLine("</tr>");
+
+            sbHtml.AppendLine("<td colspan=" + Column + " style=\"height:40px;text-align:center;font-family:'宋体';font-size:21px;font-weight:bolder\">" + fileName + "</td>");
             sbHtml.AppendLine("</tr>");
 
-            sbHtml.AppendLine("<tr style=\"font-weight:300;; white-space: nowrap;\">");
-            sbHtml.AppendLine("<td colspan=" + Column + " style=\"height:25px;text-align:center \">" + fileName + "</td>");
+            sbHtml.AppendLine("<td colspan=" + Column/2 + " style=\"height:40px;text-align:center;font-size:14px\">" + "工程名称:" + "</td>");
+            sbHtml.AppendLine("<td colspan=" + Column/2 + " style=\"height:40px;text-align:center;font-size:14px \">" +"合同段及桩号:" + "</td>");
             sbHtml.AppendLine("</tr>");
+
+            sbHtml.AppendLine("<td colspan=" + Column/2 + " style=\"height:40px;text-align:center;font-size:14px \">" + "施工单位:" + "</td>");
+            sbHtml.AppendLine("<td colspan=" + Column/2 + " style=\"height:40px;text-align:center;font-size:14px \">" + "编号:bbbb00001" + "</td>");
+            sbHtml.AppendLine("</tr>");
+            //sbHtml.AppendLine("<tr style=\"font-weight:300;; white-space: nowrap;\">");
+            //sbHtml.AppendLine("<td colspan=" + Column + " style=\"height:25px;text-align:center \">" + fileName + "</td>");
+            //sbHtml.AppendLine("</tr>");
 
             //写副表
             if (TableObject != null) {
@@ -192,6 +204,7 @@ namespace LeaRun.Util
                         if (jqgridcolumn.hidden.ToLower() == "false" && jqgridcolumn.label != null)
                         {
                             object text = row[jqgridcolumn.name];
+
                             sbHtml.Append("<td style=\"width:" + jqgridcolumn.width + "px;text-align:" + jqgridcolumn.align + ";border:solid\">").Append(text).Append("</td>");
                         }
                     }
