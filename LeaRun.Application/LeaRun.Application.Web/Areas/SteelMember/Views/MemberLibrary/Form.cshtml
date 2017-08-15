@@ -80,9 +80,11 @@
 
          /*添加构件开始====================================*/
         //工程类型
-        $("#EngineeringId").ComboBoxTree({
-            param: { Levels: 1 },
-            url: '../../SteelMember/SubProject/GetTreeJson',
+        $("#EngineeringId").ComboBox({
+            param: { EnCode: "EngineeringType"  },
+            url: '../../SystemManage/DataItemDetail/GetDataItemListJson',
+            id: "ItemDetailId",
+            text: "ItemName",
             description: "==请选择==",
             height: "200px",
             allowSearch: true,
@@ -93,16 +95,16 @@
             param: { EnCode: "MemberType" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
             description: "==请选择==",
-            id: "ItemDetailId",
+            id: "ItemValue",
             text: "ItemName",
             height: "230px"
         });
 
         //加载单位
-        $("#UnitId").ComboBox({
+        $("#MemberUnit").ComboBox({
             param: { EnCode: "UnitName" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemDetailId",
+            id: "ItemValue",
             text: "ItemName",
             description: "==请选择==",
             height: "200px",
@@ -144,13 +146,13 @@
                         $("#form1").SetWebControls(data);
                         $("#EngineeringId").ComboBoxSetValue(data.EngineeringId);//.trigger("change");
                         $("#Category").ComboBoxTreeSetValue(data.Category);
-                        $("#UnitId").ComboBoxTreeSetValue(data.UnitId);
+                        $("#MemberUnit").ComboBoxTreeSetValue(data.MemberUnit);
                     }
                 });
             } else {
-            $("#EngineeringId").ComboBoxTreeSetValue(SubProjectId);
+            $("#EngineeringId").ComboBoxSetValue(SubProjectId);
                 ////获取单位
-                //$("#UnitId").ComboBox({
+                //$("#MemberUnit").ComboBox({
                 //    url: "../../SteelMember/ProjectManagement/GetMemderUnit",
                 //    id: "UnitId",
                 //    text: "UnitName",
@@ -272,7 +274,6 @@
                     { label: "外键", name: "MemberId", hidden: true },
                     { label: "外键", name: "TreeId", hidden: true },
                     { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
-                    { label: "材料名称", name: "RawMaterialName", width: 140, align: "left", sortable: false },
                     { label: "型号/规格", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
                     { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false },
                 ],
@@ -314,19 +315,19 @@
             })
             //编辑
             $("#lr-edit-RawMaterial").click(function () {
-                var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
+                var RawMaterialModel = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialModel");
                 var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
-                if (checkedRow(RawMaterialId)) {
+                if (checkedRow(RawMaterialModel)) {
                     dialogOpen({
                         id: "RawMaterialNumForm",
                         title: '编辑目录',
-                        url: '/SteelMember/MemberLibrary/RawMaterialNumForm?RawMaterialId=' + RawMaterialId + '&MemberId=' + KeyValue+ '&type=edit',
+                        url: '/SteelMember/MemberLibrary/RawMaterialNumForm?RawMaterialModel=' + RawMaterialModel + '&MemberId=' + KeyValue+ '&type=edit',
                         width: "450px",
                         height: "400px",
                         callBack: function (iframeId) {
                             top.frames[iframeId].AcceptClick(function (data) {
                                 $.each(RawMaterialJson, function (i) {
-                                    if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
+                                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
                                         RawMaterialJson[i] = data;
                                     }
                                 });
@@ -338,10 +339,10 @@
             })
             //删除
             $("#lr-delete-RawMaterial").click(function () {
-                var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
-                if (checkedRow(RawMaterialId)) {
+                var RawMaterialModel = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialModel");
+                if (checkedRow(RawMaterialModel)) {
                     $.each(RawMaterialJson, function (i) {
-                        if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
+                        if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
                             RawMaterialJson.splice(i, 1);
                             RawMaterialListToListTreeJson(RawMaterialJson);
                             return false;
@@ -351,11 +352,12 @@
             });
         }
 
+
         /*添加原材料结束====================================*/
     //验证构件
         $._ExistField = function (controlId, url, param) {
             var SubProjectId = $("#EngineeringId").attr('data-value');
-            var Category = $("#Category").attr('data-value');
+            var Category = $("#Category").attr('data-text');
             if (controlId != "MemberName") {
                 controlId = "MemberName";
             }
@@ -411,11 +413,11 @@
          }
 
         //返回原材料实体
-        function RawMaterialModel(RawMaterialId) {
+        function RawMaterialModel(RawMaterialModel) {
             var data;
             if (RawMaterialJson.length > 0) {
                 $.each(RawMaterialJson, function (i) {
-                    if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
+                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
                         data = RawMaterialJson[i];
                     } else {
                         data = 0;
@@ -438,8 +440,8 @@
             }
             var postData = $("#form1").GetWebControls(KeyValue);
             postData["EngineeringId"] = $("#EngineeringId").attr('data-value');
-            postData["Category"] = $("#Category").attr('data-value');
-            postData["UnitId"] = $("#UnitId").attr('data-value');
+            postData["Category"] = $("#Category").attr('data-text');
+            postData["MemberUnit"] = $("#MemberUnit").attr('data-text');
             postData["MemberRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
             $.SaveForm({
                 url: "../../SteelMember/MemberLibrary/SaveForm?KeyValue=" + KeyValue,
@@ -480,8 +482,7 @@
                         工程类型<font face="宋体">*</font>
                     </td>
                     <td class="formValue">
-                        <div id="EngineeringId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-
+                        <div id="EngineeringId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
                     <td class="formTitle">
                         构件类型<font face="宋体">*</font>
@@ -498,14 +499,20 @@
                         <input id="MemberName" type="text" onblur="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMember')" class="form-control" placeholder="请输入构件名称" isvalid="yes" checkexpession="NotNull" />
                     </td>
                     <td class="formTitle">
+                        规格或型号<font face="宋体">*</font>
+                    </td>
+                    <td class="formValue">
+                        <input id="MemberModel" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="formTitle">
                         构件单位<font face="宋体">*</font>
                     </td>
                     <td class="formValue">
-                        <div id="UnitId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                        <div id="MemberUnit" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
-                </tr>
-                <tr>
-                  
                     @*<td class="formTitle">
                             单价<font face="宋体">*</font>
                         </td>

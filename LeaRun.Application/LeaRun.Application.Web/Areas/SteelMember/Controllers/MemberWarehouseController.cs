@@ -7,7 +7,6 @@ using LeaRun.Application.Code;
 using System;
 using System.Collections.Generic;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
-using System.Linq;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -91,29 +90,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var datatabel = new List<MemberWarehouseModel>();
             var data = memberwarehousebll.GetPageList(pagination, queryJson);
-            if (data.Count() > 0)
-            {
-                var MemberWarehouse = new MemberWarehouseModel();
-                foreach (var item in data)
-                {
-                    var MemberLibrar = memberlibrarybll.GetEntity(item.MemberId);
-                    MemberWarehouse.MemberName = MemberLibrar.MemberName;
-                    MemberWarehouse.Category = MemberLibrar.Category;
-                    //MemberWarehouse.MemberUnit = MemberLibrar.Unit.ItemName;
-                    MemberWarehouse.InStock = item.InStock;
-                    MemberWarehouse.Librarian= item.Librarian;
-                    MemberWarehouse.UpdateTime = item.UpdateTime;
-                    MemberWarehouse.Description = MemberLibrar.Description;
-                    datatabel.Add(MemberWarehouse);
-                }
-            }
-
-
             var jsonData = new
             {
-                rows = datatabel,
+                rows = data,
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records,
@@ -187,9 +167,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberWarehouse.MemberId = item.MemberId;
                     MemberWarehouse.ProductionQuantity =Convert.ToInt32(item.ProductionQuantity);
                     MemberWarehouse.Category = data1.Category;
+                    MemberWarehouse.MemberModel = data1.MemberModel;
                     MemberWarehouse.MemberName = data1.MemberName;
                     MemberWarehouse.MemberNumbering = data1.MemberNumbering;
-                    //MemberWarehouse.MemberUnit = data1.Unit.ItemName;
+                    MemberWarehouse.MemberUnit = data1.MemberUnit;
                     MemberWarehouseModelList.Add(MemberWarehouse);
                 }
             }
@@ -253,9 +234,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             //先加到入库管理中
                             MemberWarehouseRecordingEntity warehouseRecording = new MemberWarehouseRecordingEntity();
                             string keyValue1 = null;
+                            warehouseRecording.Category = memberinfo.Category;
+                            warehouseRecording.MemberUnit = memberinfo.MemberUnit;
                             warehouseRecording.Librarian = OperatorProvider.Provider.Current().UserName;
                             warehouseRecording.MemberId = memberinfo.MemberId;
                             warehouseRecording.UpdateTime = System.DateTime.Now;
+                            warehouseRecording.MemberModel = memberinfo.MemberModel;
+                            warehouseRecording.MemberName = memberinfo.MemberName;
                             warehouseRecording.ToReportPeople = orderinfo.CreateMan;
                             warehouseRecording.Receiver = "1111";
                             warehouseRecording.ReceiverTel = "11111111111111";
@@ -323,6 +308,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var MemberLibrary = memberlibrarybll.GetList(null).Find(f => f.MemberId == MemberWarehouses.MemberId);
                     collarmodel.Class = "出库";
                     collarmodel.Librarian= OperatorProvider.Provider.Current().UserName;
+                    collarmodel.MemberName = MemberLibrary.MemberName;
+                    collarmodel.MemberUnit = MemberLibrary.MemberUnit;
                     collarmodel.UpdateTime = DateTime.Now;
                     memberwarehouserecordingbll.SaveForm(keyValue, collarmodel);
                 }

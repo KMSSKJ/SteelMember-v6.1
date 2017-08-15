@@ -10,7 +10,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
 
         public int OrderId { get; set; }
         public string MemberId { get; set; }
-        public string EngineeringId { get; set; }
         public string Category { get; set; }
         public string MemberModel { get; set; }
         public string MemberName { get; set; }
@@ -20,7 +19,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public DateTime? UpdateTime { get; set; }
         public string Librarian { get; set; }
         public string Leader { get; set; }
-        public int? InStock { get; set; }
         public string Description { get; set; }
     }
 }

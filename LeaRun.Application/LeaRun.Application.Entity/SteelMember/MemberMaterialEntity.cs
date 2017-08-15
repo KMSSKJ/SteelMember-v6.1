@@ -27,6 +27,16 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string MemberId { get; set; }
         /// <summary>
+        /// TreeId
+        /// </summary>
+        /// <returns></returns>
+        public string TreeName { get; set; }
+        /// <summary>
+        /// RawMaterialModel
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialModel { get; set; }
+        /// <summary>
         /// RawMaterialNumber
         /// </summary>
         /// <returns></returns>
@@ -35,7 +45,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// CreatTime
         /// </summary>
         /// <returns></returns>
-        public DateTime? UpdateTime { get; set; }
+        public DateTime? CreatTime { get; set; }
         #endregion
 
         #region À©Õ¹²Ù×÷

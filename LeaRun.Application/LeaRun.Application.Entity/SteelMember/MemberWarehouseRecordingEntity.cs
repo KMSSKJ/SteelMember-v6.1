@@ -28,11 +28,45 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string MemberId { get; set; }
         /// <summary>
+        /// SubProjectId
+        /// </summary>
+        /// <returns></returns>
+        public string EngineeringId { get; set; }
+        /// <summary>
+        /// SubProject
+        /// </summary>
+        /// <returns></returns>
+        public string SubProject { get; set; }
+        /// <summary>
+        /// Category
+        /// </summary>
+        /// <returns></returns>
+        public string Category { get; set; }
+        /// <summary>
+        /// MemberName
+        /// </summary>
+        /// <returns></returns>
+        public string MemberName { get; set; }
+        /// <summary>
+        /// MemberModel
+        /// </summary>
+        /// <returns></returns>
+        public string MemberModel { get; set; }
+        /// <summary>
+        /// MemberUnit
+        /// </summary>
+        /// <returns></returns>
+        public string MemberUnit { get; set; }
+        /// <summary>
         /// Quantity
         /// </summary>
         /// <returns></returns>
         public int? InStock { get; set; }
-        
+        /// <summary>
+        /// CAD_Drawing
+        /// </summary>
+        /// <returns></returns>
+        public string Librarian { get; set; }
         /// <summary>
         /// Model_Drawing
         /// </summary>
@@ -69,7 +103,6 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string Description { get; set; }
-        public string Librarian { get; set; }
         #endregion
 
         #region À©Õ¹²Ù×÷

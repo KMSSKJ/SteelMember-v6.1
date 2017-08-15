@@ -27,17 +27,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns>返回列表</returns>
         public IEnumerable<MemberMaterialEntity> GetList(string queryJson)
         {
-            var expression = LinqExtensions.True<MemberMaterialEntity>();
-            //expression = expression.And(t => t.RawMaterialModel == FullName);
-            //if (!string.IsNullOrEmpty(TreeName))
-            //{
-            //    expression = expression.And(t => t.TreeName == TreeName);
-            //}
-            if (!string.IsNullOrEmpty(queryJson))
-            {
-                expression = expression.And(t => t.MemberId == queryJson);
-            }
-            return this.BaseRepository().IQueryable(expression).ToList();
+            return this.BaseRepository().IQueryable().ToList();
         }
         /// <summary>
         /// 获取实体
@@ -91,11 +81,11 @@ namespace LeaRun.Application.Service.SteelMember
         public bool ExistFullName(string FullName, string TreeName, string keyValue)
         {
             var expression = LinqExtensions.True<MemberMaterialEntity>();
-            expression = expression.And(t => t.RawMaterialId == FullName);
-            //if (!string.IsNullOrEmpty(TreeName))
-            //{
-            //    expression = expression.And(t => t.TreeName == TreeName);
-            //}
+            expression = expression.And(t => t.RawMaterialModel == FullName);
+            if (!string.IsNullOrEmpty(TreeName))
+            {
+                expression = expression.And(t => t.TreeName == TreeName);
+            }
             if (!string.IsNullOrEmpty(keyValue))
             {
                 expression = expression.And(t => t.MemberId == keyValue);

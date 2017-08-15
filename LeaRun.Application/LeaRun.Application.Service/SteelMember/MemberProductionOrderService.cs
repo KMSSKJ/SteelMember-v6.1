@@ -22,73 +22,12 @@ namespace LeaRun.Application.Service.SteelMember
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页</param>
-        /// <param name="IsReceive"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, int IsReceive, string queryJson)
+        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, string queryJson)
         {
-           var expression = LinqExtensions.True<MemberProductionOrderEntity>();
-            var queryParam = queryJson.ToJObject();
-            //查询条件
-            var BeginTime = queryParam["BeginTime"].ToDate();
-            var EndTime = queryParam["EndTime"].ToDate();
-            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
-            {
-                expression = expression.And(t => t.CreateTime >= BeginTime);
-                expression = expression.And(t => t.CreateTime <= EndTime);
-            }
-            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
-            {
-                expression = expression.And(t => t.CreateTime >= BeginTime);
-            }
-            else if(queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
-            {
-                expression = expression.And(t => t.CreateTime <= EndTime);
-            }
-
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
-            {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-
-                    //case "CategoryName":              //工程名
-                    //    expression = expression.And(t => t.CategoryName.Contains(keyword));
-                    //    break;
-                    case "CreateMan":              //构件名称
-                        expression = expression.And(t => t.CreateMan.Contains(keyword));
-                        break;
-                    case "OrderNumbering":              //编号
-                        expression = expression.And(t => t.OrderNumbering.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            if (!queryParam["SubProjectId"].IsEmpty())
-            {
-                var SubProjectId =queryParam["SubProjectId"].ToString();
-                expression = expression.And(t => t.Category == SubProjectId);
-            }
-            if (IsReceive!=2)
-            {
-                expression = expression.And(t => t.IsReceive == IsReceive);
-            }
-            
-            return this.BaseRepository().FindList(expression, pagination);
+            return this.BaseRepository().FindList<MemberProductionOrderEntity>(pagination);
         }
-        ///// <summary>
-        ///// 获取列表
-        ///// </summary>
-        ///// <param name="pagination">分页</param>
-        ///// <param name="queryJson">查询参数</param>
-        ///// <returns>返回分页列表</returns>
-        //public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, string queryJson)
-        //{
-        //    return this.BaseRepository().FindList<MemberProductionOrderEntity>(pagination);
-        //}
-
         /// <summary>
         /// 获取列表
         /// </summary>
@@ -241,29 +180,6 @@ namespace LeaRun.Application.Service.SteelMember
                 }
                 //return entity.OrderId;
             }
-
-        public void RemoveList(List<MemberProductionOrderEntity> list)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// 更新集合
-        /// </summary>
-        /// <param name="list"></param>
-        public void UpdataList(List<MemberProductionOrderEntity> list)
-        {
-            this.BaseRepository().Update(list);
-        }
-
-        public bool Exist(string query, string keyValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Exist(string query, string category, string keyValue)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
     }
