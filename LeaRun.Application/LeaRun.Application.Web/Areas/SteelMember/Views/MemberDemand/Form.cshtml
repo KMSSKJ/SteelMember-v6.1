@@ -6,7 +6,6 @@
     var keyValue = request('keyValue');
     var SubProject = request('SubProject');
     var SubProjectId = request('SubProjectId');
-    var LoadExistData = "";
     $(function () {
         initControl();
     });
@@ -14,7 +13,7 @@
     //初始化控件
     function initControl() {
         //子项目
-        $("#SubProjectId").ComboBoxTree({
+        $("#SubProject").ComboBoxTree({
             param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',///MemberLibrary/SubProjectTreeJson
             description: "==请选择==",
@@ -37,7 +36,7 @@
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    EngineeringId = data.ParentId;
+                   EngineeringId=data.ParentId;
                 }
             });
 
@@ -57,16 +56,14 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
-
+                 
                     $.ajax({
-                        url: "../../SteelMember/MemberDemand/GetFormJsonLibrary",
+                        url: "../../SteelMember/MemberLibrary/GetFormJson",
                         data: { keyValue: data.MemberId },
                         type: "get",
                         dataType: "json",
                         async: false,
                         success: function (data1) {
-
-                            LoadExistData = data1.MemberNumbering + "➩" + data1.Category + "➩" + data1.MemberName;
                             //加载构件
                             $("#MemberId").ComboBox({
                                 description: data1.MemberNumbering + "➩" + data1.Category + "➩" + data1.MemberName,
@@ -84,19 +81,17 @@
                 description: "==请选择==",
                 height: "200px",
             });
-            $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
+            $("#SubProject").ComboBoxSetselectTreeValue(SubProjectId);
         }
     }
 
     //保存表单;
     function AcceptClick() {
-            if (!$('#form1').Validform()) {
-                return false;
-            }
-        
+        if (!$('#form1').Validform()) {
+            return false;
+        }
         var postData = $("#form1").GetWebControls(keyValue);
         postData["FullName"] = $("#SubProjectId").attr('data-text');
-        //postData["SubProjectId"] = $("#SubProjectId").attr('data-value');
         //postData["MemberId"] = $("#MemberId").attr('data-value');
         postData["MemberNumbering"] = $("#MemberId").attr('data-text');
         $.SaveForm({
@@ -123,38 +118,36 @@
 
     //验证构件不能重复
     $._ExistField = function (controlId, url, param) {
-        var SubProjectId = $("#SubProjectId").attr('data-value');
+        var SubProject = $("#SubProject").attr('data-text');
         var Member = $("#MemberId").attr('data-value');
-        if (LoadExistData != Member) {
-            if (Member == "==请选择==" || Member == undefined || Member == "" || Member == '' || Member == null) {
-                return false;
-            }
-            if (MemberId == "") {
-                MemberId = "M";
-            }
-            var Data = {
-                SubProjectId: SubProjectId,
-                Member: Member
-            };
-            $.ajax({
-                url: url,
-                data: Data,
-                type: "get",
-                dataType: "text",
-                async: false,
-                success: function (data) {
-                    if (data.toLocaleLowerCase() == 'false') {
-                        ValidationMessage($("#MemberId"), '数据库中已存在,请重新输入');
-                        $("#MemberId").attr('fieldexist', 'yes');
-                    } else {
-                        $("#MemberId").attr('fieldexist', 'no');
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    dialogMsg(errorThrown, -1);
-                }
-            })
+        if (Member == "==请选择==" || Member == undefined || Member == "" || Member == '' || Member == null) {
+            return false;
         }
+        if (MemberId == "") {
+            MemberId = "M";
+        }
+        var Data = {
+            SubProject: SubProject,
+            Member: Member
+        };
+        $.ajax({
+            url: url,
+            data: Data,
+            type: "get",
+            dataType: "text",
+            async: false,
+            success: function (data) {
+                if (data.toLocaleLowerCase() == 'false') {
+                    ValidationMessage($("#MemberId"), '数据库中已存在,请重新输入');
+                    $("#MemberId").attr('fieldexist', 'yes');
+                } else {
+                    $("#MemberId").attr('fieldexist', 'no');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                dialogMsg(errorThrown, -1);
+            }
+        })
     }
 </script>
 <div style="margin-top: 20px; margin-right: 30px;">
@@ -167,7 +160,7 @@
                 分项目名称<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <div id="SubProjectId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="SubProject" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
         <tr>

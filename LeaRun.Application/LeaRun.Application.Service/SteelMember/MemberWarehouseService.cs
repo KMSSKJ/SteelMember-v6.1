@@ -33,16 +33,16 @@ namespace LeaRun.Application.Service.SteelMember
             //查询条件
             var BeginTime = queryParam["BeginTime"].ToDate();
             var EndTime = queryParam["EndTime"].ToDate();
-            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            if (!queryParam["BeginTime"].IsEmpty() || !queryParam["EndTime"].IsEmpty())
             {
                 expression = expression.And(t => t.UpdateTime >= BeginTime);
                 expression = expression.And(t => t.UpdateTime <= EndTime);
             }
-            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            else if (!queryParam["BeginTime"].IsEmpty() || queryParam["EndTime"].IsEmpty())
             {
                 expression = expression.And(t => t.UpdateTime >= BeginTime);
             }
-            else if(queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            else
             {
                 expression = expression.And(t => t.UpdateTime <= EndTime);
             }
@@ -54,12 +54,12 @@ namespace LeaRun.Application.Service.SteelMember
                 switch (condition)
                 {
 
-                    case "Category":              //构件类型
-                        expression = expression.And(t => t.Category.Contains(keyword));
-                        break;
-                    case "MemberModel":              //构件型号
-                        expression = expression.And(t => t.MemberModel.Contains(keyword));
-                        break;
+                    //case "Category":              //构件类型
+                    //    expression = expression.And(t => t.Category.Contains(keyword));
+                    //    break;
+                    //case "MemberModel":              //构件型号
+                    //    expression = expression.And(t => t.MemberModel.Contains(keyword));
+                    //    break;
                     case "EngineeringId":              //编号
                         expression = expression.And(t => t.EngineeringId.Contains(keyword));
                         break;
@@ -90,12 +90,12 @@ namespace LeaRun.Application.Service.SteelMember
                 string keyword = queryParam["keyword"].ToString();
                 switch (condition)
                 {
-                    case "Category":              //构件类型
-                        expression = expression.And(t => t.Category.Contains(keyword));
-                        break;
-                    case "MemberModel":              //构件型号
-                        expression = expression.And(t => t.MemberModel.Contains(keyword));
-                        break;
+                    //case "Category":              //构件类型
+                    //    expression = expression.And(t => t.Category.Contains(keyword));
+                    //    break;
+                    //case "MemberModel":              //构件型号
+                    //    expression = expression.And(t => t.MemberModel.Contains(keyword));
+                    //    break;
                     default:
                         break;
                 }

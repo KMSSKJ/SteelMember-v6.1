@@ -70,6 +70,8 @@
     <Compile Include="SteelMember\RawMaterialAnalysisIService.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryIService.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryIService.cs" />
+    <Compile Include="SteelMember\RawMaterialOrderInfoIService.cs" />
+    <Compile Include="SteelMember\RawMaterialOrderIService.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseIService.cs" />
     <Compile Include="SteelMember\RawMaterialWarehouseIService.cs" />
     <Compile Include="SteelMember\RawMterialCollarIService.cs" />

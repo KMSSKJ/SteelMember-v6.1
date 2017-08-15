@@ -127,8 +127,6 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
         public ActionResult PublishModule(string baseInfoJson, ModuleEntity moduleEntity, string moduleButtonListJson, string moduleColumnListJson)
         {
             MultiTableConfigModel baseConfigModel = baseInfoJson.ToObject<MultiTableConfigModel>();
-            var moduleButtonList = moduleButtonListJson.ToList<ModuleButtonEntity>();
-            var moduleColumnList = moduleColumnListJson.ToList<ModuleColumnEntity>();
             var urlAddress = "/" + baseConfigModel.OutputAreas + "/" + CommonHelper.DelLastLength(baseConfigModel.ControllerName, 10) + "/" + baseConfigModel.IndexPageName;
 
             moduleEntity.SortCode = moduleBLL.GetSortCode();
@@ -136,7 +134,7 @@ namespace LeaRun.Application.Web.Areas.GeneratorManage.Controllers
             moduleEntity.EnabledMark = 1;
             moduleEntity.Target = "iframe";
             moduleEntity.UrlAddress = urlAddress;
-            moduleBLL.SaveForm("", moduleEntity, moduleButtonList, moduleColumnList);
+            moduleBLL.SaveForm("", moduleEntity, moduleButtonListJson, moduleColumnListJson);
             return Success("发布成功！");
         }
         #endregion

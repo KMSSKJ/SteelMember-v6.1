@@ -140,3 +140,14 @@ E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.c
 E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.dll
 E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.pdb
 E:\SSKJProject\SteelMember\LeaRun.CodeGenerator\bin\Debug\SharpZipLib.dll
+D:\project\LeaRun.CodeGenerator\bin\Debug\LeaRun.CodeGenerator.dll
+D:\project\LeaRun.CodeGenerator\bin\Debug\LeaRun.CodeGenerator.pdb
+D:\project\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.dll
+D:\project\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.Extension.dll
+D:\project\LeaRun.CodeGenerator\bin\Debug\Newtonsoft.Json.dll
+D:\project\LeaRun.CodeGenerator\bin\Debug\SharpZipLib.dll
+D:\project\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.Extension.pdb
+D:\project\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.pdb
+D:\project\LeaRun.CodeGenerator\bin\Debug\Newtonsoft.Json.xml
+D:\project\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.dll
+D:\project\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.pdb
