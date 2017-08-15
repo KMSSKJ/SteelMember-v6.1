@@ -60,6 +60,7 @@
     <Compile Include="PostCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleCache.cs" />
+    <Compile Include="UnitCache.cs" />
     <Compile Include="UserCache.cs" />
     <Compile Include="UserGroupCache.cs" />
   </ItemGroup>

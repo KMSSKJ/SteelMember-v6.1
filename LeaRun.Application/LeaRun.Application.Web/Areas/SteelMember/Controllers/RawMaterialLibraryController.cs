@@ -5,6 +5,10 @@ using LeaRun.Util.WebControl;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Ninject;
+using LeaRun.Application.Repository.SteelMember.IBLL;
+using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Application.Entity.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -15,7 +19,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class RawMaterialLibraryController : MvcControllerBase
     {
-
+        private DataItemDetailBLL dataItemDetailBLL = new DataItemDetailBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
 
         #region 视图功能
@@ -50,17 +54,42 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
-            var watch = CommonHelper.TimerStart();
+            var watch = CommonHelper.TimerStart(); 
             var data = rawmateriallibrarybll.GetList(pagination, queryJson);
+            List<Models.RMLibraryModel> list = new List<Models.RMLibraryModel>();
+            try {
+                if (data!=null) {
+                    foreach (var item in data) {
+                        var dataItem = dataItemDetailBLL.GetEntity(item.Category);
+                        Models.RMLibraryModel rmlibrarymodel = new Models.RMLibraryModel();
+                        rmlibrarymodel.Category = dataItem.ItemName;
+                        rmlibrarymodel.RawMaterialId = item.RawMaterialId;
+                        rmlibrarymodel.RawMaterialName = item.RawMaterialName;
+                        rmlibrarymodel.RawMaterialModel = item.RawMaterialModel;
+                        rmlibrarymodel.Unit = item.Unit;
+                        rmlibrarymodel.Description = item.Description;
+
+                        list.Add(rmlibrarymodel);
+                    }
+                }
+            } catch (System.Exception e) {
+                throw;
+            }
             var JsonData = new
             {
-                rows = data,
+                rows = list,
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records,
                 costtime = CommonHelper.TimerEnd(watch)
             };
             return Content(JsonData.ToJson());
+        }
+        //获取树字节子节点(自循环)
+        public List<DataItemDetailEntity> GetSonId(string ItemDetailId)
+        {
+            List<DataItemDetailEntity> list = dataItemDetailBLL.GetByParentToItemIdIdList(ItemDetailId);
+            return list.Concat(list.SelectMany(t => GetSonId(t.ParentId))).ToList();
         }
         /// <summary>
         /// 获取实体 

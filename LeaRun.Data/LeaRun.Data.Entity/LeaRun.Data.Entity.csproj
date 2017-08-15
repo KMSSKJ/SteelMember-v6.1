@@ -50,10 +50,64 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RMC_AnalysisRawMaterial.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_Collar.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_CollarMember.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_FactoryWarehouse.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="RMC_MemberLibrary.cs">
       <DependentUpon>SteelMemberEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="RMC_SubProject.cs">
+    <Compile Include="RMC_MemberMaterial.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_MemberProcess.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_MemberUnit.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_OrderMember.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_ProcessManagement.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_ProjectDemand.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_ProjectInfo.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_ProjectOrder.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_ProjectWarehouse.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_Purchase.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_RawMaterialAnalysis.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_RawMaterialLibrary.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_RawMaterialPurchase.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_ShipManagement.cs">
+      <DependentUpon>SteelMemberEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RMC_Tree.cs">
       <DependentUpon>SteelMemberEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="SteelMemberEntity.Context.cs">

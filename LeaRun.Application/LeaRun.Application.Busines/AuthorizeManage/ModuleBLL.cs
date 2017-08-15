@@ -94,6 +94,8 @@ namespace LeaRun.Application.Busines.AuthorizeManage
 
         }
 
+        [Inject]
+        public Repository.SteelMember.IBLL.TreeIBLL TreeCurrent { get; set; }
         /// <summary>
         /// 保存表单
         /// </summary>
@@ -102,12 +104,10 @@ namespace LeaRun.Application.Busines.AuthorizeManage
         /// <param name="moduleButtonList">按钮实体列表</param>
         /// <param name="moduleColumnList">视图实体列表</param>
         /// <returns></returns>
-        public void SaveForm(string keyValue, ModuleEntity moduleEntity, string moduleButtonListJson, string moduleColumnListJson)
+        public void SaveForm(string keyValue, ModuleEntity moduleEntity, List<ModuleButtonEntity> moduleButtonList,  List<ModuleColumnEntity> moduleColumnList)
         {
             try
             {
-                var moduleButtonList = moduleButtonListJson.ToList<ModuleButtonEntity>();
-                var moduleColumnList = moduleColumnListJson.ToList<ModuleColumnEntity>();
                 service.SaveForm(keyValue, moduleEntity, moduleButtonList, moduleColumnList);
             }
             catch (Exception)

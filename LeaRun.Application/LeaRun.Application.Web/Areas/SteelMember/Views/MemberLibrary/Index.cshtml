@@ -43,24 +43,19 @@
     //加载树
     var SubProject = "";
     var SubProjectId = "";
-    var HavesChildren = "";
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            //param: { EnCode: "EngineeringType" },
-            //url: '../../SystemManage/DataItemDetail/GetDataItemTreeJson',
-            param: { Levels: 1 },
-            url: '../../SteelMember/SubProject/GetTreeJson',
+            param: { EnCode: "EngineeringType" },
+            url: '../../SystemManage/DataItemDetail/GetDataItemTreeJson',
             onnodeclick: function (item) {
                 SubProject = item.value;
                 SubProjectId = item.id;
-                HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
             }
         };
         //初始化
         $("#itemTree").treeview(item);
-        $("#itemTree_b51550ed_5f23_4de6_a509_b534c24ae2ee").hide();
     }
 
     //加载表格
@@ -75,34 +70,35 @@
             colModel: [
                 { label: '主键', name: 'MemberId', index: 'MemberId', width: 100, align: 'left', sortable: true, hidden: true },
                 { label: '外键', name: 'SubProjectId', index: 'SubProjectId', width: 100, align: 'left', sortable: true, hidden: true },
-                //{
-                //    label: '图标', name: "Icon", hidden: false,
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        var Icon = cellvalue;
-                //        if (Icon != "" || Icon != null) {
-                //            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
-                //            filename = filename + "/" + Icon;
+                {
+                    label: '图标', name: "Icon",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var Icon = cellvalue;
+                        if (Icon != "" || Icon != null) {
+                            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
+                            filename = filename + "/" + Icon;
 
-                //            var filename1 = rowObject.CAD_Drawing.substring(0, rowObject.CAD_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
-                //            CADPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + rowObject.CAD_Drawing;
+                            var filename1 = rowObject.CAD_Drawing.substring(0, rowObject.CAD_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                            CADPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + rowObject.CAD_Drawing;
 
-                //            var filename2 = rowObject.Model_Drawing.substring(0, rowObject.Model_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
-                //            ModelPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + rowObject.Model_Drawing;
+                            var filename2 = rowObject.Model_Drawing.substring(0, rowObject.Model_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
+                            ModelPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + rowObject.Model_Drawing;
 
-                //            if (Icon == "1.png") {
-                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
-                //            } else {
-                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
-                //            }
-                //        } else {
-                //            return "";
-                //        }
-                //    }
-                //},
+                            if (Icon == "1.png") {
+                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
+                            } else {
+                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                },
                 { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 100, align: 'left', sortable: true },
                 { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
                 { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
-                { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 100, align: 'left', sortable: true },
+                { label: '规格或型号', name: 'MemberModel', index: 'MemberModel', width: 100, align: 'left', sortable: true },
+                { label: '构件单位', name: 'MemberUnit', index: 'MemberUnit', width: 100, align: 'left', sortable: true },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -240,19 +236,26 @@
         }
     }
 
-    //导出
+    //导出文件
+    var JsonData1 = ""; var TableObject = "";
     function btn_derive() {
+        SetDeriveExcel("#gridTable", "构件信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
         dialogOpen({
-            id: "ExcelIExportDialog",
-            title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("构件库导出"),
-            width: "500px",
-            height: "380px",
+            id: "DeriveFile",
+            title: '构件信息导出',
+            url: '/Utility/DeriveFile',
+            width: "700px",
+            height: "435px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
-            }, btn: ['导出Excel', '关闭']
+            },
+           // btn: null
         });
+        //openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "构件信息导出", 900, 500, function (iframe) {
+        //    top.frames[iframe].AcceptClick();
+        //})
     }
+
     //构件分类
     function btn_membercategory() {
         dialogOpen({
@@ -263,7 +266,7 @@
             height: "500px",
             btn: null
         });
-    };
+    }
 </script>
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
@@ -284,13 +287,13 @@
                                 <label>时间(起)</label>
                             </td>
                             <td>
-                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                                <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
                             </td>
                             <td>
                                 <label style="margin-left:5px">时间(束)</label>
                             </td>
                             <td>
-                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                                <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
                             </td>
 
                             <td style="padding-left: 10px;">
