@@ -211,6 +211,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson(string keyValue)
         {
             var data = memberlibrarybll.GetEntity(keyValue);
+            //data.Category = dataitemdetailbll.GetEntity(data.Category).ItemName;
             return ToJsonResult(data);
         }
 

@@ -2,7 +2,8 @@
     ViewBag.Title = "列表页面";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-<script>;
+<script>
+    ;
     $(function () {
         InitialPage();
         GetTree();
@@ -52,7 +53,7 @@
             onnodeclick: function (item) {
                 SubProject = item.text;
                 SubProjectId = item.id;
-                HavesChildren = item.HavesChildren;
+                HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
             }
         };
@@ -72,26 +73,41 @@
             colModel: [
                 { label: '主键', name: "MemberDemandId", hidden: true },
                 { label: '外键', name: "MemberId", index: "MemberId", hidden: true },
-                {
-                    label: '图标', name: "Icon", hidden: false, width: 40,
-                    formatter: function (cellvalue, options, rowObject) {
-                        var Icon = cellvalue;
-                        if (Icon != "" || Icon != null) {
-                            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            filename = filename + "/" + Icon;
-                            if (Icon == "1.png") {
-                                //<div style='cursor:pointer;padding-top:1px;'><img style='padding-bottom:3px;padding-right:2px;' src='../../Content/Scripts/tree/images/folder.gif' onmouseover=\"showBigImg(event,'../../Content/Scripts/tree/images/folder.gif')\" onmouseout=\"leaveBigImg(event)\"/>"</div>
-                                //<img style='width:32px;height:18px;padding-bottom:3px;padding-right:2px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
-                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
-                            } else {
-                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
-                            }
-                        } else {
-                            return "";
-                        }
-                    }
-                },
-                { label: '构件编号', name: "MemberNumbering", index: "MemberNumbering", align: ' center' }, 
+                //{
+                //    label: '图标', name: "Icon", hidden: false, width: 40,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        var Icon = cellvalue;
+                //        if (Icon != "" || Icon != null) {
+                //            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
+                //            filename = filename + "/" + Icon;
+                //            if (Icon == "1.png") {
+                //                //<div style='cursor:pointer;padding-top:1px;'><img style='padding-bottom:3px;padding-right:2px;' src='../../Content/Scripts/tree/images/folder.gif' onmouseover=\"showBigImg(event,'../../Content/Scripts/tree/images/folder.gif')\" onmouseout=\"leaveBigImg(event)\"/>"</div>
+                //                //<img style='width:32px;height:18px;padding-bottom:3px;padding-right:2px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
+                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
+                //            } else {
+                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
+                //            }
+                //        } else {
+                //            return "";
+                //        }
+                //    }
+                //},
+                   //{
+                //    name: 'SysCode', label: '系统代码', width: 150, align: 'left', editor: {
+                //        type: 'combobox',
+                //        options:
+                //        {
+                //            valueField: 'Key',
+                //            textField: 'Key',
+                //            url: '/Sys/SearchCodeInFunctionModel',
+                //            handler: function () {
+                //                alert('something');
+
+                //            }
+                //        }
+                //    }
+                //},
+                { label: '构件编号', name: "MemberNumbering", index: "MemberNumbering", align: ' center' },
                 { label: '构件类型', name: "Category", index: "Category", align: ' center' },
                 { label: '构件名', name: "MemberName", index: "MemberName", align: ' center' },
                 { label: '需求量', name: "MemberNumber", index: "MemberNumber", align: ' center' },
@@ -194,7 +210,7 @@
             //    break;
         }
     }
-   
+
     //新增
     function btn_add() {
         dialogOpen({
@@ -327,7 +343,7 @@
     //        }, btn: ['导出Excel', '关闭']
     //    });
     //}
-   
+
     function btn_derive() {
         SetDeriveExcel("#gridTable", "构件信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
         dialogOpen({
@@ -381,7 +397,7 @@
                                 </div>
                             </td>
                             <td style="padding-left: 2px;">
-                                <input id="txt_Keyword"onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
                             </td>
                             <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>

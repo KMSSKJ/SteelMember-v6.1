@@ -9,6 +9,7 @@ using System.Linq;
 using LeaRun.Application.Code;
 using System;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
+using LeaRun.Application.Busines.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -22,6 +23,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
         private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
         private SubProjectBLL subprojectbll = new SubProjectBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
 
         #region 视图功能
         /// <summary>
@@ -83,7 +85,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
                             //_model.MemberUnit = data1.Unit.ItemName;
                             _model.Icon = data1.Icon;
-                            _model.Category = data1.Category;
+                            _model.Category =dataitemdetailbll.GetEntity(data1.Category).ItemName;
                             _model.MemberId = data1.MemberId;
                             _model.CollarNumber = item.CollarNumber;
                             _model.CreateMan = item.CreateMan;
@@ -99,7 +101,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             _model.ProductionNumber = item.ProductionNumber;
                             _model.ReviewMan = item.ReviewMan;
                             _model.UnitPrice = data1.UnitPrice;
-                         
+                            _model.MemberUnit = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
+
+
                             data.Add(_model);
                         }
                     }
@@ -129,9 +133,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var _model = new MemberDemandModel();
                     var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
                     var SubProject = subprojectbll.GetEntity(item.SubProjectId);
-                    //_model.MemberUnit = data1.Unit.ItemName;
                     _model.Icon = data1.Icon;
-                    _model.Category = data1.Category;
+                    _model.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
                     _model.MemberId = data1.MemberId;
                     _model.CollarNumber = item.CollarNumber;
                     _model.CreateMan = item.CreateMan;
@@ -147,6 +150,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     _model.ProductionNumber = item.ProductionNumber;
                     _model.ReviewMan = item.ReviewMan;
                     _model.UnitPrice = data1.UnitPrice;
+                    _model.MemberUnit = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
                     data.Add(_model);
                 }
             }
@@ -160,6 +164,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             };
             return ToJsonResult(jsonData);
         }
+
         /// <summary>
         /// 获取树字节子节点(自循环)
         /// </summary>
@@ -195,11 +200,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.EngineeringId == EngineeringId);
             var JsonData = data.Select(p => new
             {
+               
                 MemberId = p.MemberId,
-                MemberNumbering = p.MemberNumbering + "➩" + p.Category + "➩" + p.MemberName,
+                MemberNumbering = p.MemberNumbering + "➩" + dataitemdetailbll.GetEntity(p.Category).ItemName + "➩" + p.MemberName,
             });
             return ToJsonResult(JsonData);
         }
+
         /// <summary>
         /// 获取实体 
         /// </summary>
@@ -209,6 +216,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson(string keyValue)
         {
             var data = memberdemandbll.GetEntity(keyValue);
+            return ToJsonResult(data);
+        }
+
+        /// <summary>
+        /// 获取构件实体 
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns>返回对象Json</returns>
+        [HttpGet]
+        public ActionResult GetFormJsonLibrary(string keyValue)
+        {
+            var data = memberlibrarybll.GetEntity(keyValue);
+            data.Category = dataitemdetailbll.GetEntity(data.Category).ItemName;
             return ToJsonResult(data);
         }
         #endregion
@@ -286,12 +306,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         ///构件不能重复
         /// </summary>
         /// <param name="Member"></param>
-        /// <param name="SubProject"></param>
+        /// <param name="SubProjectId"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ExistMember(string Member, string SubProject)
+        public ActionResult ExistMember(string Member, string SubProjectId)
         { 
-                bool IsOk = memberdemandbll.ExistFullName(Member, SubProject);
+                bool IsOk = memberdemandbll.ExistFullName(Member, SubProjectId);
             return Content(IsOk.ToString());
         }
         #endregion
