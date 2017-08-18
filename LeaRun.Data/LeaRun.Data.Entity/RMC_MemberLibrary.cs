@@ -15,12 +15,12 @@ namespace LeaRun.Data.Entity
     public partial class RMC_MemberLibrary
     {
         public string MemberId { get; set; }
-        public int MarkId { get; set; }
-        public string EngineeringId { get; set; }
+        public string SubProjectId { get; set; }
         public string Category { get; set; }
         public string MemberName { get; set; }
+        public string MemberModel { get; set; }
         public string MemberNumbering { get; set; }
-        public string UnitId { get; set; }
+        public string MemberUnit { get; set; }
         public string UnitPrice { get; set; }
         public string CAD_Drawing { get; set; }
         public string Model_Drawing { get; set; }
@@ -31,9 +31,5 @@ namespace LeaRun.Data.Entity
         public Nullable<int> IsReview { get; set; }
         public Nullable<System.DateTime> UploadTime { get; set; }
         public string FullPath { get; set; }
-        public Nullable<decimal> MemberWeight { get; set; }
-        public string Description { get; set; }
-    
-        public virtual RMC_SubProject RMC_SubProject { get; set; }
     }
 }

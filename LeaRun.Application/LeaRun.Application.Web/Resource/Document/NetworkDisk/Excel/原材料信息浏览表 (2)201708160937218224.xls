@@ -1,0 +1,27 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<table cellspacing="0" cellpadding="5" rules="all">
+<tr style="font-weight:700; white-space: nowrap;">
+<td colspan=6 style="height:40px;text-align:center;font-family:'宋体';font-size:21px;font-weight:bolder">原材料信息浏览表</td>
+</tr>
+<td colspan=3 style="height:40px;text-align:center;font-size:14px">工程名称:</td>
+<td colspan=3 style="height:40px;text-align:center;font-size:14px ">合同段及桩号:</td>
+</tr>
+<td colspan=3 style="height:40px;text-align:center;font-size:14px ">施工单位:</td>
+<td colspan=3 style="height:40px;text-align:center;font-size:14px ">编号:bbbb00001</td>
+</tr>
+<tr style="font-weight: bold; white-space: nowrap">
+</tr>
+<tr></tr>
+<tr style="font-weight: bold; white-space: nowrap">
+<td style="background-color:Highlight;width:150px;text-align:center;border:solid">类型</td>
+<td style="background-color:Highlight;width:150px;text-align:center;border:solid">材料名称</td>
+<td style="background-color:Highlight;width:150px;text-align:left;border:solid">规格或型号</td>
+<td style="background-color:Highlight;width:350px;text-align:left;border:solid">单位</td>
+<td style="background-color:Highlight;width:398px;text-align:left;border:solid">描述</td>
+</tr>
+<tr><td style="width:150px;text-align:center;border:solid">2864b632-5996-4f20-a4cb-0da46f12b91b</td><td style="width:150px;text-align:center;border:solid">工字钢</td><td style="width:150px;text-align:left;border:solid">I10</td><td style="width:350px;text-align:left;border:solid">KG</td><td style="width:398px;text-align:left;border:solid"></td></tr>
+<tr><td style="width:150px;text-align:center;border:solid">2864b632-5996-4f20-a4cb-0da46f12b91b</td><td style="width:150px;text-align:center;border:solid">工字钢</td><td style="width:150px;text-align:left;border:solid">I16</td><td style="width:350px;text-align:left;border:solid">KG</td><td style="width:398px;text-align:left;border:solid"></td></tr>
+<tr><td style="width:150px;text-align:center;border:solid">2864b632-5996-4f20-a4cb-0da46f12b91b</td><td style="width:150px;text-align:center;border:solid">工字钢</td><td style="width:150px;text-align:left;border:solid">I18</td><td style="width:350px;text-align:left;border:solid">KG</td><td style="width:398px;text-align:left;border:solid"></td></tr>
+<tr><td style="width:150px;text-align:center;border:solid">db1c07ef-ed4b-4dd8-8aa2-8b6f19e4ea8b</td><td style="width:150px;text-align:center;border:solid">土公布</td><td style="width:150px;text-align:left;border:solid">ISB</td><td style="width:350px;text-align:left;border:solid">个</td><td style="width:398px;text-align:left;border:solid"></td></tr>
+<tr><td style="width:150px;text-align:center;border:solid">4e594b36-2cfc-4e32-a384-8664cf3b80f8</td><td style="width:150px;text-align:center;border:solid">焊条</td><td style="width:150px;text-align:left;border:solid">PhP</td><td style="width:350px;text-align:left;border:solid">条</td><td style="width:398px;text-align:left;border:solid"></td></tr>
+</table>

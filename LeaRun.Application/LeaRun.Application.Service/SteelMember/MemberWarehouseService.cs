@@ -54,12 +54,12 @@ namespace LeaRun.Application.Service.SteelMember
                 switch (condition)
                 {
 
-                    //case "Category":              //构件类型
-                    //    expression = expression.And(t => t.Category.Contains(keyword));
-                    //    break;
-                    //case "MemberModel":              //构件型号
-                    //    expression = expression.And(t => t.MemberModel.Contains(keyword));
-                    //    break;
+                    case "Category":              //构件类型
+                        expression = expression.And(t => t.Category.Contains(keyword));
+                        break;
+                    case "MemberModel":              //构件型号
+                        expression = expression.And(t => t.MemberModel.Contains(keyword));
+                        break;
                     case "EngineeringId":              //编号
                         expression = expression.And(t => t.EngineeringId.Contains(keyword));
                         break;
@@ -90,12 +90,12 @@ namespace LeaRun.Application.Service.SteelMember
                 string keyword = queryParam["keyword"].ToString();
                 switch (condition)
                 {
-                    //case "Category":              //构件类型
-                    //    expression = expression.And(t => t.Category.Contains(keyword));
-                    //    break;
-                    //case "MemberModel":              //构件型号
-                    //    expression = expression.And(t => t.MemberModel.Contains(keyword));
-                    //    break;
+                    case "Category":              //构件类型
+                        expression = expression.And(t => t.Category.Contains(keyword));
+                        break;
+                    case "MemberModel":              //构件型号
+                        expression = expression.And(t => t.MemberModel.Contains(keyword));
+                        break;
                     default:
                         break;
                 }

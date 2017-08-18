@@ -138,15 +138,3 @@ E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.dll
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.pdb
 E:\SSKJProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\SharpZipLib.dll
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.WeChat.dll
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.WeChat.pdb
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.dll
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\SharpZipLib.dll
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\Newtonsoft.Json.dll
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.Extension.dll
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.pdb
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\Newtonsoft.Json.xml
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.Extension.pdb
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.csprojResolveAssemblyReference.cache
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.dll
-D:\project\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.pdb
