@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = "SelfDetectionForm";
+    Layout = "~/Views/Shared/_OrderForm.cshtml";
+}
+
+<script>
+    var keyValue = request('keyValue');
+    $(function () {
+        InitialPage();
+        GetOrderEntryGrid();
+        initControl();
+    });
+    //初始化页面
+    function InitialPage() {
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#gridTable').setGridWidth(($('.gridPanel').width()));
+                $('#gridTable').setGridHeight($(window).height() - 240.5);
+            }, 200);
+            e.stopPropagation();
+        });
+    }
+    //加载明细表
+    function GetOrderEntryGrid() {
+        var $grid = $('#gridTable');
+        $grid.jqGrid({
+            //url: "../../SteelMember/MemberProductionOrder/GetDetailsJson",
+            //postData: { keyValue: keyValue },
+            //datatype: "json",
+            datatype: 'local',
+            height: $(window).height() - 240.5,
+            autowidth: true,
+            colModel: [
+                { label: '构件编号[<font face="宋体">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
+                { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
+                { label: '已生产数量', name: 'ProductionedQuantity', align: ' center', width: 80, sortable: false },
+                { label: '工厂自检合格量', name: 'SelfDetectNumber', align: ' center', width: 150, sortable: false },
+                { label: '自检情况说明', name: 'SelfDetectRemarks', align: ' center', width: 80, sortable: false },
+                //{ label: '备注', name: 'Description', align: ' center', width: 80, sortable: false },
+                { label: 'InfoId', name: 'InfoId',  align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'MemberId', name: 'MemberId', align: '', sortable: false, resizable: false, hidden: true },
+            ],
+            pager: false,
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+            footerrow: true,
+            gridComplete: function () {
+                //合计
+                $(this).footerData("set", {
+                    "MemberNumbering": "合计",
+                    "ProductionQuantity": "<span id='TotalQty'>0</span>",
+                });
+            },
+            ondblclick: function (rowid, e) {
+                var selectedId = $("#gridTable").jqGrid("getGridParam", "selrow");
+                $("#gridTable").jqGrid("delRowData", selectedId);
+            }
+        });
+        //默认添加30行 空行
+        for (var i = 1; i <= 30; i++) {
+            var rowdata = {
+                MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="text" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
+                MemberName: '<input id="MemberName➩' + i + '" class="editable disabled" type="text" />',
+                MemberUnit: '<input id="MemberUnit➩' + i + '" class="editable disabled center" type="text" />',
+                ProductionedQuantity: '<input id="ProductionedQuantity➩' + i + '" class="editable disabled center" type="text" checkexpession="Number"/>',
+                SelfDetectNumber: '<input id="SelfDetectNumber➩' + i + '" type="text" class="editable center" onkeyup="Conversion(' + i + ')"/>',
+                SelfDetectRemarks: '<input id="SelfDetectRemarks➩' + i + '" type="text" class="editable center" onkeyup="Conversion(' + i + ')"/>',
+                InfoId: '<input id="InfoId➩' + i + '" type="text" class="editable center" />',
+                MemberId: '<input id="MemberId➩' + i + '" type="text" class="editable center" />',
+               // Description: '<input id="Description➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')"/>',
+            }
+            $grid.jqGrid('addRowData', i, rowdata);
+        };
+        //金额设置居中、设置只能输入金额格式
+        $("#gridTable").find('.decimal').attr('onfocus', 'IsMoney(this.id)');
+        $("#gridTable").find('.center').css('text-align', 'center')
+        $("#gridTable").find('input').attr("disabled", "disabled");
+        for (var i = 1; i < 31; i++) {
+            $("#gridTable tbody tr:eq("+i+")").find('input').removeAttr('disabled').attr("datacol", "yes");
+        }
+        $("#gridTable").find('.disabled').attr("disabled", "disabled");
+        $('.jqgrid-rownum').attr('title', '双击清空一行');
+        ////点击物料编码文本框时间，弹出选择物料信息
+        //$("#gridTable tbody tr").find('td:eq(1)').find('input').click(function () {
+        //    var _category = $("#Category").attr('data-value');
+        //    if (_category == undefined || _category == "" || _category == null) {
+        //        dialogTop("请选择工程名称", "error");
+        //        return false;
+        //    }
+        //    if ($(this).attr('disabled') == 'disabled') {
+        //        return false;
+        //    }
+        //    var index = $(this).attr('id').split('➩')[1];
+        //    dialogOpen({
+        //        id: 'ItemList',
+        //        title: '选取构件',
+        //        url: '/SteelMember/MemberProductionOrder/ItemList?category=' + _category,
+        //        width: '600px',
+        //        height: '450px',
+        //        callBack: function (iframeId) {
+        //            top.frames[iframeId].btn_add_();
+        //        }
+        //    });
+        //});
+        ////价格信息文本框点击事件
+        //$("#gridTable").find('.decimal').click(function () {
+        //    $(this).select();
+        //});
+    }
+    var array = new Array();
+    function IsExistItem(index, code) {
+        if (!ArrayExists(array, code)) {
+            array[index] = code;
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function HaveExistItem(index, code) {
+        if (!ArrayExists(array, code)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function IsExistItemdelete(index, code) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == code) {
+                array.splice(i, 1);
+                break;
+            }
+        }
+    }
+    //采购订单明细换算+合计
+    function Conversion(index) {
+        var SelfDetectNumber = Number($("#SelfDetectNumber➩" + index).val());
+        var ProductionedQuantity = Number($("#ProductionedQuantity➩" + index).val());//数量
+
+        if (SelfDetectNumber > ProductionedQuantity) {//dialogMsg
+            dialogMsg("您的输入不能超过" + ProductionedQuantity,0)
+            $("#SelfDetectNumber➩" + index).val(ProductionedQuantity);
+            return
+        }
+    }
+
+
+    //初始化控件
+    function initControl() {
+       
+        //获取表单
+        if (!!keyValue) {
+            $.SetForm({
+                url: "../../SteelMember/MemberProductionOrder/GetFormJson",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data.entity);
+                    //明细
+                    var number = "";
+                    var childEntity = data.childEntity;
+                    $('#gridTable').find('[role=row]').each(function (i) {
+                        var row = childEntity[i - 1];
+                        if (row != undefined) {
+                            $(this).find('input[id="InfoId➩' + i + '"]').val(row.InfoId);
+                            //$(this).find('input[id="OrderId➩' + i + '"]').val(row.OrderId);
+                            $(this).find('input[id="MemberId➩' + i + '"]').val(row.MemberId);
+                            $(this).find('input[id="MemberNumbering➩' + i + '"]').val(row.MemberNumbering);
+                            $(this).find('input[id="MemberName➩' + i + '"]').val(row.MemberName);
+                            $(this).find('input[id="MemberUnit➩' + i + '"]').val(row.MemberUnit);
+                            $(this).find('input[id="MemberNumber➩' + i + '"]').val(row.MemberNumber);
+                            //$(this).find('input[id="Description➩' + i + '"]').val(row.Description);
+                            $(this).find('input[id="ProductionedQuantity➩' + i + '"]').val(row.ProductionedQuantity);
+                            $(this).find('input[id="SelfDetectNumber➩' + i + '"]').val(row.SelfDetectNumber);
+                            $(this).find('input[id="SelfDetectRemarks➩' + i + '"]').val(row.SelfDetectRemarks);
+                        }
+                    });
+                }
+            })
+        } else {
+        }
+    }
+    //保存表单;
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        var postData = $("#form1").GetWebControls(keyValue);
+        var childEntryJson = [];
+        $('#gridTable').find('[role=row]').each(function (i) {
+            if (!!$(this).find('input[id="MemberNumbering➩' + i + '"]').val()) {
+                childEntryJson.push({
+                    InfoId: $(this).find('input[id="InfoId➩' + i + '"]').val(),
+                    //OrderId: $(this).find('input[id="OrderId➩' + i + '"]').val(),
+                    MemberId: $(this).find('input[id="MemberId➩' + i + '"]').val(),
+                    //ProductionQuantity: $(this).find('input[id="MemberNumber➩' + i + '"]').val(),
+                    ProductionedQuantity: $(this).find('input[id="ProductionedQuantity➩' + i + '"]').val(),
+                   // Description: $(this).find('input[id="Description➩' + i + '"]').val()
+                    SelfDetectNumber: $(this).find('input[id="SelfDetectNumber➩' + i + '"]').val(),
+                    SelfDetectRemarks: $(this).find('input[id="SelfDetectRemarks➩' + i + '"]').val(),
+                });
+            }
+        });
+        $.SaveForm({
+            url: "../../SteelMember/ProductionProcess/SelfDetectNumber?keyValue=" + keyValue,
+            param: { "strChildEntitys": JSON.stringify(childEntryJson) },
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
+
+</script>
+<div class="bills">
+    <div class="gridPanel">
+        <table id="gridTable"></table>
+    </div>
+</div>

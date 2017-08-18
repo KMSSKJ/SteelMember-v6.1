@@ -48,6 +48,9 @@
     }
 
     //加载表格
+    var subgrid_table_id;
+    var a = 0;
+    var OrderId;
     function GetGrid(obj) {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
@@ -59,40 +62,32 @@
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },
                 { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 120, align: '', sortable: true },
-                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 80, align: '', sortable: true },
-                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: '', sortable: true },
+                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 100, align: '', sortable: true },
+                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 120, align: '', sortable: true },
                 {
-                    label: '优先级', name: 'Priority', index: 'Priority', width: 80, align: '', sortable: true,
+                    label: '优先级', name: 'Priority', index: 'Priority', width: 100, align: '', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 {
-                    label: '是否专用', name: 'IsDddicated', index: 'IsDddicated', width: 80, align: '', sortable: true,
+                    label: '是否专用', name: 'IsDddicated', index: 'IsDddicated', width: 100, align: '', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 {
-                    label: '提交状态', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: '', sortable: true,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                    }
-                },
-                {
-                    label: '审核状态', name: 'IsPassed', index: 'IsPassed', width: 80, align: '', sortable: true,
+                    label: '材料领取状态', name: 'IsReceiveRawMaterial', index: 'IsReceiveRawMaterial', width: 100, align: '', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
-                            return "<span class=\"label label-info\">未审核</span>";
+                            return "<span class=\"label label-info\">未领取</span>";
                         } else if (cellvalue == 1) {
-                            return "<span class=\"label label-success\">通过</span>";
-                        } else {
-                            return "<span class=\"label label-danger\">失败</span>";
+                            return "<span class=\"label label-success\">已领取</span>";
                         }
                     }
                 },
                 {
-                    label: '生产状态', name: 'ProductionStatus', index: 'ProductionStatus', width: 80, align: '', sortable: true,
+                    label: '生产状态', name: 'ProductionStatus', index: 'ProductionStatus', width: 100, align: '', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未生产</span>";
@@ -103,9 +98,42 @@
                         }
                     }
                 },
-                { label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 80, align: '', sortable: true },
-                { label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 80, align: '', sortable: true },
-                { label: '备注', name: 'Description', index: 'Description', width: 80, align: '', sortable: true },
+                {
+                    label: '工厂质检', name: 'SelfDetectStatus', index: 'SelfDetectStatus', width: 100, align: '', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未进行</span>";
+                        } else if (cellvalue == 1) {
+                            return "<span class=\"label label-danger\">质检中</span>";
+                        } else {
+                            return "<span class=\"label label-success\">已完成</span>";
+                        }
+                    }
+                },
+                {
+                    label: '监理质检', name: 'QualityInspectionStatus', index: 'QualityInspectionStatus', width: 100, align: '', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未进行</span>";
+                        } else if (cellvalue == 1) {
+                            return "<span class=\"label label-danger\">质检中</span>";
+                        } else {
+                            return "<span class=\"label label-success\">已完成</span>";
+                        }
+                    }
+                }, {
+                    label: '打包', name: 'IsPackage', align: ' center', width: 80, sortable: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未进行</span>";
+                        } else if (cellvalue == 1) {
+                            return "<span class=\"label label-success\">已完成</span>";
+                        }
+                    }
+                },
+                //{ label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 100, align: '', sortable: true },
+                //{ label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 100, align: '', sortable: true },
+                { label: '备注', name: 'Description', index: 'Description', width: 100, align: '', sortable: true },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -124,18 +152,33 @@
             },
             subGrid: true,
             subGridRowExpanded: function (subgrid_id, row_id) {
-                var keyValue = $gridTable.jqGrid('getRowData', row_id)['OrderId'];
-                var subgrid_table_id = subgrid_id + "_t";
+                if (a != 0) {
+
+                    $("#gridTable").collapseSubGridRow(a);
+                }
+
+                OrderId = $gridTable.jqGrid('getRowData', row_id)['OrderId'];
+                subgrid_table_id = subgrid_id + "_t";
                 $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "'></table>");
                 $("#" + subgrid_table_id).jqGrid({
                     url: "../../SteelMember/MemberProductionOrder/GetDetailsJson",
-                    postData: { keyValue: keyValue },
+                    postData: { keyValue: OrderId },
                     datatype: "json",
                     height: "100%",
                     colModel: [
                         { label: 'InfoId', name: 'InfoId', index: 'InfoId', width: 80, align: '', sortable: true, hidden: true },
-                        { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, align: '', sortable: true },
-                        { label: '生产数量', name: 'ProductionQuantity', index: 'ProductionQuantity', width: 80, align: '', sortable: true },
+                        { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, align: '', sortable: true, hidden: true },
+                        { label: 'MemberId', name: 'MemberId', index: 'MemberId', width: 80, align: '', sortable: true, hidden: true },
+                        { label: '构件编号', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                        { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
+                        { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
+                        { label: '需生产数量', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
+                        { label: '已生产数量', name: 'ProductionedQuantity', align: ' center', width: 80, sortable: false },
+                        { label: '工厂质检合格量', name: 'SelfDetectNumber', align: ' center', width: 80, sortable: false },
+                        { label: '工厂质检情况', name: 'SelfDetectRemarks', align: ' center', width: 80, sortable: false },
+                        { label: '监理质检合格量', name: 'QualityInspectionNumber', align: ' center', width: 80, sortable: false },
+                        { label: '监理质检情况', name: 'QualityInspectionRemarks', align: ' center', width: 80, sortable: false },
+
                     ],
                     caption: "明细",
                     rowNum: "1000",
@@ -144,6 +187,7 @@
                     gridview: true,
                     hidegrid: false
                 });
+                a = row_id;
             }
         });
 
@@ -212,45 +256,130 @@
                 url: '/SteelMember/ProductionProcess/ReceiveRawMaterialIndex?keyValue=' + keyValue,
                 width: '1000px',
                 height: '750px',
-                btn: null,
+                //btn: null,
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
             });
         }
     }
-  
-    //编辑
-    function btn_edit() {
+
+    //生产填报
+    function btn_productionCompleted() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
+        var IsReceiveRawMaterial = $('#gridTable').jqGridRowValue('IsReceiveRawMaterial');
         if (checkedRow(keyValue)) {
-            dialogOpen({
-                id: 'Form',
-                title: '编辑构件生产订单',
-                url: '/SteelMember/ProductionProcess/Form?keyValue=' + keyValue,
-                width: '1000px',
-                height: '750px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                }
-            })
+            if (IsReceiveRawMaterial == "<span class=\"label label-success\">已领取</span>") {
+                dialogOpen({
+                    id: 'Form',
+                    title: '生产填报',
+                    url: '/SteelMember/ProductionProcess/ProductionNumberForm?keyValue=' + keyValue,
+                    width: '1000px',
+                    height: '750px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            } else {
+                dialogMsg("生产材料未领取", 0)
+            }
         }
     }
-    //删除
-    function btn_delete() {
+    //工厂自检填报
+    function btn_factoryQualityInspection() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
-        if (keyValue) {
-            $.RemoveForm({
-                url: '../../SteelMember/ProductionProcess/RemoveForm',
-                param: { keyValue: keyValue },
-                success: function (data) {
-                    $('#gridTable').trigger('reloadGrid');
-                }
-            })
-        } else {
-            dialogMsg('请选择需要删除的构件生产订单！', 0);
+        var ProductionStatus = $('#gridTable').jqGridRowValue('ProductionStatus');
+        if (checkedRow(keyValue)) {
+            if (ProductionStatus = "<span class=\"label label-success\">已完成</span>") {
+                dialogOpen({
+                    id: 'Form',
+                    title: '工厂自检填报',
+                    url: '/SteelMember/ProductionProcess/SelfDetectForm?keyValue=' + keyValue,
+                    width: '1000px',
+                    height: '750px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            }
+        }
+        else {
+            dialogMsg('构件生产未完成', 0);
         }
     }
+    //监理质检填报
+    function btn_supervisionQualityInspection() {
+        var keyValue = $('#gridTable').jqGridRowValue('OrderId');
+        var SelfDetectStatus = $('#gridTable').jqGridRowValue('SelfDetectStatus');
+        if (checkedRow(keyValue)) {
+            if (SelfDetectStatus = "<span class=\"label label-success\">已完成</span>") {
+                dialogOpen({
+                    id: 'Form',
+                    title: '监理质检填报',
+                    url: '/SteelMember/ProductionProcess/QualityInspectionForm?keyValue=' + keyValue,
+                    width: '1000px',
+                    height: '750px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            } else {
+                dialogMsg('工厂质检未完成', 0);
+            }
+        }
+    }
+
+    //打包
+    function btn_package() {
+        var keyValue = $("#gridTable").jqGridRowValue("OrderId");
+        var QualityInspectionStatus = $('#QualityInspectionStatus').jqGridRowValue('QualityInspectionStatus');
+        if (checkedArray(keyValue)) {
+            if (QualityInspectionStatus == "<span class=\"label label-success\">已完成</span>") {
+                dialogMsg("监理质检未完成", 0);
+                return false;
+            }
+            $.SaveForm({
+                url: "../../SteelMember/ProductionProcess/Package?keyValue=" + keyValue,
+                param: {},
+                loading: "正在处理...",
+                success: function () {
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                }
+            })
+        }
+    }
+
+    //二维码信息及打印
+    function btn_print() {
+        if (subgrid_table_id != undefined) {
+            var IsPackage = $('#QualityInspectionStatus').jqGridRowValue('IsPackage');
+            var keyValue = GetJqGridRowValue("#" + subgrid_table_id, "MemberId");
+            var QualityInspectionNumber = GetJqGridRowValue("#" + subgrid_table_id, "QualityInspectionNumber");
+            var MemberNumber = GetJqGridRowValue("#" + subgrid_table_id, "MemberNumber");
+            if (checkedRow(keyValue)) {
+                if (QualityInspectionNumber == MemberNumber && IsPackage == "<span class=\"label label-success\">已完成</span>") {
+                    dialogOpen({
+                        id: 'QRCodeForm',
+                        title: '打印信息',
+                        url: '/SteelMember/ProductionProcess/QRCodeForm?keyValue=' + keyValue + "&OrderId=" + OrderId,
+                        width: '500px',
+                        height: '400px',
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+                } else {
+                    dialogMsg("构件打包未完成", 0);
+                }
+            } else {
+                dialogMsg("请选择构件", 0);
+            }
+        } else {
+            dialogMsg("请选择订单下的构件", 0);
+        }
+    };
+
+
     //详细
     function btn_details() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
@@ -377,68 +506,70 @@
         <div class="center-Panel">
             <div class="panel-Title">生产信息</div>
             <div class="titlePanel">
-                                @*@<div class="title-search">
-            <table>
-                <tr>
-                    <td>
-                    <label>时间(起)</label>
-                </td>
-                <td>
-                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
-                </td>
-                <td>
-                    <label style="margin-left:5px">时间(束)</label>
-                </td>
-                <td>
-                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
-                </td>
-                    <td style="padding-left: 10px;">
-                        <div id="queryCondition" class="btn-group">
-                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a data-value="OrderNumbering">编号</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td style="padding-left: 2px;">
-                        <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
-                    </td>
+                <div class="title-search">
+                    <table>
+                        <tr>
+                            <td>
+                                <label>时间(起)</label>
+                            </td>
+                            <td>
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                            </td>
+                            <td>
+                                <label style="margin-left:5px">时间(束)</label>
+                            </td>
+                            <td>
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div id="queryCondition" class="btn-group">
+                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-value="OrderNumbering">编号</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="padding-left: 2px;">
+                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                            </td>
 
-                    <td style="padding-left: 5px;">
-                        <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                    </td>
-                </tr>
-            </table>
-        </div>*@
+                            <td style="padding-left: 5px;">
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
                         <a id="lr-receiveOrder" class="btn btn-default" onclick="btn_receiveOrder()"><i class="fa fa-plus"></i>&nbsp;领取订单</a>
                         <a id="lr-receiveRawMaterial" class="btn btn-default" onclick="btn_receiveRawMaterial()"><i class="fa fa-pencil-square-o"></i>&nbsp;领取材料</a>
-                        <a id="lr-productionCompleted" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;生产完成</a>
+                        <a id="lr-productionCompleted" class="btn btn-default" onclick="btn_productionCompleted()"><i class="fa fa-pencil-square-o"></i>&nbsp;生产完成</a>
                     </div>
                     <div class="btn-group">
-                        <a id="lr-factoryQualityInspection" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-legal"></i>&nbsp;厂方质检<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li id="lr-fsuccessFactory"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;合格</a></li>
-                            <li id="lr-dangerFactory"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;不合格</a></li>
-                        </ul>
-                    @*</div>
-                    <div class="btn-group">*@
-                        <a id="lr-supervisionQualityInspection" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-legal"></i>&nbsp;监理检查<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li id="lr-successSupervision"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;合格</a></li>
-                            <li id="lr-dangerSupervision"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;不合格</a></li>
-                        </ul>
+                        <a id="lr-factoryQualityInspection" class="btn btn-default" onclick="btn_factoryQualityInspection()"><i class="fa fa-pencil-square-o"></i>&nbsp;厂方质检</a>
+                        <a id="lr-supervisionQualityInspection" class="btn btn-default" onclick="btn_supervisionQualityInspection()"><i class="fa fa-pencil-square-o"></i>&nbsp;监理质检</a>
+                        @*<a id="lr-factoryQualityInspection" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-legal"></i>&nbsp;厂方质检<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li id="lr-successFactory"><a onclick="btn_factoryQualityInspection(1)"><i class="fa fa-check"></i>&nbsp;合格</a></li>
+                                <li id="lr-dangerFactory"><a onclick="btn_factoryQualityInspection(2)"><i class="fa fa-close"></i>&nbsp;不合格</a></li>
+                            </ul>*@
+                        @*</div>
+                            <div class="btn-group">*@
+                        @*<a id="lr-supervisionQualityInspection" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-legal"></i>&nbsp;监理检查<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li id="lr-successSupervision"><a onclick="btn_supervisionQualityInspection(1)"><i class="fa fa-check"></i>&nbsp;合格</a></li>
+                                <li id="lr-dangerSupervision"><a onclick="btn_supervisionQualityInspection(2)"><i class="fa fa-close"></i>&nbsp;不合格</a></li>
+                            </ul>*@
                     </div>
                     <div class="btn-group">
-                        <a id="lr-barcodePrinting" class="btn btn-default" onclick="btn_details()"><i class="fa fa-list-alt"></i>&nbsp;条码打印</a>
-                        <a id="lr-memberPacking" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>&nbsp;构件打包</a>
+                        <a id="lr-memberPacking" class="btn btn-default" onclick="btn_package()"><i class="fa fa-send"></i>&nbsp;构件打包</a>
+                        <a id="lr-barcodePrinting" class="btn btn-default" onclick="btn_print()"><i class="fa fa-list-alt"></i>&nbsp;条码打印</a>
                     </div>
                 </div>
                 <script>$('.toolbar').authorizeButton()</script>
@@ -447,6 +578,7 @@
         <div class="gridPanel">
             <table id="gridTable"></table>
             <div id="gridPager"></div>
+            <div id="container"></div>
         </div>
     </div>
 </div>

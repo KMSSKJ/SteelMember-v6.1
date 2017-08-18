@@ -9,6 +9,7 @@ using System.Linq;
 using LeaRun.Application.Code;
 using System;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
+using LeaRun.Application.Busines.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -22,6 +23,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
         private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
         private SubProjectBLL subprojectbll = new SubProjectBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
 
         #region 视图功能
         /// <summary>
@@ -83,7 +85,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
                             //_model.MemberUnit = data1.Unit.ItemName;
                             _model.Icon = data1.Icon;
-                            _model.Category = data1.Category;
+                            _model.MemberNumbering = data1.MemberNumbering;
+                            _model.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
+                            _model.MemberUnit = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
                             _model.MemberId = data1.MemberId;
                             _model.CollarNumber = item.CollarNumber;
                             _model.CreateMan = item.CreateMan;
@@ -131,7 +135,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var SubProject = subprojectbll.GetEntity(item.SubProjectId);
                     //_model.MemberUnit = data1.Unit.ItemName;
                     _model.Icon = data1.Icon;
-                    _model.Category = data1.Category;
+                    _model.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
+                    _model.MemberUnit = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
                     _model.MemberId = data1.MemberId;
                     _model.CollarNumber = item.CollarNumber;
                     _model.CreateMan = item.CreateMan;
@@ -146,13 +151,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     _model.MemberWeight = data1.MemberWeight;
                     _model.ProductionNumber = item.ProductionNumber;
                     _model.ReviewMan = item.ReviewMan;
-                    _model.UnitPrice = data1.UnitPrice;
                     data.Add(_model);
                 }
             }
             var jsonData = new
             {
-                rows = data,
+                rows = data.OrderBy(O=>O.MemberNumbering),
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records,
@@ -196,7 +200,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var JsonData = data.Select(p => new
             {
                 MemberId = p.MemberId,
-                MemberNumbering = p.MemberNumbering + "➩" + p.Category + "➩" + p.MemberName,
+                MemberNumbering = p.MemberNumbering + "➩" +dataitemdetailbll.GetEntity(p.Category).ItemName + "➩" + p.MemberName,
             });
             return ToJsonResult(JsonData);
         }
@@ -209,6 +213,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson(string keyValue)
         {
             var data = memberdemandbll.GetEntity(keyValue);
+            return ToJsonResult(data);
+        }
+
+        /// <summary>
+        /// 获取构件实体 
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns>返回对象Json</returns>
+        [HttpGet]
+        public ActionResult GetFormJsonMemberLibrary(string keyValue)
+        {
+            var data = memberlibrarybll.GetEntity(keyValue);
+            data.Category = dataitemdetailbll.GetEntity(data.Category).ItemName;
             return ToJsonResult(data);
         }
         #endregion

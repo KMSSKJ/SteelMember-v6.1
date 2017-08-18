@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System.Linq;
+using LeaRun.Application.Busines.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -23,6 +24,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberWarehouseRecordingBLL memberwarehouserecordingbll = new MemberWarehouseRecordingBLL();
         private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
         private MemberProductionOrderInfoBLL memberproductionorderinfobll= new MemberProductionOrderInfoBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
 
         #region  ”Õºπ¶ƒ‹
         /// <summary>
@@ -95,25 +97,27 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = memberwarehousebll.GetPageList(pagination, queryJson);
             if (data.Count() > 0)
             {
-                var MemberWarehouse = new MemberWarehouseModel();
                 foreach (var item in data)
                 {
-                    var MemberLibrar = memberlibrarybll.GetEntity(item.MemberId);
-                    MemberWarehouse.MemberName = MemberLibrar.MemberName;
-                    MemberWarehouse.Category = MemberLibrar.Category;
-                    //MemberWarehouse.MemberUnit = MemberLibrar.Unit.ItemName;
-                    MemberWarehouse.InStock = item.InStock;
-                    MemberWarehouse.Librarian= item.Librarian;
-                    MemberWarehouse.UpdateTime = item.UpdateTime;
-                    MemberWarehouse.Description = MemberLibrar.Description;
-                    datatabel.Add(MemberWarehouse);
+                   var MemberLibrar = memberlibrarybll.GetEntity(item.MemberId);
+                   var MemberWarehouse = new MemberWarehouseModel() {
+                   MemberNumbering = MemberLibrar.MemberNumbering,
+                   MemberName = MemberLibrar.MemberName,
+                   Category = dataitemdetailbll.GetEntity(MemberLibrar.Category).ItemName,
+                   MemberUnit = dataitemdetailbll.GetEntity(MemberLibrar.UnitId).ItemName,
+                   InStock = item.InStock,
+                   Librarian= item.Librarian,
+                   UpdateTime = item.UpdateTime,
+                   Description = MemberLibrar.Description
+                };
+                datatabel.Add(MemberWarehouse);
                 }
             }
 
 
             var jsonData = new
             {
-                rows = datatabel,
+                rows = datatabel.OrderBy(O => O.MemberNumbering),
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records,
@@ -277,7 +281,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             var MembeOrder = memberproductionorderbll.GetEntity(_OrderId);
                             if (MembeOrder != null)
                             {
-                                MembeOrder.OrderStatus = 1;
+                                MembeOrder.OrderWarehousingStatus = 1;
                                 memberproductionorderbll.SaveForm(_OrderId, MembeOrder);
                             }
 

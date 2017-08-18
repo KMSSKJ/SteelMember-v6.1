@@ -9,6 +9,7 @@ using LeaRun.Application.Code;
 using System.Linq;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Util.Extension;
+using LeaRun.Application.Busines.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -23,6 +24,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
         private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
         private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -104,11 +107,31 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson(string keyValue)
         {
             var data = memberproductionorderbll.GetEntity(keyValue);
-            var childData = memberproductionorderbll.GetDetails(keyValue);
+            var childData = memberproductionorderbll.GetDetails(keyValue).ToList();
+            var MemberList = new List<MemberDemandModel>();
+            for (int i = 0; i < childData.Count(); i++)
+            {
+                var MemberLibrary = memberlibrarybll.GetEntity(childData[i].MemberId);
+                var Member = new MemberDemandModel()
+                {
+                    InfoId= childData[i].InfoId,
+                    MemberId = childData[i].MemberId,
+                    MemberNumber = childData[i].ProductionQuantity,
+                    ProductionedQuantity=Convert.ToInt32(childData[i].ProductionQuantity),
+                    SelfDetectNumber = childData[i].SelfDetectNumber,
+                    SelfDetectRemarks = childData[i].SelfDetectRemarks,
+                    QualityInspectionNumber = childData[i].QualityInspectionNumber,
+                    QualityInspectionRemarks= childData[i].QualityInspectionRemarks,
+                    MemberName = MemberLibrary.MemberName,
+                    MemberNumbering = MemberLibrary.MemberNumbering,
+                    MemberUnit = dataitemdetailbll.GetEntity(MemberLibrary.UnitId).ItemName,
+                };
+                MemberList.Add(Member);
+            }
             var jsonData = new
             {
                 entity = data,
-                childEntity = childData
+                childEntity = MemberList
             };
             return ToJsonResult(jsonData);
         }
@@ -120,8 +143,25 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetDetailsJson(string keyValue)
         {
-            var data = memberproductionorderbll.GetDetails(keyValue);
-            return ToJsonResult(data);
+            var data = memberproductionorderbll.GetDetails(keyValue).ToList();
+            var MemberList = new List<MemberDemandModel>();
+            for (int i = 0; i < data.Count(); i++)
+            {
+                var MemberLibrary = memberlibrarybll.GetEntity(data[i].MemberId);
+                var Member = new MemberDemandModel()
+                {
+                    MemberId = data[i].MemberId,
+                    MemberNumber = data[i].ProductionQuantity,
+                    ProductionedQuantity = Convert.ToInt32(data[i].ProductionedQuantity),
+                    SelfDetectNumber = data[i].SelfDetectNumber,
+                    QualityInspectionNumber = data[i].QualityInspectionNumber,
+                    MemberName = MemberLibrary.MemberName,
+                    MemberNumbering = MemberLibrary.MemberNumbering,
+                    MemberUnit = dataitemdetailbll.GetEntity(MemberLibrary.UnitId).ItemName,
+                };
+                MemberList.Add(Member);
+            }
+            return ToJsonResult(MemberList);
         }
         /// <summary>
         /// 加载审核通过的构件需求
@@ -132,8 +172,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GridListJsonDemand(Pagination pagination, string category)
         {
+            var watch = CommonHelper.TimerStart();
             var data = new List<MemberDemandModel>();
-            var memberdemand = memberdemandbll.GetPageList1(pagination,f => f.SubProjectId == category && f.IsReview == 1).ToList();//.OrderByDescending(o => o.MemberNumbering)
+            var memberdemand = memberdemandbll.GetPageList1(pagination, f => f.SubProjectId == category && f.IsReview == 1).ToList();//.OrderByDescending(o => o.MemberNumbering)
 
             foreach (var item in memberdemand)
             {
@@ -143,12 +184,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 MemberDemand.Category = member.Category;
                 MemberDemand.MemberNumbering = member.MemberNumbering;
                 MemberDemand.MemberName = member.MemberName;
-                //MemberDemand.MemberUnit = member.Unit.ItemName;
+                MemberDemand.MemberUnit = dataitemdetailbll.GetEntity(member.UnitId).ItemName;
                 MemberDemand.MemberNumber = item.MemberNumber;
-
                 data.Add(MemberDemand);
             }
-            return ToJsonResult(data);
+            var jsonData = new
+            {
+                rows = data.OrderBy(O => O.MemberNumbering),
+                total = pagination.total,
+                page = pagination.page,
+                records = pagination.records,
+                costtime = CommonHelper.TimerEnd(watch)
+            };
+            return ToJsonResult(jsonData);
         }
 
         /// <summary>
@@ -225,6 +273,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 MemberId = a.MemberId,
                                 MemberName = member.MemberName,
                                 UnitPrice = member.UnitPrice,
+                                MemberUnit = dataitemdetailbll.GetEntity(member.UnitId).ItemName,
                                 MemberNumbering = member.MemberNumbering,
                                 MemberNumber = a.MemberNumber,
                             };
@@ -278,7 +327,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var entity = strEntity.ToObject<MemberProductionOrderEntity>();
             if (keyValue == "" || keyValue == null)
             {
-                entity.IsPassed = entity.IsSubmit = entity.ProductionStatus = entity.IsReceive = 0;
+                entity.IsPassed = 0;
+                entity.IsSubmit = 0;
+                entity.ProductionStatus = 0;
+                entity.IsReceive = 0;
+                entity.IsPackage = 0;
+                entity.OrderWarehousingStatus = 0;
+                entity.ProductionStatus = 0;
+                entity.QualityInspectionStatus = 0;
+                entity.SelfDetectStatus = 0;
+                entity.IsReceiveRawMaterial = 0;
             }
             List<MemberProductionOrderInfoEntity> childEntitys = strChildEntitys.ToList<MemberProductionOrderInfoEntity>();
             memberproductionorderbll.SaveForm(keyValue, entity, childEntitys);

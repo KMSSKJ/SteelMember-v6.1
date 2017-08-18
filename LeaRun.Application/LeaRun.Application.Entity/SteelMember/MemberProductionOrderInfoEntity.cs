@@ -36,6 +36,43 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("PRODUCTIONQUANTITY")]
         public int? ProductionQuantity { get; set; }
+        /// <summary>
+        /// 已生产数量
+        /// </summary>
+        /// <returns></returns>
+        [Column("PRODUCTIONEDQUANTITY")]
+        public int? ProductionedQuantity { get; set; }
+        /// <summary>
+        /// 说明
+        /// </summary>
+        /// <returns></returns>
+        [Column("DESCRIPTION")]
+        public string Description { get; set; }
+        /// <summary>
+        /// 自检合格量
+        /// </summary>
+        /// <returns></returns>
+        [Column("SELFDETECTNUMBER")]
+        public int? SelfDetectNumber { get; set; }
+        /// <summary>
+        /// 自检备注
+        /// </summary>
+        /// <returns></returns>
+        [Column("SELFDETECTREMARKS")]
+        public string SelfDetectRemarks { get; set; }
+        /// <summary>
+        /// 监理质检合格量
+        /// </summary>
+        /// <returns></returns>
+        [Column("QUALITYINSPECTIONNUMBER")]
+        public int? QualityInspectionNumber { get; set; }
+
+        /// <summary>
+        /// 监理质检备注
+        /// </summary>
+        /// <returns></returns>
+        [Column("QUALITYINSPECTIONREMARKS")]
+        public string QualityInspectionRemarks { get; set; }
         #endregion
 
         #region 扩展操作

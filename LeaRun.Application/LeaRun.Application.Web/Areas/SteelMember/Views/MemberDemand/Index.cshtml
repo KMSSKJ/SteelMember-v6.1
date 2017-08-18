@@ -52,7 +52,7 @@
             onnodeclick: function (item) {
                 SubProject = item.text;
                 SubProjectId = item.id;
-                HavesChildren = item.HavesChildren;
+                HavesChildren = item.hasChildren;
                 $('#btn_Search').trigger("click");
             }
         };
@@ -72,25 +72,25 @@
             colModel: [
                 { label: '主键', name: "MemberDemandId", hidden: true },
                 { label: '外键', name: "MemberId", index: "MemberId", hidden: true },
-                {
-                    label: '图标', name: "Icon", hidden: false, width: 40,
-                    formatter: function (cellvalue, options, rowObject) {
-                        var Icon = cellvalue;
-                        if (Icon != "" || Icon != null) {
-                            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            filename = filename + "/" + Icon;
-                            if (Icon == "1.png") {
-                                //<div style='cursor:pointer;padding-top:1px;'><img style='padding-bottom:3px;padding-right:2px;' src='../../Content/Scripts/tree/images/folder.gif' onmouseover=\"showBigImg(event,'../../Content/Scripts/tree/images/folder.gif')\" onmouseout=\"leaveBigImg(event)\"/>"</div>
-                                //<img style='width:32px;height:18px;padding-bottom:3px;padding-right:2px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
-                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
-                            } else {
-                                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
-                            }
-                        } else {
-                            return "";
-                        }
-                    }
-                },
+                //{
+                //    label: '图标', name: "Icon", hidden: false, width: 40,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        var Icon = cellvalue;
+                //        if (Icon != "" || Icon != null) {
+                //            var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
+                //            filename = filename + "/" + Icon;
+                //            if (Icon == "1.png") {
+                //                //<div style='cursor:pointer;padding-top:1px;'><img style='padding-bottom:3px;padding-right:2px;' src='../../Content/Scripts/tree/images/folder.gif' onmouseover=\"showBigImg(event,'../../Content/Scripts/tree/images/folder.gif')\" onmouseout=\"leaveBigImg(event)\"/>"</div>
+                //                //<img style='width:32px;height:18px;padding-bottom:3px;padding-right:2px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
+                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
+                //            } else {
+                //                return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/" + filename + "' onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/" + filename + "')\" onmouseout=\"leaveBigImg(event)\" />";
+                //            }
+                //        } else {
+                //            return "";
+                //        }
+                //    }
+                //},
                 { label: '构件编号', name: "MemberNumbering", index: "MemberNumbering", align: ' center' }, 
                 { label: '构件类型', name: "Category", index: "Category", align: ' center' },
                 { label: '构件名', name: "MemberName", index: "MemberName", align: ' center' },
@@ -105,14 +105,6 @@
                 {
                     label: '审核状态', name: 'IsReview', index: 'IsReview', align: ' center',
                     formatter: function (cellvalue, value, row, index) {
-                        //var _IsReview = cellvalue;
-                        //if (_IsReview == 0) {
-                        //    return "<img src='../../Content/Images/checknomark.gif'/>";
-                        //} else if (_IsReview == 1) {
-                        //    return "<img src='../../Content/Images/checkokmark.gif'/>";
-                        //} else if (_IsReview == 2) {
-                        //    return "<img src='../../Content/Images/checkerrormark.gif'/>";
-                        //}
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未审核</span>";
                         } else if (cellvalue == 1) {

@@ -57,10 +57,10 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public int? IsPassed { get; set; }
         /// <summary>
-        /// OrderStatus
+        /// OrderWarehousingStatus
         /// </summary>
         /// <returns></returns>
-        public int? OrderStatus { get; set; }
+        public int? OrderWarehousingStatus { get; set; }
         /// <summary>
         /// ReviewMan
         /// </summary>

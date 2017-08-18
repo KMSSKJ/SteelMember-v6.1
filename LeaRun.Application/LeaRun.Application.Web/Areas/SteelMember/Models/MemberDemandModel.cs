@@ -28,5 +28,32 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public decimal? MemberWeight { get; set; }
         public string CADDrawing { get; set; }
         public string ModelDrawing { get; set; }
+
+        #region 订单详情
+        /// <summary>
+        /// 订单详情主键
+        /// </summary>
+        public string InfoId { get; set; }
+        /// <summary>
+        /// 已生产量
+        /// </summary>
+        public int ProductionedQuantity { get; set; }
+        public int? SelfDetectNumber { get; set; }
+        /// <summary>
+        /// 自检备注
+        /// </summary>
+        /// <returns></returns>
+        public string SelfDetectRemarks { get; set; }
+        /// <summary>
+        /// 监理质检合格量
+        /// </summary>
+        /// <returns></returns>
+        public int? QualityInspectionNumber { get; set; }
+        /// <summary>
+        /// 监理质检备注
+        /// </summary>
+        /// <returns></returns>
+        public string QualityInspectionRemarks { get; set; }
+        #endregion
     }
 }

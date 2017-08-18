@@ -13,7 +13,7 @@
     //初始化控件
     function initControl() {
         //子项目
-        $("#SubProject").ComboBoxTree({
+        $("#SubProjectId").ComboBoxTree({
             param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',///MemberLibrary/SubProjectTreeJson
             description: "==请选择==",
@@ -58,7 +58,7 @@
                     $("#form1").SetWebControls(data);
                  
                     $.ajax({
-                        url: "../../SteelMember/MemberLibrary/GetFormJson",
+                        url: "../../SteelMember/MemberDemand/GetFormJsonMemberLibrary",
                         data: { keyValue: data.MemberId },
                         type: "get",
                         dataType: "json",
@@ -81,7 +81,7 @@
                 description: "==请选择==",
                 height: "200px",
             });
-            $("#SubProject").ComboBoxSetselectTreeValue(SubProjectId);
+            $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
         }
     }
 
@@ -118,7 +118,7 @@
 
     //验证构件不能重复
     $._ExistField = function (controlId, url, param) {
-        var SubProject = $("#SubProject").attr('data-text');
+        var SubProjectId = $("#SubProjectId").attr('data-value');
         var Member = $("#MemberId").attr('data-value');
         if (Member == "==请选择==" || Member == undefined || Member == "" || Member == '' || Member == null) {
             return false;
@@ -127,7 +127,7 @@
             MemberId = "M";
         }
         var Data = {
-            SubProject: SubProject,
+            SubProject: SubProjectId,
             Member: Member
         };
         $.ajax({
@@ -160,17 +160,15 @@
                 分项目名称<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <div id="SubProject" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="SubProjectId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
         <tr>
             <td class="formTitle">
                 构件<font face="宋体">*</font>
             </td>
-            <td class="formValue">
-                @*<div id="EngineeringId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                    <br />*@
-                <div id="MemberId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            <td class="formValue">@*onblur*@
+                <div id="MemberId" type="select" tabindex="1" onblur="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 <input id="btn_MemberInfo" type="hidden" onclick="btn_member_info()" value="构件详情" />
             </td>
         </tr>
@@ -179,7 +177,7 @@
                 需求量<font face="宋体">*</font>
             </td>
             <td class="formValue">
-                <input id="MemberNumber" type="text" onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
+                <input id="MemberNumber" type="text" @*onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"*@ class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
             </td>
         </tr>
         <tr>

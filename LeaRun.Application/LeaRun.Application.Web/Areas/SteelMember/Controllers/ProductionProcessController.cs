@@ -8,6 +8,12 @@ using LeaRun.Util.Extension;
 using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
+using System;
+using ThoughtWorks.QRCode.Codec;
+using System.Drawing;
+using System.IO;
+using ThoughtWorks.QRCode.Codec.Data;
+using LeaRun.Application.Busines.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -19,8 +25,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
         private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
         private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
+        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
         private MemberMaterialBLL membermaterialbll = new MemberMaterialBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -58,7 +67,30 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 生产填报
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ProductionNumberForm()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 自检填报
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SelfDetectForm()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 监理质检填报
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult QualityInspectionForm()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据
@@ -84,7 +116,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = "";//memberprocessbll.GetEntity(keyValue);
             return ToJsonResult(data);
         }
-
+       
         /// <summary>
         /// 获取实体 
         /// </summary>
@@ -206,6 +238,310 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             return Success("操作成功。");
         }
+
+        /// <summary>
+        /// 领取材料
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult ReceiveRawMaterial(string keyValue)
+        {
+            //var entity = strEntity.ToObject<MemberProductionOrderEntity>();
+            var entity = memberproductionorderbll.GetEntity(keyValue);
+            entity.IsReceiveRawMaterial = 1;
+            entity.ProductionStatus = 1;
+            memberproductionorderbll.SaveForm(keyValue, entity);
+            return Success("操作成功。");
+        }
+
+        /// <summary>
+        /// 生产信息提交
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <param name="strChildEntitys"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult ProductionedOrderNumber(string keyValue, string strChildEntitys)
+        {
+            List<MemberProductionOrderInfoEntity> childEntitys = strChildEntitys.ToList<MemberProductionOrderInfoEntity>();
+            int a = 0, b = 0;
+            if (childEntitys.Count > 0)
+            {
+                foreach (var item in childEntitys)
+                {
+                    a += Convert.ToInt32(item.ProductionQuantity);
+                    b += Convert.ToInt32(item.ProductionedQuantity);
+                    var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
+                    ProductionedOrderInfo.ProductionedQuantity = item.ProductionedQuantity;
+                    ProductionedOrderInfo.Description = item.Description;
+                    memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
+                }
+
+                var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
+                if (a == b)
+                {
+                    ProductionedOrder.ProductionStatus = 2;
+                }
+                else
+                {
+                    ProductionedOrder.ProductionStatus = 1;
+                }
+                memberproductionorderbll.SaveForm(keyValue, ProductionedOrder);
+            }
+            
+            return Success("操作成功。");
+        }
+
+        /// <summary>
+        /// 自检信息提交
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <param name="strChildEntitys"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult SelfDetectNumber(string keyValue, string strChildEntitys)
+        {
+            List<MemberProductionOrderInfoEntity> childEntitys = strChildEntitys.ToList<MemberProductionOrderInfoEntity>();
+            int a = 0, b = 0;
+            if (childEntitys.Count > 0)
+            {
+                foreach (var item in childEntitys)
+                {
+                    a += Convert.ToInt32(item.ProductionedQuantity);
+                    b += Convert.ToInt32(item.SelfDetectNumber);
+                    var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
+                    ProductionedOrderInfo.SelfDetectNumber = item.SelfDetectNumber;
+                    ProductionedOrderInfo.SelfDetectRemarks = item.SelfDetectRemarks;
+                    memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
+                }
+                var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
+                if (a == b)
+                {
+                    ProductionedOrder.SelfDetectStatus = 2;
+
+                }
+                else
+                {
+                    ProductionedOrder.SelfDetectStatus = 1;
+                }
+                memberproductionorderbll.SaveForm(keyValue, ProductionedOrder);
+            }
+           
+            return Success("操作成功。");
+        }
+        /// <summary>
+        /// 监理检测信息提交
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <param name="strChildEntitys"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult QualityInspectionNumber(string keyValue, string strChildEntitys)
+        {
+            List<MemberProductionOrderInfoEntity> childEntitys = strChildEntitys.ToList<MemberProductionOrderInfoEntity>();
+            int a = 0, b = 0;
+            if (childEntitys.Count > 0)
+            {
+                foreach (var item in childEntitys)
+                {
+                    a += Convert.ToInt32(item.QualityInspectionNumber);
+                    b += Convert.ToInt32(item.SelfDetectNumber);
+                    var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
+                    ProductionedOrderInfo.QualityInspectionNumber = item.QualityInspectionNumber;
+                    ProductionedOrderInfo.QualityInspectionRemarks = item.QualityInspectionRemarks;
+                    memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
+                }
+                var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
+                if (a == b)
+                {
+                    ProductionedOrder.QualityInspectionStatus = 2;
+
+                }
+                else
+                {
+                    ProductionedOrder.QualityInspectionStatus = 1;
+                }
+                memberproductionorderbll.SaveForm(keyValue, ProductionedOrder);
+            }
+
+            return Success("操作成功。");
+        }
+
+        /// <summary>
+        /// 构件打包
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Package(string keyValue)
+        {
+          var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
+            if(ProductionedOrder.IsPackage == 1) {
+                return Success("该订单已打包");
+            }
+            else
+            {
+                ProductionedOrder.IsPackage = 1;
+            }
+            memberproductionorderbll.SaveForm(keyValue, ProductionedOrder);
+            return Success("操作成功。");
+        }
+        #endregion
+
+        #region 二维码解析，生成，打印
+
+        /// <summary>
+        /// 表单
+        /// </summary>
+        /// <param></param>
+        /// <returns></returns>
+        public ActionResult QRCodeForm()
+        {
+            return View();
+        }
+
+        public ActionResult SetQRCodeForm(string KeyValue, string OrderId, QRCodeModel EntityModel)
+        {
+            try
+            {
+                var Member = memberlibrarybll.GetEntity(KeyValue);
+                var Ordor = memberproductionorderbll.GetEntity(OrderId);
+                //var MemberDemend = memberdemandbll.Find(f => f.MemberId == Member.MemberID).SingleOrDefault();
+                EntityModel.MemberName = Member.MemberName;
+                EntityModel.MemberNumbering = Member.MemberNumbering;
+                EntityModel.ProjectName = subprojectbll.GetEntity(Ordor.Category).FullName;
+                return Content(EntityModel.ToJson());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+        //生成二维码方法一
+        private void CreateCode_Simple(string nr)
+        {
+            QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
+            qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
+            qrCodeEncoder.QRCodeScale = 4;
+            qrCodeEncoder.QRCodeVersion = 8;
+            qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M;
+            //System.Drawing.Image image = qrCodeEncoder.Encode("4408810820 深圳－广州 小江");
+            System.Drawing.Image image = qrCodeEncoder.Encode(nr);
+            string filename = DateTime.Now.ToString("yyyymmddhhmmssfff").ToString() + ".jpg";
+            string filepath = Server.MapPath(@"~\Upload") + "\\" + filename;
+            System.IO.FileStream fs = new System.IO.FileStream(filepath, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+            image.Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            fs.Close();
+            image.Dispose();
+            //二维码解码
+            var codeDecoder = CodeDecoder(filepath);
+        }
+
+        /// <summary>
+        /// 生成二维码
+        /// </summary>
+        /// <param name="strData">要生成的文字或者数字，支持中文。如： "4408810820 深圳－广州" 或者：4444444444</param>
+        /// <param name="qrEncoding">三种尺寸：BYTE ，ALPHA_NUMERIC，NUMERIC</param>
+        /// <param name="level">大小：L M Q H</param>
+        /// <param name="version">版本：如 8</param>
+        /// <param name="scale">比例：如 4</param>
+        /// <returns></returns>
+        public ActionResult CreateCode_Choose(string strData, string qrEncoding, string level, int version, int scale)
+        {
+            QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
+            string encoding = qrEncoding;
+            switch (encoding)
+            {
+                case "Byte":
+                    qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
+                    break;
+                case "AlphaNumeric":
+                    qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.ALPHA_NUMERIC;
+                    break;
+                case "Numeric":
+                    qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.NUMERIC;
+                    break;
+                default:
+                    qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
+                    break;
+            }
+
+            qrCodeEncoder.QRCodeScale = scale;
+            qrCodeEncoder.QRCodeVersion = version;
+            switch (level)
+            {
+                case "L":
+                    qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.L;
+                    break;
+                case "M":
+                    qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M;
+                    break;
+                case "Q":
+                    qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.Q;
+                    break;
+                default:
+                    qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.H;
+                    break;
+            }
+            //文字生成图片
+            Image image = qrCodeEncoder.Encode(strData);
+            string filename = DateTime.Now.ToString("yyyymmddhhmmssfff").ToString() + ".jpg";
+            string virtualPath = this.Server.MapPath("~") + "Resource/Document/NetworkDisk/QRCode";
+            string filepath = virtualPath + "/" + filename;
+            //string filepath = Server.MapPath(@"~\Upload") + "\\" + filename;
+            if (Directory.Exists(virtualPath))
+            {
+                Directory.Delete(virtualPath, true);//pdf路径
+                Directory.CreateDirectory(virtualPath);
+            }
+            else
+            {
+                Directory.CreateDirectory(virtualPath);//如果文件夹不存在，则创建
+            }
+            //如果文件夹不存在，则创建
+            //if (!Directory.Exists(filepath))
+            //    Directory.CreateDirectory(filepath);
+            System.IO.FileStream fs = new System.IO.FileStream(filepath, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+            image.Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg);
+            fs.Close();
+            image.Dispose();
+            return Content("../../Resource/Document/NetworkDisk/QRCode/" + filename);
+        }
+
+        /// <summary>
+        /// 二维码解码
+        /// </summary>
+        /// <param name="filePath">图片路径</param>
+        /// <returns></returns>
+        public string CodeDecoder(string filePath)
+        {
+            if (!System.IO.File.Exists(filePath))
+                return null;
+            Bitmap myBitmap = new Bitmap(Image.FromFile(filePath));
+            QRCodeDecoder decoder = new QRCodeDecoder();
+            string decodedString = decoder.decode(new QRCodeBitmapImage(myBitmap));
+            return decodedString;
+        }
+
+        /// <summary>
+        /// 打印当前页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PrintPage()
+        {
+            return View();
+        }
+
         #endregion
     }
 }
