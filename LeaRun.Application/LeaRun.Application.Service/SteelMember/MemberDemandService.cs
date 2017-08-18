@@ -53,15 +53,15 @@ namespace LeaRun.Application.Service.SteelMember
                 switch (condition)
                 {
 
-                    case "Category":              //构件类型
-                        expression = expression.And(t => t.Category.Contains(keyword));
-                        break;
-                    case "MemberName":              //构件名称
-                        expression = expression.And(t => t.MemberName.Contains(keyword));
-                        break;
-                    case "MemberNumbering":              //编号
-                        expression = expression.And(t => t.MemberNumbering.Contains(keyword));
-                        break;
+                    //case "Category":              //构件类型
+                    //    expression = expression.And(t => t.Category.Contains(keyword));
+                    //    break;
+                    //case "MemberName":              //构件名称
+                    //    expression = expression.And(t => t.MemberName.Contains(keyword));
+                    //    break;
+                    //case "MemberNumbering":              //编号
+                    //    expression = expression.And(t => t.MemberNumbering.Contains(keyword));
+                    //    break;
                     default:
                         break;
                 }
@@ -149,10 +149,6 @@ namespace LeaRun.Application.Service.SteelMember
             {
                 expression = expression.And(t => t.MemberDemandId != keyValue);
             }
-            if (!string.IsNullOrEmpty(category))
-            {
-                expression = expression.And(t => t.Category == category);
-            }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
         /// <summary>
@@ -167,7 +163,7 @@ namespace LeaRun.Application.Service.SteelMember
             expression = expression.And(t => t.SubProjectId== keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                expression = expression.And(t => t.MemberNumbering == query);
+                expression = expression.And(t => t.MemberId == query);
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
