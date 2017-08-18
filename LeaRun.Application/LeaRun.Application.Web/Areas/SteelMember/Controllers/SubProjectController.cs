@@ -69,8 +69,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             return Content(treeList.TreeToJson());
         }
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="SubProjectId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetTreeJsonParentId(string SubProjectId)
+        {
+            var data = subprojectbll.GetEntity(SubProjectId);
+            return ToJsonResult(data);
+        }
         /// <summary>
         /// 获取列表
         /// </summary>

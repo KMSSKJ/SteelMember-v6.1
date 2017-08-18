@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "构件列表";
+    Layout = "~/Views/Shared/_OrderForm.cshtml";
+}
+<script>
+    var Category = request('category');
+    $(function () {
+        $("#keywords").focus();
+        //GetTree();
+        GetGrid();
+        //绑定键盘按下事件
+        $(document).keypress(function (e) {
+            // 回车键事件
+            if (e.which == 13) {
+                $("#keywords").focus();
+                $("#keywords").select();
+                $("#btnSearch").click();
+            }
+        });
+    });
+
+    var myArray = [];
+    //显示物料
+    function GetGrid() {
+        var SelectRowIndx;
+       // var index = GetQuery('index');
+        $("#gridTable").jqGrid({
+            url: "@Url.Content("~/SteelMember/MemberProductionOrder/GridListJsonDemand")?category=" + Category,
+            datatype: "json",
+            height: $(window).height()-100,
+            autowidth: true,
+            colModel: [
+                { label: '主键', name: "MemberId", align: ' center', width: 100, sortable: false ,hidden:true},
+                { label: '编号', name: "MemberNumbering", align:' center',width: 100, sortable: false },
+                { label: '名称', name: "MemberName", align:' center',width: 100, sortable: false },
+                { label: '规格或型号', name: "MemberModel", align:' center',width: 80, sortable: false},
+                { label: '需求量', name: "MemberNumber", align: ' center', width: 50, sortable: false },
+                { label: '单位', name: "MemberUnit", align:' center',width: 50, sortable: false},
+            ],
+            rowNum: 30,
+            viewrecords: true,
+            rowNum: 30,
+            sortname: 'MemberDemandId',
+            sortorder: 'Desc',//降序 asc升序
+            pager: "#gridPager",
+            viewrecords: true,
+            rownumbers: true,
+            gridview: true,
+            multiselect: true,
+            rowList: [15, 30, 50, 100, 500, 1000],
+            onSelectRow: function () {
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $("#" + this.id).jqGrid('setSelection', SelectRowIndx);
+
+                var rowIds = jQuery("#gridTable").jqGrid('getDataIDs');
+                var $parentobj = top.frames["Form"];
+                for (var k = 0; k < rowIds.length; k++) {
+                    var curRowData = jQuery("#gridTable").jqGrid('getRowData', rowIds[k]);
+                    var curChk = $("#" + rowIds[k] + "").find(":checkbox");
+                    //curChk.attr('name', 'checkboxname');   //给每一个checkbox赋名字
+                    //curChk.attr('value', curRowData['MY_ID']);   //给checkbox赋值
+                    //curChk.attr('title', curRowData['NAME']);   //给checkbox赋予额外的属性值
+                    ////curChk.attr('checked', 'true');   //设置所有checkbox被选中
+                    //if (!$parentobj.HaveExistItem(k, curRowData.MemberId)) {
+                    //    //$("#gridTable").attr("checked", false);
+                    //    curChk.attr('checked', false);
+                    //} else {
+                    //    //$("#gridTable").attr("checked", true);
+                    //    curChk.attr('checked', true);
+                    //}
+                }
+            },
+        });
+    }
+
+    //添加
+    function btn_add_() {
+        var KeyValue = $('#gridTable').jqGridRowValue('MemberId');
+            $.ajax({
+                url: "/SteelMember/MemberProductionOrder/ListMember",
+                type: "post",
+                datatype: 'json',
+                data: {
+                    category: Category,
+                    KeyValue: KeyValue
+                },
+                success: function (rowData) {
+                    var rows = 1;
+                    var $parentobj = top.frames["Form"];
+                    while (rows < 30) {
+                        $parentobj.$("#MemberId➩" + rows).val(null);
+                        $parentobj.$("#MemberNumbering➩" + rows).val(null);
+                        $parentobj.$("#MemberName➩" + rows).val(null);
+                        $parentobj.$("#MemberModel➩" + rows).val(null);
+                        $parentobj.$("#MemberUnit➩" + rows).val(null);
+                        $parentobj.$("#MemberNumber➩" + rows).val(null);
+                        $parentobj.$("#Price➩" + rows).val(null);
+                        $parentobj.$("#PriceAmount➩" + rows).val(null);
+                        rows++;
+                    }
+                    if (rowData!=null){
+                        var index = 1;
+                        var data1;
+                    for (var i = 0; i < rowData.length; i++) {
+                        $parentobj.IsExistItem(index, rowData[i].MemberNumbering);
+                        $.ajax({
+                            type: 'post',
+                            dataType: "text",
+                            url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
+                            data: {
+                                category: Category,
+                                KeyValue: rowData[i].MemberId
+                            },
+                            cache: false,
+                            async: false,
+                            success: function (data) {
+                                data1 = data;
+                            }
+                        });
+
+                        $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
+                        $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
+                        $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
+                        $parentobj.$("#MemberModel➩" + index).val(rowData[i].MemberModel);
+                        $parentobj.$("#MemberUnit➩" + index).val(rowData[i].MemberUnit);
+                        $parentobj.$("#MemberNumber➩" + index).val(Number(data1));
+                        $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
+                        $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
+                        $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
+                        $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
+                        index++;
+                        $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
+                        $parentobj.$("#gridTable").find('.disabled').attr("disabled", "disabled");
+                        $parentobj.$("#MemberNumbering➩" + index).focus();
+                    }
+                    }
+                    dialogClose();
+                },
+                error: function (e) {
+                    dialogTop(e, "error");
+                }
+            });
+        }
+</script>
+
+<div class="rightline" style="margin: 1px; margin-top: -1px;">
+    <table id="gridTable"></table>
+    <div id="gridPager"></div>
+</div>

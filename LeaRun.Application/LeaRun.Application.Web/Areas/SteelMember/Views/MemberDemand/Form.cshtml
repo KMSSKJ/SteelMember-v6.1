@@ -1,5 +1,5 @@
-@{;
-    ViewBag.Title = "±íµ¥Ò³Ãæ";
+ï»¿@{;
+    ViewBag.Title = "è¡¨å•é¡µé¢";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
 <script>
@@ -10,75 +10,82 @@
         initControl();
     });
 
-    //³õÊ¼»¯¿Ø¼ş
+    //åˆå§‹åŒ–æ§ä»¶
     function initControl() {
-        //×ÓÏîÄ¿
-        $("#SubProjectId").ComboBoxTree({
+        //å­é¡¹ç›®
+        $("#SubProject").ComboBoxTree({
             param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',///MemberLibrary/SubProjectTreeJson
-            id: "Id",
-            text: "FullName",
-            description: "==ÇëÑ¡Ôñ==",
+            description: "==è¯·é€‰æ‹©==",
             height: "200px",
-            allowSearch: true,
-        })
-        //¹¹¼şËùÊô¹¤³Ì
-        $("#EngineeringId").ComboBox({
-            param: { EnCode: "EngineeringType" },
-            url: '../../SystemManage/DataItemDetail/GetDataItemListJson',///MemberLibrary/SubProjectTreeJson
-            id: "ItemDetailId",
-            text: "ItemName",
-            description: "==ÇëÑ¡Ôñ==",
-            height: "170px",
-            allowSearch: true,
+            click: function (item) {
+                if (!item.hasChildren) {
+                }
+                else {
+                    dialogTop("è¯·é€‰æ‹©å·¥ç¨‹åç§°è€Œä¸æ˜¯å·¥ç¨‹åˆ†ç±»", "error");
+                    return "false";
+                }
+            }
         }).bind("change", function () {
-            EngineeringId = $(this).attr('data-value');//$("#Category").attr('data-text'),
-            //¼ÓÔØ¹¹¼ş
+            var SubProjectId = $(this).attr('data-value');//$("#Category").attr('data-text'),
+            var EngineeringId = "";
+            $.ajax({
+                url: "../../SteelMember/SubProject/GetTreeJsonParentId",
+                data: { SubProjectId: SubProjectId },
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                   EngineeringId=data.ParentId;
+                }
+            });
+
+            //åŠ è½½æ„ä»¶
             $("#MemberId").ComboBox({
                 url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
                 param: { EngineeringId: EngineeringId },
                 id: "MemberId",
                 text: "MemberNumbering",
-                description: "==ÇëÑ¡Ôñ==",
+                description: "==è¯·é€‰æ‹©==",
             })
         });
-        //if (SubProjectId != "") {
-        //    //¼ÓÔØ¹¹¼ş
-        //    $("#MemberId").ComboBox({
-        //        url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
-        //        param: { EngineeringId: EngineeringId },
-        //        id: "MemberId",
-        //        text: "MemberNumbering",
-        //        description: "==ÇëÑ¡Ôñ==",
-        //    })
-        //    $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
-        //}
+
         if (!!keyValue) {
             $.SetForm({
                 url: "/SteelMember/MemberDemand/GetFormJson",
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
-                    //¼ÓÔØ¹¹¼ş
-                    $("#MemberId").ComboBox({
-                        description: data.MemberNumbering + ">" + data.Category + ">" + data.MemberName + ">" + data.MemberModel,
-                        height: "200px",
+                 
+                    $.ajax({
+                        url: "../../SteelMember/MemberLibrary/GetFormJson",
+                        data: { keyValue: data.MemberId },
+                        type: "get",
+                        dataType: "json",
+                        async: false,
+                        success: function (data1) {
+                            //åŠ è½½æ„ä»¶
+                            $("#MemberId").ComboBox({
+                                description: data1.MemberNumbering + "â©" + data1.Category + "â©" + data1.MemberName,
+                                height: "200px",
+                            });
+                        }
                     });
-                    //$("#SubProjectId").ComboBoxTreeSetValue(data.SubProjectId);
                 }
             })
+
         }
         else {
-            //¼ÓÔØ¹¹¼ş
+            //åŠ è½½æ„ä»¶
             $("#MemberId").ComboBox({
-                description: "==ÇëÑ¡Ôñ==",
+                description: "==è¯·é€‰æ‹©==",
                 height: "200px",
             });
-            $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
+            $("#SubProject").ComboBoxSetselectTreeValue(SubProjectId);
         }
     }
 
-    //±£´æ±íµ¥;
+    //ä¿å­˜è¡¨å•;
     function AcceptClick() {
         if (!$('#form1').Validform()) {
             return false;
@@ -90,57 +97,57 @@
         $.SaveForm({
             url: "../../SteelMember/MemberDemand/SaveForm?keyValue=" + keyValue,
             param: postData,
-            loading: "ÕıÔÚ±£´æÊı¾İ...",
+            loading: "æ­£åœ¨ä¿å­˜æ•°æ®...",
             success: function () {
                 $.currentIframe().$("#gridTable").trigger("reloadGrid");
             }
         })
     }
 
-    //¹¹¼şÏêÇé
+    //æ„ä»¶è¯¦æƒ…
     function btn_member_info() {
         if (keyValue != "") {
             var url = "/SteelMember/File/DrawingManagement?KeyValue= " + keyValue;
-            Dialog(url, "DrawingManagement", "¹¹¼şĞÅÏ¢", 700, 580, function (iframe) {
+            Dialog(url, "DrawingManagement", "æ„ä»¶ä¿¡æ¯", 700, 580, function (iframe) {
                 top.frames[iframe].AcceptClick();
             });
         } else {
-            alertDialog("Êı¾İ²»ÄÜÎª¿Õ", 0);
+            alertDialog("æ•°æ®ä¸èƒ½ä¸ºç©º", 0);
         }
     };
 
-    //ÑéÖ¤¹¹¼ş²»ÄÜÖØ¸´
+    //éªŒè¯æ„ä»¶ä¸èƒ½é‡å¤
     $._ExistField = function (controlId, url, param) {
-        var SubProjectId = $("#SubProjectId").attr('data-value');
-        var Member = $("#MemberId").attr('data-text');
-        if (Member == "==ÇëÑ¡Ôñ==" || Member == undefined || Member == "" || Member == '' || Member == null) {
+        var SubProject = $("#SubProject").attr('data-text');
+        var Member = $("#MemberId").attr('data-value');
+        if (Member == "==è¯·é€‰æ‹©==" || Member == undefined || Member == "" || Member == '' || Member == null) {
             return false;
         }
         if (MemberId == "") {
             MemberId = "M";
         }
         var Data = {
-            SubProjectId: SubProjectId,
+            SubProject: SubProject,
             Member: Member
         };
-            $.ajax({
-                url: url,
-                data: Data,
-                type: "get",
-                dataType: "text",
-                async: false,
-                success: function (data) {
-                    if (data.toLocaleLowerCase() == 'false') {
-                        ValidationMessage($("#MemberId"), 'Êı¾İ¿âÖĞÒÑ´æÔÚ,ÇëÖØĞÂÊäÈë');
-                        $("#MemberId").attr('fieldexist', 'yes');
-                    } else {
-                        $("#MemberId").attr('fieldexist', 'no');
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    dialogMsg(errorThrown, -1);
+        $.ajax({
+            url: url,
+            data: Data,
+            type: "get",
+            dataType: "text",
+            async: false,
+            success: function (data) {
+                if (data.toLocaleLowerCase() == 'false') {
+                    ValidationMessage($("#MemberId"), 'æ•°æ®åº“ä¸­å·²å­˜åœ¨,è¯·é‡æ–°è¾“å…¥');
+                    $("#MemberId").attr('fieldexist', 'yes');
+                } else {
+                    $("#MemberId").attr('fieldexist', 'no');
                 }
-            })
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                dialogMsg(errorThrown, -1);
+            }
+        })
     }
 </script>
 <div style="margin-top: 20px; margin-right: 30px;">
@@ -150,34 +157,34 @@
     <table class="form">
         <tr>
             <td class="formTitle">
-                ·ÖÏîÄ¿Ãû³Æ<font face="ËÎÌå">*</font>
+                åˆ†é¡¹ç›®åç§°<font face="å®‹ä½“">*</font>
             </td>
             <td class="formValue">
-                <div id="SubProjectId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="SubProject" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
         <tr>
             <td class="formTitle">
-                ĞèÇó¹¹¼ş<font face="ËÎÌå">*</font>
+                æ„ä»¶<font face="å®‹ä½“">*</font>
             </td>
             <td class="formValue">
-                <div id="EngineeringId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                <br />
+                @*<div id="EngineeringId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    <br />*@
                 <div id="MemberId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                <input id="btn_MemberInfo" type="hidden" onclick="btn_member_info()" value="¹¹¼şÏêÇé" />
+                <input id="btn_MemberInfo" type="hidden" onclick="btn_member_info()" value="æ„ä»¶è¯¦æƒ…" />
             </td>
         </tr>
         <tr>
             <td class="formTitle">
-                ĞèÇóÁ¿<font face="ËÎÌå">*</font>
+                éœ€æ±‚é‡<font face="å®‹ä½“">*</font>
             </td>
             <td class="formValue">
-                <input id="MemberNumber" type="text"onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" class="form-control" placeholder="ÇëÊäÈëÓÃÁ¿" isvalid="yes" checkexpession="Num" />
+                <input id="MemberNumber" type="text" onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" class="form-control" placeholder="è¯·è¾“å…¥ç”¨é‡" isvalid="yes" checkexpession="Num" />
             </td>
         </tr>
         <tr>
             <td class="formTitle">
-                ±¸×¢
+                å¤‡æ³¨
             </td>
             <td class="formValue">
                 <textarea id="Description" name="Description" maxlengtd="200" class="form-control"></textarea>

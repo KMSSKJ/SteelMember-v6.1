@@ -180,3 +180,17 @@ E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStac
 E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csprojResolveAssemblyReference.cache
 E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.dll
 E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.pdb
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.Redis.dll
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.Redis.pdb
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.dll
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Common.dll
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Interfaces.dll
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Redis.dll
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.dll
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.pdb
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Common.xml
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Redis.xml
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.xml
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.dll
+D:\project\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.pdb

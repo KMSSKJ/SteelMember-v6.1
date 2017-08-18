@@ -23,9 +23,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, string queryJson)
+        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination,int IsReceive, string queryJson)
         {
-            return service.GetPageList(pagination, queryJson);
+            return service.GetPageList(pagination,IsReceive, queryJson);
         }
         /// <summary>
         /// 获取列表
@@ -66,6 +66,24 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetPageListByProductionOrderStatus(pagination, IsWarehousing);
         }
+
+        /// <summary>
+        /// 批量修改
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<MemberProductionOrderEntity> list)
+        {
+            try
+            {
+                service.UpdataList(list);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         #endregion
 
         #region 提交数据
