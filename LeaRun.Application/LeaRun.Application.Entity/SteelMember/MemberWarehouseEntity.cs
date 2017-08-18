@@ -16,31 +16,16 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string MemberWarehouseId { get; set; }
-        /// <summary>
-        /// MemberId
-        /// </summary>
-        /// <returns></returns>
-        public string MemberId { get; set; }
-        /// <summary>
-        /// Category
-        /// </summary>
-        public string Category { get; set; }
-        /// <summary>
-        /// MemberModel
-        /// </summary>
-        public string MemberModel { get; set; }
+
         /// <summary>
         /// EngineeringId
         /// </summary>
         public string EngineeringId { get; set; }
         /// <summary>
-        /// MemberName
+        /// MemberId
         /// </summary>
-        public string MemberName { get; set; }
-        /// <summary>
-        /// MemberUnit
-        /// </summary>
-        public string MemberUnit { get; set; }
+        /// <returns></returns>
+        public string MemberId { get; set; }
         /// <summary>
         /// InStock
         /// </summary>

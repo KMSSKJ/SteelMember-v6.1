@@ -28,8 +28,6 @@
             colModel: [
                 { label: '主键', name: 'RecordingId', index: 'RecordingId', width: 80, align: 'center', sortable: true, hidden: true },
                 { label: '类型', name: 'Category', index: 'Category', width: 80, align: 'center', sortable: true },
-                { label: '型号', name: 'MemberModel', index: 'MemberModel', width: 80, align: 'center', sortable: true },
-                { label: '规格', name: 'MemberStandard', index: 'MemberStandard', width: 80, align: 'center', sortable: true },
                 { label: '数量', name: 'InStock', index: 'InStock', width: 80, align: 'center', sortable: true },
                 { label: '单位', name: 'Unit', index: 'Unit', width: 80, align: 'center', sortable: true },
                 { label: '更新时间', name: 'UpdateTime', index: 'UpdateTime', width: 80, align: 'center', sortable: true },
@@ -114,14 +112,13 @@
                                     <label style="margin-left:20px">时间(起)</label>
                                 </td>
                                 <td>
-                                    <input id="txt_BeginTime" type="datetime-local" class="form-control" style="width:160px" />
+                                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                                 </td>
                                 <td>
-
-                                    <label style="margin-left:10px">时间(束)</label>
+                                    <label style="margin-left:5px">时间(束)</label>
                                 </td>
                                 <td>
-                                    <input id="txt_EndTime" type="datetime-local" class="form-control" style="width:160px" />
+                                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                                 </td>
                                 
                                 <td style="padding-left: 10px;">
