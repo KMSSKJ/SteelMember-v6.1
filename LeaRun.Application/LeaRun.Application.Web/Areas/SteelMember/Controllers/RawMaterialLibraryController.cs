@@ -261,7 +261,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         if (table.Rows[i][j].ToString() == "")
                         {
                             var inu = i + 2;
-                            var tshi = string.Format("表格中{0}的前三列为空行！！请修改后在导入！！", inu.ToString());
+                            var tshi = string.Format("表格中{0}行的前三列为空行！！请修改后在导入！！", inu.ToString());
                             return Content(tshi);       
                         } 
 
