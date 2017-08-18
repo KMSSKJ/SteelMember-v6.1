@@ -52,8 +52,3 @@ E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache\bin\Debug\LeaRun.Cache.pdb
 E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.csprojResolveAssemblyReference.cache
 E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.dll
 E:\SSKJProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.pdb
-D:\project\LeaRun.Cache\LeaRun.Cache\bin\Debug\LeaRun.Cache.dll
-D:\project\LeaRun.Cache\LeaRun.Cache\bin\Debug\LeaRun.Cache.pdb
-D:\project\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.csprojResolveAssemblyReference.cache
-D:\project\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.dll
-D:\project\LeaRun.Cache\LeaRun.Cache\obj\Debug\LeaRun.Cache.pdb
