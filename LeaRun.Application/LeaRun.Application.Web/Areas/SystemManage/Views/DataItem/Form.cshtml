@@ -68,8 +68,9 @@
         </tr>
         <tr>
             <td class="formTitle">编号<font face="宋体">*</font></td>
-            <td @*class="formValue"*@>
-                <input readonly="readonly" id="ItemCode" type="text" onblur="$.ExistField(this.id,'../../SystemManage/DataItem/ExistItemCode')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
+            <td class="formValue">
+                <input readonly id="ItemCode" type="text" onblur="$.ExistField(this.id,'../../SystemManage/DataItem/ExistItemCode')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
+                @*<input readonly id="OrderNumbering" type="text" datacol="yes" err="订单编号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" class="txt"style="width: 95%" />*@
             </td>
         </tr>
         <tr>

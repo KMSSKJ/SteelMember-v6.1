@@ -4,6 +4,8 @@ using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using System.Web.Mvc;
 using LeaRun.Application.Code;
+using System.Collections.Generic;
+using System;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -15,7 +17,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     public class MemberProcessController : MvcControllerBase
     {
         private MemberProcessBLL memberprocessbll = new MemberProcessBLL();
-
+        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
+        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -34,6 +37,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SelfDetectionForm()
         {
             return View();
         }

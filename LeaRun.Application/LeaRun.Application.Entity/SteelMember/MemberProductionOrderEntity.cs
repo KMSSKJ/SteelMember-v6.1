@@ -79,22 +79,35 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("ISRECEIVERAWMATERIAL")]
         public int? IsReceiveRawMaterial { get; set; }
         /// <summary>
-        /// OrderStatus
-        /// </summary>
-        /// <returns></returns>
-        [Column("ORDERSTATUS")]
-        public int? OrderStatus { get; set; }
-        /// <summary>
         /// ProductionStatus
         /// </summary>
         /// <returns></returns>
         [Column("PRODUCTIONSTATUS")]
         public int? ProductionStatus { get; set; }
         /// <summary>
-        /// 审核人
+        /// ProductionStatus
         /// </summary>
         /// <returns></returns>
-        [Column("REVIEWMAN")]
+        [Column("SELFDETECTSTATUS")]
+        public int? SelfDetectStatus { get; set; }
+        /// <summary>
+        /// ProductionStatus
+        /// </summary>
+        /// <returns></returns>
+        [Column("QUALITYINSPECTIONSTATUS")]
+        public int? QualityInspectionStatus { get; set; }
+
+        /// <summary>
+        /// ORDERWAREHOUSINGSTATUS
+        /// </summary>
+        /// <returns></returns>
+        [Column("ORDERWAREHOUSINGSTATUS")]
+        public int? OrderWarehousingStatus  { get; set; }
+    /// <summary>
+    /// 审核人
+    /// </summary>
+    /// <returns></returns>
+    [Column("REVIEWMAN")]
         public string ReviewMan { get; set; }
         /// <summary>
         /// 审核时间
@@ -108,6 +121,13 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("DESCRIPTION")]
         public string Description { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        /// <returns></returns>
+        [Column("IsPackage")]
+        public int IsPackage { get; set; }
         #endregion
 
         #region 扩展操作
@@ -117,7 +137,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Create()
         {
             this.OrderId = Guid.NewGuid().ToString();
-                                            }
+        }
         /// <summary>
         /// 编辑调用
         /// </summary>
@@ -125,7 +145,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Modify(string keyValue)
         {
             this.OrderId = keyValue;
-                                            }
+        }
         #endregion
     }
 }

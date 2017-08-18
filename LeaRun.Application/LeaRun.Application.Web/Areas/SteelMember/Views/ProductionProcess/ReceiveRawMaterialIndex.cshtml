@@ -32,7 +32,7 @@
                 { label: '主键', name: "RawMaterialId", align: ' center', width: 100, sortable: false ,hidden:true},
                 { label: '规格或型号', name: "RawMaterialModel", align: ' center', width: 80, sortable: false },
                 { label: '材料名称', name: "RawMaterialName", align: ' center', width: 100, sortable: false },//Category
-                { label: '需求量', name: "Qty", align: ' center', width: 50, sortable: false },
+                { label: '数量', name: "RawMaterialNumber", align: ' center', width: 50, sortable: false },
                 { label: '单位', name: "UnitName", align:' center',width: 50, sortable: false},
             ],
             rowNum: 30,
@@ -71,6 +71,20 @@
                 }
             },
         });
+    }
+    //保存表单;
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        $.SaveForm({
+            url: "../../SteelMember/ProductionProcess/ReceiveRawMaterial?keyValue=" + keyValue,
+            //param: postData,
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
     }
 
 </script>

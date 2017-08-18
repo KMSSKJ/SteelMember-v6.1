@@ -33,12 +33,13 @@
             colModel: [
                 { label: '构件编号[<font face="宋体">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
                 { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
-                { label: '构件型号', name: "MemberModel", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
                 { label: '生产数量[<font face="宋体">*</font>]', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
                 { label: '单价[<font face="宋体">*</font>]', name: 'Price', align: ' center', width: 80, sortable: false },
                 { label: '金额[<font face="宋体">*</font>]', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
-                { label: 'InfoId', name: 'InfoId', width: 80, align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'InfoId', name: 'InfoId',  align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'MemberId', name: 'MemberId', align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'MaxNumber', name: 'MaxNumber',  align: '', sortable: false, resizable: false, hidden: true },
             ],
             pager: false,
             rownumbers: true,
@@ -52,9 +53,6 @@
                     "ProductionQuantity": "<span id='TotalQty'>0</span>",
                     "Price": "<span id='TotalPrice'>0.00</span>",
                     "PriceAmount": "<span id='TotalPriceAmount'>0.00</span>",
-                    //"PlusPrice": "<span id='TotalPlusPrice'>0.00</span>",
-                    //"CESSAmount": "<span id='TotalCESSAmount'>0.00</span>",
-                    //"PlusPriceAmount": "<span id='TotalPlusPriceAmount'>0.00</span>"
                 });
             },
             ondblclick: function (rowid, e) {
@@ -67,12 +65,13 @@
             var rowdata = {
                 MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="text" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
                 MemberName: '<input id="MemberName➩' + i + '" class="editable disabled" type="text" />',
-                MemberModel: '<input id="MemberModel➩' + i + '" class="editable disabled center" type="text" />',
                 MemberUnit: '<input id="MemberUnit➩' + i + '" class="editable disabled center" type="text" />',
-                MemberNumber: '<input name="MemberNumber" type="text" class="editable center" />',
+                MemberNumber: '<input id="MemberNumber➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" checkexpession="Number"/>',
                 Price: '<input id="Price➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
                 PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="text" datacol="No" err="金额" checkexpession="Double" />',
-                InfoId: '<input name="InfoId" type="text" class="editable center" />',
+                InfoId: '<input id="InfoId➩' + i + '" type="text" class="editable center" />',
+                MemberId: '<input id="MemberId➩' + i + '" type="text" class="editable center" />',
+                MaxNumber: '<input id="MaxNumber➩' + i + '" type="text" class="editable center" />',
             }
             $grid.jqGrid('addRowData', i, rowdata);
         };
@@ -80,7 +79,9 @@
         $("#gridTable").find('.decimal').attr('onfocus', 'IsMoney(this.id)');
         $("#gridTable").find('.center').css('text-align', 'center')
         $("#gridTable").find('input').attr("disabled", "disabled");
-        $("#gridTable tbody tr:eq(1)").find('input').removeAttr('disabled').attr("datacol", "yes");
+        for (var i = 1; i < 31; i++) {
+            $("#gridTable tbody tr:eq("+i+")").find('input').removeAttr('disabled').attr("datacol", "yes");
+        }
         $("#gridTable").find('.disabled').attr("disabled", "disabled");
         $('.jqgrid-rownum').attr('title', '双击清空一行');
         //点击物料编码文本框时间，弹出选择物料信息
@@ -138,11 +139,11 @@
     }
     //采购订单明细换算+合计
     function Conversion(index) {
-        //alert(index);
         var MaxNumber = Number($("#MaxNumber➩" + index).val());
         var Qty = Number($("#MemberNumber➩" + index).val());//数量
-        if (Qty > MaxNumber) {
-            tipDialog("您的输入不能超过" + MaxNumber, 2)
+
+        if (Qty > MaxNumber) {//dialogMsg
+            dialogMsg("您的输入不能超过" + MaxNumber, 1)
             $("#MemberNumber➩" + index).val(MaxNumber);
             return
         }
@@ -153,10 +154,6 @@
         //var CESSAmount = $("#CESSAmount➩" + index).val();                  //税额
         //var PlusPriceAmount = $("#PlusPriceAmount➩" + index).val();        //含税金额
         //数量*单价=金额
-        alert(MaxNumber);
-        alert(Qty);
-        alert(Price);
-        alert(Qty * Price);
         $("#PriceAmount➩" + index).val(FormatCurrency(Qty * Price));
         ////单价 * (1 + (税率 / 100))=含税单价
         //$("#PlusPrice➩" + index).val(FormatCurrency(Price * (1 + (CESS / 100))));
@@ -167,37 +164,22 @@
         //统计合计
         var TotalQty = 0, TotalPrice = 0.00, TotalPriceAmount = 0.00, TotalPlusPrice = 0.00, TotalCESSAmount = 0.00, TotalPlusPriceAmount = 0.00;
         $("#gridTable tbody tr").each(function (i) {
-            var Qty = $(this).find('td:eq(5)').find('input').val();
+            var Qty = $(this).find('td:eq(4)').find('input').val();
             if (Qty != "" && Qty != undefined) {
                 TotalQty += Number(Qty);
             }
-            var Price = $(this).find('td:eq(6)').find('input').val();
+            var Price = $(this).find('td:eq(5)').find('input').val();
             if (Price != "" && Qty != undefined) {
                 TotalPrice += Number(Price);
             }
-            var PriceAmount = $(this).find('td:eq(7)').find('input').val();
+            var PriceAmount = $(this).find('td:eq(6)').find('input').val();
             if (PriceAmount != "" && Qty != undefined) {
                 TotalPriceAmount += Number(PriceAmount);
-            }
-            var PlusPrice = $(this).find('td:eq(8)').find('input').val();
-            if (PlusPrice != "" && Qty != undefined) {
-                TotalPlusPrice += Number(PlusPrice);
-            }
-            var CESSAmount = $(this).find('td:eq(10)').find('input').val();
-            if (CESSAmount != "" && Qty != undefined) {
-                TotalCESSAmount += Number(CESSAmount);
-            }
-            var PlusPriceAmount = $(this).find('td:eq(11)').find('input').val();
-            if (PlusPriceAmount != "" && Qty != undefined) {
-                TotalPlusPriceAmount += Number(PlusPriceAmount);
             }
         });
         $("#TotalQty").text(TotalQty);
         $("#TotalPrice").text(FormatCurrency(TotalPrice));
         $("#TotalPriceAmount").text(FormatCurrency(TotalPriceAmount));
-        //$("#TotalPlusPrice").text(FormatCurrency(TotalPlusPrice));
-        //$("#TotalCESSAmount").text(FormatCurrency(TotalCESSAmount));
-        //$("#TotalPlusPriceAmount").text(FormatCurrency(TotalPlusPriceAmount));
     }
 
 
@@ -226,13 +208,35 @@
                 success: function (data) {
                     $("#form1").SetWebControls(data.entity);
                     //明细
+                    var number = "";
                     var childEntity = data.childEntity;
                     $('#gridTable').find('[role=row]').each(function (i) {
                         var row = childEntity[i - 1];
                         if (row != undefined) {
-                            $(this).find('input[name="InfoId"]').val(row.InfoId);
-                            $(this).find('input[name="OrderId"]').val(row.OrderId);
-                            $(this).find('input[name="ProductionQuantity"]').val(row.ProductionQuantity);
+                            $(this).find('input[id="InfoId➩' + i + '"]').val(row.InfoId);
+                            //$(this).find('input[id="OrderId➩' + i + '"]').val(row.OrderId);
+                            $(this).find('input[id="MemberId➩' + i + '"]').val(row.MemberId);
+                            $(this).find('input[id="MemberNumbering➩' + i + '"]').val(row.MemberNumbering);
+                            $(this).find('input[id="MemberName➩' + i + '"]').val(row.MemberName);
+                            $(this).find('input[id="MemberUnit➩' + i + '"]').val(row.MemberUnit);
+                            $(this).find('input[id="MemberNumber➩' + i + '"]').val(row.MemberNumber);
+
+                            $.ajax({
+                                type: 'post',
+                                dataType: "json",
+                                url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
+                                data: {
+                                    category: data.entity.Category,
+                                    KeyValue: row.MemberId
+                                },
+                                cache: false,
+                                async: false,
+                                success: function (data) {
+                                    number = data;
+                                }
+
+                            });
+                            $(this).find('input[id="MaxNumber➩' + i + '"]').val(Number(number) + Number(row.MemberNumber));
                         }
                     });
                 }
@@ -250,11 +254,12 @@
         postData["CategoryName"] = $("#Category").attr('data-text');
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
-            if (!!$(this).find('input[name="OrderId"]').val()) {
+            if (!!$(this).find('input[id="MemberNumbering➩' + i + '"]').val()) {
                 childEntryJson.push({
-                    InfoId: $(this).find('input[name="InfoId"]').val(),
-                    OrderId: $(this).find('input[name="OrderId"]').val(),
-                    ProductionQuantity: $(this).find('input[name="ProductionQuantity"]').val(),
+                    InfoId: $(this).find('input[id="InfoId➩' + i + '"]').val(),
+                    //OrderId: $(this).find('input[id="OrderId➩' + i + '"]').val(),
+                    MemberId: $(this).find('input[id="MemberId➩' + i + '"]').val(),
+                    ProductionQuantity: $(this).find('input[id="MemberNumber➩' + i + '"]').val(),
                 });
             }
         });
@@ -285,7 +290,7 @@
                     订单编号：
                 </th>
                 <td>
-                    <input readonly id="OrderId" type="text" class="txt" datacol="yes" err="订单编号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" style="width: 95%" />
+                    <input readonly id="OrderNumbering" type="text" class="txt" datacol="yes" err="订单编号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" style="width: 95%" />
                 </td>
                 <th>
                     制单员：

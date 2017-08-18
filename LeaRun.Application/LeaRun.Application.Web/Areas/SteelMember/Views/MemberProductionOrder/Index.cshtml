@@ -134,8 +134,11 @@
                     height: "100%",
                     colModel: [
                         { label: 'InfoId', name: 'InfoId', index: 'InfoId', width: 80, align: '', sortable: true, hidden: true },
-                        { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, align: '', sortable: true },
-                        { label: '生产数量', name: 'ProductionQuantity', index: 'ProductionQuantity', width: 80, align: '', sortable: true },
+                        { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, align: '', sortable: true ,hidden: true },
+                        { label: '构件编号[<font face="宋体">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                        { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
+                        { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
+                        { label: '生产数量', name: 'MemberNumber', index: 'MemberNumber', width: 80, align: '', sortable: true },
                     ],
                     caption: "明细",
                     rowNum: "1000",
@@ -375,7 +378,7 @@
                                 <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
                             </td>
 
-                            @*<td style="padding-left: 10px;">
+                            <td style="padding-left: 10px;">
                                 <div id="queryCondition" class="btn-group">
                                     <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -390,7 +393,7 @@
 
                             <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                            </td>*@
+                            </td>
                         </tr>
                     </table>
                 </div>
