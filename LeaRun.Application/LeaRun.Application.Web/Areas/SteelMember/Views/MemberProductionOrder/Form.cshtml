@@ -247,7 +247,6 @@
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
-        postData["CategoryName"] = $("#Category").attr('data-text');
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
             if (!!$(this).find('input[name="OrderId"]').val()) {

@@ -69,6 +69,18 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ninject.3.2.0.0\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ninject.Web.Common.3.2.0.0\lib\net40-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ninject.MVC5.3.2.1.0\lib\net40-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -158,6 +170,7 @@
     <Compile Include="App_Start\01 Handler\MvcControllerBase.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\AuthorizeManage\AuthorizeManageAreaRegistration.cs" />
@@ -190,6 +203,8 @@
     <Compile Include="Areas\PublicInfoManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ClassController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\DirectoryController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\FileController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberDemandController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberMaterialController.cs" />
@@ -197,23 +212,28 @@
     <Compile Include="Areas\SteelMember\Controllers\MemberProductionOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberWarehouseRecordingController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberWarehouseController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\ProductionProcessController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectInfoManagementController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectManagementController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialInventoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\RawMaterialOrderController.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\RawMaterialOrderInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialPurchaseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMterialCollarController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
-    <Compile Include="Areas\SteelMember\Models\MemberDemandModel.cs" />
-    <Compile Include="Areas\SteelMember\Models\RawMaterialNumberModel.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\TreeController.cs" />
+    <Compile Include="Areas\SteelMember\Models\CollarModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\ListModel.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberMaterialModel.cs" />
     <Compile Include="Areas\SteelMember\Models\OrderModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ProcessManagementModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\ProduceOrderModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\ProjectDemandModel.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberWarehouseModel.cs" />
     <Compile Include="Areas\SteelMember\Models\QRCodeModel.cs" />
+    <Compile Include="Areas\SteelMember\Models\QueryMemberModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialAnalysisModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialCollarModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialInventoryModel.cs" />
@@ -996,6 +1016,7 @@
     <Content Include="Content\styles\learun-report.css" />
     <Content Include="Content\styles\learun-ui.css" />
     <Content Include="Content\styles\learun-webApp.css" />
+    <Content Include="Content\styles\learunui-framework.css" />
     <Content Include="Content\webApp\css\learun-appui.css" />
     <Content Include="Content\webApp\css\learun-iframe.css" />
     <Content Include="Content\webApp\css\learun-ionic.css" />
@@ -1057,7 +1078,6 @@
     <Content Include="Content\webApp\templates\model.html" />
     <Content Include="Content\webApp\templates\tabs.html" />
     <Content Include="Index.htm" />
-    <Content Include="Views\Web.config" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1223,6 +1243,11 @@
     <Content Include="Areas\SteelMember\Views\ProjectInfoManagement\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectManagement\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectManagement\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\DetailForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\ItemList.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectOrder\OrderForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectWarehouse\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectWarehouse\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectWarehouse\QueryPage.cshtml" />
@@ -1251,6 +1276,7 @@
     <Content Include="Areas\SteelMember\Views\MemberProcess\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\ImportFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\UpLoadFile.cshtml" />
+    <Content Include="Views\Utility\DeriveFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Form.cshtml" />
@@ -1281,15 +1307,7 @@
     <Content Include="Areas\SteelMember\Views\MemberProductionOrder\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberProductionOrder\ItemList.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberProductionOrder\OrderForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialOrder\Form.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialOrder\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialOrder\ItemList.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialOrder\OrderForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProductionProcess\ReceiveOrderIndex.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProductionProcess\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProductionProcess\ItemList.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProductionProcess\OrderForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProductionProcess\ReceiveRawMaterialIndex.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\ImportFile.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
@@ -1320,6 +1338,7 @@
     <Content Include="Views\Shared\_ReportIndex.cshtml" />
     <Content Include="Views\Shared\_WebAppIndex.cshtml" />
     <Content Include="Views\Utility\ExcelExportForm.cshtml" />
+    <Content Include="Views\Web.config" />
     <Content Include="Views\Login\Index2.cshtml" />
     <Content Include="Views\Home\AdminPretty.cshtml" />
     <Content Include="Views\Home\AdminPrettyDesktop.cshtml" />
