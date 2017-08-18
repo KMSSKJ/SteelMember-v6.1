@@ -20,7 +20,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// TreeId
         /// </summary>
         /// <returns></returns>
-        public string TreeId { get; set; }
+        //public string TreeId { get; set; }
         /// <summary>
         /// ËùÊôÀà±ğ
         /// </summary>		

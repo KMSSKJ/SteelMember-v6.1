@@ -212,7 +212,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             rawMaterialInventoryModel.RawMaterialModel = modellibrary.RawMaterialModel;
             rawMaterialInventoryModel.RawMaterialStandard = modellibrary.RawMaterialStandard;
             rawMaterialInventoryModel.Unit = modellibrary.Unit;
-            rawMaterialInventoryModel.Category = modellibrary.Category;
+            //rawMaterialInventoryModel.Category = modellibrary.Category;
+            rawMaterialInventoryModel.Category = modellibrary.RawMaterialName;
 
 
             return ToJsonResult(rawMaterialInventoryModel); ;
@@ -235,15 +236,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     RawMaterialInventoryModel rawMaterialInventoryModel = new RawMaterialInventoryModel();
                     var rawmateriallibrary = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+                    if (rawmateriallibrary!=null) {
+                        rawMaterialInventoryModel.InventoryId = item.InventoryId;
+                        rawMaterialInventoryModel.Quantity = item.Quantity;
+                        //rawMaterialInventoryModel.Category = item.Category;
+                        rawMaterialInventoryModel.Category = rawmateriallibrary.RawMaterialName;
+                        rawMaterialInventoryModel.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
+                        rawMaterialInventoryModel.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
+                        rawMaterialInventoryModel.Unit = rawmateriallibrary.Unit;
 
-                    rawMaterialInventoryModel.InventoryId = item.InventoryId;
-                    rawMaterialInventoryModel.Quantity = item.Quantity;
-                    rawMaterialInventoryModel.Category = item.Category;
-                    rawMaterialInventoryModel.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
-                    rawMaterialInventoryModel.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
-                    rawMaterialInventoryModel.Unit = rawmateriallibrary.Unit;
-
-                    list.Add(rawMaterialInventoryModel);
+                        list.Add(rawMaterialInventoryModel);
+                    }
+                   
                 }
             }
             var jsonData = new

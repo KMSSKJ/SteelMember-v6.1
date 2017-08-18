@@ -79,7 +79,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
                             _model.RawMaterialId = model.RawMaterialId;
                             _model.Id = item.Id;
-                            _model.RawMaterialCategory = model.Category;
+
+                            //_model.RawMaterialCategory = model.Category; 
+                            _model.RawMaterialCategory = model.RawMaterialName;
                             _model.RawMaterialStandard = model.RawMaterialModel;
                             _model.RawMaterialUnit = model.Unit;
                             _model.Description = item.Description;
@@ -137,7 +139,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var model = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
                     var _model = new RawMaterialAnalysisModel();
                     _model.Id = item.Id;
-                    _model.RawMaterialCategory = model.Category;
+                     //_model.RawMaterialCategory = model.Category;
+                    _model.RawMaterialCategory = model.RawMaterialName;
                     _model.RawMaterialStandard = model.RawMaterialModel;
                     _model.RawMaterialDosage = item.RawMaterialDosage;
                     _model.RawMaterialUnit = model.Unit;
@@ -181,7 +184,23 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
             if (!string.IsNullOrEmpty(type))
             {
-                expression = expression.And(r => r.Category.Trim() == type.Trim());
+                expression = expression.And(r => r.RawMaterialName.Trim() == type.Trim());
+            }
+            var data = rawmateriallibrarybll.GetList(expression);
+            return ToJsonResult(data);
+        }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="rawmaterianame">查询参数</param>
+        /// <returns>返回列表Json</returns>
+        [HttpGet]
+        public ActionResult RawMateriaName(string rawmaterianame)
+        {
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            if (!string.IsNullOrEmpty(rawmaterianame))
+            {
+                expression = expression.And(r => r.Category.Trim() == rawmaterianame.Trim());
             }
             var data = rawmateriallibrarybll.GetList(expression);
             return ToJsonResult(data);

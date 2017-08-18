@@ -79,7 +79,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         rawMaterialCollarModel.Description = collarlist[i].Description;
                         rawMaterialCollarModel.CollarType = collarlist[i].CollarType == 1 ? "生产领用" : "工程领用";
 
-                        rawMaterialCollarModel.Category = item.Category;
+                        //rawMaterialCollarModel.Category = item.Category;
+                        rawMaterialCollarModel.Category = item.RawMaterialName;
                         rawMaterialCollarModel.RawMaterialModel = item.RawMaterialModel;
                         rawMaterialCollarModel.RawMaterialStandard = item.RawMaterialStandard;
                         rawMaterialCollarModel.Unit = item.Unit;
