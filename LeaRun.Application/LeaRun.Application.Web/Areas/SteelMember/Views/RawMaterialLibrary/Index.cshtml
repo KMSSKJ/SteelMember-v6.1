@@ -150,11 +150,11 @@
     //文件导入
     function btn_import() {
        // if (_Category != null || _Category != undefined || _Category!="") {  url: '/SteelMember/MemberLibrary/ImportFile?KeyValue=' + _Category,
-        if (!!_Category) {
+        //if (!!_Category) {
             dialogOpen({
                     id: "ImportFile",
                     title: '导入功能',
-                    url: '/SteelMember/MemberLibrary/ImportFile?KeyValue=' + _Category,
+                    url: '/SteelMember/RawMaterialLibrary/ImportFile?KeyValue=' + _Category,
                     width: "400px",
                     height: "300px",
                     callBack: function (iframeId) {
@@ -162,9 +162,9 @@
                     },
                     btn: null
                 });
-        } else {
-            dialogMsg('请选择原材料类型！', 0);
-        }
+        //} else {
+        //    dialogMsg('请选择原材料类型！', 0);
+        //}
     }
     //文件导出
     var JsonData1 = ""; var TableObject = "";

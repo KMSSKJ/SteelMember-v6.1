@@ -1307,6 +1307,7 @@
     <Content Include="Areas\SteelMember\Views\MemberProductionOrder\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberProductionOrder\ItemList.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberProductionOrder\OrderForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\ImportFile.cshtml" />
     <None Include="Properties\PublishProfiles\6.1.pubxml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
