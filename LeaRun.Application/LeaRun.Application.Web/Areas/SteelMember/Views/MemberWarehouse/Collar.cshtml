@@ -38,6 +38,7 @@
                 _Quantity = data.InStock;
                 $("#Quantity").val(data.InStock); 
                 $("#Category").val(data.Category); 
+                $("#MemberModel").val(data.MemberModel); 
                 $("#MemberStandard").val(data.MemberStandard);
                 $("#MemberUnit").html(data.MemberUnit); 
             },
@@ -69,6 +70,7 @@
             MemberWarehouseId: InventoryId,
             SubProject: $("#SubProject").attr("data-text"),
             Category: $("#Category").val(),
+            MemberModel: $("#MemberModel").val(),
             InStock: $("#Quantity").val(),
             Receiver: $("#Receiver").val(),
             Description: $("#Description").val()

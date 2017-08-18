@@ -350,6 +350,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string fileName = templetname+ ".zip";
             string filePath = "C:\\Users\\Luo\\Desktop\\"+fileName+"";
             string MIME = "aplication/zip";
+           
             return File(filePath, MIME,fileName);
         }
         #endregion

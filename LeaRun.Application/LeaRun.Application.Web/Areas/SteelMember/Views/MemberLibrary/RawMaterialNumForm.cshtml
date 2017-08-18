@@ -5,7 +5,7 @@
 <script>
     var TreeId;
     var MemberId = request('MemberId');
-    var RawMaterialId = request('RawMaterialId');
+    var RawMaterialModel = request('RawMaterialModel');
     $(function () {
         initControl();
     })
@@ -13,61 +13,49 @@
     
     //初始化控件
     function initControl() {
+        //加载原材料
+        $("#RawMaterialModel").ComboBox({
+            description: "==请选择==",
+            height: "200px",
+        });
+
         //原材料类型
         $("#TreeName").ComboBox({
             param: { EnCode: "RawMaterialType" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
             description: "==请选择==",
-            id: "ItemDetailId",
+            id: "ItemValue",
             text: "ItemName",
             height: "200px"
         }).bind("change", function () {
-            TreeId = $(this).attr('data-value');//$("#Category").attr('data-text'),
+            TreeId = $(this).attr('data-text');//$("#Category").attr('data-text'),
             //加载原材料
             $("#RawMaterialModel").ComboBox({
-                url: '../../SteelMember/MemberLibrary/GetRawMaterialJsonList',
-                param: { KeyValue: TreeId },
-                id: "RawMaterialId",
-                text: "RawMaterialModel",
-                description: "==请选择==",
-                height: "200px",
-            });
-            });
-     
-        //获取表单
-        if (!!RawMaterialId) {
-            var data = $.currentIframe("Form").RawMaterialModel(RawMaterialId);
-            $("#form1").SetWebControls(data);
-            $("#TreeName").ComboBoxSetValue(data.Category);
-            $.ajax({
                 url: '../../SteelMember/MemberLibrary/GetRawMaterialJson',
-                data: { KeyValue: data.RawMaterialId },
-                type: "get",
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    $("#RawMaterialModel").ComboBox({
-                        description: data.RawMaterialName + "(" + data.RawMaterialModel + ")",
-                        height: "200px",
-                    });
-                }
-            });
-             
-            //加载原材料
-            $("#RawMaterialModel").ComboBox({
-                url: '../../SteelMember/MemberLibrary/GetRawMaterialJsonList',
-                param: { KeyValue: data.Category },
-                id: "RawMaterialId",
+                param: { KeyValue: TreeId },
+                id: "RawMaterialModel",
                 text: "RawMaterialModel",
-                description: data.RawMaterialName + "(" + data.RawMaterialModel +")",
-                height: "200px",
-            });
-        } else {
-            $("#RawMaterialModel").ComboBox({
                 description: "==请选择==",
-                height: "200px",
             });
-        } 
+        });
+
+        //获取表单
+        if (!!RawMaterialModel) {
+            var data = $.currentIframe("Form").RawMaterialModel(RawMaterialModel);
+            $("#form1").SetWebControls(data);
+            $("#RawMaterialModel").ComboBoxSetValue(data.RawMaterialModel);
+
+            //$.SetForm({
+            //    url: "/SteelMember/RawMaterialLibrary/GetFormJson",
+            //    param: { keyValue: MemberId },
+            //    success: function (data) {
+            //        $("#form1").SetWebControls(data);
+            //    }
+            //});
+        } else {
+            //document.getElementById("#RawMaterialModel").innerHTML = data.RawMaterialModel;
+           
+        }
     }
 
     //验证原材料不能重复
@@ -112,15 +100,13 @@
         }
     }
 
+
     //保存表单
     function AcceptClick(callback) {
         if (!$('#form1').Validform()) {
             return false;
         }
         var data = $("#form1").GetWebControls(RawMaterialModel);
-        //data["TreeName"] = $("#TreeName").attr('data-value');
-        data["Category"] = $("#TreeName").attr('data-value');
-        data["RawMaterialId"] = $("#RawMaterialModel").attr('data-value');
         if (data["TreeId"] == "") {
             data["TreeId"] = 0;
         }
@@ -128,12 +114,31 @@
         dialogClose();
     }
 
+    ////保存表单
+    //function AcceptClick() {
+    //    if (!$('#form1').Validform()) {
+    //        return false;
+    //    }
+    //    var postData = $("#form1").GetWebControls(keyValue);
+    //    if (postData["TreeId"] == "") {
+    //        postData["TreeId"] = 0;
+    //    }
+    //    $.SaveForm({
+    //        url: "/SteelMember/RawMaterialLibrary/SaveForm?keyValue=" + keyValue,
+    //        param: postData,
+    //        loading: "正在保存数据...",
+    //        success: function () {
+    //            $.currentIframe().$("#gridTable").resetSelection();
+    //            $.currentIframe().$("#gridTable").trigger("reloadGrid");
+    //        }
+    //    })
+    //}
+
 </script>
 <div style="margin-left: 10px; margin-top: 30px; margin-right: 30px;">
     <input id="MemberMaterialId" type="hidden" />
     <input id="RawMaterialId" type="hidden" />
     <input id="MemberId" type="hidden" />
-    <input id="Category" type="hidden" />
     <table class="form">
         <tr>
             <td class="formTitle">
@@ -143,7 +148,6 @@
                 <div id="TreeName" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
-
         <tr>
             <td class="formTitle">
                 材料规格或型号<font face="宋体">*</font>

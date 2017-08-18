@@ -67,18 +67,6 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("ISPASSED")]
         public int? IsPassed { get; set; }
         /// <summary>
-        /// 领取状态
-        /// </summary>
-        /// <returns></returns>
-        [Column("ISRECEIVE")]
-        public int? IsReceive { get; set; }
-        /// <summary>
-        /// 材料领取状态
-        /// </summary>
-        /// <returns></returns>
-        [Column("ISRECEIVERAWMATERIAL")]
-        public int? IsReceiveRawMaterial { get; set; }
-        /// <summary>
         /// OrderStatus
         /// </summary>
         /// <returns></returns>
