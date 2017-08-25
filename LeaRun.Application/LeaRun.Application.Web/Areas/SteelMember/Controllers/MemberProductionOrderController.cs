@@ -10,6 +10,8 @@ using System.Linq;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Util.Extension;
 using LeaRun.Application.Busines.SystemManage;
+using System.Data.OleDb;
+using System.Data;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -414,5 +416,34 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         #endregion
+
+        public ActionResult OutExcel()
+        {
+            //IMEX：只有是0才能成功更新，1或2都有错误提示，操作必须使用一个可更新的查询，2也有奇怪？
+            string strCon = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @"d:/成绩表2013.xlsx" + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=0'";
+            //string strCon = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=d:/成绩表2013.xlsx;Extended Properties='Excel 12.0;HDR=YES;IMEX=0'";
+            OleDbConnection myConn = new OleDbConnection(strCon);
+            string strCom = "SELECT * FROM [Sheet1$]";
+            myConn.Open();
+            OleDbDataAdapter myDataAdapter = new OleDbDataAdapter(strCom, myConn);
+            DataSet myDataSet = new DataSet();
+            myDataAdapter.Fill(myDataSet, "[Sheet1$]");
+            myConn.Close();
+            DataTable dt = myDataSet.Tables[0]; //初始化DataTable实例
+            dt.PrimaryKey = new DataColumn[] { dt.Columns["学生"] };//创建索引列
+            DataRow myRow = dt.NewRow();
+            myRow["学生"] = "小蟹";
+            myRow["英语"] = 82;
+            myRow["数学"] = 93;
+            myRow["自然"] = 39;
+            myRow["美术"] = 39;
+            dt.Rows.Add(myRow);
+            OleDbCommandBuilder odcb = new OleDbCommandBuilder(myDataAdapter);
+            odcb.QuotePrefix = "[";   //用于搞定INSERT INTO 语句的语法错误
+            odcb.QuoteSuffix = "]";
+            myDataAdapter.Update(myDataSet, "[Sheet1$]"); //更新数据集对应的表
+            //dataGridView1.DataSource = myDataSet.Tables[0].DefaultView; //显示到datagridview
+            return Success("操作成功。");
+        }
     }
 }

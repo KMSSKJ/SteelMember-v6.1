@@ -76,6 +76,7 @@
     //添加
     function btn_add_() {
         var KeyValue = $('#gridTable').jqGridRowValue('MemberId');
+        if (checkedArray(KeyValue)) {
             $.ajax({
                 url: "/SteelMember/MemberProductionOrder/ListMember",
                 type: "post",
@@ -87,7 +88,7 @@
                 success: function (rowData) {
                     var rows = 1;
                     var $parentobj = top.frames["Form"];
-                    while(rows<30){
+                    while (rows < 30) {
                         $parentobj.$("#MemberNumbering➩" + rows).val(null);
                         $parentobj.$("#MemberName➩" + rows).val(null);
                         $parentobj.$("#MemberUnit➩" + rows).val(null);
@@ -98,40 +99,40 @@
                         $parentobj.$("#MaxNumber➩" + rows).val(null);
                         rows++;
                     }
-                    if (rowData!=null){
+                    if (rowData != null) {
                         var index = 1;
                         var data1;
-                    for (var i = 0; i < rowData.length; i++) {
-                        $parentobj.IsExistItem(index, rowData[i].MemberId);
-                        $.ajax({
-                            type: 'post',
-                            dataType: "text",
-                            url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
-                            data: {
-                                category: Category,
-                                KeyValue: rowData[i].MemberId
-                            },
-                            cache: false,
-                            async: false,
-                            success: function (data) {
-                                data1 = data;
-                            }
-                        
-                        });
-                        $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
-                        $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
-                        $parentobj.$("#MemberUnit➩" + index).val(rowData[i].MemberUnit);
-                        $parentobj.$("#MemberNumber➩" + index).val(Number(data1));
-                        $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
-                        $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
-                        $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
-                        $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
-                        $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
-                        index++;
-                        $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
-                        $parentobj.$("#gridTable").find('.disabled').attr("disabled", "disabled");
-                        $parentobj.$("#MemberNumbering➩" + index).focus();
-                    }
+                        for (var i = 0; i < rowData.length; i++) {
+                            $parentobj.IsExistItem(index, rowData[i].MemberId);
+                            $.ajax({
+                                type: 'post',
+                                dataType: "text",
+                                url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
+                                data: {
+                                    category: Category,
+                                    KeyValue: rowData[i].MemberId
+                                },
+                                cache: false,
+                                async: false,
+                                success: function (data) {
+                                    data1 = data;
+                                }
+
+                            });
+                            $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
+                            $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
+                            $parentobj.$("#MemberUnit➩" + index).val(rowData[i].MemberUnit);
+                            $parentobj.$("#MemberNumber➩" + index).val(Number(data1));
+                            $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
+                            $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
+                            $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
+                            $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
+                            $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
+                            index++;
+                            $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
+                            $parentobj.$("#gridTable").find('.disabled').attr("disabled", "disabled");
+                            $parentobj.$("#MemberNumbering➩" + index).focus();
+                        }
                     }
                     dialogClose();
                 },
@@ -140,6 +141,7 @@
                 }
             });
         }
+    }
 </script>
 
 <div class="rightline" style="margin: 1px; margin-top: -1px;">

@@ -279,7 +279,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 						uploadSize         : 0, // The size in bytes of the upload queue
 						queueBytesUploaded : 0, // The size in bytes that have been uploaded for the current upload queue
 						uploadQueue        : [], // The files currently to be uploaded
-						errorMsg           : 'Some files were not added to the queue:'
+                        errorMsg: '有些文件未添加到队列中：'
 					};
 
 					// Save references to all the objects
@@ -569,7 +569,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 			var settings = this.settings;
 
 			// Reset some queue info
-			this.queueData.errorMsg       = 'Some files were not added to the queue:';
+            this.queueData.errorMsg = '有些文件未添加到队列中：';
 			this.queueData.filesReplaced  = 0;
 			this.queueData.filesCancelled = 0;
 
@@ -612,7 +612,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 			for (var n in this.queueData.files) {
 				queuedFile = this.queueData.files[n];
 				if (queuedFile.uploaded != true && queuedFile.name == file.name) {
-					var replaceQueueItem = confirm('The file named "' + file.name + '" is already in the queue.\nDo you want to replace the existing item in the queue?');
+                    var replaceQueueItem = confirm('名为“' + file.name +'”的文件已经在队列中。\n要替换队列中的现有项目吗？');
 					if (!replaceQueueItem) {
 						this.cancelUpload(file.id);
 						this.queueData.filesCancelled++;
@@ -696,19 +696,19 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 				switch(errorCode) {
 					case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
 						if (settings.queueSizeLimit > errorMsg) {
-							this.queueData.errorMsg += '\nThe number of files selected exceeds the remaining upload limit (' + errorMsg + ').';
+                            this.queueData.errorMsg += '\n所选文件数超过剩余上传限制 (' + errorMsg + ').';
 						} else {
-							this.queueData.errorMsg += '\nThe number of files selected exceeds the queue size limit (' + settings.queueSizeLimit + ').';
+                            this.queueData.errorMsg += '\n所选择的文件数超过队列大小限制 (' + settings.queueSizeLimit + ').';
 						}
 						break;
 					case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-						this.queueData.errorMsg += '\nThe file "' + file.name + '" exceeds the size limit (' + settings.fileSizeLimit + ').';
+                        this.queueData.errorMsg += '\n文件'+ file.name +'超出大小限制 (' + settings.fileSizeLimit + ').';
 						break;
 					case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-						this.queueData.errorMsg += '\nThe file "' + file.name + '" is empty.';
+                        this.queueData.errorMsg += '\n文件"' + file.name + '" 为空.';
 						break;
 					case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-						this.queueData.errorMsg += '\nThe file "' + file.name + '" is not an accepted file type (' + settings.fileTypeDesc + ').';
+                        this.queueData.errorMsg += '\n文件"' + file.name + '" 不是接受的文件类型 (' + settings.fileTypeDesc + ').';
 						break;
 				}
 			}

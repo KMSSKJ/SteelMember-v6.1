@@ -15,18 +15,9 @@
             param: { Levels: 2 },
             url: "../../SteelMember/SubProject/GetTreeJson",
             description: "==请选择==",
-            
+            height: "150px",
         });
-        //$("#Category").ComboBoxTree({
-
-        //    param: { EnCode: "RawMaterialType" },
-        //    //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-        //    url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
-        //    description: "==请选择==",
-        //    allowSearch: true,
-
-
-        //});
+      
         //原材料类型
         $("#RawMaterialCategory").ComboBoxTree({
             param: { EnCode: "RawMaterialType" },
@@ -44,6 +35,7 @@
                 description: "==请选择==",
                 id: "RawMaterialName",
                 text: "RawMaterialName",
+                height: "150px",
             });
              //    //加载规格或型号
             $("#RawMaterialStandard").ComboBox({
@@ -51,27 +43,19 @@
                 description: "==请选择==",
                 id: "RawMaterialModel",
                 text: "RawMaterialModel",
+                height: "150px",
             });
         });
-        //}).bind("change", function () {
-        //    var value = $(this).attr('data-value');
-        //    //加载规格或型号
-        //    $("#RawMaterialStandard").ComboBox({
-        //        url: "../../SteelMember/RawMaterialAnalysis/RawMateriaType?type=" + value,
-        //        description: "==请选择==",
-        //        id: "RawMaterialModel",
-        //        text: "RawMaterialModel",
-        //    });
-       // });
-        //规格或型号
+      
+        //材料名称
         $("#RawMaterialName").ComboBox({
             description: "==请选择==",
-            height: "200px",
+            height: "150px",
         })
         //规格或型号
         $("#RawMaterialStandard").ComboBox({
             description: "==请选择==",
-            height: "200px",
+            height: "150px",
         })
         //获取表单
         if (!!keyValue) {
@@ -81,6 +65,7 @@
                 success: function (data) {
                     $("#form1").SetWebControls(data);
                     $("#RawMaterialCategory").trigger("change");
+                    $("#RawMaterialName").ComboBoxSetValue(data.RawMaterialName);
                     $("#RawMaterialStandard").ComboBoxSetValue(data.RawMaterialStandard);
                 }
             })
@@ -142,7 +127,7 @@
                 描述
             </th>
             <td class="formValue" colspan="3">
-                <textarea id="Description" class="form-control" style="height: 70px;"></textarea>
+                <textarea id="Description" class="form-control" style="height: 100px;"></textarea>
             </td>
         </tr>
     </table>

@@ -421,7 +421,7 @@
                     var _currentFocus = $rootScope.designer.currentFocus;
                     if (_currentFocus.id != item.id) {
                         $rootScope.designer.currentFocus = item;
-                        if (item.parentnodes == "0")//说明是页面
+                        if (item.parentnodes == "0")//备注是页面
                         {
                             $rootScope.designer.currentPage = item;
                             $rootScope.designer.doPhoneBroadcast(appBroadcastCode.cgSelectTemplatePage, { "cmd": "selectPage", "object": item });

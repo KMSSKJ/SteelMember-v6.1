@@ -221,6 +221,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             _model.Category = data.Category;
             _model.RawMaterialCategory = model.Category;
             _model.RawMaterialStandard = model.RawMaterialModel;
+            _model.RawMaterialName = model.RawMaterialName;
             _model.RawMaterialDosage = data.RawMaterialDosage;
             _model.RawMaterialUnit = model.Unit;
             _model.Description = data.Description;

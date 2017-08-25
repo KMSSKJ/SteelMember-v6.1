@@ -3,6 +3,9 @@ using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using System.Web.Mvc;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -14,7 +17,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     public class RawMaterialOrderInfoController : MvcControllerBase
     {
         private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
-
+        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -40,13 +43,28 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="queryJson">查询参数</param>
+        /// <param name="keyValue">查询参数</param>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetListJson(string queryJson)
+        public ActionResult GetListJson(string keyValue)
         {
-            var data = rawmaterialorderinfobll.GetList(queryJson);
-            return ToJsonResult(data);
+            var data = rawmaterialorderinfobll.GetList(null).ToList().FindAll(f=>f.OrderId== keyValue);
+            var RawMaterialList = new List<MemberMaterialModel>();
+            for (int i = 0; i < data.Count(); i++)
+            {
+                var rawmaterial = rawmateriallibrarybll.GetEntity(data[i].RawMaterialId);
+                var Member = new MemberMaterialModel()
+                {
+                    InfoId = data[i].InfoId,
+                    RawMaterialId = data[i].RawMaterialId,
+                    RawMaterialNumber = data[i].ProductionQuantity,
+                    RawMaterialName = rawmaterial.RawMaterialName,
+                    RawMaterialModel = rawmaterial.RawMaterialModel,
+                    UnitName = rawmaterial.Unit,
+                };
+                RawMaterialList.Add(Member);
+            }
+            return ToJsonResult(RawMaterialList);
         }
         /// <summary>
         /// 获取实体 

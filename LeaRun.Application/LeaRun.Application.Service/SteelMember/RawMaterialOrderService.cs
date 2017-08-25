@@ -19,6 +19,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// </summary>
     public class RawMaterialOrderService : RepositoryFactory,RawMaterialOrderIService
     {
+
         #region 获取数据
         /// <summary>
         /// 获取列表
@@ -117,7 +118,19 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="keyValue">主键</param>
         public void RemoveForm(string keyValue)
         {
-            this.BaseRepository().Delete(keyValue);
+            // this.BaseRepository().Delete(keyValue);
+            IRepository db = new RepositoryFactory().BaseRepository().BeginTrans();
+            try
+            {
+                db.Delete<RawMaterialOrderEntity>(keyValue);
+                db.Delete<RawMaterialOrderInfoEntity>(t => t.InfoId.Equals(keyValue));
+                db.Commit();
+            }
+            catch (Exception)
+            {
+                db.Rollback();
+                throw;
+            }
         }
         /// <summary>
         /// 保存表单（新增、修改）
@@ -192,20 +205,7 @@ namespace LeaRun.Application.Service.SteelMember
         {
             this.BaseRepository().Update(list);
         }
-        public void RemoveList(List<RawMaterialOrderEntity> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Exist(string query, string keyValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Exist(string query, string category, string keyValue)
-        {
-            throw new NotImplementedException();
-        }
+      
 
 
         #endregion

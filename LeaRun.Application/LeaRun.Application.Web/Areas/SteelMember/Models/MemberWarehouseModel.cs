@@ -8,7 +8,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
     public class MemberWarehouseModel
     {
 
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public string MemberId { get; set; }
         public string EngineeringId { get; set; }
         public string Category { get; set; }

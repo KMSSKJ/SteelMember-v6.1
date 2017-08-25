@@ -163,7 +163,7 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
         /// </summary>
         /// <param name="dataBaseLinkId">库连接Id</param>
         /// <param name="tableName">表名称</param>
-        /// <param name="tableDescription">表说明</param>
+        /// <param name="tableDescription">表备注</param>
         /// <param name="fieldListJson">字段列表Json</param>
         /// <returns></returns>
         [HttpPost]

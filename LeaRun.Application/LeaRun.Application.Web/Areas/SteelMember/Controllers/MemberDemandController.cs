@@ -10,6 +10,7 @@ using LeaRun.Application.Code;
 using System;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -64,10 +65,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var HavesChildren = "";
             var SubProjectId = "";
             var queryParam = queryJson.ToJObject();
-            if (queryJson != null)
+            if (queryJson != null|| queryJson =="\"Category\":\"\",\"keyword\":\"\",\"BeginTime\":\"\",\"EndTime\":\"\"")
             {
+                if (!queryParam["HavesChildren"].IsEmpty()) { 
                 HavesChildren = queryParam["HavesChildren"].ToString();
                 SubProjectId = queryParam["SubProjectId"].ToString();
+                }
+               
             }
             if (HavesChildren == "True")
             {
@@ -94,6 +98,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             _model.CreateTime = item.CreateTime;
                             _model.Description = item.Description;
                             _model.SubProjectId = item.SubProjectId;
+                            _model.IsSubmit = item.IsSubmit;
                             _model.IsReview = item.IsReview;
                             _model.MemberDemandId= item.MemberDemandId;
                             _model.MemberName= data1.MemberName;
@@ -143,6 +148,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     _model.CreateTime = item.CreateTime;
                     _model.Description = item.Description;
                     _model.SubProject = SubProject.FullName;
+                    _model.IsSubmit = item.IsSubmit;
                     _model.IsReview = item.IsReview;
                     _model.MemberDemandId = item.MemberDemandId;
                     _model.MemberName = data1.MemberName;
@@ -154,6 +160,33 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     data.Add(_model);
                 }
             }
+            //
+            if (!queryParam["Category"].IsEmpty())
+            {
+                string Category = queryParam["Category"].ToString();
+                data = data.FindAll(t => t.Category== Category);
+            }
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+
+                    //case "Category":              //构件类型
+                    //    expression = expression.And(t => t.Category.Contains(keyword));
+                    //    break;
+                    case "MemberName":              //构件名称
+                        data = data.FindAll(t => t.MemberName.Contains(keyword));
+                        break;
+                    case "MemberNumbering":              //编号
+                        data = data.FindAll(t => t.MemberNumbering.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //
             var jsonData = new
             {
                 rows = data.OrderBy(O=>O.MemberNumbering),
@@ -260,10 +293,30 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult SaveForm(string keyValue, MemberDemandEntity entity)
         {
             entity.IsReview = 0;
+            entity.IsSubmit = 0;
             entity.CreateMan = OperatorProvider.Provider.Current().UserName;
             entity.CreateTime = DateTime.Now;
             memberdemandbll.SaveForm(keyValue, entity);
             return Success("操作成功。");
+        }
+
+        /// <summary>
+        /// 提交需求
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        public ActionResult SubmitReview(string keyValues)
+        {
+            string[] Arry = keyValues.Split(',');//字符串转数组
+            foreach (var item in Arry)
+            {
+                var file = memberdemandbll.GetList(null).ToList().Find(f => f.MemberDemandId == item);
+                file.UpdateTime = DateTime.Now;
+                //file.ReviewMan = OperatorProvider.Provider.Current().UserName;
+                file.IsSubmit = 1;
+                memberdemandbll.SaveForm(item, file);
+            }
+            return Success("操作成功");
         }
 
         #region 审核需求

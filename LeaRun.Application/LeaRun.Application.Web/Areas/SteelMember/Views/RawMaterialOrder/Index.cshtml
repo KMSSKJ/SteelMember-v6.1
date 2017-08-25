@@ -58,7 +58,7 @@
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },
-                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 120, align: '', sortable: true },
+                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: '', sortable: true },
                 { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 80, align: '', sortable: true },
                 { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: '', sortable: true },
                 {
@@ -68,7 +68,7 @@
                     }
                 },
                 {
-                    label: '是否专用', name: 'IsDddicated', index: 'IsDddicated', width: 80, align: '', sortable: true,
+                    label: '是否专用', name: 'IsDedicated', index: 'IsDedicated', width: 80, align: '', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
@@ -121,9 +121,15 @@
                     datatype: "json",
                     height: "100%",
                     colModel: [
-                        { label: 'InfoId', name: 'InfoId', index: 'InfoId', width: 80, align: '', sortable: true, hidden: true },
-                        { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, align: '', sortable: true },
-                        { label: '数量', name: 'ProductionQuantity', index: 'ProductionQuantity', width: 80, align: '', sortable: true },
+                        { label: 'InfoId', name: 'InfoId', align: 'center', width: 80, sortable: false, hidden: true },
+                        { label: 'RawMaterialId', name: 'RawMaterialId', align: 'center', width: 80, sortable: false, hidden: true },
+                        { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, sortable: true, hidden: true },
+                        { label: '型号/规格', name: 'RawMaterialModel', align: 'center', width: 100, sortable: false },
+                        { label: '材料名称', name: 'RawMaterialName', align: 'center', width: 150, sortable: false },
+                        { label: '单位', name: 'UnitName', align: 'center', width: 80, sortable: false },
+                        { label: '数量', name: 'RawMaterialNumber', align: 'center', width: 80, sortable: false },
+                        //{ label: '单价', name: 'Price', align: ' center', width: 80, sortable: false },
+                        //{ label: '金额', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
                     ],
                     caption: "明细",
                     rowNum: "1000",
@@ -144,7 +150,8 @@
         //查询事件
         $("#btn_Search").click(function () {
             var queryJson = {
-                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+               // condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                condition:"OrderNumbering",
                 keyword: $("#txt_Keyword").val(),
                 SubProjectId: _Category,
                 BeginTime: $("#txt_BeginTime").val(),
@@ -168,14 +175,7 @@
                 break;
         }
     }
-    ////查询事件
-    //function query() {
-    //    var queryJson = { category: _Category }
-    //    $('#gridTable').jqGrid('setGridParam', {
-    //        postData: { queryJson: JSON.stringify(queryJson) },
-    //        page: 1
-    //    }).trigger('reloadGrid');
-    //}
+   
     //新增
     function btn_add() {
         dialogOpen({
@@ -192,32 +192,42 @@
     //编辑
     function btn_edit() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
+        var IsReview = $('#gridTable').jqGridRowValue('IsPassed');
+        var IsSubmit = $('#gridTable').jqGridRowValue('IsSubmit');
         if (checkedRow(keyValue)) {
-            dialogOpen({
-                id: 'Form',
-                title: '编辑材料订单',
-                url: '/SteelMember/RawMaterialOrder/Form?keyValue=' + keyValue,
-                width: '1000px',
-                height: '750px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                }
-            })
+            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsReview == "<span class=\"label label-danger\">失败</span>") {
+                dialogOpen({
+                    id: 'Form',
+                    title: '编辑材料订单',
+                    url: '/SteelMember/RawMaterialOrder/Form?keyValue=' + keyValue,
+                    width: '1000px',
+                    height: '750px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            } else {
+                dialogMsg("已提交的数据只有审核失败后才能作编辑！", 0);
+            }
         }
     }
     //删除
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
-        if (keyValue) {
-            $.RemoveForm({
-                url: '../../SteelMember/RawMaterialOrder/RemoveForm',
-                param: { keyValue: keyValue },
-                success: function (data) {
-                    $('#gridTable').trigger('reloadGrid');
-                }
-            })
-        } else {
-            dialogMsg('请选择需要删除的订单！', 0);
+        var IsReview = $('#gridTable').jqGridRowValue('IsPassed');
+        var IsSubmit = $('#gridTable').jqGridRowValue('IsSubmit');
+        if (checkedRow(keyValue)) {
+            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsReview == "<span class=\"label label-danger\">失败</span>") {
+                $.RemoveForm({
+                    url: '../../SteelMember/RawMaterialOrder/RemoveForm',
+                    param: { keyValue: keyValue },
+                    success: function (data) {
+                        $('#gridTable').trigger('reloadGrid');
+                    }
+                })
+            } else {
+                dialogMsg("已提交的数据只有审核失败后才能作编辑！", 0);
+            }
         }
     }
     //详细
@@ -364,13 +374,14 @@
 
                             <td style="padding-left: 10px;">
                                 <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                    @*<a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        @*<li><a data-value="Category">构件类型</a></li>
-                                        <li><a data-value="MemberName">构件名称</a></li>*@
+                                        <li><a data-value="Category">构件类型</a></li>
+                                        <li><a data-value="MemberName">构件名称</a></li>
                                         <li><a data-value="OrderNumbering">编号</a></li>
-                                    </ul>
+                                    </ul>*@
+                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">编号</a>
                                 </div>
                             </td>
                             <td style="padding-left: 2px;">

@@ -166,22 +166,36 @@
             dialogMsg('请选择原材料类型！', 0);
         }
     }
-    //文件导出
-    var JsonData1 = ""; var TableObject = "";
+    ////文件导出
+    //var JsonData1 = ""; var TableObject = "";
+    //function btn_derive() {
+    //    SetDeriveExcel("#gridTable", "原材料信息浏览表", "云南公投澄川高速", JsonData1, TableObject.toString());
+    //    dialogOpen({
+    //        id: "DeriveFile",
+    //        title: '原材料导出',
+    //        url: '/Utility/DeriveFile',
+    //        width: "700px",
+    //        height: "435px",
+    //        callBack: function (iframeId) {
+    //            top.frames[iframeId].AcceptClick();
+    //        },
+    //        // btn: null
+    //    });
+       
+    //}
+
+    //导出
     function btn_derive() {
-        SetDeriveExcel("#gridTable", "原材料信息浏览表", "云南公投澄川高速", JsonData1, TableObject.toString());
         dialogOpen({
-            id: "DeriveFile",
-            title: '原材料导出',
-            url: '/Utility/DeriveFile',
-            width: "700px",
-            height: "435px",
+            id: "ExcelIExportDialog",
+            title: '导出Excel数据',
+            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("原材料信息浏览表"),
+            width: "500px",
+            height: "380px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
-            },
-            // btn: null
+            }, btn: ['导出Excel', '关闭']
         });
-       
     }
 </script>
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">

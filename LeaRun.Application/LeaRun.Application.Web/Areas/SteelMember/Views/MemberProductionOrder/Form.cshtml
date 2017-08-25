@@ -50,7 +50,7 @@
                 //合计
                 $(this).footerData("set", {
                     "MemberNumbering": "合计",
-                    "ProductionQuantity": "<span id='TotalQty'>0</span>",
+                    "MemberNumber": "<span id='TotalQty'>0</span>",
                     "Price": "<span id='TotalPrice'>0.00</span>",
                     "PriceAmount": "<span id='TotalPriceAmount'>0.00</span>",
                 });
@@ -149,18 +149,10 @@
         }
         var Price = $("#Price➩" + index).val();                            //单价
         var PriceAmount = $("#PriceAmount➩" + index).val();                //金额
-        //var PlusPrice = $("#PlusPrice➩" + index).val();                    //含税单价
-        //var CESS = $("#CESS➩" + index).val();                              //税率(%)
-        //var CESSAmount = $("#CESSAmount➩" + index).val();                  //税额
-        //var PlusPriceAmount = $("#PlusPriceAmount➩" + index).val();        //含税金额
+    
         //数量*单价=金额
         $("#PriceAmount➩" + index).val(FormatCurrency(Qty * Price));
-        ////单价 * (1 + (税率 / 100))=含税单价
-        //$("#PlusPrice➩" + index).val(FormatCurrency(Price * (1 + (CESS / 100))));
-        ////(含税单价-单价)*数量=税额
-        //$("#CESSAmount➩" + index).val(FormatCurrency(($("#PlusPrice➩" + index).val() - Price) * Qty));
-        ////数量*含税单价=含税金额
-        //$("#PlusPriceAmount➩" + index).val(FormatCurrency(Qty * $("#PlusPrice➩" + index).val()));
+     
         //统计合计
         var TotalQty = 0, TotalPrice = 0.00, TotalPriceAmount = 0.00, TotalPlusPrice = 0.00, TotalCESSAmount = 0.00, TotalPlusPriceAmount = 0.00;
         $("#gridTable tbody tr").each(function (i) {
@@ -326,7 +318,7 @@
                     工程专用：
                 </th>
                 <td>
-                    <select id="IsDddicated" datacol="yes" err="工程专用" class="form-control" checkexpession="NotNull" style="width: 95%">
+                    <select id="IsDedicated" datacol="yes" err="工程专用" class="form-control" checkexpession="NotNull" style="width: 95%">
                         <option value="0">否</option>
                         <option value="1">是</option>
                     </select>

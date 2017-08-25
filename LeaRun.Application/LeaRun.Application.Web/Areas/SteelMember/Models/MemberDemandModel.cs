@@ -17,6 +17,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string Description { get; set; }
         public string SubProject { get; set; }
         public string SubProjectId { get; set; }
+        public int? IsSubmit { get; set; }
         public int? IsReview { get; set; }
         public string MemberDemandId { get; set; }
         public string MemberName { get; set; }
