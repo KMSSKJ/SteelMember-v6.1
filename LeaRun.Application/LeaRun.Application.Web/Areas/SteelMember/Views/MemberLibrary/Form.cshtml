@@ -149,15 +149,6 @@
                 });
             } else {
             $("#EngineeringId").ComboBoxTreeSetValue(SubProjectId);
-                ////获取单位
-                //$("#UnitId").ComboBox({
-                //    url: "../../SteelMember/ProjectManagement/GetMemderUnit",
-                //    id: "UnitId",
-                //    text: "UnitName",
-                //    description: "==请选择==",
-                //    height: "200px",
-                //    allowSearch: false,
-                //});
             }
     }
 
@@ -175,7 +166,9 @@
                 onFallback: function () {
                     dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
                 },
+               
                 onUploadSuccess: function (file, data, response) {
+                    dialogMsg(data,0);
                     document.getElementById("CAD_Drawing").value = data;
                     document.getElementById("_CAD_Drawing").src = data;
                     document.getElementById("DelAvatar").setAttribute("type", "button");

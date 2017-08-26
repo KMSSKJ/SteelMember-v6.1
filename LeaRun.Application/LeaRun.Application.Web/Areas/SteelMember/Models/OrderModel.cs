@@ -121,10 +121,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         [DisplayName("税额")]
         public string CESSAmount { get; set; }
         /// <summary>
-        /// 说明
+        /// 备注
         /// </summary>
         /// <returns></returns>
-        [DisplayName("说明")]
+        [DisplayName("备注")]
         public string Description { get; set; }
         /// <summary>
         /// 排序码

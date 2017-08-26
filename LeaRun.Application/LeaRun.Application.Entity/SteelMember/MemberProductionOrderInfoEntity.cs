@@ -43,7 +43,7 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("PRODUCTIONEDQUANTITY")]
         public int? ProductionedQuantity { get; set; }
         /// <summary>
-        /// ËµÃ÷
+        /// ±¸×¢
         /// </summary>
         /// <returns></returns>
         [Column("DESCRIPTION")]

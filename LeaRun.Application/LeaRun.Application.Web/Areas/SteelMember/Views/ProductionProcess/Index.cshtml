@@ -61,9 +61,9 @@
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },
-                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 120, align: '', sortable: true },
+                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: '', sortable: true },
                 { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 100, align: '', sortable: true },
-                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 120, align: '', sortable: true },
+                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: '', sortable: true },
                 {
                     label: '优先级', name: 'Priority', index: 'Priority', width: 100, align: '', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
@@ -71,7 +71,7 @@
                     }
                 },
                 {
-                    label: '是否专用', name: 'IsDddicated', index: 'IsDddicated', width: 100, align: '', sortable: true,
+                    label: '是否专用', name: 'IsDedicated', index: 'IsDedicated', width: 100, align: '', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
@@ -200,7 +200,8 @@
         //查询事件
         $("#btn_Search").click(function () {
             var queryJson = {
-                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                condition: "OrderNumbering",
                 keyword: $("#txt_Keyword").val(),
                 SubProjectId: _Category,
                 BeginTime: $("#txt_BeginTime").val(),
@@ -224,14 +225,7 @@
                 break;
         }
     }
-    ////查询事件
-    //function query() {
-    //    var queryJson = { category: _Category }
-    //    $('#gridTable').jqGrid('setGridParam', {
-    //        postData: { queryJson: JSON.stringify(queryJson) },
-    //        page: 1
-    //    }).trigger('reloadGrid');
-    //}
+
     //领取订单
     function btn_receiveOrder() {
         dialogOpen({
@@ -246,14 +240,18 @@
             }
         });
     }
+
     //领取材料
     function btn_receiveRawMaterial() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
+        var IsReceiveRawMaterial = $('#gridTable').jqGridRowValue('IsReceiveRawMaterial');
+        IsReceiveRawMaterial=IsReceiveRawMaterial == "<span class=\"label label-success\">已领取</span>"?1:0;
+
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'ReceiveRawMaterialIndex',
                 title: '领取材料',
-                url: '/SteelMember/ProductionProcess/ReceiveRawMaterialIndex?keyValue=' + keyValue,
+                url: '/SteelMember/ProductionProcess/ReceiveRawMaterialIndex?keyValue=' + keyValue + '&IsReceiveRawMaterial=' + IsReceiveRawMaterial,
                 width: '1000px',
                 height: '750px',
                 //btn: null,
@@ -285,6 +283,7 @@
             }
         }
     }
+
     //工厂自检填报
     function btn_factoryQualityInspection() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
@@ -307,6 +306,7 @@
             dialogMsg('构件生产未完成', 0);
         }
     }
+
     //监理质检填报
     function btn_supervisionQualityInspection() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
@@ -379,7 +379,6 @@
         }
     };
 
-
     //详细
     function btn_details() {
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
@@ -397,6 +396,7 @@
             })
         }
     }
+
     // 提交
     function btn_submitReview() {
         var keyValues = $('#gridTable').jqGridRowValue('OrderId');
@@ -523,11 +523,12 @@
                             </td>
                             <td style="padding-left: 10px;">
                                 <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                    @*<a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a data-value="OrderNumbering">编号</a></li>
-                                    </ul>
+                                    </ul>*@
+                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">编号</a>
                                 </div>
                             </td>
                             <td style="padding-left: 2px;">

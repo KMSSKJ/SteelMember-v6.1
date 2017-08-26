@@ -5,6 +5,7 @@
 <script>
     var Category = request('category');
     var keyValue = request('keyValue');
+    var IsReceiveRawMaterial = request('IsReceiveRawMaterial');
     $(function () {
         $("#keywords").focus();
         GetGrid();
@@ -44,7 +45,7 @@
             viewrecords: true,
             rownumbers: true,
             gridview: true,
-            multiselect: true,
+            multiselect: false,
             rowList: [15, 30, 50, 100, 500, 1000],
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
@@ -74,17 +75,23 @@
     }
     //保存表单;
     function AcceptClick() {
-        if (!$('#form1').Validform()) {
-            return false;
-        }
-        $.SaveForm({
-            url: "../../SteelMember/ProductionProcess/ReceiveRawMaterial?keyValue=" + keyValue,
-            //param: postData,
-            loading: "正在保存数据...",
-            success: function () {
-                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+        //if (!$('#form1').Validform()) {
+        //    return false;
+        //}
+        if (IsReceiveRawMaterial == 1) {
+            dialogMsg("该订单材料已领取", 0)
+        } else {
+            if (checkedRow(keyValue)){
+            $.SaveForm({
+                url: "../../SteelMember/ProductionProcess/ReceiveRawMaterial?keyValue=" + keyValue,
+                //param: postData,
+                loading: "正在保存数据...",
+                success: function () {
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                }
+            })
             }
-        })
+        }
     }
 
 </script>

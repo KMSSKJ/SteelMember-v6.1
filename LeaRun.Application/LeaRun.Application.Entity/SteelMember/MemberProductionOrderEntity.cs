@@ -52,8 +52,8 @@ namespace LeaRun.Application.Entity.SteelMember
         /// 是否专用
         /// </summary>
         /// <returns></returns>
-        [Column("ISDDDICATED")]
-        public int? IsDddicated { get; set; }
+        [Column("ISDEDICATED")]
+        public int? IsDedicated { get; set; }
         /// <summary>
         /// 提交状态
         /// </summary>

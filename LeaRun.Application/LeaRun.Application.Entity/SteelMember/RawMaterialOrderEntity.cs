@@ -42,10 +42,10 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public int? Priority { get; set; }
         /// <summary>
-        /// IsDddicated
+        /// IsDedicated
         /// </summary>
         /// <returns></returns>
-        public int? IsDddicated { get; set; }
+        public int? IsDedicated { get; set; }
         /// <summary>
         /// IsSubmit
         /// </summary>

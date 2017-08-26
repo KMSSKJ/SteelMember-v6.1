@@ -31,9 +31,9 @@ namespace LeaRun.Application.Web.Controllers
         {
             return View();
         }
-       
+
         /// <summary>
-        /// 执行导出Excel
+        /// 执行Json导出Excel
         /// </summary>
         /// <param name="columnJson">表头</param>
         /// <param name="rowJson">数据</param>
@@ -78,6 +78,7 @@ namespace LeaRun.Application.Web.Controllers
             ExcelHelper.ExcelDownload(rowData, excelconfig);
         }
         #endregion
+
         #region JqGrid导出Excel
         /// <summary>
         /// 获取要导出表头字段

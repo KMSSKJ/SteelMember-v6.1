@@ -73,8 +73,8 @@
             url: "../../SteelMember/MemberLibrary/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: '主键', name: 'MemberId', index: 'MemberId', width: 100, align: 'left', sortable: true, hidden: true },
-                { label: '外键', name: 'SubProjectId', index: 'SubProjectId', width: 100, align: 'left', sortable: true, hidden: true },
+                { label: '主键', name: 'MemberId', index: 'MemberId', align: 'left', sortable: true, hidden: true },
+                { label: '外键', name: 'SubProjectId', index: 'SubProjectId', align: 'left', sortable: true, hidden: true },
                 //{
                 //    label: '图标', name: "Icon", hidden: false,
                 //    formatter: function (cellvalue, options, rowObject) {
@@ -99,10 +99,12 @@
                 //        }
                 //    }
                 //},
-                { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 100, align: 'left', sortable: true },
+                { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 150, align: 'left', sortable: true },
                 { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
                 { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
-                { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 100, align: 'left', sortable: true },
+                { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 80, align: 'left', sortable: true },
+                { label: '更新时间', name: 'UploadTime', index: 'UploadTime', width: 80, align: 'left', sortable: true },
+                { label: '备注', name: 'Description', index: 'Description', width: 200, align: 'left', sortable: true },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -187,7 +189,7 @@
     //删除
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('MemberId');
-        if (keyValue) {
+        if (checkedRow(keyValue)) {
             $.RemoveForm({
                 url: '../../SteelMember/MemberLibrary/RemoveForm',
                 param: { keyValue: keyValue },
@@ -195,9 +197,7 @@
                     $('#gridTable').trigger('reloadGrid');
                 }
             })
-        } else {
-            dialogMsg('请选择需要删除的构件！', 0);
-        }
+        } 
     }
 
     //构件图纸/模型管理
@@ -209,7 +209,7 @@
                 title: '构件信息',
                 url: '../../SteelMember/MemberLibrary/DrawingManagement?KeyValue=' + KeyValue,
                 width: "700px",
-                height: "600px",
+                height: "666px",
                 btn: null
             });
         }

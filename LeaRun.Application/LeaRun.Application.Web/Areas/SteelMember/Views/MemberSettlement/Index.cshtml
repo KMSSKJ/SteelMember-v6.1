@@ -299,7 +299,7 @@
        var JsonData1 = "";  var TableObject ="";
     //导出文件
     function btn_derive() {
-        SetDeriveExcel("#gridTable", "构件结算表", "云南公投澄川高速", JsonData1, TableObject.toString());//参数说明：ID,表名，表头
+        SetDeriveExcel("#gridTable", "构件结算表", "云南公投澄川高速", JsonData1, TableObject.toString());//参数备注：ID,表名，表头
         openDialog("/SteelMember/File/DeriveFile", "DeriveFile", "信息导出", 900, 500, function (iframe) {
             top.frames[iframe].AcceptClick();
         })

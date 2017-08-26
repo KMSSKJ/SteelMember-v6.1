@@ -5,6 +5,8 @@ using LeaRun.Util.WebControl;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
+using LeaRun.Application.Busines.SystemManage;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -17,7 +19,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
 
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
-
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -51,7 +53,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = rawmateriallibrarybll.GetList(pagination, queryJson);
+            var data = rawmateriallibrarybll.GetList(pagination, queryJson).ToList();
+            for (int i = 0; i < data.Count(); i++)
+            {
+                //data[i].UnitId = dataitemdetailbll.GetEntity(data[i].UnitId).ItemName;
+                data[i].Category = dataitemdetailbll.GetEntity(data[i].Category).ItemName;
+            }
+
             var JsonData = new
             {
                 rows = data,

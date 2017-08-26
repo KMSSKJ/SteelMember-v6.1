@@ -11,7 +11,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
          }
     public class RawMaterialLibraryModel
     {
-        public int PurchaseId { get; set; }
+        public string PurchaseId { get; set; }
 
         public string UnitName { get; set; }
         public string RawMaterialId { get; set; }

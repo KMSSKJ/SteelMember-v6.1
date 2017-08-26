@@ -13,7 +13,7 @@ function GooFlow(bgDiv, property) {
     this.$tool = null;//左侧工具栏对象
     this.$head = null;//顶部标签及工具栏按钮
     this.$title = "newFlow_1";//流程图的名称
-    this.$nodeRemark = {};//每一种结点或按钮的说明文字,JSON格式,key为类名,value为用户自定义文字说明
+    this.$nodeRemark = {};//每一种结点或按钮的备注文字,JSON格式,key为类名,value为用户自定义文字备注
     this.$nowType = "cursor";//当前要绘制的对象类型
     this.$lineData = {};
     this.$lineCount = 0;
@@ -549,7 +549,7 @@ GooFlow.prototype = {
                 return false;
             }
         });
-        //绑定修改文字说明功能
+        //绑定修改文字备注功能
         this.$group.on("dblclick", { inthis: this }, function (e) {
             var This = e.data.inthis;
             if (This.$nowType != "group") return;
@@ -607,7 +607,7 @@ GooFlow.prototype = {
             }
         });
     },
-    //每一种类型结点及其按钮的说明文字
+    //每一种类型结点及其按钮的备注文字
     setNodeRemarks: function (remark) {
         if (this.$tool != null)
         {

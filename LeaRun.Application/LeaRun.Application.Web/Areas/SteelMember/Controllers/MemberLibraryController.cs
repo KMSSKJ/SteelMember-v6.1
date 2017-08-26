@@ -150,8 +150,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(TreeList.TreeToJson());
         }
 
-
-
         /// <summary>
         /// 获取列表
         /// </summary>
@@ -191,6 +189,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             };
             return ToJsonResult(jsonData);
         }
+
         /// <summary>
         /// 获取列表
         /// </summary>
@@ -202,6 +201,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = memberlibrarybll.GetList(queryJson);
             return ToJsonResult(data);
         }
+
         /// <summary>
         /// 获取实体 
         /// </summary>
@@ -309,6 +309,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         #endregion
 
         #region 提交数据
+
         /// <summary>
         /// 删除数据
         /// </summary>
@@ -369,25 +370,37 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     for (int i = 0; i < MemberMaterial.Count(); i++)
                     {
-                        membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId.ToString());
+                        membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId);
                     }
                 }
                 //
 
                 //删除构件制程
-                var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
-                if (MemberProcess.Count() > 0)
+                //var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
+                //if (MemberProcess.Count() > 0)
+                //{
+                //    for (int i = 0; i < MemberProcess.Count(); i++)
+                //    {
+                //        memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
+                //    }
+                //}
+                //
+
+                //删除构件库存
+                var MemberWarehouse = memberwarehousebll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
+
+                if (MemberWarehouse.Count() > 0)
                 {
-                    for (int i = 0; i < MemberProcess.Count(); i++)
+                    for (int i = 0; i < MemberWarehouse.Count(); i++)
                     {
-                        memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
+                        memberwarehousebll.RemoveForm(MemberWarehouse[i].MemberWarehouseId);
                     }
                 }
-                //
             }
 
             return Success("删除成功。");
         }
+
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
@@ -632,7 +645,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                     }
                                     else
                                     {
-                                        return Content("操作失败：系统中不存在"+table.Rows[i][1].ToString().Trim()+"的所属工程类型");
+                                        return Content("操作失败：系统中不存在" + table.Rows[i][1].ToString().Trim() + "的所属工程类型");
                                     }
                                 }
                                 else
@@ -644,7 +657,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 //自动获取计量单位ID,没有就添加
                                 var MemberUnit = dataItemCache.GetDataItemList("UnitName");
                                 var a = MemberUnit.FirstOrDefault();
-                                if (table.Rows[i][2].ToString().Trim().Count() < 4&& table.Rows[i][2].ToString().Trim().Count() > 0)
+                                if (table.Rows[i][2].ToString().Trim().Count() < 4 && table.Rows[i][2].ToString().Trim().Count() > 0)
                                 {
                                     var Unit = MemberUnit.Where(w => w.ItemName == table.Rows[i][2].ToString().Trim()).SingleOrDefault();
                                     if (Unit != null)
@@ -665,7 +678,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 }
                                 else
                                 {
-                                    return Content("操作失败：要导入的单位数据"+table.Rows[i][2].ToString().Trim()+ "数据长度过大");
+                                    return Content("操作失败：要导入的单位数据" + table.Rows[i][2].ToString().Trim() + "数据长度过大");
                                 }
                                 //end
                                 string CAD_Drawing = "1.png";
@@ -706,7 +719,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                                 var entitys1 = new MemberWarehouseEntity()
                                 {
-                                    MemberId= memberId,
+                                    MemberId = memberId,
                                     InStock = 0,
                                     EngineeringId = KeyValue,
                                     UpdateTime = DateTime.Now,
@@ -1009,6 +1022,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             // userBLL.GetExportList();
         }
         #endregion
+
         #endregion
 
         #region 验证数据

@@ -10,6 +10,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string Id { get; set; }
         public string RawMaterialId { get; set; }
         public string RawMaterialCategory { get; set; }
+        public string RawMaterialName { get; set; }
         public string RawMaterialStandard { get; set; }
         public int RawMaterialDosage { get; set; }
         public string RawMaterialUnit { get; set; }

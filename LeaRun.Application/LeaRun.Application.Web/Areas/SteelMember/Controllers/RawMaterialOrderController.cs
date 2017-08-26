@@ -9,6 +9,13 @@ using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System.Collections.Generic;
 using System;
 using LeaRun.Util.Extension;
+using LeaRun.Application.Busines.SystemManage;
+using System.Data.OleDb;
+using System.Data;
+using NPOI.SS.UserModel;
+using NPOI.HSSF.UserModel;
+using System.IO;
+using LeaRun.Util.Offices;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -24,6 +31,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
         private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
         private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
+
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -114,11 +124,26 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson(string keyValue)
         {
             var data = rawmaterialorderbll.GetEntity(keyValue);
-            var childData = rawmaterialorderinfobll.GetList(keyValue);
+            var childData = rawmaterialorderinfobll.GetList(null).ToList().FindAll(f=>f.OrderId==keyValue);
+            var MemberList = new List<MemberMaterialModel>();
+            for (int i = 0; i < childData.Count(); i++)
+            {
+                var rawmaterial = rawmateriallibrarybll.GetEntity(childData[i].RawMaterialId);
+                var Member = new MemberMaterialModel()
+                {
+                    InfoId = childData[i].InfoId,
+                    RawMaterialId = childData[i].RawMaterialId,
+                    RawMaterialNumber = childData[i].ProductionQuantity,
+                    RawMaterialName = rawmaterial.RawMaterialName,
+                    RawMaterialModel = rawmaterial.RawMaterialModel,
+                    UnitName = rawmaterial.Unit,
+                };
+                MemberList.Add(Member);
+            }
             var jsonData = new
             {
                 entity = data,
-                childEntity = childData
+                childEntity = MemberList
             };
             return ToJsonResult(jsonData);
         }
@@ -132,8 +157,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         ///  [HttpGet]
         public ActionResult GridListJsonRawAnalysis(Pagination pagination, string category)
         {
-            var data = new List<RawMaterialLibraryModel>(); 
-            var data1 = rawmaterialanalysisbll.GetPageList1(f => f.Category == category && f.IsPassed==1,pagination).ToList();//.OrderByDescending(o => o.MemberNumbering)
+            var data = new List<RawMaterialLibraryModel>();
+            var data1 = rawmaterialanalysisbll.GetPageList1(f => f.Category == category && f.IsPassed == 1, pagination).ToList();//.OrderByDescending(o => o.MemberNumbering)
 
             foreach (var item in data1)
             {
@@ -143,7 +168,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                 RawMaterialLibrary.RawMaterialId = RawMaterial.RawMaterialId;
                 RawMaterialLibrary.RawMaterialModel = RawMaterial.RawMaterialModel;
-                RawMaterialLibrary.RawMaterialName = RawMaterial.Category;
+                RawMaterialLibrary.RawMaterialName = RawMaterial.RawMaterialName;
                 RawMaterialLibrary.UnitName = RawMaterial.Unit;
                 RawMaterialLibrary.Qty = item.RawMaterialDosage.ToString();
                 data.Add(RawMaterialLibrary);
@@ -152,7 +177,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// 控制订单构件的数量（新增）
+        /// 控制订单的数量（新增）
         /// </summary>
         /// <returns></returns>
         public ContentResult AddMemberNumber(string KeyValue, string category)
@@ -185,7 +210,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var Order = rawmaterialorderbll.GetList(KeyValue).SingleOrDefault();
             OrderList = rawmaterialorderbll.GetList(Order.Category).ToList();
 
-            var MemberDemand = rawmaterialanalysisbll.GetList(f => f.Category == Order.Category&&f.RawMaterialId== MemberId).SingleOrDefault();
+            var MemberDemand = rawmaterialanalysisbll.GetList(f => f.Category == Order.Category && f.RawMaterialId == MemberId).SingleOrDefault();
             int MemberDemandNumber = 0;
             int Number = 0;
 
@@ -223,7 +248,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             RawMaterialLibraryModel projectdemand = new RawMaterialLibraryModel();
                             projectdemand.RawMaterialId = rawmaterial.RawMaterialId;
                             projectdemand.RawMaterialModel = rawmaterial.RawMaterialModel;
-                            projectdemand.RawMaterialName = rawmaterial.Category;
+                            projectdemand.RawMaterialName = rawmaterial.RawMaterialName;
                             projectdemand.UnitName = rawmaterial.Unit;
                             projectdemand.Qty = a.RawMaterialDosage.ToString();
                             listmember.Add(projectdemand);
@@ -249,6 +274,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue)
         {
+            //var meminfo = rawmaterialorderinfobll.GetList(null).ToList().FindAll(f => f.OrderId == keyValue);
+            //if (meminfo.Count() > 0)
+            //{
+            //    foreach (var item in meminfo)
+            //    {
+            //        rawmaterialorderinfobll.RemoveForm(item.InfoId);
+            //    }
+            //}
             rawmaterialorderbll.RemoveForm(keyValue);
             return Success("删除成功。");
         }
@@ -360,5 +393,46 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// 导出订单明细（Excel模板导出）
+        /// </summary>
+        /// <param name="keyValue">订单Id</param>
+        /// <returns></returns>
+        public void OutExcel(string keyValue)
+        {
+            var data = rawmaterialorderbll.GetEntity(keyValue);
+            var childData = rawmaterialorderinfobll.GetList(keyValue).ToList();
+            
+            List<TemplateMode> list = new List<TemplateMode>();
+            //设置主表信息
+            list.Add(new TemplateMode() { row = 1, cell = 1, value = data.OrderNumbering });
+            list.Add(new TemplateMode() { row = 1, cell = 3, value = data.CreateMan });
+            list.Add(new TemplateMode() { row = 1, cell = 5, value = data.CreateTime.ToDate().ToString("yyyy-MM-dd") });
+            list.Add(new TemplateMode() { row = 2, cell = 1, value = subprojectbll.GetEntity(data.Category).FullName });
+            list.Add(new TemplateMode() { row = 2, cell = 3, value = data.Priority.ToString() == "1" ? "优先" : "正常" });
+            list.Add(new TemplateMode() { row = 2, cell = 5, value = data.IsDedicated.ToString() == "1" ? "是" : "否" });
+          
+            //设置明细信息
+            int rowIndex = 5;
+            foreach (RawMaterialOrderInfoEntity item in childData)
+            {
+                var rawmaterial = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+                list.Add(new TemplateMode() { row = rowIndex, cell = 0, value = rawmaterial.RawMaterialModel });
+                list.Add(new TemplateMode() { row = rowIndex, cell = 1, value = rawmaterial.RawMaterialName });
+                list.Add(new TemplateMode() { row = rowIndex, cell = 2, value = rawmaterial.Unit });
+                list.Add(new TemplateMode() { row = rowIndex, cell = 3, value = item.ProductionQuantity.ToString() });
+                list.Add(new TemplateMode() { row = rowIndex, cell = 4, value = rawmaterial.Description });
+                rowIndex++;
+            }
+            ////设置明细合计
+            //list.Add(new TemplateMode() { row = 16, cell = 5, value = orderEntry.Sum(t => t.Qty).ToString() });
+            //list.Add(new TemplateMode() { row = 16, cell = 6, value = orderEntry.Sum(t => t.Price).ToString() });
+            //list.Add(new TemplateMode() { row = 16, cell = 7, value = orderEntry.Sum(t => t.Amount).ToString() });
+            //list.Add(new TemplateMode() { row = 16, cell = 9, value = orderEntry.Sum(t => t.Taxprice).ToString() });
+            //list.Add(new TemplateMode() { row = 16, cell = 10, value = orderEntry.Sum(t => t.Tax).ToString() });
+
+            ExcelHelper.ExcelDownload(list, "材料订单模板.xlsx", "材料订单-" + data.OrderNumbering + ".xlsx");
+        }
     }
 }

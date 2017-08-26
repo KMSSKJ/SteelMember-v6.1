@@ -9,7 +9,7 @@ namespace LeaRun.Application.IService.SteelMember
     /// 日 期：2017-08-07 17:28
     /// 描 述：材料订单
     /// </summary>
-    public interface RawMaterialOrderIService: IBaseService<RawMaterialOrderEntity>
+    public interface RawMaterialOrderIService//: IBaseService<RawMaterialOrderEntity>
     {
         #region 获取数据
         /// <summary>
@@ -48,7 +48,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// 
         void SaveForm(string keyValue, RawMaterialOrderEntity entity, List<RawMaterialOrderInfoEntity> entryList);
         void SaveForm(string keyValue, RawMaterialOrderEntity entity);
-       
+        void UpdataList(List<RawMaterialOrderEntity> list);
         #endregion
     }
 }
