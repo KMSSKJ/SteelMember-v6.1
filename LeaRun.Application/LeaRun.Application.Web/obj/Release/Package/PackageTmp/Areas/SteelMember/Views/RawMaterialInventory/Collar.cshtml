@@ -1,0 +1,235 @@
+﻿@{
+    ViewBag.Title = "Collar";
+    //Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    //Layout = "~/Views/Shared/_Form.cshtml";
+    Layout = "~/Views/Shared/_OrderForm.cshtml";
+}
+<script>
+    var InventoryId = request('InventoryId');
+    //alert("InventoryId:" + InventoryId);
+
+    $(function () {
+        initControl();
+        AddRawMaterial();
+        
+    });
+    //加载树
+  
+    var _Category
+    function initControl() { 
+        $("#Category").ComboBoxTree({
+            //param: { EnCode: "RawMaterialType" },
+            //url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            param: { Levels: 2 },
+            url: '../../SteelMember/SubProject/GetTreeJson',
+            description: "==请选择==",
+            allowSearch: true
+        });
+       
+    //    //获取表单
+    //    //if (Category!="undefined") {
+    //    //   // $("#Category div").ComboBoxTreeSetValue(Category);
+    //    //    $("#Category div").html(Category);
+    //    //}
+    //    //alert($("#Category div").html()) 
+    }
+
+    //加载材料
+    var _Quantity
+    function AddRawMaterial() {
+        if (InventoryId == "") {
+            return false;
+        }
+        $.ajax({
+            type:'post',
+            dataType: 'json',
+            url: '../../SteelMember/RawMaterialInventory/AddRawMaterial',
+            data: { InventoryId: InventoryId },
+            success: function (data) {
+                _Quantity=data.Quantity;
+                $("#Categorys").val(data.Category); 
+                $("#RawMaterialModel").val(data.RawMaterialModel); 
+                $("#RawMaterialStandard").val(data.RawMaterialStandard);
+                $("#Unit").html(data.Unit); 
+            },
+            error: function (e) {
+                alert(e);
+            }
+
+        });
+    }
+    function AcceptClick() {
+        //$("#Category").attr("data-value")
+        //$("#Category").attr("data-text")  桥1
+        //var val = $("#gridTable tbody tr[id=1] td input").val(); undefined
+        //alert($("#Category").attr("data-text"));alert($("#Category").attr("data-value"));
+ 
+        if ($("#Category").attr("data-value") == undefined) {
+            //dialogMsg('请选取工程！', 0);
+            dialogTop("请选择工程名称", "error");
+            return false;
+        }
+       
+        if ($("#Quantity").val() == "" || $("#Quantity").val() > _Quantity || $("#Quantity").val() <= 0) {
+            dialogMsg("输入的领用数量有误！请重新输入",0);
+            $("#Quantity").val("");
+            return false;
+        }
+        var sb = $("#CollarCategory").val();
+        if ($("#CollarCategory").val() == "" || $("#Collaror").val() == "")
+        {
+            dialogMsg("请将信息填写完整！！", 0);
+            return false;
+        }
+       //var CollarCategory = $("#CollarCategory").val() == "生产领用" ? 1 : 2;
+        //var CollarCategor;
+        if ($("#CollarCategory").val() != "生产领用" && $("#CollarCategory").val() != "工程领用") {
+            dialogMsg("在(领用类型)一项请做选择，不要通过填写！！", 0);
+            return false;
+        }
+        var CollarCategory = $("#CollarCategory").val() == "生产领用" ? 1 : 2;
+
+        var collarinfo = {
+            InventoryId: InventoryId,
+            CollarType: CollarCategory,
+            CollarEngineering: $("#Category").attr("data-value"),
+            CollarQuantity: $("#Quantity").val(),
+            CollarMan: $("#Collaror").val(),
+            Description: $("#Description").val()
+
+        };
+
+        $.ajax({
+            type: 'post',
+            url: '../../SteelMember/RawMterialCollar/SaveCollarinfo',
+            dataType: 'json',
+            data: { collarinfo: JSON.stringify(collarinfo) },
+            success: function (data) {
+                //alert(data.message);
+                if (data.type == 1) {
+                    Loading(false);
+                    dialogMsg(data.message, 1);
+
+                } else {
+                    dialogAlert(data.message, -1);
+                }
+                dialogClose();
+
+            },
+            error: function (e) {
+                dialogAlert(e, -1);
+                //dialogTop(e, "error");
+            }
+            
+        });
+    
+
+    }
+</script>
+
+<div class="bills">
+    @*<div style="height:180px;overflow-y:auto;margin:0px 10px;">*@
+    <div style="height:100%;overflow-y:auto;margin:0px 10px;">
+        <table class="form" style="width: 100%;border-collapse:separate;border-spacing:30px;">
+            <tr>
+                <td align="center" colspan="10">
+                    <div style="font-family: 华文楷体; font-size: x-large; height: 50px; line-height: 50px;">
+                        原材料领用&nbsp;
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    所属工程:
+                </th>
+                <td colspan="4">
+                    <div id="Category" type="select" class="ui-select" style="width:95%"></div>
+                    @*<input id="Description" type="text" class="form-control" style="width:95%;">*@
+                </td>
+                <th>
+                    领用数量:
+                </th>
+                <td colspan="4">
+                    <input id="Quantity" type="number" style="width:80%;height:28px"><label id="Unit"style="margin-left:15px"></label>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    材料类型:
+                </th>
+                <td colspan="4">
+                    <input id="Categorys" type="text" class="form-control" style="width:95%;" disabled="disabled">
+                </td>
+                <th>
+                    规格:
+                </th>
+                <td colspan="4">
+                    <input id="RawMaterialStandard" type="text" class="form-control" style="width:95%;" disabled="disabled">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    型号:
+                </th>
+                <td colspan="4">
+                    <input id="RawMaterialModel" type="text" class="form-control" style="width:95%;" disabled="disabled">
+                </td>
+                <th>
+                    领用类型:
+                </th>
+                <td colspan="4">
+                    <input id="CollarCategory" type="text" class="form-control" style="width:95%;"list="CollarList">
+                    <datalist id="CollarList">
+                        <option value="生产领用" >生产领用</option>
+                        <option value="工程领用">工程领用</option>
+                    </datalist>
+                </td>
+            </tr>
+            
+            <tr>
+                <th>
+                    领用人:
+                </th>
+                <td colspan="4">
+                    <input id="Collaror" type="text" class="form-control" style="width:95%;" list="Collarorlist">
+                    <datalist id="Collarorlist">
+                        <option value="张三">张三</option>
+                        <option value="李四">李四</option>
+                    </datalist>
+                </td>
+                <th>
+                    备注:
+                </th>
+                <td colspan="4">
+                    <input id="Description" type="text" class="form-control" style="width:95%;">
+                </td>
+
+            </tr>
+          
+        </table>
+    </div>
+ 
+</div>
+<style>
+    body {
+        margin: 0px;
+    }
+
+    .bills {
+        overflow: hidden;
+        border-radius: 0px;
+        position: relative;
+        background: #FFFFFF;
+        border: 0px solid rgb(204, 204, 204);
+        box-shadow: none;
+        padding: 0px;
+    }
+
+    .ui-widget-content {
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 0px;
+    }
+</style>
+ 

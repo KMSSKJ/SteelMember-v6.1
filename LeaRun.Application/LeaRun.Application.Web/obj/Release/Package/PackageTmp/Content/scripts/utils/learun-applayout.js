@@ -426,7 +426,7 @@ $.fn.frmDesign = function (options) {
         _html += '<div class="field_tips"><i class="fa fa-info-circle"></i><span>无样式的单行文本框</span></div>';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';//<input id="control_field" type="text" class="form-control" placeholder="必填项"/>
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"/></div>';
         _html += '<div class="field_title">字段验证</div>';
         _html += '<div class="field_control"><select id="control_verify" class="form-control"><option value="">==请选择==</option><option value="Num">数字</option><option value="Double">小数</option><option value="Phone">必须电话格式</option><option value="Mobile">手机格式</option><option value="Email">电子邮件格式</option><option value="IDCard">身份证格式</option></select></div>';
@@ -497,7 +497,7 @@ $.fn.frmDesign = function (options) {
         _html += '<div class="field_tips"><i class="fa fa-info-circle"></i><span>无样式的多行文本框</span></div>';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">字段高度</div>';
         _html += '<div class="field_control"><input id="control_height" type="text" class="form-control" value="100px"></div>';
@@ -562,7 +562,7 @@ $.fn.frmDesign = function (options) {
         _html += '<div class="field_tips"><i class="fa fa-info-circle"></i><span>类似word，可设置丰富文字样式的多行文本编辑区</span></div>';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">字段高度</div>';
         _html += '<div class="field_control"><input id="control_height" type="text" class="form-control" value="200px"></div>';
@@ -628,7 +628,7 @@ $.fn.frmDesign = function (options) {
         _html += '<div class="field_tips"><i class="fa fa-info-circle"></i><span>显示所有备选项，从中只可选择一项</span></div>';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">备选项<div class="addclassify"><a><i class="fa fa-plus"></i>添加</a></div></div>';
         _html += '<div class="field_control"><ul class="classify"></ul></div>';
@@ -769,7 +769,7 @@ $.fn.frmDesign = function (options) {
         _html += '<div class="field_tips"><i class="fa fa-info-circle"></i><span>显示所有备选项，从中可以选择多项</span></div>';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">备选项<div class="addclassify"><a><i class="fa fa-plus"></i>添加</a></div></div>';
         _html += '<div class="field_control"><ul class="classify"></ul></div>';
@@ -909,7 +909,7 @@ $.fn.frmDesign = function (options) {
         _html += '<div class="field_tips"><i class="fa fa-info-circle"></i><span>显示所有备选项，从中只可选择一项</span></div>';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">备选项<div class="addclassify"><a><i class="fa fa-plus"></i>添加</a></div></div>';
         _html += '<div class="field_control"><ul class="classify"></ul></div>';
@@ -1052,7 +1052,7 @@ $.fn.frmDesign = function (options) {
         _html += '<div class="field_tips"><i class="fa fa-info-circle"></i><span>选择日期、时间控件</span></div>';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">日期格式</div>';
         _html += '<div class="field_control"><select id="control_dateformat" class="form-control"><option value="date">仅日期</option><option value="datetime">日期和时间</option></select></div>';
@@ -1117,7 +1117,7 @@ $.fn.frmDesign = function (options) {
         var _html = '';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">图片格式<i title=".jpg .gif .png .bmp" class="help fa fa-question-circle"></i></div>';
         _html += '<div class="field_control"><input id="control_fileformat" type="text" class="form-control" placeholder="如：jpg,gif,png,bmp"></div>';
@@ -1168,7 +1168,7 @@ $.fn.frmDesign = function (options) {
         var _html = '';
         _html += '<div class="field_title">字段标识</div>';
         _html += '<div class="field_control"><div id="control_field" type="select" class="ui-select"></div></div>';
-        _html += '<div class="field_title">字段说明</div>';
+        _html += '<div class="field_title">字段备注</div>';
         _html += '<div class="field_control"><input id="control_label" type="text" class="form-control" placeholder="必填项"></div>';
         _html += '<div class="field_title">文件格式<i title=".doc .xls .ppt .pdf " class="help fa fa-question-circle"></i></div>';
         _html += '<div class="field_control"><input id="control_fileformat" type="text" class="form-control" placeholder="如：doc,xls,ppt,pdf"></div>';

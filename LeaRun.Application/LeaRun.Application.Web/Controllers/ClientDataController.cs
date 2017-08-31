@@ -9,7 +9,6 @@ using LeaRun.Application.Busines.AuthorizeManage;
 using LeaRun.Application.Code;
 using LeaRun.Application.Entity.AuthorizeManage;
 using System;
-using LeaRun.Data.Entity;
 
 namespace LeaRun.Application.Web.Controllers
 {

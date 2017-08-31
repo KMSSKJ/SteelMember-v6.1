@@ -18,10 +18,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string Description { get; set; }
         public int IsPassed { get; set; }
         public int IsSubmitReview { get; set; }
+        public DateTime? UpdateTime { get; set; }
     }
     public class Text {
         
-        public string Supplier { get; set; }
+        public string RawMaterialSupplier { get; set; }
         public string InfoId { get; set; }
         public string RawMaterialId { get; set; }
         public string RawMaterialName { get; set; }

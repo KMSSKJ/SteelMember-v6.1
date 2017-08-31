@@ -779,7 +779,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             try
             {
-                int key_value = Convert.ToInt32(KeyValue);
                 MemberLibraryEntity oldentity = new MemberLibraryEntity();
                 ProjectInfoEntity oldentity1 = new ProjectInfoEntity();
                 int IsOk = 0;
@@ -801,7 +800,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 string UserId = "System";
                 string filename = Filedata.FileName.Substring(0, Filedata.FileName.LastIndexOf('.'));//获取文件名称，去除后缀名
                 oldentity = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == KeyValue);
-                oldentity1 = projectinfobll.GetList(null).ToList().Find(f => f.ProjectId == key_value);
+                oldentity1 = projectinfobll.GetList(null).ToList().Find(f => f.ProjectInfoId == KeyValue);
                 if (Img == "Logo")
                 {
                     NewPath = string.Format("~/Resource/Document/NetworkDisk/{0}/{1}/{2}", UserId, "Project", filename);

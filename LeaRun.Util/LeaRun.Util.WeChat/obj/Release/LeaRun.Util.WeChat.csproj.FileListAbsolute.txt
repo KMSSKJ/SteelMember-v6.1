@@ -31,3 +31,15 @@ D:\project\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\LeaRun.Util.Extension.pdb
 D:\project\LeaRun.Util\LeaRun.Util.WeChat\obj\Release\LeaRun.Util.WeChat.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util.WeChat\obj\Release\LeaRun.Util.WeChat.dll
 D:\project\LeaRun.Util\LeaRun.Util.WeChat\obj\Release\LeaRun.Util.WeChat.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\LeaRun.Util.WeChat.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\LeaRun.Util.WeChat.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\LeaRun.Util.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\SharpZipLib.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\Newtonsoft.Json.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\LeaRun.Util.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\Newtonsoft.Json.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Release\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Release\LeaRun.Util.WeChat.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Release\LeaRun.Util.WeChat.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Release\LeaRun.Util.WeChat.pdb

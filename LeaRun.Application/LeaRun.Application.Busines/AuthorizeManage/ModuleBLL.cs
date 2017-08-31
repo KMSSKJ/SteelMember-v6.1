@@ -1,7 +1,6 @@
 ﻿using LeaRun.Application.Entity.AuthorizeManage;
 using LeaRun.Application.IService.AuthorizeManage;
 using LeaRun.Application.Service.BaseManage;
-using LeaRun.Data.Entity;
 using LeaRun.Util;
 using Ninject;
 using System;

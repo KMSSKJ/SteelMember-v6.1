@@ -45,8 +45,8 @@ namespace LeaRun.Application.Entity.SteelMember
         /// 供应商
         /// </summary>
         /// <returns></returns>
-        [Column("SUPPLIER")]
-        public string Supplier { get; set; }
+        [Column("RAWMATERIALSUPPLIER")]
+        public string RawMaterialSupplier { get; set; }
         #endregion
 
         #region 扩展操作

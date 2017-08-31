@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System;
+using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -67,73 +68,101 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 入库详细信息
         /// </summary>
         /// <returns></returns>
-        public ActionResult IntoInventoryDetailInfo(Pagination pagination, string category)
+        public ActionResult IntoInventoryDetailInfo(Pagination pagination,string queryJson, string category)
         {
-            //var SB=Request["endtime"];
-            //var notime = "0001/1/1/1 0:00:00";
-            var degintime = Convert.ToDateTime(Request["begintime"])== Convert.ToDateTime(null) ? Convert.ToDateTime(null) : Convert.ToDateTime(Request["begintime"]);
-            var endtime = Convert.ToDateTime(Request["endtime"]) == Convert.ToDateTime(null) ? System.DateTime.Now : Convert.ToDateTime(Request["endtime"]);
             List<RawmaterialWarehouseModel> list = new List<RawmaterialWarehouseModel>();
-            try {
-                var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
-                foreach (var item in data)
+            var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
+            foreach (var item in data)
+            {
+                var warehoused = rawmaterialwarehousebll.GetPageList(pagination, item.RawMaterialId);
+                for (int i = 0; i < warehoused.Count; i++)
                 {
-                    //var warehoused = rawmaterialwarehousebll.GetpurchaseList(p => p.RawMaterialId == item.RawMaterialId&&p.WarehouseTime>= degintime&&p.WarehouseTime<= endtime);
-                    var query = item.RawMaterialId + "," + degintime + "," + endtime;
-                    var warehoused = rawmaterialwarehousebll.GetPageList(pagination, query);
-                    for (int i = 0; i < warehoused.Count; i++)
-                    {
-                        RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
-                        RawmaterialWarehouseModel.WarehouseId = warehoused[i].WarehouseId;
-                        RawmaterialWarehouseModel.WarehouseQuantity = warehoused[i].WarehouseQuantity;
-                        RawmaterialWarehouseModel.WarehouseTime = warehoused[i].WarehouseTime;
-                        RawmaterialWarehouseModel.Description = warehoused[i].Description;
+                    RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
+                    RawmaterialWarehouseModel.WarehouseId = warehoused[i].WarehouseId;
+                    RawmaterialWarehouseModel.WarehouseQuantity = warehoused[i].WarehouseQuantity;
+                    RawmaterialWarehouseModel.WarehouseTime = warehoused[i].WarehouseTime;
+                    RawmaterialWarehouseModel.Description = warehoused[i].Description;
 
-                        RawmaterialWarehouseModel.RawMaterialModel = item.RawMaterialModel;
-                        RawmaterialWarehouseModel.RawMaterialStandard = item.RawMaterialStandard;
-                        //RawmaterialWarehouseModel.Category = item.Category;
-                        RawmaterialWarehouseModel.Category = item.RawMaterialName;
-                        RawmaterialWarehouseModel.Unit = item.Unit;
+                    RawmaterialWarehouseModel.RawMaterialModel = item.RawMaterialModel;
+                    //RawmaterialWarehouseModel.Category = item.Category;
+                    RawmaterialWarehouseModel.RawMaterialName = item.RawMaterialName;
+                    RawmaterialWarehouseModel.Unit = item.Unit;
 
-                        list.Add(RawmaterialWarehouseModel);
-                    }
-
+                    list.Add(RawmaterialWarehouseModel);
                 }
-            } catch (Exception e) {
-                return ToJsonResult(e);
             }
-            
-            
-           
+
+            //
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.UpdateTime >= BeginTime);
+                list = list.FindAll(t => t.UpdateTime <= EndTime);
+            }
+            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.UpdateTime >= BeginTime);
+            }
+            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.UpdateTime <= EndTime);
+            }
+
+
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+
+                    //case "Category":              //构件类型
+                    //    expression = expression.And(t => t.Category.Contains(keyword));
+                    //    break;
+                    case "RawMaterialName":              //构件名称
+                        list = list.FindAll(t => t.RawMaterialName.Contains(keyword));
+                        break;
+                    case "RawMaterialModel":              //型号
+                        list = list.FindAll(t => t.RawMaterialModel.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //
+
             return ToJsonResult(list);
 
         }
-            //public ActionResult IntoInventoryDetailInfo(Pagination pagination, string queryJson)
-            //{
-            //    var data = rawmaterialwarehousebll.GetPageList(pagination, queryJson);
-            //    List<RawmaterialWarehouseModel> list = new List<RawmaterialWarehouseModel>();
-            //    foreach (var item in data)
-            //    {
-            //        RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
-            //        var modellib = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+        //public ActionResult IntoInventoryDetailInfo(Pagination pagination, string queryJson)
+        //{
+        //    var data = rawmaterialwarehousebll.GetPageList(pagination, queryJson);
+        //    List<RawmaterialWarehouseModel> list = new List<RawmaterialWarehouseModel>();
+        //    foreach (var item in data)
+        //    {
+        //        RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
+        //        var modellib = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
 
-            //        RawmaterialWarehouseModel.WarehouseId = item.WarehouseId;
-            //        RawmaterialWarehouseModel.WarehouseQuantity = item.WarehouseQuantity;
-            //        RawmaterialWarehouseModel.WarehouseTime = item.WarehouseTime;
-            //        RawmaterialWarehouseModel.Description = item.Description;
-            //        RawmaterialWarehouseModel.RawMaterialModel = modellib.RawMaterialModel;
-            //        RawmaterialWarehouseModel.RawMaterialStandard = modellib.RawMaterialStandard;
-            //        RawmaterialWarehouseModel.Category = modellib.Category;
-            //        RawmaterialWarehouseModel.Unit = modellib.Unit;
+        //        RawmaterialWarehouseModel.WarehouseId = item.WarehouseId;
+        //        RawmaterialWarehouseModel.WarehouseQuantity = item.WarehouseQuantity;
+        //        RawmaterialWarehouseModel.WarehouseTime = item.WarehouseTime;
+        //        RawmaterialWarehouseModel.Description = item.Description;
+        //        RawmaterialWarehouseModel.RawMaterialModel = modellib.RawMaterialModel;
+        //        RawmaterialWarehouseModel.RawMaterialStandard = modellib.RawMaterialStandard;
+        //        RawmaterialWarehouseModel.Category = modellib.Category;
+        //        RawmaterialWarehouseModel.Unit = modellib.Unit;
 
-            //        list.Add(RawmaterialWarehouseModel);
-            //    }
-            //    //}
-            //    return ToJsonResult(list);
-            //}
+        //        list.Add(RawmaterialWarehouseModel);
+        //    }
+        //    //}
+        //    return ToJsonResult(list);
+        //}
 
-           // return ToJsonResult(data);
-   // }
+        // return ToJsonResult(data);
+        // }
         #endregion
 
         #region 提交数据

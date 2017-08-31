@@ -1,0 +1,445 @@
+﻿@{
+    ViewBag.Title = "项目信息管理";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="~/Content/scripts/plugins/uploadify/uploadify.css" rel="stylesheet" />
+<script src="~/Content/scripts/plugins/uploadify/jquery.uploadify.js"></script>
+
+<script>
+    //var ProjectId = request('ProjectId')
+    var ProjectId = "b51550ed-5f23-4de6-a509-b534c24ae2ee";
+    var data_id = "";
+    $(function () {
+        GetGrid();
+    });
+
+    //加载表格
+    function GetGrid() {
+        $.ajax({
+            url: "/SteelMember/ProjectInfo/GetFormJson",
+            type: "get",
+            data: { KeyValue: ProjectId },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data != null) {
+                    $("#form1").SetWebControls(data);
+                    data_id = data.ProjectInfoId;
+                    document.getElementById("ProjectInfoId").value = data_id;
+                    var filename = data.ProjectLogo, filename1 = data.ProjectBackground;
+
+                    if (filename1 != null) {
+                        filename1 = filename1.substring(0, filename1.lastIndexOf('.'));//获取文件名称，去除后缀名
+                        filename1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.ProjectBackground;
+                        document.getElementById("txImg1").src = filename1;
+                    }
+                    if (filename != null) {
+                        filename = filename.substring(0, filename.lastIndexOf('.'));//获取文件名称，去除后缀名
+                        filename = "../../Resource/Document/NetworkDisk/System/Project/" + filename + "/" + data.ProjectLogo;
+                        document.getElementById("txImg").src = filename;
+                    }
+                }
+            },
+        });
+        uploadify(data_id);
+    }
+
+    /*上传图片*/
+    function uploadify(data_id) {
+        //上传Logo
+        $("#Avatar").uploadify({
+            uploader: '/SteelMember/MemberLibrary/SubmitUpLoadFile',
+            swf: '/Content/scripts/plugins/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '3MB',
+            formData: {//向uploader指定的后台传递数据
+                KeyValue: data_id,
+                Img: "Logo",
+                //file:"",
+            },
+            onFallback: function () {
+                dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试",0);
+            },
+            onUploadSuccess: function (file, data, response) {
+                alert(file.name);
+                document.getElementById("txImg").src = data;
+                document.getElementById("ProjectLogo").value = file.name;
+                //parent.window.LoadLogo();
+                // top.frames[tabiframeId()].windowload();
+            },
+        });
+
+        //上传背景
+        $("#Avatar1").uploadify({
+            uploader: '/SteelMember/MemberLibrary/SubmitUpLoadFile',
+            swf: '/Content/scripts/plugins/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '3MB',
+            formData: {//向uploader指定的后台传递数据
+                KeyValue: data_id,
+                Img: "Background",
+                //file: "",
+            },
+            onFallback: function () {
+                dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试",0);
+            },
+            onUploadSuccess: function (file, data, response) {
+                document.getElementById("txImg1").src = data;
+                document.getElementById("ProjectBackground").value = file.name;
+                //top.frames["tabs_iframe_Imain"].GetProject();
+            },
+        });
+    }
+
+    //新增/编辑
+    function btn_add_edit(Type) {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        if (Type == 0) {
+            if (data_id != "") {
+                dialogMsg('数据已存在！', 0);
+                return false;
+            }
+        }
+
+        var postData = $("#form1").GetWebControls(data_id);
+        $.SaveForm({
+            url: "/SteelMember/ProjectInfo/SaveForm?ProjectId=" + ProjectId,
+            param: postData,
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().windowload();
+                //$.currentIframe().$("#gridTable").trigger("reloadGrid");
+                //parent.window.LoadLogo();//刷新标题
+            }
+        })
+    }
+
+    ////编辑
+    //function btn_edit() {
+    //    if (data_id != "") {
+    //        dialogOpen({
+    //            id: "MemberForm",
+    //            title: '编辑信息',
+    //            url: '/SteelMember/ProjectInfoManagement/Form?KeyValue= ' + data_id + '&ProjectId=' + ProjectId,
+    //            width: "700px",
+    //            height: "600px",
+    //            callBack: function (iframeId) {
+    //                top.frames[iframeId].AcceptClick();
+    //            }
+    //        });
+    //    } else {
+    //        dialogMsg("主键不能为空", 0)
+    //    }
+    //}
+
+    //删除
+    function btn_delete() {
+        if (data_id != "") {
+            $.RemoveForm({
+                url: '/SteelMember/ProjectInfoManagement/DeleteProjectInfo?KeyValue=' + data_id,
+                param: { KeyValue: data_id },
+                success: function (data) {
+                    //$("#gridTable").trigger("reloadGrid");
+                }
+            })
+        } else {
+            dialogMsg('请选择需要删除的数据项！', 0);
+        }
+    }
+
+    //刷新
+    function windowload() {
+        GetGrid();
+    }
+</script>
+<style>
+    .uploadify-queue {
+        display: none;
+    }
+</style>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;padding-right:15px">
+    @*<div class="ui-layout-west">
+            <div class="west-Panel">
+                <div class="panel-Title">项目信息</div>
+                <div id="itemTree"></div>
+            </div>
+        </div>*@
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="titlePanel">
+                <div id="div_tools_bar" class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add_edit(0)"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_add_edit(1)"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-trash-o"></i>&nbsp;导出</a>
+                    </div>
+                    <script>$('.toolbar').authorizeButton()</script>
+                </div>
+            </div>
+            <div class="gridPanel">
+                @*<table id="gridTable"></table>*@
+                <form id="form1">
+                    <div id="table_project">
+                       
+                        <table class="form">
+                            <tr>
+                                <td class="formTitle">
+                                    系统标题
+                                </td>
+                                <td class="formValue" colspan="5">
+                                    <input id="ProjectInfoId" type="hidden" />
+                                    <input id="ProjectLogo" type="hidden" />
+                                    <input id="ProjectBackground" type="hidden" />
+                                    @*<input readonly id="ProjectSystemTitel" type="text" class="form-control" />*@
+                                    <input id="ProjectSystemTitel" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">
+                                    项目名称
+                                </td>
+                                <td class="formValue" colspan="5">
+                                    <input id="ProjectName" type="text" class="form-control" rowspan="4" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">
+                                    项目地址
+                                </td>
+                                <td class="formValue" colspan="5">
+                                    <input id="ProjectAddress" type="text" class="form-control" rowspan="4" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="formTitle">
+                                    工程概况
+                                </td>
+                                <td class="formValue" colspan="5">
+                                    <textarea id="Description" name="Description" maxlengtd="200" class="form-control" rows="5"></textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="formTitle">
+                                    业主单位
+                                </td>
+                                <td class="formValue">
+                                    <input id="OwnerUnit" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    负责人
+                                </td>
+                                <td class="formValue">
+                                    <input id="OwnerPrincipal" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    联系电话
+                                </td>
+                                <td class="formValue">
+                                    <input id="OwnerPrincipalTEL" type="text" class="form-control" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="formTitle">
+                                    设计单位
+                                </td>
+                                <td class="formValue">
+                                    <input id="DesignUnit" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    负责人
+                                </td>
+                                <td class="formValue">
+                                    <input id="DesignPrincipal" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    联系电话
+                                </td>
+                                <td class="formValue">
+                                    <input id="DesignPrincipalTEL" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">监理单位</td>
+                                <td class="formValue">
+                                    <input id="SupervisionUnit" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    负责人
+                                </td>
+                                <td class="formValue">
+                                    <input id="SupervisionPrincipal" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    联系电话
+                                </td>
+                                <td class="formValue">
+                                    <input id="SupervisionPrincipalTEL" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">施工单位</td>
+                                <td class="formValue">
+                                    <input id="ConstructionUnit" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    负责人
+                                </td>
+                                <td class="formValue">
+                                    <input id="ConstructionPrincipal" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    联系电话
+                                </td>
+                                <td class="formValue">
+                                    <input id="ConstructionPrincipalTEL" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">勘测单位</td>
+                                <td class="formValue">
+                                    <input id="SurveyUnit" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    负责人
+                                </td>
+                                <td class="formValue">
+                                    <input id="SurveyPrincipal" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    联系电话
+                                </td>
+                                <td class="formValue">
+                                    <input id="SurveyPrincipalTEL" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">总承包商</td>
+                                <td class="formValue">
+                                    <input id="GeneralContractor" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    负责人
+                                </td>
+                                <td class="formValue">
+                                    <input id="GeneralContractorPrincipal" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    联系电话
+                                </td>
+                                <td class="formValue">
+                                    <input id="GeneralContractorPrincipalTEL" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">专业(分)承包商</td>
+                                <td class="formValue">
+                                    <input id="ProfessionalContractor" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    负责人
+                                </td>
+                                <td class="formValue">
+                                    <input id="ProfessionalContractorPrincipal" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    联系电话
+                                </td>
+                                <td class="formValue">
+                                    <input id="ProfessionalContractorPrincipalTEL" type="text" class="form-control" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="formTitle">
+                                    建设规模
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <input id="ConstructionScale" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    单体工程数量
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <input id="SingleEngineeringQuantity" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">
+                                    用地面积
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <input id="LandArea" type="text" class="form-control" />
+                                </td>
+                                <td class="formTitle">
+                                    结构类型
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <input id="StructureType" type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formTitle">
+                                    开工时间
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <input id="StartTime" type="text" class="form-control input-wdatepicker" placeholder="选择开工时间" onfocus="WdatePicker()"  />
+                                </td>
+                                <td class="formTitle">
+                                    竣工时间
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <input id="CompletedTime" type="text" class="form-control input-wdatepicker" placeholder="选择竣工时间" onfocus="WdatePicker()" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="formTitle">
+                                    系统Logo
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <div id="div_projcet_logo" style="margin:2px;">
+                                        <div style="float:left;margin:5px;">
+                                            <img id="txImg" name="txImg" src="" style=" height:80%;width:45%" />
+                                            <div class="btnAvatar" style="float:right;margin-right:160px; margin-top:60px;"><input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" /></div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="formTitle">
+                                    工程图片
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    <div id="div_project_photo" style="margin:2px;">
+                                        <div style="float:left;margin:5px;" ><img id="txImg1" name="txImg" src=""style=" height:80%;width:45%" />
+                                            <div class="btnAvatar" style="float:right;margin-right:160px; margin-top:60px;"><input id="Avatar1" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" /></div>
+                                        </div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

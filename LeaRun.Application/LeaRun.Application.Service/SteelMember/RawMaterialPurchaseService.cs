@@ -27,10 +27,44 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns>返回分页列表</returns>
         public IEnumerable<RawMaterialPurchaseEntity> GetPageList(Pagination pagination, string queryJson)
         {
-            if (queryJson!=null) {
-                return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(p=>p.Category==queryJson, pagination);
+            var expression = LinqExtensions.True<RawMaterialPurchaseEntity>();
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.CreateTime >= BeginTime);
+                expression = expression.And(t => t.CreateTime <= EndTime);
             }
-            return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(pagination);
+            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.CreateTime >= BeginTime);
+            }
+            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.CreateTime <= EndTime);
+            }
+
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+                    case "PurchaseNumbering":              //型号
+                        expression = expression.And(t => t.PurchaseNumbering.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return this.BaseRepository().FindList(expression, pagination);
+            //if (queryJson!=null) {
+            //    return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(p=>p.Category==queryJson, pagination);
+            //}
+            //return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(pagination);
         }
         /// <summary>
         /// 获取实体

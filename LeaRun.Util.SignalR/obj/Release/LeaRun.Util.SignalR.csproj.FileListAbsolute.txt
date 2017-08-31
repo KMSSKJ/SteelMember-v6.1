@@ -38,3 +38,17 @@ D:\project\LeaRun.Util.SignalR\bin\Release\LeaRun.Util.Extension.pdb
 D:\project\LeaRun.Util.SignalR\obj\Release\LeaRun.Util.SignalR.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util.SignalR\obj\Release\LeaRun.Util.SignalR.dll
 D:\project\LeaRun.Util.SignalR\obj\Release\LeaRun.Util.SignalR.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\LeaRun.Util.SignalR.dll
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\LeaRun.Util.SignalR.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\LeaRun.Util.dll
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\Microsoft.AspNet.SignalR.Client.dll
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\Newtonsoft.Json.dll
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\SharpZipLib.dll
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\LeaRun.Util.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\Microsoft.AspNet.SignalR.Client.xml
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\Newtonsoft.Json.xml
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\bin\Release\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\obj\Release\LeaRun.Util.SignalR.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\obj\Release\LeaRun.Util.SignalR.dll
+D:\GitHubProject\SteelMember\LeaRun.Util.SignalR\obj\Release\LeaRun.Util.SignalR.pdb

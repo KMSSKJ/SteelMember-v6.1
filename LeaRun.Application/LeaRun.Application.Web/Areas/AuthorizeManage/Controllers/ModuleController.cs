@@ -1,7 +1,6 @@
 ﻿using LeaRun.Application.Busines.AuthorizeManage;
 using LeaRun.Application.Code;
 using LeaRun.Application.Entity.AuthorizeManage;
-using LeaRun.Data.Entity;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;

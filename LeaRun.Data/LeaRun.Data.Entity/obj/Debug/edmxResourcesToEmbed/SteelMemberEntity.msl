@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LeaRunFramework_Base_2016ModelStoreContainer" CdmEntityContainer="LeaRunFramework_Base_2016Entities">
+    <EntitySetMapping Name="RMC_MemberLibrary">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_MemberLibrary">
+        <MappingFragment StoreEntitySet="RMC_MemberLibrary">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="MemberWeight" ColumnName="MemberWeight" />
+          <ScalarProperty Name="FullPath" ColumnName="FullPath" />
+          <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+          <ScalarProperty Name="IsReview" ColumnName="IsReview" />
+          <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="IsProcess" ColumnName="IsProcess" />
+          <ScalarProperty Name="IsRawMaterial" ColumnName="IsRawMaterial" />
+          <ScalarProperty Name="Model_Drawing" ColumnName="Model_Drawing" />
+          <ScalarProperty Name="CAD_Drawing" ColumnName="CAD_Drawing" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+          <ScalarProperty Name="MemberNumbering" ColumnName="MemberNumbering" />
+          <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="EngineeringId" ColumnName="EngineeringId" />
+          <ScalarProperty Name="MarkId" ColumnName="MarkId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RMC_SubProject">
+      <EntityTypeMapping TypeName="LeaRunFramework_Base_2016Model.RMC_SubProject">
+        <MappingFragment StoreEntitySet="RMC_SubProject">
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Levels" ColumnName="Levels" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

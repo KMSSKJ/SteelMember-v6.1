@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "构件详情";
+}
+
+   <!--框架必需start-->
+<script src="~/Content/scripts/jquery/jquery-1.10.2.min.js"></script>
+<link href="~/Content/styles/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/scripts/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Content/scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!--框架必需end-->
+<!--bootstrap组件start-->
+<link href="~/Content/scripts/bootstrap/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/scripts/bootstrap/bootstrap.extension.css" rel="stylesheet" />
+<script src="~/Content/scripts/bootstrap/bootstrap.min.js"></script>
+<!--bootstrap组件end-->
+
+<script src="~/Content/scripts/plugins/datepicker/WdatePicker.js"></script>
+@System.Web.Optimization.Styles.Render("~/Content/scripts/plugins/jqgrid/css",
+    "~/Content/scripts/plugins/datetime/css",
+    "~/Content/scripts/plugins/wizard/css",
+    "~/Content/styles/learun-ui.css")
+@System.Web.Optimization.Scripts.Render("~/Content/scripts/plugins/jqgrid/js",
+    "~/Content/scripts/plugins/validator/js",
+    "~/Content/scripts/plugins/wizard/js",
+            "~/Content/scripts/plugins/datepicker/js",
+    "~/Content/scripts/utils/js")
+
+
+<script src="~/Content/scripts/plugins/jqueryPicture/js/jquery.mousewheel.min.js"></script>
+<script src="~/Content/scripts/plugins/jqueryPicture/js/jquery.iviewer.js"></script>
+
+<script type="text/javascript">
+   // var roleId = request('roleId');
+    $(function () {
+        initialPage();
+        LoadPhoto();
+
+    })
+    //初始化页面
+    function initialPage() {
+        //加载导向
+        $('#wizard').wizard().on('change', function (e, data) {
+            var $finish = $("#btn_finish");
+            var $next = $("#btn_next");
+            //if (data.direction == "next") {
+            //    //if (data.step == 1) {
+            //    //    var ModuleId = $("#ModuleTree").getCheckedAllNodes();
+            //    //    for (var i = 0; i < ModuleId.length; i++) {
+            //    //        var $thisid = $("#ModuleButtonTree").find('ul').find('[data-value=' + ModuleId[i] + ']').parent().parent();
+            //    //        $thisid.show();
+            //    //        $thisid.parents('ul').find('.' + ModuleId[i]).parent().show();
+            //    //    }
+            //    //}
+            //    //if (data.step == 2) {
+            //    //    var ModuleId = $("#ModuleTree").getCheckedAllNodes();
+            //    //    for (var i = 0; i < ModuleId.length; i++) {
+            //    //        var $thisid = $("#ModuleColumnTree").find('ul').find('[data-value=' + ModuleId[i] + ']').parent().parent();
+            //    //        $thisid.show();
+            //    //        $thisid.parents('ul').find('.' + ModuleId[i]).parent().show();
+            //    //    }
+            //    //}
+            //    //if (data.step == 3) {
+            //    //    $finish.removeAttr('disabled');
+            //    //    $next.attr('disabled', 'disabled');
+            //    //}
+            //} else {
+            //    $finish.attr('disabled', 'disabled');
+            //    $next.removeAttr('disabled');
+            //}
+        });
+
+        //按钮操作（上一步、下一步、完成、关闭）
+        function buttonOperation() {
+            var $last = $("#btn_last");
+            var $next = $("#btn_next");
+            var $finish = $("#btn_finish");
+        }
+    }
+    function LoadPhoto(){
+    var mole_fileURL = $("#model_file").val();
+    var cad_fileURL = $("#cad_file").val();
+    GetGrid();
+    //document.getElementById("model").style.display = "none";
+    //document.getElementById("process").style.display = "none";
+    $("#viewer_cad").iviewer(
+        {
+            src: cad_fileURL,
+            update_on_resize: false,
+            initCallback: function () {
+                var object = this;
+                $("#in").click(function () { object.zoom_by(1); });
+                $("#out").click(function () { object.zoom_by(-1); });
+                $("#fit").click(function () { object.fit(); });
+                $("#orig").click(function () { object.set_zoom(100); });
+                $("#update").click(function () { object.update_container_info(); });
+            },
+            onMouseMove: function (object, coords) { },
+            onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+            onDrag: function (object, coords) { }
+        });
+
+    $("#viewer_model").iviewer(
+        {
+            src: mole_fileURL,
+            update_on_resize: false,
+            initCallback: function () {
+                var object = this;
+                $("#in").click(function () { object.zoom_by(1); });
+                $("#out").click(function () { object.zoom_by(-1); });
+                $("#fit").click(function () { object.fit(); });
+                $("#orig").click(function () { object.set_zoom(100); });
+                $("#update").click(function () { object.update_container_info(); });
+            },
+            onMouseMove: function (object, coords) { },
+            onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+            onDrag: function (object, coords) { }
+        });
+    }
+          //加载表格
+        function GetGrid() {
+            var MemberId ="@ViewData["MemberId"]";
+         
+            var selectedRowIndex = 0;
+            var $gridTable = $('#gridTable');
+            $gridTable.jqGrid({
+                autowidth: true,
+                url: "../../SteelMember/MemberLibrary/GetMemberRawMaterialJson?MemberId=" + MemberId,
+                datatype: "json",
+                //height: $(window).height() - 165,
+                //width: $(window).width() - 50,
+                colModel: [
+                 { label: "外键", name: "RawMaterialId", hidden: true },
+                 { label: "外键", name: "MemberId", hidden: true },
+                 { label: "外键", name: "TreeId", hidden: true },
+                 { label: "类型", name: "TreeName", width: 100, align: "left", sortable: false },
+                 { label: "名称", name: "RawMaterialName", width: 150, align: "left", sortable: false },
+                 { label: "型号/规格", name: "RawMaterialModel", width: 100, align: "left", sortable: false },
+                 { label: "数量", name: "RawMaterialNumber", width: 100, align: "left", sortable: false },
+                 { label: "备注", name: "Description", width: 200, align: "left", sortable: false },
+                ],
+                onSelectRow: function () {
+                    selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+                },
+                gridComplete: function () {
+                    $('#' + this.id).setSelection(selectedRowIndex, false);
+                }
+            });
+        }
+</script>
+<link href="~/Content/scripts/plugins/jqueryPicture/css/jquery.iviewer.css" rel="stylesheet" />
+
+<style>
+    .viewer {
+        width: 99.6%;
+        height: 99.6%;
+        border: 1px solid black;
+        position: relative;
+    }
+
+    #viewer_model img {
+        margin-left: 220px;
+        margin-top: 220px;
+    }
+</style>
+
+<div class="widget-body">
+    <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
+        <ul class="steps">
+            <li data-target="#step-1" class="active"><span class="step">1</span>构件图纸<span class="chevron"></span></li>
+            <li data-target="#step-2"><span class="step">2</span>构件模型<span class="chevron"></span></li>
+            <li data-target="#step-3"><span class="step">3</span>原材料<span class="chevron"></span></li>
+
+        </ul>
+    </div>
+    <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+        <div class="step-pane active" id="step-1" style="width:700px;height:540px;">
+            <input type="hidden" id="cad_file" value='@ViewData["CADDrawing"]' />
+            <div id="viewer_cad" class="viewer"></div>
+        </div>
+        <div class="step-pane" id="step-2" style="width:700px;height:540px;">
+            <input type="hidden" id="model_file" value='@ViewData["ModelDrawing"]' />
+            <div id="viewer_model" class="viewer"></div>
+        </div>
+        <div class="step-pane" id="step-3" style="width:700px;height:540px;">
+            <table id="gridTable"></table>
+            <div id="gridPager"></div>
+        </div>
+    </div>
+</div>
+<div class="form-button" id="wizard-actions">
+    <a id="btn_last" disabled class="btn btn-default btn-prev">上一页</a>
+    <a id="btn_next" class="btn btn-default btn-next">下一页</a>
+    @*<a id="btn_finish" disabled class="btn btn-success">完成</a>*@
+</div>
+
+
+
+
+

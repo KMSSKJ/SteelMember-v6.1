@@ -13,7 +13,7 @@
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $("#gridTable").setGridHeight($(window).height() - 108.5);
+                $("#gridTable").setGridHeight($(window).height() - 136.5);
             }, 200);
             e.stopPropagation();
         });
@@ -25,7 +25,7 @@
         $gridTable.jqGrid({
             url: "../../BaseManage/Department/GetTreeListJson",
             datatype: "json",
-            height: $(window).height() - 108.5,
+            height: $(window).height() - 136.5,
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'DepartmentId', hidden: true },
@@ -36,9 +36,9 @@
                 { label: "部门简称", name: "ShortName", width: 100, align: "left", sortable: false },
                 { label: "部门性质", name: "Nature", width: 100, align: "left", sortable: false },
                 { label: "负责人", name: "Manager", width: 100, align: "left", sortable: false },
-                { label: "电话号", name: "OuterPhone", width: 100, align: "left", sortable: false },
-                { label: "分机号", name: "InnerPhone", width: 60, align: "center", sortable: false },
-                { label: "备注", name: "Description", width: 200, align: "left", sortable: false }
+                { label: "电话号", name: "OuterPhone", width: 150, align: "left", sortable: false },
+                { label: "分机号", name: "InnerPhone", width: 150, align: "center", sortable: false },
+                { label: "备注", name: "Description", width: 100, align: "left", sortable: false }
             ],
             treeGrid: true,
             treeGridModel: "nested",

@@ -76,6 +76,7 @@
     <Compile Include="SteelMember\MemberProductionOrderMap.cs" />
     <Compile Include="SteelMember\MemberWarehouseRecordingMap.cs" />
     <Compile Include="SteelMember\MemberWarehouseMap.cs" />
+    <Compile Include="SteelMember\ProduceEquipmentMap.cs" />
     <Compile Include="SteelMember\ProjectDemandMap.cs" />
     <Compile Include="SteelMember\ProjectInfoMap.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisMap.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="SteelMember\RawMaterialPurchaseMap.cs" />
     <Compile Include="SteelMember\RawMaterialWarehouseMap.cs" />
     <Compile Include="SteelMember\RawMterialCollarMap.cs" />
+    <Compile Include="SteelMember\SafetyEquipmentMap.cs" />
     <Compile Include="SteelMember\SubProjectMap.cs" />
     <Compile Include="SystemManage\AreaMap.cs" />
     <Compile Include="AuthorizeManage\ModuleMap.cs" />

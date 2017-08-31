@@ -144,8 +144,8 @@
         dialogOpen({
             id: "ExcelIExportDialog",
             title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=gridTable',
-            width: "500px",
+            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename="+escape("日志导出"),
+            width: "500px",//?SubProject = ' + escape(SubProject) + "&SubProjectId=" + SubProjectId,
             height: "380px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
