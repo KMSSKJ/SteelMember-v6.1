@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -58,6 +59,27 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 //data[i].UnitId = dataitemdetailbll.GetEntity(data[i].UnitId).ItemName;
                 data[i].Category = dataitemdetailbll.GetEntity(data[i].Category).ItemName;
+            }
+            var queryParam = queryJson.ToJObject();
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+
+                    case "Category":              //类型
+                        data = data.FindAll(t => t.Category.Contains(keyword));
+                        break;
+                    case "RawMaterialName":              //名称
+                        data = data.FindAll(t => t.RawMaterialName.Contains(keyword));
+                        break;
+                    case "RawMaterialModel":              //型号
+                        data = data.FindAll(t => t.RawMaterialModel.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
             }
 
             var JsonData = new

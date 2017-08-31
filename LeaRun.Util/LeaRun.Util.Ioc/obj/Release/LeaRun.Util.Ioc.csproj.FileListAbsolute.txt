@@ -26,3 +26,17 @@ D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.Reg
 D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.dll
 D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\LeaRun.Util.Ioc.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\LeaRun.Util.Ioc.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.ServiceLocation.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.Configuration.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.ServiceLocation.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.ServiceLocation.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.Configuration.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Release\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Release\LeaRun.Util.Ioc.pdb

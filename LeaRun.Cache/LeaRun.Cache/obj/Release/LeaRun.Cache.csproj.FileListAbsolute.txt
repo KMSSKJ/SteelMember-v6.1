@@ -8,3 +8,8 @@ D:\project\LeaRun.Cache\LeaRun.Cache\bin\Release\LeaRun.Cache.pdb
 D:\project\LeaRun.Cache\LeaRun.Cache\obj\Release\LeaRun.Cache.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Cache\LeaRun.Cache\obj\Release\LeaRun.Cache.dll
 D:\project\LeaRun.Cache\LeaRun.Cache\obj\Release\LeaRun.Cache.pdb
+D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\bin\Release\LeaRun.Cache.dll
+D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\bin\Release\LeaRun.Cache.pdb
+D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Release\LeaRun.Cache.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Release\LeaRun.Cache.dll
+D:\GitHubProject\SteelMember\LeaRun.Cache\LeaRun.Cache\obj\Release\LeaRun.Cache.pdb

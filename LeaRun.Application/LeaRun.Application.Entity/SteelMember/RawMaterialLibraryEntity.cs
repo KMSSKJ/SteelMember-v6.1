@@ -26,11 +26,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string RawMaterialName { get; set; }
-        /// <summary>
-        /// RawMaterialStandard
-        /// </summary>
-        /// <returns></returns>
-        public string RawMaterialStandard { get; set; }
+       
         /// <summary>
         /// UnitId
         /// </summary>
@@ -61,6 +57,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public int? Sort { get; set; }
+        /// <summary>
+        /// UpdateTime
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? UpdateTime { get; set; }
+
         #endregion
 
         #region À©Õ¹²Ù×÷

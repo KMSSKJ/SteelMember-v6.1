@@ -3,7 +3,6 @@ using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using System.Web.Mvc;
-using LeaRun.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Application.Code;

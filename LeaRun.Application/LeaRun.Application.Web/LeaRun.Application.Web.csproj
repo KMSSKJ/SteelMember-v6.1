@@ -193,7 +193,6 @@
     <Compile Include="Areas\PublicInfoManage\Controllers\ScheduleController.cs" />
     <Compile Include="Areas\PublicInfoManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
-    <Compile Include="Areas\SteelMember\Controllers\ClassController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberDemandController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberLibraryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberMaterialController.cs" />
@@ -201,8 +200,10 @@
     <Compile Include="Areas\SteelMember\Controllers\MemberProductionOrderController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberWarehouseRecordingController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberWarehouseController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProduceEquipmentController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProductionProcessController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\ProductionScheduleController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\ProjectInfoController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialAnalysisController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialInventoryController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialLibraryController.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialPurchaseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMaterialWarehouseController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\RawMterialCollarController.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\SafetyEquipmentController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\SubProjectController.cs" />
     <Compile Include="Areas\SteelMember\Models\MemberDemandModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialNumberModel.cs" />
@@ -1191,15 +1193,13 @@
     <Content Include="Areas\PublicInfoManage\Views\Email\Index.cshtml" />
     <Content Include="Content\adminPretty\font\iconfont.ttf" />
     <Content Include="Areas\SteelMember\Views\ProjectInfo\DepartmentIndex.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProjectInfo\HomePage.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProjectInfo\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectInfo\ProjectIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProjectInfo\ManIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\Web.config" />
     <Content Include="Areas\SteelMember\Views\Directory\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberSettlement\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberSettlement\QueryPage.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProjectInfoManagement\Form.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProjectInfoManagement\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProjectInfo\ProjectForm.cshtml" />
     <Content Include="Areas\GeneratorManage\Views\SingleTable\CodeBuilder.cshtml" />
     <Content Include="Areas\GeneratorManage\Views\SingleTable\EditControl.cshtml" />
     <Content Include="Areas\GeneratorManage\Views\SingleTable\EditGrid.cshtml" />
@@ -1226,8 +1226,6 @@
     <Content Include="Areas\SteelMember\Views\MemberLibrary\MemberCategoryIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialInventory\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialInventory\Index.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\DetailForm.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\EditForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\ItemList.cshtml" />
@@ -1262,7 +1260,10 @@
     <Content Include="Areas\SteelMember\Views\ProductionSchedule\Index.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProductionSchedule\Schedule.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberLibrary\DrawingManagement.cshtml" />
-    <None Include="Properties\PublishProfiles\6.1.pubxml" />
+    <Content Include="Areas\SteelMember\Views\ProduceEquipment\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\ProduceEquipment\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\SafetyEquipment\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\SafetyEquipment\Index.cshtml" />
     <Content Include="Areas\SystemManage\Views\Log\RemoveLog.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotAuthorize.cshtml" />
     <Content Include="Areas\AuthorizeManage\Views\PermissionPost\AllotMember.cshtml" />
@@ -1337,10 +1338,6 @@
       <Project>{7c84f157-09b6-42d8-85f2-04af1f31a046}</Project>
       <Name>LeaRun.Data.EF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\LeaRun.Data\LeaRun.Data.Entity\LeaRun.Data.Entity.csproj">
-      <Project>{f862d5c4-8389-4057-83d2-a2e6a16f5928}</Project>
-      <Name>LeaRun.Data.Entity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\LeaRun.Util\LeaRun.Util.Extension\LeaRun.Util.Extension.csproj">
       <Project>{4b7dde80-dfa1-4938-93f8-3721e2c592b9}</Project>
       <Name>LeaRun.Util.Extension</Name>
@@ -1380,10 +1377,6 @@
     <ProjectReference Include="..\LeaRun.Application.Mapping\LeaRun.Application.Mapping.csproj">
       <Project>{42234e7a-b484-479d-b1c1-08a08a59c935}</Project>
       <Name>LeaRun.Application.Mapping</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LeaRun.Application.Repository\LeaRun.Application.Repository.csproj">
-      <Project>{893508b9-4e64-40d3-87e1-0c601a11ffae}</Project>
-      <Name>LeaRun.Application.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

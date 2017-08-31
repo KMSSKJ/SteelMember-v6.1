@@ -31,16 +31,27 @@ namespace LeaRun.Application.Service.SteelMember
         {
             var expression = LinqExtensions.True<RawMaterialAnalysisEntity>();
             var queryParam = queryJson.ToJObject();
-
-            if (!queryParam["rawMaterialModel"].IsEmpty())
+            //²éÑ¯Ìõ¼þ
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
             {
-                string RawMaterialModel = queryParam["rawMaterialModel"].ToString();
-                expression = expression.And(t => t.RawMaterialEntitys.RawMaterialModel.Contains(RawMaterialModel));
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
+                expression = expression.And(t => t.UpdateTime <= EndTime);
             }
-            if (!queryParam["category"].IsEmpty())
+            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
             {
-                string Category = queryParam["category"].ToString();
-                expression = expression.And(t => t.Category == Category);
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
+            }
+            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UpdateTime <= EndTime);
+            }
+
+            if (!queryParam["SubProjectId"].IsEmpty())
+            {
+                string SubProjectId = queryParam["SubProjectId"].ToString();
+                expression = expression.And(t => t.Category == SubProjectId);
             }
    
             return this.BaseRepository().FindList(expression, pagination).ToList();

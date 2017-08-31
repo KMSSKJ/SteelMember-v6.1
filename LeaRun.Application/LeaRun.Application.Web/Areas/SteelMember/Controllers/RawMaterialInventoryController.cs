@@ -123,7 +123,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawMaterialPurchaseModelEntity.RawMaterialAnalysisId = item.RawMaterialAnalysisId;
                     rawMaterialPurchaseModelEntity.PurchaseQuantity = item.PurchaseQuantity;
                     rawMaterialPurchaseModelEntity.RawMaterialModel = entityrawmateriallibrary.RawMaterialModel;
-                    rawMaterialPurchaseModelEntity.RawMaterialStandard = entityrawmateriallibrary.RawMaterialStandard;
                     rawMaterialPurchaseModelEntity.UnitName = entityrawmateriallibrary.Unit;
                     rawMaterialPurchaseModelEntity.Description = entityrawmaterialanalysis.Description;
                     rawMaterialPurchaseModelEntity.RawMaterialName = entityrawmateriallibrary.Category;
@@ -210,7 +209,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             rawMaterialInventoryModel.Quantity = modelinventory.Quantity;
             rawMaterialInventoryModel.RawMaterialModel = modellibrary.RawMaterialModel;
-            rawMaterialInventoryModel.RawMaterialStandard = modellibrary.RawMaterialStandard;
             rawMaterialInventoryModel.Unit = modellibrary.Unit;
             //rawMaterialInventoryModel.Category = modellibrary.Category;
             rawMaterialInventoryModel.Category = modellibrary.RawMaterialName;
@@ -241,7 +239,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         rawMaterialInventoryModel.Quantity = item.Quantity;
                         //rawMaterialInventoryModel.Category = item.Category;
                         rawMaterialInventoryModel.Category = rawmateriallibrary.RawMaterialName;
-                        rawMaterialInventoryModel.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
                         rawMaterialInventoryModel.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
                         rawMaterialInventoryModel.Unit = rawmateriallibrary.Unit;
 

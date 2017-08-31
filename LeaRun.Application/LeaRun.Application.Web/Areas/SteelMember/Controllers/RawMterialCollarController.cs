@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System;
+using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -47,54 +48,80 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 分页查询出库信息
         /// </summary>
         /// <returns></returns>
-         public ActionResult OutInventoryDetailInfo(Pagination pagination, string category)
+        public ActionResult OutInventoryDetailInfo(Pagination pagination,string queryJson, string category)
         {
-            var degintime = Convert.ToDateTime(Request["begintime"]) == Convert.ToDateTime(null) ? Convert.ToDateTime(null) : Convert.ToDateTime(Request["begintime"]);
-            var endtime = Convert.ToDateTime(Request["endtime"]) == Convert.ToDateTime(null) ? System.DateTime.Now : Convert.ToDateTime(Request["endtime"]);
             List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
-            try
+
+            var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
+            foreach (var item in data)
             {
-                var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
-                //List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
-                foreach (var item in data)
+                var linventory = rawmaterialinventorybll.GetEntityByRawMaterialId(item.RawMaterialId);
+                var collarlist = rawmterialcollarbll.GetPageList(pagination, linventory.InventoryId);
+                for (var i = 0; i < collarlist.Count; i++)
                 {
-                    var linventory = rawmaterialinventorybll.GetEntityByRawMaterialId(item.RawMaterialId);
-                    //var collarlist= rawmterialcollarbll.GetCallarList(p=>p.InventoryId== linventory.InventoryId&&p.CollarTime>= degintime&&p.CollarTime<= endtime);
-                    var query = linventory.InventoryId + "," + degintime + "," + endtime;
-                    var collarlist = rawmterialcollarbll.GetPageList(pagination, query);
-                    for (var i = 0; i < collarlist.Count; i++)
-                    {
-                        RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
-                        var subproject = subprojectbll.GetEntity(collarlist[i].CollarEngineering);
+                    RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
+                    var subproject = subprojectbll.GetEntity(collarlist[i].CollarEngineering);
 
-                        rawMaterialCollarModel.CollarId = collarlist[i].CollarId;
-                        rawMaterialCollarModel.InventoryId = collarlist[i].InventoryId;
-                        //rawMaterialCollarModel.CollarType = collarlist[i].CollarType;
-                        //rawMaterialCollarModel.CollarEngineering = item.CollarEngineering;
-                        rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名 生产领用
+                    rawMaterialCollarModel.CollarId = collarlist[i].CollarId;
+                    rawMaterialCollarModel.InventoryId = collarlist[i].InventoryId;
+                    rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名 生产领用
 
-                        rawMaterialCollarModel.CollarTime = collarlist[i].CollarTime;
-                        rawMaterialCollarModel.CollarQuantity = collarlist[i].CollarQuantity;
-                        rawMaterialCollarModel.CollarMan = collarlist[i].CollarMan;
-                        rawMaterialCollarModel.Description = collarlist[i].Description;
-                        rawMaterialCollarModel.CollarType = collarlist[i].CollarType == 1 ? "生产领用" : "工程领用";
+                    rawMaterialCollarModel.CollarTime = collarlist[i].CollarTime;
+                    rawMaterialCollarModel.CollarQuantity = collarlist[i].CollarQuantity;
+                    rawMaterialCollarModel.CollarMan = collarlist[i].CollarMan;
+                    rawMaterialCollarModel.Description = collarlist[i].Description;
+                    rawMaterialCollarModel.CollarType = collarlist[i].CollarType == 1 ? "生产领用" : "工程领用";
 
-                        //rawMaterialCollarModel.Category = item.Category;
-                        rawMaterialCollarModel.Category = item.RawMaterialName;
-                        rawMaterialCollarModel.RawMaterialModel = item.RawMaterialModel;
-                        rawMaterialCollarModel.RawMaterialStandard = item.RawMaterialStandard;
-                        rawMaterialCollarModel.Unit = item.Unit;
+                    //rawMaterialCollarModel.Category = item.Category;
+                    rawMaterialCollarModel.RawMaterialName = item.RawMaterialName;
+                    rawMaterialCollarModel.RawMaterialModel = item.RawMaterialModel;
+                    rawMaterialCollarModel.Unit = item.Unit;
 
-                        list.Add(rawMaterialCollarModel);
+                    list.Add(rawMaterialCollarModel);
 
-                    }
                 }
             }
-            catch (Exception e)
+
+            //
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
             {
-                return ToJsonResult(e);
-                //throw (e);
+                list = list.FindAll(t => t.UpdateTime >= BeginTime);
+                list = list.FindAll(t => t.UpdateTime <= EndTime);
             }
+            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.UpdateTime >= BeginTime);
+            }
+            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.UpdateTime <= EndTime);
+            }
+
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+
+                    //case "Category":              //构件类型
+                    //    expression = expression.And(t => t.Category.Contains(keyword));
+                    //    break;
+                    case "RawMaterialName":              //构件名称
+                        list = list.FindAll(t => t.RawMaterialName.Contains(keyword));
+                        break;
+                    case "RawMaterialModel":              //型号
+                        list = list.FindAll(t => t.RawMaterialModel.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //
             return ToJsonResult(list);
         }
         //public ActionResult OutInventoryDetailInfo(Pagination pagination, string queryJson)
@@ -162,10 +189,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <param name="collarinfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SaveCollarinfo(string collarinfo) {
+        public ActionResult SaveCollarinfo(string collarinfo)
+        {
             var collarmodel = collarinfo.ToObject<RawMterialCollarEntity>();
             collarmodel.CollarTime = System.DateTime.Now;
-            try {
+            try
+            {
                 if (collarmodel.CollarQuantity > 0)
                 {
                     //在库存量中减掉领出的数量
@@ -174,10 +203,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawmaterialinventorybll.SaveForm(collarmodel.InventoryId, inventorymodel);
 
                     //添加到领用表中  
-                    string keyValue="";
+                    string keyValue = "";
                     rawmterialcollarbll.SaveForm(keyValue, collarmodel);
                 }
-            } catch (System.Exception e) {
+            }
+            catch (System.Exception e)
+            {
                 throw e;
             }
             return Success("领用成功。");

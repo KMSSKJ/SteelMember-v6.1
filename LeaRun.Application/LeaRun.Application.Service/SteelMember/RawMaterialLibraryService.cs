@@ -39,17 +39,49 @@ namespace LeaRun.Application.Service.SteelMember
         {
             var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
             var queryParam = queryJson.ToJObject();
-            if (!queryParam["RawMaterialModel"].IsEmpty())
+            //查询条件
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
             {
-                string RawMaterialModel = queryParam["RawMaterialModel"].ToString();
-                expression = expression.And(t => t.RawMaterialModel.Contains(RawMaterialModel));
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
+                expression = expression.And(t => t.UpdateTime <= EndTime);
             }
-            if (!queryParam["Category"].IsEmpty())
+            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
             {
-                string Category = queryParam["Category"].ToString();
-                expression = expression.And(t => t.Category == Category);
+                expression = expression.And(t => t.UpdateTime >= BeginTime);
             }
-            //expression = expression.And(t => t.TypeId == 1);
+            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UpdateTime <= EndTime);
+            }
+
+            //if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            //{
+            //    string condition = queryParam["condition"].ToString();
+            //    string keyword = queryParam["keyword"].ToString();
+            //    switch (condition)
+            //    {
+
+            //        case "Category":              //类型
+            //            expression = expression.And(t => t.Category.Contains(keyword));
+            //            break;
+            //        case "RawMaterialName":              //名称
+            //            expression = expression.And(t => t.RawMaterialName.Contains(keyword));
+            //            break;
+            //        case "RawMaterialModel":              //型号
+            //            expression = expression.And(t => t.RawMaterialModel.Contains(keyword));
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+            if (!queryParam["SubProjectId"].IsEmpty())
+            {
+                var SubProjectId = queryParam["SubProjectId"].ToString();
+                expression = expression.And(t => t.Category==SubProjectId);
+            }
+               
             return this.BaseRepository().FindList(expression, pagination);
         }
 

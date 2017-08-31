@@ -32,3 +32,15 @@ D:\project\LeaRun.CodeGenerator\bin\Release\Newtonsoft.Json.xml
 D:\project\LeaRun.CodeGenerator\obj\Release\LeaRun.CodeGenerator.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.CodeGenerator\obj\Release\LeaRun.CodeGenerator.dll
 D:\project\LeaRun.CodeGenerator\obj\Release\LeaRun.CodeGenerator.pdb
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\LeaRun.CodeGenerator.dll
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\LeaRun.CodeGenerator.pdb
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\LeaRun.Util.dll
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\Newtonsoft.Json.dll
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\SharpZipLib.dll
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\LeaRun.Util.pdb
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\bin\Release\Newtonsoft.Json.xml
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Release\LeaRun.CodeGenerator.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Release\LeaRun.CodeGenerator.dll
+D:\GitHubProject\SteelMember\LeaRun.CodeGenerator\obj\Release\LeaRun.CodeGenerator.pdb

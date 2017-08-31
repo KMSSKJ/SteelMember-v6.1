@@ -26,3 +26,13 @@ D:\project\LeaRun.Util\LeaRun.Util\bin\Release\Newtonsoft.Json.xml
 D:\project\LeaRun.Util\LeaRun.Util\obj\Release\LeaRun.Util.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util\obj\Release\LeaRun.Util.dll
 D:\project\LeaRun.Util\LeaRun.Util\obj\Release\LeaRun.Util.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Release\LeaRun.Util.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Release\LeaRun.Util.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Release\LeaRun.Util.Extension.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Release\Newtonsoft.Json.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Release\SharpZipLib.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Release\LeaRun.Util.Extension.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\bin\Release\Newtonsoft.Json.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\obj\Release\LeaRun.Util.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\obj\Release\LeaRun.Util.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util\obj\Release\LeaRun.Util.pdb

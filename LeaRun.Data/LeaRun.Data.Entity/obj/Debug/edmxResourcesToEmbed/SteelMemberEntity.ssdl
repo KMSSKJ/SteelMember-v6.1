@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LeaRunFramework_Base_2016Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="RMC_MemberLibrary">
+    <Key>
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="MemberId" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MarkId" Type="int" Nullable="false" />
+    <Property Name="EngineeringId" Type="nvarchar" MaxLength="50" />
+    <Property Name="Category" Type="nvarchar" MaxLength="50" />
+    <Property Name="MemberName" Type="nvarchar" MaxLength="20" />
+    <Property Name="MemberNumbering" Type="nvarchar" MaxLength="30" />
+    <Property Name="UnitId" Type="varchar" MaxLength="50" />
+    <Property Name="UnitPrice" Type="nvarchar" MaxLength="15" />
+    <Property Name="CAD_Drawing" Type="nvarchar" MaxLength="100" />
+    <Property Name="Model_Drawing" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsRawMaterial" Type="int" />
+    <Property Name="IsProcess" Type="int" />
+    <Property Name="Icon" Type="nvarchar" MaxLength="100" />
+    <Property Name="ModifiedTime" Type="datetime" />
+    <Property Name="IsReview" Type="int" />
+    <Property Name="UploadTime" Type="datetime" />
+    <Property Name="FullPath" Type="nvarchar" MaxLength="300" />
+    <Property Name="MemberWeight" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Description" Type="nvarchar" MaxLength="400" />
+  </EntityType>
+  <EntityType Name="RMC_SubProject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ParentId" Type="nvarchar" MaxLength="50" />
+    <Property Name="Levels" Type="int" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_RMC_MemberLibrary_RMC_SubProject">
+    <End Role="RMC_SubProject" Type="Self.RMC_SubProject" Multiplicity="0..1" />
+    <End Role="RMC_MemberLibrary" Type="Self.RMC_MemberLibrary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RMC_SubProject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RMC_MemberLibrary">
+        <PropertyRef Name="Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LeaRunFramework_Base_2016ModelStoreContainer">
+    <EntitySet Name="RMC_MemberLibrary" EntityType="Self.RMC_MemberLibrary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RMC_SubProject" EntityType="Self.RMC_SubProject" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_RMC_MemberLibrary_RMC_SubProject" Association="Self.FK_RMC_MemberLibrary_RMC_SubProject">
+      <End Role="RMC_SubProject" EntitySet="RMC_SubProject" />
+      <End Role="RMC_MemberLibrary" EntitySet="RMC_MemberLibrary" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

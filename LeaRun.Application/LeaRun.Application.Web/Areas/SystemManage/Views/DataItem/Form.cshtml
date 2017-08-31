@@ -27,8 +27,9 @@
                 }
             });
             //document.getElementById("ItemCode").style.readOnly = "readOnly";
-             $("#ItemCode").attr("readOnly", false);
+             
         } else {
+            $("#ItemCode").attr("readOnly", false);
             $("#ParentId").ComboBoxTreeSetValue(parentId);
         }
     }

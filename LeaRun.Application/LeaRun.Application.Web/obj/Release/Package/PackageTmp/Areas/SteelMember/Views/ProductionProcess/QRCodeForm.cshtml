@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "项目信息管理/项目信息表单";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<head>
+    <script src="~/Content/scripts/plugins/jquery-jqprint/jquery.jqprint-0.3.js"></script>
+     <script type="text/javascript">
+         var KeyValue = request('keyValue');
+         var OrderId = request('OrderId');
+        var Data;
+        $(function () {
+            InitControl();
+            LoadValue();
+        })
+        //得到一个对象实体
+        function InitControl() {
+            AjaxJson("/SteelMember/ProductionProcess/SetQRCodeForm", { KeyValue: KeyValue, OrderId: OrderId }, function (data) {
+                SetWebControls(data);
+                Data = data;
+            });
+            btn_create_code();
+        }
+
+        function LoadValue() {
+            var html = "<tr><th class=\"formTitle\"> 项目名称：</th>  <td class=\"formValue\">" + Data.ProjectName + "</td></tr>";
+                html += "<tr><th class=\"formTitle\"> 构件名称：</th>  <td class=\"formValue\">" + Data.MemberName + "</td></tr>";
+                html += "<tr><th class=\"formTitle\"> 构件编号：</th>  <td class=\"formValue\">" + Data.MemberNumbering + "</td></tr>";
+                //html += "<tr><th class=\"formTitle\"> 构件单重：</th>  <td class=\"formValue\">" + Data.TheoreticalWeight + "</td></tr>";
+            $("#tablePrint").html(html);
+        }
+
+         //生成二维码
+        function btn_create_code() {
+            var strData = Data.MemberNumbering;
+            var level = "M";//校正级别参数有L;Q;H
+            var encoding = "Byte";//编码参数有Byte;AlphaNumeric;Numeric;
+            var version = "8";//版本
+            var scale ="4";//规模
+            //AjaxJson("/SteelMember/MemberProduce/CreateCode_Choose", { strData: strData, level: level, qrEncoding: encoding, version: version, scale: scale }, function (data) {
+            //    $("img").attr("src", data);
+            //    });
+            $.post("/SteelMember/ProductionProcess/CreateCode_Choose", { strData: strData, level: level, qrEncoding: encoding, version: version, scale: scale }, function (data) {
+                $("img").attr("src", data);
+            });
+        };
+
+        //确认打印
+        function AcceptClick() {
+            $("#print").jqprint();
+        }
+       
+        ////保存事件
+        //function AcceptClick() {
+        //    if (!CheckDataValid('#form2')) {
+        //        return false;
+        //    }
+        //    Loading(true, "正在提交数据...");
+        //    window.setTimeout(function () {
+        //        var postData = GetWebControls("#form2");
+        //        AjaxJson("/SteelMember/MemberProduce/SubmitDataForm?KeyValue=" + KeyValue + '&TreeId=' + TreeId, postData, function (data) {//+ '&ItemID=' + ItemID
+        //            tipDialog(data.Message, 3, data.Code);
+        //            top.frames[tabiframeId()].windowload();
+        //            closeDialog();
+        //        });
+        //    }, 200);
+         //};
+    </script>
+</head>
+@*<form id="form2" style="margin: 25px; margin-left: 40px; margin-right: 40px;">*@
+    <div id="print">
+        <table id ="tablePrint" class="form">
+            @*<tr>
+                <th class="formTitle">
+                    包装数量：
+                </th>
+                <td class="formValue">
+                    <input id="PackageNumber" type="text" class="txt" />
+                </td>
+            </tr>*@
+            @*<tr>
+                <th class="formTitle">
+                    截面尺寸：
+                </th>
+                <td class="formValue">
+                    <input id="Dimensions" type="text" class="txt" />
+                </td>
+            </tr>
+            <tr>
+                    <th class="formTitle">
+                        备注：
+                    </th>
+                    <td class="formValue">
+                        <textarea id="OrderBudget" name="OrderBudget" maxlength="200" class="txtArea" rows="5"></textarea>
+                    </td>
+                </tr>*@
+
+        </table>
+            <img id="QRcode" src="" alt="" />
+            @*<input id="print" type="button" onclick="btn_print()" value="打印" />*@
+    </div>
+@*</form>*@

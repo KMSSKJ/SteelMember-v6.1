@@ -19,6 +19,12 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("RAWMATERIALPURCHASEID")]
         public string RawMaterialPurchaseId { get; set; }
         /// <summary>
+        /// 采购单号
+        /// </summary>
+        /// <returns></returns>
+        [Column("PURCHASENUMBERING")]
+        public string PurchaseNumbering { get; set; }
+        /// <summary>
         /// 工程
         /// </summary>
         /// <returns></returns>
@@ -45,6 +51,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <summary>
         /// 入库
         /// </summary>
+        [Column("ISWAREHOUSING")]
         public int? IsWarehousing { get; set; }
         /// <summary>
         /// 制单人

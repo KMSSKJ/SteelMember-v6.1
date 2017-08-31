@@ -41,8 +41,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// 供应商
         /// </summary>
         /// <returns></returns>
+        public string RawMaterialSupplier { get; set; }
 
-        public string Supplier { get; set; }
+        /// <summary>
+        /// 库存量
+        /// </summary>
+        /// <returns></returns>
+        public string Inventory { get; set; }
+        /// <summary>
+        /// 建议采购量
+        /// </summary>
+        /// <returns></returns>
+        public string SuggestQuantity { get; set; }
 
     }
 }
