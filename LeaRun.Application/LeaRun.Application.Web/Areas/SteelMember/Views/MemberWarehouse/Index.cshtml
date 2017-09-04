@@ -83,6 +83,7 @@
             url: "../../SteelMember/MemberWarehouse/GetPageListJson",
             datatype: "json",
             colModel: [
+                { label: 'RecordingId', name: 'RecordingId', index: 'RecordingId', align: 'left', sortable: true, hidden: true },
                 { label: 'MemberWarehouseId', name: 'MemberWarehouseId', index: 'MemberWarehouseId', align: 'left', sortable: true, hidden: true },
                 { label: 'MemberId', name: 'MemberId', index: 'MemberId', align: 'left', sortable: true, hidden: true },
                 { label: 'EngineeringId', name: 'EngineeringId', index: 'SubProjectId', align: 'left', sortable: true, hidden: true },
@@ -177,7 +178,7 @@
         dialogOpen({
             id: 'Form',
             title: '入库信息',
-            url: '/SteelMember/MemberWarehouse/InventoryDetail?Class=' + escape('入库'),
+            url: '/SteelMember/MemberWarehouse/InventoryDetail?Type=' + escape('入库'),
             width: '1000px',
             height: '750px',
             btn: null,
@@ -216,7 +217,7 @@
         dialogOpen({
             id: 'Form',
             title: '出库信息',
-            url: '/SteelMember/MemberWarehouse/InventoryDetail?Class=' + escape('出库'),
+            url: '/SteelMember/MemberWarehouse/InventoryDetail?Type=' + escape('出库'),
             width: '1000px',
             height: '750px',
             btn: null,

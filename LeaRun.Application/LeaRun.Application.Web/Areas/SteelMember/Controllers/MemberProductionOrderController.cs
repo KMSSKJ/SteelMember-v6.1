@@ -27,6 +27,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
         private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
         private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
 
         #region 视图功能
         /// <summary>
@@ -83,13 +84,26 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="pagination">分页参数</param>
         /// <param name="IsReceive"></param>
+        /// <param name="IsPassed"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表Json</returns>
         [HttpGet]
-        public ActionResult GetPageListJson(Pagination pagination, int IsReceive, string queryJson)
+        public ActionResult GetPageListJson(Pagination pagination, int IsReceive, int IsPassed,string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = memberproductionorderbll.GetPageList(pagination, IsReceive, queryJson);
+            var data = memberproductionorderbll.GetPageList(pagination, IsReceive,IsPassed, queryJson).ToList();
+            foreach (var item in data)
+            {
+                item.Category = subprojectbll.GetEntity(item.Category).FullName;
+            }
+
+            var queryParam = queryJson.ToJObject();
+            if (!queryParam["Category"].IsEmpty())
+            {
+                string Category = queryParam["Category"].ToString();
+                data = data.FindAll(t => t.Category == Category);
+            }
+
             var jsonData = new
             {
                 rows = data,
@@ -329,8 +343,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var entity = strEntity.ToObject<MemberProductionOrderEntity>();
             if (keyValue == "" || keyValue == null)
             {
-                entity.IsPassed = 0;
-                entity.IsSubmit = 0;
                 entity.ProductionStatus = 0;
                 entity.IsReceive = 0;
                 entity.IsPackage = 0;
@@ -340,6 +352,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 entity.SelfDetectStatus = 0;
                 entity.IsReceiveRawMaterial = 0;
             }
+
+            entity.IsPassed = 0;
+            entity.IsSubmit = 0;
+
             List<MemberProductionOrderInfoEntity> childEntitys = strChildEntitys.ToList<MemberProductionOrderInfoEntity>();
             memberproductionorderbll.SaveForm(keyValue, entity, childEntitys);
             return Success("操作成功。");
@@ -416,34 +432,5 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         #endregion
-
-        public ActionResult OutExcel()
-        {
-            //IMEX：只有是0才能成功更新，1或2都有错误提示，操作必须使用一个可更新的查询，2也有奇怪？
-            string strCon = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @"d:/成绩表2013.xlsx" + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=0'";
-            //string strCon = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=d:/成绩表2013.xlsx;Extended Properties='Excel 12.0;HDR=YES;IMEX=0'";
-            OleDbConnection myConn = new OleDbConnection(strCon);
-            string strCom = "SELECT * FROM [Sheet1$]";
-            myConn.Open();
-            OleDbDataAdapter myDataAdapter = new OleDbDataAdapter(strCom, myConn);
-            DataSet myDataSet = new DataSet();
-            myDataAdapter.Fill(myDataSet, "[Sheet1$]");
-            myConn.Close();
-            DataTable dt = myDataSet.Tables[0]; //初始化DataTable实例
-            dt.PrimaryKey = new DataColumn[] { dt.Columns["学生"] };//创建索引列
-            DataRow myRow = dt.NewRow();
-            myRow["学生"] = "小蟹";
-            myRow["英语"] = 82;
-            myRow["数学"] = 93;
-            myRow["自然"] = 39;
-            myRow["美术"] = 39;
-            dt.Rows.Add(myRow);
-            OleDbCommandBuilder odcb = new OleDbCommandBuilder(myDataAdapter);
-            odcb.QuotePrefix = "[";   //用于搞定INSERT INTO 语句的语法错误
-            odcb.QuoteSuffix = "]";
-            myDataAdapter.Update(myDataSet, "[Sheet1$]"); //更新数据集对应的表
-            //dataGridView1.DataSource = myDataSet.Tables[0].DefaultView; //显示到datagridview
-            return Success("操作成功。");
-        }
     }
 }

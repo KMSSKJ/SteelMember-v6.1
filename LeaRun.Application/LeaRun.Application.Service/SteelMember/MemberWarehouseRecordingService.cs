@@ -25,9 +25,10 @@ namespace LeaRun.Application.Service.SteelMember
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页</param>
+        /// <param name="Type"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberWarehouseRecordingEntity> GetPageList(Pagination pagination, string queryJson)
+        public IEnumerable<MemberWarehouseRecordingEntity> GetPageList(Pagination pagination, string Type, string queryJson)
         {
             var expression = LinqExtensions.True<MemberWarehouseRecordingEntity>();
             var queryParam = queryJson.ToJObject();
@@ -68,11 +69,7 @@ namespace LeaRun.Application.Service.SteelMember
                         break;
                 }
             }
-            if (!queryParam["Class"].IsEmpty())
-            {
-                var SubProjectId = queryParam["Class"].ToString();
-                expression = expression.And(t => t.Class == SubProjectId);
-            }
+            expression = expression.And(t => t.Type == Type);
             return this.BaseRepository().FindList(expression, pagination);
         }
         /// <summary>

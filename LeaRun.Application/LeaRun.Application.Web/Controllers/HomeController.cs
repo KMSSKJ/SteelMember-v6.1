@@ -1,5 +1,6 @@
 ﻿using LeaRun.Application.Busines;
 using LeaRun.Application.Busines.BaseManage;
+using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Application.Busines.SystemManage;
 using LeaRun.Application.Code;
 using LeaRun.Application.Entity;
@@ -29,7 +30,7 @@ namespace LeaRun.Application.Web.Controllers
     {
         UserBLL user = new UserBLL();
         DepartmentBLL department = new DepartmentBLL();
-
+        private ProjectInfoBLL projectinfobll = new ProjectInfoBLL();
 
         #region 视图功能
         /// <summary>
@@ -38,26 +39,38 @@ namespace LeaRun.Application.Web.Controllers
         /// <returns></returns>
         public ActionResult AdminDefault()
         {
-            ViewData["prjLogo"] = "";
-            ViewData["prjName"] = "";
+            var data = projectinfobll.GetList(null).SingleOrDefault();
+            string filename1 = data.ProjectLogo.Substring(0, data.ProjectLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+            var virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1+"/"+ data.ProjectLogo;
+            ViewData["prjLogo"] = virtualPath1;
+            ViewData["prjName"] = data.ProjectSystemTitel;
             return View();
         }
         public ActionResult AdminLTE()
         {
-            ViewData["prjLogo"] = "";
-            ViewData["prjName"] = "";
+            var data = projectinfobll.GetList(null).SingleOrDefault();
+            string filename1 = data.ProjectLogo.Substring(0, data.ProjectLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+            var virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.ProjectLogo;
+            ViewData["prjLogo"] = virtualPath1;
+            ViewData["prjName"] = data.ProjectSystemTitel;
             return View();
         }
         public ActionResult AdminWindos()
         {
-            ViewData["prjLogo"] = "";
-            ViewData["prjName"] = "";
+            var data = projectinfobll.GetList(null).SingleOrDefault();
+            string filename1 = data.ProjectLogo.Substring(0, data.ProjectLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+            var virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.ProjectLogo;
+            ViewData["prjLogo"] = virtualPath1;
+            ViewData["prjName"] = data.ProjectSystemTitel;
             return View();
         }
         public ActionResult AdminPretty()
         {
-            ViewData["prjLogo"] = "";
-            ViewData["prjName"] = "";
+            var data = projectinfobll.GetList(null).SingleOrDefault();
+            string filename1 = data.ProjectLogo.Substring(0, data.ProjectLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+            var virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.ProjectLogo;
+            ViewData["prjLogo"] = virtualPath1;
+            ViewData["prjName"] = data.ProjectSystemTitel;
             return View();
         }
         public ActionResult AdminDefaultDesktop()

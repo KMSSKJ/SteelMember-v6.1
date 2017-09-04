@@ -21,12 +21,8 @@
     <script>
         $(function () {
             InitialPage();
-            LoadMaterialInventory();
-            LoadMemberInventory();
-            LoadOrderSumProportion();
-            LoadMemberProduceSchedule();
-            LoadMemberSumProportion();
-            LoadMaterialAttritionRate();
+            LoadInterfaceVisit();
+            LoadDepartmentApp();
         })
         //初始化
         function InitialPage() {
@@ -38,90 +34,11 @@
                 e.stopPropagation();
             });
         }
-
-        //材料库存
-        function LoadMaterialInventory() {
-            $('#material-inventory').highcharts({
-                chart: {
-                    type: 'column',
-                    margin: 75,
-                    options3d: {
-                        enabled: true,
-                        alpha: 10,
-                        beta: 25,
-                        depth: 70
-                    }
-                },
-                //title: {
-                //    text: '包含空值的3D柱状图'
-                //},
-                //subtitle: {
-                //    text: '请注意值为 0 和 null 的区别'
-                //},
-                plotOptions: {
-                    column: {
-                        depth: 25
-                    }
-                },
-                xAxis: {
-                    categories: Highcharts.getOptions().lang.shortMonths
-                },
-                yAxis: {
-                    title: {
-                        text: null
-                    }
-                },
-                series: [{
-                    name: '销售',
-                    data: [2, 3, null, 4, 0, 5, 1, 4, 6, 3]
-                }]
-            });
-        }
-
-        //构件库存
-        function LoadMemberInventory() {
-            $('#member-inventory').highcharts({
-                chart: {
-                    type: 'column',
-                    margin: 75,
-                    options3d: {
-                        enabled: true,
-                        alpha: 10,
-                        beta: 25,
-                        depth: 70
-                    }
-                },
-                //title: {
-                //    text: '包含空值的3D柱状图'
-                //},
-                //subtitle: {
-                //    text: '请注意值为 0 和 null 的区别'
-                //},
-                plotOptions: {
-                    column: {
-                        depth: 25
-                    }
-                },
-                xAxis: {
-                    categories: Highcharts.getOptions().lang.shortMonths
-                },
-                yAxis: {
-                    title: {
-                        text: null
-                    }
-                },
-                series: [{
-                    name: '销售',
-                    data: [2, 3, null, 4, 0, 5, 1, 4, 6, 3]
-                }]
-            });
-        }
-
-        //构件总量占比
-        function LoadMemberSumProportion() {
+        //访问流量图表
+        function LoadInterfaceVisit() {
             var chart = new Highcharts.Chart({
                 chart: {
-                    renderTo: 'member-sum-proportion',
+                    renderTo: 'piecontainer',
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     defaultSeriesType: 'pie'
@@ -165,59 +82,9 @@
                 }]
             });
         }
-
-        //构件总量占比
-        function LoadOrderSumProportion() {
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'order-sum-proportion',
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    defaultSeriesType: 'pie'
-                },
-                title: {
-                    text: ''
-                },
-                exporting: {
-                    enabled: false
-                },
-                credits: {
-                    enabled: false
-                },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
-                    }
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true, //点击切换
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            formatter: function () {
-                                return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
-                            }
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [{
-                    data: [
-                        ['立昌隧道', 10],
-                        ['龙潭隧道', 10],
-                        ['禄充隧道', 30],
-                        ['其它隧道', 15],
-                        ['抚仙立交', 10],
-                        ['其它桥梁', 25],
-                    ]
-                }]
-            });
-        }
-
-        //构件生产进度
-        function LoadMemberProduceSchedule() {
-            $('#member-produce-schedule').highcharts({
+        //部门应用图表
+        function LoadDepartmentApp() {
+            $('#container').highcharts({
                 chart: {
                     type: 'spline'
                 },
@@ -273,70 +140,6 @@
             });
 
         }
-
-
-        //材料损耗率
-        function LoadMaterialAttritionRate() {
-            $('#material-attrition-rate').highcharts({
-                chart: {
-                    type: 'spline'
-                },
-                title: {
-                    text: ''
-                },
-                xAxis: {
-                    categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
-                },
-                yAxis: {
-                    title: {
-                        text: '损耗量（%）'
-                    },
-                    labels: {
-                        formatter: function () {
-                            return this.value + '%'
-                        }
-                    }
-                },
-                exporting: {
-                    enabled: false
-                },
-                credits: {
-                    enabled: false
-                },
-                tooltip: {
-                    crosshairs: true,
-                    shared: true
-                },
-                plotOptions: {
-                    spline: {
-                        marker: {
-                            radius: 4,
-                            lineColor: '#666666',
-                            lineWidth: 1
-                        }
-                    }
-                },
-                series: [{
-                    name: '理论值',
-                    marker: {
-                        symbol: 'square'
-                    },
-                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 23.3, 18.3, 13.9, 9.6, 1]
-
-                }, {
-                    name: '实际值',
-                    marker: {
-                        symbol: 'diamond'
-                    },
-                    data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-                }]
-            });
-
-        }
-
-
-
-
         //跳转到指定模块菜单
         function OpenNav(Navid) {
             top.$("#nav").find('a#' + Navid).trigger("click");
@@ -346,8 +149,7 @@
 <body>
     <div class="border" id="desktop" style="margin: 10px 10px 0 10px; background: #fff; overflow: auto;">
         <div class="portal-panel">
-            <div>
-                @*<div class="row">
+            <div class="row">
                 <div class="portal-panel-title">
                     <i class="fa fa-balance-scale"></i>&nbsp;&nbsp;统计指标
                 </div>
@@ -440,8 +242,8 @@
                         </div>
                     </div>
                 </div>
-            </div>*@
-                @*<div class="row" style="overflow: hidden; margin-bottom: 10px;">
+            </div>
+            <div class="row" style="overflow: hidden; margin-bottom: 10px;">
                 <div style="width: 50%; float: left;">
                     <div class="portal-panel-title">
                         <i class="fa fa-coffee"></i>&nbsp;&nbsp;待办任务（Top 5）
@@ -496,55 +298,14 @@
                         </div>
                     </div>
                 </div>
-            </div>*@
             </div>
             <div class="row" style="overflow: hidden; height: 460px;">
                 <div style="width: 50%; float: left;">
                     <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;原材料库存
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区单项工程构件总量占比
                     </div>
                     <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="material-inventory">
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 50%; float: left;">
-                    <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;构件库存
-                    </div>
-                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="member-inventory"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="overflow: hidden; height: 460px;">
-                <div style="width: 50%; float: left;">
-                    <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区分项工程订单总量占比
-                    </div>
-                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="order-sum-proportion">
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 50%; float: left;">
-                    <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;构件生产进度图
-                    </div>
-                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="member-produce-schedule"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="overflow: hidden; height: 460px;">
-                <div style="width: 50%; float: left;">
-                    <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区分项工程构件总量占比
-                    </div>
-                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="member-sum-proportion">
+                        <div id="piecontainer">
                         </div>
                     </div>
                 </div>
@@ -553,10 +314,30 @@
                         <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;原材料损耗率
                     </div>
                     <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="material-attrition-rate"></div>
+                        <div id="container"></div>
                     </div>
                 </div>
             </div>
+
+            @*<div class="row" style="overflow: hidden; height: 460px;">
+                <div style="width: 50%; float: left;">
+                    <div class="portal-panel-title">
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区单项工程进度图
+                    </div>
+                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
+                        <div id="piecontainer">
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 50%; float: left;">
+                    <div class="portal-panel-title">
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;原材料损耗率
+                    </div>
+                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
+                        <div id="container"></div>
+                    </div>
+                </div>
+            </div>*@
         </div>
     </div>
 </body>

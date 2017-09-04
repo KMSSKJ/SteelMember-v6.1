@@ -26,6 +26,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
         private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
         private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
 
         #region 视图功能
         /// <summary>
@@ -104,6 +105,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                     var MemberWarehouse = new MemberWarehouseModel()
                     {
+                        MemberWarehouseId = item.MemberWarehouseId,
                         MemberNumbering = MemberLibrar.MemberNumbering,
                         MemberName = MemberLibrar.MemberName,
                         Category = dataitemdetailbll.GetEntity(MemberLibrar.Category).ItemName,
@@ -168,7 +170,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson(string keyValue)
         {
             var data = memberwarehousebll.GetEntity(keyValue);
-            return ToJsonResult(data);
+
+            var data1= memberlibrarybll.GetEntity(data.MemberId);
+            data1.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
+            return ToJsonResult(data1);
         }
 
         /// <summary>
@@ -215,7 +220,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberWarehouse.Category = data1.Category;
                     MemberWarehouse.MemberName = data1.MemberName;
                     MemberWarehouse.MemberNumbering = data1.MemberNumbering;
-                    //MemberWarehouse.MemberUnit = data1.Unit.ItemName;
+                    MemberWarehouse.MemberUnit = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
                     MemberWarehouseModelList.Add(MemberWarehouse);
                 }
             }
@@ -259,7 +264,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         public ActionResult Inventory(string OrderId)
         {
-
             string[] OrderIds = OrderId.Split(',');
             try
             {
@@ -276,30 +280,32 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             var memberinfo = memberlibrarybll.GetList(null).Find(f => f.MemberId == MemberId);
                             var orderinfo = memberproductionorderbll.GetList(null).Find(f => f.OrderId == _OrderId);
 
-                            //先加到入库管理中
-                            MemberWarehouseRecordingEntity warehouseRecording = new MemberWarehouseRecordingEntity();
-                            string keyValue1 = null;
-                            warehouseRecording.Librarian = OperatorProvider.Provider.Current().UserName;
-                            warehouseRecording.MemberId = memberinfo.MemberId;
-                            warehouseRecording.UpdateTime = System.DateTime.Now;
-                            warehouseRecording.ToReportPeople = orderinfo.CreateMan;
-                            warehouseRecording.Receiver = "1111";
-                            warehouseRecording.ReceiverTel = "11111111111111";
-                            warehouseRecording.Class = "入库";
-                            memberwarehouserecordingbll.SaveForm(keyValue1, warehouseRecording);
-
                             //更改库存量
                             MemberWarehouseEntity MemberWarehouse = new MemberWarehouseEntity();
                             var MemberWarehouses = memberwarehousebll.GetList(null).Find(f => f.MemberId == MemberId);
                             if (MemberWarehouses != null)
                             {
                                 MemberWarehouse.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
-                                MemberWarehouse.InStock = Convert.ToInt32(MemberWarehouses.InStock) + data[i0].ProductionQuantity;//库存量++                                                                                              //inventorymodel.
+                                MemberWarehouse.Librarian = OperatorProvider.Provider.Current().UserName;
+                                MemberWarehouse.InStock = Convert.ToInt32(MemberWarehouses.InStock) + data[i0].ProductionQuantity;//库存量++                       
                                 memberwarehousebll.SaveForm(MemberWarehouse.MemberWarehouseId, MemberWarehouse);
                             }
 
-                            //修改生产订单中入库状态
+                            //加到入库表中
+                            MemberWarehouseRecordingEntity warehouseRecording = new MemberWarehouseRecordingEntity();
+                            string keyValue1 = null;
+                            warehouseRecording.Librarian = OperatorProvider.Provider.Current().UserName;
+                            warehouseRecording.MemberId = memberinfo.MemberId;
+                            warehouseRecording.UpdateTime = System.DateTime.Now;
+                            warehouseRecording.ToReportPeople = orderinfo.CreateMan;
+                            warehouseRecording.InStock= data[i0].ProductionQuantity;
+                            warehouseRecording.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
+                            warehouseRecording.Receiver = "1111";
+                            warehouseRecording.ReceiverTel = "11111111111111";
+                            warehouseRecording.Type = "入库";
+                            memberwarehouserecordingbll.SaveForm(keyValue1, warehouseRecording);
 
+                            //修改生产订单中入库状态
                             var MembeOrder = memberproductionorderbll.GetEntity(_OrderId);
                             if (MembeOrder != null)
                             {
@@ -323,12 +329,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 出库
         /// </summary>
-        /// <param name="collarinfo"></param>
+        /// <param name="collarmodel"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SaveCollarinfo(string collarinfo)
+        public ActionResult SaveCollarinfo(MemberWarehouseRecordingEntity collarmodel)
         {
-            var collarmodel = collarinfo.ToObject<MemberWarehouseRecordingEntity>();
             collarmodel.UpdateTime = System.DateTime.Now;
             try
             {
@@ -340,16 +345,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     if (MemberWarehouses != null)
                     {
                         MemberWarehouse.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
-                        MemberWarehouse.InStock = Convert.ToInt32(MemberWarehouse.InStock) - collarmodel.InStock;//库存量++
+                        MemberWarehouse.InStock = Convert.ToInt32(MemberWarehouses.InStock) - collarmodel.InStock;//库存量++
                         memberwarehousebll.SaveForm(MemberWarehouse.MemberWarehouseId, MemberWarehouse);
                     }
 
                     //添加到出库表中  
                     string keyValue = "";
                     var MemberLibrary = memberlibrarybll.GetList(null).Find(f => f.MemberId == MemberWarehouses.MemberId);
-                    collarmodel.Class = "出库";
+                    collarmodel.Type = "出库";
+                    collarmodel.MemberId = MemberWarehouses.MemberId;
                     collarmodel.Librarian = OperatorProvider.Provider.Current().UserName;
                     collarmodel.UpdateTime = DateTime.Now;
+                    collarmodel.MemberWarehouseId= MemberWarehouses.MemberWarehouseId;
                     memberwarehouserecordingbll.SaveForm(keyValue, collarmodel);
                 }
             }
