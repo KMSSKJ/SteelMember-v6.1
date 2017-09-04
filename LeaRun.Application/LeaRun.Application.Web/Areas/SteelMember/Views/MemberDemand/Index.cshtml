@@ -313,22 +313,22 @@
     function btn_review(type) {
         var keyValue = $("#gridTable").jqGridRowValue("MemberDemandId");
         var reviews = $('#gridTable').jqGridRowValue('IsReview');
-        var passeds = $('#gridTable').jqGridRowValue('IsPassed');
+        var passeds = $('#gridTable').jqGridRowValue('IsSubmit');
         if (checkedArray(keyValue)) {
             var reviewsArr = reviews.split(",");
             var passedsArr = passeds.split(",");
-            if (reviewsArr.length > 0) {
-                for (var i in reviewsArr) {
-                    if (reviewsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
+            if (passedsArr.length > 0) {
+                for (var i in passedsArr) {
+                    if (passedsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
                         dialogMsg("所选数据中包含未提交的数据，请重新选择！", 0);
                         return false;
                         //break;
                     }
                 }
             }
-            if (passedsArr.length > 0) {
-                for (var i in passedsArr) {
-                    if (passedsArr[i] == "<span class=\"label label-success\">通过</span>" || passedsArr[i] == "<span class=\"label label-danger\">失败</span>") {
+            if (reviewsArr.length > 0) {
+                for (var i in reviewsArr) {
+                    if (reviewsArr[i] == "<span class=\"label label-success\">通过</span>" || reviewsArr[i] == "<span class=\"label label-danger\">失败</span>") {
                         dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
                         return false;
                         //break;

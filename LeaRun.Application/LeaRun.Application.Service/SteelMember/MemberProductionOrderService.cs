@@ -23,9 +23,10 @@ namespace LeaRun.Application.Service.SteelMember
         /// </summary>
         /// <param name="pagination">分页</param>
         /// <param name="IsReceive"></param>
+        /// <param name="IsPassed"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, int IsReceive, string queryJson)
+        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, int IsReceive, int IsPassed, string queryJson)
         {
            var expression = LinqExtensions.True<MemberProductionOrderEntity>();
             var queryParam = queryJson.ToJObject();
@@ -75,7 +76,10 @@ namespace LeaRun.Application.Service.SteelMember
             {
                 expression = expression.And(t => t.IsReceive == IsReceive);
             }
-            
+            if (IsPassed!= 3)
+            {
+                expression = expression.And(t =>t.IsPassed == IsPassed);
+            }
             return this.BaseRepository().FindList(expression, pagination);
         }
         ///// <summary>

@@ -32,7 +32,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public int? InStock { get; set; }
-        
+        /// <summary>
+        /// SubProject
+        /// </summary>
+        /// <returns></returns>
+        public string SubProject { get; set; }
         /// <summary>
         /// Model_Drawing
         /// </summary>
@@ -60,15 +64,18 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public DateTime? UpdateTime { get; set; }
         /// <summary>
-        /// Class
+        /// Type
         /// </summary>
         /// <returns></returns>
-        public string Class { get; set; }
+        public string Type { get; set; }
         /// <summary>
         /// FullPath
         /// </summary>
         /// <returns></returns>
         public string Description { get; set; }
+        /// <summary>
+        /// Librarian
+        /// </summary>
         public string Librarian { get; set; }
         #endregion
 

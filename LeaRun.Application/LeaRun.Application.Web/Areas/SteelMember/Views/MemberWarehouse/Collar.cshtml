@@ -7,12 +7,12 @@
     $(function () {
         initControl();
         AddRawMaterial();
-        
+
     });
 
     //加载树
     var _Category
-    function initControl() { 
+    function initControl() {
         $("#SubProject").ComboBoxTree({
             //param: { EnCode: "RawMaterialType" },
             //url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
@@ -30,16 +30,16 @@
             return false;
         }
         $.ajax({
-            type:'Get',
+            type: 'Get',
             dataType: 'json',
             url: '../../SteelMember/MemberWarehouse/GetFormJson',
             data: { keyValue: InventoryId },
             success: function (data) {
                 _Quantity = data.InStock;
-                $("#Quantity").val(data.InStock); 
-                $("#Category").val(data.Category); 
-                $("#MemberStandard").val(data.MemberStandard);
-                $("#MemberUnit").html(data.MemberUnit); 
+                $("#Quantity").val(data.InStock);
+                $("#Category").val(data.Category);
+                $("#MemberName").val(data.MemberName);
+                $("#MemberUnit").html(data.MemberUnit);
             },
             error: function (e) {
                 alert(e);
@@ -47,52 +47,68 @@
 
         });
     }
+    //function AcceptClick() {
+    //    if ($("#SubProject").attr("data-text") == undefined) {
+    //        dialogTop("请选择工程名称", "error");
+    //        return false;
+    //    }
+
+    //    if ($("#Quantity").val() == "" || $("#Quantity").val() > _Quantity || $("#Quantity").val() <= 0) {
+    //        dialogMsg("输入的领用数量有误！请重新输入",0);
+    //        $("#Quantity").val("");
+    //        return false;
+    //    }
+    //    var sb = $("#CollarCategory").val();
+    //    if ($("#CollarCategory").val() == "" || $("#Collaror").val() == "")
+    //    {
+    //        dialogMsg("请将信息填写完整！！", 0);
+    //        return false;
+    //    }
+
+
+
+    //    $.ajax({
+    //        type: 'post',
+    //        url: '../../SteelMember/MemberWarehouse/SaveCollarinfo',
+    //        dataType: 'json',
+    //        data: { collarinfo: JSON.stringify(collarinfo) },
+    //        success: function (data) {
+    //            if (data.type == 1) {
+    //                Loading(false);
+    //                dialogMsg(data.message, 1);
+
+    //            } else {
+    //                dialogAlert(data.message, -1);
+    //            }
+    //            dialogClose();
+    //        },
+    //        error: function (e) {
+    //            dialogAlert(e, -1);
+    //        }
+    //    });
+    //}
+
+    //保存表单;
     function AcceptClick() {
-        if ($("#SubProject").attr("data-text") == undefined) {
-            dialogTop("请选择工程名称", "error");
+        if (!$('#form1').Validform()) {
             return false;
         }
-       
-        if ($("#Quantity").val() == "" || $("#Quantity").val() > _Quantity || $("#Quantity").val() <= 0) {
-            dialogMsg("输入的领用数量有误！请重新输入",0);
-            $("#Quantity").val("");
+        if ($("#InStock").val() == "" || $("#InStock").val() > _Quantity || $("#InStock").val() <= 0) {
+            dialogMsg("输入的领用数量有误！请重新输入", 0);
+            $("#InStock").val("");
             return false;
         }
-        var sb = $("#CollarCategory").val();
-        if ($("#CollarCategory").val() == "" || $("#Collaror").val() == "")
-        {
-            dialogMsg("请将信息填写完整！！", 0);
-            return false;
-        }
-      
-        var collarinfo = {
-            MemberWarehouseId: InventoryId,
-            SubProject: $("#SubProject").attr("data-text"),
-            Category: $("#Category").val(),
-            InStock: $("#Quantity").val(),
-            Receiver: $("#Receiver").val(),
-            Description: $("#Description").val()
-        };
-
-        $.ajax({
-            type: 'post',
-            url: '../../SteelMember/MemberWarehouse/SaveCollarinfo',
-            dataType: 'json',
-            data: { collarinfo: JSON.stringify(collarinfo) },
-            success: function (data) {
-                if (data.type == 1) {
-                    Loading(false);
-                    dialogMsg(data.message, 1);
-
-                } else {
-                    dialogAlert(data.message, -1);
+        var postData = $("#form1").GetWebControls(InventoryId);
+            postData['MemberWarehouseId'] = InventoryId,
+            postData['SubProject'] = $("#SubProject").attr("data-value"),
+            $.SaveForm({
+                url: "../../SteelMember/MemberWarehouse/SaveCollarinfo",
+                param: postData,
+                loading: "正在保存数据...",
+                success: function () {
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
                 }
-                dialogClose();
-            },
-            error: function (e) {
-                dialogAlert(e, -1);
-            }
-        });
+            })
     }
 </script>
 
@@ -112,13 +128,13 @@
                     所属工程:
                 </th>
                 <td colspan="4">
-                    <div id="SubProject" type="select" class="ui-select" style="width:95%"></div>
+                    <div id="SubProject" type="select" class="ui-select" style="width:95%" isvalid="yes" checkexpession="NotNull"></div>
                 </td>
                 <th>
                     出库数量:
                 </th>
                 <td colspan="4">
-                    <input id="Quantity" type="number" style="width:80%;height:28px"><label id="Unit"style="margin-left:15px"></label>
+                    <input id="InStock" type="text" class="form-control" style="width:95%" isvalid="yes" checkexpession="Num">
                 </td>
             </tr>
             <tr>
@@ -129,47 +145,45 @@
                     <input id="Category" type="text" class="form-control" style="width:95%;" disabled="disabled">
                 </td>
                 <th>
-                    规格:
+                    构件名称:
                 </th>
                 <td colspan="4">
-                    <input id="MemberStandard" type="text" class="form-control" style="width:95%;" disabled="disabled">
+                    <input id="MemberName" type="text" class="form-control" style="width:95%;" disabled="disabled">
                 </td>
             </tr>
             <tr>
                 <th>
-                    型号:
-                </th>
-                <td colspan="4">
-                    <input id="MemberModel" type="text" class="form-control" style="width:95%;" disabled="disabled">
-                </td>
-                <th>
                     领取人:
                 </th>
                 <td colspan="4">
-                    <input id="Receiver" type="text" class="form-control" style="width:95%;" list="Collarorlist">
+                    <input id="Receiver" type="text" class="form-control" style="width:95%;" list="Collarorlist" isvalid="yes" checkexpession="NotNull">
                     <datalist id="Collarorlist">
                         <option value="张三">张三</option>
                         <option value="李四">李四</option>
                     </datalist>
                 </td>
+                <th>
+                    联系电话:
+                </th>
+                <td colspan="4">
+                    <input id="ReceiverTel" type="text" class="form-control" style="width:95%;" isvalid="yes" checkexpession="MobileOrPhone">
+                </td>
             </tr>
-            
+
             <tr>
-             
+
                 <th>
                     备注:
                 </th>
-                <td colspan="4">
+                <td colspan="9">
                     <input id="Description" type="text" class="form-control" style="width:95%;">
                 </td>
 
             </tr>
-          
+
         </table>
     </div>
-    @*<div class="gridPanel">
-        <table id="gridTable"></table>
-    </div>*@
+
 </div>
 <style>
     body {
@@ -192,4 +206,4 @@
         border-bottom: 0px;
     }
 </style>
- 
+

@@ -57,7 +57,7 @@
         $gridTable.jqGrid({
             autowidth: true,
             height: $(window).height() - 170,
-            url: "../../SteelMember/MemberProductionOrder/GetPageListJson?IsReceive=1",
+            url: "../../SteelMember/MemberProductionOrder/GetPageListJson?IsReceive=1&IsPassed=1",
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },

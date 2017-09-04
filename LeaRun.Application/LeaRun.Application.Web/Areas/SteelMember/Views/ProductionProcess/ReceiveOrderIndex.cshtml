@@ -27,12 +27,12 @@
         $gridTable.jqGrid({
             autowidth: true,
             height: $(window).height() - 136.5,
-            url: "../../SteelMember/MemberProductionOrder/GetPageListJson?IsReceive=0",
+            url: "../../SteelMember/MemberProductionOrder/GetPageListJson?IsReceive=0&IsPassed=1",
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },
                 { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 120, align: '', sortable: true },
-                { label: '所属工程', name: 'CategoryName', index: 'CategoryName', width: 120, align: '', sortable: true },
+                { label: '所属工程', name: 'Category', index: 'Category', width: 60, align: '', sortable: true },
                 { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 80, align: '', sortable: true },
                 { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: '', sortable: true },
                 {
@@ -111,6 +111,7 @@
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 keyword: $("#txt_Keyword").val(),
                 SubProjectId: category,
+                Category:Category = $("#Category").attr('data-text') == "选择构件类型" ? "" : $("#Category").attr('data-text'),
                 BeginTime: $("#txt_BeginTime").val(),
                 EndTime: $("#txt_EndTime").val()
             };
@@ -132,7 +133,9 @@
                 break;
         }
     }
-   
+    function InputChange() {
+        $('#btn_Search').trigger("click");
+    }
 
     //保存表单;
     function btn_add() {
@@ -155,33 +158,38 @@
     <div class="title-search">
         <table>
             <tr>
-                <td>
-                    <label>时间(起)</label>
+                <td style="width:110px">
+                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
                 </td>
-                <td>
-                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                <td style="padding-left:2px;width:110px">
+                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
                 </td>
-                <td>
-                    <label style="margin-left:5px">时间(束)</label>
-                </td>
-                <td>
-                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
-                </td>
+
+                @*<td style="padding-left: 10px;">
+            <div id="queryCondition" class="btn-group">
+                <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a data-value="OrderNumbering">编号</a></li>
+            </ul>
+            </div>
+        </td>*@
                 <td style="padding-left: 10px;">
                     <div id="queryCondition" class="btn-group">
                         <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a data-value="OrderNumbering">编号</a></li>
-                            <li><a data-value="CategoryName">工程</a></li>
+                            <li><a data-value="Category">工程</a></li>
                         </ul>
                     </div>
                 </td>
-                <td>
-                    <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                <td style="padding-left: 5px;width:110px">
+                    <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询编号" />
                 </td>
-                <td style="padding-left: 5px;">
-                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>查询</a>
+
+                <td style="padding-left: 5px;display:none">
+                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
                 </td>
             </tr>
         </table>

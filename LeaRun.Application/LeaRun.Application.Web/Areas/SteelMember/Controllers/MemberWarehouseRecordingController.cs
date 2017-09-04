@@ -7,6 +7,9 @@ using LeaRun.Application.Code;
 using System;
 using System.Collections.Generic;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
+using System.Linq;
+using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Util.Extension;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -22,7 +25,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberWarehouseRecordingBLL memberwarehouserecordingbll = new MemberWarehouseRecordingBLL();
         private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
         private MemberProductionOrderInfoBLL memberproductionorderinfobll= new MemberProductionOrderInfoBLL();
-
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -84,16 +88,80 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页参数</param>
+        /// <param name="Type"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表Json</returns>
         [HttpGet]
-        public ActionResult GetPageListJson(Pagination pagination, string queryJson)
+        public ActionResult GetPageListJson(Pagination pagination,string Type, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = memberwarehouserecordingbll.GetPageList(pagination, queryJson);
+            var List = new List<MemberWarehouseRecordingModel>();
+            var data = memberwarehouserecordingbll.GetPageList(pagination,Type, queryJson);
+
+            if (data.Count() > 0)
+            {
+                foreach (var item in data)
+                {
+                    var EngineeringId = "";
+                    if(!item.SubProject.IsEmpty())
+                    {
+                        EngineeringId = item.SubProject;
+                    }
+                    else {
+                        EngineeringId = memberwarehousebll.GetEntity(item.MemberWarehouseId).EngineeringId;
+                    }
+                    
+                    var MemberLibrar = memberlibrarybll.GetEntity(item.MemberId);
+                    var MemberWarehouseRecording = new MemberWarehouseRecordingModel()
+                    {
+                        MemberNumbering = MemberLibrar.MemberNumbering,
+                        MemberName = MemberLibrar.MemberName,
+                        Category = dataitemdetailbll.GetEntity(MemberLibrar.Category).ItemName,
+                        MemberUnit = dataitemdetailbll.GetEntity(MemberLibrar.UnitId).ItemName,
+                        CollarEngineering = subprojectbll.GetEntity(EngineeringId).FullName,
+                        RecordingId = item.RecordingId,
+                        InStock = item.InStock,
+                        UpdateTime = item.UpdateTime,
+                        ToReportPeople = item.ToReportPeople,
+                        CollarDepartment= item.CollarDepartment,
+                        Receiver= item.Receiver,
+                        ReceiverTel = item.ReceiverTel,
+                        Librarian = item.Librarian,
+                        Description = MemberLibrar.Description
+                    };
+                    List.Add(MemberWarehouseRecording);
+                }
+            }
+
+            //
+            var queryParam = queryJson.ToJObject();
+          
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+                    case "CollarEngineering":              //构件类型
+                        List = List.FindAll(t => t.CollarEngineering.Contains(keyword));
+                        break;
+                    case "Category":              //构件类型
+                        List = List.FindAll(t => t.Category.Contains(keyword));
+                       break;
+                    case "MemberName":              //构件名称
+                        List = List.FindAll(t => t.MemberName.Contains(keyword));
+                        break;
+                    case "MemberNumbering":              //编号
+                        List = List.FindAll(t => t.MemberNumbering.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //
             var jsonData = new
             {
-                rows = data,
+                rows = List,
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records,

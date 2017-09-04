@@ -53,41 +53,47 @@
             <td class="formValue">
                 <input id="StandardModel" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
             </td>
+            <td class="formTitle">安全责任人</td>
+            <td class="formValue">
+                <input id="SafetyResponsiblePerson" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+
+        </tr>
+        <tr>
             <td class="formTitle">状态</td>
             <td class="formValue">
                 @*<input id="Status" type="text" class="form-control" list="itemlist" isvalid="yes" checkexpession="NotNull" />
-                <datalist id="itemlist">
-                    <option value="1">正常</option>
-                    <option value="0">需保养</option>
-                    <option value="2">故障</option>
-                </datalist>*@
+                    <datalist id="itemlist">
+                        <option value="1">正常</option>
+                        <option value="0">需保养</option>
+                        <option value="2">故障</option>
+                    </datalist>*@
                 <select id="Status" datacol="yes" err="运行状态" class="form-control" checkexpession="NotNull">
                     <option value="1">正常</option>
                     <option value="0">需保养</option>
                     <option value="2">故障</option>
                 </select>
             </td>
-        </tr>
-        <tr>
             <td class="formTitle">进场时间</td>
             <td class="formValue">
                 <input id="ApproachDate" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull" placeholder="选择进场时间" onfocus="WdatePicker()" />
             </td>
+        </tr>
+        <tr>
             <td class="formTitle">保养时间</td>
             <td class="formValue">
                 <input id="MaintenanceDate" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull" placeholder="选择保养时间" onfocus="WdatePicker()" />
             </td>
-        </tr>
-        <tr>
             <td class="formTitle">保修至</td>
             <td class="formValue">
                 <input id="WarrantyDate" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull" placeholder="选择保修时间" onfocus="WdatePicker()" />
             </td>
+        </tr>
+        <tr>
             <td class="formTitle">说明</td>
-            <td class="formValue">
+            <td class="formValue" colspan="3">
                 <textarea id="Description" class="form-control" isvalid="yes" checkexpession="NotNull"></textarea>
             </td>
         </tr>
-
     </table>
 </div>
