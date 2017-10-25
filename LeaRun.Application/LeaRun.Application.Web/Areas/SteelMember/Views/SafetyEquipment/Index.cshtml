@@ -111,6 +111,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -260,7 +262,7 @@
     //É¾³ý
     function btn_deleteMaintain() {
         var keyValue = $('#' + subgrid_table_id).jqGridRowValue('InfoId');
-        if (checkedRow(keyValue)) {
+        if (checkedArray(keyValue)) {
             $.RemoveForm({
                 url: '../../SteelMember/EquipmentMaintenanceRecords/RemoveForm',
                 param: { keyValue: keyValue },

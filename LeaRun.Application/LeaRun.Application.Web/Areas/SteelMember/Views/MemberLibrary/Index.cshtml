@@ -140,6 +140,7 @@
             shrinkToFit: false,
             gridview: true,
             multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -208,7 +209,7 @@
     //É¾³ý
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('MemberId');
-        if (checkedRow(keyValue)) {
+        if (checkedArray(keyValue)) {
             $.RemoveForm({
                 url: '../../SteelMember/MemberLibrary/RemoveForm',
                 param: { keyValue: keyValue },

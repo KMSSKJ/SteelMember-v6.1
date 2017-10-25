@@ -1568,7 +1568,7 @@
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\MaintenanceRecordsForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialOrder\Form.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProductionProcess\MemberSummary.cshtml" />
-    <Content Include="Areas\SteelMember\Views\MemberWarehouse\Collar - 复制.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberWarehouse\Collar - no.cshtml" />
     <Content Include="Areas\PublicInfoManage\Views\Notice\FormDetail.cshtml" />
     <Content Include="Areas\PublicInfoManage\Views\Notice\IndexMore.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberDemand\NotReviewForm.cshtml" />
@@ -1578,9 +1578,9 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\NotReviewForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProductionProcess\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\Index1.cshtml" />
-    <Content Include="Areas\SteelMember\Views\MemberDemand\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\SafetyEquipment\Index1.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberDemand\Index1.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\AdminDefaultDesktop - 复制.cshtml" />
     <Content Include="Resource\DocumentFile\System\20151216\55f6e360-c3ce-4f87-8f58-86cf63d129f3.doc" />
@@ -1593,6 +1593,8 @@
     <Content Include="Views\Utility\AdvancedSearchMemberForm.cshtml" />
     <Content Include="Views\Home\ToBeDoneMoreIndex.cshtml" />
     <Content Include="Views\Shared\_PrintForm_A5.cshtml" />
+    <Content Include="Views\Home\AdminPrettyDesktop - 复制.cshtml" />
+    <Content Include="Views\Home\AdminLTEDesktop - 复制.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

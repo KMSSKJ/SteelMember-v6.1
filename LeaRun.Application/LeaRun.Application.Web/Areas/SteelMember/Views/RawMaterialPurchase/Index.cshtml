@@ -162,6 +162,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -294,7 +296,7 @@
         var IsSubmit = $('#gridTable').jqGridRowValue('IsSubmit');
         var IsPassed = $('#gridTable').jqGridRowValue('IsPassed');
 
-        if (checkedRow(keyValue)) {
+        if (checkedArray(keyValue)) {
             if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsPassed == "<span class=\"label label-danger\">失败</span>") {
                 var reviewsArr = IsPurchase.split(",");
                 if (reviewsArr.length > 0) {
