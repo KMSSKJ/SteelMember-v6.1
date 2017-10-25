@@ -36,12 +36,27 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
         IEnumerable<MemberDemandEntity> GetList(string queryJson);
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表</returns>
+        IEnumerable<MemberDemandEntity> GetList(Expression<Func<MemberDemandEntity,bool>>condiotion);
+
         /// <summary>
         /// 获取实体
         /// </summary>
-        /// <param name="keyValue">主键值</param>
+        /// <param name="condition">参数</param>
         /// <returns></returns>
         MemberDemandEntity GetEntity(string keyValue);
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">参数</param>
+        /// <returns></returns>
+        MemberDemandEntity GetEntity(Expression<Func<MemberDemandEntity,bool>>condition);
         #endregion
 
         #region 提交数据

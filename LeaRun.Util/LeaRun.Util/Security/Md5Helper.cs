@@ -2,6 +2,8 @@
 // All Rights Reserved , Copyright © Learun 2013
 //=====================================================================================
 
+using System.Web.Security;
+
 namespace LeaRun.Util
 {
     /// <summary>
@@ -26,12 +28,12 @@ namespace LeaRun.Util
             string strEncrypt = string.Empty;
             if (code == 16)
             {
-                strEncrypt = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").Substring(8, 16);
+                strEncrypt = FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").Substring(8, 16);
             }
 
             if (code == 32)
             {
-                strEncrypt = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5");
+                strEncrypt = FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5");
             }
 
             return strEncrypt;

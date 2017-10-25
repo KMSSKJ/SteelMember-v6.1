@@ -1,13 +1,15 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-19 10:03
-    /// 描 述：原材料库存
+    /// 描 述：材料库存
     /// </summary>
     public interface RawMaterialInventoryIService : IBaseService<RawMaterialInventoryEntity>
     {
@@ -31,6 +33,13 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         RawMaterialInventoryEntity GetEntity(string keyValue);
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>Expression<Func<RawMaterialInventoryEntity>> condition
+        RawMaterialInventoryEntity GetEntity(Expression<Func<RawMaterialInventoryEntity,bool>> condition);
         /// <summary>
         /// 获取实体
         /// </summary>

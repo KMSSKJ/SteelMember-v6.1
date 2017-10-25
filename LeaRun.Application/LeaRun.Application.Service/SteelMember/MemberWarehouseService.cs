@@ -8,6 +8,8 @@ using System.Linq;
 using LeaRun.Util;
 
 using LeaRun.Util.Extension;
+using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -47,30 +49,35 @@ namespace LeaRun.Application.Service.SteelMember
                 expression = expression.And(t => t.UpdateTime <= EndTime);
             }
 
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
-            {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
+            //if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            //{
+            //    string condition = queryParam["condition"].ToString();
+            //    string keyword = queryParam["keyword"].ToString();
+            //    switch (condition)
+            //    {
 
-                    //case "Category":              //构件类型
-                    //    expression = expression.And(t => t.Category.Contains(keyword));
-                    //    break;
-                    //case "MemberModel":              //构件型号
-                    //    expression = expression.And(t => t.MemberModel.Contains(keyword));
-                    //    break;
-                    case "EngineeringId":              //编号
-                        expression = expression.And(t => t.EngineeringId.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            if (!queryParam["EngineeringId"].IsEmpty())
+            //        //case "Category":              //构件类型
+            //        //    expression = expression.And(t => t.Category.Contains(keyword));
+            //        //    break;
+            //        //case "MemberModel":              //构件型号
+            //        //    expression = expression.And(t => t.MemberModel.Contains(keyword));
+            //        //    break;
+            //        case "EngineeringId":              //编号
+            //            expression = expression.And(t => t.EngineeringId.Contains(keyword));
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+            if (!queryParam["SubProjectId"].IsEmpty())
             {
-                var SubProjectId = queryParam["EngineeringId"].ToString();
+                var SubProjectId = queryParam["SubProjectId"].ToString();
                 expression = expression.And(t => t.EngineeringId == SubProjectId);
+            }
+            if (!queryParam["InStock"].IsEmpty())
+            {
+                int InStock =Convert.ToInt32(queryParam["InStock"]);
+                expression = expression.And(t => t.InStock > InStock);
             }
             return this.BaseRepository().FindList(expression, pagination);
         }
@@ -102,6 +109,17 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().IQueryable(expression).ToList();
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public List<MemberWarehouseEntity> GetList(Expression<Func<MemberWarehouseEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).ToList();
+        }
+
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -110,6 +128,16 @@ namespace LeaRun.Application.Service.SteelMember
         public MemberWarehouseEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
+        }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">条件</param>
+        /// <returns></returns>
+        public MemberWarehouseEntity GetEntity(Expression<Func<MemberWarehouseEntity,bool>>condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
         }
         #endregion
 

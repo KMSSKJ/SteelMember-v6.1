@@ -57,7 +57,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// MemberNumber
         /// </summary>
         /// <returns></returns>
-        public int? MemberNumber { get; set; }
+        public decimal? MemberNumber { get; set; }
         /// <summary>
         /// CreateTime
         /// </summary>
@@ -67,12 +67,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// ModifiedTime
         /// </summary>
         /// <returns></returns>
-        public DateTime? UpdateTime { get; set; }
+        public DateTime? ReviewTime { get; set; }
         /// <summary>
         /// CollarNumbered
         /// </summary>
         /// <returns></returns>
-        public int? CollarNumber { get; set; }
+        public decimal? CollarNumber { get; set; }
         /// <summary>
         /// CreateMan
         /// </summary>
@@ -82,7 +82,17 @@ namespace LeaRun.Application.Entity.SteelMember
         /// ProductionNumber
         /// </summary>
         /// <returns></returns>
-        public int? ProductionNumber { get; set; }
+        public decimal? ProductionNumber { get; set; }
+        /// <summary>
+        /// OrderedQuantity
+        /// </summary>
+        /// <returns></returns>
+        public decimal? OrderedQuantity { get; set; }
+        /// <summary>
+        /// CollaredNumber
+        /// </summary>
+        /// <returns></returns>
+        public decimal? CollaredNumber { get; set; }
         #endregion
 
         #region À©Õ¹²Ù×÷

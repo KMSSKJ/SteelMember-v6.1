@@ -1,6 +1,8 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
@@ -25,12 +27,25 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
         List<MemberWarehouseEntity> GetList(string queryJson);
+
+            /// <summary>
+            /// 获取列表
+            /// </summary>
+            /// <param name="queryJson">查询参数</param>
+            /// <returns>返回列表</returns>
+        List<MemberWarehouseEntity> GetList(Expression<Func<MemberWarehouseEntity,bool>>condition);
         /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         MemberWarehouseEntity GetEntity(string keyValue);
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        MemberWarehouseEntity GetEntity(Expression<Func<MemberWarehouseEntity,bool>>condition);
         #endregion
 
         #region 提交数据

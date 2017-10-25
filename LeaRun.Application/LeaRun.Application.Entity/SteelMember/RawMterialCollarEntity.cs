@@ -16,41 +16,56 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string CollarId { get; set; }
+
         /// <summary>
-        /// InventoryId
+        /// 工程
         /// </summary>
-        /// <returns></returns>
-        public string InventoryId { get; set; }
+        public string CollarEngineering { get; set; }
         /// <summary>
-        /// CollarType
+        /// 收货地址
+        /// </summary>
+        public string ShippingAddress { get; set; }
+        /// <summary>
+        /// 日期
+        /// </summary>
+        public DateTime? Date { get; set; }
+        /// <summary>
+        /// 领用单号
+        /// </summary>
+        public string CollarNumbering { get; set; }
+        /// <summary>
+        /// 申请单号
+        /// </summary>
+        public string Numbering { get; set; }
+        /// <summary>
+        /// 组织
+        /// </summary>
+        public string OrganizeId { get; set; }
+        /// <summary>
+        /// 部门
+        /// </summary>
+        public string DepartmentId { get; set; }
+        /// <summary>
+        /// 领用类型
         /// </summary>
         /// <returns></returns>
         public int? CollarType { get; set; }
         /// <summary>
-        /// CollarEngineering
+        /// 联系人
         /// </summary>
-        /// <returns></returns>
-        public string CollarEngineering { get; set; }
+        public string ContactPerson { get; set; }
         /// <summary>
-        /// CollarTime
+        /// 联系人电话
         /// </summary>
-        /// <returns></returns>
-        public DateTime? CollarTime { get; set; }
+        public string ContactPersonTel { get; set; }
         /// <summary>
-        /// CollarQuantity
+        /// 创建人
         /// </summary>
-        /// <returns></returns>
-        public decimal? CollarQuantity { get; set; }
+        public string CreateMan { get; set; }
         /// <summary>
-        /// CollarMan
+        /// 经办人
         /// </summary>
-        /// <returns></returns>
-        public string CollarMan { get; set; }
-        /// <summary>
-        /// Description
-        /// </summary>
-        /// <returns></returns>
-        public string Description { get; set; }
+        public string ReviewMan { get; set; }
         #endregion
 
         #region 扩展操作

@@ -295,9 +295,19 @@ $.fn.Validform = function () {
                         }
                         break;
                     }
+                case "ExceedZero":
+                    {
+                        if (!isExceedZero(value, $(this).attr("eqvalue"))) {
+                            Validatemsg = errormsg + "必须为大于零的数字！\n";
+                            Validateflag = false;
+                            ValidationMessage($(this), Validatemsg); return false;
+                        }
+                        break;
+                    }
+
                 case "PositiveInteger":
                     {
-                        if (!isInteger(value, $(this).attr("eqvalue"))) {
+                        if (!isPositiveInteger(value, $(this).attr("eqvalue"))) {
                             Validatemsg = errormsg + "必须为大于零的正整数！\n";
                             Validateflag = false;
                             ValidationMessage($(this), Validatemsg); return false;
@@ -398,6 +408,20 @@ $.fn.Validform = function () {
             return true;
         }
     }
+    //判断输入的字符是否为大于零的整数/小数(可为分数格式)
+    function isExceedZero(obj) {
+        reg = /([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])/;
+        if (!reg.test(obj)) {
+            return false;
+        } else {
+            //这里加入
+            if (obj * 1 > 0)
+                return true;
+            else
+                return false;
+        }
+    }
+
     //判断输入的字符是否为大于零的正整数
     function isPositiveInteger(obj) {
         if (obj.length != 0) {

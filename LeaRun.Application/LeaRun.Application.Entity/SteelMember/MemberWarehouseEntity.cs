@@ -30,7 +30,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// InStock
         /// </summary>
         /// <returns></returns>
-        public int? InStock { get; set; }
+        public decimal? InStock { get; set; }
         /// <summary>
         /// ModifyTime
         /// </summary>

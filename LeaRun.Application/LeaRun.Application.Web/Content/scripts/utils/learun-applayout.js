@@ -367,7 +367,7 @@ $.fn.frmDesign = function (options) {
                     });
                     options.controlDataJson[random_id].control_item = controlitem;
                 }
-                var controlrequired = item.control_required == '1' ? '<font face="宋体">*</font>' : '';
+                var controlrequired = item.control_required == '1' ? '<font face="宋体" color="red">*</font>' : '';
                 var _item_field_value = "";
                 switch (item.control_type) {
                     case "text":
@@ -474,7 +474,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             rowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = rowJson;
@@ -551,7 +551,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             rowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = rowJson;
@@ -617,7 +617,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             rowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = rowJson;
@@ -662,7 +662,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             getRowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = getRowJson;
@@ -803,7 +803,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             getRowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = getRowJson;
@@ -943,7 +943,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             getRowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = getRowJson;
@@ -1106,7 +1106,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             rowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = rowJson;
@@ -1158,7 +1158,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             rowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = rowJson;
@@ -1209,7 +1209,7 @@ $.fn.frmDesign = function (options) {
             } else {
                 value = 1;
                 $(this).attr("checked", true);
-                e_row.find('.item_field_label').append('<font face="宋体">*</font>');
+                e_row.find('.item_field_label').append('<font face="宋体" color="red">*</font>');
             }
             rowJson[$(this).attr('id')] = value;
             options.controlDataJson[e_row.attr('data-value')] = rowJson;
@@ -1273,7 +1273,7 @@ $.fn.frmPreview = function (options)
    
     $.each(frmContentJson, function (id, item) {
         var $item_control = $('<div class="item_row"></div>');
-        var controlrequired = item.control_required == '1' ? '<font face="宋体">*</font>' : '';
+        var controlrequired = item.control_required == '1' ? '<font face="宋体" color="red">*</font>' : '';
         var controlrequired1 = item.control_required == '1' ? 'isvalid="yes" checkexpession="NotNull"' : '';
         item.control_field = 'frm_' + item.control_field;
         $item_control.html('<div class="item_field_label"><span>' + item.control_label + '</span>' + controlrequired + '</div>');

@@ -29,8 +29,8 @@
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'UserId', hidden: true },
-                { label: '账户', name: 'Account', index: 'Account', width: 100, align: 'left' },
-                { label: '姓名', name: 'RealName', index: 'RealName', width: 100, align: 'left' },
+                { label: '账户', name: 'Account', index: 'Account', width: 100, align: 'center' },
+                { label: '姓名', name: 'RealName', index: 'RealName', width: 100, align: 'center' },
                 {
                     label: '性别', name: 'Gender', index: 'Gender', width: 45, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
@@ -39,26 +39,26 @@
                 },
                 { label: '手机', name: 'Mobile', index: 'Mobile', width: 100, align: 'center' },
                 {
-                    label: '单位', name: 'OrganizeId', index: 'OrganizeId', width: 200, align: 'left',
+                    label: '单位', name: 'OrganizeId', index: 'OrganizeId', width: 200, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientorganizeData[cellvalue] == null ? "" : top.clientorganizeData[cellvalue].FullName;
                     }
                 },
                 {
-                    label: '部门', name: 'DepartmentId', index: 'DepartmentId', width: 100, align: 'left',
+                    label: '部门', name: 'DepartmentId', index: 'DepartmentId', width: 100, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientdepartmentData[cellvalue] == null ? "" : top.clientdepartmentData[cellvalue].FullName;
                     }
                 },
-                { label: '岗位', name: 'DutyName', index: 'DutyName', width: 100, align: 'left' },
-                { label: '职位', name: 'PostName', index: 'PostName', width: 100, align: 'left' },
+                { label: '岗位', name: 'DutyName', index: 'DutyName', width: 100, align: 'center' },
+                { label: '职位', name: 'PostName', index: 'PostName', width: 100, align: 'center' },
                 {
-                    label: '角色', name: 'RoleId', index: 'RoleId', width: 100, align: 'left',
+                    label: '角色', name: 'RoleId', index: 'RoleId', width: 100, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientroleData[cellvalue] == null ? "" : top.clientroleData[cellvalue].FullName;
                     }
                 },
-                { label: '主管', name: 'Manager', index: 'Manager', width: 100, align: 'left' },
+                { label: '主管', name: 'Manager', index: 'Manager', width: 100, align: 'center' },
                 {
                     label: "状态", name: "EnabledMark", index: "EnabledMark", width: 50, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
@@ -69,7 +69,7 @@
                         }
                     }
                 },
-                { label: "备注", name: "Description", index: "Description", width: 200, align: "left" }
+                { label: "备注", name: "Description", index: "Description", width: 200, align: "center" }
             ],
             viewrecords: true,
             rowNum: 30,
@@ -126,7 +126,15 @@
     //编辑
     function btn_edit() {
         var keyValue = $("#gridTable").jqGridRowValue("UserId");
+        var Account = $("#gridTable").jqGridRowValue("Account");
         if (checkedRow(keyValue)) {
+            if (Account == "Admin") {
+                dialogMsg('该用户禁止修改！', 0);
+                return false;
+            } else if (Account == "System") {
+                dialogMsg('该用户禁止修改！', 0);
+                return false;
+            }
             dialogOpen({
                 id: "Form",
                 title: '修改用户',
@@ -142,7 +150,15 @@
     //删除
     function btn_delete() {
         var keyValue = $("#gridTable").jqGridRowValue("UserId");
+        var Account = $("#gridTable").jqGridRowValue("Account");
         if (keyValue) {
+            if (Account =="Admin") {
+                dialogMsg('该用户禁止删除！', 0);
+                return false;
+            } else if (Account == "System"){
+                dialogMsg('该用户禁止删除！', 0);
+                return false;
+            }
             $.RemoveForm({
                 url: "../../BaseManage/User/RemoveForm",
                 param: { keyValue: keyValue },

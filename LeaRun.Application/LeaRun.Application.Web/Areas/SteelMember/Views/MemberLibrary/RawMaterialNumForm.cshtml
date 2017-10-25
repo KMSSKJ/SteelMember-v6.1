@@ -1,19 +1,19 @@
 ﻿@{
-    ViewBag.Title = "原材料用量";
+    ViewBag.Title = "材料用量";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
 <script>
     var TreeId;
     var MemberId = request('MemberId');
-    var RawMaterialId = request('RawMaterialId');
+    var RawMaterial = request('RawMaterialId');
     $(function () {
         initControl();
     })
     var dataJson = top.Form.RawMaterialJson;
-    
+
     //初始化控件
     function initControl() {
-        //原材料类型
+        //材料类型
         $("#TreeName").ComboBox({
             param: { EnCode: "RawMaterialType" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
@@ -23,8 +23,8 @@
             height: "200px"
         }).bind("change", function () {
             TreeId = $(this).attr('data-value');//$("#Category").attr('data-text'),
-            //加载原材料
-            $("#RawMaterialModel").ComboBox({
+            //加载材料
+            $("#RawMaterialId").ComboBox({
                 url: '../../SteelMember/MemberLibrary/GetRawMaterialJsonList',
                 param: { KeyValue: TreeId },
                 id: "RawMaterialId",
@@ -32,49 +32,43 @@
                 description: "==请选择==",
                 height: "200px",
             });
-            });
-     
+        });
+
+
         //获取表单
-        if (!!RawMaterialId) {
-            var data = $.currentIframe("Form").RawMaterialModel(RawMaterialId);
-            $("#form1").SetWebControls(data);
-            $("#TreeName").ComboBoxSetValue(data.Category);
-            $.ajax({
-                url: '../../SteelMember/MemberLibrary/GetRawMaterialJson',
-                data: { KeyValue: data.RawMaterialId },
-                type: "get",
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    $("#RawMaterialModel").ComboBox({
-                        description: data.RawMaterialName + "(" + data.RawMaterialModel + ")",
-                        height: "200px",
-                    });
+        if (!!RawMaterial) {
+            var RawMaterialName = "";
+            var RawMaterialModel = "";
+            $.each(dataJson, function (i) {
+                var row = dataJson[i];
+                if (row.RawMaterialId == RawMaterial) {
+                    RawMaterialName = row.RawMaterialName;
+                    RawMaterialModel = row.RawMaterialModel;
+                    $("#form1").SetWebControls(row);
+                    $("#TreeName").ComboBoxSetValue(row.Category);
+                    //$("#RawMaterialId").ComboBoxSetValue(row.RawMaterialId);
                 }
             });
-             
-            //加载原材料
-            $("#RawMaterialModel").ComboBox({
-                url: '../../SteelMember/MemberLibrary/GetRawMaterialJsonList',
-                param: { KeyValue: data.Category },
-                id: "RawMaterialId",
-                text: "RawMaterialModel",
-                description: data.RawMaterialName + "(" + data.RawMaterialModel +")",
+
+            $("#RawMaterialId").ComboBox({
+                description: RawMaterialName + "(" + RawMaterialModel + ")",
                 height: "200px",
             });
+
         } else {
-            $("#RawMaterialModel").ComboBox({
+            //$("#MemberId").val(MemberId);
+            $("#RawMaterialId").ComboBox({
                 description: "==请选择==",
                 height: "200px",
             });
-        } 
+        }
     }
 
-    //验证原材料不能重复
+    //验证材料不能重复
     $._ExistField = function (controlId, url, param) {
-        var TreeName= $("#TreeName").attr('data-value');
-        var RawMaterialModel = $("#RawMaterialModel").attr('data-value');
-        if (RawMaterialModel == "==请选择==" || TreeName == undefined || TreeName == "" || TreeName == '' || TreeName == null) {
+        var TreeName = $("#TreeName").attr('data-value');
+        var RawMaterialId = $("#RawMaterialId").attr('data-value');
+        if (RawMaterialId == "==请选择==" || TreeName == undefined || TreeName == "" || TreeName == '' || TreeName == null) {
             return false;
         }
         if (MemberId == "") {
@@ -84,11 +78,11 @@
             MemberId: MemberId,
             TreeName: TreeName
         };
-        data["RawMaterialModel"] = RawMaterialModel;
+        data["RawMaterialId"] = RawMaterialId;
         var options = $.extend(data, param);
-        if ($.currentIframe("Form").ExistRawMaterial(RawMaterialModel)) {
-            ValidationMessage($("#RawMaterialModel"), '数据表中已存在,请重新输入');
-            $("#RawMaterialModel").attr('fieldexist', 'yes');
+        if ($.currentIframe("Form").ExistRawMaterial(RawMaterialId)) {
+            ValidationMessage($("#RawMaterialId"), '数据表中已存在,请重新输入');
+            $("#RawMaterialId").attr('fieldexist', 'yes');
         }
         else {
             $.ajax({
@@ -99,10 +93,10 @@
                 async: false,
                 success: function (data) {
                     if (data.toLocaleLowerCase() == 'false') {
-                        ValidationMessage($("#RawMaterialModel"), '数据库中已存在,请重新输入');
-                        $("#RawMaterialModel").attr('fieldexist', 'yes');
+                        ValidationMessage($("#RawMaterialId"), '数据库中已存在,请重新输入');
+                        $("#RawMaterialId").attr('fieldexist', 'yes');
                     } else {
-                        $("#RawMaterialModel").attr('fieldexist', 'no');
+                        $("#RawMaterialId").attr('fieldexist', 'no');
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -114,16 +108,14 @@
 
     //保存表单
     function AcceptClick(callback) {
+
         if (!$('#form1').Validform()) {
             return false;
         }
-        var data = $("#form1").GetWebControls(RawMaterialModel);
-        //data["TreeName"] = $("#TreeName").attr('data-value');
+
+        var data = $("#form1").GetWebControls(RawMaterial);
         data["Category"] = $("#TreeName").attr('data-value');
-        data["RawMaterialId"] = $("#RawMaterialModel").attr('data-value');
-        if (data["TreeId"] == "") {
-            data["TreeId"] = 0;
-        }
+     
         callback(data);
         dialogClose();
     }
@@ -131,34 +123,34 @@
 </script>
 <div style="margin-left: 10px; margin-top: 30px; margin-right: 30px;">
     <input id="MemberMaterialId" type="hidden" />
-    <input id="RawMaterialId" type="hidden" />
+    @*<input id="RawMaterialId" type="hidden" />*@
     <input id="MemberId" type="hidden" />
     <input id="Category" type="hidden" />
     <table class="form">
         <tr>
             <td class="formTitle">
-                材料类型<font face="宋体">*</font>
+                材料类型<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
-                <div id="TreeName" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="TreeName" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
 
         <tr>
             <td class="formTitle">
-                材料规格或型号<font face="宋体">*</font>
+                材料规格或型号<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
                 @*onblur="$._ExistField(this.id,'/SteelMember/RawMaterialLibrary/ExistFullName')"*@
-                <div id="RawMaterialModel" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="RawMaterialId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
         <tr>
             <td class="formTitle">
-                用量<font face="宋体">*</font>
+                用量<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
-                <input id="RawMaterialNumber" type="text" onmouseout="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMemberMaterial')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
+                <input id="RawMaterialNumber" type="text" onmouseout="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMemberMaterial')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="ExceedZero" />
             </td>
         </tr>
     </table>

@@ -10,7 +10,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 09:49
-    /// 描 述：构件原材料
+    /// 描 述：构件材料
     /// </summary>
     public class MemberMaterialController : MvcControllerBase
     {
@@ -32,7 +32,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
@@ -73,6 +72,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+       // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             membermaterialbll.RemoveForm(keyValue);

@@ -1,0 +1,202 @@
+﻿
+@{;
+    ViewBag.Title = "汇总表单页面";
+    Layout = "~/Views/Shared/_PrintForm.cshtml";
+}
+
+<!--
+如果您使用的是高版本jQuery调用下面jQuery迁移辅助插件即可-->
+<script src="~/Content/scripts/plugins/jquery-jqprint/jquery-migrate-1.2.1.min.js"></script>
+
+<script>
+    var CollarEntityJson = request("CollarEntityJson");
+    var CollarJson = request("CollarJson");
+
+    $(function () {
+        InitialPage();
+        GetCollarEntryGrid();
+    });
+    //初始化页面
+    function InitialPage() {
+
+        //$(".bills").height($(window).height() - 88);
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#gridTable').setGridWidth(($('.gridPanel').width()));
+                $('#gridTable').setGridHeight($(window).height() - 363.5);
+            }, 200);
+            e.stopPropagation();
+        });
+    }
+
+    //加载明细表
+    function GetCollarEntryGrid() {
+        //var $grid = $('#gridTable');
+        //$grid.jqGrid({
+        //    unwritten: false,
+        //    datatype: 'local',
+        //    height: $(window).height() - 363.5,
+        //    autowidth: true,
+        //    colModel: [
+        //        { label: '单号', name: 'CollarId', width: 80, align: 'center', sortable: false, resizable: false },
+        //        { label: '领用日期', name: 'Date', width: 80, align: 'center', sortable: false, resizable: false },
+        //        { label: '材料名称', name: "RawMaterialName", align: 'center', width: 80, sortable: false },
+        //        { label: '规格/型号', name: "RawMaterialModel", align: 'center', width: 80, sortable: false },
+        //        { label: '单位', name: "UnitId", align: 'center', width: 60, sortable: false },
+        //        { label: '数量', name: "CollarQuantity", align: 'center', width: 60, sortable: false },
+        //        { label: '备注', name: "Description", align: 'center', width: 100, sortable: false },
+        //    ],
+        //    pager: false,
+        //    rownumbers: true,
+        //    shrinkToFit: false,
+        //    gridview: true,
+        //    footerrow: false,
+        //});
+        ////默认添加10行 空行
+        //for (var i = 1; i < 11; i++) {
+        //    var rowdata = {
+        //        MaxNumber: '<input id="MaxNumber➩' + i + '" type="form-control" class="editable center" />',
+        //        CollarId: '<input id="CollarId➩' + i + '" class="editable disabled" type="form-control" describedby="yes" disabled="disabled" />',
+        //        Date: '<input id="Date➩' + i + '" class="editable disabled" type="form-control" describedby="yes" disabled="disabled" />',
+        //        RawMaterialName: '<input id="RawMaterialName➩' + i + '" class="editable disabled center" type="form-control"/>',
+        //        RawMaterialModel: '<input id="RawMaterialModel➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
+        //        UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
+        //        CollarQuantity: '<input id="CollarQuantity➩' + i + '"class="editable  center" type="form-control" '/*onkeyup="Conversion(' + i + ')" />*/,
+        //        InventoryId: '<input id="InventoryId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled"/>',
+        //        Description: '<input id="Description➩' + i + '" class="editable disabled center" type="form-control"/>',
+        //    }
+        //    $('#gridTable').jqGrid('addRowData', i, rowdata);
+
+        var $grid = $('#gridTable');
+
+        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>单号</td><td style='width:80px'>领用日期</td><td style='width:90px'>材料名称</td><td style='width:80px'>规格/型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
+        for (var i = 1; i < 11; i++) {
+            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:80px'></td><td style='width:90px'></td><td style='width:80px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:105px'></td></tr>")
+        }
+        
+
+        //获取表单
+        $.SetForm({
+            url: "../../SteelMember/RawMterialCollar/QuantitySummaryInfo",
+            param: {
+                CollarEntityJson: CollarEntityJson,
+                    CollarJson: CollarJson
+            },
+            success: function (data) {
+                $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.CollarEngineering);
+                $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.DepartmentId);
+                $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.Date);
+                $("#table1").find("tr:eq(3)").find("td:eq(0)").html(data.entity.ShippingAddress);
+                //$("#table1").find("tr:eq(3)").find("td:eq(1)").html(data.entity.ContactPersonTel);
+
+                //明细
+                var childEntity = data.childEntity;
+                $('#gridTable').find('tr').each(function (i) {
+                    var row = childEntity[i - 1];
+                    if (row != undefined) {
+                        //$(this).find('input[id="InventoryId➩' + i + '"]').val(row.InventoryId);
+                        //$(this).find('input[id="CollarId➩' + i + '"]').val(row.CollarId);
+                        //$(this).find('input[id="Date➩' + i + '"]').val(row.Date);
+                        //$(this).find('input[id="RawMaterialName➩' + i + '"]').val(row.RawMaterialName);
+                        //$(this).find('input[id="RawMaterialModel➩' + i + '"]').val(row.RawMaterialModel);
+                        //$(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
+                        //$(this).find('input[id="CollarQuantity➩' + i + '"]').val(row.Qty);
+                        //$(this).find('input[id="Description➩' + i + '"]').val(row.Description);
+
+                        $(this).find("td:eq(1)").html(row.CollarId);
+                        $(this).find("td:eq(2)").html(formatDate(row.Date, 'yyyy-MM-dd'));
+                        $(this).find("td:eq(3)").html(row.RawMaterialName);
+                        $(this).find("td:eq(4)").html(row.RawMaterialModel);
+                        $(this).find("td:eq(5)").html(row.UnitId);
+                        $(this).find("td:eq(6)").html(row.Qty);
+                        $(this).find("td:eq(7)").html(row.Description);
+                    }
+                });
+            }
+        })
+    }
+
+    //打印
+    function btn_print() {
+       // $(".bills").printTable();
+        $(".bills").jqprint();
+    }
+    //导出
+    function btn_export() {
+        location.href = "/CustomerManage/Order/ExportOrderEntry?orderId=" + keyValue;
+    }
+</script>
+
+<div class="bills">
+    @*<div class="shuli"><p style="font-family: 华文楷体; font-size:18px;"><img src="~/Content/images/head/tablelogo.png" style="margin-top: -10px;width:100%;height:100%" /> 云南交投建设集团第十工程有限公司</p></div>*@
+    <div style="float:left">
+        <div>
+            <table id="table1" class="form" style="border:0px solid #ccc;">
+                <tr>
+                    <td align="center" colspan="4">
+                        <p style="font-size:14pt;padding-bottom:10px;text-align:center"> 云南交投建设集团第十工程有限公司</p>
+                        <p style="font-size:20pt;padding-bottom:15px;text-align:center;font-family: 华文楷体;font-weight:bold;"> 材料月供应量汇总表</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle">
+                        项目名称:
+                    </th>
+                    <td class="formValue" colspan="3"></td>
+
+                </tr>
+                <tr>
+
+                    <th class="formTitle">
+                        收货单位:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        起止日期:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle">
+                        收货地址:
+                    </th>
+                    <td class="formValue"></td>
+                    @*<th class="formTitle"></th>
+                    <td class="formValue">第&nbsp;&nbsp;&nbsp;页 共&nbsp;&nbsp;&nbsp;页</td>*@
+                </tr>
+            </table>
+        </div>
+
+        <div class="gridPanel">
+            <table id="gridTable" class="formPrint"></table>
+        </div>
+
+        <div>
+            <table id="table2" class="form">
+                <tr>
+                    <th class="formTitle">
+                        加工厂负责人:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        收货单位(签章):
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="bottomField">
+    <div class="btn-group">
+        <a id="lr-print" class="btn btn-default" onclick="btn_print()"><i class="fa fa-print"></i>&nbsp;打印</a>
+        @*<a id="lr-export" class="btn btn-default" onclick="btn_export()"><i class="fa fa-sign-out"></i>&nbsp;导出</a>*@
+    </div>
+    @*<div class="btn-group">
+        <a id="lr-prev" class="btn btn-default" onclick="btn_prev()"><i class="fa fa-backward"></i>&nbsp;前单</a>
+        <a id="lr-next" class="btn btn-default" onclick="btn_next()"><i class="fa fa-forward"></i>&nbsp;后单</a>
+    </div>*@
+</div>

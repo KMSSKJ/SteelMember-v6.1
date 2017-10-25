@@ -92,8 +92,8 @@
                 id: 'Form',
                 title: '编辑子工程信息',
                 url: '/SteelMember/SubProject/Form?keyValue=' + keyValue,
-                width: '400px',
-                height: '500px',
+                width: '380px',
+                height: '280px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
@@ -137,12 +137,12 @@
     }
 </script>
 <div class="titlePanel">
-    <div class="title-search">
+    @*<div class="title-search">
         <table>
             <tr>
                 <td>
                     <div id="queryCondition" class="btn-group">
-                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">工程名称</a>
                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a data-value="FullName">工程名称</a></li>
@@ -157,7 +157,7 @@
                 </td>
             </tr>
         </table>
-    </div>
+    </div>*@
     <div class="toolbar">
         <div class="btn-group">
             <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>

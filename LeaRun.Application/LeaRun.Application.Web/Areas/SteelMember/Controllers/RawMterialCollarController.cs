@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System;
 using LeaRun.Util.Extension;
+using System.Linq;
+using LeaRun.Application.Busines.BaseManage;
+using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -21,6 +25,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
         private SubProjectBLL subprojectbll = new SubProjectBLL();
+        private RawMterialCollarInfoBLL rawmterialcollarinfobll = new RawMterialCollarInfoBLL();
+        private DepartmentBLL departmentbll = new DepartmentBLL();
+        private OrganizeBLL organizebll = new OrganizeBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
+        private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
 
         #region 视图功能
         /// <summary>
@@ -28,6 +38,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
@@ -41,122 +52,92 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
+
         #endregion
 
         #region 获取数据
+
+        ///// <summary>
+        ///// 控制出库的数量（新增）
+        ///// </summary>
+        ///// <returns></returns>
+        //public ContentResult AddRawMaterialNumber(string KeyValue, string category)
+        //{
+        //    var MemberDemand = rawmaterialanalysisbll.GetList(s => s.Category == category && s.RawMaterialId == KeyValue).SingleOrDefault();
+        //    int MemberDemandNumber = 0;
+        //    int Number = 0;
+        //    var Order = rawmaterialorderbll.GetList(null).ToList().FindAll(f => f.Category == category);
+        //    foreach (var item in Order)
+        //    {
+        //        var MemberOrder = rawmaterialorderinfobll.GetList(null).ToList().Find(f => f.OrderId == item.OrderId && f.RawMaterialId == KeyValue);
+        //        if (MemberOrder != null)
+        //        {
+        //            Number += Convert.ToInt32(MemberOrder.ProductionQuantity);
+        //        }
+        //    }
+        //    MemberDemandNumber = Convert.ToInt32(MemberDemand.RawMaterialDosage) - Number;
+
+        //    return Content(MemberDemandNumber.ToString());
+        //}
+
         /// <summary>
         /// 分页查询出库信息
         /// </summary>
         /// <returns></returns>
-        public ActionResult OutInventoryDetailInfo(Pagination pagination,string queryJson, string category)
+        public ActionResult OutInventory(Pagination pagination, string queryJson)
         {
-            List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
-
-            var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
-            foreach (var item in data)
+            var list = rawmterialcollarbll.GetPageList(pagination, queryJson);
+            for (var i = 0; i < list.Count(); i++)
             {
-                var linventory = rawmaterialinventorybll.GetEntityByRawMaterialId(item.RawMaterialId);
-                var collarlist = rawmterialcollarbll.GetPageList(pagination, linventory.InventoryId);
-                for (var i = 0; i < collarlist.Count; i++)
-                {
-                    RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
-                    var subproject = subprojectbll.GetEntity(collarlist[i].CollarEngineering);
+                list[i].CollarEngineering = subprojectbll.GetEntity(list[i].CollarEngineering).FullName;
+                list[i].DepartmentId = organizebll.GetEntity(list[i].OrganizeId).FullName + "-" + departmentbll.GetEntity(list[i].DepartmentId).FullName;
 
-                    rawMaterialCollarModel.CollarId = collarlist[i].CollarId;
-                    rawMaterialCollarModel.InventoryId = collarlist[i].InventoryId;
-                    rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名 生产领用
-
-                    rawMaterialCollarModel.CollarTime = collarlist[i].CollarTime;
-                    rawMaterialCollarModel.CollarQuantity = collarlist[i].CollarQuantity;
-                    rawMaterialCollarModel.CollarMan = collarlist[i].CollarMan;
-                    rawMaterialCollarModel.Description = collarlist[i].Description;
-                    rawMaterialCollarModel.CollarType = collarlist[i].CollarType == 1 ? "生产领用" : "工程领用";
-
-                    //rawMaterialCollarModel.Category = item.Category;
-                    rawMaterialCollarModel.RawMaterialName = item.RawMaterialName;
-                    rawMaterialCollarModel.RawMaterialModel = item.RawMaterialModel;
-                    rawMaterialCollarModel.Unit = item.Unit;
-
-                    list.Add(rawMaterialCollarModel);
-
-                }
             }
 
             //
             var queryParam = queryJson.ToJObject();
             //查询条件
-            var BeginTime = queryParam["BeginTime"].ToDate();
-            var EndTime = queryParam["EndTime"].ToDate();
-            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            if (!queryParam["CollarEngineering"].IsEmpty())
             {
-                list = list.FindAll(t => t.UpdateTime >= BeginTime);
-                list = list.FindAll(t => t.UpdateTime <= EndTime);
+                var CollarEngineering = queryParam["CollarEngineering"].ToString();
+                list = list.FindAll(t => t.CollarEngineering.Contains(CollarEngineering));
             }
-            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            if (!queryParam["DepartmentId"].IsEmpty())
             {
-                list = list.FindAll(t => t.UpdateTime >= BeginTime);
+                var DepartmentId = queryParam["DepartmentId"].ToString();
+                list = list.FindAll(t => t.DepartmentId.Contains(DepartmentId));
             }
-            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            if (!queryParam["ShippingAddress"].IsEmpty())
             {
-                list = list.FindAll(t => t.UpdateTime <= EndTime);
-            }
-
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
-            {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-
-                    //case "Category":              //构件类型
-                    //    expression = expression.And(t => t.Category.Contains(keyword));
-                    //    break;
-                    case "RawMaterialName":              //构件名称
-                        list = list.FindAll(t => t.RawMaterialName.Contains(keyword));
-                        break;
-                    case "RawMaterialModel":              //型号
-                        list = list.FindAll(t => t.RawMaterialModel.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
+                var ShippingAddress = queryParam["ShippingAddress"].ToString();
+                list = list.FindAll(t => t.ShippingAddress.Contains(ShippingAddress));
             }
             //
+
             return ToJsonResult(list);
         }
-        //public ActionResult OutInventoryDetailInfo(Pagination pagination, string queryJson)
-        //{
-        //    var data = rawmterialcollarbll.OutInventoryDetailInfo(pagination, queryJson);
-        //    List<RawMaterialCollarModel> list = new List<RawMaterialCollarModel>();
-        //    foreach (var item in data)
-        //    {
-        //        RawMaterialCollarModel rawMaterialCollarModel = new RawMaterialCollarModel();
-        //        var inventorymodel = rawmaterialinventorybll.GetEntity(item.InventoryId);
-        //        var librarymodel = rawmateriallibrarybll.GetEntity(inventorymodel.RawMaterialId);
-        //        //取出树的value
-        //        var subproject = subprojectbll.GetEntity(item.CollarEngineering);
 
-        //        rawMaterialCollarModel.CollarId = item.CollarId;
-        //        rawMaterialCollarModel.InventoryId = item.InventoryId;
-        //        rawMaterialCollarModel.CollarType = item.CollarType;
-        //        //rawMaterialCollarModel.CollarEngineering = item.CollarEngineering;
-        //        rawMaterialCollarModel.CollarEngineering = subproject.FullName;//取到子工程名
-
-        //        rawMaterialCollarModel.CollarTime = item.CollarTime;
-        //        rawMaterialCollarModel.CollarQuantity = item.CollarQuantity;
-        //        rawMaterialCollarModel.CollarMan = item.CollarMan;
-        //        rawMaterialCollarModel.Description = item.Description;
-
-        //        rawMaterialCollarModel.Category = librarymodel.Category;
-        //        rawMaterialCollarModel.RawMaterialModel = librarymodel.RawMaterialModel;
-        //        rawMaterialCollarModel.RawMaterialStandard = librarymodel.RawMaterialStandard;
-        //        rawMaterialCollarModel.Unit = librarymodel.Unit;
-
-        //        list.Add(rawMaterialCollarModel);
-
-        //    }
-        //    return ToJsonResult(list);
-        //}
+        public ActionResult OutInventoryInfo(string keyValue)
+        {
+            var data = rawmterialcollarinfobll.GetList(f => f.CollarId == keyValue);
+            var list = new List<RawMaterialLibraryModel>();
+            foreach (var item in data)
+            {
+                var rawmaterialinventory = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == item.RawMaterialId);
+                var RawMaterialLibrary = rawmateriallibrarybll.GetEntity(rawmaterialinventory.RawMaterialId);
+                var rawmaterial = new RawMaterialLibraryModel()
+                {
+                    InventoryId = rawmaterialinventory.InventoryId,
+                    RawMaterialName = RawMaterialLibrary.RawMaterialName,
+                    RawMaterialModel = RawMaterialLibrary.RawMaterialModel,
+                    Qty = item.CollarQuantity.ToDecimal(),
+                    UnitId = dataitemdetailbll.GetEntity(RawMaterialLibrary.Unit).ItemName,
+                    Description = item.Description,
+                };
+                list.Add(rawmaterial);
+            }
+            return ToJsonResult(list);
+        }
 
         /// <summary>
         /// 获取列表
@@ -169,78 +150,245 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = rawmterialcollarbll.GetList(queryJson);
             return ToJsonResult(data);
         }
+
         /// <summary>
         /// 获取实体 
         /// </summary>
-        /// <param name="keyValue">主键值</param>
+        /// <param name="Numbering">主键值</param>
         /// <returns>返回对象Json</returns>
         [HttpGet]
-        public ActionResult GetFormJson(string keyValue)
+        public ActionResult NumberingToGetFormJson(string Numbering)
         {
-            var data = rawmterialcollarbll.GetEntity(keyValue);
-            return ToJsonResult(data);
-        }
-        #endregion
-
-        #region 提交数据
-        /// <summary>
-        /// 领用入库
-        /// </summary>
-        /// <param name="collarinfo"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult SaveCollarinfo(string collarinfo)
-        {
-            var collarmodel = collarinfo.ToObject<RawMterialCollarEntity>();
-            collarmodel.CollarTime = System.DateTime.Now;
-            try
+            var list = new List<RawMaterialLibraryModel>();
+            var data = rawmterialcollarbll.GetEntity(f => f.Numbering == Numbering.Trim());
+            if (data != null)
             {
-                if (collarmodel.CollarQuantity > 0)
+                data.DepartmentId = organizebll.GetEntity(data.OrganizeId).FullName + "—" + departmentbll.GetEntity(data.DepartmentId).FullName;
+                data.CollarEngineering = subprojectbll.GetEntity(data.CollarEngineering).FullName;
+                data.ReviewMan = OperatorProvider.Provider.Current().UserName;
+
+                var childData = rawmterialcollarinfobll.GetList(f => f.CollarId == data.CollarId).ToList();
+
+                foreach (var item in childData)
                 {
-                    //在库存量中减掉领出的数量
-                    var inventorymodel = rawmaterialinventorybll.GetEntity(collarmodel.InventoryId);
-                    inventorymodel.Quantity = inventorymodel.Quantity - collarmodel.CollarQuantity;//库存--
-                    rawmaterialinventorybll.SaveForm(collarmodel.InventoryId, inventorymodel);
+                    var RawMaterialOrderInfo = new RawMaterialOrderInfoEntity();
+                    var rawmaterialinventory = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == item.RawMaterialId);
+                    var RawMaterialLibrary = rawmateriallibrarybll.GetEntity(rawmaterialinventory.RawMaterialId);
+                    if (!item.RawMaterialAnalysisId.IsEmpty())
+                    {
+                        RawMaterialOrderInfo = rawmaterialorderinfobll.GetEntity(f => f.RawMaterialAnalysisId == item.RawMaterialAnalysisId && f.RawMaterialId == item.RawMaterialId);
+                    }
+                    else
+                    {
+                        RawMaterialOrderInfo = rawmaterialorderinfobll.GetEntity(f => f.RawMaterialId == item.RawMaterialId);
+                    }
 
-                    //添加到领用表中  
-                    string keyValue = "";
-                    rawmterialcollarbll.SaveForm(keyValue, collarmodel);
-                }
+                    if (RawMaterialOrderInfo.Price==null)
+                    {
+                       RawMaterialOrderInfo.Price=0;
+                    }
+                    var rawmaterial = new RawMaterialLibraryModel()
+                    {
+                        InfoId = item.InfoId,
+                        InventoryId = rawmaterialinventory.InventoryId,
+                        InventoryQuantity = rawmaterialinventory.Quantity,
+                        RawMaterialName = RawMaterialLibrary.RawMaterialName,
+                        RawMaterialModel = RawMaterialLibrary.RawMaterialModel,
+                        Price = RawMaterialOrderInfo.Price,
+                        CollarQuantity = item.CollarQuantity,
+                        CollaredQuantity = item.CollaredQuantity,
+                        Quantity = item.Quantity,
+                        UnitId = dataitemdetailbll.GetEntity(RawMaterialLibrary.Unit).ItemName,
+                        Description = item.Description,
+                    };
+                list.Add(rawmaterial);
             }
-            catch (System.Exception e)
-            {
-                throw e;
-            }
-            return Success("领用成功。");
-
         }
-        /// <summary>
-        /// 删除数据
-        /// </summary>
-        /// <param name="keyValue">主键值</param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AjaxOnly]
-        public ActionResult RemoveForm(string keyValue)
+        var jsonData = new
         {
-            rawmterialcollarbll.RemoveForm(keyValue);
-            return Success("删除成功。");
-        }
-        /// <summary>
-        /// 保存表单（新增、修改）
-        /// </summary>
-        /// <param name="keyValue">主键值</param>
-        /// <param name="entity">实体对象</param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, RawMterialCollarEntity entity)
-        {
-            rawmterialcollarbll.SaveForm(keyValue, entity);
-            return Success("操作成功。");
-        }
-        #endregion
+            entity = data,
+            childEntity = list
+        };
+            return ToJsonResult(jsonData);
     }
+
+    /// <summary>
+    /// 获取实体 
+    /// </summary>
+    /// <param name="keyValue">主键值</param>
+    /// <returns>返回对象Json</returns>
+    [HttpGet]
+    public ActionResult GetFormJson(string keyValue)
+    {
+        var data = rawmterialcollarbll.GetEntity(keyValue);
+        if (data != null)
+        {
+            data.CollarEngineering = subprojectbll.GetEntity(data.CollarEngineering).FullName;
+            data.DepartmentId = organizebll.GetEntity(data.OrganizeId).FullName + "-" + departmentbll.GetEntity(data.DepartmentId).FullName;
+        }
+
+        var childData = rawmterialcollarinfobll.GetList(f => f.CollarId == keyValue);
+        var list = new List<RawMaterialLibraryModel>();
+        foreach (var item in childData)
+        {
+            var rawmaterialinventory = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == item.RawMaterialId);
+            var RawMaterialLibrary = rawmateriallibrarybll.GetEntity(rawmaterialinventory.RawMaterialId);
+            var rawmaterial = new RawMaterialLibraryModel()
+            {
+                InventoryId = rawmaterialinventory.InventoryId,
+                RawMaterialName = RawMaterialLibrary.RawMaterialName,
+                RawMaterialModel = RawMaterialLibrary.RawMaterialModel,
+                Qty = item.CollarQuantity.ToDecimal(),
+                UnitId = dataitemdetailbll.GetEntity(RawMaterialLibrary.Unit).ItemName,
+                Description = item.Description,
+            };
+            list.Add(rawmaterial);
+        }
+        var jsonData = new
+        {
+            entity = data,
+            childEntity = list
+        };
+        return ToJsonResult(jsonData);
+    }
+
+    /// <summary>
+    /// 获取条件汇总 
+    /// </summary>
+    /// <param name="CollarEntityJson"></param>
+    /// <param name="CollarJson"></param>
+    /// <returns>返回对象Json</returns>
+    [HttpGet]
+    public ActionResult QuantitySummaryInfo(string CollarEntityJson, string CollarJson)
+    {
+        var data = CollarEntityJson.ToObject<CollarEntityModel>();
+
+        var list = new List<RawMaterialLibraryModel>();
+        var CollarJsonList = CollarJson.ToList<CollarJsonMoadel>();
+        foreach (var item1 in CollarJsonList)
+        {
+            var childData = rawmterialcollarinfobll.GetList(f => f.CollarId == item1.CollarId);
+            foreach (var item in childData)
+            {
+                var rawmaterialinventory = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == item.RawMaterialId);
+                var RawMaterialLibrary = rawmateriallibrarybll.GetEntity(rawmaterialinventory.RawMaterialId);
+                var rawmaterial = new RawMaterialLibraryModel()
+                {
+                    InventoryId = rawmaterialinventory.InventoryId,
+                    RawMaterialName = RawMaterialLibrary.RawMaterialName,
+                    RawMaterialModel = RawMaterialLibrary.RawMaterialModel,
+                    Qty = item.CollarQuantity.ToDecimal(),
+                    UnitId = dataitemdetailbll.GetEntity(RawMaterialLibrary.Unit).ItemName,
+                    Description = item.Description,
+                    Date = item1.Date.ToDate(),
+                };
+                list.Add(rawmaterial);
+            }
+        }
+        var jsonData = new
+        {
+            entity = data,
+            childEntity = list
+        };
+        return ToJsonResult(jsonData);
+
+    }
+    #endregion
+
+    #region 提交数据
+
+    /// <summary>
+    /// 删除数据
+    /// </summary>
+    /// <param name="keyValue">主键值</param>
+    /// <returns></returns>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [AjaxOnly]
+    //[HandlerAuthorize(PermissionMode.Enforce)]
+    public ActionResult RemoveForm(string keyValue)
+    {
+        rawmterialcollarbll.RemoveForm(keyValue);
+
+        var data = rawmterialcollarinfobll.GetList(f => f.CollarId == keyValue);
+        if (data.Count() > 0)
+        {
+            foreach (var item in data)
+            {
+                rawmterialcollarinfobll.RemoveForm(item.InfoId);
+            }
+        }
+        return Success("删除成功。");
+    }
+    /// <summary>
+    /// 保存表单（新增、修改）
+    /// </summary>
+    /// <param name="keyValue">主键值</param>
+    /// <param name="strEntity"></param>
+    /// <param name="strChildEntitys"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [AjaxOnly]
+
+    public ActionResult SaveForm_Memebr(string keyValue, string strEntity, string strChildEntitys)
+    {
+        RawMterialCollarEntity entity = strEntity.ToObject<RawMterialCollarEntity>();
+        List<RawMterialCollarInfoEntity> childEntitys = strChildEntitys.ToList<RawMterialCollarInfoEntity>();
+        rawmterialcollarbll.SaveForm(keyValue, entity, childEntitys);
+        return Success("操作成功。");
+    }
+
+    /// <summary>
+    /// 保存表单（新增、修改）
+    /// </summary>
+    /// <param name="Numbering">主键值</param>
+    /// <param name="CollarNumbering">实体对象</param>
+    /// <param name="strChildEntitys">子表对象集</param>
+    /// <returns></returns>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [AjaxOnly]
+    public ActionResult SaveForm(string Numbering, string CollarNumbering, string strChildEntitys)
+    {
+        var entity = rawmterialcollarbll.GetEntity(f => f.Numbering == Numbering);
+        entity.Date = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        entity.CollarNumbering = CollarNumbering;
+
+        List<RawMterialCollarInfoEntity> childEntitys = strChildEntitys.ToList<RawMterialCollarInfoEntity>();
+
+        if (childEntitys.Count > 0)
+        {
+            foreach (var item in childEntitys)
+            {
+                //在库存量中减掉领出的数量
+                var inventorymodel = rawmaterialinventorybll.GetEntity(item.InventoryId);
+                inventorymodel.Quantity = Convert.ToDecimal(inventorymodel.Quantity) - Convert.ToDecimal(item.CollarQuantity);//库存--
+                rawmaterialinventorybll.SaveForm(item.InventoryId, inventorymodel);
+                //end
+
+                //修改出库信息
+                var entitys = rawmterialcollarinfobll.GetEntity(f => f.InfoId == item.InfoId);
+                entitys.CollarQuantity = item.CollarQuantity;
+                entitys.CollaredQuantity = entitys.CollaredQuantity.ToDecimal() + item.CollarQuantity;
+                entitys.InventoryId = item.InventoryId;
+                entitys.Description = item.Description;
+                rawmterialcollarinfobll.SaveForm(item.InfoId, entitys);
+                //end
+
+                //修改需求中已使用量
+                var rawmaterialanalysisEntity = rawmaterialanalysisbll.GetEntity(entitys.RawMaterialAnalysisId);
+                if (rawmaterialanalysisEntity != null)
+                {
+                    rawmaterialanalysisEntity.WarehousedQuantity = rawmaterialanalysisEntity.WarehousedQuantity.ToDecimal() + item.CollarQuantity;
+                }
+                //end
+            }
+        }
+        rawmterialcollarbll.SaveForm(entity.CollarId, entity);
+
+        return Success("操作成功。");
+    }
+    #endregion
+}
 }

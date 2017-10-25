@@ -41,7 +41,38 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         [Column("CREATETIME")]
-        public DateTime? CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 申请编号
+        /// </summary>
+        /// <returns></returns>
+        [Column("ORGANIZEID")]
+        public string OrganizeId { get; set; }
+        /// <summary>
+        /// 申请编号
+        /// </summary>
+        /// <returns></returns>
+        [Column("DEPARTMENTID")]
+        public string DepartmentId { get; set; }
+        /// <summary>
+        /// 申请编号
+        /// </summary>
+        /// <returns></returns>
+        [Column("SHIPPINGADDRESS")]
+        public string ShippingAddress { get; set; }
+        /// <summary>
+        /// 申请编号
+        /// </summary>
+        /// <returns></returns>
+        [Column("CONTACTPERSON")]
+        public string ContactPerson { get; set; }
+        /// <summary>
+        /// 申请编号
+        /// </summary>
+        /// <returns></returns>
+        [Column("CONTACTPERSONTEL")]
+        public string ContactPersonTel { get; set; }
         /// <summary>
         /// 优先级
         /// </summary>
@@ -70,8 +101,8 @@ namespace LeaRun.Application.Entity.SteelMember
         /// 领取状态
         /// </summary>
         /// <returns></returns>
-        [Column("ISRECEIVE")]
-        public int? IsReceive { get; set; }
+        [Column("ISCONFIRM")]
+        public int? IsConfirm { get; set; }
         /// <summary>
         /// 材料领取状态
         /// </summary>
@@ -116,18 +147,24 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("REVIEWTIME")]
         public DateTime? ReviewTime { get; set; }
         /// <summary>
+        /// 预计完成时间
+        /// </summary>
+        /// <returns></returns>
+        [Column("ESTIMATEDFINISHTIME")]
+        public DateTime? EstimatedFinishTime { get; set; }
+       
+        /// <summary>
+        /// 打包
+        /// </summary>
+        /// <returns></returns>
+        [Column("ISPACKAGE")]
+        public int IsPackage { get; set; }
+        /// <summary>
         /// 备注
         /// </summary>
         /// <returns></returns>
         [Column("DESCRIPTION")]
         public string Description { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>
-        /// <returns></returns>
-        [Column("IsPackage")]
-        public int IsPackage { get; set; }
         #endregion
 
         #region 扩展操作

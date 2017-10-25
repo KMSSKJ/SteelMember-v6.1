@@ -29,10 +29,10 @@
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'RoleId', hidden: true },
-                { label: '角色编号', name: 'EnCode', index: 'EnCode', width: 100, align: 'left' },
-                { label: '角色名称', name: 'FullName', index: 'FullName', width: 200, align: 'left' },
+                { label: '角色编号', name: 'EnCode', index: 'EnCode', width: 100, align: 'center' },
+                { label: '角色名称', name: 'FullName', index: 'FullName', width: 200, align: 'center' },
                 {
-                    label: '所属单位', name: 'OrganizeId', index: 'OrganizeId', width: 250, align: 'left',
+                    label: '所属单位', name: 'OrganizeId', index: 'OrganizeId', width: 250, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientorganizeData[cellvalue] == null ? "" : top.clientorganizeData[cellvalue].FullName;
                     }
@@ -53,7 +53,7 @@
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
-                { label: "角色描述", name: "Description", index: "Description", width: 200, align: "left" }
+                { label: "角色描述", name: "Description", index: "Description", width: 200, align: "center" }
             ],
             viewrecords: true,
             rowNum: 30,

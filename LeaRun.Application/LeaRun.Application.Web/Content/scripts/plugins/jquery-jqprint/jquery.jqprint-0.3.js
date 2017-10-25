@@ -62,7 +62,7 @@
     }
     
     $.fn.jqprint.defaults = {
-		debug: false,
+        debug: false,
 		importCSS: true, 
 		printContainer: true,
 		operaSupport: true

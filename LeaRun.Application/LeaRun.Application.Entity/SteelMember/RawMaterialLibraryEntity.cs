@@ -6,7 +6,7 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-06 10:42
-    /// 描 述：原材料管理
+    /// 描 述：材料管理
     /// </summary>
     public class RawMaterialLibraryEntity : BaseEntity
     {

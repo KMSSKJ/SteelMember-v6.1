@@ -16,7 +16,7 @@ namespace LeaRun.Application.Mapping.SteelMember
             //表
             this.ToTable("RMC_ProjectInfo");
             //主键
-            this.HasKey(t => t.ProjectId);
+            this.HasKey(t => t.ProjectInfoId);
             #endregion
 
             #region 配置关系

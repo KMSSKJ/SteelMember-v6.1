@@ -28,6 +28,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
         private MemberMaterialBLL membermaterialbll = new MemberMaterialBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
         private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
         private SubProjectBLL subprojectbll = new SubProjectBLL();
         #region 视图功能
@@ -42,11 +43,20 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return View();
         }
         /// <summary>
+        /// 列表页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Index1()
+        {
+            return View();
+        }
+
+        /// <summary>
         /// 表单页面
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
@@ -65,6 +75,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         public ActionResult ReceiveRawMaterialIndex()
         {
+            ViewBag.Numbering = "CLLYD" + DateTime.Now.ToString("yyyyMMddhhmmssff");
+            //ViewBag.CollarNumbering= "CLCKD" + DateTime.Now.ToString("yyyyMMddhhmmssff");
+            ViewBag.CreateTime = DateTime.Now;
+            ViewBag.CreateMan = OperatorProvider.Provider.Current().UserName;
             return View();
         }
         /// <summary>
@@ -91,6 +105,28 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 拒绝生产原因填报
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns>返回对象Json</returns>
+        [HttpGet]
+        public ActionResult NotConfirmOrder(string keyValue)
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult MemberSummary()
+        {
+            return View();
+        }
+
         #endregion
 
         #region 获取数据
@@ -116,7 +152,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = "";//memberprocessbll.GetEntity(keyValue);
             return ToJsonResult(data);
         }
-       
+
+
+
         /// <summary>
         /// 获取实体 
         /// </summary>
@@ -125,55 +163,148 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GridListJsonRawMaterial(string OrderId)
         {
-            var RawMaterial =new List<RawMaterialNumberModel>();
-
-            var orderinfo = memberproductionorderinfobll.GetList(f=>f.OrderId==OrderId);
-            if (orderinfo.Count>0)
+            var RawMaterial = new List<RawMaterialNumberModel>();
+            var data = new MemberProductionOrderEntity();
+            if (OrderId != null)
             {
-                foreach (var item in orderinfo)
+                string[] array = OrderId.Split(',');
+                if (array.Count() > 0)
                 {
-                    var membermaterial = membermaterialbll.GetList(item.MemberId);
-                    if (membermaterial.Count()>0)
+                    foreach (var item0 in array)
                     {
-                        foreach (var item1 in membermaterial)
+                        data = memberproductionorderbll.GetEntity(item0);
+                        var orderinfo = memberproductionorderinfobll.GetList(f => f.OrderId == item0);
+                        if (orderinfo.Count > 0)
                         {
-                            var rawmaterial = rawmateriallibrarybll.GetEntity(item1.RawMaterialId);
-                            if (rawmaterial!=null)
+                            foreach (var item in orderinfo)
                             {
-                                var RawMaterialNumber=new RawMaterialNumberModel() {
-                                RawMaterialId = rawmaterial.RawMaterialId,
-                                RawMaterialModel = rawmaterial.RawMaterialModel,
-                                RawMaterialName = rawmaterial.RawMaterialName,
-                                Description = rawmaterial.Description,
-                                UnitName = rawmaterial.Unit
-                            };
-                            
-                                if (RawMaterial.Count()>0)
+                                var membermaterial = membermaterialbll.GetList(item.MemberId);
+                                if (membermaterial.Count() > 0)
                                 {
-                                    var a = RawMaterial.Where(w => w.RawMaterialId == RawMaterialNumber.RawMaterialId).SingleOrDefault();
-                                    if (a!=null)
+                                    foreach (var item1 in membermaterial)
                                     {
-                                        RawMaterial.Where(r=>r.RawMaterialId==a.RawMaterialId).Single().RawMaterialNumber+= item1.RawMaterialNumber * item.ProductionQuantity;
-                                    }
-                                    else
-                                    {
-                                        RawMaterialNumber.RawMaterialNumber = item1.RawMaterialNumber * item.ProductionQuantity;
-                                        RawMaterial.Add(RawMaterialNumber);
-                                    }
+                                        var rawmaterial = rawmateriallibrarybll.GetEntity(item1.RawMaterialId);
 
-                                }
-                                else
-                                {
-                                    RawMaterialNumber.RawMaterialNumber = item1.RawMaterialNumber * item.ProductionQuantity;
-                                    RawMaterial.Add(RawMaterialNumber);
+                                        if (rawmaterial != null)
+                                        {
+                                            var RawMaterialNumber = new RawMaterialNumberModel()
+                                            {
+                                                Category = dataitemdetailbll.GetEntity(rawmaterial.Category).ItemName,
+                                                RawMaterialId = rawmaterial.RawMaterialId,
+                                                InventoryId = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == rawmaterial.RawMaterialId).InventoryId,
+                                                //RawMaterialAnalysisId = item,
+                                                RawMaterialModel = rawmaterial.RawMaterialModel,
+                                                RawMaterialName = rawmaterial.RawMaterialName,
+                                                Description = rawmaterial.Description,
+                                                UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName
+                                            };
+
+                                            if (RawMaterial.Count() > 0)
+                                            {
+                                                var a = RawMaterial.Where(w => w.RawMaterialId == RawMaterialNumber.RawMaterialId).SingleOrDefault();
+                                                if (a != null)
+                                                {
+                                                    RawMaterial.Where(r => r.RawMaterialId == a.RawMaterialId).Single().RawMaterialNumber += item1.RawMaterialNumber * item.ProductionQuantity;
+                                                }
+                                                else
+                                                {
+                                                    RawMaterialNumber.RawMaterialNumber = item1.RawMaterialNumber * item.ProductionQuantity;
+                                                    RawMaterial.Add(RawMaterialNumber);
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                RawMaterialNumber.RawMaterialNumber = item1.RawMaterialNumber * item.ProductionQuantity;
+                                                RawMaterial.Add(RawMaterialNumber);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-            return ToJsonResult(RawMaterial);
+
+            var jsonData = new
+            {
+                entity = data,
+                childEntity = RawMaterial
+            };
+
+            return ToJsonResult(jsonData);
         }
+
+        [HttpGet]
+        public ActionResult GetPageListSummaryJson(Pagination pagination, string queryJson)
+        {
+            var watch = CommonHelper.TimerStart();
+            var MemberList = new List<MemberDemandModel>();
+            var data0 = memberproductionorderbll.GetPageList(pagination, queryJson).OrderByDescending(O => O.Priority).ToList();
+            if (data0.Count() > 0)
+            {
+                foreach (var item in data0)
+                {
+                    var data = memberproductionorderbll.GetDetails(item.OrderId).ToList();
+                    for (int i = 0; i < data.Count(); i++)
+                    {
+                        var MemberLibrary = memberlibrarybll.GetEntity(data[i].MemberId);
+                        var memberproductionorderinfo = memberproductionorderinfobll.GetEntity(data[i].InfoId);
+                        var Member = new MemberDemandModel()
+                        {
+                            MemberId = data[i].MemberId,
+                            MemberNumber = data[i].ProductionQuantity,
+                            QualityInspectionNumber = data[i].QualityInspectionNumber,
+                            ProductionNumber = data[i].ProductionQuantity,
+                            MemberName = MemberLibrary.MemberName,
+                            Category = dataitemdetailbll.GetEntity(MemberLibrary.Category).ItemName,
+                            MemberNumbering = MemberLibrary.MemberNumbering,
+                            UnitId = dataitemdetailbll.GetEntity(MemberLibrary.UnitId).ItemName,
+                            CreateTime = item.CreateTime
+                        };
+
+                        if (MemberList.Count() > 0)
+                        {
+                            var a = MemberList.Where(w => w.MemberId == data[i].MemberId).SingleOrDefault();
+                            if (a != null)
+                            {
+                                a.QualityInspectionNumber += data[i].QualityInspectionNumber;
+                                a.ProductionNumber += data[i].ProductionQuantity;
+                            }
+                            else
+                            {
+                                MemberList.Add(Member);
+                            }
+                        }
+                        else
+                        {
+                            MemberList.Add(Member);
+                        }
+
+                    }
+                }
+            }
+
+
+            var queryParam = queryJson.ToJObject();
+            if (!queryParam["Category"].IsEmpty())
+            {
+                string Category = queryParam["Category"].ToString();
+                MemberList = MemberList.FindAll(t => t.Category == Category);
+            }
+
+            var jsonData = new
+            {
+                rows = MemberList,
+                total = pagination.total,
+                page = pagination.page,
+                records = pagination.records,
+                costtime = CommonHelper.TimerEnd(watch)
+            };
+            return ToJsonResult(jsonData);
+        }
+
         #endregion
 
         #region 提交数据
@@ -185,6 +316,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             //memberprocessbll.RemoveForm(keyValue);
@@ -206,13 +338,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// 领取订单
+        /// 确认生产订单
         /// </summary>
         /// <param name="keyValues">要审核的数据的主键些0(默认)未提交；1提交</param>
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
-        public ActionResult ReceiveOrder(string keyValues)
+        public ActionResult ConfirmOrder(string keyValues)
         {
             string[] ids = new string[] { };
             if (!string.IsNullOrEmpty(keyValues))
@@ -227,7 +359,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var model = memberproductionorderbll.GetEntity(item.Trim());
                     if (model != null)
                     {
-                        model.IsReceive = 1;
+                        model.EstimatedFinishTime = DateTime.Parse(model.CreateTime.ToString()).AddDays(Convert.ToInt32(ids.Count()));//起始时间加通话时长
+                        model.IsConfirm = 1;
                         list.Add(model);
                     }
                 }
@@ -236,6 +369,26 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     memberproductionorderbll.UpdataList(list);
                 }
             }
+            return Success("操作成功。");
+        }
+
+        /// <summary>
+        /// 拒绝生产订单
+        /// </summary>
+        /// <param name="Entity"></param>
+        /// <param name="keyValue">要审核的数据的主键些0(默认)未提交；1提交</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult NotConfirmOrder(MemberProductionOrderEntity Entity, string keyValue)
+        {
+            var entity = new MemberProductionOrderEntity()
+            {
+                IsSubmit = 0,
+                //IsPassed=0,
+                IsConfirm = 3,
+            };
+            memberproductionorderbll.SaveForm(keyValue, entity);
             return Success("操作成功。");
         }
 
@@ -275,11 +428,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     a += Convert.ToInt32(item.ProductionQuantity);
                     b += Convert.ToInt32(item.ProductionedQuantity);
                     var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
-                    ProductionedOrderInfo.ProductionedQuantity = item.ProductionedQuantity;
+                    ProductionedOrderInfo.ProductionedQuantity = ProductionedOrderInfo.ProductionedQuantity.ToDecimal() + item.ProductionedQuantity.ToDecimal();
                     ProductionedOrderInfo.Description = item.Description;
                     memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
                 }
-
                 var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
                 if (a == b)
                 {
@@ -291,7 +443,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 memberproductionorderbll.SaveForm(keyValue, ProductionedOrder);
             }
-            
+
             return Success("操作成功。");
         }
 
@@ -315,6 +467,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     b += Convert.ToInt32(item.SelfDetectNumber);
                     var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
                     ProductionedOrderInfo.SelfDetectNumber = item.SelfDetectNumber;
+                    //ProductionedOrderInfo.QualifiedQuantity = ProductionedOrderInfo.QualifiedQuantity.ToDecimal() + item.SelfDetectNumber.ToDecimal();
                     ProductionedOrderInfo.SelfDetectRemarks = item.SelfDetectRemarks;
                     memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
                 }
@@ -330,7 +483,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 memberproductionorderbll.SaveForm(keyValue, ProductionedOrder);
             }
-           
+
             return Success("操作成功。");
         }
         /// <summary>
@@ -344,19 +497,28 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult QualityInspectionNumber(string keyValue, string strChildEntitys)
         {
             List<MemberProductionOrderInfoEntity> childEntitys = strChildEntitys.ToList<MemberProductionOrderInfoEntity>();
-            int a = 0, b = 0;
+            var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
+
+            decimal a = 0, b = 0;
             if (childEntitys.Count > 0)
             {
                 foreach (var item in childEntitys)
                 {
-                    a += Convert.ToInt32(item.QualityInspectionNumber);
-                    b += Convert.ToInt32(item.SelfDetectNumber);
+                    a += item.QualityInspectionNumber.ToDecimal();
+                    b += item.SelfDetectNumber.ToDecimal();
                     var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
                     ProductionedOrderInfo.QualityInspectionNumber = item.QualityInspectionNumber;
+                    ProductionedOrderInfo.QualifiedQuantity = ProductionedOrderInfo.QualifiedQuantity.ToDecimal() + item.QualityInspectionNumber.ToDecimal();
                     ProductionedOrderInfo.QualityInspectionRemarks = item.QualityInspectionRemarks;
                     memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
+
+                    //修改需求中已生产合格量
+                    var denmand = memberdemandbll.GetEntity(f => f.MemberId == item.MemberId && f.SubProjectId == ProductionedOrder.Category);
+                    denmand.ProductionNumber = denmand.ProductionNumber.ToDecimal() + item.QualityInspectionNumber.ToDecimal();
+                    memberdemandbll.SaveForm(denmand.MemberDemandId, denmand);
+                    //end
                 }
-                var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
+
                 if (a == b)
                 {
                     ProductionedOrder.QualityInspectionStatus = 2;
@@ -381,8 +543,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult Package(string keyValue)
         {
-          var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
-            if(ProductionedOrder.IsPackage == 1) {
+            var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
+            if (ProductionedOrder.IsPackage == 1)
+            {
                 return Success("该订单已打包");
             }
             else

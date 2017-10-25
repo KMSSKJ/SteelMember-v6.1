@@ -1,7 +1,9 @@
 ﻿using LeaRun.Application.Entity.BaseManage;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.BaseManage
 {
@@ -41,6 +43,13 @@ namespace LeaRun.Application.IService.BaseManage
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         UserEntity GetEntity(string keyValue);
+
+        /// <summary>
+        /// 用户实体
+        /// </summary>
+        /// <param name="condition">参数</param>
+        /// <returns></returns>
+        UserEntity GetEntity(Expression<Func<UserEntity,bool>>condition);
         /// <summary>
         /// 登录验证
         /// </summary>

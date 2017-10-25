@@ -1,102 +1,406 @@
-﻿@{
-    ViewBag.Title = "领取材料页面";
-    Layout = "~/Views/Shared/_Index.cshtml";
+﻿@{;
+    ViewBag.Title = "领用表单页面";
+    Layout = "~/Views/Shared/_PrintForm.cshtml";
 }
+
 <script>
-    var Category = request('category');
     var keyValue = request('keyValue');
-    var IsReceiveRawMaterial = request('IsReceiveRawMaterial');
+    var CollarEngineering = request("category");
     $(function () {
-        $("#keywords").focus();
-        GetGrid();
-        //绑定键盘按下事件
-        $(document).keypress(function (e) {
-            // 回车键事件
-            if (e.which == 13) {
-                $("#keywords").focus();
-                $("#keywords").select();
-                $("#btnSearch").click();
-            }
-        });
+        InitialPage();
+        GetCollarEntryGrid();
+        initControl();
     });
+    //初始化页面
+    function InitialPage() {
 
-    //显示物料
-    function GetGrid() {
-        var SelectRowIndx;
-       // var index = GetQuery('index');
-        $("#gridTable").jqGrid({
-            url: "@Url.Content("~/SteelMember/ProductionProcess/GridListJsonRawMaterial")?OrderId=" + keyValue,
-            datatype: "json",
-            height: $(window).height()-100,
-            autowidth: true,
-            colModel: [
-                { label: '主键', name: "RawMaterialId", align: ' center', width: 100, sortable: false ,hidden:true},
-                { label: '规格或型号', name: "RawMaterialModel", align: ' center', width: 80, sortable: false },
-                { label: '材料名称', name: "RawMaterialName", align: ' center', width: 100, sortable: false },//Category
-                { label: '数量', name: "RawMaterialNumber", align: ' center', width: 50, sortable: false },
-                { label: '单位', name: "UnitName", align:' center',width: 50, sortable: false},
-            ],
-            rowNum: 30,
-            viewrecords: true,
-            rowNum: 30,
-            sortname: 'RawMaterialId',
-            sortorder: 'Desc',//降序 asc升序
-            pager: "#gridPager",
-            viewrecords: true,
-            rownumbers: true,
-            gridview: true,
-            multiselect: false,
-            rowList: [15, 30, 50, 100, 500, 1000],
-            onSelectRow: function () {
-                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
-            },
-            gridComplete: function () {
-                $("#" + this.id).jqGrid('setSelection', SelectRowIndx);
-
-                var rowIds = jQuery("#gridTable").jqGrid('getDataIDs');
-                var $parentobj = top.frames["Form"];
-                for (var k = 0; k < rowIds.length; k++) {
-                    var curRowData = jQuery("#gridTable").jqGrid('getRowData', rowIds[k]);
-                    var curChk = $("#" + rowIds[k] + "").find(":checkbox");
-                    //curChk.attr('name', 'checkboxname');   //给每一个checkbox赋名字
-                    //curChk.attr('value', curRowData['MY_ID']);   //给checkbox赋值
-                    //curChk.attr('title', curRowData['NAME']);   //给checkbox赋予额外的属性值
-                    ////curChk.attr('checked', 'true');   //设置所有checkbox被选中
-                    //if (!$parentobj.HaveExistItem(k, curRowData.RawMaterialId)) {
-                    //    //$("#gridTable").attr("checked", false);
-                    //    curChk.attr('checked', false);
-                    //} else {
-                    //    //$("#gridTable").attr("checked", true);
-                    //    curChk.attr('checked', true);
-                    //}
-                }
-            },
+        //$(".bills").height($(window).height() - 88);
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#gridTable').setGridWidth(($('.gridPanel').width()));
+                $('#gridTable').setGridHeight($(window).height() - 328.5);
+                //$(".bills").height($(window).height() - 88);
+            }, 200);
+            e.stopPropagation();
         });
     }
-    //保存表单;
-    function AcceptClick() {
-        //if (!$('#form1').Validform()) {
-        //    return false;
+
+    //加载明细表
+    function GetCollarEntryGrid() {
+        var $grid = $('#gridTable');
+        //$grid.jqGrid({
+        //    unwritten: false,
+        //    datatype: 'local',
+        //    height: $(window).height() - 328.5,
+        //    autowidth: true,
+        //    colModel: [
+        //        { label: '材料名称', name: "RawMaterialName", align: 'center', width: 80, sortable: false },
+        //        { label: '规格/型号', name: "RawMaterialModel", align: 'center', width: 80, sortable: false },
+        //        { label: '单位', name: "UnitId", align: 'center', width: 60, sortable: false },
+        //        { label: '数量', name: "CollarQuantity", align: 'center', width: 60, sortable: false },
+        //        { label: '备注', name: "Description", align: 'center', width: 100, sortable: false },
+        //        { label: 'MaxNumber', name: "MaxNumber", align: ' center', width: 80, sortable: false, hidden: true },
+        //        { label: '主键', name: 'CollarId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+        //        { label: '库存ID', name: 'InventoryId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+        //    ],
+        //    pager: false,
+        //    rownumbers: true,
+        //    shrinkToFit: false,
+        //    gridview: true,
+        //    footerrow: false,
+        //});
+        ////默认添加10行 空行
+        //for (var i = 1; i < 11; i++) {
+        //    var rowdata = {
+        //        CollarId: '<input id="CollarId➩' + i + '" class="editable disabled" type="form-control" describedby="yes" disabled="disabled" />',
+        //        RawMaterialName: '<input id="RawMaterialName➩' + i + '" class="editable disabled center" type="form-control"/>',
+        //        RawMaterialModel: '<input id="RawMaterialModel➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
+        //        UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
+        //        CollarQuantity: '<input id="CollarQuantity➩' + i + '"class="editable disabled center" type="form-control" disabled="disabled"/>',
+        //        InventoryId: '<input id="InventoryId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled"/>',
+        //        Description: '<input id="Description➩' + i + '" class="editable disabled center" type="form-control"/>',
+        //    }
+        //    $('#gridTable').jqGrid('addRowData', i, rowdata);
         //}
-        if (IsReceiveRawMaterial == 1) {
-            dialogMsg("该订单材料已领取", 0)
-        } else {
-            if (checkedRow(keyValue)){
-            $.SaveForm({
-                url: "../../SteelMember/ProductionProcess/ReceiveRawMaterial?keyValue=" + keyValue,
-                //param: postData,
-                loading: "正在保存数据...",
-                success: function () {
-                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
-                }
-            })
-            }
+
+        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>规格/型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
+        for (var i = 1; i < 11; i++) {
+            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td></td><td style='width:105px'></td><td style='display:none'></td><td style='display:none'></td></tr>")
         }
     }
 
+    //初始化控件
+    function initControl() {
+        $("#DepartmentId").ComboBoxTree({
+            description: "==请选择==",
+        });
+
+        $("#CollarEngineering").ComboBoxTree({
+            param: { Levels: 3 },
+            url: "../../SteelMember/SubProject/GetTreeJson",
+            description: "==请选择==",
+            allowSearch: true
+
+        });
+        //公司
+        $("#OrganizeId").ComboBoxTree({
+            url: "../../BaseManage/Organize/GetTreeJson",
+            description: "==请选择==",
+            height: "200px",
+            allowSearch: true,
+        }).bind("change", function () {
+            var value = $(this).attr('data-value');
+            //加载部门
+            $("#DepartmentId").ComboBoxTree({
+                url: "../../BaseManage/Department/GetTreeJson?organizeId=" + value,
+                description: "==请选择==",
+                allowSearch: true
+            }).bind("change", function () {
+                $("#table1").find("tr:eq(1)").find("td:eq(0)").html($("#OrganizeId").attr('data-text') + "—" + $("#DepartmentId").attr('data-text'));
+            });
+            $("#table1").find("tr:eq(1)").find("td:eq(0)").html($("#OrganizeId").attr('data-text') + "—" + $("#DepartmentId").attr('data-text'));
+        });
+
+        //获取表单
+        if (!!keyValue) {
+            $.SetForm({
+                url: "/SteelMember/ProductionProcess/GridListJsonRawMaterial",
+                param: { OrderId: keyValue },
+                success: function (data) {
+                    $("#CollarEngineering").ComboBoxTreeSetValue(data.entity.Category);
+                    $("#table1").find("tr:eq(0)").find("td:eq(0)").html($("#CollarEngineering").attr('data-text'));
+                    $("#table1").find("tr:eq(1)").find("td:eq(0)").html();
+                    $("#table1").find("tr:eq(1)").find("td:eq(1)").html($("#ContactPerson").val());
+                    $("#table1").find("tr:eq(1)").find("td:eq(2)").html($("#CreateTime").val());
+                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html("构件厂");
+                    $("#table1").find("tr:eq(2)").find("td:eq(1)").html($("#ContactPersonTel").val());
+                    $("#table1").find("tr:eq(2)").find("td:eq(2)").html($("#Numbering").val());
+
+                    $("#table2").find("tr:eq(0)").find("td:eq(0)").html($("#CreateMan").val());
+                    $("#table2").find("tr:eq(0)").find("td:eq(1)").html(data.entity.ReviewMan);
+
+                    //明细
+                    $('#gridTable').find('tr').each(function (i) {
+                        var row = data.childEntity[i - 1];
+                        if (row != undefined) {
+                            //$(this).find('input[id="InventoryId➩' + i + '"]').val(row.InventoryId);
+                            //$(this).find('input[id="CollarQuantity➩' + i + '"]').val(row.RawMaterialNumber);
+                            //$(this).find('input[id="CollarId➩' + i + '"]').val(row.CollarId);
+                            //$(this).find('input[id="RawMaterialName➩' + i + '"]').val(row.RawMaterialName);
+                            //$(this).find('input[id="RawMaterialModel➩' + i + '"]').val(row.RawMaterialModel);
+                            //$(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
+                            //$(this).find('input[id="Description➩' + i + '"]').val(row.Description);
+
+                            $(this).find('td:eq(1)').html(row.RawMaterialName);
+                            $(this).find('td:eq(2)').html(row.RawMaterialModel);
+                            $(this).find('td:eq(3)').html(row.UnitId);
+                            $(this).find('td:eq(4)').html(row.RawMaterialNumber);
+                            $(this).find('td:eq(5)').html(row.Description);
+                            $(this).find('td:eq(6)').html(row.InventoryId);
+                            $(this).find('td:eq(7)').html(row.RawMaterialId);
+                            //$(this).find('td:eq(8)').html(row.RawMaterialAnalysisId);
+                        }
+                    });
+                }
+            })
+        } else {
+            $("#CollarEngineering").ComboBoxTreeSetValue(CollarEngineering);
+        }
+    }
+    function input() {
+        $("#table1").find("tr:eq(1)").find("td:eq(1)").html($("#ContactPerson").val());
+        $("#table1").find("tr:eq(2)").find("td:eq(1)").html($("#ContactPersonTel").val());
+    }
+    //保存表单;
+    function AcceptClick() {
+        //var CollarEngineering = $("#CollarEngineering").attr('data-value');
+        //if (CollarEngineering == undefined || CollarEngineering == "" || CollarEngineering == null) {
+        //    dialogMsg("请选择工程名称", "error");
+        //    return false;
+        //}
+        //var _ShippingAddress = $("#ShippingAddress").val();
+        //if (_ShippingAddress == undefined || _ShippingAddress == "" || _ShippingAddress == null) {
+        //    dialogMsg('请录入收货地址！', 0);
+        //    return false;
+        //}
+        var _DepartmentId = $("#DepartmentId").attr('data-value');
+        if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
+            dialogMsg('请选择领用单位！', 0);
+            return false;
+        }
+        var _ContactPerson = $("#ContactPerson").val();
+        if (_ContactPerson == undefined || _ContactPerson == "" || _ContactPerson == null) {
+            dialogMsg('请录入联系人！', 0);
+            return false;
+        }
+        var _ContactPersonTel = $("#ContactPersonTel").val();
+        if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
+            dialogMsg('请录入联系人电话！', 0);
+            return false;
+        }
+
+        if ($(this).attr('disabled') == 'disabled') {
+            return false;
+        }
+
+        var val = $("#gridTable tbody tr[id=1] td input").val();
+
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+
+        var AllPrice = 1;
+        var postData = $("#form1").GetWebControls(keyValue);
+        postData["CollarType"] = 1;
+        postData["Date"] = $("#CreateTime").val();
+        postData["ReviewMan"] = $("#ReviewMan").val();
+        postData["ShippingAddress"] ="构件厂";
+
+        var childEntryJson = [];
+
+        $("#gridTable tbody tr").each(function (i) {
+            i = i + 1;
+            //if (!!document.getElementById('gridTable').rows[i].cells[1].innerText) {
+            //    var quantity = parseInt(document.getElementById('gridTable').rows[i].cells[4].innerText);
+            //    if (quantity <= 0 || isNaN(quantity)) {
+            //        postData = null
+            //        return false;
+            //    }
+            //}
+            if (i<11) {
+                var a = document.getElementById("gridTable").rows[i].cells[4].innerText;
+                if (!!a) {
+                    childEntryJson.push({
+                        //document.getElementById("gridTable").rows[i].cells[6].innerText
+                        //CollarId: $(this).find('input[id="CollarId➩' + i + '"]').val(),
+                        CollarQuantity: document.getElementById("gridTable").rows[i].cells[4].innerText,
+                        Description: document.getElementById("gridTable").rows[i].cells[5].innerText,
+                        InventoryId: document.getElementById("gridTable").rows[i].cells[6].innerText,
+                        RawMaterialId: document.getElementById("gridTable").rows[i].cells[7].innerText,
+                        //RawMaterialAnalysisId: document.getElementById("gridTable").rows[i].cells[8].innerText,
+                    });
+                }
+            }
+        });
+
+        if (postData == null) {
+            dialogMsg('数量不能小于0或等于0或为空！！', 0);
+            return false;
+        }
+
+        $.SaveForm({
+            url: "/SteelMember/ProductionProcess/ReceiveRawMaterial",
+            param: { keyValue: keyValue },
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+
+        $.SaveForm({
+            url: "../../SteelMember/RawMterialCollar/SaveForm_Memebr",
+            param: { "strEntity": JSON.stringify(postData), "strChildEntitys": JSON.stringify(childEntryJson) },
+            //loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
+
+    //打印
+    function btn_print() {
+        //var _ShippingAddress = $("#ShippingAddress").val();
+        //if (_ShippingAddress == undefined || _ShippingAddress == "" || _ShippingAddress == null) {
+        //    dialogMsg('请录入收货地址！', 0);
+        //    return false;
+        //}
+        var _DepartmentId = $("#DepartmentId").attr('data-value');
+        if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
+            dialogMsg('请选择领用单位！', 0);
+            return false;
+        }
+        var _ContactPerson = $("#ContactPerson").val();
+        if (_ContactPerson == undefined || _ContactPerson == "" || _ContactPerson == null) {
+            dialogMsg('请录入联系人！', 0);
+            return false;
+        }
+        var _ContactPersonTel = $("#ContactPersonTel").val();
+        if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
+            dialogMsg('请录入联系人电话！', 0);
+            return false;
+        }
+        //$(".bills").printTable();
+        $(".bills").jqprint();
+    }
+    //导出
+    function btn_export() {
+        location.href = "/CustomerManage/Order/ExportOrderEntry?orderId=" + keyValue;
+    }
 </script>
 
-<div class="rightline" style="margin: 1px; margin-top: -1px;">
-    <table id="gridTable"></table>
-    <div id="gridPager"></div>
+<table id="table" class="form" style="width:100%;">
+    <tr>
+        <th class="formTitle">
+            领用单位<font face="宋体" color="red">*</font>：
+        </th>
+        <td class="formValue" colspan="3">
+            <div id="CollarEngineering" type="selectTree" class="ui-select" style="display:none" isvalid="yes" checkexpession="NotNull"></div>
+            <div id="OrganizeId" type="selectTree" class="ui-select" style="width: 42%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—
+            <div id="DepartmentId" type="selectTree" class="ui-select" style="width:42%;float:right" isvalid="yes" checkexpession="NotNull"></div>
+        </td>
+
+        <th class="formTitle">
+            联系人<font face="宋体" color="red">*</font>：
+        </th>
+        <td class="formValue" colspan="2">
+            <input id="ContactPerson" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" onkeyup="input()" />
+        </td>
+        @*</tr>
+            <tr>*@
+        <th class="formTitle">
+            联系电话<font face="宋体" color="red">*</font>：
+        </th>
+        <td class="formValue" colspan="2">
+            <input id="ContactPersonTel" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="MobileOrPhoneOrNull" onkeyup="input()" />
+        </td>
+        @*<th class="formTitle">
+                收货地址<font face="宋体" color="red">*</font>：
+            </th>
+            <td class="formValue" colspan="3">
+                <input id="ShippingAddress" type="text" class="form-control" datacol="yes" err="收货地址" checkexpession="NotNull" style="width: 100%" />
+            </td>*@
+
+    </tr>
+</table>
+<div class="bills">
+
+    <input id="CreateMan" type="hidden" value="@ViewBag.CreateMan" />
+    <input id="CreateTime" type="hidden" Date value="@ViewBag.CreateTime" />
+    <input id="Numbering" type="hidden" Numbering value="@ViewBag.Numbering" />
+    <div style="float:left;font-family: 华文楷体">
+        <div>
+            <p style="font-size:14pt;padding-bottom:10px;text-align:center"> 云南交投建设集团第十工程有限公司</p>
+            <p style="font-size:20pt;padding-bottom:15px;text-align:center;font-family: 华文楷体;font-weight:bold;"> 材料领用单</p>
+            <table id="table1" class="form" style="width:100%;">
+                @*border:1px solid #000;*@
+            <tr>
+                <th class="formTitle">
+                    项目名称：
+                </th>
+                <td class="formValue" colspan="8"></td>
+
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    领用单位：
+                </th>
+                <td class="formValue" colspan="3"></td>
+
+                <th class="formTitle">
+                    联系人：
+                </th>
+                <td class="formValue"></td>
+                <th class="formTitle">
+                    日期：
+                </th>
+                <td class="formValue" colspan="2"></td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    收货地址：
+                </th>
+                <td class="formValue" colspan="3"></td>
+                <th class="formTitle">
+                    联系电话：
+                </th>
+                <td class="formValue"></td>
+                <th class="formTitle">
+                    单号：
+                </th>
+                <td class="formValue" colspan="2"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="gridPanel">
+        <table id="gridTable" class="formPrint"></table>
+    </div>
+
+    <div>
+        <table id="table2" class="form" style="width:100%;">
+            <tr>
+                <th class="formTitle">
+                    经办人：
+                </th>
+                <td class="formValue" colspan="3">
+                    @*<input readonly id="CreateMan" type="text" class="form-control" style="width: 100%" value="@ViewBag.CreateMan" />*@
+                </td>
+                <th class="formTitle">
+                    审核人：
+                </th>
+                <td class="formValue">
+                    @*<input id="Sender" type="text" class="form-control" style="width: 100%"/>*@
+                </td>
+                <th class="formTitle">
+                    领用人(签字)：
+                </th>
+                <td class="formValue" colspan="2">
+                    @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</div>
+@*<div style="float:right;padding-top:8px;padding-right:8px"><a id="btn_finish" onclick="btn_print()" class="btn btn-success">打印</a></div>*@
+<div id="bottomField">
+    <div class="btn-group">
+        <a id="lr-print" class="btn btn-default" onclick="btn_print()"><i class="fa fa-print"></i>&nbsp;打印</a>
+        @*<a id="lr-export" class="btn btn-default" onclick="btn_export()"><i class="fa fa-sign-out"></i>&nbsp;导出</a>*@
+    </div>
+    @*<div class="btn-group">
+            <a id="lr-prev" class="btn btn-default" onclick="btn_prev()"><i class="fa fa-backward"></i>&nbsp;前单</a>
+            <a id="lr-next" class="btn btn-default" onclick="btn_next()"><i class="fa fa-forward"></i>&nbsp;后单</a>
+        </div>*@
 </div>

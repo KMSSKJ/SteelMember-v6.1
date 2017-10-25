@@ -70,6 +70,23 @@ namespace LeaRun.Application.Busines.SteelMember
                 throw;
             }
         }
+        /// <summary>
+        /// 保存表单（新增、修改）
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="entity">实体对象</param>
+        /// <returns></returns>
+        public string GetProjectInfoId(string keyValue, ProjectInfoEntity entity)
+        {
+            try
+            {
+             return service.GetProjectInfoId(keyValue, entity);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }

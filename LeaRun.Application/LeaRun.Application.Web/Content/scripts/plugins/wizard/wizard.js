@@ -36,7 +36,7 @@
                 }
             }
             var j = this.$element.find("li");
-            j.removeClass("active").removeClass("complete");
+            j.removeClass("active").removeClass("complete");//注销后变为标签上可点击
             var m = "li:lt(" + (this.currentStep - 1) + ")";
             var g = this.$element.find(m);
             g.addClass("complete");

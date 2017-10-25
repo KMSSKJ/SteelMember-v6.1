@@ -1,5 +1,7 @@
 ﻿using LeaRun.Application.Entity.AuthorizeManage;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.AuthorizeManage
 {
@@ -31,6 +33,12 @@ namespace LeaRun.Application.IService.AuthorizeManage
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         FilterIPEntity GetEntity(string keyValue);
+               /// <summary>
+               /// 过滤IP实体
+               /// </summary>
+               /// <param name="keyValue">主键值</param>
+               /// <returns></returns>
+        FilterIPEntity GetEntity(Expression<Func<FilterIPEntity, bool>> condition);
         #endregion
 
         #region 提交数据

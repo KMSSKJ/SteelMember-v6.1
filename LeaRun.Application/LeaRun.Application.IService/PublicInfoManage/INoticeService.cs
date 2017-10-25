@@ -1,6 +1,7 @@
 ﻿using LeaRun.Application.Entity.PublicInfoManage;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
+using System.Data;
 
 namespace LeaRun.Application.IService.PublicInfoManage
 {
@@ -19,6 +20,13 @@ namespace LeaRun.Application.IService.PublicInfoManage
         /// <param name="queryJson">查询参数</param>
         /// <returns></returns>
         IEnumerable<NewsEntity> GetPageList(Pagination pagination, string queryJson);
+        /// <summary>
+        /// 公告列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns></returns>
+        DataTable GetList();
         /// <summary>
         /// 公告实体
         /// </summary>

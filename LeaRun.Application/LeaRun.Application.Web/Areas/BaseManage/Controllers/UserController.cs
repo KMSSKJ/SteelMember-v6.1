@@ -221,11 +221,6 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            if (keyValue == "System")
-            {
-                throw new Exception("当前账户不能删除");
-            }
-            userBLL.RemoveForm(keyValue);
             var user = userBLL.GetEntity(keyValue);
             if (user.HeadIcon != "" || user.HeadIcon != null)
             {
@@ -235,6 +230,12 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
                     System.IO.File.Delete(_path);
                 }
             }
+            if (keyValue == "System")
+            {
+                throw new Exception("当前账户不能删除");
+            }
+            userBLL.RemoveForm(keyValue);
+
             return Success("删除成功。");
         }
         /// <summary>
@@ -248,12 +249,10 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, string strUserEntity,string FormInstanceId, string strModuleFormInstanceEntity)
+        public ActionResult SaveForm(string keyValue, string strUserEntity, string FormInstanceId, string strModuleFormInstanceEntity)
         {
             UserEntity userEntity = strUserEntity.ToObject<UserEntity>();
             ModuleFormInstanceEntity moduleFormInstanceEntity = strModuleFormInstanceEntity.ToObject<ModuleFormInstanceEntity>();
-
-
             string objectId = userBLL.SaveForm(keyValue, userEntity);
             moduleFormInstanceEntity.ObjectId = objectId;
             moduleFormInstanceBll.SaveEntity(FormInstanceId, moduleFormInstanceEntity);

@@ -16,7 +16,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 22:03
-    /// 描 述：原材料分析
+    /// 描 述：材料分析
     /// </summary>
     public class RawMaterialAnalysisService : RepositoryFactory<RawMaterialAnalysisEntity>, RawMaterialAnalysisIService
     {
@@ -182,6 +182,19 @@ namespace LeaRun.Application.Service.SteelMember
                 expression = expression.And(t => t.Category == category);
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="RawMaterialName"></param>
+        /// <param name="category"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        public bool Exist(string query, string RawMaterialName, string category, string keyValue)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 

@@ -1,167 +1,210 @@
 ﻿@{
-    ViewBag.Title = "InventoryInfo";
-    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "Collar";
+    Layout = "~/Views/Shared/_Form.cshtml";
 }
 <script>
-$(function () {
-    InitialPage();
-        GetGrid();
+    var Category = request('Category');
+
+    $(function () {
+        initControl();
     });
-    //初始化页面
-    function InitialPage() {
-        //resize重设布局;
-        $(window).resize(function (e) {
-            window.setTimeout(function () {
-                $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $('#gridTable').setGridHeight($(window).height() - 170);
-            }, 200);
-            e.stopPropagation();
-        });
-    }
 
-    //加载表格
-    function GetGrid() {
-        var selectedRowIndex = 0;
-        var $gridTable = $('#gridTable');
-        $gridTable.jqGrid({
-            autowidth: true,
-            height: $(window).height() - 170,
-            url: "../../SteelMember/RawMaterialInventory/GetNoIswarehousing",
-            datatype: "json",
-            //height: $(window).height() - 100,
-            colModel: [
-                { label: '采购单据', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', width: 80, align: 'center',sortable: true  },
-                {
-                    label: '提交', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                    }},
-                {
-                    label: '审核', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == 0) {
-                            return "<span class=\"label label-info\">未审核</span>";
-                        } else if (cellvalue == 1) {
-                            return "<span class=\"label label-success\">通过</span>";
-                        } else {
-                            return "<span class=\"label label-danger\">失败</span>";
-                        }
-                    }
-                },
-                {
-                    label: '是否采购', name: 'IsPurchase', index: 'IsPurchase', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                    }
-                },
-                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 80, align: 'center',sortable: true  },
-                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: 'center',sortable: true  },
-                { label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 80, align: 'center',sortable: true  },
-                { label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 80, align: 'center',sortable: true  },
-                { label: '备注', name: 'Description', index: 'Description', width: 80, align: 'center',sortable: true  },
-            ],
-            viewrecords: true,
-            rowNum: 30,
-            rowList: [30, 50, 100],
-            pager: "#gridPager",
-            sortname: 'RawMaterialPurchaseId',
-            sortorder: 'desc',
-            rownumbers: true,
-            multiselect: true,
-            shrinkToFit: false,
-            gridview: true,
-            onSelectRow: function () {
-                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
-            },
-            gridComplete: function () {
-                $('#' + this.id).setSelection(selectedRowIndex, false);
-            },
-            subGrid: true,
-            subGridRowExpanded: function (subgrid_id, row_id) {
-                var keyValue = $gridTable.jqGrid('getRowData', row_id)['RawMaterialPurchaseId'];
-                var subgrid_table_id = subgrid_id + "_t";
-                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "'></table>");
-                $("#" + subgrid_table_id).jqGrid({
-                    url: "../../SteelMember/RawMaterialInventory/GetDetailsJson",
-                    postData: { keyValue: keyValue },
-                    datatype: "json",
-                    height: "100%",
-                    colModel: [
-                { label: '主键', name: 'InfoId', index: 'InfoId', width: 80, align: '',sortable: true ,hidden: true },
-                { label: '采购单据', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', width: 80, align: '', sortable: true },
-                { label: '分析主键', name: 'RawMaterialAnalysisId', index: 'RawMaterialAnalysisId', width: 80, align: '', sortable: true, hidden: true },
-                { label: '原材料类型', name: "RawMaterialName", align: 'center', width: 100, sortable: false },
-                { label: '型号', name: "RawMaterialModel", align: 'center', width: 100, sortable: false },
-                { label: '规格', name: "RawMaterialStandard", align: 'center', width: 100, sortable: false },
-                { label: '采购量', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
-                { label: '单位', name: "UnitName", align: 'center', width: 80, sortable: false },
-                { label: '单价(元)', name: "RawMaterialPurchaseModelPrice", align: 'center', width: 80, sortable: false },
-                { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
-                    ],
-                    caption: "明细",
-                    rowNum: "1000",
-                    rownumbers: true,
-                    shrinkToFit: false,
-                    gridview: true,
-                    hidegrid: false
-                });
-            }
+    //加载材料类型
+    function initControl() {
+        //加载材料名称
+        $("#RawMaterialCategory").ComboBox({
+            description: "==请选择==",
+            height: "150px",
         });
-    }
-    function AcceptClick() {
-        
-        var RawMaterialPurchaseId = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
-        //alert(RawMaterialPurchaseId);
-        if (RawMaterialPurchaseId != "") {
-           
-            $.ajax({
-                url: "/SteelMember/RawMaterialInventory/Inventory",
-                type: "post",
-                datatype: 'json',
-                data: {
-                    RawMaterialPurchaseId: RawMaterialPurchaseId  
-                },
-                loading: "正在保存数据...",
-                success: function (data) {
-                    // rowData.message;
-                    var datamodel = JSON.parse(data);
-                    if (datamodel.type == 1) {
-                        Loading(false);
-                        dialogMsg(datamodel.message, 1);
-                        
-                    } else {
-                       dialogAlert(datamodel.message, -1);
-                    } 
-                    dialogClose();
+        //    //加载规格或型号
+        $("#RawMaterialId").ComboBox({
+            description: "==请选择==",
+            height: "150px",
+        });
 
-                },
-                error: function (e) {
-                    dialogAlert(e, -1);
-                    //dialogTop(e, "error");
-                }
+        //获取采购单
+        $("#PurchaseId").ComboBox({
+            //param: { EnCode: "RawMaterialManufacturer" },
+            url: "../../SteelMember/RawMaterialPurchase/GetPurchaseList",
+            id: "RawMaterialPurchaseId",
+            text: "PurchaseNumbering",
+            description: "==请选择==",
+            height: "120px",
+        });
+
+        //生产厂家
+        $("#RawMaterialManufacturer").ComboBox({
+            param: { EnCode: "RawMaterialManufacturer" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            id: "ItemDetailId",
+            text: "ItemName",
+            description: "==请选择==",
+            height: "120px",
+        });
+
+        //材料供应商
+        $("#RawMaterialSupplier").ComboBox({
+            param: { EnCode: "RawMaterialSupplier" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            id: "ItemDetailId",
+            text: "ItemName",
+            description: "==请选择==",
+            height: "120px",
+        });
+
+        $("#Category").ComboBoxTree({
+            param: { EnCode: "RawMaterialType" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            //param: { Levels: 3 },
+            //url: '../../SteelMember/SubProject/GetTreeJson',
+            description: "==请选择==",
+            allowSearch: true
+        }).bind("change", function () {
+            var value = $(this).attr('data-value');
+            ////加载材料名称
+            //$("#RawMaterialCategory").ComboBox({
+            //    url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName1?rawmaterianame=" + value,
+            //    description: "==请选择==",
+            //    id: "str",
+            //    text: "str",
+            //    height: "150px",
+            //});
+            //    //加载规格或型号
+            $("#RawMaterialId").ComboBox({
+                url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
+                description: "==请选择==",
+                id: "RawMaterialId",
+                text: "RawMaterialModel",
+                height: "150px",
             });
-
-        } else {
-            dialogMsg("入库数据不能为空！！，请选择。", 0);
+        });
+        if (Category != null || Category != "") {
+            $("#Category").ComboBoxTreeSetValue(Category);
         }
 
     }
-</script>
-<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
-    
-    <div class="ui-layout-center">
-        <div class="center-Panel">
-            <div class="panel-Title">已采购列表</div>
-            <div class="titlePanel">
-                <div class="toolbar">
-                    <div class="btn-group">
-                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
-                    </div>
 
-                </div>
-            </div>
-            <div class="gridPanel">
-                <table id="gridTable"></table>
-                <div id="gridPager"></div>
-            </div>
-        </div>
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        var postData = $("#form1").GetWebControls(Category);
+        var PurchaseId = $("#PurchaseId").attr('data-value');
+        $.SaveForm({
+            url: "../../SteelMember/RawMaterialInventory/Inventory?PurchaseId=" + PurchaseId,
+            param: postData,
+            loading: "正在保存数据...",
+            success: function (data) {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+
+<div class="bills">
+    <div style="height:100%;overflow-y:auto;margin:0px 10px;">
+        <table class="form" style="width: 100%;border-collapse:separate;border-spacing:30px;">
+            <tr>
+                <td align="center" colspan="6">
+                    <div style="font-family: 华文楷体; font-size: x-large; height: 40px; line-height: 40px;">
+                        材料入库&nbsp;
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    材料类型<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="2">
+                    <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                </td>
+
+                @*<th>
+                    材料名称<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="2">
+                    <div id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                </td>*@
+                <th>
+                    材料<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="2">
+                    <div id="RawMaterialId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
+                </td>
+            </tr>
+            <tr>
+              
+                <th>
+                    所属采购单<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="5">
+                    <div id="PurchaseId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    入库数量<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="2">
+                    <input id="Quantity" type="text" class="form-control" isvalid="yes" checkexpession="ExceedZero">
+                </td>
+                <th>
+                    单价<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="2">
+                    <input id="UnitPrice" type="text" class="form-control" isvalid="yes" checkexpession="ExceedZero">
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    生产厂家<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="2">
+                    <div id="RawMaterialManufacturer" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                </td>
+                <th>
+                    供货商<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="2">
+                    <div id="RawMaterialSupplier" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    备注
+                </th>
+                <td colspan="5">
+                    <textarea id="Description" type="text" class="form-control" style="height:100px"></textarea>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
-   
+@*<style>
+        body {
+            margin: 0px;
+        }
+
+        .bills {
+            overflow: hidden;
+            border-radius: 0px;
+            position: relative;
+            background: #FFFFFF;
+            border: 0px solid rgb(204, 204, 204);
+            box-shadow: none;
+            padding: 0px;
+        }
+
+        .ui-widget-content {
+            border-left: 0px;
+            border-right: 0px;
+            border-bottom: 0px;
+        }
+    </style>*@
+
+

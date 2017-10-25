@@ -24,7 +24,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="queryJson">查询参数</param>
+        /// <param name="condition">查询参数</param>
         /// <returns>返回列表</returns>
         public List<MemberProductionOrderInfoEntity> GetList(Expression<Func<MemberProductionOrderInfoEntity, bool>> condition)
         {

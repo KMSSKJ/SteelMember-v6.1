@@ -1,8 +1,8 @@
 ﻿@{
     ViewBag.Title = "构件详情";
-}
 
-   <!--框架必需start-->
+}
+<!--框架必需start-->
 <script src="~/Content/scripts/jquery/jquery-1.10.2.min.js"></script>
 <link href="~/Content/styles/font-awesome.min.css" rel="stylesheet" />
 <link href="~/Content/scripts/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
@@ -15,13 +15,14 @@
 <!--bootstrap组件end-->
 
 <script src="~/Content/scripts/plugins/datepicker/WdatePicker.js"></script>
+<script src="~/Content/scripts/plugins/wizard/wizard1.js"></script>
 @System.Web.Optimization.Styles.Render("~/Content/scripts/plugins/jqgrid/css",
     "~/Content/scripts/plugins/datetime/css",
     "~/Content/scripts/plugins/wizard/css",
     "~/Content/styles/learun-ui.css")
 @System.Web.Optimization.Scripts.Render("~/Content/scripts/plugins/jqgrid/js",
     "~/Content/scripts/plugins/validator/js",
-    "~/Content/scripts/plugins/wizard/js",
+            //"~/Content/scripts/plugins/wizard/js",
             "~/Content/scripts/plugins/datepicker/js",
     "~/Content/scripts/utils/js")
 
@@ -29,97 +30,130 @@
 <script src="~/Content/scripts/plugins/jqueryPicture/js/jquery.mousewheel.min.js"></script>
 <script src="~/Content/scripts/plugins/jqueryPicture/js/jquery.iviewer.js"></script>
 
+@*<script src=" ~/Content/scripts/plugins/printTable/js"></script>*@
+<script src="~/Content/scripts/plugins/jquery-jqprint/jquery.jqprint-0.3.js"></script>
+<!--
+如果您使用的是高版本jQuery调用下面jQuery迁移辅助插件即可-->
+<script src="~/Content/scripts/plugins/jquery-jqprint/jquery-migrate-1.2.1.min.js"></script>
+
 <script type="text/javascript">
-   // var roleId = request('roleId');
+    // var roleId = request('roleId');
     $(function () {
         initialPage();
         LoadPhoto();
-
     })
     //初始化页面
     function initialPage() {
         //加载导向
         $('#wizard').wizard().on('change', function (e, data) {
-            var $finish = $("#btn_finish");
-            var $next = $("#btn_next");
-            //if (data.direction == "next") {
-            //    //if (data.step == 1) {
-            //    //    var ModuleId = $("#ModuleTree").getCheckedAllNodes();
-            //    //    for (var i = 0; i < ModuleId.length; i++) {
-            //    //        var $thisid = $("#ModuleButtonTree").find('ul').find('[data-value=' + ModuleId[i] + ']').parent().parent();
-            //    //        $thisid.show();
-            //    //        $thisid.parents('ul').find('.' + ModuleId[i]).parent().show();
-            //    //    }
-            //    //}
-            //    //if (data.step == 2) {
-            //    //    var ModuleId = $("#ModuleTree").getCheckedAllNodes();
-            //    //    for (var i = 0; i < ModuleId.length; i++) {
-            //    //        var $thisid = $("#ModuleColumnTree").find('ul').find('[data-value=' + ModuleId[i] + ']').parent().parent();
-            //    //        $thisid.show();
-            //    //        $thisid.parents('ul').find('.' + ModuleId[i]).parent().show();
-            //    //    }
-            //    //}
-            //    //if (data.step == 3) {
-            //    //    $finish.removeAttr('disabled');
-            //    //    $next.attr('disabled', 'disabled');
-            //    //}
-            //} else {
-            //    $finish.attr('disabled', 'disabled');
-            //    $next.removeAttr('disabled');
-            //}
+            var $last1 = $("#btn_last");
+            var $next1 = $("#btn_next");
         });
 
         //按钮操作（上一步、下一步、完成、关闭）
         function buttonOperation() {
-            var $last = $("#btn_last");
-            var $next = $("#btn_next");
-            var $finish = $("#btn_finish");
+            var $last1 = $("#btn_last");
+            var $next1 = $("#btn_next");
+            //var $finish = $("#btn_finish");
         }
     }
-    function LoadPhoto(){
-    var mole_fileURL = $("#model_file").val();
-    var cad_fileURL = $("#cad_file").val();
-    GetGrid();
-    //document.getElementById("model").style.display = "none";
-    //document.getElementById("process").style.display = "none";
-    $("#viewer_cad").iviewer(
-        {
-            src: cad_fileURL,
-            update_on_resize: false,
-            initCallback: function () {
-                var object = this;
-                $("#in").click(function () { object.zoom_by(1); });
-                $("#out").click(function () { object.zoom_by(-1); });
-                $("#fit").click(function () { object.fit(); });
-                $("#orig").click(function () { object.set_zoom(100); });
-                $("#update").click(function () { object.update_container_info(); });
-            },
-            onMouseMove: function (object, coords) { },
-            onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
-            onDrag: function (object, coords) { }
-        });
 
-    $("#viewer_model").iviewer(
-        {
-            src: mole_fileURL,
-            update_on_resize: false,
-            initCallback: function () {
-                var object = this;
-                $("#in").click(function () { object.zoom_by(1); });
-                $("#out").click(function () { object.zoom_by(-1); });
-                $("#fit").click(function () { object.fit(); });
-                $("#orig").click(function () { object.set_zoom(100); });
-                $("#update").click(function () { object.update_container_info(); });
-            },
-            onMouseMove: function (object, coords) { },
-            onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
-            onDrag: function (object, coords) { }
-        });
+    var num = 0;
+    function btn(parameter) {
+        $("#viewer_cad").empty();
+        var cad_fileURL = $("#cad_file").val();
+        var array = cad_fileURL.split(":");// 在每个逗号(,)处进行分解。
+        var count = array.length - 1;
+        var fileName1;
+        if (parameter == 0) {
+            for (var i = 0; i < count; i++) {
+                var fileName = array[0].substring(0, array[0].lastIndexOf('.'));//获取文件名称，去除后缀名
+                fileName1 = "../../Resource/Document/NetworkDisk/System/Member/" + fileName + "/" + array[0];
+                document.getElementById("CADDrawing1").value = fileName1;
+                CADPhoto(fileName1);
+            }
+        } else if (parameter == 2) {
+            num++;
+            $('#btn_last').removeAttr('disabled'); //添加disabled属性
+            if (num == count - 1) {
+                $('#btn_next').attr('disabled', "true"); //添加disabled属性
+                for (var i = 1; i < count; i++) {
+                    var fileName = array[num].substring(0, array[num].lastIndexOf('.'));//获取文件名称，去除后缀名
+                    fileName1 = "../../Resource/Document/NetworkDisk/System/Member/" + fileName + "/" + array[num];
+                }
+            } else {
+                for (var i = 1; i < count; i++) {
+                    var fileName = array[num].substring(0, array[num].lastIndexOf('.'));//获取文件名称，去除后缀名
+                    fileName1 = "../../Resource/Document/NetworkDisk/System/Member/" + fileName + "/" + array[num];
+                }
+            }
+            document.getElementById("CADDrawing1").value = fileName1;
+            CADPhoto(fileName1);
+        } else {
+            num--;
+            $('#btn_next').removeAttr('disabled'); //添加disabled属性
+            if (num == 0) {
+                $('#btn_last').attr('disabled', "true"); //添加disabled属性
+
+                for (var i = 1; i < count; i++) {
+                    var fileName = array[num].substring(0, array[num].lastIndexOf('.'));//获取文件名称，去除后缀名
+                    fileName1 = "../../Resource/Document/NetworkDisk/System/Member/" + fileName + "/" + array[num];
+                }
+
+            } else {
+                for (var i = 1; i < count; i++) {
+                    var fileName = array[num].substring(0, array[num].lastIndexOf('.'));//获取文件名称，去除后缀名
+                    fileName1 = "../../Resource/Document/NetworkDisk/System/Member/" + fileName + "/" + array[num];
+                }
+            }
+            document.getElementById("CADDrawing1").value = fileName1;
+            CADPhoto(fileName1);
+        }
     }
-          //加载表格
-        function GetGrid() {
-            var MemberId ="@ViewData["MemberId"]";
-         
+    function CADPhoto(fileName1) {
+        $("#viewer_cad").iviewer(
+            {
+                src: fileName1,
+                update_on_resize: false,
+                initCallback: function () {
+                    var object = this;
+                    $("#in").click(function () { object.zoom_by(1); });
+                    $("#out").click(function () { object.zoom_by(-1); });
+                    $("#fit").click(function () { object.fit(); });
+                    $("#orig").click(function () { object.set_zoom(100); });
+                    $("#update").click(function () { object.update_container_info(); });
+                },
+                onMouseMove: function (object, coords) { },
+                onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+                onDrag: function (object, coords) { }
+            });
+    }
+
+    function LoadPhoto() {
+        btn(0);
+        var mole_fileURL = $("#model_file").val();
+        GetGrid();
+        $("#viewer_model").iviewer(
+            {
+                src: mole_fileURL,
+                update_on_resize: false,
+                initCallback: function () {
+                    var object = this;
+                    $("#in").click(function () { object.zoom_by(1); });
+                    $("#out").click(function () { object.zoom_by(-1); });
+                    $("#fit").click(function () { object.fit(); });
+                    $("#orig").click(function () { object.set_zoom(100); });
+                    $("#update").click(function () { object.update_container_info(); });
+                },
+                onMouseMove: function (object, coords) { },
+                onStartDrag: function (object, coords) { return false; }, //this image will not be dragged
+                onDrag: function (object, coords) { }
+            });
+    }
+    //加载表格
+    function GetGrid() {
+        var MemberId ="@ViewData["MemberId"]";
+
             var selectedRowIndex = 0;
             var $gridTable = $('#gridTable');
             $gridTable.jqGrid({
@@ -145,10 +179,22 @@
                     $('#' + this.id).setSelection(selectedRowIndex, false);
                 }
             });
+    }
+
+        //图纸打印
+    function printCAD() {
+        var CADDrawing1 = $("#CADDrawing1").val();
+        var html = '<img id="cad" src='+CADDrawing1+' style="width:100%;height:100%"/>';
+            var target = document.getElementById('CAD');
+            target.innerHTML = html;
+
+            $("#cad").jqprint();
+
+            $("#cad").remove();
         }
 </script>
 <link href="~/Content/scripts/plugins/jqueryPicture/css/jquery.iviewer.css" rel="stylesheet" />
-
+<link href="~/Content/styles/learun-report.css" rel="stylesheet" />
 <style>
     .viewer {
         width: 99.6%;
@@ -166,32 +212,36 @@
 <div class="widget-body">
     <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
         <ul class="steps">
-            <li data-target="#step-1" class="active"><span class="step">1</span>构件图纸<span class="chevron"></span></li>
-            <li data-target="#step-2"><span class="step">2</span>构件模型<span class="chevron"></span></li>
-            <li data-target="#step-3"><span class="step">3</span>原材料<span class="chevron"></span></li>
+            @*class="active"*@
+            <li data-target="#step-1" class="complete">构件图纸<span class="chevron"></span></li>
+            <li data-target="#step-2" class="complete">构件模型<span class="chevron"></span></li>
+            <li data-target="#step-3" class="complete">材料<span class="chevron"></span></li>
 
         </ul>
+        <div style="float:right;padding-top:8px;padding-right:8px"><a id="btn_finish" onclick="printCAD()" class="btn btn-success">打印图纸</a></div>
     </div>
-    <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+    <div class="step-content" id="wizard-steps" style="padding-left:4px; border-left: none; border-bottom: none; border-right: none;">
         <div class="step-pane active" id="step-1" style="width:700px;height:540px;">
             <input type="hidden" id="cad_file" value='@ViewData["CADDrawing"]' />
+            <input type="hidden" id="CADDrawing1" />
             <div id="viewer_cad" class="viewer"></div>
+            <div id="CAD"></div>
+            <div class="form-button" id="wizard-actions" style="width:700px;">
+                <a id="btn_last" onclick="btn(1)" disabled class="btn btn-default">上一张</a>
+                <a id="btn_next" onclick="btn(2)" class="btn btn-default">下一张</a>
+            </div>
         </div>
-        <div class="step-pane" id="step-2" style="width:700px;height:540px;">
+        <div class="step-pane" id="step-2" style="width:700px;height:580px;">
             <input type="hidden" id="model_file" value='@ViewData["ModelDrawing"]' />
             <div id="viewer_model" class="viewer"></div>
         </div>
-        <div class="step-pane" id="step-3" style="width:700px;height:540px;">
+        <div class="step-pane" id="step-3" style="padding-left:20px;padding-top:20px; width:700px;height:580px;">
             <table id="gridTable"></table>
             <div id="gridPager"></div>
         </div>
     </div>
 </div>
-<div class="form-button" id="wizard-actions">
-    <a id="btn_last" disabled class="btn btn-default btn-prev">上一页</a>
-    <a id="btn_next" class="btn btn-default btn-next">下一页</a>
-    @*<a id="btn_finish" disabled class="btn btn-success">完成</a>*@
-</div>
+
 
 
 

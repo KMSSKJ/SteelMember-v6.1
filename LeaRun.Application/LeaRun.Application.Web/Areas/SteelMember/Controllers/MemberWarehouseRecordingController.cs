@@ -43,7 +43,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
@@ -94,6 +93,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination,string Type, string queryJson)
         {
+            if (pagination.sidx == "RawMaterialName" || pagination.sidx == "RawMaterialCategory")
+            {
+                pagination.sidx = "RawMaterialId";
+            }
             var watch = CommonHelper.TimerStart();
             var List = new List<MemberWarehouseRecordingModel>();
             var data = memberwarehouserecordingbll.GetPageList(pagination,Type, queryJson);
@@ -117,15 +120,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         MemberNumbering = MemberLibrar.MemberNumbering,
                         MemberName = MemberLibrar.MemberName,
                         Category = dataitemdetailbll.GetEntity(MemberLibrar.Category).ItemName,
-                        MemberUnit = dataitemdetailbll.GetEntity(MemberLibrar.UnitId).ItemName,
+                        UnitId = dataitemdetailbll.GetEntity(MemberLibrar.UnitId).ItemName,
                         CollarEngineering = subprojectbll.GetEntity(EngineeringId).FullName,
                         RecordingId = item.RecordingId,
                         InStock = item.InStock,
                         UpdateTime = item.UpdateTime,
-                        ToReportPeople = item.ToReportPeople,
-                        CollarDepartment= item.CollarDepartment,
-                        Receiver= item.Receiver,
-                        ReceiverTel = item.ReceiverTel,
+                        //ToReportPeople = item.ToReportPeople,
+                        //CollarDepartment= item.CollarDepartment,
+                        //Receiver= item.Receiver,
+                        //ReceiverTel = item.ReceiverTel,
                         Librarian = item.Librarian,
                         Description = MemberLibrar.Description
                     };
@@ -135,28 +138,22 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             //
             var queryParam = queryJson.ToJObject();
-          
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+
+            if (!queryParam["Category"].IsEmpty())
             {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-                    case "CollarEngineering":              //构件类型
-                        List = List.FindAll(t => t.CollarEngineering.Contains(keyword));
-                        break;
-                    case "Category":              //构件类型
-                        List = List.FindAll(t => t.Category.Contains(keyword));
-                       break;
-                    case "MemberName":              //构件名称
-                        List = List.FindAll(t => t.MemberName.Contains(keyword));
-                        break;
-                    case "MemberNumbering":              //编号
-                        List = List.FindAll(t => t.MemberNumbering.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
+                string Category = queryParam["Category"].ToString();
+                //string Category = queryParam["Category"].ToString();
+                List = List.FindAll(f => f.Category == Category);
+            }
+            if (!queryParam["MemberName"].IsEmpty())
+            {
+                var MemberName = queryParam["MemberName"].ToString();
+                List = List.FindAll(t => t.MemberName.Contains(MemberName));
+            }
+            if (!queryParam["Numbering"].IsEmpty())
+            {
+                var Numbering = queryParam["Numbering"].ToString();
+                List = List.FindAll(t => t.MemberNumbering.Contains(Numbering));
             }
             //
             var jsonData = new
@@ -204,6 +201,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             memberwarehouserecordingbll.RemoveForm(keyValue);

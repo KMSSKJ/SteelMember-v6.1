@@ -10,7 +10,7 @@ namespace LeaRun.Application.Busines.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 09:49
-    /// 描 述：构件原材料
+    /// 描 述：构件材料
     /// </summary>
     public class MemberMaterialBLL
     {

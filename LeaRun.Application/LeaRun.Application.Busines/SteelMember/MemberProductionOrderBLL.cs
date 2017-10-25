@@ -4,6 +4,7 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SteelMember
 {
@@ -23,9 +24,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination,int IsReceive, int IsPassed, string queryJson)
+        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination,string queryJson)
         {
-            return service.GetPageList(pagination,IsReceive,IsPassed, queryJson);
+            return service.GetPageList(pagination,queryJson);
         }
         /// <summary>
         /// 获取列表
@@ -37,6 +38,18 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetList(queryJson);
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public List<MemberProductionOrderEntity> GetList(Expression<Func<MemberProductionOrderEntity,bool>>condition)
+        {
+            return service.GetList(condition);
+        }
+
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -62,9 +75,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberProductionOrderEntity> GetPageListByProductionStatus(Pagination pagination, int IsWarehousing)
+        public IEnumerable<MemberProductionOrderEntity> GetPageListByProductionStatus(Pagination pagination,Expression<Func<MemberProductionOrderEntity,bool>> condition)
         {
-            return service.GetPageListByProductionOrderStatus(pagination, IsWarehousing);
+            return service.GetPageListByProductionOrderStatus(pagination, condition);
         }
 
         /// <summary>

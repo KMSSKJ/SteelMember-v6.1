@@ -9,6 +9,7 @@ using LeaRun.Util;
 
 using LeaRun.Util.Extension;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -17,7 +18,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// 日 期：2017-08-07 17:28
     /// 描 述：材料订单
     /// </summary>
-    public class RawMaterialOrderService : RepositoryFactory,RawMaterialOrderIService
+    public class RawMaterialOrderService : RepositoryFactory, RawMaterialOrderIService
     {
 
         #region 获取数据
@@ -73,6 +74,11 @@ namespace LeaRun.Application.Service.SteelMember
                 var SubProjectId = queryParam["SubProjectId"].ToString();
                 expression = expression.And(t => t.Category == SubProjectId);
             }
+            if (!queryParam["IsPassed"].IsEmpty())
+            {
+                var IsPassed = queryParam["IsPassed"].ToInt();
+                expression = expression.And(t => t.IsPassed == IsPassed);
+            }
             return this.BaseRepository().FindList(expression, pagination);
         }
         /// <summary>
@@ -100,6 +106,17 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().IQueryable(expression).ToList();
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<RawMaterialOrderEntity> GetList(Expression<Func<RawMaterialOrderEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).ToList();
+        }
+       
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -108,6 +125,16 @@ namespace LeaRun.Application.Service.SteelMember
         public RawMaterialOrderEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity<RawMaterialOrderEntity>(keyValue);
+        }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public RawMaterialOrderEntity GetEntity(Expression<Func<RawMaterialOrderEntity, bool>>condition)
+        {
+            return this.BaseRepository().FindEntity<RawMaterialOrderEntity>(condition);
         }
         #endregion
 
@@ -159,7 +186,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="entryList"></param>
         public void SaveForm(string keyValue, RawMaterialOrderEntity entity, List<RawMaterialOrderInfoEntity> entryList)
         {
-            IRepository db =this.BaseRepository().BeginTrans();
+            IRepository db = this.BaseRepository().BeginTrans();
             try
             {
                 if (!string.IsNullOrEmpty(keyValue))
@@ -186,6 +213,7 @@ namespace LeaRun.Application.Service.SteelMember
                     {
                         item.Create();
                         item.OrderId = entity.OrderId;
+                        item.Time = entity.CreateTime;
                         db.Insert(item);
                     }
                 }
@@ -205,7 +233,7 @@ namespace LeaRun.Application.Service.SteelMember
         {
             this.BaseRepository().Update(list);
         }
-      
+
 
 
         #endregion

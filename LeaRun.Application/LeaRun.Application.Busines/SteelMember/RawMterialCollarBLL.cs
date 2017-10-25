@@ -61,6 +61,16 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetEntity(keyValue);
         }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">条件</param>
+        /// <returns></returns>
+        public RawMterialCollarEntity GetEntity(Expression<Func<RawMterialCollarEntity,bool>>condition)
+        {
+            return service.GetEntity(condition);
+        }
         #endregion
 
         #region 提交数据
@@ -90,6 +100,39 @@ namespace LeaRun.Application.Busines.SteelMember
             try
             {
                 service.SaveForm(keyValue, entity);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 保存表单（新增、修改）
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="entity">实体对象</param>
+        /// <returns></returns>
+        public void SaveForm(string keyValue, RawMterialCollarEntity entity, List<RawMterialCollarInfoEntity> entryList)
+        {
+            try
+            {
+                service.SaveForm(keyValue, entity, entryList);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 批量修改
+        /// </summary>
+        /// <param name="list"></param>
+
+        public void UpdataList(List<RawMterialCollarEntity> list)
+        {
+            try
+            {
+                service.UpdataList(list);
             }
             catch (Exception)
             {

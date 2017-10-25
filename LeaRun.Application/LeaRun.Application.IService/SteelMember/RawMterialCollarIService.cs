@@ -1,5 +1,6 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -40,6 +41,13 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         RawMterialCollarEntity GetEntity(string keyValue);
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        RawMterialCollarEntity GetEntity(Expression<Func<RawMterialCollarEntity,bool>>condition);
         #endregion
 
         #region 提交数据
@@ -55,6 +63,9 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
         void SaveForm(string keyValue, RawMterialCollarEntity entity);
+
+        void SaveForm(string keyValue, RawMterialCollarEntity entity, List<RawMterialCollarInfoEntity> entryList);
+        void UpdataList(List<RawMterialCollarEntity> list);
         #endregion
     }
 }

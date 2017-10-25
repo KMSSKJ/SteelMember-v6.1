@@ -36,21 +36,39 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Index1()
+        {
+            return View();
+        }
+
         /// <summary>
         /// 表单页面
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
         }
+
+
+        /// <summary>
+        /// 表单页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult NotReviewForm()
+        {
+            return View();
+        }
+
         #endregion
 
         #region 获取数据
 
-         /// <summary>
+        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页参数</param>
@@ -59,12 +77,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
+            if (pagination.sidx == "MemberNumbering" || pagination.sidx == "Category")
+            {
+                pagination.sidx = "MemberId";
+            }
+
+
             var data = new List<MemberDemandModel>();
             var watch = CommonHelper.TimerStart();
             var HavesChildren = "";
             var SubProjectId = "";
             var queryParam = queryJson.ToJObject();
-            if (queryJson != null|| queryJson =="\"Category\":\"\",\"keyword\":\"\",\"BeginTime\":\"\",\"EndTime\":\"\"")
+            if (queryJson != null|| queryJson == "\"MemberName\":\"\",\"Numbering\":\"\",\"SubProjectId\":\"\",\"HavesChildren\":\"\",\"BeginTime\":\"\",\"EndTime\":\"\"")
             {
                 if (!queryParam["HavesChildren"].IsEmpty()) { 
                 HavesChildren = queryParam["HavesChildren"].ToString();
@@ -85,12 +109,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         {
                             var _model = new MemberDemandModel();
 
-                                var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
-                            //_model.MemberUnit = data1.Unit.ItemName;
+                                var data1 = memberlibrarybll.GetEntity(f => f.MemberId == item.MemberId);
+
                             _model.Icon = data1.Icon;
                             _model.MemberNumbering = data1.MemberNumbering;
                             _model.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
-                            _model.MemberUnit = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
+                            _model.UnitId = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
                             _model.MemberId = data1.MemberId;
                             _model.CollarNumber = item.CollarNumber;
                             _model.CreateMan = item.CreateMan;
@@ -135,12 +159,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             foreach (var item in memberdemand)
             {
                     var _model = new MemberDemandModel();
-                    var data1 = memberlibrarybll.GetList(null).ToList().Find(f => f.MemberId == item.MemberId);
+                    var data1 = memberlibrarybll.GetEntity(f => f.MemberId == item.MemberId);
                     var SubProject = subprojectbll.GetEntity(item.SubProjectId);
-                    //_model.MemberUnit = data1.Unit.ItemName;
                     _model.Icon = data1.Icon;
                     _model.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
-                    _model.MemberUnit = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
+                    _model.UnitId = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
                     _model.MemberId = data1.MemberId;
                     _model.CollarNumber = item.CollarNumber;
                     _model.CreateMan = item.CreateMan;
@@ -165,25 +188,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 string Category = queryParam["Category"].ToString();
                 data = data.FindAll(t => t.Category== Category);
             }
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+           
+            if (!queryParam["MemberName"].IsEmpty())
             {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-
-                    //case "Category":              //构件类型
-                    //    expression = expression.And(t => t.Category.Contains(keyword));
-                    //    break;
-                    case "MemberName":              //构件名称
-                        data = data.FindAll(t => t.MemberName.Contains(keyword));
-                        break;
-                    case "MemberNumbering":              //编号
-                        data = data.FindAll(t => t.MemberNumbering.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
+                var MemberName = queryParam["MemberName"].ToString();
+                data = data.FindAll(t => t.MemberName.Contains(MemberName));
+            }
+            if (!queryParam["Numbering"].IsEmpty())
+            {
+                var Numbering = queryParam["Numbering"].ToString();
+                data = data.FindAll(t => t.MemberNumbering.Contains(Numbering));
             }
             //
             var jsonData = new
@@ -228,7 +242,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetListJsonMemberlibrary(string EngineeringId)
         {
-            var data = memberlibrarybll.GetList(null).ToList().FindAll(f=>f.EngineeringId == EngineeringId);
+            var data = memberlibrarybll.GetList(f=>f.EngineeringId == EngineeringId);
             var JsonData = data.Select(p => new
             {
                 MemberId = p.MemberId,
@@ -271,6 +285,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             string[] Arry = keyValue.Split(',');//字符串转数组
@@ -304,13 +319,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="keyValues"></param>
         /// <returns></returns>
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult SubmitReview(string keyValues)
         {
             string[] Arry = keyValues.Split(',');//字符串转数组
             foreach (var item in Arry)
             {
-                var file = memberdemandbll.GetList(null).ToList().Find(f => f.MemberDemandId == item);
-                file.UpdateTime = DateTime.Now;
+                var file = memberdemandbll.GetEntity(f => f.MemberDemandId == item);
                 //file.ReviewMan = OperatorProvider.Provider.Current().UserName;
                 file.IsSubmit = 1;
                 memberdemandbll.SaveForm(item, file);
@@ -319,14 +334,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         #region 审核需求
-
         /// <summary>
         /// 审核需求
         /// </summary>
         /// <param name="keyValue"></param>
+        /// <param name="Entity"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ActionResult ReviewMemberDemand(string keyValue, int type)
+        //[HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult ReviewMemberDemand(string keyValue, MemberDemandEntity Entity, int type)
         {
             try
             {
@@ -334,10 +350,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 string Message = type == 2 ? "驳回成功。" : "审核成功。";
                 foreach (var item in Arry)
                 {
-                    var file = memberdemandbll.GetList(null).ToList().Find(f => f.MemberDemandId == item);
-                    file.UpdateTime = DateTime.Now;
+                    var file = memberdemandbll.GetEntity(f => f.MemberDemandId == item);
+                    file.ReviewTime = DateTime.Now;
                     file.ReviewMan = OperatorProvider.Provider.Current().UserName;
                     file.IsReview = type;
+                    file.Description = Entity.Description;
                     memberdemandbll.SaveForm(item, file);
                 }
                 return Success(Message);
@@ -347,6 +364,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
         #endregion
         #endregion
 

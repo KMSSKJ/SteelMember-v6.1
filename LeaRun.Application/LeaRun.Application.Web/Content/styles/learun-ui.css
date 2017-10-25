@@ -31,15 +31,12 @@ body{margin:0px;padding:0px;font-family:微软雅黑,宋体,Arial,Helvetica,Verd
 .titlePanel .grid-operation ul li{float: left;height: 12px;line-height: 12px;}
 .titlePanel .grid-operation ul .first{position: relative;display: block;padding: 10px 15px;}
 .titlePanel .grid-operation .closeoperation{position: absolute;top:23px;right:18px;display:block;height: 12px;width: 12px;background: url(../Images/button_pm_close.png) left center no-repeat;}
-    .titlePanel .title-search {
-        float: left;
-        padding-left: 15px;
-    }
+.titlePanel .title-search {float: right;padding-right: 15px;}
 .titlePanel .title-search .btn{margin-bottom: 3px;height:28px;padding-top:5px;}
 .titlePanel .title-search select{padding: 4px;padding-left:6px;}
 .titlePanel .title-search .form-control{border-radius: 4px;box-shadow:none;}
 .titlePanel .title-search .ui-filter .form-control{border-radius: 0px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
-.titlePanel .toolbar{float: right;padding-right: 15px;line-height: 56px;}
+.titlePanel .toolbar{float: left;padding-left: 15px;line-height: 56px;}
 .titlePanel .toolbar i{font-size: 14px;margin-top:-1px;vertical-align: middle;color: #666666;}
 .toolbar-btn i{font-size: 13px;vertical-align: middle;margin-bottom: 2px;}
 .taskblockPanel{background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);border: 1px solid #cfcfcf;}
@@ -52,8 +49,25 @@ body{margin:0px;padding:0px;font-family:微软雅黑,宋体,Arial,Helvetica,Verd
 .tools_bar_icon .icon-botton{margin-top:3px;margin-right:4px;vertical-align:middle;line-height:10px;padding:4px;float: left;cursor:pointer;border:1px solid #ccc;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
 .tools_bar_icon .icon-botton:hover{background-color:#fff;}
 label[disabled],label[disabled] label{color:#ccc;opacity:1;cursor:default}
+.formPrint {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    border-collapse: collapse;
+    border-width: 3px 1px 1px;
+    table-layout: fixed;
+
+    border:1px solid #000;
+}
+.formPrint td {
+    border: 1px dashed #000;
+    height:25px;
+    text-align:center;
+    font-size:12pt;
+    font-family:楷体;
+}
 .form{width:100%;margin:0px;padding:0px;border-collapse:collapse;border-width:3px 1px 1px;table-layout:fixed}
-.form .formTitle{position:relative;left:0px;text-align:center;white-space:nowrap;font-weight:normal;width:90px;padding-right:10px;}
+.form .formTitle{position:relative;left:0px;text-align:center;white-space:nowrap;font-weight:normal;width:70px;padding-right:10px;}
 .form .formTitle font{color:red;position:absolute;right:0px;}
 .form .formTitle-top {vertical-align:top; padding-top:4px;}
 .form .formValue{position:relative;padding:5px;width:auto;}

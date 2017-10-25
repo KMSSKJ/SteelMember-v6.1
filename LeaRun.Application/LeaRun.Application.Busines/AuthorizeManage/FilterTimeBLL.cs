@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using LeaRun.Cache.Factory;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.AuthorizeManage
 {
@@ -47,6 +48,16 @@ namespace LeaRun.Application.Busines.AuthorizeManage
         public FilterTimeEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
+        }
+
+        /// <summary>
+        /// 过滤时段实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        public FilterTimeEntity GetEntity(Expression<Func<FilterTimeEntity,bool>>condition)
+        {
+            return service.GetEntity(condition);
         }
         #endregion
 

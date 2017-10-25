@@ -6,7 +6,7 @@ namespace LeaRun.Application.Mapping.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-08 11:58
-    /// 描 述：原材料采购管理
+    /// 描 述：材料采购管理
     /// </summary>
     public class RawMaterialPurchaseInfoMap : EntityTypeConfiguration<RawMaterialPurchaseInfoEntity>
     {

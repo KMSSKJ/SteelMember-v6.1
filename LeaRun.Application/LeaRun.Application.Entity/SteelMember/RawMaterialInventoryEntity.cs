@@ -6,7 +6,7 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-19 10:03
-    /// 描 述：原材料库存
+    /// 描 述：材料库存
     /// </summary>
     public class RawMaterialInventoryEntity : BaseEntity
     {
@@ -27,16 +27,30 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public decimal? Quantity { get; set; }
         /// <summary>
-        /// Price
-        /// </summary>
-        /// <returns></returns>
-        public decimal? Price { get; set; }
-        /// <summary>
         /// Category
         /// </summary>
         /// <returns></returns>
         public string Category { get; set; }
-        
+        /// <summary>
+        /// UnitPrice
+        /// </summary>
+        /// <returns></returns>
+        public string UnitPrice { get; set; }
+        /// <summary>
+        /// RawMaterialManufacturer
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialManufacturer { get; set; }
+        /// <summary>
+        /// RawMaterialSupplier
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialSupplier { get; set; }
+        /// <summary>
+        /// Description
+        /// </summary>
+        /// <returns></returns>
+        public string Description { get; set; }
         #endregion
 
         #region 扩展操作

@@ -52,6 +52,8 @@
     <Compile Include="AuthorizeManage\ModuleFormInstanceBLL.cs" />
     <Compile Include="BaseManage\OrganizeBLL.cs" />
     <Compile Include="PublicInfoManage\ScheduleBLL.cs" />
+    <Compile Include="SteelMember\MemberCollarBLL.cs" />
+    <Compile Include="SteelMember\MemberCollarInfoBLL.cs" />
     <Compile Include="SteelMember\MemberDemandBLL.cs" />
     <Compile Include="SteelMember\MemberLibraryBLL.cs" />
     <Compile Include="SteelMember\MemberMaterialBLL.cs" />
@@ -60,8 +62,10 @@
     <Compile Include="SteelMember\MemberProductionOrderInfoBLL.cs" />
     <Compile Include="SteelMember\MemberWarehouseRecordingBLL.cs" />
     <Compile Include="SteelMember\MemberWarehouseBLL.cs" />
+    <Compile Include="SteelMember\EquipmentMaintenanceRecordsBLL.cs" />
     <Compile Include="SteelMember\ProduceEquipmentBLL.cs" />
     <Compile Include="SteelMember\ProjectDemandBLL.cs" />
+    <Compile Include="SteelMember\SystemConfigurationBLL.cs" />
     <Compile Include="SteelMember\ProjectInfoBLL.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisBLL.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryBLL.cs" />
@@ -71,6 +75,7 @@
     <Compile Include="SteelMember\RawMaterialPurchaseBLL.cs" />
     <Compile Include="SteelMember\RawMaterialWarehouseBLL.cs" />
     <Compile Include="SteelMember\RawMterialCollarBLL.cs" />
+    <Compile Include="SteelMember\RawMterialCollarInfoBLL.cs" />
     <Compile Include="SteelMember\SafetyEquipmentBLL.cs" />
     <Compile Include="SteelMember\SubProjectBLL.cs" />
     <Compile Include="SystemManage\AreaBLL.cs" />

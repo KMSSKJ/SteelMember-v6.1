@@ -8,6 +8,8 @@ using System.Linq;
 using LeaRun.Util;
 
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
+using System;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -28,6 +30,16 @@ namespace LeaRun.Application.Service.SteelMember
         {
             return this.BaseRepository().IQueryable().ToList();
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<RawMaterialOrderInfoEntity> GetList(Expression<Func<RawMaterialOrderInfoEntity,bool>>condition)
+        {
+            return this.BaseRepository().IQueryable(condition);
+        }
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -36,6 +48,15 @@ namespace LeaRun.Application.Service.SteelMember
         public RawMaterialOrderInfoEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
+        }
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">主键值</param>
+        /// <returns></returns>
+        public RawMaterialOrderInfoEntity GetEntity(Expression<Func<RawMaterialOrderInfoEntity,bool>>condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
         }
         #endregion
 

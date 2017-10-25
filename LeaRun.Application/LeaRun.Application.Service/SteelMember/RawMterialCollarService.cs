@@ -15,12 +15,13 @@ namespace LeaRun.Application.Service.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-26 17:19  RepositoryFactory<RawMterialCollarEntity>
-    /// 描 述：领用管理
+    /// 日 期：2017-07-26 17:19 
+    /// 描 述：领用管理 RawMterialCollarEntity
     ///</summary>
-    
-    public class RawMterialCollarService : RepositoryFactory<RawMterialCollarEntity>, RawMterialCollarIService
+
+    public class RawMterialCollarService : RepositoryFactory,RawMterialCollarIService
     {
+        //RepositoryFactory<RawMterialCollarEntity>, RawMterialCollarIService
         #region 获取数据
         /// <summary>
         /// 获取列表
@@ -30,8 +31,7 @@ namespace LeaRun.Application.Service.SteelMember
         public IEnumerable<RawMterialCollarEntity> GetList(string queryJson)
         {
             //return this.BaseRepository().IQueryable().ToList();
-            //return this.BaseRepository().FindEntity<RawMterialCollarEntity>(queryJson);
-            throw new NotImplementedException();
+            return this.BaseRepository().FindList<RawMterialCollarEntity>(queryJson);
         }
         /// <summary>
         /// 获取实体
@@ -40,8 +40,19 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns></returns>
         public RawMterialCollarEntity GetEntity(string keyValue)
         {
-            throw new NotImplementedException();
-            //return this.BaseRepository().FindEntity<RawMterialCollarEntity>(keyValue);
+            //throw new NotImplementedException();
+            return this.BaseRepository().FindEntity<RawMterialCollarEntity>(keyValue);
+        }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public RawMterialCollarEntity GetEntity(Expression<Func<RawMterialCollarEntity,bool>> condition)
+        {
+            //throw new NotImplementedException();
+            return this.BaseRepository().FindEntity<RawMterialCollarEntity>(condition);
         }
         #endregion
 
@@ -75,6 +86,62 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <param name="entity"></param>
+        /// <param name="entryList"></param>
+        public void SaveForm(string keyValue, RawMterialCollarEntity entity, List<RawMterialCollarInfoEntity> entryList)
+        {
+            IRepository db = this.BaseRepository().BeginTrans();
+            try
+            {
+                if (!string.IsNullOrEmpty(keyValue))
+                {
+                    //主表
+                    entity.Modify(keyValue);
+                    db.Update(entity);
+                    //明细
+                    db.Delete<RawMterialCollarInfoEntity>(t => t.CollarId.Equals(keyValue));
+                    foreach (RawMterialCollarInfoEntity item in entryList)
+                    {
+                        item.Create();
+                        item.CollarId = entity.CollarId;
+                        db.Insert(item);
+                    }
+                }
+                else
+                {
+                    //主表
+                    entity.Create();
+                    db.Insert(entity);
+                    //明细
+                    foreach (RawMterialCollarInfoEntity item in entryList)
+                    {
+                        item.Create();
+                        item.CollarId = entity.CollarId;
+                        db.Insert(item);
+                    }
+                }
+                db.Commit();
+            }
+            catch (Exception)
+            {
+                db.Rollback();
+                throw;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        public void UpdataList(List<RawMterialCollarEntity> list)
+        {
+            this.BaseRepository().Update(list);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -92,6 +159,11 @@ namespace LeaRun.Application.Service.SteelMember
             //return this.BaseRepository().FindList<RawMterialCollarEntity>(pagination);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public List<RawMterialCollarEntity> GetCallarList(Expression<Func<RawMterialCollarEntity, bool>> condition)
         {
             //throw new NotImplementedException();
@@ -101,25 +173,59 @@ namespace LeaRun.Application.Service.SteelMember
         /// <summary>
         /// 分页查询出库信息
         /// </summary>
+        /// <param name="pagination"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
         public List<RawMterialCollarEntity> GetPageList(Pagination pagination, string queryJson)
         {
-            string[] arraryquery = queryJson.Split(',');
+           
             var expression = LinqExtensions.True<RawMterialCollarEntity>();
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.Date>= BeginTime);
+                expression = expression.And(t => t.Date<= EndTime);
+            }
+            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.Date>= BeginTime);
+            }
+            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.Date<= EndTime);
+            }
 
-            string InventoryId = arraryquery[0];
-            var degintime = Convert.ToDateTime(arraryquery[1]);
-            var endtime = Convert.ToDateTime(arraryquery[2]);
-
-            expression = expression.And(p => p.InventoryId == InventoryId);
-            expression = expression.And(p => p.CollarTime >= degintime);
-            expression = expression.And(p => p.CollarTime <= endtime);
-
+            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            {
+                string condition = queryParam["condition"].ToString();
+                string keyword = queryParam["keyword"].ToString();
+                switch (condition)
+                {
+                    //case "Category":              //构件类型
+                    //    expression = expression.And(t => t.Category.Contains(keyword));
+                    //    break;
+                    //case "CollarEngineering":             
+                    //    expression = expression.And(t => t.CollarEngineering.Contains(keyword));
+                    //    break;
+                    case "CollarNumbering":              //型号
+                        expression = expression.And(t => t.CollarNumbering.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (!queryParam["SubProjectId"].IsEmpty())
+            {
+                var SubProjectId = queryParam["SubProjectId"].ToString();
+                expression = expression.And(t => t.CollarEngineering == SubProjectId);
+            }
+            expression = expression.And(t => t.CollarNumbering !=null);
             return this.BaseRepository().FindList(expression, pagination).ToList();
-
-            //throw new NotImplementedException();
         }
+
         #endregion
     }
 }

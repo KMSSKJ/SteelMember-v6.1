@@ -79,6 +79,7 @@
         tab.find("#" + item.id).parents('li').remove();
         tabContent.find('#iframe' + item.id).remove();
     }
+
     function addTab(item) {
         if (item == null) {
             return false;
@@ -237,6 +238,7 @@ loadnav = function () {
     $("#UserSetting").click(function () {
         tablist.newTab({ id: "UserSetting", title: "个人中心", closed: true, icon: "fa fa fa-user", url: contentPath + "/PersonCenter/Index" });
     });
+
     //动态加载导航菜单
     var _html = "";
     var index = 0;

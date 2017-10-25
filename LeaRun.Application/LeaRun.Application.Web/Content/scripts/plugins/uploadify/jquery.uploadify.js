@@ -915,6 +915,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 		// Triggered right before a file is uploaded
 		onUploadStart : function(file) {
 			// Load the swfupload settings
+
 			var settings = this.settings;
 
 			var timer        = new Date();

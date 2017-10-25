@@ -19,13 +19,13 @@
             {
                 case "Redis":
                     return new Redis.Cache();
-                    break;
+                    //break;
                 case "WebCache":
                     return new Cache();
-                    break;
+                    //break;
                 default:
                     return new Cache();
-                    break;
+                   // break;
             }
         }
     }

@@ -57,9 +57,9 @@
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'ItemDetailId', hidden: true },
-                { label: '&nbsp;&nbsp;&nbsp;&nbsp;项目名', name: 'ItemName', index: 'ItemName', width: 200, align: 'left', sortable: false },
-                { label: '项目值', name: 'ItemValue', index: 'ItemValue', width: 200, align: 'left', sortable: false },
-                { label: '简拼', name: 'SimpleSpelling', index: 'SimpleSpelling', width: 150, align: 'left', sortable: false },
+                { label: '&nbsp;&nbsp;&nbsp;&nbsp;项目名', name: 'ItemName', index: 'ItemName', width: 200, align: 'center', sortable: false },
+                { label: '项目值', name: 'ItemValue', index: 'ItemValue', width: 200, align: 'center', sortable: false },
+                { label: '简拼', name: 'SimpleSpelling', index: 'SimpleSpelling', width: 150, align: 'center', sortable: false },
                 { label: '排序', name: 'SortCode', index: 'SortCode', width: 80, align: 'center', sortable: false },
                 {
                     label: "默认", name: "IsDefault", index: "IsDefault", width: 50, align: "center", sortable: false,
@@ -73,7 +73,7 @@
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
-                { label: "备注", name: "Description", index: "Description", width: 200, align: "left", sortable: false }
+                { label: "备注", name: "Description", index: "Description", width: 200, align: "center", sortable: false }
             ],
             treeGrid: true,
             treeGridModel: "nested",

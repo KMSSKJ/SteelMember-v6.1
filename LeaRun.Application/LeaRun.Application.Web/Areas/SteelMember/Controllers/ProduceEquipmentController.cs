@@ -3,6 +3,9 @@ using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using LeaRun.Util.WebControl;
 using System.Web.Mvc;
+using System.Linq;
+using LeaRun.Util.Extension;
+using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -14,23 +17,45 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     public class ProduceEquipmentController : MvcControllerBase
     {
         private ProduceEquipmentBLL produceequipmentbll = new ProduceEquipmentBLL();
-
+        private EquipmentMaintenanceRecordsBLL equipmentmaintenancerecordsbll = new EquipmentMaintenanceRecordsBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
         }
+
+        /// <summary>
+        /// 列表页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Index1()
+        {
+            return View();
+        }
+
         /// <summary>
         /// 表单页面
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public ActionResult Form()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 表单页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult MaintenanceRecordsForm()
         {
             return View();
         }
@@ -91,9 +116,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             produceequipmentbll.RemoveForm(keyValue);
+            var list = equipmentmaintenancerecordsbll.GetList(f=>f.Id== keyValue);
+            if (list.Count()>0)
+            {
+                foreach (var item in list)
+                {
+                    equipmentmaintenancerecordsbll.RemoveForm(item.InfoId);
+                }
+            }
             return Success("删除成功。");
         }
         /// <summary>
@@ -107,6 +141,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult SaveForm(string keyValue, ProduceEquipmentEntity entity)
         {
+            entity.Icon= System.IO.Path.GetFileName(entity.Icon);
             produceequipmentbll.SaveForm(keyValue, entity);
             return Success("操作成功。");
         }

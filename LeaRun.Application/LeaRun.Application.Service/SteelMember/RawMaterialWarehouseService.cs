@@ -14,9 +14,9 @@ using System.Linq.Expressions;
 namespace LeaRun.Application.Service.SteelMember
 {
     /// <summary>
-    /// 版 本 6.1 RepositoryFactory<RawMaterialWarehouseEntity>
-    /// 日 期：2017-07-26 17:17RepositoryFactory
-    /// 描 述：入库管理
+    /// 版 本 6.1  
+    /// 日 期：2017-07-26 17:17
+    /// 描 述：入库管理 RawMaterialWarehouseEntity
     /// </summary>
     public class RawMaterialWarehouseService : RepositoryFactory<RawMaterialWarehouseEntity>, RawMaterialWarehouseIService
     {
@@ -79,23 +79,10 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns></returns>
         public List<RawMaterialWarehouseEntity> GetPageList(Pagination pagination, string queryJson)
         {
-            string[] arrayqueryJson = queryJson.Split(',');
+            //string[] arrayqueryJson = queryJson.Split(',');
             var expression = LinqExtensions.True<RawMaterialWarehouseEntity>();
-
-            string RawMaterialId = arrayqueryJson[0];
-            var degintime = Convert.ToDateTime(arrayqueryJson[1]);
-            var endtime = Convert.ToDateTime(arrayqueryJson[2]);
-
-            expression = expression.And(p => p.RawMaterialId == RawMaterialId);
-            expression = expression.And(p => p.WarehouseTime >= degintime);
-            expression = expression.And(p => p.WarehouseTime <= endtime);
+            expression = expression.And(p => p.WarehouseId != "");
             return this.BaseRepository().FindList(expression, pagination).ToList();
-            //throw new NotImplementedException();
-            //if (queryJson != null)
-            //{
-            //    return this.BaseRepository().FindList<RawMaterialWarehouseEntity>(p => p.WarehouseId == queryJson, pagination);
-            //}
-            //return this.BaseRepository().FindList<RawMaterialWarehouseEntity>(pagination);
         }
       /// <summary>
       /// 

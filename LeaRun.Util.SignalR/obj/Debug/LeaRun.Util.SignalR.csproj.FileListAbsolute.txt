@@ -182,3 +182,17 @@ D:\project\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.Extension.pdb
 D:\project\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.dll
 D:\project\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.SignalR.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.SignalR.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\Newtonsoft.Json.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\SharpZipLib.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.Extension.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\Newtonsoft.Json.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.Extension.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.pdb

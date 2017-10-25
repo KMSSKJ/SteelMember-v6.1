@@ -39,6 +39,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
         void SaveForm(string keyValue, ProjectInfoEntity entity);
+        string GetProjectInfoId(string keyValue, ProjectInfoEntity entity);
         #endregion
     }
 }
