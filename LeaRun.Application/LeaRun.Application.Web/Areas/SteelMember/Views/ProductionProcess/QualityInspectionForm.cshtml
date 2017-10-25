@@ -32,9 +32,9 @@
             height: $(window).height() - 240.5,
             autowidth: true,
             colModel: [
-                { label: '构件编号[<font face="宋体">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                { label: '构件编号[<font face="宋体" color="red">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
                 { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
-                { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
+                { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false, align: 'center' },
                 { label: '工厂自检合格量', name: 'SelfDetectNumber', align: ' center', width: 80, sortable: false },
                 { label: '监理质检合格量', name: 'QualityInspectionNumber', align: ' center', width: 150, sortable: false },
                 { label: '质检情况备注', name: 'QualityInspectionRemarks', align: ' center', width: 80, sortable: false },
@@ -64,7 +64,7 @@
             var rowdata = {
                 MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="text" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
                 MemberName: '<input id="MemberName➩' + i + '" class="editable disabled" type="text" />',
-                MemberUnit: '<input id="MemberUnit➩' + i + '" class="editable disabled center" type="text" />',
+                UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="text" />',
                 SelfDetectNumber: '<input id="SelfDetectNumber➩' + i + '" class="editable disabled center" type="text" checkexpession="Number"/>',
                 QualityInspectionNumber: '<input id="QualityInspectionNumber➩' + i + '" type="text" class="editable center" onkeyup="Conversion(' + i + ')"/>',
                 QualityInspectionRemarks: '<input id="QualityInspectionRemarks➩' + i + '" type="text" class="editable center" onkeyup="Conversion(' + i + ')"/>',
@@ -151,7 +151,7 @@
 
     //初始化控件
     function initControl() {
-       
+
         //获取表单
         if (!!keyValue) {
             $.SetForm({
@@ -170,7 +170,7 @@
                             $(this).find('input[id="MemberId➩' + i + '"]').val(row.MemberId);
                             $(this).find('input[id="MemberNumbering➩' + i + '"]').val(row.MemberNumbering);
                             $(this).find('input[id="MemberName➩' + i + '"]').val(row.MemberName);
-                            $(this).find('input[id="MemberUnit➩' + i + '"]').val(row.MemberUnit);
+                            $(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
                             $(this).find('input[id="MemberNumber➩' + i + '"]').val(row.MemberNumber);
                             //$(this).find('input[id="Description➩' + i + '"]').val(row.Description);
                             $(this).find('input[id="SelfDetectNumber➩' + i + '"]').val(row.SelfDetectNumber);

@@ -56,7 +56,8 @@ $.fn.printArea = function (opt) {
                 $.each($printArea, function (i, item) {
                     var $_area = $(item)
                     if ($_area.find('.ui-jqgrid').length == 0) {
-                        var $tb = $_area.find("table.form").eq(0).clone().removeAttr("style").attr("class", "ui-table-print");
+                        var $tb = $_area.find("table.form").eq(0).clone().removeAttr("style").attr("class", "ui-table-print").attr("border-top","none");
+                        
                         $tb.find("th").css("width", "auto");
                         //$tb.find("td").css("width", "auto");
 
@@ -117,7 +118,10 @@ $.fn.printArea = function (opt) {
 
 $.fn.printTable = function (opt) {
     opt = opt || {};
-    opt.table = true;
-    opt.usePageStyle = false;
+    opt.table = true;         // 是否打印table
+    opt.usePageStyle = true;  // 是否使用页面中的样式
+    opt.importCSS=true; // 为打印文本引入外部样式--link标签 ["<link rel='stylesheet' href='/static/jquery/forieprint.css' media='print'>","",""]
+    opt.loadCSS = ""; // 为打印文本引入外部样式--路径 ["/static/jquery/forieprint.css","",""]
+
     return this.printArea(opt);
 };

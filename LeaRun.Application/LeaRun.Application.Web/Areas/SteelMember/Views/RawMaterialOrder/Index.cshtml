@@ -32,14 +32,17 @@
     //加载树
     var _Category;
     var HavesChildren;
+    var SubProjectName;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            param: { Levels: 2 },
+            param: { Levels: 3 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
                 _Category = item.value;
                 HavesChildren = item.hasChildren;
+                SubProjectName = item.text;
+                $("#CenterTitle").html("-" + SubProjectName);
                 $('#btn_Search').trigger("click");
             }
         };
@@ -48,7 +51,7 @@
     }
 
     //加载表格
-    function GetGrid(obj) {
+    function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
@@ -57,30 +60,23 @@
             url: "../../SteelMember/RawMaterialOrder/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },
-                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: '', sortable: true },
-                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 80, align: '', sortable: true },
-                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: '', sortable: true },
+                { label: '主键', name: 'OrderId', index: 'OrderId', hidden: true },
+                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: 'center', sortable: true },
+                { label: '申购人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
                 {
-                    label: '优先级', name: 'Priority', index: 'Priority', width: 80, align: '', sortable: true,
+                    label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 90, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    }
+                },
+                {
+                    label: '提交状态', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 {
-                    label: '是否专用', name: 'IsDedicated', index: 'IsDedicated', width: 80, align: '', sortable: true,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                    }
-                },
-                {
-                    label: '提交状态', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: '', sortable: true,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                    }
-                },
-                {
-                    label: '审核状态', name: 'IsPassed', index: 'IsPassed', width: 80, align: '', sortable: true,
+                    label: '审核状态', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未审核</span>";
@@ -91,9 +87,23 @@
                         }
                     }
                 },
-                { label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 80, align: '', sortable: true },
-                { label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 80, align: '', sortable: true },
-                { label: '备注', name: 'Description', index: 'Description', width: 80, align: '', sortable: true },
+                { label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 100, align: 'center', sortable: true },
+                {
+                    label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 90, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    }
+                },
+            {
+                label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center', sortable: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                            return "";
+                        } else {
+                            return "<p style='color: red'>" + cellvalue + "</p>";
+                        }
+                    }
+                },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -121,13 +131,14 @@
                     datatype: "json",
                     height: "100%",
                     colModel: [
-                        { label: 'InfoId', name: 'InfoId', align: 'center', width: 80, sortable: false, hidden: true },
-                        { label: 'RawMaterialId', name: 'RawMaterialId', align: 'center', width: 80, sortable: false, hidden: true },
-                        { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, sortable: true, hidden: true },
-                        { label: '型号/规格', name: 'RawMaterialModel', align: 'center', width: 100, sortable: false },
-                        { label: '材料名称', name: 'RawMaterialName', align: 'center', width: 150, sortable: false },
-                        { label: '单位', name: 'UnitName', align: 'center', width: 80, sortable: false },
-                        { label: '数量', name: 'RawMaterialNumber', align: 'center', width: 80, sortable: false },
+                        { label: 'InfoId', name: 'InfoId', align: 'center', hidden: true },
+                        { label: 'RawMaterialId', name: 'RawMaterialId', align: 'center',hidden: true },
+                        { label: 'OrderId', name: 'OrderId', index: 'OrderId',hidden: true },
+                        { label: '材料类型', name: 'Category', align: 'center', width: 120, sortable: false },
+                        { label: '材料名称', name: 'RawMaterialName', align: 'center', width: 180, sortable: false },
+                        { label: '型号/规格', name: 'RawMaterialModel', align: 'center', width: 160, sortable: false },
+                        { label: '单位', name: 'UnitId', align: 'center', width: 90, sortable: false },
+                        { label: '数量', name: 'RawMaterialNumber', align: 'center', width: 100, sortable: false },
                         //{ label: '单价', name: 'Price', align: ' center', width: 80, sortable: false },
                         //{ label: '金额', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
                     ],
@@ -141,49 +152,43 @@
             }
         });
 
-        //查询条件
-        $("#queryCondition .dropdown-menu li").click(function () {
-            var text = $(this).find('a').html();
-            var value = $(this).find('a').attr('data-value');
-            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
-        });
-        //查询事件
-        $("#btn_Search").click(function () {
-            var queryJson = {
-               // condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                condition:"OrderNumbering",
-                keyword: $("#txt_Keyword").val(),
-                SubProjectId: _Category,
-                BeginTime: $("#txt_BeginTime").val(),
-                EndTime: $("#txt_EndTime").val()
-            }
-            $gridTable.jqGrid('setGridParam', {
-                postData: { queryJson: JSON.stringify(queryJson) },
-                page: 1
-            }).trigger('reloadGrid');
-        });
-        //查询回车
-        $('#txt_Keyword').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                $('#btn_Search').trigger("click");
-            }
-        });
-
-        switch (obj) {
-            case "Search":
-                $('#btn_Search').trigger("click");
-                break;
+    //查询条件
+    $("#queryCondition .dropdown-menu li").click(function () {
+        var text = $(this).find('a').html();
+        var value = $(this).find('a').attr('data-value');
+        $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+    });
+    //查询事件
+    $("#btn_Search").click(function () {
+        var queryJson = {
+            // condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+            condition: "OrderNumbering",
+            keyword: $("#txt_Keyword").val(),
+            SubProjectId: _Category,
+            BeginTime: $("#txt_BeginTime").val(),
+            EndTime: $("#txt_EndTime").val()
         }
+        $gridTable.jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+    });
+    //查询回车
+    $('#txt_Keyword').bind('keypress', function (event) {
+        if (event.keyCode == "13") {
+            $('#btn_Search').trigger("click");
+        }
+    });
     }
-   
+
     //新增
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: '添加材料订单',
+            title: '添加材料申购单',
             url: '/SteelMember/RawMaterialOrder/Form?category=' + _Category,
-            width: '1000px',
-            height: '750px',
+            width: '1035px',
+            height: '780px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -198,10 +203,10 @@
             if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsReview == "<span class=\"label label-danger\">失败</span>") {
                 dialogOpen({
                     id: 'Form',
-                    title: '编辑材料订单',
+                    title: '编辑材料申购单',
                     url: '/SteelMember/RawMaterialOrder/Form?keyValue=' + keyValue,
-                    width: '1000px',
-                    height: '750px',
+                    width: '1035px',
+                    height: '780px',
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick();
                     }
@@ -235,11 +240,11 @@
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
         if (checkedRow(keyValue)) {
             dialogOpen({
-                id: 'Form',
-                title: '详细材料订单',
-                url: '/SteelMember/RawMaterialOrder/Form?keyValue=' + keyValue + '&isDeltail=true',
-                width: '1000px',
-                height: '750px',
+                id: 'FormDetail',
+                title: '材料申购单',
+                url: '/SteelMember/RawMaterialOrder/FormDetail?keyValue=' + keyValue,
+                width: '1125px',
+                height: '760px',
                 btn: null,
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
@@ -289,10 +294,10 @@
 
     //审核
     function btn_passed(type) {
-        var keyValues = $('#gridTable').jqGridRowValue('OrderId');
+        var keyValue = $('#gridTable').jqGridRowValue('OrderId');
         var reviews = $('#gridTable').jqGridRowValue('IsSubmit');
         var passeds = $('#gridTable').jqGridRowValue('IsPassed');
-        if (checkedArray(keyValues)) {
+        if (checkedArray(keyValue)) {
             var reviewsArr = reviews.split(",");
             var passedsArr = passeds.split(",");
             if (reviewsArr.length > 0) {
@@ -323,30 +328,62 @@
                 if (r) {
                     Loading(true, "正在处理...");
                     window.setTimeout(function () {
-                        $.ajax({
-                            url: "../../SteelMember/RawMaterialOrder/ReviewOperation",
-                            data: { keyValues: keyValues, type: type },
-                            type: "post",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.type == "3") {
-                                    dialogAlert(data.message, -1);
-                                } else {
-                                    Loading(false);
-                                    dialogMsg(data.message, 1);
+
+                        if (type == 1) {
+                            $.SaveForm({
+                                url: "../../SteelMember/RawMaterialOrder/ReviewOperation?keyValue=" + keyValue + "&type=" + type,
+                                param: {},
+                                loading: "正在保存数据...",
+                                success: function () {
+                                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
                                 }
-                                $('#gridTable').trigger('reloadGrid');
-                            }
-                        });
+                            })
+                        } else {
+                            dialogOpen({
+                                id: 'NotReviewForm',
+                                title: '失败原因',
+                                url: '/SteelMember/RawMaterialOrder/NotReviewForm?keyValue=' + keyValue + "&type=" + type,
+                                width: '400px',
+                                height: '300px',
+                                callBack: function (iframeId) {
+                                    top.frames[iframeId].AcceptClick();
+                                }
+                            });
+                        }
+
+                        //$.ajax({
+                        //    url: "../../SteelMember/RawMaterialOrder/ReviewOperation",
+                        //    data: { keyValues: keyValues, type: type },
+                        //    type: "post",
+                        //    dataType: "json",
+                        //    success: function (data) {
+                        //        if (data.type == "3") {
+                        //            dialogAlert(data.message, -1);
+                        //        } else {
+                        //            Loading(false);
+                        //            dialogMsg(data.message, 1);
+                        //        }
+                        //        $('#gridTable').trigger('reloadGrid');
+                        //    }
+                        //});
                     }, 500);
                 }
             });
         }
     }
 
-    //input改变事件
-    function InputChange() {
-        $('#btn_Search').trigger("click");
+    function Search() {
+        dialogOpen({
+            id: "AdvancedSearchForm",
+            title: '高级查询',
+            url: '/Utility/AdvancedSearchForm?SubProjectId=' + _Category,
+            width: "670px",
+            height: "180px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null,
+        });
     }
 </script>
 
@@ -359,33 +396,33 @@
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">订单列表</div>
+            <div class="panel-Title">申购列表<span id="CenterTitle"></span></div>
             <div class="titlePanel">
-                <div class="title-search" style="padding-top:15px">
+                <div class="title-search">
                     <table>
                         <tr>
-                            <td style="width:110px">
-                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间"  onfocus="WdatePicker()" onblur="InputChange()" />
+                            @*<td style="width:110px">
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
                             </td>
                             <td style="padding-left:2px;width:110px">
-                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()"/>
-                            </td>
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                            </td>*@
 
                             @*<td style="padding-left: 10px;">
-                                <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-value="Category">构件类型</a></li>
-                                        <li><a data-value="MemberName">构件名称</a></li>
-                                        <li><a data-value="OrderNumbering">编号</a></li>
-                                    </ul>
-                                </div>
-                            </td>*@
-                            <td style="padding-left: 5px;width:110px">
-                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询编号"/>
+                                    <div id="queryCondition" class="btn-group">
+                                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-value="Category">构件类型</a></li>
+                                            <li><a data-value="MemberName">构件名称</a></li>
+                                            <li><a data-value="OrderNumbering">编号</a></li>
+                                        </ul>
+                                    </div>
+                                </td>*@
+                            <td style="padding-left: 5px;width:160px">
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="输入要查询编号" />
                             </td>
-                            <td style="padding-left: 5px;display:none">
+                            <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
                             </td>
                         </tr>
@@ -406,8 +443,10 @@
                             <li id="lr-success"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
                             <li id="lr-danger"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
                         </ul>
-
                     </div>
+                    @*<div class="btn-group">
+                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </div>*@
                     <script>$('.toolbar').authorizeButton()</script>
                 </div>
             </div>

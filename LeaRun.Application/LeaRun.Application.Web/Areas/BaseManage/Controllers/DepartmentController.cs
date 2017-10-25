@@ -89,6 +89,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             {
                 #region 机构
                 TreeEntity tree = new TreeEntity();
+
                 //bool hasChildren = organizedata.Count(t => t.ParentId == item.OrganizeId) == 0 ? false : true;
                 //if (hasChildren == false)
                 //{
@@ -98,6 +99,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
                 //        continue;
                 //    }
                 //}
+
                 tree.id = item.OrganizeId;
                 tree.text = item.FullName;
                 tree.value = item.OrganizeId;
@@ -150,7 +152,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         public ActionResult GetTreeListJson(string condition, string keyword)
         {
             var organizedata = organizeCache.GetList();
-            var departmentdata = departmentBLL.GetList().ToList();
+            var departmentdata = departmentBLL.GetList().OrderBy(o => o.EnCode).ToList();
             if (!string.IsNullOrEmpty(condition) && !string.IsNullOrEmpty(keyword))
             {
                 #region 多条件查询

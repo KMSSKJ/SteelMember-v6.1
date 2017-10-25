@@ -5,8 +5,7 @@
 <script>
     var keyValue = request('keyValue');
     var category = request('category');
-    //alert(keyValue);
-    //alert(category);
+
     $(function () {
         initControl();
     });
@@ -19,14 +18,13 @@
             url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             description: "==请选择==",
             allowSearch: true,
-          
 
         });
         //单位
         $("#Unit").ComboBox({
             param: { EnCode: "UnitName" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemValue",
+            id: "ItemDetailId",
             text: "ItemName",
             description: "==请选择==",
             height: "120px",
@@ -48,6 +46,7 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
+                    $("#Unit").ComboBoxSetValue(data.Unit);
                 }
             })
         } else {
@@ -56,14 +55,16 @@
     }
     //验证
     $._ExistField = function (controlId, url, param) {
-        var a = $("#Category").attr('data-text');
+        var a = $("#Category").attr('data-value');
+        var RawMaterialName = $("#RawMaterialName").val();
         var $control = $("#" + controlId);
         if (!$control.val() || a == undefined || a == "" || a == '' || a == null) {
             return false;
         }
         var data = {
             keyValue: keyValue,
-            category: a
+            category: a,
+            RawMaterialName: RawMaterialName
         };
         data[controlId] = $control.val();
         var options = $.extend(data, param);
@@ -100,6 +101,8 @@
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
+        postData["Unit"] = $("#Unit").attr('data-value')
+        postData["RawMaterialModel"] = $("#RawMaterialModel").val().replace(/\s+/g, "");//除去所有空格
         $.SaveForm({
             url: "../../SteelMember/RawMaterialLibrary/SaveForm?keyValue=" + keyValue,
             param: postData,
@@ -110,7 +113,7 @@
         })
     }
 </script>
-<div style="margin-top: 20px; margin-right: 30px;">
+<div style="margin: 15px;">
     <table class="form">
         <tr>
             <td class="formTitle">类型<font face="宋体">*</font></td>

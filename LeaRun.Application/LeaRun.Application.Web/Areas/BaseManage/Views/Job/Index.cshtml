@@ -30,21 +30,22 @@
             colModel: [
                 { label: '主键', name: 'RoleId', hidden: true },
                 { label: 'OrganizeId', name: 'OrganizeId', hidden: true },
-                { label: '职位编号', name: 'EnCode', index: 'EnCode', width: 100, align: 'left' },
-                { label: '职位名称', name: 'FullName', index: 'FullName', width: 200, align: 'left' },
+                { label: '职位编号', name: 'EnCode', index: 'EnCode', width: 100, align: 'center' },
+                { label: '职位名称', name: 'FullName', index: 'FullName', width: 200, align: 'center' },
                    {
-                       label: '所在公司', name: 'OrganizeName', width: 250, align: 'left', sortable: false,
+                       label: '所在公司', name: 'OrganizeName', width: 250, align: 'center', sortable: false,
                        formatter: function (cellvalue, options, rowObject) {
-                           var organizeId = top.clientdepartmentData[rowObject.OrganizeId].OrganizeId;
-                           return top.clientorganizeData[organizeId].FullName;
+                           return top.clientorganizeData[cellvalue] == null ? "" : top.clientorganizeData[rowObject.OrganizeId].FullName;
+                           //var organizeId = top.clientdepartmentData[rowObject.OrganizeId].OrganizeId;
+                           //return top.clientorganizeData[organizeId].FullName;
                        }
                    },
-                {
-                    label: '所在部门', name: 'DepartmentName', width: 100, align: 'left', sortable: false,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return top.clientdepartmentData[rowObject.OrganizeId].FullName;
-                    }
-                },
+                //{
+                //    label: '所在部门', name: 'DepartmentName', width: 100, align: 'left', sortable: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return top.clientdepartmentData[rowObject.OrganizeId].FullName;
+                //    }
+                //},
                 {
                     label: '创建时间', name: 'CreateDate', index: 'CreateDate', width: 130, align: 'center',
                     formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i' }
@@ -55,7 +56,7 @@
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
-                { label: "职位描述", name: "Description", index: "Description", width: 200, align: "left" }
+                { label: "职位描述", name: "Description", index: "Description", width: 200, align: "center" }
             ],
             viewrecords: true,
             rowNum: 30,
@@ -151,7 +152,7 @@
             dialogOpen({
                 id: "AllotMember",
                 title: '职位成员 - ' + fullName,
-                url: '/AuthorizeManage/PermissionJob/AllotMember?postId=' + keyValue + "&departmentId=" + organizeId,
+                url: '/AuthorizeManage/PermissionJob/AllotMember?jobId=' + keyValue + "&departmentId=" + organizeId,
                 width: "650px",
                 height: "450px",
                 callBack: function (iframeId) {
@@ -168,7 +169,7 @@
             dialogOpen({
                 id: "AllotAuthorize",
                 title: '职位授权 - ' + FullName,
-                url: '/AuthorizeManage/PermissionJob/AllotAuthorize?postId=' + keyValue,
+                url: '/AuthorizeManage/PermissionJob/AllotAuthorize?jobId=' + keyValue,
                 width: "700px",
                 height: "690px",
                 btn: null

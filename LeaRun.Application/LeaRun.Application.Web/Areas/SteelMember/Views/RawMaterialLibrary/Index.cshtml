@@ -1,5 +1,5 @@
 @{;
-    ViewBag.Title = "原材料库页面";
+    ViewBag.Title = "材料库页面";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 <script>
@@ -30,7 +30,8 @@
     }
     //加载树
     var _CategoryFather;
-    var _HavesChildren
+    var _HavesChildren;
+    var SubProjectName;
     var _Category;
 
     function GetTree() {
@@ -40,16 +41,44 @@
             url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             onnodeclick: function (item) {
                 _Category = item.id;
-                $('#btn_Search').trigger("click");
+                SubProjectName = item.text;
+                $("#CenterTitle").html("-" + SubProjectName)
+                GetGrid();
+                //$('#btn_Search').trigger("click");
             }
         };
         //初始化
         $("#itemTree").treeview(item);
+
+        ////本页面弹窗
+        //$("#searchDialog").dialog({
+        //    autoOpen: false,
+        //    height: 100,
+        //    width: 900,
+        //    modal: true,
+        //    show: {
+        //        effect: "blind",
+        //        duration: 1000
+        //    },
+        //    hide: {
+        //        effect: "explode",
+        //        duration: 1000
+        //    }
+        //});
     }
     //加载表格
-    function GetGrid(obj) {
+    function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
+
+        var queryJson = {
+            SubProjectId: _Category,
+        }
+        $gridTable.jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+
         $gridTable.jqGrid({
             autowidth: true,
             height: $(window).height() - 170,
@@ -57,18 +86,22 @@
             datatype: "json",
             colModel: [
                 { label: "主键", name: "RawMaterialId", index: "RawMaterialId", hidden: true },
-                { label: "类型", name: "Category", index: "Category", width: 150, align: "center" },
-                { label: "材料名称", name: "RawMaterialName", index: "RawMaterialName", width: 150, align: "center" },
-                { label: "规格或型号", name: "RawMaterialModel", index: "RawMaterialModel", width: 150, align: "left" },
-                { label: "单位", name: "Unit", index: "Unit", width: 120, align: "left" },
-                { label: "更新时间", name: "UpdateTime", index: "UpdateTime", width: 80, align: "left" },
-                { label: "描述", name: "Description", index: "Description", width: 100, align: "left" }
+                //{ label: "类型", name: "Category", index: "Category", width: 150, align: "center" },
+                { label: "材料名称", name: "RawMaterialName", index: "RawMaterialName", width: 180, align: "center" },
+                { label: "规格/型号", name: "RawMaterialModel", index: "RawMaterialModel", width: 180, align: "center" },
+                { label: "计量单位", name: "Unit", index: "Unit", width: 120, align: "center" },
+                {
+                    label: "添加时间", name: "UpdateTime", index: "UpdateTime", width: 80, align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    }},
+                { label: "备注", name: "Description", index: "Description", width: 200, align: "center" }
             ],
             viewrecords: true,
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'RawMaterialModel',
+            //sortname: 'RawMaterialModel',
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
@@ -79,53 +112,49 @@
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //查询条件
-        $("#queryCondition .dropdown-menu li").click(function () {
-            var text = $(this).find('a').html();
-            var value = $(this).find('a').attr('data-value');
-            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
-        });
-        //查询事件
-        $("#btn_Search").click(function () {
-            var queryJson = {
-                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                //condition: "PurchaseNumbering",
-                keyword: $("#txt_Keyword").val(),
-                SubProjectId: _Category,
-                BeginTime: $("#txt_BeginTime").val(),
-                EndTime: $("#txt_EndTime").val()
-            }
-            $gridTable.jqGrid('setGridParam', {
-                postData: { queryJson: JSON.stringify(queryJson) },
-                page: 1
-            }).trigger('reloadGrid');
-        });
-        //查询回车
-        $('#txt_Keyword').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                $('#btn_Search').trigger("click");
-            }
-        });
+        ////查询条件
+        //$("#queryCondition .dropdown-menu li").click(function () {
+        //    var text = $(this).find('a').html();
+        //    var value = $(this).find('a').attr('data-value');
+        //    $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+        //});
+        ////查询事件
+        //$("#btn_Search").click(function () {
+        //    var queryJson = {
+        //        condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+        //        //condition: "PurchaseNumbering",
+        //        keyword: $("#txt_Keyword").val(),
+        //        SubProjectId: _Category,
+        //        BeginTime: $("#txt_BeginTime").val(),
+        //        EndTime: $("#txt_EndTime").val()
+        //    }
+        //    $gridTable.jqGrid('setGridParam', {
+        //        postData: { queryJson: JSON.stringify(queryJson) },
+        //        page: 1
+        //    }).trigger('reloadGrid');
+        //});
+        ////查询回车
+        //$('#txt_Keyword').bind('keypress', function (event) {
+        //    if (event.keyCode == "13") {
+        //        $('#btn_Search').trigger("click");
+        //    }
+        //});
 
-        switch (obj) {
-            case "Search":
-                $('#btn_Search').trigger("click");
-                break;
-        }
-    }
-    //input改变事件
-    function InputChange() {
-        $('#btn_Search').trigger("click");
+        //switch (obj) {
+        //    case "Search":
+        //        $('#btn_Search').trigger("click");
+        //        break;
+        //}
     }
 
     //新增
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: '添加原材料管理',
+            title: '添加材料信息',
             url: '/SteelMember/RawMaterialLibrary/Form?category=' + escape(_Category),
             width: '500px',
-            height: '360px',
+            height: '330px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -137,10 +166,10 @@
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'Form',
-                title: '编辑原材料管理',
+                title: '编辑材料信息',
                 url: '/SteelMember/RawMaterialLibrary/Form?keyValue=' + keyValue,
-                width: '600px',
-                height: '360px',
+                width: '500px',
+                height: '330px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
@@ -159,7 +188,7 @@
                 }
             })
         } else {
-            dialogMsg('请选择需要删除的原材料管理！', 0);
+            dialogMsg('请选择需要删除的材料管理！', 0);
         }
     }
     //文件导入
@@ -178,7 +207,7 @@
                 btn: null
             });
         } else {
-            dialogMsg('请选择原材料类型！', 0);
+            dialogMsg('请选择材料类型！', 0);
         }
     }
   
@@ -188,7 +217,7 @@
         dialogOpen({
             id: "ExcelIExportDialog",
             title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("原材料信息浏览表"),
+            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("材料信息浏览表"),
             width: "500px",
             height: "380px",
             callBack: function (iframeId) {
@@ -197,19 +226,32 @@
         });
     }
 
+    function Search() {
+        dialogOpen({
+            id: "AdvancedSearchForm",
+            title: '高级查询',
+            url: '/Utility/AdvancedSearchForm?SubProjectId='+ _Category,
+            width: "670px",
+            height: "180px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null,
+        });
+    }
 </script>
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">原材料类型</div>
+            <div class="panel-Title">材料类型</div>
             <div id="itemTree"></div>
         </div>
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">原材料信息</div>
+            <div class="panel-Title">材料信息<span id="CenterTitle"></span></div>
             <div class="titlePanel">
-                <div class="title-search">
+                @*<div id="searchDialog" class="title-search">
                     <table>
                         <tr>
                             <td style="width:110px">
@@ -224,7 +266,7 @@
                                         <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                         <ul class="dropdown-menu">
-                                            @*<li><a data-value="Category">材料类型</a></li>*@
+                                            <li><a data-value="Category">材料类型</a></li>
                                             <li><a data-value="RawMaterialName">材料名称</a></li>
                                             <li><a data-value="RawMaterialModel">型号</a></li>
                                         </ul>
@@ -233,23 +275,26 @@
                             <td style="padding-left: 5px;width:110px">
                                 <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询关键字" />
                             </td>
-                            <td style="padding-left: 5px;display:none">
+                            <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
                             </td>
                         </tr>
                     </table>
-                </div>
+                </div>*@
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
                         <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
                         <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
-                        <a id="lr-edit" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
-                        <a id="lr-edit" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
                     </div>
-                    @*<script>$('.toolbar').authorizeButton()</script>*@
-                </div>
+                    <div class="btn-group">
+                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </div>
+                        <script>$('.toolbar').authorizeButton()</script>
+                    </div>
             </div>
             <div class="gridPanel">
                 <table id="gridTable"></table>

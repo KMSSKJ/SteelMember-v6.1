@@ -71,7 +71,16 @@
                       //},
                     { label: '施工现场人', name: "CreateMan", index: "CreateMan", align:' center',width: 12 },
                     { label: '结算人', name: "ReviewMan", index: "ReviewMan", align:' center',width: 16 },
-                    { label: '备注', name: "Description", index: "Description", align:' center',width: 12 },
+                    {
+                        label: '备注', name: 'Description', index: 'Description', width: 200, align: 'left',
+                        formatter: function (cellvalue, options, rowObject) {
+                            if (rowObject.Description == null || rowObject.Description == "undefined") {
+                                return "";
+                            } else {
+                                return "<p style='color: red'>" + cellvalue + "</p>";
+                            }
+                        }
+                    },
             ],
             rowNum: 30,
             sortname: 'SortCode',

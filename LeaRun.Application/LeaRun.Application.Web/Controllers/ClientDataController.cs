@@ -208,7 +208,8 @@ namespace LeaRun.Application.Web.Controllers
         /// <returns></returns>
         private object GetModuleData()
         {
-            return authorizeBLL.GetModuleList(SystemInfo.CurrentUserId);
+            var data= authorizeBLL.GetModuleList(SystemInfo.CurrentUserId);
+            return data;
         }
         /// <summary>
         /// 获取功能按钮数据

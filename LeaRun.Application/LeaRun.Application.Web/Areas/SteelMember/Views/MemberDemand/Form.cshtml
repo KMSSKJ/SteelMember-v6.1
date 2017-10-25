@@ -14,7 +14,7 @@
     function initControl() {
         //子项目
         $("#SubProjectId").ComboBoxTree({
-            param: { Levels: 2 },
+            param: { Levels: 3 },
             url: '../../SteelMember/SubProject/GetTreeJson',///MemberLibrary/SubProjectTreeJson
             description: "==请选择==",
             height: "200px",
@@ -140,6 +140,7 @@
                 if (data.toLocaleLowerCase() == 'false') {
                     ValidationMessage($("#MemberId"), '数据库中已存在,请重新输入');
                     $("#MemberId").attr('fieldexist', 'yes');
+                    MemberId
                 } else {
                     $("#MemberId").attr('fieldexist', 'no');
                 }
@@ -150,14 +151,14 @@
         })
     }
 </script>
-<div style="margin-top: 20px; margin-right: 30px;">
+<div style="margin:15px;">
     <input id="MemberNumbering" type="hidden" />
     <input id="Category" type="hidden" />
     <input id="MemberName" type="hidden" />
     <table class="form">
         <tr>
             <td class="formTitle">
-                分项目名称<font face="宋体">*</font>
+                分项目名称<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
                 <div id="SubProjectId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
@@ -165,19 +166,19 @@
         </tr>
         <tr>
             <td class="formTitle">
-                构件<font face="宋体">*</font>
+                构件<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">@*onblur*@
-                <div id="MemberId" type="select" tabindex="1" onblur="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="MemberId" type="select" tabindex="1" @*onmouseout="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"*@ class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 <input id="btn_MemberInfo" type="hidden" onclick="btn_member_info()" value="构件详情" />
             </td>
         </tr>
         <tr>
             <td class="formTitle">
-                需求量<font face="宋体">*</font>
+                需求量<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
-                <input id="MemberNumber" type="text" @*onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"*@ class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
+                <input id="MemberNumber" type="text" onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="ExceedZero" />
             </td>
         </tr>
         <tr>
@@ -185,7 +186,7 @@
                 备注
             </td>
             <td class="formValue">
-                <textarea id="Description" name="Description" maxlengtd="200" class="form-control"></textarea>
+                <textarea id="Description" name="Description" maxlengtd="200" onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"onmouseout="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"class="form-control" style="height:70px"></textarea>
             </td>
         </tr>
 

@@ -6,7 +6,7 @@ namespace LeaRun.Application.Mapping.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-19 10:03
-    /// 描 述：原材料库存
+    /// 描 述：材料库存
     /// </summary>
     public class RawMaterialInventoryMap : EntityTypeConfiguration<RawMaterialInventoryEntity>
     {

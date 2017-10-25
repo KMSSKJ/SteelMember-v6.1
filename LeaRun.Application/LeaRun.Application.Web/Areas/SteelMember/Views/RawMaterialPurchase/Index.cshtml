@@ -1,5 +1,5 @@
-@{;
-    ViewBag.Title = "ÁĞ±íÒ³Ãæ";
+ï»¿@{;
+    ViewBag.Title = "åˆ—è¡¨é¡µé¢";
     //Layout = "~/Views/Shared/_Index.cshtml";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
@@ -7,48 +7,96 @@
     ;
     $(function () {
         InitialPage();
-        GetTree();
+        //GetTree();
         GetGrid();
 
     });
-    //³õÊ¼»¯Ò³Ãæ
+    //åˆå§‹åŒ–é¡µé¢
     function InitialPage() {
-        //layout²¼¾Ö
+        //layoutå¸ƒå±€
         $('#layout').layout({
             applyDemoStyles: true,
             onresize: function () {
                 $(window).resize()
             }
         });
-        //resizeÖØÉè(±í¸ñ¡¢Ê÷ĞÎ)¿í¸ß
+        //resizeé‡è®¾(è¡¨æ ¼ã€æ ‘å½¢)å®½é«˜
+        $('.profile-nav').height($(window).height() - 50);
+
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
                 $("#gridTable").setGridHeight($(window).height() - 170);
-                $("#itemTree").setTreeHeight($(window).height() - 52);
+                $('.profile-nav').height($(window).height() - 50);
+                //$("#itemTree").setTreeHeight($(window).height() - 52);
             }, 200);
             e.stopPropagation();
         });
     }
- 
-    //¼ÓÔØÊ÷
-    var _Category;
-    var HavesChildren;
-    function GetTree() {
-        var item = {
-            height: $(window).height() - 52,
-            param: { Levels: 2 },
-            url: '../../SteelMember/SubProject/GetTreeJson',
-            onnodeclick: function (item) {
-                _Category = item.value;
-                $('#btn_Search').trigger("click");
+
+    ////åŠ è½½æ ‘
+    //var _Category;
+    //var SubProjectName;
+    //var HavesChildren;
+    //function GetTree() {
+    //    var item = {
+    //        height: $(window).height() - 52,
+    //        param: { Levels: 3 },
+    //        url: '../../SteelMember/SubProject/GetTreeJson',
+    //        onnodeclick: function (item) {
+    //            _Category = item.value;
+    //            HavesChildren = item.HasChildren;
+    //            SubProjectName = item.text;
+    //            $("#CenterTitle").html("-" + SubProjectName);
+    //            $('#btn_Search').trigger("click");
+    //        }
+    //    };
+    //    //åˆå§‹åŒ–
+    //    $("#itemTree").treeview(item);
+    //}
+
+    function btn_summary() {
+        //queryJson = {
+        //    IsPurchase: 0,
+        //};
+        //$('#gridTable').jqGrid('setGridParam', {
+        //    url: '/SteelMember/RawMaterialPurchase/ItemList?category='+ category,
+        //    postData: { queryJson: JSON.stringify(queryJson) },
+        //    page: 1
+        //}).trigger('reloadGrid');
+        dialogOpen({
+            id: 'ItemList',
+            title: 'é€‰å–ææ–™',
+            url: '/SteelMember/RawMaterialPurchase/ItemList',
+            width: '700px',
+            height: '500px',
+            callBack: function (iframeId) {
+                top.frames[iframeId].btn_add_();
+                $('#PurchaseQuantityâ©1').focus();
             }
+        });
+    }
+    function btn_notPurchased() {
+        queryJson = {
+            IsPurchase: 0,
         };
-        //³õÊ¼»¯
-        $("#itemTree").treeview(item);
+        $('#gridTable').jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
     }
 
-    //¼ÓÔØ±í¸ñ
+    function btn_purchased() {
+        queryJson = {
+            IsPurchase: 1,
+        };
+        $('#gridTable').jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+    }
+
+    //åŠ è½½è¡¨æ ¼
     function GetGrid(obj) {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
@@ -58,34 +106,52 @@
             url: "../../SteelMember/RawMaterialPurchase/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: 'Ö÷¼ü', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', align: 'center', sortable: true, hidden: true },
-                { label: '²É¹ºµ¥ºÅ', name: 'PurchaseNumbering', index: 'PurchaseNumbering', width: 170, align: 'center', sortable: true },
+                { label: 'ä¸»é”®', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', align: 'center', sortable: true, hidden: true },
+                { label: 'é‡‡è´­å•å·', name: 'PurchaseNumbering', index: 'PurchaseNumbering', width: 180, align: 'center', sortable: true },
                 {
-                    label: 'Ìá½»', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                    label: 'æäº¤', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 {
-                    label: 'ÉóºË', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                    label: 'å®¡æ ¸', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
-                            return "<span class=\"label label-info\">Î´ÉóºË</span>";
+                            return "<span class=\"label label-info\">æœªå®¡æ ¸</span>";
                         } else if (cellvalue == 1) {
-                            return "<span class=\"label label-success\">Í¨¹ı</span>";
+                            return "<span class=\"label label-success\">é€šè¿‡</span>";
                         } else {
-                            return "<span class=\"label label-danger\">Ê§°Ü</span>";
+                            return "<span class=\"label label-danger\">å¤±è´¥</span>";
                         }
                     }
                 },
                 {
-                    label: 'ÊÇ·ñ²É¹º', name: 'IsPurchase', index: 'IsPurchase', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                    label: 'æ˜¯å¦é‡‡è´­', name: 'IsPurchase', index: 'IsPurchase', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
-                { label: 'ÖÆµ¥ÈË', name: 'CreateMan', index: 'CreateMan', width: 80, align: 'center', sortable: true },
-                { label: 'ÖÆµ¥Ê±¼ä', name: 'CreateTime', index: 'CreateTime', width: 80, align: 'center', sortable: true },
-                { label: 'ÉóºËÈË', name: 'ReviewMan', index: 'ReviewMan', width: 80, align: 'center', sortable: true },
-                { label: 'ÉóºËÊ±¼ä', name: 'ReviewTime', index: 'ReviewTime', width: 80, align: 'center', sortable: true },
-                { label: '±¸×¢', name: 'Description', index: 'Description', width: 80, align: 'center', sortable: true },
+                { label: 'åˆ¶å•äºº', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
+                {
+                    label: 'åˆ¶å•æ—¶é—´', name: 'CreateTime', index: 'CreateTime', width: 100, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    } },
+                { label: 'å®¡æ ¸äºº', name: 'ReviewMan', index: 'ReviewMan', width: 100, align: 'center', sortable: true },
+                {
+                    label: 'å®¡æ ¸æ—¶é—´', name: 'ReviewTime', index: 'ReviewTime', width: 100, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    }
+                },
+                {
+                    label: 'å¤‡æ³¨', name: 'Description', index: 'Description', width: 200,sortable: false, align: 'center',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                            return "";
+                        } else {
+                            return "<p style='color: red'>" + cellvalue + "</p>";
+                        }
+                    }
+                },
+
             ],
             viewrecords: true,
             rowNum: 30,
@@ -113,19 +179,18 @@
                     datatype: "json",
                     height: "100%",
                     colModel: [
-                        { label: 'Ö÷¼ü', name: 'InfoId', index: 'InfoId', width: 80, align: '', sortable: true, hidden: true },
-                        { label: '²É¹ºÖ÷¼ü', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', width: 80, align: '', sortable: true,hidden: true },
-                        { label: '·ÖÎöÖ÷¼ü', name: 'RawMaterialAnalysisId', index: 'RawMaterialAnalysisId', width: 80, align: '', sortable: true, hidden: true },
-
-                        { label: 'Ô­²ÄÁÏÃû³Æ', name: "RawMaterialName", align: 'center', width: 100, sortable: false },
-                        { label: '¹æ¸ñ/ĞÍºÅ', name: "RawMaterialModel", align: 'center', width: 100, sortable: false },
-                        { label: '²É¹ºÁ¿', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
-                        { label: 'µ¥Î»', name: "UnitName", align: 'center', width: 80, sortable: false },
-                        { label: 'µ¥¼Û(Ôª)', name: "RawMaterialPurchaseModelPrice", align: 'center', width: 80, sortable: false },
-                        { label: '¹©Ó¦ÉÌ', name: "RawMaterialSupplier", align: 'center', width: 100, sortable: false },
-                        { label: 'ÃèÊö', name: "Description", align: 'center', width: 100, sortable: false },
+                        { label: 'ä¸»é”®', name: 'InfoId', index: 'InfoId', hidden: true },
+                        { label: 'é‡‡è´­ä¸»é”®', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId',hidden: true },
+                        { label: 'åˆ†æä¸»é”®', name: 'RawMaterialAnalysisId', index: 'RawMaterialAnalysisId', hidden: true },
+                        { label: 'ææ–™åç§°', name: "RawMaterialName", align: 'center', width: 180, sortable: false },
+                        { label: 'è§„æ ¼/å‹å·', name: "RawMaterialModel", align: 'center', width: 180, sortable: false },
+                        { label: 'é‡‡è´­é‡', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
+                        { label: 'å•ä½', name: "UnitId", align: 'center', width: 80, sortable: false },
+                        { label: 'å•ä»·(å…ƒ)', name: "RawMaterialPurchaseModelPrice", align: 'center', width: 80, sortable: false },
+                        { label: 'ä¾›åº”å•†', name: "RawMaterialSupplier", align: 'center', width: 150, sortable: false },
+                        { label: 'æè¿°', name: "Description", align: 'center', width: 100, sortable: false },
                     ],
-                    caption: "Ã÷Ï¸",
+                    caption: "æ˜ç»†",
                     rowNum: "1000",
                     rownumbers: true,
                     shrinkToFit: false,
@@ -135,17 +200,18 @@
             }
         });
 
-        //²éÑ¯Ìõ¼ş
+        //æŸ¥è¯¢æ¡ä»¶
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
             var value = $(this).find('a').attr('data-value');
             $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
         });
-        //²éÑ¯ÊÂ¼ş
+        //æŸ¥è¯¢äº‹ä»¶
         $("#btn_Search").click(function () {
             var queryJson = {
                 // condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 condition: "PurchaseNumbering",
+                HavesChildren: HavesChildren,
                 keyword: $("#txt_Keyword").val(),
                 SubProjectId: _Category,
                 BeginTime: $("#txt_BeginTime").val(),
@@ -156,7 +222,7 @@
                 page: 1
             }).trigger('reloadGrid');
         });
-        //²éÑ¯»Ø³µ
+        //æŸ¥è¯¢å›è½¦
         $('#txt_Keyword').bind('keypress', function (event) {
             if (event.keyCode == "13") {
                 $('#btn_Search').trigger("click");
@@ -169,24 +235,21 @@
                 break;
         }
     }
-    function InputChange() {
-        $('#btn_Search').trigger("click");
-    }
 
-    //ĞÂÔö
+    //æ–°å¢
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: 'Ìí¼ÓÔ­²ÄÁÏ²É¹ºµ¥',
-            url: '/SteelMember/RawMaterialPurchase/Form?category=' + _Category,
+            title: 'æ·»åŠ ææ–™é‡‡è´­å•',
+            url: '/SteelMember/RawMaterialPurchase/Form',
             width: '1000px',
-            height: '750px',
+            height: '760px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
         });
     }
-    //±à¼­
+    //ç¼–è¾‘
 
     function btn_edit() {
         var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
@@ -195,12 +258,12 @@
         var IsSubmit = $('#gridTable').jqGridRowValue('IsSubmit');
         var IsPassed = $('#gridTable').jqGridRowValue('IsPassed');
         if (checkedRow(keyValue)) {
-            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsPassed == "<span class=\"label label-danger\">Ê§°Ü</span>") {
+            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsPassed == "<span class=\"label label-danger\">å¤±è´¥</span>") {
                 var reviewsArr = IsPurchase.split(",");
                 if (reviewsArr.length > 0) {
                     for (var i in reviewsArr) {
                         if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
-                            dialogMsg("ËùÑ¡Êı¾İÎªÒÑ²É¹ºµÄÊı¾İ£¬²»ÄÜ½øĞĞ±à¼­£¡", 0);
+                            dialogMsg("æ‰€é€‰æ•°æ®ä¸ºå·²é‡‡è´­çš„æ•°æ®ï¼Œä¸èƒ½è¿›è¡Œç¼–è¾‘ï¼", 0);
                             return false;
                             //break;
                         }
@@ -208,23 +271,23 @@
                 }
                 dialogOpen({
                     id: 'Form',
-                    title: '±à¼­Ô­²ÄÁÏ²É¹ºµ¥',
+                    title: 'ç¼–è¾‘ææ–™é‡‡è´­å•',
                     url: '/SteelMember/RawMaterialPurchase/Form?keyValue=' + keyValue,
                     //url: '/SteelMember/RawMaterialPurchase/EditForm?keyValue=' + keyValue + '&&Description=' + Description + '',
                     width: '1000px',
-                    height: '750px',
+                    height: '760px',
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick();
                     }
                 })
 
             } else {
-                dialogMsg("ÒÑÌá½»µÄÊı¾İÖ»ÓĞÉóºËÊ§°Üºó²ÅÄÜ×÷±à¼­£¡", 0);
+                dialogMsg("å·²æäº¤çš„æ•°æ®åªæœ‰å®¡æ ¸å¤±è´¥åæ‰èƒ½ä½œç¼–è¾‘ï¼", 0);
             }
         }
     }
 
-    //É¾³ı
+    //åˆ é™¤
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
         var IsPurchase = $('#gridTable').jqGridRowValue('IsPurchase');
@@ -232,12 +295,12 @@
         var IsPassed = $('#gridTable').jqGridRowValue('IsPassed');
 
         if (checkedRow(keyValue)) {
-            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsPassed == "<span class=\"label label-danger\">Ê§°Ü</span>") {
+            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsPassed == "<span class=\"label label-danger\">å¤±è´¥</span>") {
                 var reviewsArr = IsPurchase.split(",");
                 if (reviewsArr.length > 0) {
                     for (var i in reviewsArr) {
                         if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
-                            dialogMsg("ËùÑ¡Êı¾İÎªÒÑ²É¹ºµÄÊı¾İ£¬²»ÄÜ½øĞĞ±à¼­£¡", 0);
+                            dialogMsg("æ‰€é€‰æ•°æ®ä¸ºå·²é‡‡è´­çš„æ•°æ®ï¼Œä¸èƒ½è¿›è¡Œç¼–è¾‘ï¼", 0);
                             return false;
                             //break;
                         }
@@ -252,21 +315,21 @@
                     }
                 })
             } else {
-                dialogMsg("ÒÑÌá½»µÄÊı¾İÖ»ÓĞÉóºËÊ§°Üºó²ÅÄÜ×÷±à¼­£¡", 0);
+                dialogMsg("å·²æäº¤çš„æ•°æ®åªæœ‰å®¡æ ¸å¤±è´¥åæ‰èƒ½ä½œç¼–è¾‘ï¼", 0);
             }
         }
     }
-    //ÏêÏ¸
+    //è¯¦ç»†
     function btn_details() {
         var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
-        var Description = $('#gridTable').jqGridRowValue('Description');
+        //var Description = $('#gridTable').jqGridRowValue('Description');
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'Form',
-                title: '¹ºµ¥ÏêÇé',
-                url: '/SteelMember/RawMaterialPurchase/Form?keyValue=' + keyValue + '&&IsDetails=1',
-                width: '1000px',
-                height: '750px',
+                title: 'è´­å•è¯¦æƒ…',
+                url: '/SteelMember/RawMaterialPurchase/Detail?keyValue=' + keyValue,
+                width: '1150px',
+                height: '800px',
                 btn: null,
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
@@ -274,7 +337,7 @@
             })
         }
     }
-    // Ìá½»
+    // æäº¤
     function btn_submitReview() {
         var keyValues = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
         var reviews = $('#gridTable').jqGridRowValue('IsSubmit');
@@ -283,15 +346,15 @@
             if (reviewsArr.length > 0) {
                 for (var i in reviewsArr) {
                     if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
-                        dialogMsg("ËùÑ¡Êı¾İÖĞ°üº¬ÒÑÌá½»µÄÊı¾İ£¬ÇëÖØĞÂÑ¡Ôñ£¡", 0);
+                        dialogMsg("æ‰€é€‰æ•°æ®ä¸­åŒ…å«å·²æäº¤çš„æ•°æ®ï¼Œè¯·é‡æ–°é€‰æ‹©ï¼", 0);
                         return false;
                         break;
                     }
                 }
             }
-            dialogConfirm("×¢£ºÄúÈ·¶¨ÒªÌá½»ËùÑ¡ÖĞµÄÊı¾İÂğ£¿", function (r) {
+            dialogConfirm("æ³¨ï¼šæ‚¨ç¡®å®šè¦æäº¤æ‰€é€‰ä¸­çš„æ•°æ®å—ï¼Ÿ", function (r) {
                 if (r) {
-                    Loading(true, "ÕıÔÚÌá½»...");
+                    Loading(true, "æ­£åœ¨æäº¤...");
                     window.setTimeout(function () {
                         $.ajax({
                             url: "../../SteelMember/RawMaterialPurchase/SubmitReview",
@@ -313,18 +376,18 @@
             });
         }
     }
-    //ÉóºË
+    //å®¡æ ¸
     function btn_passed(type) {
-        var keyValues = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
         var reviews = $('#gridTable').jqGridRowValue('IsSubmit');
         var passeds = $('#gridTable').jqGridRowValue('IsPassed');
-        if (checkedArray(keyValues)) {
+        if (checkedArray(keyValue)) {
             var reviewsArr = reviews.split(",");
             var passedsArr = passeds.split(",");
             if (reviewsArr.length > 0) {
                 for (var i in reviewsArr) {
                     if (reviewsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
-                        dialogMsg("ËùÑ¡Êı¾İÖĞ°üº¬Î´Ìá½»µÄÊı¾İ£¬ÇëÖØĞÂÑ¡Ôñ£¡", 0);
+                        dialogMsg("æ‰€é€‰æ•°æ®ä¸­åŒ…å«æœªæäº¤çš„æ•°æ®ï¼Œè¯·é‡æ–°é€‰æ‹©ï¼", 0);
                         return false;
                         break;
                     }
@@ -332,8 +395,8 @@
             }
             if (passedsArr.length > 0) {
                 for (var i in passedsArr) {
-                    if (passedsArr[i] == "<span class=\"label label-success\">Í¨¹ı</span>" || passedsArr[i] == "<span class=\"label label-danger\">Ê§°Ü</span>") {
-                        dialogMsg("ËùÑ¡Êı¾İÖĞ°üº¬ÒÑÉóºËµÄÊı¾İ£¬ÇëÖØĞÂÑ¡Ôñ£¡", 0);
+                    if (passedsArr[i] == "<span class=\"label label-success\">é€šè¿‡</span>" || passedsArr[i] == "<span class=\"label label-danger\">å¤±è´¥</span>") {
+                        dialogMsg("æ‰€é€‰æ•°æ®ä¸­åŒ…å«å·²å®¡æ ¸çš„æ•°æ®ï¼Œè¯·é‡æ–°é€‰æ‹©ï¼", 0);
                         return false;
                         break;
                     }
@@ -341,35 +404,58 @@
             }
             var message = "";
             if (type == 1) {
-                message = "×¢£ºÄúÈ·¶¨Òª¶ÔËùÑ¡ÖĞµÄÊı¾İ½øĞĞÉóºËÍ¨¹ıÂğ£¿";
+                message = "æ³¨ï¼šæ‚¨ç¡®å®šè¦å¯¹æ‰€é€‰ä¸­çš„æ•°æ®è¿›è¡Œå®¡æ ¸é€šè¿‡å—ï¼Ÿ";
             } else {
-                message = "×¢£ºÄúÈ·¶¨Òª¶ÔËùÑ¡ÖĞµÄÊı¾İ½øĞĞÉóºËÊ§°ÜÂğ£¿";
+                message = "æ³¨ï¼šæ‚¨ç¡®å®šè¦å¯¹æ‰€é€‰ä¸­çš„æ•°æ®è¿›è¡Œå®¡æ ¸å¤±è´¥å—ï¼Ÿ";
             }
             dialogConfirm(message, function (r) {
                 if (r) {
-                    Loading(true, "ÕıÔÚ´¦Àí...");
+                    Loading(true, "æ­£åœ¨å¤„ç†...");
                     window.setTimeout(function () {
-                        $.ajax({
-                            url: "../../SteelMember/RawMaterialPurchase/ReviewOperation",
-                            data: { keyValues: keyValues, type: type },
-                            type: "post",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.type == "3") {
-                                    dialogAlert(data.message, -1);
-                                } else {
-                                    Loading(false);
-                                    dialogMsg(data.message, 1);
+
+                        if (type == 1) {
+                            $.SaveForm({
+                                url: "../../SteelMember/RawMaterialPurchase/ReviewOperation?keyValue=" + keyValue + "&type=" + type,
+                                param: {},
+                                loading: "æ­£åœ¨ä¿å­˜æ•°æ®...",
+                                success: function () {
+                                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
                                 }
-                                $('#gridTable').trigger('reloadGrid');
-                            }
-                        });
+                            })
+                        } else {
+                            dialogOpen({
+                                id: 'NotReviewForm',
+                                title: 'å¤±è´¥åŸå› ',
+                                url: '/SteelMember/RawMaterialPurchase/NotReviewForm?keyValue=' + keyValue + "&type=" + type,
+                                width: '400px',
+                                height: '300px',
+                                callBack: function (iframeId) {
+                                    top.frames[iframeId].AcceptClick();
+                                }
+                            });
+                        }
+
+                        //$.ajax({
+                        //    url: "../../SteelMember/RawMaterialPurchase/ReviewOperation",
+                        //    data: { keyValues: keyValues, type: type },
+                        //    type: "post",
+                        //    dataType: "json",
+                        //    success: function (data) {
+                        //        if (data.type == "3") {
+                        //            dialogAlert(data.message, -1);
+                        //        } else {
+                        //            Loading(false);
+                        //            dialogMsg(data.message, 1);
+                        //        }
+                        //        $('#gridTable').trigger('reloadGrid');
+                        //    }
+                        //});
                     }, 500);
                 }
             });
         }
     }
-    // ²É¹º
+    // é‡‡è´­
     function btn_IsPurchase() {
         //IsPurchase
         var keyValues = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
@@ -379,9 +465,9 @@
             var reviewsArr = IsPurchase.split(",");
             var passedsArr = passeds.split(",");
             if (passedsArr.length > 0) {
-                for (var i in passedsArr) {//<span class="label label-info">Î´ÉóºË</span>
-                    if (passedsArr[i] == "<span class=\"label label-info\">Î´ÉóºË</span>" || passedsArr[i] == "<span class=\"label label-danger\">Ê§°Ü</span>") {
-                        dialogMsg("ËùÑ¡Êı¾İÖĞ°üº¬Î´Í¨¹ıÉóºËµÄÊı¾İ£¬ÇëÏÈÈ¥ÉóºË£¡", 0);
+                for (var i in passedsArr) {//<span class="label label-info">æœªå®¡æ ¸</span>
+                    if (passedsArr[i] == "<span class=\"label label-info\">æœªå®¡æ ¸</span>" || passedsArr[i] == "<span class=\"label label-danger\">å¤±è´¥</span>") {
+                        dialogMsg("æ‰€é€‰æ•°æ®ä¸­åŒ…å«æœªé€šè¿‡å®¡æ ¸çš„æ•°æ®ï¼Œè¯·å…ˆå»å®¡æ ¸ï¼", 0);
                         return false;
                         break;
                     }
@@ -390,113 +476,121 @@
             if (reviewsArr.length > 0) {
                 for (var i in reviewsArr) {
                     if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
-                        dialogMsg("ËùÑ¡Êı¾İÖĞ°üº¬ÒÑ²É¹ºµÄÊı¾İ£¬ÇëÖØĞÂÑ¡Ôñ£¡", 0);
+                        dialogMsg("æ‰€é€‰æ•°æ®ä¸­åŒ…å«å·²é‡‡è´­çš„æ•°æ®ï¼Œè¯·é‡æ–°é€‰æ‹©ï¼", 0);
                         return false;
                         break;
                     }
                 }
             }
-            //dialogConfirm("×¢£ºÄúÈ·¶¨ÒªËùÑ¡ÖĞµÄÊı¾İ¶¼ÒÑ¾­²É¹ºÁËÂğ£¿", function (r) {
+            //dialogConfirm("æ³¨ï¼šæ‚¨ç¡®å®šè¦æ‰€é€‰ä¸­çš„æ•°æ®éƒ½å·²ç»é‡‡è´­äº†å—ï¼Ÿ", function (r) {
             //if (r) {
             // alert(keyValues);
             var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
             var Description = $('#gridTable').jqGridRowValue('Description');
             if (checkedRow(keyValue)) {
-                dialogOpen({
-                    id: 'Form',
-                    title: '²É¹ºÏêÇé',
-                    url: '/SteelMember/RawMaterialPurchase/Purchase?keyValue=' + keyValue + '&&Description=' + Description + '',
-                    width: '1000px',
-                    height: '750px',
-                    // btn: null,
-                    callBack: function (iframeId) {
-                        top.frames[iframeId].AcceptClick();
+                //dialogOpen({
+                //    id: 'Form',
+                //    title: 'é‡‡è´­è¯¦æƒ…',
+                //    url: '/SteelMember/RawMaterialPurchase/Purchase?keyValue=' + keyValue + '&&Description=' + Description + '',
+                //    width: '1000px',
+                //    height: '750px',
+                //    // btn: null,
+                //    callBack: function (iframeId) {
+                //        top.frames[iframeId].AcceptClick();
+                //    }
+                //})
+                //$('#gridTable').trigger('reloadGrid');
+
+                  Loading(true, "æ­£åœ¨æäº¤...");
+               window.setTimeout(function () {
+                $.ajax({
+                    url: "../../SteelMember/RawMaterialPurchase/SubmitIsPurchase",
+                    data: { keyValues: keyValues },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.type == "3") {
+                            dialogAlert(data.message, -1);
+                        } else {
+                            Loading(false);
+                            dialogMsg(data.message, 1);
+                        }
+                        $('#gridTable').trigger('reloadGrid');
                     }
-                })
-                $('#gridTable').trigger('reloadGrid');
+                });
+            }, 500);
             }
-            //Loading(true, "ÕıÔÚÌá½»...");
-            //window.setTimeout(function () {
-            //    $.ajax({
-            //        url: "../../SteelMember/RawMaterialPurchase/SubmitIsPurchase",
-            //        data: { keyValues: keyValues },
-            //        type: "post",
-            //        dataType: "json",
-            //        success: function (data) {
-            //            if (data.type == "3") {
-            //                dialogAlert(data.message, -1);
-            //            } else {
-            //                Loading(false);
-            //                dialogMsg(data.message, 1);
-            //            }
-            //            $('#gridTable').trigger('reloadGrid');
-            //        }
-            //    });
-            //}, 500);
-            //}
-            //});
         }
     }
 </script>
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">¹¤³ÌÄ¿Â¼</div>
-            <div id="itemTree"></div>
+            <div class="panel-Title">é‡‡è´­åˆ†ç±»</div>
+            @*<div id="itemTree"></div>*@
+            <div class="profile-nav" style="overflow: auto;">
+                <ul id="nav_email" style="padding-top: 10px;">
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_summary()'>æ±‡æ€»</a></li>
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; margin-top: -2px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_notPurchased()'>æœªé‡‡è´­</a></li>
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_purchased()'>å·²é‡‡è´­</a></li>
+                    @*<li><i class="fa fa-trash-o" style="vertical-align: middle; margin-top: -3px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_completed()'>å·²å®Œæˆ</a></li>*@
+                </ul>
+            </div>
         </div>
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">¶©µ¥ÁĞ±í</div>
+            <div class="panel-Title">è®¢å•åˆ—è¡¨<span id="CenterTitle"></span></div>
             <div class="titlePanel">
-                <div class="title-search" style="padding-top:15px">
+                <div class="title-search" >
                     <table>
                         <tr>
-                            <td style="width:110px">
-                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="Ñ¡Ôñ¿ªÊ¼Ê±¼ä" onfocus="WdatePicker()" onblur="InputChange()" />
+                            @*<td style="width:110px">
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="é€‰æ‹©å¼€å§‹æ—¶é—´" onfocus="WdatePicker()"/>
                             </td>
                             <td style="padding-left:2px;width:110px">
-                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="Ñ¡Ôñ½áÊøÊ±¼ä" onfocus="WdatePicker()" onblur="InputChange()" />
-                            </td>
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="é€‰æ‹©ç»“æŸæ—¶é—´" onfocus="WdatePicker()"/>
+                            </td>*@
 
                             @*<td style="padding-left: 10px;">
                         <div id="queryCondition" class="btn-group">
-                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">Ñ¡ÔñÌõ¼ş</a>
+                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">é€‰æ‹©æ¡ä»¶</a>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a data-value="Category">¹¹¼şÀàĞÍ</a></li>
-                                <li><a data-value="MemberName">¹¹¼şÃû³Æ</a></li>
-                                <li><a data-value="OrderNumbering">±àºÅ</a></li>
+                                <li><a data-value="Category">æ„ä»¶ç±»å‹</a></li>
+                                <li><a data-value="MemberName">æ„ä»¶åç§°</a></li>
+                                <li><a data-value="OrderNumbering">ç¼–å·</a></li>
                             </ul>
                         </div>
                     </td>*@
-                            <td style="padding-left: 5px;width:110px">
-                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="ÊäÈëÒª²éÑ¯±àºÅ" />
+                            <td style="padding-left: 5px;width:150px">
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="è¾“å…¥è¦æŸ¥è¯¢ç¼–å·" />
                             </td>
-                            <td style="padding-left: 5px;display:none">
-                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;²éÑ¯</a>
+                            <td style="padding-left: 5px;">
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;æŸ¥è¯¢</a>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="toolbar">
                     <div class="btn-group">
-                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>Ë¢ĞÂ</a>
-                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>ĞÂÔö¶©µ¥</a>
-                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>±à¼­</a>
-                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>É¾³ı</a>
-                        <a id="lr-details" class="btn btn-default" onclick="btn_details()"><i class="fa fa-list-alt"></i>ÏêÏ¸</a>
-                        <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>Ìá½»</a>
+                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>åˆ·æ–°</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>æ–°å¢é‡‡è´­</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>ç¼–è¾‘</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>åˆ é™¤</a>
+                        <a id="lr-details" class="btn btn-default" onclick="btn_details()"><i class="fa fa-list-alt"></i>è¯¦ç»†</a>
+                        <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>æäº¤</a>
                         <a id="lr-passed" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-legal"></i>&nbsp;ÉóºË<span class="caret"></span>
+                            <i class="fa fa-legal"></i>&nbsp;å®¡æ ¸<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu pull-right">
-                            <li id="lr-success"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;Í¨¹ı</a></li>
-                            <li id="lr-danger"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;Ê§°Ü</a></li>
+                            <li id="lr-success"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;é€šè¿‡</a></li>
+                            <li id="lr-danger"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;å¤±è´¥</a></li>
                         </ul>
-                        <a id="" class="btn btn-default" onclick="btn_IsPurchase()"><i class="fa fa-phone-square"></i>ÒÑ²É¹º</a>
+                        <a id="lr-Purchased" class="btn btn-default" onclick="btn_IsPurchase()"><i class="fa fa-phone-square"></i>å·²é‡‡è´­</a>
+                       
                     </div>
-
+                    <script>$('.toolbar').authorizeButton()</script>
                 </div>
             </div>
             <div class="gridPanel">

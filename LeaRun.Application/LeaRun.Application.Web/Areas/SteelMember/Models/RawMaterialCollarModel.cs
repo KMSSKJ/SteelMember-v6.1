@@ -43,10 +43,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// </summary>
         /// <returns></returns>
         public string CollarMan { get; set; }
-        /// <summary>
-        /// Description
-        /// </summary>
-        /// <returns></returns>
-        public string Description { get; set; }
+      
     }
 }

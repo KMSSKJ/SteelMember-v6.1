@@ -14,8 +14,8 @@ namespace LeaRun.Application.Service.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-08 11:58
-    /// 描 述：原材料采购管理
-    /// </summary>
+    /// 描 述：材料采购管理
+    /// </summary> :
     public class RawMaterialPurchaseService : RepositoryFactory, RawMaterialPurchaseIService
     {
         #region 获取数据
@@ -59,13 +59,56 @@ namespace LeaRun.Application.Service.SteelMember
                         break;
                 }
             }
-
+            if (!queryParam["IsPurchase"].IsEmpty())
+            {
+                var IsPurchase = queryParam["IsPurchase"].ToInt();
+                expression = expression.And(t => t.IsPurchase == IsPurchase);
+            }
             return this.BaseRepository().FindList(expression, pagination);
             //if (queryJson!=null) {
             //    return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(p=>p.Category==queryJson, pagination);
             //}
             //return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(pagination);
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<RawMaterialPurchaseEntity> GetList(string queryJson)
+        {
+            var expression = LinqExtensions.True<RawMaterialPurchaseEntity>();
+            //var queryParam = queryJson.ToJObject();
+            ////查询条件
+            //if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            //{
+            //    string condition = queryParam["condition"].ToString();
+            //    string keyword = queryParam["keyword"].ToString();
+            //    switch (condition)
+            //    {
+            //        case "Category":              //编号
+            //            expression = expression.And(t => t.Category.Contains(keyword));
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+            //if (queryJson != "")
+            //{
+            //    expression = expression.And(t => t.Category==queryJson);
+            //}
+            return this.BaseRepository().IQueryable(expression);
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<RawMaterialPurchaseEntity> GetList(Expression<Func<RawMaterialPurchaseEntity,bool>>condition)
+        {
+            return this.BaseRepository().IQueryable(condition);
+        }
+
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -83,6 +126,17 @@ namespace LeaRun.Application.Service.SteelMember
         public IEnumerable<RawMaterialPurchaseInfoEntity> GetDetails(string keyValue)
         {
             return this.BaseRepository().FindList<RawMaterialPurchaseInfoEntity>("select * from RMC_RawMaterialPurchaseInfo where RawMaterialPurchaseId='" + keyValue + "'");        }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">主键值</param>
+        /// <returns></returns>
+        public RawMaterialPurchaseInfoEntity GetEntity(Expression<Func<RawMaterialPurchaseInfoEntity, bool>> condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
+        }
+
         #endregion
 
         #region 提交数据
@@ -157,7 +211,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
-        public List<RawMaterialPurchaseInfoEntity> GetList(Expression<Func<RawMaterialPurchaseInfoEntity, bool>> condition)
+        public List<RawMaterialPurchaseInfoEntity> GetInfoList(Expression<Func<RawMaterialPurchaseInfoEntity, bool>> condition)
         {
             // throw new NotImplementedException();
             return this.BaseRepository().IQueryable(condition).ToList();
@@ -263,7 +317,20 @@ namespace LeaRun.Application.Service.SteelMember
             // return this.BaseRepository().FindList<RawMaterialPurchaseEntity>(pagination);
             throw new NotImplementedException();
         }
-        
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="query"></param>
+/// <param name="RawMaterialName"></param>
+/// <param name="category"></param>
+/// <param name="keyValue"></param>
+/// <returns></returns>
+        public bool Exist(string query, string RawMaterialName, string category, string keyValue)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

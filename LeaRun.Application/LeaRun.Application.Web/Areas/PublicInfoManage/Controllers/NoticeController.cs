@@ -37,6 +37,28 @@ namespace LeaRun.Application.Web.Areas.PublicInfoManage.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 公告详情
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult FormDetail()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 公告详情
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult IndexMore()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据

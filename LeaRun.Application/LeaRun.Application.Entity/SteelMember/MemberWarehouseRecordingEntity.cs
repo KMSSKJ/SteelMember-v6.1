@@ -31,32 +31,28 @@ namespace LeaRun.Application.Entity.SteelMember
         /// Quantity
         /// </summary>
         /// <returns></returns>
-        public int? InStock { get; set; }
+        public decimal? InStock { get; set; }
         /// <summary>
         /// SubProject
         /// </summary>
         /// <returns></returns>
         public string SubProject { get; set; }
-        /// <summary>
-        /// Model_Drawing
-        /// </summary>
-        /// <returns></returns>
-        public string ToReportPeople { get; set; }
-        /// <summary>
-        /// IsRawMaterial
-        /// </summary>
-        /// <returns></returns>
-        public string CollarDepartment { get; set; }
-        /// <summary>
-        /// IsProcess
-        /// </summary>
-        /// <returns></returns>
-        public string Receiver { get; set; }
-        /// <summary>
-        /// Icon
-        /// </summary>
-        /// <returns></returns>
-        public string ReceiverTel { get; set; }
+      
+        ///// <summary>
+        ///// IsRawMaterial
+        ///// </summary>
+        ///// <returns></returns>
+        //public string CollarDepartment { get; set; }
+        ///// <summary>
+        ///// IsProcess
+        ///// </summary>
+        ///// <returns></returns>
+        //public string Receiver { get; set; }
+        ///// <summary>
+        ///// Icon
+        ///// </summary>
+        ///// <returns></returns>
+        //public string ReceiverTel { get; set; }
 
         /// <summary>
         /// UpdateTime
@@ -86,7 +82,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Create()
         {
             this.RecordingId = Guid.NewGuid().ToString();
-                                            }
+        }
         /// <summary>
         /// ±à¼­µ÷ÓÃ
         /// </summary>

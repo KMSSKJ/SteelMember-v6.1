@@ -126,3 +126,13 @@ D:\project\LeaRun.Util\LeaRun.Util\bin\Debug\Newtonsoft.Json.xml
 D:\project\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.dll
 D:\project\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.Extension.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\Newtonsoft.Json.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\SharpZipLib.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\LeaRun.Util.Extension.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\bin\Debug\Newtonsoft.Json.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util\obj\Debug\LeaRun.Util.pdb

@@ -30,12 +30,13 @@
             height: $(window).height()-100,
             autowidth: true,
             colModel: [
-                { label: '主键', name: "MemberId", align: ' center', width: 100, sortable: false,hidden: true},
+                { label: '主键', name: "MemberId", align: ' center', width: 100, sortable: false, hidden: true },
+                { label: '外键', name: "MemberDemandId", align: 'center', width: 100, sortable: false, hidden: true },
                 { label: '编号', name: "MemberNumbering", align:' center',width: 100, sortable: false },
                 { label: '名称', name: "MemberName", align:' center',width: 100, sortable: false },
                 //{ label: '规格或型号', name: "MemberModel", align:' center',width: 80, sortable: false},
                 { label: '需求量', name: "MemberNumber", align: ' center', width: 50, sortable: false },
-                { label: '单位', name: "MemberUnit", align:' center',width: 50, sortable: false},
+                { label: '单位', name: "UnitId", align:' center',width: 50, sortable: false},
             ],
             rowNum: 30,
             sortname: 'MemberId',
@@ -91,11 +92,12 @@
                     while (rows < 30) {
                         $parentobj.$("#MemberNumbering➩" + rows).val(null);
                         $parentobj.$("#MemberName➩" + rows).val(null);
-                        $parentobj.$("#MemberUnit➩" + rows).val(null);
+                        $parentobj.$("#UnitId➩" + rows).val(null);
                         $parentobj.$("#MemberNumber➩" + rows).val(null);
                         $parentobj.$("#Price➩" + rows).val(null);
                         $parentobj.$("#PriceAmount➩" + rows).val(null);
                         $parentobj.$("#MemberId➩" + rows).val(null);
+                        $parentobj.$("#MemberDemandId➩" + rows).val(null);
                         $parentobj.$("#MaxNumber➩" + rows).val(null);
                         rows++;
                     }
@@ -121,11 +123,12 @@
                             });
                             $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
                             $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
-                            $parentobj.$("#MemberUnit➩" + index).val(rowData[i].MemberUnit);
+                            $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
                             $parentobj.$("#MemberNumber➩" + index).val(Number(data1));
                             $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
                             $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
                             $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
+                            $parentobj.$("#MemberDemandId➩" + index).val(rowData[i].MemberDemandId);
                             $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
                             index++;

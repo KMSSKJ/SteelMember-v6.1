@@ -9,13 +9,14 @@ using LeaRun.Util;
 
 using LeaRun.Util.Extension;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-19 10:03
-    /// 描 述：原材料库存
+    /// 描 述：材料库存
     /// </summary>
     public class RawMaterialInventoryService : RepositoryFactory<RawMaterialInventoryEntity>, RawMaterialInventoryIService
     {
@@ -30,19 +31,19 @@ namespace LeaRun.Application.Service.SteelMember
         {
             var expression = LinqExtensions.True<RawMaterialInventoryEntity>();
             var queryParam = queryJson.ToJObject();
-            if (!queryParam["RawMaterialModel"].IsEmpty())
+
+            if (!queryParam["CategoryId"].IsEmpty())
             {
-                string RawMaterialModel = queryParam["RawMaterialModel"].ToString();
-                expression = expression.And(t => t.Category.Contains(RawMaterialModel));
+                string CategoryId = queryParam["CategoryId"].ToString();
+                expression = expression.And(t => t.Category == CategoryId);
             }
-            if (!queryParam["Category"].IsEmpty())
+
+            if (!queryParam["Quantity"].IsEmpty())
             {
-                //string Category = queryParam["Category"].ToString();
-                //expression = expression.And(t => t.Category == Category);
-                string Category = queryParam["Category"].ToString();
-                expression = expression.And(t => t.Category == Category);
+                int Quantity =Convert.ToInt32(queryParam["Quantity"]);
+                expression = expression.And(t => t.Quantity.ToDecimal()> Quantity);
             }
-            //return this.BaseRepository().FindList(pagination);
+            expression = expression.And(t => t.Quantity>0);
             return this.BaseRepository().FindList(expression, pagination).ToList();
         }
         /// <summary>
@@ -62,6 +63,16 @@ namespace LeaRun.Application.Service.SteelMember
         public RawMaterialInventoryEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
+        }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public RawMaterialInventoryEntity GetEntity(Expression<Func<RawMaterialInventoryEntity, bool>> condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
         }
         /// <summary>
         /// 获取实体
@@ -138,6 +149,19 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="keyValue"></param>
         /// <returns></returns>
         public bool Exist(string query, string category, string keyValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="RawMaterialName"></param>
+        /// <param name="category"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        public bool Exist(string query, string RawMaterialName, string category, string keyValue)
         {
             throw new NotImplementedException();
         }

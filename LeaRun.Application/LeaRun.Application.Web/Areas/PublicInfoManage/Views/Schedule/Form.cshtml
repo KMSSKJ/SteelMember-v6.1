@@ -43,7 +43,7 @@
 <div style="margin-top: 20px; margin-right: 30px;">
     <table class="form">
         <tr>
-            <td class="formTitle">开始日期<font face="宋体">*</font></td>
+            <td class="formTitle">开始日期<font face="宋体" color="red">*</font></td>
             <td class="formValue">
                 <input id="StartDate" type="text" class="form-control input-wdatepicker" onfocus="var endDate=$dp.$('EndTime');WdatePicker({onpicked:function(){EndTime.focus();},maxDate:'#F{$dp.$D(\'EndTime\')}'})" isvalid="yes" checkexpession="NotNull">
             </td>
@@ -104,7 +104,7 @@
             </td>
         </tr>
         <tr>
-            <td class="formTitle">结束日期<font face="宋体">*</font></td>
+            <td class="formTitle">结束日期<font face="宋体" color="red">*</font></td>
             <td class="formValue">
                 <input id="EndDate" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'StartDate\')}'})" isvalid="yes" checkexpession="NotNull">
             </td>
@@ -165,13 +165,13 @@
             </td>
         </tr>
         <tr>
-            <td class="formTitle">提前提醒<font face="宋体">*</font></td>
+            <td class="formTitle">提前提醒<font face="宋体" color="red">*</font></td>
             <td class="formValue" colspan="3">
                 <input id="Early" type="text" class="form-control" value="2" placeholder="小时提醒我" isvalid="yes" checkexpession="Num" />
             </td>
         </tr>
         <tr>
-            <th class="formTitle" valign="top" style="padding-top: 10px;">日程内容<font face="宋体">*</font></th>
+            <th class="formTitle" valign="top" style="padding-top: 10px;">日程内容<font face="宋体" color="red">*</font></th>
             <td class="formValue" colspan="3">
                 <textarea id="ScheduleContent" class="form-control" placeholder="记录你将要做的一件事..." style="height: 70px;" isvalid="yes" checkexpession="NotNull"></textarea>
             </td>

@@ -57,6 +57,8 @@
     <Compile Include="BaseManage\IPostService.cs" />
     <Compile Include="BaseManage\IJobService.cs" />
     <Compile Include="BaseManage\IUserGroupService.cs" />
+    <Compile Include="SteelMember\MemberCollarInfoIService.cs" />
+    <Compile Include="SteelMember\MemberCollarIService.cs" />
     <Compile Include="SteelMember\MemberDemandIService.cs" />
     <Compile Include="SteelMember\MemberLibraryIService.cs" />
     <Compile Include="SteelMember\MemberMaterialIService.cs" />
@@ -65,8 +67,10 @@
     <Compile Include="SteelMember\MemberProductionOrderIService.cs" />
     <Compile Include="SteelMember\MemberWarehouseRecordingIService.cs" />
     <Compile Include="SteelMember\MemberWarehouseIService.cs" />
+    <Compile Include="SteelMember\EquipmentMaintenanceRecordsIService.cs" />
     <Compile Include="SteelMember\ProduceEquipmentIService.cs" />
     <Compile Include="SteelMember\ProjectDemandIService.cs" />
+    <Compile Include="SteelMember\SystemConfigurationIService.cs" />
     <Compile Include="SteelMember\ProjectInfoIService.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisIService.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryIService.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="SteelMember\RawMaterialOrderIService.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseIService.cs" />
     <Compile Include="SteelMember\RawMaterialWarehouseIService.cs" />
+    <Compile Include="SteelMember\RawMterialCollarInfoIService.cs" />
     <Compile Include="SteelMember\RawMterialCollarIService.cs" />
     <Compile Include="SteelMember\SafetyEquipmentIService.cs" />
     <Compile Include="SteelMember\SubProjectIService.cs" />

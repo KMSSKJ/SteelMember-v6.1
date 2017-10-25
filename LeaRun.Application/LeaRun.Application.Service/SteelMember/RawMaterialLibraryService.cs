@@ -13,8 +13,8 @@ namespace LeaRun.Application.Service.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
-    /// 日 期：2017-07-06 10:42  RepositoryFactory<RawMaterialLibraryEntity>
-    /// 描 述：原材料管理
+    /// 日 期：2017-07-06 10:42  RawMaterialLibraryEntity
+    /// 描 述：材料管理
     /// </summary>
     public class RawMaterialLibraryService : RepositoryFactory, RawMaterialLibraryIService
     {
@@ -95,6 +95,17 @@ namespace LeaRun.Application.Service.SteelMember
             // return this.BaseRepository().FindEntity(keyValue);
             return this.BaseRepository().FindEntity<RawMaterialLibraryEntity>(keyValue);
         }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">主键值</param>
+        /// <returns></returns>
+        public RawMaterialLibraryEntity GetEntity(Expression<Func<RawMaterialLibraryEntity,bool>>condition)
+        {
+            // return this.BaseRepository().FindEntity(keyValue);
+            return this.BaseRepository().FindEntity<RawMaterialLibraryEntity>(condition);
+        }
         #endregion
 
         #region 提交数据
@@ -104,8 +115,9 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="keyValue">主键</param>
         public void RemoveForm(string keyValue)
         {
-            RawMaterialLibraryEntity entity = new RawMaterialLibraryEntity();
-            entity.RawMaterialId = keyValue;
+            RawMaterialLibraryEntity entity = new RawMaterialLibraryEntity() {
+                RawMaterialId = keyValue,
+                };
             this.BaseRepository().Delete(entity);
 
             var inventory = service.GetList("").Where(i => i.RawMaterialId.Trim() == keyValue.Trim()).SingleOrDefault();
@@ -172,20 +184,22 @@ namespace LeaRun.Application.Service.SteelMember
 
             }
         }
-        #endregion 
+        #endregion
 
         #region 验证数据
         /// <summary>
         /// 名称不能重复
         /// </summary>
         /// <param name="query">名称</param>
+        /// <param name="RawMaterialName"></param>
         /// <param name="category"></param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
-        public bool Exist(string query, string category, string keyValue)
+        public bool Exist(string query, string RawMaterialName, string category, string keyValue)
         {
             var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
             expression = expression.And(t => t.RawMaterialModel == query);
+            expression = expression.And(t => t.RawMaterialName == RawMaterialName);
             if (!string.IsNullOrEmpty(keyValue))
             {
                 expression = expression.And(t => t.RawMaterialId != keyValue);
@@ -196,6 +210,30 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
         }
+
+        /// <summary>
+        /// 名称不能重复
+        /// </summary>
+        /// <param name="query">名称</param>
+        /// <param name="category"></param>
+        /// <param name="keyValue">主键</param>
+        /// <returns></returns>
+        public bool Exist(string query,string category, string keyValue)
+        {
+            var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
+            expression = expression.And(t => t.RawMaterialModel == query);
+
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                expression = expression.And(t => t.RawMaterialId != keyValue);
+            }
+            if (!string.IsNullOrEmpty(category))
+            {
+                expression = expression.And(t => t.Category == category);
+            }
+            return this.BaseRepository().IQueryable(expression).Count() == 0 ? true : false;
+        }
+
         /// <summary>
         /// 名称不能重复
         /// </summary>

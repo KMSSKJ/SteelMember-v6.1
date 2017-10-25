@@ -37,6 +37,21 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string SafetyResponsiblePerson { get; set; }
         /// <summary>
+        /// Icon
+        /// </summary>
+        /// <returns></returns>
+        public string Icon { get; set; }
+        /// <summary>
+        /// ProduceManufacturers
+        /// </summary>
+        /// <returns></returns>
+        public string ProduceManufacturers { get; set; }
+        /// <summary>
+        /// ManufacturersTel
+        /// </summary>
+        /// <returns></returns>
+        public string ManufacturersTel { get; set; }
+        /// <summary>
         /// ApproachDate
         /// </summary>
         /// <returns></returns>
@@ -61,6 +76,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string Description { get; set; }
+        /// <summary>
+        /// UploadTime
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? UpdateTime { get; set; }
         #endregion
 
         #region À©Õ¹²Ù×÷

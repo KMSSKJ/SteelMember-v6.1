@@ -194,3 +194,17 @@ D:\project\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.xml
 D:\project\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.dll
 D:\project\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.Redis.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.Redis.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Common.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Interfaces.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Redis.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\LeaRun.Cache.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Common.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Redis.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.pdb

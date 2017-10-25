@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System.Collections.Generic;
 using System.Linq;
+using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -18,12 +20,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
         private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
@@ -48,7 +52,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetListJson(string keyValue)
         {
-            var data = rawmaterialorderinfobll.GetList(null).ToList().FindAll(f=>f.OrderId== keyValue);
+            var data = rawmaterialorderinfobll.GetList(f=>f.OrderId== keyValue).ToList();
             var RawMaterialList = new List<MemberMaterialModel>();
             for (int i = 0; i < data.Count(); i++)
             {
@@ -57,10 +61,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     InfoId = data[i].InfoId,
                     RawMaterialId = data[i].RawMaterialId,
-                    RawMaterialNumber = data[i].ProductionQuantity,
+                    RawMaterialNumber = data[i].Quantity,
+                    Category = dataitemdetailbll.GetEntity(rawmaterial.Category).ItemName,
                     RawMaterialName = rawmaterial.RawMaterialName,
                     RawMaterialModel = rawmaterial.RawMaterialModel,
-                    UnitName = rawmaterial.Unit,
+                    UnitId =dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName,
                 };
                 RawMaterialList.Add(Member);
             }
@@ -88,6 +93,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             rawmaterialorderinfobll.RemoveForm(keyValue);

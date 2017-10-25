@@ -24,7 +24,7 @@
             var $finish = $("#btn_finish");
             var $next = $("#btn_next");
             if (data.direction == "next") {
-                if (data.step == 3) {
+                if (data.step == 2) {
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
                 } else {
@@ -457,8 +457,8 @@
         <ul class="steps">
             <li data-target="#step-1" class="active"><span class="step">1</span>系统功能<span class="chevron"></span></li>
             @*<li data-target="#step-2"><span class="step">2</span>菜单目录<span class="chevron"></span></li>*@
-            <li data-target="#step-3"><span class="step">3</span>系统按钮<span class="chevron"></span></li>
-            <li data-target="#step-4"><span class="step">4</span>系统视图<span class="chevron"></span></li>
+            <li data-target="#step-2"><span class="step">2</span>系统按钮<span class="chevron"></span></li>
+            <li data-target="#step-3"><span class="step">3</span>系统视图<span class="chevron"></span></li>
         </ul>
     </div>
     <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
@@ -466,11 +466,11 @@
             <input id="ModuleId" type="hidden" value="@ViewBag.ModuleId" />
             <table class="form">
                 <tr>
-                    <th class="formTitle">编号<font face="宋体">*</font></th>
+                    <th class="formTitle">编号<font face="宋体" color="red">*</font></th>
                     <td class="formValue">
                         <input id="EnCode" type="text" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
                     </td>
-                    <th class="formTitle">名称<font face="宋体">*</font></th>
+                    <th class="formTitle">名称<font face="宋体" color="red">*</font></th>
                     <td class="formValue">
                         <input id="FullName" type="text" class="form-control" placeholder="请输入名称" isvalid="yes" checkexpession="NotNull" />
                     </td>
@@ -488,7 +488,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="formTitle">目标<font face="宋体">*</font></th>
+                    <th class="formTitle">目标<font face="宋体" color="red">*</font></th>
                     <td class="formValue">
                         <div id="Target" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull">
                             <ul>
@@ -500,7 +500,7 @@
                             </ul>
                         </div>
                     </td>
-                    <th class="formTitle">排序<font face="宋体">*</font></th>
+                    <th class="formTitle">排序<font face="宋体" color="red">*</font></th>
                     <td class="formValue">
                         <input id="SortCode" type="text" class="form-control" isvalid="yes" checkexpession="Num" />
                     </td>
@@ -543,7 +543,7 @@
                 </tr>
             </table>
         </div>
-        <div class="step-pane" id="step-2" style="margin: 5px;">
+        @*<div class="step-pane" id="step-2" style="margin: 5px;">
             <div style="height: 40px; line-height: 33px; text-align: right;">
                 <div class="btn-group">
                     <a id="lr-add-directory" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;新增</a>
@@ -552,8 +552,8 @@
                 </div>
             </div>
             <table id="gridTable-directory"></table>
-        </div>
-        <div class="step-pane" id="step-3" style="margin: 5px;">
+        </div>*@
+        <div class="step-pane" id="step-2" style="margin: 5px;">
             <div style="height: 40px; line-height: 33px; text-align: right;">
                 <div class="btn-group">
                     <a id="lr-add-button" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;新增</a>
@@ -567,7 +567,7 @@
             <table id="gridTable-button"></table>
         </div>
 
-        <div class="step-pane" id="step-4" style="margin: 5px;">
+        <div class="step-pane" id="step-3" style="margin: 5px;">
             <div style="height: 40px; line-height: 33px; text-align: right;">
                 <div class="btn-group">
                     <a id="lr-add-view" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;新增</a>

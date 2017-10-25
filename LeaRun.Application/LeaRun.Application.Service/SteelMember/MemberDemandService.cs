@@ -32,15 +32,16 @@ namespace LeaRun.Application.Service.SteelMember
             //查询条件
             var BeginTime = queryParam["BeginTime"].ToDate();
             var EndTime = queryParam["EndTime"].ToDate();
-            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty()) {
-                expression = expression.And(t => t.CreateTime>=BeginTime);
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.CreateTime >= BeginTime);
                 expression = expression.And(t => t.CreateTime <= EndTime);
             }
             else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
             {
                 expression = expression.And(t => t.CreateTime >= BeginTime);
             }
-            else if(queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
             {
                 expression = expression.And(t => t.CreateTime <= EndTime);
             }
@@ -83,14 +84,24 @@ namespace LeaRun.Application.Service.SteelMember
         {
             return this.BaseRepository().FindList(condition, pagination);
         }
-            /// <summary>
-            /// 获取列表
-            /// </summary>
-            /// <param name="queryJson">查询参数</param>
-            /// <returns>返回列表</returns>
-            public IEnumerable<MemberDemandEntity> GetList(string queryJson)
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<MemberDemandEntity> GetList(string queryJson)
         {
             return this.BaseRepository().IQueryable().ToList();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<MemberDemandEntity> GetList(Expression<Func<MemberDemandEntity,bool>>condition)
+        {
+            return this.BaseRepository().IQueryable(condition);
         }
         /// <summary>
         /// 获取实体
@@ -100,6 +111,15 @@ namespace LeaRun.Application.Service.SteelMember
         public MemberDemandEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
+        }
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">参数</param>
+        /// <returns></returns>
+        public MemberDemandEntity GetEntity(Expression<Func<MemberDemandEntity,bool>> condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
         }
         #endregion
 
@@ -160,7 +180,7 @@ namespace LeaRun.Application.Service.SteelMember
         public bool Exist(string query, string keyValue)
         {
             var expression = LinqExtensions.True<MemberDemandEntity>();
-            expression = expression.And(t => t.SubProjectId== keyValue);
+            expression = expression.And(t => t.SubProjectId == keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
                 expression = expression.And(t => t.MemberId == query);

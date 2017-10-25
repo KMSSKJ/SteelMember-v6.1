@@ -174,3 +174,17 @@ D:\project\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Regis
 D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.dll
 D:\project\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\LeaRun.Util.Ioc.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\LeaRun.Util.Ioc.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.pdb

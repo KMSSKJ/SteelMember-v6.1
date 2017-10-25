@@ -32,14 +32,17 @@
     //加载树
     var _Category;
     var HavesChildren;
+    var SubProjectName;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            param: { Levels: 2 },
+            param: { Levels: 3 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
                 _Category = item.value;
                 HavesChildren = item.hasChildren;
+                SubProjectName = item.text;
+                $("#CenterTitle").html("-" + SubProjectName);
                 $('#btn_Search').trigger("click");
             }
         };
@@ -51,7 +54,7 @@
     var subgrid_table_id;
     var a = 0;
     var OrderId;
-    function GetGrid(obj) {
+    function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
@@ -60,24 +63,28 @@
             url: "../../SteelMember/MemberProductionOrder/GetPageListJson?IsReceive=1&IsPassed=1",
             datatype: "json",
             colModel: [
-                { label: '主键', name: 'OrderId', index: 'OrderId', width: 0, align: '', sortable: true, hidden: true },
-                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: '', sortable: true },
-                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 100, align: '', sortable: true },
-                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: '', sortable: true },
+                { label: '主键', name: 'OrderId', index: 'OrderId',  hidden: true },
+                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align:'center', sortable: true },
+                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
                 {
-                    label: '优先级', name: 'Priority', index: 'Priority', width: 100, align: '', sortable: true,
+                    label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 80, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    }},
+                {
+                    label: '优先级', name: 'Priority', index: 'Priority', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 {
-                    label: '是否专用', name: 'IsDedicated', index: 'IsDedicated', width: 100, align: '', sortable: true,
+                    label: '是否专用', name: 'IsDedicated', index: 'IsDedicated', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 {
-                    label: '材料领取状态', name: 'IsReceiveRawMaterial', index: 'IsReceiveRawMaterial', width: 100, align: '', sortable: true,
+                    label: '材料领取状态', name: 'IsReceiveRawMaterial', index: 'IsReceiveRawMaterial', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未领取</span>";
@@ -87,7 +94,7 @@
                     }
                 },
                 {
-                    label: '生产状态', name: 'ProductionStatus', index: 'ProductionStatus', width: 100, align: '', sortable: true,
+                    label: '生产状态', name: 'ProductionStatus', index: 'ProductionStatus', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未生产</span>";
@@ -99,7 +106,7 @@
                     }
                 },
                 {
-                    label: '工厂质检', name: 'SelfDetectStatus', index: 'SelfDetectStatus', width: 100, align: '', sortable: true,
+                    label: '工厂质检', name: 'SelfDetectStatus', index: 'SelfDetectStatus', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未进行</span>";
@@ -111,7 +118,7 @@
                     }
                 },
                 {
-                    label: '监理质检', name: 'QualityInspectionStatus', index: 'QualityInspectionStatus', width: 100, align: '', sortable: true,
+                    label: '监理质检', name: 'QualityInspectionStatus', index: 'QualityInspectionStatus', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未进行</span>";
@@ -133,7 +140,16 @@
                 },
                 //{ label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 100, align: '', sortable: true },
                 //{ label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 100, align: '', sortable: true },
-                { label: '备注', name: 'Description', index: 'Description', width: 100, align: '', sortable: true },
+                {
+                    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                            return "";
+                        } else {
+                            return "<p style='color: red'>" + cellvalue + "</p>";
+                        }
+                    }
+                },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -172,7 +188,7 @@
                 //        { label: 'MemberId', name: 'MemberId', index: 'MemberId', width: 80, align: '', sortable: true, hidden: true },
                 //        { label: '构件编号', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
                 //        { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
-                //        { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
+                //        { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false, align: 'center' },
                 //        { label: '需生产数量', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
                 //        { label: '已生产数量', name: 'ProductionedQuantity', align: ' center', width: 80, sortable: false },
                 //        { label: '工厂质检合格量', name: 'SelfDetectNumber', align: ' center', width: 80, sortable: false },
@@ -219,11 +235,11 @@
             }
         });
 
-        switch (obj) {
-            case "Search":
-                $('#btn_Search').trigger("click");
-                break;
-        }
+        //switch (obj) {
+        //    case "Search":
+        //        $('#btn_Search').trigger("click");
+        //        break;
+        //}
     }
 
     //加载图表
@@ -242,10 +258,6 @@
         });
     }
 
-    //input改变事件
-    function InputChange() {
-        $('#btn_Search').trigger("click");
-    }
 </script>
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
@@ -257,9 +269,9 @@
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">生产信息</div>
+            <div class="panel-Title">生产信息<span id="CenterTitle"></span></div>
             <div class="titlePanel">
-                <div class="title-search" style="padding-top:15px">
+                <div class="title-search">
                     <table>
                         <tr>
                             <td style="width:110px">
@@ -278,18 +290,18 @@
                                     </ul>
                                     </div>
                                 </td>*@
-                            <td style="padding-left: 5px;width:110px">
-                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询编号" />
+                            <td style="padding-left: 5px;width:160px">
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="输入要查询编号" />
                             </td>
 
-                            <td style="padding-left: 5px;display:none">
+                            <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="toolbar">
-                    <div class="btn-group">
+                    @*<div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
                         <a id="lr-receiveOrder" class="btn btn-default" onclick="btn_receiveOrder()"><i class="fa fa-plus"></i>&nbsp;领取订单</a>
                         <a id="lr-receiveRawMaterial" class="btn btn-default" onclick="btn_receiveRawMaterial()"><i class="fa fa-pencil-square-o"></i>&nbsp;领取材料</a>
@@ -298,27 +310,11 @@
                     <div class="btn-group">
                         <a id="lr-factoryQualityInspection" class="btn btn-default" onclick="btn_factoryQualityInspection()"><i class="fa fa-pencil-square-o"></i>&nbsp;厂方质检</a>
                         <a id="lr-supervisionQualityInspection" class="btn btn-default" onclick="btn_supervisionQualityInspection()"><i class="fa fa-pencil-square-o"></i>&nbsp;监理质检</a>
-                        @*<a id="lr-factoryQualityInspection" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-legal"></i>&nbsp;厂方质检<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li id="lr-successFactory"><a onclick="btn_factoryQualityInspection(1)"><i class="fa fa-check"></i>&nbsp;合格</a></li>
-                                <li id="lr-dangerFactory"><a onclick="btn_factoryQualityInspection(2)"><i class="fa fa-close"></i>&nbsp;不合格</a></li>
-                            </ul>*@
-                        @*</div>
-                            <div class="btn-group">*@
-                        @*<a id="lr-supervisionQualityInspection" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-legal"></i>&nbsp;监理检查<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li id="lr-successSupervision"><a onclick="btn_supervisionQualityInspection(1)"><i class="fa fa-check"></i>&nbsp;合格</a></li>
-                                <li id="lr-dangerSupervision"><a onclick="btn_supervisionQualityInspection(2)"><i class="fa fa-close"></i>&nbsp;不合格</a></li>
-                            </ul>*@
                     </div>
                     <div class="btn-group">
                         <a id="lr-memberPacking" class="btn btn-default" onclick="btn_package()"><i class="fa fa-send"></i>&nbsp;构件打包</a>
                         <a id="lr-barcodePrinting" class="btn btn-default" onclick="btn_print()"><i class="fa fa-list-alt"></i>&nbsp;条码打印</a>
-                    </div>
+                    </div>*@
                 </div>
                 <script>$('.toolbar').authorizeButton()</script>
             </div>

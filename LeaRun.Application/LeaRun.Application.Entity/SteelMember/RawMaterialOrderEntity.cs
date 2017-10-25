@@ -36,16 +36,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public DateTime? CreateTime { get; set; }
-        /// <summary>
-        /// Priority
-        /// </summary>
-        /// <returns></returns>
-        public int? Priority { get; set; }
-        /// <summary>
-        /// IsDedicated
-        /// </summary>
-        /// <returns></returns>
-        public int? IsDedicated { get; set; }
+
         /// <summary>
         /// IsSubmit
         /// </summary>
@@ -71,12 +62,39 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public DateTime? ReviewTime { get; set; }
+
+        /// <summary>
+        /// ReviewMan
+        /// </summary>
+        /// <returns></returns>
+        public string OrganizeId { get; set; }
+        /// <summary>
+        /// ReviewMan
+        /// </summary>
+        /// <returns></returns>
+        public string DepartmentId { get; set; }
+
+        /// <summary>
+        /// ContactPerson
+        /// </summary>
+        /// <returns></returns>
+        public string ContactPerson { get; set; }
+        /// <summary>
+        /// ShippingAddress
+        /// </summary>
+        /// <returns></returns>
+        public string ShippingAddress { get; set; }
+        /// <summary>
+        /// ContactPersonTel
+        /// </summary>
+        /// <returns></returns>
+        public string ContactPersonTel { get; set; }
+
         /// <summary>
         /// Description
         /// </summary>
         /// <returns></returns>
         public string Description { get; set; }
-        
         #endregion
 
         #region À©Õ¹²Ù×÷

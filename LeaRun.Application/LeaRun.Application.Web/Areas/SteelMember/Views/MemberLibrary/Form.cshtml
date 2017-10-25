@@ -13,7 +13,6 @@
 
 <script type="text/javascript">
     var KeyValue = request('keyValue');
-    var SubProject = request('SubProject');
     var SubProjectId = request('SubProjectId');
     $(function () {
         initialPage();
@@ -36,12 +35,12 @@
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
                 } else {
-                   // $finish.attr('disabled', 'disabled');
+                    // $finish.attr('disabled', 'disabled');
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
                 }
             } else {
-               // $finish.attr('disabled', 'disabled');
+                // $finish.attr('disabled', 'disabled');
                 $next.removeAttr('disabled');
             }
         });
@@ -78,10 +77,10 @@
     //得到一个对象实体
     function InitControl() {
 
-         /*添加构件开始====================================*/
+        /*添加构件开始====================================*/
         //工程类型
         $("#EngineeringId").ComboBoxTree({
-            param: { Levels: 1 },
+            param: { Levels: 3 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             description: "==请选择==",
             height: "200px",
@@ -108,341 +107,361 @@
             height: "200px",
         });
 
-            //获取表单
+        //获取表单
         if (!!KeyValue) {
-                $.SetForm({
-                    url: "../../SteelMember/MemberLibrary/GetFormJson",
-                    param: { KeyValue: KeyValue },
-                    success: function (data) {
-                        //var data = eval("(" + data + ")");
-                        var filename, filename1 = "";
-                        filename = data.CAD_Drawing;
-                        if (filename != "1.png") {
-                            filename = filename.substring(0, filename.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            filename = "../../Resource/Document/NetworkDisk/System/Member/" + filename + "/" + data.CAD_Drawing;
-                            document.getElementById("_CAD_Drawing").src = filename;
-                            document.getElementById("DelAvatar").setAttribute("type", "button");
-                            document.getElementById("DelAvatar").value = "删除图片";
-                        }
+            $.SetForm({
+                url: "../../SteelMember/MemberLibrary/GetFormJson",
+                param: { KeyValue: KeyValue },
+                success: function (data) {
+                    //var data = eval("(" + data + ")");
+                    var filename, filename1, filename2 = "";
+                    filename = data.CAD_Drawing;
+                  
+                        var array = filename.split(":");// 在每个逗号(,)处进行分解。
+                        array.forEach(function (fileName) {
+                            if (fileName == null || fileName == "") {
+                                return false;
+                            } else {
+                                var fileName1 = fileName.substring(0, fileName.lastIndexOf('.'));//获取文件名称，去除后缀名
+                                fileName1 = "../../Resource/Document/NetworkDisk/System/Member/" + fileName1 + "/" + fileName;
+                                document.getElementById("CAD").innerHTML += "<img id='txImg' class='txImg' src='" + fileName1 + "' height='100' widtd='100'/>";
+                            }
+                        });
 
-                        filename1 = data.Model_Drawing;
-                        if (filename1 != "1.png") {
-                            filename1 = filename1.substring(0, filename1.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            filename1 = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + data.Model_Drawing;
-                            document.getElementById("_Model_Drawing").src = filename1;
-                            document.getElementById("DelAvatar1").setAttribute("type", "button");
-                            document.getElementById("DelAvatar1").value = "删除图片";
-                        }
-                        filename2 = data.Icon;
-                        if (filename2 != "1.png") {
-                            filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
-                            document.getElementById("_Icon").src = filename2;
-                            document.getElementById("DelAvatar2").setAttribute("type", "button");
-                            document.getElementById("DelAvatar2").value = "删除图片";
-                        }
-                        $("#form1").SetWebControls(data);
-                        $("#EngineeringId").ComboBoxSetValue(data.EngineeringId);//.trigger("change");
-                        $("#Category").ComboBoxTreeSetValue(data.Category);
-                        $("#UnitId").ComboBoxTreeSetValue(data.UnitId);
+                        document.getElementById("DelAvatar").setAttribute("type", "button");
+                        document.getElementById("DelAvatar").value = "删除图片";
+                    
+
+                    filename1 = data.Model_Drawing;
+                    if (filename1 != "1.png") {
+                        filename1 = filename1.substring(0, filename1.lastIndexOf('.'));//获取文件名称，去除后缀名
+                        filename1 = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + data.Model_Drawing;
+                        document.getElementById("_Model_Drawing").src = filename1;
+                        document.getElementById("DelAvatar1").setAttribute("type", "button");
+                        document.getElementById("DelAvatar1").value = "删除图片";
                     }
-                });
-            } else {
+                    filename2 = data.Icon;
+                    if (filename2 != "1.png") {
+                        filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
+                        filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
+                        document.getElementById("_Icon").src = filename2;
+                        document.getElementById("DelAvatar2").setAttribute("type", "button");
+                        document.getElementById("DelAvatar2").value = "删除图片";
+                    }
+                    $("#form1").SetWebControls(data);
+                    $("#EngineeringId").ComboBoxSetValue(data.EngineeringId);//.trigger("change");
+                    $("#Category").ComboBoxTreeSetValue(data.Category);
+                    $("#UnitId").ComboBoxTreeSetValue(data.UnitId);
+                }
+            });
+        } else {
             $("#EngineeringId").ComboBoxTreeSetValue(SubProjectId);
-            }
+        }
+    }
+    //获取文件名
+    function getFileName(o) {
+        var pos = o.lastIndexOf('/');
+        return o.substring(pos + 1);
     }
 
-        function UploadFile() {
-            $('#Avatar').uploadify({
-                uploader: '/SteelMember/MemberLibrary/SubmitUploadify',
-                swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-                buttonText: "选择图片",
-                height: 24,
-                width: 70,
-                fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-                fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
-                fileSizeLimit: '5MB',
+    function UploadFile() {
+        $('#Avatar').uploadify({
+            uploader: '/SteelMember/MemberLibrary/SubmitUploadifys',
+            swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '10MB',
+            queueID: 'fileQueue',                        //队列的ID
+            queueSizeLimit: 50,                          //队列最多可上传文件数量，默认为999
+            multi: true,
+            onFallback: function () {
+                dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
+            },
+            onUploadSuccess: function (file, data, response) {
+                //dialogMsg(data, 0);
 
-                onFallback: function () {
-                    dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
-                },
-               
-                onUploadSuccess: function (file, data, response) {
-                    dialogMsg(data,0);
-                    document.getElementById("CAD_Drawing").value = data;
-                    document.getElementById("_CAD_Drawing").src = data;
-                    document.getElementById("DelAvatar").setAttribute("type", "button");
-                    document.getElementById("DelAvatar").value = "删除图片";
-                },
-            });
+                if (data != null) {
+                    document.getElementById("CAD").innerHTML += "<img id='txImg' class='txImg' src='" + data + "' height='100' widtd='100'/>";
+                    document.getElementById("CAD_Drawing").value += getFileName(data) + ":";
+                }
 
-            $('#Avatar1').uploadify({
-                uploader: '/SteelMember/MemberLibrary/SubmitUploadify',      //处理文件上传Action?FolderId=' + GetQuery('FolderId')
-                swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-                buttonText: "选择图片",
-                height: 24,
-                width: 70,
-                fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-                fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
-                fileSizeLimit: '5MB',
+                document.getElementById("DelAvatar").setAttribute("type", "button");
+                document.getElementById("DelAvatar").value = "删除图片";
+            }
+        });
 
-                onFallback: function () {
-                    dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
-                },
-                onUploadSuccess: function (file, data, response) {
-                    document.getElementById("Model_Drawing").value = data;
-                    document.getElementById("_Model_Drawing").src = data;
-                    document.getElementById("DelAvatar1").setAttribute("type", "button");
-                    document.getElementById("DelAvatar1").value = "删除图片";
-                },
-            });
+        $('#Avatar1').uploadify({
+            uploader: '/SteelMember/MemberLibrary/SubmitUploadify',      //处理文件上传Action?FolderId=' + GetQuery('FolderId')
+            swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '10MB',
+            multi: false,
+            onFallback: function () {
+                dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
+            },
+            onUploadSuccess: function (file, data, response) {
+                document.getElementById("Model_Drawing").value = data;
+                document.getElementById("_Model_Drawing").src = data;
+                document.getElementById("DelAvatar1").setAttribute("type", "button");
+                document.getElementById("DelAvatar1").value = "删除图片";
+            },
+        });
 
-            $('#Avatar2').uploadify({
-                uploader: '/SteelMember/MemberLibrary/SubmitUploadify',
-                swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-                buttonText: "选择图片",
-                height: 24,
-                width: 70,
-                fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-                fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
-                fileSizeLimit: '5MB',
+        $('#Avatar2').uploadify({
+            uploader: '/SteelMember/MemberLibrary/SubmitUploadify',
+            swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '10MB',
+            multi: false,
+            onFallback: function () {
+                dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
+            },
+            onUploadSuccess: function (file, data, response) {
+                document.getElementById("Icon").value = data;
+                document.getElementById("_Icon").src = data;
+                document.getElementById("DelAvatar2").setAttribute("type", "button");
+                document.getElementById("DelAvatar2").value = "删除图片";
 
-                onFallback: function () {
-                    dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试",0);
-                },
-                onUploadSuccess: function (file, data, response) {
-                    document.getElementById("Icon").value = data;
-                    document.getElementById("_Icon").src = data;
-                    document.getElementById("DelAvatar2").setAttribute("type", "button");
-                    document.getElementById("DelAvatar2").value = "删除图片";
+            },
+        });
 
-                },
-            });
+    }
 
-        }
+    function DelCAD_Drawing() {
+        //document.getElementById("_CAD_Drawing").src = "";
+        document.getElementById("CAD").innerHTML = "";
+        document.getElementById("CAD_Drawing").value = "";
+        document.getElementById("DelAvatar").setAttribute("type", "hidden");
+    }
 
-        function DelCAD_Drawing() {
-            document.getElementById("_CAD_Drawing").src = "";
-            document.getElementById("CAD_Drawing").value = "";
-            document.getElementById("DelAvatar").setAttribute("type", "hidden");
-        }
+    function DelModel_Drawing() {
+        document.getElementById("_Model_Drawing").src = "";
+        document.getElementById("Model_Drawing").value = "";
+        document.getElementById("DelAvatar1").setAttribute("type", "hidden");
+    }
+    function DelIcon() {
+        document.getElementById("_Icon").src = "";
+        document.getElementById("Icon").value = "";
+        document.getElementById("DelAvatar2").setAttribute("type", "hidden");
+    }
+    /*添加构件结束====================================*/
 
-        function DelModel_Drawing() {
-            document.getElementById("_Model_Drawing").src = "";
-            document.getElementById("Model_Drawing").value = "";
-            document.getElementById("DelAvatar1").setAttribute("type", "hidden");
-        }
-        function DelIcon() {
-            document.getElementById("_Icon").src = "";
-            document.getElementById("Icon").value = "";
-            document.getElementById("DelAvatar2").setAttribute("type", "hidden");
-        }
-      /*添加构件结束====================================*/
+    /*添加材料开始====================================*/
 
-     /*添加原材料开始====================================*/
-
-        var RawMaterialJson ="";
-        function getGridRawMaterial() {
-            var MemberId = $("#MemberId").val();
+    var RawMaterialJson = "";
+    function getGridRawMaterial() {
+        var MemberId = $("#MemberId").val();
+        $.ajax({
+            url: "/SteelMember/MemberLibrary/GetMemberRawMaterialJson?MemberId=" + escape(MemberId),
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                RawMaterialJson = data;
+            },
+        });
+        var $grid = $("#gridTable-RawMaterial");
+        $grid.jqGrid({
+            unwritten: false,
+            url: "/SteelMember/MemberLibrary/GetMemberRawMaterialJson?MemberId=" + escape(MemberId),
+            datatype: "json",
+            height: $(window).height() - 165,
+            width: $(window).width() - 11,
+            colModel: [
+                //{ label: "主键", name: "MemberRawMaterialId", hidden: true },
+                { label: "外键", name: "RawMaterialId", hidden: true },
+                { label: "外键", name: "MemberId", hidden: true },
+                { label: "外键", name: "TreeId", hidden: true },
+                { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
+                { label: "材料名称", name: "RawMaterialName", width: 140, align: "left", sortable: false },
+                { label: "型号/规格", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
+                { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false },
+            ],
+            treeGrid: true,
+            treeGridModel: "nested",
+            //ExpandColumn: "TreeName",
+            rowNum: "all",
+            rownumbers: true
+        });
+        //处理Json
+        function RawMaterialListToListTreeJson(RawMaterialJson) {
             $.ajax({
-                url: "/SteelMember/MemberLibrary/GetMemberRawMaterialJson?MemberId=" + escape(MemberId),
-                type: "get",
+                url: "/SteelMember/MemberLibrary/ListToRawMaterialJson",
+                data: { RawMaterialJson: JSON.stringify(RawMaterialJson) },
+                type: "post",
                 dataType: "json",
                 success: function (data) {
-                    RawMaterialJson=data;
+                    $grid.clearGridData();
+                    $grid[0].addJSONData(data);
                 },
             });
-            var $grid = $("#gridTable-RawMaterial");
-            $grid.jqGrid({
-                unwritten: false,
-                url: "/SteelMember/MemberLibrary/GetMemberRawMaterialJson?MemberId=" + escape(MemberId),
-                datatype: "json",
-                height: $(window).height() - 165,
-                width: $(window).width() - 11,
-                colModel: [
-                    //{ label: "主键", name: "MemberRawMaterialId", hidden: true },
-                    { label: "外键", name: "RawMaterialId", hidden: true }, 
-                    { label: "外键", name: "MemberId", hidden: true },
-                    { label: "外键", name: "TreeId", hidden: true },
-                    { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
-                    { label: "材料名称", name: "RawMaterialName", width: 140, align: "left", sortable: false },
-                    { label: "型号/规格", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
-                    { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false },
-                ],
-                treeGrid: true, 
-                treeGridModel: "nested",
-                //ExpandColumn: "TreeName",
-                rowNum: "all",
-                rownumbers: true
+        }
+        //新增
+        $("#lr-add-RawMaterial").click(function () {
+            //var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
+            dialogOpen({
+                id: "RawMaterialNumForm",
+                title: '添加材料',
+                url: '/SteelMember/MemberLibrary/RawMaterialNumForm?MemberId =' + KeyValue,
+                width: "450px",
+                height: "400px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick(function (data) {
+                        RawMaterialJson.push(data);
+                        RawMaterialListToListTreeJson(RawMaterialJson);
+                    });
+                }
             });
-            //处理Json
-            function RawMaterialListToListTreeJson(RawMaterialJson) {
-                $.ajax({
-                    url: "/SteelMember/MemberLibrary/ListToRawMaterialJson",
-                    data: { RawMaterialJson: JSON.stringify(RawMaterialJson) },
-                    type: "get",
-                    dataType: "json",
-                    success: function (data) {
-                        $grid.clearGridData();
-                        $grid[0].addJSONData(data);
-                    },
-                });
-            }
-            //新增
-            $("#lr-add-RawMaterial").click(function () {
-                //var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
+        })
+        //编辑
+        $("#lr-edit-RawMaterial").click(function () {
+            var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
+            var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
+            if (checkedRow(RawMaterialId)) {
                 dialogOpen({
                     id: "RawMaterialNumForm",
-                    title: '添加材料',
-                    url: '/SteelMember/MemberLibrary/RawMaterialNumForm?MemberId =' + KeyValue,
+                    title: '编辑目录',
+                    url: '/SteelMember/MemberLibrary/RawMaterialNumForm?RawMaterialId=' + RawMaterialId + '&MemberId=' + KeyValue + '&type=edit',
                     width: "450px",
                     height: "400px",
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick(function (data) {
-                                RawMaterialJson.push(data);
-                                RawMaterialListToListTreeJson(RawMaterialJson);
+                            $.each(RawMaterialJson, function (i) {
+                                if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
+                                    RawMaterialJson[i] = data;
+                                }
+                            });
+                            RawMaterialListToListTreeJson(RawMaterialJson);
                         });
                     }
                 });
-            })
-            //编辑
-            $("#lr-edit-RawMaterial").click(function () {
-                var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
-                var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
-                if (checkedRow(RawMaterialId)) {
-                    dialogOpen({
-                        id: "RawMaterialNumForm",
-                        title: '编辑目录',
-                        url: '/SteelMember/MemberLibrary/RawMaterialNumForm?RawMaterialId=' + RawMaterialId + '&MemberId=' + KeyValue+ '&type=edit',
-                        width: "450px",
-                        height: "400px",
-                        callBack: function (iframeId) {
-                            top.frames[iframeId].AcceptClick(function (data) {
-                                $.each(RawMaterialJson, function (i) {
-                                    if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
-                                        RawMaterialJson[i] = data;
-                                    }
-                                });
-                                RawMaterialListToListTreeJson(RawMaterialJson);
-                            });
-                        }
-                    });
-                }
-            })
-            //删除
-            $("#lr-delete-RawMaterial").click(function () {
-                var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
-                if (checkedRow(RawMaterialId)) {
-                    $.each(RawMaterialJson, function (i) {
-                        if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
-                            RawMaterialJson.splice(i, 1);
-                            RawMaterialListToListTreeJson(RawMaterialJson);
-                            return false;
-                        }
-                    });
-                }
-            });
-        }
-
-        /*添加原材料结束====================================*/
-    //验证构件
-        $._ExistField = function (controlId, url, param) {
-            var SubProjectId = $("#EngineeringId").attr('data-value');
-            var Category = $("#Category").attr('data-value');
-            if (controlId != "MemberName") {
-                controlId = "MemberName";
             }
-            var $control = $("#" + controlId);
-            if (!$control.val() || SubProjectId == undefined || SubProjectId == "" || SubProjectId == '' || SubProjectId == null) {
-                return false;
-            }
-            var data = {
-                Category: Category,
-                keyValue: SubProjectId
-            };
-            data[controlId] = $control.val();
-            var options = $.extend(data, param);
-            $.ajax({
-                url: url,
-                data: options,
-                type: "get",
-                dataType: "text",
-                async: false,
-                success: function (data) {
-                    if (data.toLocaleLowerCase() == 'false') {
-                        ValidationMessage($control, '已存在,请重新输入');
-                        $control.attr('fieldexist', 'yes');
-                    } else {
-                        $control.attr('fieldexist', 'no');
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    dialogMsg(errorThrown, -1);
-                }
-            });
-        }
-
-        //返回原材料验证值
-        function ExistRawMaterial(RawMaterialModel) {
-            var a;
-            if (RawMaterialJson.length > 0) {
-                $.each(RawMaterialJson, function (i) {
-                    if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
-                       a=1;
-                    } else {
-                       a=0;
-                    }
-                })
-            } else {
-                a = 0;
-            }
-            if (a==0) {
-                return false;
-            } else {
-                return true;
-            }
-         }
-
-        //返回原材料实体
-        function RawMaterialModel(RawMaterialId) {
-            var data;
-            if (RawMaterialJson.length > 0) {
+        })
+        //删除
+        $("#lr-delete-RawMaterial").click(function () {
+            var RawMaterialId = $("#gridTable-RawMaterial").jqGridRowValue("RawMaterialId");
+            if (checkedRow(RawMaterialId)) {
                 $.each(RawMaterialJson, function (i) {
                     if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
-                        data = RawMaterialJson[i];
-                    } else {
-                        data = 0;
+                        RawMaterialJson.splice(i, 1);
+                        RawMaterialListToListTreeJson(RawMaterialJson);
+                        return false;
                     }
-                })
-            } else {
-                data = 0;
+                });
             }
-            if (data == 0) {
-                return false;
-            } else {
-                return data;
-            }
-        }
+        });
+    }
 
-        //保存表单
-        function AcceptClick() {
-            if (!$('#form1').Validform()) {
-                return false;
+    /*添加材料结束====================================*/
+    //验证构件
+    $._ExistField = function (controlId, url, param) {
+        var SubProjectId = $("#EngineeringId").attr('data-value');
+        var Category = $("#Category").attr('data-value');
+        if (controlId != "MemberName") {
+            controlId = "MemberName";
+        }
+        var $control = $("#" + controlId);
+        if (!$control.val() || SubProjectId == undefined || SubProjectId == "" || SubProjectId == '' || SubProjectId == null) {
+            return false;
+        }
+        var data = {
+            Category: Category,
+            keyValue: SubProjectId
+        };
+        data[controlId] = $control.val();
+        var options = $.extend(data, param);
+        $.ajax({
+            url: url,
+            data: options,
+            type: "get",
+            dataType: "text",
+            async: false,
+            success: function (data) {
+                if (data.toLocaleLowerCase() == 'false') {
+                    ValidationMessage($control, '已存在,请重新输入');
+                    $control.attr('fieldexist', 'yes');
+                } else {
+                    $control.attr('fieldexist', 'no');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                dialogMsg(errorThrown, -1);
             }
-            var postData = $("#form1").GetWebControls(KeyValue);
-            postData["EngineeringId"] = $("#EngineeringId").attr('data-value');
-            postData["Category"] = $("#Category").attr('data-value');
-            postData["UnitId"] = $("#UnitId").attr('data-value');
-            postData["MemberRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
-            $.SaveForm({
-                url: "../../SteelMember/MemberLibrary/SaveForm?KeyValue=" + KeyValue,
-                param: postData,
-                loading: "正在保存数据...",
-                success: function () {
-                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+        });
+    }
+
+    //返回材料验证值
+    function ExistRawMaterial(RawMaterialModel) {
+        var a;
+        if (RawMaterialJson.length > 0) {
+            $.each(RawMaterialJson, function (i) {
+                if (RawMaterialJson[i].RawMaterialModel == RawMaterialModel) {
+                    a = 1;
+                } else {
+                    a = 0;
                 }
             })
+        } else {
+            a = 0;
         }
+        if (a == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //返回材料实体
+    function RawMaterialModel(RawMaterialId) {
+        var data;
+        if (RawMaterialJson.length > 0) {
+            $.each(RawMaterialJson, function (i) {
+                if (RawMaterialJson[i].RawMaterialId == RawMaterialId) {
+                    data = RawMaterialJson[i];
+                } else {
+                    data = 0;
+                }
+            })
+        } else {
+            data = 0;
+        }
+        if (data == 0) {
+            return false;
+        } else {
+            return data;
+        }
+    }
+
+    //保存表单
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        var postData = $("#form1").GetWebControls(KeyValue);
+        postData["MemberName"] = $("#MemberName").val().replace(/\s+/g, "");//除去所有空格
+        postData["EngineeringId"] = $("#EngineeringId").attr('data-value');
+        postData["Category"] = $("#Category").attr('data-value');
+        postData["UnitId"] = $("#UnitId").attr('data-value');
+        postData["MemberRawMaterialListJson"] = JSON.stringify(RawMaterialJson);
+        $.SaveForm({
+            url: "../../SteelMember/MemberLibrary/SaveForm?KeyValue=" + KeyValue,
+            param: postData,
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
 
 
 </script>
@@ -450,13 +469,18 @@
     .uploadify-queue {
         display: none;
     }
+
+    .txImg {
+        float: left;
+        padding-left: 2px
+    }
 </style>
 
-<div class="widget-body">
+<div class="widget-body" style="margin:15px">
     <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
         <ul class="steps">
             <li data-target="#step-1" class="active"><span class="step">1</span>添加构件<span class="chevron"></span></li>
-            <li data-target="#step-2"><span class="step">2</span>添加原材料<span class="chevron"></span></li>
+            <li data-target="#step-2"><span class="step">2</span>添加材料<span class="chevron"></span></li>
         </ul>
     </div>
     <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
@@ -470,14 +494,14 @@
             <table class="form">
                 <tr>
                     <td class="formTitle">
-                        工程类型<font face="宋体">*</font>
+                        工程类型<font face="宋体" color="red">*</font>
                     </td>
                     <td class="formValue">
                         <div id="EngineeringId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
 
                     </td>
                     <td class="formTitle">
-                        构件类型<font face="宋体">*</font>
+                        构件类型<font face="宋体" color="red">*</font>
                     </td>
                     <td class="formValue">
                         <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
@@ -485,36 +509,37 @@
                 </tr>
                 <tr>
                     <td class="formTitle">
-                        构件名称<font face="宋体">*</font>
+                        构件名称<font face="宋体" color="red">*</font>
                     </td>
-                    <td class="formValue"> 
+                    <td class="formValue">
                         <input id="MemberName" type="text" onblur="$._ExistField(this.id,'../../SteelMember/MemberLibrary/ExistMember')" class="form-control" placeholder="请输入构件名称" isvalid="yes" checkexpession="NotNull" />
                     </td>
                     <td class="formTitle">
-                        构件单位<font face="宋体">*</font>
+                        构件单位<font face="宋体" color="red">*</font>
                     </td>
                     <td class="formValue">
                         <div id="UnitId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
                 </tr>
                 <tr>
-                  
+
                     @*<td class="formTitle">
-                            单价<font face="宋体">*</font>
+                            单价<font face="宋体" color="red">*</font>
                         </td>
                         <td class="formValue">
                             <input id="UnitPrice" type="text" class="form-control" placeholder="请输入单价" isvalid="yes" checkexpession="Double" />
                         </td>*@
                 </tr>
                 <tr>
+
                     <td class="formTitle">
-                        图纸
+                        图标
                     </td>
                     <td class="formValue">
-                        <div style="float:left;margin:5px;" class="showImg;"><img id="_CAD_Drawing" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
+                        <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
                         <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                            <input id="DelAvatar" onclick="DelCAD_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:20px" />
-                            <input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                            <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
+                            <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
                         </div>
                     </td>
                     <td class="formTitle">
@@ -530,13 +555,14 @@
                 </tr>
                 <tr>
                     <td class="formTitle">
-                        图标
+                        图纸
                     </td>
-                    <td class="formValue">
-                        <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
+                    <td class="formValue" colspan="3">
+                        <div id="CAD" style="float:left;margin:5px;" class="showImg;">
+                        </div>
                         <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                            <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                            <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                            <input id="DelAvatar" onclick="DelCAD_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:20px" />
+                            <input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
                         </div>
                     </td>
                 </tr>

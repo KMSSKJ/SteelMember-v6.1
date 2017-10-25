@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LeaRun.Util;
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -22,11 +23,9 @@ namespace LeaRun.Application.Service.SteelMember
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页</param>
-        /// <param name="IsReceive"></param>
-        /// <param name="IsPassed"></param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, int IsReceive, int IsPassed, string queryJson)
+        public IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination,string queryJson)
         {
            var expression = LinqExtensions.True<MemberProductionOrderEntity>();
             var queryParam = queryJson.ToJObject();
@@ -69,15 +68,22 @@ namespace LeaRun.Application.Service.SteelMember
             }
             if (!queryParam["SubProjectId"].IsEmpty())
             {
-                var SubProjectId =queryParam["SubProjectId"].ToString();
+                var SubProjectId = queryParam["SubProjectId"].ToString();
                 expression = expression.And(t => t.Category == SubProjectId);
             }
-            if (IsReceive!=2)
+            if (!queryParam["IsConfirm"].IsEmpty())
             {
-                expression = expression.And(t => t.IsReceive == IsReceive);
+                int IsConfirm = Convert.ToInt32(queryParam["IsConfirm"]);
+                expression = expression.And(t => t.IsConfirm == IsConfirm);
             }
-            if (IsPassed!= 3)
+            if (!queryParam["ProductionStatus"].IsEmpty())
             {
+                int ProductionStatus = Convert.ToInt32(queryParam["ProductionStatus"]);
+                expression = expression.And(t => t.ProductionStatus == ProductionStatus);
+            }
+            if (!queryParam["IsPassed"].IsEmpty())
+            {
+                int IsPassed = Convert.ToInt32(queryParam["IsPassed"]);
                 expression = expression.And(t =>t.IsPassed == IsPassed);
             }
             return this.BaseRepository().FindList(expression, pagination);
@@ -125,6 +131,18 @@ namespace LeaRun.Application.Service.SteelMember
             return this.BaseRepository().IQueryable(expression).ToList();
             //return this.BaseRepository().FindList<MemberProductionOrderEntity>(pagination);
         }
+
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <returns>返回分页列表</returns>
+        public List<MemberProductionOrderEntity> GetList(Expression<Func<MemberProductionOrderEntity,bool>>condition)
+        {
+            return this.BaseRepository().IQueryable(condition).ToList();
+            
+        }
+
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -147,14 +165,14 @@ namespace LeaRun.Application.Service.SteelMember
         /// <summary>
         /// 获取列表(已生产)
         /// <param name="pagination"></param>
-        /// <param name="IsWarehousing">查询参数</param>
+        /// <param name="condition">查询参数</param>
         /// <returns></returns>
         /// </summary>
-        public IEnumerable<MemberProductionOrderEntity> GetPageListByProductionOrderStatus(Pagination pagination, int IsWarehousing)
+        public IEnumerable<MemberProductionOrderEntity> GetPageListByProductionOrderStatus(Pagination pagination, Expression<Func<MemberProductionOrderEntity,bool>> condition)
         {
-            var expression = LinqExtensions.True<MemberProductionOrderEntity>();
-            expression = expression.And(t => t.ProductionStatus == IsWarehousing);
-            return this.BaseRepository().FindList(expression, pagination);
+            //var expression = LinqExtensions.True<MemberProductionOrderEntity>();
+            //expression = expression.And(t => t.ProductionStatus == IsWarehousing);
+            return this.BaseRepository().FindList(condition,pagination);
         }
 
         #endregion
@@ -245,7 +263,10 @@ namespace LeaRun.Application.Service.SteelMember
                 }
                 //return entity.OrderId;
             }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public void RemoveList(List<MemberProductionOrderEntity> list)
         {
             throw new NotImplementedException();
@@ -258,12 +279,23 @@ namespace LeaRun.Application.Service.SteelMember
         {
             this.BaseRepository().Update(list);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string keyValue)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="category"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
         public bool Exist(string query, string category, string keyValue)
         {
             throw new NotImplementedException();

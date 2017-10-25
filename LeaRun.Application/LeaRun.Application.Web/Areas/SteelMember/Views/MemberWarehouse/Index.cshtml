@@ -34,73 +34,65 @@
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
-            param: { Levels: 1 },
+            param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
-                EngineeringName = item.value;
+                EngineeringName = item.text;
                 EngineeringId = item.id;
-                $('#btn_Search').trigger("click");
+                $("#CenterTitle").html("-" + EngineeringName);
+                GetGrid();
+               // $('#btn_Search').trigger("click");
             }
         };
         //初始化
         $("#itemTree").treeview(item);
-        //本页面弹窗
-        //$("#dialog").dialog({
-        //    autoOpen: false,
-        //    height: 100,
-        //    width: 900,
-        //    modal: true,
-        //    show: {
-        //        effect: "blind",
-        //        duration: 1000
-        //    },
-        //    hide: {
-        //        effect: "explode",
-        //        duration: 1000
-        //    }
-        //});
-
-        //构件类型
-        $("#Category").ComboBox({
-            param: { EnCode: "MemberType" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemDetailId",
-            text: "ItemName",
-            height: "150px",
-            description: "选择构件类型",
-        }).bind("change", function () {
-            $('#btn_Search').trigger("click");
-        });
     }
 
     //加载表格
-    function GetGrid(obj) {
-        var selectedRowIndex = 0;
+    function GetGrid() {
+        var selectedRowIndex = 0; 
         var $gridTable = $('#gridTable');
+
+        var queryJson = {
+            SubProjectId: EngineeringId,
+        }
+        $gridTable.jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+
         $gridTable.jqGrid({
             autowidth: true,
             height: $(window).height() - 170,
             url: "../../SteelMember/MemberWarehouse/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: 'RecordingId', name: 'RecordingId', index: 'RecordingId', align: 'left', sortable: true, hidden: true },
-                { label: 'MemberWarehouseId', name: 'MemberWarehouseId', index: 'MemberWarehouseId', align: 'left', sortable: true, hidden: true },
-                { label: 'MemberId', name: 'MemberId', index: 'MemberId', align: 'left', sortable: true, hidden: true },
-                { label: 'EngineeringId', name: 'EngineeringId', index: 'SubProjectId', align: 'left', sortable: true, hidden: true },
-                { label: '构件编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 100, align: 'left', sortable: true },
-                { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
-                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
-                { label: '构件单位', name: 'MemberUnit', index: 'MemberUnit', width: 100, align: 'left', sortable: true },
-                { label: '库存量', name: 'InStock', index: 'InStock', width: 100, align: 'left', sortable: true },
-                { label: '库管员', name: 'Librarian', index: 'Librarian', width: 100, align: 'left', sortable: true },
+                { label: 'RecordingId', name: 'RecordingId', index: 'RecordingId', hidden: true },
+                { label: 'MemberWarehouseId', name: 'MemberWarehouseId', index: 'MemberWarehouseId', hidden: true },
+                { label: 'MemberId', name: 'MemberId', index: 'MemberId',hidden: true },
+                { label: 'EngineeringId', name: 'EngineeringId', index: 'SubProjectId', hidden: true },
+                { label: '构件编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 180, align: 'center', sortable: true },
+                { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 180, align: 'center', sortable: true },
+                { label: '构件类型', name: 'Category', index: 'Category', width: 120, align: 'center', sortable: true },
+                { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 100, align: 'center', sortable: true },
+                { label: '库存量', name: 'InStock', index: 'InStock', width: 120, align: 'center', sortable: true },
+                { label: '库管员', name: 'Librarian', index: 'Librarian', width: 110, align: 'center', sortable: true },
                 {
-                    label: '更新时间', name: 'UpdateTime', index: 'UpdateTime', width: 80, align: 'left', sortable: true,
+                    label: '更新时间', name: 'UpdateTime', index: 'UpdateTime', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }
                 },
-                { label: '备注', name: 'Description', index: 'Description', width: 100, align: 'left', sortable: true },
-
+                {
+                    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                            return "";
+                        } else {
+                            return "<p style='color: red'>" + cellvalue + "</p>";
+                        }
+                    }
+                },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -118,44 +110,39 @@
                 $('#' + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //查询条件
-        $("#queryCondition .dropdown-menu li").click(function () {
-            var text = $(this).find('a').html();
-            var value = $(this).find('a').attr('data-value');
-            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
-        });
-        //查询事件
-        $("#btn_Search").click(function () {
-            var queryJson = {
-                //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                keyword: $("#txt_Keyword").val(),
-                EngineeringId: EngineeringId,
-                Category: Category = $("#Category").attr('data-text') == "选择构件类型" ? "":$("#Category").attr('data-text'),
-                BeginTime: $("#txt_BeginTime").val(),
-                EndTime: $("#txt_EndTime").val()
-            }
-            $gridTable.jqGrid('setGridParam', {
-                postData: { queryJson: JSON.stringify(queryJson) },
-                page: 1
-            }).trigger('reloadGrid');
-        });
-        //查询回车
-        $('#txt_Keyword').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                $('#btn_Search').trigger("click");
-            }
-        });
+        ////查询条件
+        //$("#queryCondition .dropdown-menu li").click(function () {
+        //    var text = $(this).find('a').html();
+        //    var value = $(this).find('a').attr('data-value');
+        //    $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+        //});
+        ////查询事件
+        //$("#btn_Search").click(function () {
+        //    var queryJson = {
+        //        //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+        //        keyword: $("#txt_Keyword").val(),
+        //        EngineeringId: EngineeringId,
+        //        Category: Category = $("#Category").attr('data-text') == "选择构件类型" ? "" : $("#Category").attr('data-text'),
+        //        BeginTime: $("#txt_BeginTime").val(),
+        //        EndTime: $("#txt_EndTime").val()
+        //    }
+        //    $gridTable.jqGrid('setGridParam', {
+        //        postData: { queryJson: JSON.stringify(queryJson) },
+        //        page: 1
+        //    }).trigger('reloadGrid');
+        //});
+        ////查询回车
+        //$('#txt_Keyword').bind('keypress', function (event) {
+        //    if (event.keyCode == "13") {
+        //        $('#btn_Search').trigger("click");
+        //    }
+        //});
 
-        switch (obj) {
-            case "Search":
-                $('#btn_Search').trigger("click");
-                break;
-        }
-    }
-
-    //inputgai改变事件
-    function InputChange() {
-        $('#btn_Search').trigger("click");
+        //switch (obj) {
+        //    case "Search":
+        //        $('#btn_Search').trigger("click");
+        //        break;
+        //}
     }
 
     //入库
@@ -173,61 +160,73 @@
             }
         })
     }
-    //入库报表
-    function btn_add_table() {
-        dialogOpen({
-            id: 'Form',
-            title: '入库信息',
-            url: '/SteelMember/MemberWarehouse/InventoryDetail?Type=' + escape('入库'),
-            width: '1000px',
-            height: '750px',
-            btn: null,
-            callBack: function (iframeId) {
-                top.frames[iframeId].AcceptClick();
-
-            }
-        })
-    }
 
     //出库
     function btn_edit() {
-        var keyValue = $('#gridTable').jqGridRowValue('MemberWarehouseId');
-        var InStock = $('#gridTable').jqGridRowValue('InStock');
-        if (InStock == "0") {
-            dialogMsg("库存中暂时没有该构件了!!! 0.0", 0);
-            return false;
-        }
-        if (checkedRow(keyValue)) {
-            dialogOpen({
-                id: 'Form',
-                title: '构件出库',
-                url: '/SteelMember/MemberWarehouse/Collar?MemberWarehouseId=' + keyValue,
-                width: '900px',
-                height: '500px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                    $("#gridTable").trigger("reloadGrid");
-                }
-            });
-        }
-    }
-
-    //出库报表
-    function btn_edit_table() {
+        //var keyValue = $('#gridTable').jqGridRowValue('MemberWarehouseId');
+        //var InStock = $('#gridTable').jqGridRowValue('InStock');
+        //if (InStock == "0") {
+        //    dialogMsg("库存中暂时没有该构件了!!! 0.0", 0);
+        //    return false;
+        //}
+        //if (checkedRow(keyValue)) {
         dialogOpen({
-            id: 'Form',
-            title: '出库信息',
-            url: '/SteelMember/MemberWarehouse/InventoryDetail?Type=' + escape('出库'),
+            id: 'Collar',
+            title: '构件出库',
+            url: '/SteelMember/MemberWarehouse/Collar',/*?MemberWarehouseId=' + keyValue*/
             width: '1000px',
             height: '750px',
-            btn: null,
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
-
+                $("#gridTable").trigger("reloadGrid");
             }
-        })
-
+        });
+        // }
     }
+
+    ////入库报表
+    //function btn_add_table() {
+    //    dialogOpen({
+    //        id: 'Form',
+    //        title: '入库信息',
+    //        url: '/SteelMember/MemberWarehouse/InventoryDetail?Type=' + escape('入库'),
+    //        width: '1000px',
+    //        height: '750px',
+    //        btn: null,
+    //        callBack: function (iframeId) {
+    //            top.frames[iframeId].AcceptClick();
+
+    //        }
+    //    })
+    //}
+
+    ////出库报表
+    //function btn_edit_table() {
+    //    //dialogOpen({
+    //    //    id: 'Form',
+    //    //    title: '出库信息',
+    //    //    url: '/SteelMember/MemberWarehouse/InventoryDetail?Type=' + escape('出库'),
+    //    //    width: '1000px',
+    //    //    height: '750px',
+    //    //    btn: null,
+    //    //    callBack: function (iframeId) {
+    //    //        top.frames[iframeId].AcceptClick();
+
+    //    //    }
+    //    //})
+    //    dialogOpen({
+    //        id: 'Form',
+    //        title: '出库信息',
+    //        url: '/SteelMember/MemberWarehouse/OutInventoryDetail',
+    //        width: '1000px',
+    //        height: '750px',
+    //        btn: null,
+    //        callBack: function (iframeId) {
+    //            top.frames[iframeId].AcceptClick();
+
+    //        }
+    //    })
+    //}
 
     //删除
     function btn_delete() {
@@ -245,9 +244,19 @@
         }
     }
 
-    //function Search() {
-    //   $("#dialog").dialog("open");
-    //}
+    function Search() {
+        dialogOpen({
+            id: "AdvancedSearchMemberForm",
+            title: '高级查询',
+            url: '/Utility/AdvancedSearchMemberForm?SubProjectId=' + EngineeringId,
+            width: "670px",
+            height: "180px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null,
+        });
+    }
 
 </script>
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
@@ -259,14 +268,11 @@
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">库存信息</div>
+            <div class="panel-Title">库存信息<span id="CenterTitle"></span></div>
             <div class="titlePanel">
-                <div class="title-search" style="padding-top:15px">
+                @*<div id="searchDialog" class="title-search" style="padding-top:15px">
                     <table>
                         <tr>
-                            <td style="width:100px">
-                                <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                            </td>
                             <td style="padding-left: 5px;width:110px">
                                 <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
                             </td>
@@ -274,7 +280,7 @@
                                 <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
                             </td>
 
-                            @*<td style="padding-left: 10px;">
+                            <td style="padding-left: 10px;">
                                     <div id="queryCondition" class="btn-group">
                                         <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -283,7 +289,7 @@
                                                 <li><a data-value="MemberName">构件名称</a></li>
                                             </ul>
                                     </div>
-                                </td>*@
+                                </td>
                             <td style="padding-left: 5px;width:110px">
                                 <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询编号" />
                             </td>
@@ -292,17 +298,20 @@
                             </td>
                         </tr>
                     </table>
-                </div>
+                </div>*@
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
                         <a id="lr-in_library" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;入库</a>
                         <a id="lr-out_library" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;出库</a>
-                        <a id="lr-in_library_tabel" class="btn btn-default" onclick="btn_add_table()"><i class="fa fa-plus"></i>&nbsp;入库报表</a>
-                        <a id="lr-out_library_tabel" class="btn btn-default" onclick="btn_edit_table()"><i class="fa fa-pencil-square-o"></i>&nbsp;出库报表</a>
-                        @*<a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>*@
-                        @*<a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>*@
+                        @*<a id="lr-in_library_tabel" class="btn btn-default" onclick="btn_add_table()"><i class="fa fa-plus"></i>&nbsp;入库详情</a>
+                        <a id="lr-out_library_tabel" class="btn btn-default" onclick="btn_edit_table()"><i class="fa fa-pencil-square-o"></i>&nbsp;出库详情</a>*@
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                     </div>
+                    <div class="btn-group">
+                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </div>
+                    <script>$('.toolbar').authorizeButton()</script>
                 </div>
             </div>
             <div class="gridPanel">

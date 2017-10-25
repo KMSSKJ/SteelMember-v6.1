@@ -20,6 +20,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
         private SubProjectBLL subprojectbll = new SubProjectBLL();
 
+        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
+        private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
+        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
+        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
+        private RawMaterialOrderBLL rawmaterialorderbll = new RawMaterialOrderBLL();
+        private MemberWarehouseBLL memberwarehousebll = new MemberWarehouseBLL();
+        private RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
+
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -36,7 +44,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Form()
         {
             return View();
@@ -91,7 +98,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = subprojectbll.GetList(queryJson).ToList();
             if (!string.IsNullOrEmpty(queryJson))
             {
-                data = data.FindAll(t => t.FullName.Contains(queryJson));
+                var queryParam = queryJson.ToJObject();
+                var FullName = queryParam["keyword"].ToString();
+                data = data.FindAll(t => t.FullName.Contains(FullName));
             }
             var treeList = new List<TreeGridEntity>();
             foreach (SubProjectEntity item in data)
@@ -129,24 +138,50 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        [HandlerAuthorize(PermissionMode.Enforce)]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            var data = subprojectbll.GetList(null).ToList();
-            data = data.FindAll(t => t.ParentId == keyValue);
-            if (data.Count()== 0)
+            int Number = 0;
+            var list = GetSonId(keyValue);
+            var Entity = new SubProjectEntity()
             {
-                subprojectbll.RemoveForm(keyValue);
+                Id = keyValue,
+            };
+            list.Add(Entity);
+
+            foreach (var item in list)
+            {
+                var memberdemand = memberdemandbll.GetList(item.Id);
+                var memberlibrary= memberlibrarybll.GetList(f =>f.EngineeringId == item.Id);
+                var memberproductionorder=  memberproductionorderbll.GetList(f=>f.Category== item.Id);
+                var rawmaterialanalysis =rawmaterialanalysisbll.GetList(f=>f.Id== item.Id);
+                var rawmaterialorder= rawmaterialorderbll.GetList(f=>f.Category== item.Id);
+                var memberwarehouse =memberwarehousebll.GetList(f=>f.EngineeringId== item.Id);
+                Number = Number + memberdemand.Count() + memberlibrary.Count() + memberproductionorder.Count() + rawmaterialanalysis.Count() + rawmaterialorder.Count() + memberwarehouse.Count() + memberlibrary.Count();
+            }
+            if (Number > 0)
+            {
+                return Error("该节点下存在关联数据不允许删除！");
             }
             else
-            {//删除存在的子数据
-                subprojectbll.RemoveForm(keyValue);
-                foreach (var item in data)
+            {
+                var data = subprojectbll.GetList(null).ToList();
+                data = data.FindAll(t => t.ParentId == keyValue);
+                if (data.Count() == 0)
                 {
-                    subprojectbll.RemoveForm(item.Id);
+                    subprojectbll.RemoveForm(keyValue);
                 }
-            }
-            return Success("删除成功");
+                else
+                {//删除存在的子数据
+                    subprojectbll.RemoveForm(keyValue);
+                    foreach (var item in data)
+                    {
+                        subprojectbll.RemoveForm(item.Id);
+                    }
+                }
+                return Success("删除成功");
+
+            }  
         }
 
         /// <summary>
@@ -198,5 +233,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return true;
         }
         #endregion
+
+        /// <summary>
+        /// 获取树字节子节点(自循环)
+        /// </summary>
+        /// <param name="SubProjectId"></param>
+        /// <returns></returns>
+        public List<SubProjectEntity> GetSonId(string SubProjectId)
+        {
+            List<SubProjectEntity> list = subprojectbll.GetListWant(f => f.ParentId == SubProjectId);
+            var sb = list.SelectMany(p => GetSonId(p.Id));
+            return list.Concat(list.SelectMany(t => GetSonId(t.Id))).ToList();
+        }
     }
 }

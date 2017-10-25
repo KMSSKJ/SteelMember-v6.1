@@ -27,6 +27,11 @@ namespace LeaRun.Application.Service.SystemManage
         {
             return this.BaseRepository().IQueryable(t => t.ItemId == itemId).OrderBy(t => t.SortCode).ToList();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ItemDetailId"></param>
+        /// <returns></returns>
         public List<DataItemDetailEntity> GetByParentToItemIdIdList(string ItemDetailId)
         {
             return this.BaseRepository().IQueryable(t => t.ItemId == ItemDetailId).ToList();

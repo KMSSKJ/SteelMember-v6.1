@@ -5,10 +5,10 @@ using System.Web;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Models
 {
-    public class RawmaterialwarehouseModel : Entity.SteelMember.RawMaterialWarehouseEntity
+    public class RawMaterialwarehouseModel : Entity.SteelMember.RawMaterialWarehouseEntity
     {
     }
-    public class RawmaterialWarehouseModel: Entity.SteelMember.RawMaterialLibraryEntity
+    public class RawMaterialWarehouseModel: Entity.SteelMember.RawMaterialLibraryEntity
     {
        
         /// <summary>

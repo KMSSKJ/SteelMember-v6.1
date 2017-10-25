@@ -6,7 +6,7 @@ namespace LeaRun.Application.Mapping.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-06 22:03
-    /// 描 述：原材料分析
+    /// 描 述：材料分析
     /// </summary>
     public class RawMaterialAnalysisMap : EntityTypeConfiguration<RawMaterialAnalysisEntity>
     {

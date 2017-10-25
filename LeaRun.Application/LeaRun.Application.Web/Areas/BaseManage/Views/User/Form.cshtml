@@ -8,7 +8,7 @@
     var keyValue = request('keyValue');
     var instanceId = "";
     var formId = "";
-    var headIcon = "";
+   
     $(function () {
         initControl();
     })
@@ -27,7 +27,7 @@
                 dataType: 'json',
                 success: function (data) {
                     document.getElementById('uploadPreview').src = data.message;
-                    headIcon = data.message;
+                    document.getElementById('HeadIcon').value = data.message;
                 }
             });
         });
@@ -150,6 +150,7 @@
                     $("#Birthday").val(formatDate(data.Birthday, "yyyy-MM-dd"));
                     $("#Password").val("******").attr('disabled', 'disabled');
                     if (data.HeadIcon) {
+                        document.getElementById('HeadIcon').value = top.contentPath + data.HeadIcon;
                         document.getElementById('uploadPreview').src = top.contentPath + data.HeadIcon;
                     }
                 }
@@ -158,7 +159,7 @@
     }
     //保存表单
     function AcceptClick() {
-        if ($('#uploadFile').val().length == 0) {
+        if ($('#HeadIcon').val().length == 0) {
             document.getElementById('checkimg').style.display = "block";
             return false;
         }
@@ -169,7 +170,6 @@
         postData["DutyName"] = $("#DutyId").attr('data-text');
         postData["PostName"] = $("#PostId").attr('data-text');
         postData["Manager"] = $("#ManagerId").attr('data-text');
-        postData["HeadIcon"] = headIcon;
         if (postData["Birthday"] == "&nbsp;") {
             postData["Birthday"] = "";
         }
@@ -191,11 +191,12 @@
             <li class="active"><a href="#BaseInfo" data-toggle="tab">基本信息</a></li>
             <li><a href="#ExpandInfo" data-toggle="tab">扩展属性</a></li>
         </ul>*@
+    <input id="HeadIcon" type="hidden" />
     <div class="tab-content" style="padding-top: 15px;">
         <div id="BaseInfo" class="tab-pane active" style=" padding-right: 30px;">
             <table class="form">
                 <tr>
-                    <td class="formTitle">头像<font face="宋体">*</font></td>
+                    <td class="formTitle">头像<font face="宋体" color="red">*</font></td>
                     <td class="formValue">
                         <div class="file" style="margin-left:70px; width: 100px; height: 100px;">
                             <img id="uploadPreview" style="width: 100px; height: 100px; border-radius: 100px;" src="~/Content/images/logo-headere47d5.png" />
@@ -206,21 +207,21 @@
                     <td style="line-height: 14px; color: #75777A; text-align: center;">建议上传图片尺寸为100x100，大小不超过2M。</td>
                 </tr>
                 <tr>
-                    <td class="formTitle">账户<font face="宋体">*</font></td>
+                    <td class="formTitle">账户<font face="宋体" color="red">*</font></td>
                     <td class="formValue">
                         <input id="Account" type="text" onblur="$.ExistField(this.id,'../../BaseManage/User/ExistAccount')" class="form-control" placeholder="请输入账户" isvalid="yes" checkexpession="NotNull" />
                     </td>
-                    <td class="formTitle">密码<font face="宋体">*</font></td>
+                    <td class="formTitle">密码<font face="宋体" color="red">*</font></td>
                     <td class="formValue">
                         <input id="Password" type="text" class="form-control" placeholder="请输入密码" isvalid="yes" checkexpession="NotNull" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle">单位<font face="宋体">*</font></td>
+                    <td class="formTitle">单位<font face="宋体" color="red">*</font></td>
                     <td class="formValue">
                         <div id="OrganizeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
-                    <td class="formTitle">部门<font face="宋体">*</font></td>
+                    <td class="formTitle">部门<font face="宋体" color="red">*</font></td>
                     <td class="formValue">
                         <div id="DepartmentId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
@@ -250,9 +251,9 @@
                     <td class="formValue">
                         <input id="EnCode" type="text" class="form-control" />
                     </td>
-                    <td class="formTitle">姓名</td>
+                    <td class="formTitle">姓名<font face="宋体" color="red">*</font></td>
                     <td class="formValue">
-                        <input id="RealName" type="text" class="form-control" />
+                        <input id="RealName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                     </td>
                 </tr>
                 <tr>

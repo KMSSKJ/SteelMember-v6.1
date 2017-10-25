@@ -6,7 +6,7 @@ namespace LeaRun.Application.Mapping.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-06 09:49
-    /// 描 述：构件原材料
+    /// 描 述：构件材料
     /// </summary>
     public class MemberMaterialMap : EntityTypeConfiguration<MemberMaterialEntity>
     {

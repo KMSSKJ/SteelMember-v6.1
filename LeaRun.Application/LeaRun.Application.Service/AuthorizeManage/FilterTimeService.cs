@@ -2,8 +2,10 @@
 using LeaRun.Application.IService.AuthorizeManage;
 using LeaRun.Data.Repository;
 using LeaRun.Util.Extension;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.BaseManage
 {
@@ -52,6 +54,17 @@ namespace LeaRun.Application.Service.BaseManage
         {
             return this.BaseRepository().FindEntity(keyValue);
         }
+
+        /// <summary>
+        /// 过滤时段实体
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public FilterTimeEntity GetEntity(Expression<Func<FilterTimeEntity, bool>> condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
+        }
+       
         #endregion
 
         #region 提交数据

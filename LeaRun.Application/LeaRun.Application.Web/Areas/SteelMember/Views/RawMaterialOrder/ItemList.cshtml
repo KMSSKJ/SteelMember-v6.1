@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "构件列表";
+    ViewBag.Title = "材料列表";
     Layout = "~/Views/Shared/_OrderForm.cshtml";
 }
 <script>
@@ -30,11 +30,12 @@
             height: $(window).height()-100,
             autowidth: true,
             colModel: [
+                { label: '外键', name: "RawMaterialAnalysisId", align: ' center', width: 100, sortable: false, hidden: true },
                 { label: '主键', name: "RawMaterialId", align: ' center', width: 100, sortable: false ,hidden:true},
                 { label: '规格或型号', name: "RawMaterialModel", align: ' center', width: 80, sortable: false },
                 { label: '材料名称', name: "RawMaterialName", align: ' center', width: 100, sortable: false },//Category
                 { label: '需求量', name: "Qty", align: ' center', width: 50, sortable: false },
-                { label: '单位', name: "UnitName", align:' center',width: 50, sortable: false},
+                { label: '单位', name: "UnitId", align:' center',width: 50, sortable: false},
             ],
             rowNum: 30,
             viewrecords: true,
@@ -90,13 +91,15 @@
                     var rows = 1;
                     var $parentobj = top.frames["Form"];
                     while (rows < 30) {
+                        $parentobj.$("#Quantity➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialPurchaseId➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialAnalysisId➩" + rows).val(null);
                         $parentobj.$("#RawMaterialId➩" + rows).val(null);
                         $parentobj.$("#RawMaterialName➩" + rows).val(null);
                         $parentobj.$("#RawMaterialModel➩" + rows).val(null);
-                        $parentobj.$("#UnitName➩" + rows).val(null);
-                        $parentobj.$("#RawMaterialNumber➩" + rows).val(null);
-                        $parentobj.$("#Price➩" + rows).val(null);
-                        $parentobj.$("#PriceAmount➩" + rows).val(null);
+                        $parentobj.$("#UnitId➩" + rows).val(null);
+                        $parentobj.$("#Description➩" + rows).val(null);
+                        $parentobj.$("#MaxNumber➩" + rows).val(null);
                         rows++;
                     }
                     if (rowData != null) {
@@ -107,7 +110,7 @@
                             $.ajax({
                                 type: 'post',
                                 dataType: "text",
-                                url: "/SteelMember/RawMaterialOrder/AddMemberNumber",
+                                url: "/SteelMember/RawMaterialOrder/AddRawMaterialNumber",
                                 data: {
                                     category: Category,
                                     KeyValue: rowData[i].RawMaterialId
@@ -119,10 +122,11 @@
                                 }
                             });
                             $parentobj.$("#RawMaterialId➩" + index).val(rowData[i].RawMaterialId);
+                            $parentobj.$("#RawMaterialAnalysisId➩" + index).val(rowData[i].RawMaterialAnalysisId);
                             $parentobj.$("#RawMaterialName➩" + index).val(rowData[i].RawMaterialName);
                             $parentobj.$("#RawMaterialModel➩" + index).val(rowData[i].RawMaterialModel);
-                            $parentobj.$("#UnitName➩" + index).val(rowData[i].UnitName);
-                            $parentobj.$("#RawMaterialNumber➩" + index).val(Number(data1));
+                            $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
+                            $parentobj.$("#Quantity➩" + index).val(Number(data1));
                             $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
                             $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
                             $parentobj.$("#MaxNumber➩" + index).val(Number(data1));

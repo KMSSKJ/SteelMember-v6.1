@@ -154,3 +154,15 @@ D:\project\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\Newtonsoft.Json.xml
 D:\project\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.dll
 D:\project\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.FlowWork.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.FlowWork.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.Extension.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\Newtonsoft.Json.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\SharpZipLib.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.Extension.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\Newtonsoft.Json.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.pdb

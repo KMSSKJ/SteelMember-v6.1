@@ -23,8 +23,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// 分析主键
         /// </summary>
         /// <returns></returns>
-       
         public string RawMaterialAnalysisId { get; set; }
+
+        /// <summary>
+        /// 采购主键
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialOrderInfoId { get; set; }
+
         /// <summary>
         /// 采购数量
         /// </summary>
@@ -37,12 +43,22 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// <returns></returns>
 
         public decimal? RawMaterialPurchaseModelPrice { get; set; }
+
+        /// <summary>
+        /// 生产商
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialManufacturer { get; set; }
         /// <summary>
         /// 供应商
         /// </summary>
         /// <returns></returns>
         public string RawMaterialSupplier { get; set; }
-
+        /// <summary>
+        /// 生产商
+        /// </summary>
+        /// <returns></returns>
+        public string Manufacturer { get; set; }
         /// <summary>
         /// 库存量
         /// </summary>
@@ -52,7 +68,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// 建议采购量
         /// </summary>
         /// <returns></returns>
-        public string SuggestQuantity { get; set; }
+        public decimal? Quantity { get; set; }
 
     }
 }

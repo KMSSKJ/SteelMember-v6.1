@@ -57,3 +57,8 @@ D:\project\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.pdb
 D:\project\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.dll
 D:\project\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Extension\bin\Debug\LeaRun.Util.Extension.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Extension\obj\Debug\LeaRun.Util.Extension.pdb

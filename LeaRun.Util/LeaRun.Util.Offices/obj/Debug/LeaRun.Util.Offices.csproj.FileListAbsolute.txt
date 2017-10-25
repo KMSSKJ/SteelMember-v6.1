@@ -162,3 +162,16 @@ D:\project\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXml4Net.xml
 D:\project\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.csprojResolveAssemblyReference.cache
 D:\project\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.dll
 D:\project\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\LeaRun.Util.Offices.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\LeaRun.Util.Offices.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OOXML.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXml4Net.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXmlFormats.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OOXML.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXml4Net.xml
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.dll
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.pdb

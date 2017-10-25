@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "导出Excel数据(使用模板)";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<script>
+    var gridId = request('gridId');
+    var SubProjectId = request('SubProjectId');
+    var ExportFileName = request('ExportFileName');
+    var ExportTableTitle = request('ExportTableTitle');
+    $(function () {
+        document.getElementById("SubProjectId").value = SubProjectId;
+        document.getElementById("ExportFileName").value = ExportFileName;
+        document.getElementById("ExportTableTitle").value = ExportTableTitle;
+
+        $("#ConstructionUnit").ComboBox({
+            param: { EnCode: "ConstructionUnit" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            description: "==请选择==",
+            id: "ItemValue",
+            text: "ItemName",
+            height: "100px",
+        });
+         //var columnModel = $.currentIframe().$("#" + gridId).jqGrid('getGridParam', 'colModel');
+        //$.each(columnModel, function (i) {
+        //    var label = columnModel[i].label;
+        //    var name = columnModel[i].name;
+        //    var hidden;
+        //    if (name == "Icon") {
+        //        hidden = true;
+        //    } else {
+        //        hidden = columnModel[i].hidden;
+        //    }
+        //    if (!!label && hidden == false) {
+        //        $(".sys_spec_text").append("<li data-value='" + name + "' title='" + label + "'><a>" + label + "</a><i></i></li>");
+        //    }
+        //});
+        //$(".sys_spec_text li").addClass("active");
+        //$(".sys_spec_text li").click(function () {
+        //    if (!!$(this).hasClass("active")) {
+        //        $(this).removeClass("active");
+        //    } else {
+        //        $(this).addClass("active").siblings("li");
+        //    }
+        //});
+    });
+    //确定导出
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+
+        var rowJson = $.currentIframe().$("#" + gridId).jqGrid('getRowData');
+        var postData = $("#form1").GetWebControls(SubProjectId);
+        $('#executeexcel').remove();
+        var $form = $("<form id='executeexcel' method='post' action='" + top.contentPath + "/SteelMember/RawMaterialAnalysis/OutExcel' style='display:none;'>");//
+        var $input = $("<input type='hidden' name='rowJson' value='" + JSON.stringify(rowJson) +"'><input type='hidden' name='postData' value='" + JSON.stringify(postData) +"'>");
+        $("body").append($form);
+        $form.append($input).submit();
+
+        //var rowJson = $.currentIframe().$("#" + gridId).jqGrid('getRowData');
+        //var rowJson = null;
+        //var postData = $("#form1").GetWebControls(SubProjectId);
+        //location.href = "../../SteelMember/RawMaterialAnalysis/OutExcel?postData=" + JSON.stringify(postData) + "&rowJson=" + JSON.stringify(rowJson);
+    }
+</script>
+<br/>
+<div style="margin: 5px;">
+    <div class="alert alert-danger" style="margin-bottom: 5px;">
+        <i class="fa fa-question-circle" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+        注：以下内容可修改
+    </div>
+</div>
+<div style="margin: 5px;">
+    @*<ul class="sys_spec_text"></ul>*@
+    <input id="SubProjectId" type="hidden" />
+    <table class="form">
+        <tr>
+            <td class="formTitle">施工单位<font face="宋体" color="red">*</font></td>
+            <td class="formValue">
+                <div id="ConstructionUnit" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">导出表标题<font face="宋体" color="red">*</font></td>
+            <td class="formValue">
+                <input id="ExportTableTitle" type="text" class="form-control" isvalid="yes" checkexpession="NotNull"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="formTitle">导出文件名称<font face="宋体" color="red">*</font></td>
+            <td class="formValue">
+                <input id="ExportFileName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull"/>
+            </td>
+        </tr>
+    </table>
+</div>

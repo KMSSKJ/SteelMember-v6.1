@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using LeaRun.Application.Web.Areas.SteelMember.Models;
 using System;
 using LeaRun.Util.Extension;
+using System.Linq;
+using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -19,6 +22,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
         private RawMaterialWarehouseBLL rawmaterialwarehousebll = new RawMaterialWarehouseBLL();
         private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
 
         #region 视图功能
         /// <summary>
@@ -26,6 +30,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult Index()
         {
             return View();
@@ -53,7 +58,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = rawmaterialwarehousebll.GetList(queryJson);
             return ToJsonResult(data);
         }
-        /// <summary>
+        /// <summary> 
         /// 获取实体 
         /// </summary>
         /// <param name="keyValue">主键值</param>
@@ -70,26 +75,31 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         public ActionResult IntoInventoryDetailInfo(Pagination pagination,string queryJson, string category)
         {
-            List<RawmaterialWarehouseModel> list = new List<RawmaterialWarehouseModel>();
-            var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
+            if (pagination.sidx == "RawMaterialName")
+            {
+                pagination.sidx = "RawMaterialId";
+            }
+
+            List<RawMaterialWarehouseModel> list = new List<RawMaterialWarehouseModel>();
+            // var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
+            var data= rawmaterialwarehousebll.GetPageList(pagination, category);
             foreach (var item in data)
             {
-                var warehoused = rawmaterialwarehousebll.GetPageList(pagination, item.RawMaterialId);
-                for (int i = 0; i < warehoused.Count; i++)
+                //var warehoused = rawmaterialwarehousebll.GetPageList(pagination, item.RawMaterialId);
+                var warehoused = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+                if (warehoused!=null)
                 {
-                    RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
-                    RawmaterialWarehouseModel.WarehouseId = warehoused[i].WarehouseId;
-                    RawmaterialWarehouseModel.WarehouseQuantity = warehoused[i].WarehouseQuantity;
-                    RawmaterialWarehouseModel.WarehouseTime = warehoused[i].WarehouseTime;
-                    RawmaterialWarehouseModel.Description = warehoused[i].Description;
-
-                    RawmaterialWarehouseModel.RawMaterialModel = item.RawMaterialModel;
-                    //RawmaterialWarehouseModel.Category = item.Category;
-                    RawmaterialWarehouseModel.RawMaterialName = item.RawMaterialName;
-                    RawmaterialWarehouseModel.Unit = item.Unit;
-
-                    list.Add(RawmaterialWarehouseModel);
-                }
+                    RawMaterialWarehouseModel RawmaterialWarehouseModel = new RawMaterialWarehouseModel() { 
+                    WarehouseId = item.WarehouseId,
+                    WarehouseQuantity = item.WarehouseQuantity,
+                    WarehouseTime = item.WarehouseTime,
+                    Description = item.Description,
+                    RawMaterialModel = warehoused.RawMaterialModel,
+                    RawMaterialName = warehoused.RawMaterialName,
+                    Unit = dataitemdetailbll.GetEntity(warehoused.Unit).ItemName,
+                };
+                list.Add(RawmaterialWarehouseModel);
+                }   
             }
 
             //
@@ -137,32 +147,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return ToJsonResult(list);
 
         }
-        //public ActionResult IntoInventoryDetailInfo(Pagination pagination, string queryJson)
-        //{
-        //    var data = rawmaterialwarehousebll.GetPageList(pagination, queryJson);
-        //    List<RawmaterialWarehouseModel> list = new List<RawmaterialWarehouseModel>();
-        //    foreach (var item in data)
-        //    {
-        //        RawmaterialWarehouseModel RawmaterialWarehouseModel = new RawmaterialWarehouseModel();
-        //        var modellib = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
-
-        //        RawmaterialWarehouseModel.WarehouseId = item.WarehouseId;
-        //        RawmaterialWarehouseModel.WarehouseQuantity = item.WarehouseQuantity;
-        //        RawmaterialWarehouseModel.WarehouseTime = item.WarehouseTime;
-        //        RawmaterialWarehouseModel.Description = item.Description;
-        //        RawmaterialWarehouseModel.RawMaterialModel = modellib.RawMaterialModel;
-        //        RawmaterialWarehouseModel.RawMaterialStandard = modellib.RawMaterialStandard;
-        //        RawmaterialWarehouseModel.Category = modellib.Category;
-        //        RawmaterialWarehouseModel.Unit = modellib.Unit;
-
-        //        list.Add(RawmaterialWarehouseModel);
-        //    }
-        //    //}
-        //    return ToJsonResult(list);
-        //}
-
-        // return ToJsonResult(data);
-        // }
+        
         #endregion
 
         #region 提交数据
@@ -174,6 +159,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             rawmaterialwarehousebll.RemoveForm(keyValue);

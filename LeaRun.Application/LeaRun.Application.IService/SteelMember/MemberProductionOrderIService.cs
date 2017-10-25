@@ -1,6 +1,8 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
@@ -18,7 +20,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination, int IsReceive, int IsPassed, string queryJson);
+        IEnumerable<MemberProductionOrderEntity> GetPageList(Pagination pagination,string queryJson);
         /// <summary>
         /// 获取列表
         /// </summary>
@@ -26,6 +28,15 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
         List<MemberProductionOrderEntity> GetList(string queryJson);
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        List<MemberProductionOrderEntity> GetList(Expression<Func<MemberProductionOrderEntity,bool>>condition);
+
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -45,7 +56,7 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        IEnumerable<MemberProductionOrderEntity> GetPageListByProductionOrderStatus(Pagination pagination, int IsWarehousing);
+        IEnumerable<MemberProductionOrderEntity> GetPageListByProductionOrderStatus(Pagination pagination,Expression<Func<MemberProductionOrderEntity,bool>> condition);
 
         void UpdataList(List<MemberProductionOrderEntity> list);
         #endregion

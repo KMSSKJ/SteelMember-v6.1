@@ -12,8 +12,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string MemberName { get; set; }
         public string Category { get; set; }
         public string CollarEngineering { get; set; }
-        public string MemberUnit { get; set; }
-        public int? InStock { get; set; }
+        public string UnitId { get; set; }
+        public decimal? InStock { get; set; }
         public DateTime? UpdateTime { get; set; }
         public string ToReportPeople { get; set; }
         public string CollarDepartment { get; set; }
