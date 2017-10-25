@@ -84,7 +84,7 @@
                     }
                 },
                 {
-                    label: '±¸×¢', name: 'Description', index: 'Description', width: 200, align: 'center',
+                    label: '±¸×¢', name: 'Description', index: 'Description', width: 200, align: 'center', sortable: false,
                     formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.Description == null || rowObject.Description == "undefined") {
                             return "";
@@ -103,6 +103,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -231,7 +233,7 @@
     //É¾³ý
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('MemberWarehouseId');
-        if (keyValue) {
+        if (checkedArray(keyValue)) {
             $.RemoveForm({
                 url: '../../SteelMember/MemberWarehouse/RemoveForm',
                 param: { keyValue: keyValue },

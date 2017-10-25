@@ -112,7 +112,7 @@
                 { label: '已采购量', name: 'PurchasedQuantity', width: 80, index: 'ProductionNumber', align: 'center', sortable: false, },
                 { label: '已使用量', name: 'WarehousedQuantity', width: 80, index: 'CollarNumbered', align: 'center', sortable: false, },
                 {
-                    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center',
+                    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center', sortable: false,
                     formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.Description == null || rowObject.Description == "undefined") {
                             return "";

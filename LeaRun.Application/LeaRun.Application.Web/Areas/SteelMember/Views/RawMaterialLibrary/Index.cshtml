@@ -101,10 +101,12 @@
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            //sortname: 'RawMaterialModel',
+            sortname: 'RawMaterialModel',
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
             },
@@ -179,7 +181,7 @@
     //删除
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('RawMaterialId');
-        if (keyValue) {
+        if (checkedArray(keyValue)) {
             $.RemoveForm({
                 url: '../../SteelMember/RawMaterialLibrary/RemoveForm',
                 param: { keyValue: keyValue },
@@ -188,7 +190,7 @@
                 }
             })
         } else {
-            dialogMsg('请选择需要删除的材料管理！', 0);
+            dialogMsg('请选择需要删除的材料信息！', 0);
         }
     }
     //文件导入
