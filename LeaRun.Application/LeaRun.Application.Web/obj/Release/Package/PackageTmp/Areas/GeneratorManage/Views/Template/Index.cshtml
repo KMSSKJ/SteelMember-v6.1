@@ -37,6 +37,10 @@
             btn: null
         });
     }
+    function btn_multitable_view() {
+        top.tablist.newTab({ id: '148670a4-2315-4622-9114-3fe7c58b875b', title: '主从表演示', closed: true, icon: "fa fa-diamond", url: top.contentPath + '/DemoManage/OfficeRk/OfficeRkIndex' });
+
+    }
 </script>
 <div id="pageayout" class="border" style="background: #fff; overflow: auto;">
     <div style="margin: 20px;">
@@ -62,7 +66,7 @@
                 <small>类似订单、有表头信息、有明细信息</small>
             </div>
             <div class="cover-button">
-                <a class="btn btn-default"><i class="fa fa-eye"></i>&nbsp;效果</a>
+                <a class="btn btn-default"onclick="btn_multitable_view()"><i class="fa fa-eye"></i>&nbsp;效果</a>
                 <a class="btn btn-default" onclick="btn_multitable()"><i class="fa fa-bug"></i>&nbsp;开发</a>
             </div>
         </div>

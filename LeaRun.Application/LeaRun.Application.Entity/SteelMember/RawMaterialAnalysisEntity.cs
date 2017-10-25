@@ -7,7 +7,7 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-06 22:03
-    /// 描 述：原材料分析
+    /// 描 述：材料分析
     /// </summary>
     public class RawMaterialAnalysisEntity : BaseEntity
     {
@@ -31,7 +31,22 @@ namespace LeaRun.Application.Entity.SteelMember
         /// RawMaterialDosage
         /// </summary>
         /// <returns></returns>
-        public string RawMaterialDosage { get; set; }
+        public decimal RawMaterialDosage { get; set; }
+        /// <summary>
+        /// ApplicationPurchasedQuantity
+        /// </summary>
+        /// <returns></returns>
+        public decimal? ApplicationPurchasedQuantity { get; set; }
+        /// <summary>
+        /// PurchasedQuantity
+        /// </summary>
+        /// <returns></returns>
+        public decimal? PurchasedQuantity{ get; set; }
+        /// <summary>
+        /// WarehousedQuantity
+        /// </summary>
+        /// <returns></returns>
+        public decimal? WarehousedQuantity{ get; set; }
         /// <summary>
         /// Description
         /// </summary>
@@ -45,6 +60,24 @@ namespace LeaRun.Application.Entity.SteelMember
         /// IsPassed
         /// </summary>
         public int IsPassed { get; set; }
+        /// <summary>
+        /// UpdateTime
+        /// </summary>
+        public DateTime? UpdateTime { get; set; }
+        /// <summary>
+        /// CreateMan
+        /// </summary>
+        public string CreateMan { get; set; }
+        /// <summary>
+        /// ReviewMan
+        /// </summary>
+        public string ReviewMan { get; set; }
+
+        /// <summary>
+        /// ReviewTime
+        /// </summary>
+        public DateTime? ReviewTime { get; set; }
+        
         /// <summary>
         /// RawMaterialLibraryEntitys
         /// </summary>

@@ -33,7 +33,14 @@ namespace LeaRun.Application.Busines.AuthorizeManage
         {
             if (OperatorProvider.Provider.Current().IsSystem)
             {
-                return moduleBLL.GetList().FindAll(t => t.EnabledMark.Equals(1));
+              var data = moduleBLL.GetList().FindAll(t => t.EnabledMark.Equals(1));
+                if (SystemInfo.CurrentUserId == "Admin")
+                {
+                    data = data.ToList().FindAll(f => f.ModuleId != "3" && f.ModuleId != "4");
+                }
+                return data;
+
+
             }
             else
             {

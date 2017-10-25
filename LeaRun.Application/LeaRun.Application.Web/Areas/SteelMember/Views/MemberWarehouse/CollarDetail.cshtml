@@ -1,0 +1,284 @@
+﻿@{;
+    ViewBag.Title = "领用表单页面";
+    Layout = "~/Views/Shared/_OrderForm.cshtml";
+}
+
+<!--
+如果您使用的是高版本jQuery调用下面jQuery迁移辅助插件即可-->
+<script src="~/Content/scripts/plugins/jquery-jqprint/jquery-migrate-1.2.1.min.js"></script>
+
+<script>
+    var keyValue = request('keyValue');
+    var CollarEngineering = request("category");
+    $(function () {
+        InitialPage();
+        GetCollarEntryGrid();
+    });
+    //初始化页面
+    function InitialPage() {
+
+        //$(".bills").height($(window).height() - 88);
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#gridTable').setGridWidth(($('.gridPanel').width()));
+                $('#gridTable').setGridHeight($(window).height() -363.5);
+            }, 200);
+            e.stopPropagation();
+        });
+    }
+
+    //加载明细表
+    function GetCollarEntryGrid() {
+        var $grid = $('#gridTable');
+        $grid.jqGrid({
+            unwritten: false,
+            datatype: 'local',
+            height: $(window).height() - 363.5,
+            autowidth: true,
+            colModel: [
+                { label: '构件编号', name: "MemberNumbering", align: 'center', width: 80, sortable: false },
+                { label: '构件名称', name: "MemberName", align: 'center', width: 80, sortable: false },
+                { label: '构件类型', name: "Category", align: 'center', width: 80, sortable: false },
+                { label: '单位', name: "UnitId", align: 'center', width: 60, sortable: false },
+                { label: '数量', name: "CollarQuantity", align: 'center', width: 60, sortable: false },
+                { label: '备注', name: "Description", align: 'center', width: 100, sortable: false },
+                { label: 'MaxNumber', name: "MaxNumber", align: ' center', width: 80, sortable: false, hidden: true },
+                { label: '主键', name: 'MemberId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+                { label: '库存ID', name: 'MemberWarehouseId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+
+   //{ label: '构件编号', name: "MemberNumbering", align: 'center', width: 80, sortable: false },
+   //             { label: '构件名称', name: "MemberName", align: 'center', width: 80, sortable: false },
+   //             { label: '构件类型', name: "Category", align: 'center', width: 80, sortable: false },
+   //             { label: '单位', name: "UnitId", align: 'center', width: 60, sortable: false },
+   //             { label: '数量', name: "CollarQuantity", align: 'center', width: 60, sortable: false },
+   //             { label: '备注', name: "Description", align: 'center', width: 100, sortable: false },
+   //             { label: 'MaxNumber', name: "MaxNumber", align: ' center', width: 80, sortable: false, hidden: true },
+   //             { label: '主键', name: 'MemberId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+   //             { label: '库存ID', name: 'MemberWarehouseId', width: 80, align: 'center', sortable: false, resizable: false, hidden: true },
+            ],
+            pager: false,
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+            footerrow: false,
+        });
+        //默认添加10行 空行
+        for (var i = 1; i < 11; i++) {
+            var rowdata = {
+                //Inventory: '<input id="Inventory➩' + i + '" class="editable disabled center" type="text" disabled="disabled" />',
+                MemberNumbering: '<input id="MemberNumbering➩' + i + '" type="form-control" class="editable disabled center" disabled="disabled"/>',
+                CollarId: '<input id="CollarId➩' + i + '" class="editable disabled" type="form-control" describedby="yes" disabled="disabled" />',
+                MemberName: '<input id="MemberName➩' + i + '" class="editable disabled center" type="form-control"disabled="disabled"/>',
+                UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
+                CollarQuantity: '<input id="CollarQuantity➩' + i + '"class="editable  center" type="form-control" disabled="disabled"/>'/*onkeyup="Conversion(' + i + ')" />*/,
+                Category: '<input id="Category➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled"/>',
+                Description: '<input id="Description➩' + i + '" class="editable disabled center" type="form-control"disabled="disabled"/>',
+            }
+            $('#gridTable').jqGrid('addRowData', i, rowdata);
+        }
+
+        //获取表单
+        if (!!keyValue) {
+            $.SetForm({
+                url: "../../SteelMember/MemberWarehouse/GetFormJson1",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.CollarEngineering);
+                  
+                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.DepartmentId);
+                    $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.ContactPerson);
+                    $("#table1").find("tr:eq(2)").find("td:eq(2)").html(data.entity.Date);
+                    $("#table1").find("tr:eq(3)").find("td:eq(0)").html(data.entity.ShippingAddress);
+                    $("#table1").find("tr:eq(3)").find("td:eq(1)").html(data.entity.ContactPersonTel);
+                    $("#table1").find("tr:eq(3)").find("td:eq(2)").html(data.entity.CollarNumbering);
+
+                    $("#table2").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CreateMan);
+                    $("#table2").find("tr:eq(0)").find("td:eq(1)").html(data.entity.Sender);
+
+                    //明细
+                    var childEntity = data.childEntity;
+                    $('#gridTable').find('[role=row]').each(function (i) {
+                        var row = childEntity[i - 1];
+                        if (row != undefined) {
+                           // $(this).find('input[id="InventoryId➩' + i + '"]').val(row.InventoryId);
+                            $(this).find('input[id="CollarQuantity➩' + i + '"]').val(row.MemberNumber);
+                            $(this).find('input[id="CollarId➩' + i + '"]').val(row.CollarId);
+                            $(this).find('input[id="MemberNumbering➩' + i + '"]').val(row.MemberNumbering);
+                            $(this).find('input[id="MemberName➩' + i + '"]').val(row.MemberName);
+                            $(this).find('input[id="Category➩' + i + '"]').val(row.Category);
+                            $(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
+                            $(this).find('input[id="Description➩' + i + '"]').val(row.Description);
+                        }
+                    });
+                }
+            })
+        }
+    }
+
+    //打印;
+    function AcceptClick() {
+        $(".bills").jqprint();
+    }
+
+    //打印
+    function btn_print() {
+        //$(".bills").printTable();
+        $(".bills").jqprint();
+    }
+    //导出
+    function btn_export() {
+        location.href = "/CustomerManage/Order/ExportOrderEntry?orderId=" + keyValue;
+    }
+</script>
+
+<div class="bills">
+    @*<div class="shuli"><p style="font-family: 华文楷体; font-size:18px;"><img src="~/Content/images/head/tablelogo.png" style="margin-top: -10px;width:100%;height:100%" /> 云南交投建设集团第十工程有限公司</p></div>*@
+    <div style="float:left">
+        <div class="printArea">
+            <table id="table1" class="form" style="border:0px solid #ccc;">
+                <tr>
+                    <td align="center" colspan="6">
+                       <p style="font-family: 华文楷体; font-size:18px;"><img src="~/Content/images/head/tablelogo.png" style="width:30px;height:30px" /> 云南交投建设集团第十工程有限公司</p>
+                        <p style="font-family: 华文楷体; font-size:x-large"> 材料领用 </p>
+                        <HR style="margin-top:4px" width="18%" color=#987cb9 SIZE=1>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle">
+                        项目名称:
+                    </th>
+                    <td class="formValue" colspan="6"></td>
+                  
+                </tr>
+                <tr>
+                    <th class="formTitle">
+                        领用单位:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        联系人:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        日期:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+
+                <tr>
+                    @*<th class="formTitle">
+                        领用类型:
+                    </th>
+                    <td class="formValue"></td>*@
+                    <th class="formTitle">
+                        收货地址:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        联系电话:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        单号:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="gridPanel printArea">
+            <table id="gridTable"></table>
+        </div>
+
+        <div class="printArea">
+            <table id="table2" class="form">
+                <tr>
+                    <th class="formTitle">
+                        经办人:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        审核:
+                    </th>
+                    <td class="formValue"></td>
+                    <th class="formTitle">
+                        领用人(签字):
+                    </th>
+                    <td class="formValue">
+                        @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@*<div id="bottomField">
+        <div class="btn-group">
+            <a id="lr-print" class="btn btn-default" onclick="btn_print()"><i class="fa fa-print"></i>&nbsp;打印</a>
+            <a id="lr-export" class="btn btn-default" onclick="btn_export()"><i class="fa fa-sign-out"></i>&nbsp;导出</a>
+        </div>
+        <div class="btn-group">
+                <a id="lr-prev" class="btn btn-default" onclick="btn_prev()"><i class="fa fa-backward"></i>&nbsp;前单</a>
+                <a id="lr-next" class="btn btn-default" onclick="btn_next()"><i class="fa fa-forward"></i>&nbsp;后单</a>
+            </div>
+    </div>*@
+
+@*<style>
+    .shuli {
+        margin-top: 65px;
+        margin-left: -20px;
+        float: left;
+        width: 20px;
+        line-height: 24px;
+        /*margin: 0 auto;*/
+        /*border: 1px solid #333*/
+    }
+</style>*@
+@*<style>
+        body {
+            margin: 0px;
+        }
+
+        .bill {
+            margin: 5px;
+        }
+
+            .bill th {
+                text-align: left;
+                width: 7%;
+                color: #222222;
+            }
+
+            .bill td {
+                width: 20%;
+            }
+
+            .bill tr {
+                margin-bottom: 10px;
+            }
+
+            .bill input {
+                text-align: left;
+                border-width: 0px;
+                border-bottom: 1px solid #e2dada;
+            }
+
+        .bills {
+            overflow: hidden;
+            border-radius: 0px;
+            position: relative;
+            background: #FFFFFF;
+            border: 0px solid rgb(204, 204, 204);
+            box-shadow: none;
+            padding: 0px;
+        }
+
+        .ui-widget-content {
+            border-left: 0px;
+            border-right: 0px;
+            border-bottom: 0px;
+        }
+    </style>*@

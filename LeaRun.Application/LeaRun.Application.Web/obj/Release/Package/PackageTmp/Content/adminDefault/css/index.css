@@ -19,7 +19,7 @@
 #main{margin:0px auto;height:100%;overflow:hidden;}
 #main #main-hd{height: 55px;background-color:#fff;}
 #main #main-hd #main-hd-title{line-height: 55px;top: 0;height: 55px;padding: 0 0 0 30px;font-family:'Microsoft Yahei';float:left;}
-#main #main-hd #main-hd-title a{cursor:pointer;font-size: 18px;font-weight: bold;float: left;cursor: default;color: #444;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
+#main #main-hd #main-hd-title a{cursor:pointer;font-size: 18px;font-weight: bold;/*float: left;*/cursor: default;color: #444;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
 #main #main-bd{background-color:#fff;height:auto;overflow: hidden;}
 #topnav ul{position:relative;}
 #topnav li.list{float:left;display:inline;margin:3px 12px 0px 0px;}

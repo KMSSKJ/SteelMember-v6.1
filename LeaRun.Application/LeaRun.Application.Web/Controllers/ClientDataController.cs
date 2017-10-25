@@ -9,7 +9,6 @@ using LeaRun.Application.Busines.AuthorizeManage;
 using LeaRun.Application.Code;
 using LeaRun.Application.Entity.AuthorizeManage;
 using System;
-using LeaRun.Data.Entity;
 
 namespace LeaRun.Application.Web.Controllers
 {
@@ -28,7 +27,6 @@ namespace LeaRun.Application.Web.Controllers
         private UserGroupCache userGroupCache = new UserGroupCache();
         private UserCache userCache = new UserCache();
         private AuthorizeBLL authorizeBLL = new AuthorizeBLL();
-        private UnitCache unitCache = new UnitCache();
 
         #region 获取数据
         /// <summary>
@@ -51,30 +49,10 @@ namespace LeaRun.Application.Web.Controllers
                 authorizeMenu = this.GetModuleData(),           //导航菜单
                 authorizeButton = this.GetModuleButtonData(),   //功能按钮
                 authorizeColumn = this.GetModuleColumnData(),   //功能视图
-                unit = this.GetUnitData(),                      //构件/原材料单位
             };
             return ToJsonResult(jsonData);
         }
 
-
-        /// <summary>
-        /// 获取单位数据
-        /// </summary>
-        /// <returns></returns>
-        private object GetUnitData()
-        {
-            var data = unitCache.GetList();
-            Dictionary<string, object> dictionary = new Dictionary<string, object>();
-            foreach (RMC_MemberUnit item in data)
-            {
-                var fieldItem = new
-                {
-                    UnitName = item.UnitName
-                };
-                dictionary.Add(item.UnitId.ToString(), fieldItem);
-            }
-            return dictionary;
-        }
         #endregion
 
         #region 处理基础数据
@@ -230,7 +208,8 @@ namespace LeaRun.Application.Web.Controllers
         /// <returns></returns>
         private object GetModuleData()
         {
-            return authorizeBLL.GetModuleList(SystemInfo.CurrentUserId);
+            var data= authorizeBLL.GetModuleList(SystemInfo.CurrentUserId);
+            return data;
         }
         /// <summary>
         /// 获取功能按钮数据

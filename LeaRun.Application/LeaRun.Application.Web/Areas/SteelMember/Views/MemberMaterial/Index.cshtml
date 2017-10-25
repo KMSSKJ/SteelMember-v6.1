@@ -48,7 +48,7 @@
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: '添加构件原材料',
+            title: '添加构件材料',
             url: '/SteelMember/MemberMaterial/Form',
             width: 'px',
             height: 'px',
@@ -63,7 +63,7 @@
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'Form',
-                title: '编辑构件原材料',
+                title: '编辑构件材料',
                 url: '/SteelMember/MemberMaterial/Form?keyValue=' + keyValue,
                 width: 'px',
                 height: 'px',
@@ -85,7 +85,7 @@
                 }
             })
         } else {
-            dialogMsg('请选择需要删除的构件原材料！', 0);
+            dialogMsg('请选择需要删除的构件材料！', 0);
         }
     }
 </script>

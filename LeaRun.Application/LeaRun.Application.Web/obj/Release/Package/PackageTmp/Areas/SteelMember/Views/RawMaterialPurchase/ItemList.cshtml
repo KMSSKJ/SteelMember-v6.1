@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "材料列表";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+
+}
+
+<script>
+    var Category = request('category');
+    $(function () {
+        $("#keywords").focus();
+        //GetTree();
+        GetGrid();
+        //绑定键盘按下事件
+        $(document).keypress(function (e) {
+            // 回车键事件
+            if (e.which == 13) {
+                $("#keywords").focus();
+                $("#keywords").select();
+                $("#btnSearch").click();
+            }
+        });
+    });
+
+    var myArray = [];
+    //显示物料
+    function GetGrid() {
+        var SelectRowIndx;
+       // var index = GetQuery('index');
+        $("#gridTable").jqGrid({
+            url: "@Url.Content("~/SteelMember/RawMaterialPurchase/GetListByIsPassed")?category=" + Category,
+            datatype: "json",
+            height: $(window).height()-100,
+            autowidth: true,
+            colModel: [
+                { label: '分析编号', name: "AnalysisId", align: ' center', width: 100, sortable: false, hidden: true },
+                { label: '原材料ID', name: "RawMaterialId", align: ' center', width: 100, sortable: false, hidden: true },
+                { label: '原材料名称', name: "RawMaterialName", align:' center',width: 100, sortable: false },
+                { label: '规格/型号', name: "RawMaterialModel", align:' center',width: 100, sortable: false },
+                { label: '需求量', name: "RawMaterialDosage", align: ' center', width: 100, sortable: false },
+                { label: '单位', name: "UnitName", align: ' center', width: 80, sortable: false },
+                { label: '描述', name: "Description", align: ' center', width: 100, sortable: false },  
+            ],
+            rowNum: 30,
+            sortname: 'SortCode',
+            sortorder: 'Desc',//降序 asc升序
+            pager: "#gridPager",
+            viewrecords: true,
+            rownumbers: true,
+            gridview: true,
+            multiselect: true,
+            rowList: [15, 30, 50, 100, 500, 1000],
+            onSelectRow: function () {
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $("#" + this.id).jqGrid('setSelection', SelectRowIndx);
+
+                var rowIds = jQuery("#gridTable").jqGrid('getDataIDs');
+                var $parentobj = top.frames["Form"];
+                for (var k = 0; k < rowIds.length; k++) {
+                    var curRowData = jQuery("#gridTable").jqGrid('getRowData', rowIds[k]);
+                    var curChk = $("#" + rowIds[k] + "").find(":checkbox");
+                    //curChk.attr('name', 'checkboxname');   //给每一个checkbox赋名字
+                    //curChk.attr('value', curRowData['MY_ID']);   //给checkbox赋值
+                    //curChk.attr('title', curRowData['NAME']);   //给checkbox赋予额外的属性值
+                    ////curChk.attr('checked', 'true');   //设置所有checkbox被选中
+                    //if (!$parentobj.HaveExistItem(k, curRowData.MemberId)) {
+                    //    //$("#gridTable").attr("checked", false);
+                    //    curChk.attr('checked', false);
+                    //} else {
+                    //    //$("#gridTable").attr("checked", true);
+                    //    curChk.attr('checked', true);
+                    //}
+                }
+            },
+        });
+    }
+
+    //添加
+    function btn_add_() {
+       // alert("添加");
+        var AnalysisId = $('#gridTable').jqGridRowValue('AnalysisId');
+        var RawMaterialId = $('#gridTable').jqGridRowValue('RawMaterialId');
+        var RawMaterialName = $('#gridTable').jqGridRowValue('RawMaterialName');
+        var RawMaterialModel = $('#gridTable').jqGridRowValue('RawMaterialModel');
+        var RawMaterialStandard = $('#gridTable').jqGridRowValue('RawMaterialStandard');
+        var RawMaterialDosage = $('#gridTable').jqGridRowValue('RawMaterialDosage');
+        var UnitName = $('#gridTable').jqGridRowValue('UnitName');
+        var Description = $('#gridTable').jqGridRowValue('Description');
+
+        //alert(KeyValue);
+            $.ajax({
+                url: "/SteelMember/RawMaterialPurchase/ListMember",
+                type: "post",
+                datatype: 'json',
+                data: {
+                    category: Category,
+                    AnalysisId: AnalysisId,
+                    RawMaterialId: RawMaterialId,
+                    RawMaterialName: RawMaterialName,
+                    RawMaterialModel: RawMaterialModel,
+                    RawMaterialStandard: RawMaterialStandard,
+                    RawMaterialDosage: RawMaterialDosage,
+                    UnitName: UnitName,
+                    Description: Description
+
+                },
+                success: function (rowData) {
+                    var rows = 1;
+                    //var $parentobj = top.frames["Form"];
+                    var $parentobj = $.currentIframe("Form");
+
+                    while(rows<30){
+                        $parentobj.$("#PurchaseQuantity➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialPurchaseId➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialAnalysisId➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialName➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialModel➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialStandard➩" + rows).val(null);
+                        $parentobj.$("#UnitName➩" + rows).val(null);
+                        $parentobj.$("#Description➩" + rows).val(null);
+                        $parentobj.$("#Inventory➩" + rows).val(null);
+                        $parentobj.$("#SuggestQuantity➩" + rows).val(null);
+
+                      
+                        rows++;
+                    }
+                    if (rowData!=null){
+                        var index = 1;
+                        var data1;
+                    for (var i = 0; i < rowData.length; i++) {
+                        //$parentobj.IsExistItem(index, rowData[i].MemberNumbering);
+                        //$.ajax({
+                        //    type: 'post',
+                        //    dataType: "text",
+                        //    url: "/SteelMember/ProjectOrder/AddMemberNumber",
+                        //    data: {
+                        //        category: Category,
+                        //        KeyValue: rowData[i].MemberNumbering
+                        //    },
+                        //    cache: false,
+                        //    async: false,
+                        //    success: function (data) {
+                        //        data1 = data;
+                        //    }
+
+                        //});
+
+                        $parentobj.$("#PurchaseQuantity➩" + index).val(rowData[i].PurchaseQuantity);
+                        $parentobj.$("#RawMaterialPurchaseId➩" + index).val(rowData[i].RawMaterialPurchaseId);
+                        $parentobj.$("#RawMaterialAnalysisId➩" + index).val(rowData[i].RawMaterialAnalysisId);
+                        $parentobj.$("#RawMaterialName➩" + index).val(rowData[i].RawMaterialName);
+                        $parentobj.$("#RawMaterialModel➩" + index).val(rowData[i].RawMaterialModel);
+                        $parentobj.$("#RawMaterialStandard➩" + index).val(rowData[i].RawMaterialStandard);
+                        $parentobj.$("#UnitName➩" + index).val(rowData[i].UnitName);
+                        $parentobj.$("#Description➩" + index).val(rowData[i].Description);
+                        $parentobj.$("#Inventory➩" + index).val(rowData[i].Inventory);
+                        $parentobj.$("#SuggestQuantity➩" + index).val(rowData[i].SuggestQuantity);
+                        //$parentobj.$("#MemberUnit➩" + index).val(rowData[i].MemberUnit);
+                        //$parentobj.$("#MemberNumber➩" + index).val(Number(1000));
+                        //$parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
+                        //$parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
+                        //$parentobj.$("#MaxNumber➩" + index).val(Number(1200));
+                        //$parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
+                          index++;
+                        //$parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
+                        //$parentobj.$("#gridTable").find('.disabled').attr("disabled", "disabled");
+                        //$parentobj.$("#MemberNumbering➩" + index).focus();
+                    }
+                    }
+                    dialogClose();
+                },
+                error: function (e) {
+                    dialogTop(e, "error");
+                }
+            });
+        }
+</script>
+
+<div class="rightline" style="margin: 1px; margin-top: -1px;">
+    <table id="gridTable"></table>
+    <div id="gridPager"></div>
+</div>
+   

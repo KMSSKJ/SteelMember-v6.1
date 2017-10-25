@@ -52,15 +52,31 @@
     <Compile Include="AuthorizeManage\ModuleFormInstanceBLL.cs" />
     <Compile Include="BaseManage\OrganizeBLL.cs" />
     <Compile Include="PublicInfoManage\ScheduleBLL.cs" />
+    <Compile Include="SteelMember\MemberCollarBLL.cs" />
+    <Compile Include="SteelMember\MemberCollarInfoBLL.cs" />
+    <Compile Include="SteelMember\MemberDemandBLL.cs" />
     <Compile Include="SteelMember\MemberLibraryBLL.cs" />
     <Compile Include="SteelMember\MemberMaterialBLL.cs" />
     <Compile Include="SteelMember\MemberProcessBLL.cs" />
+    <Compile Include="SteelMember\MemberProductionOrderBLL.cs" />
+    <Compile Include="SteelMember\MemberProductionOrderInfoBLL.cs" />
+    <Compile Include="SteelMember\MemberWarehouseRecordingBLL.cs" />
+    <Compile Include="SteelMember\MemberWarehouseBLL.cs" />
+    <Compile Include="SteelMember\EquipmentMaintenanceRecordsBLL.cs" />
+    <Compile Include="SteelMember\ProduceEquipmentBLL.cs" />
     <Compile Include="SteelMember\ProjectDemandBLL.cs" />
+    <Compile Include="SteelMember\SystemConfigurationBLL.cs" />
     <Compile Include="SteelMember\ProjectInfoBLL.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisBLL.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryBLL.cs" />
     <Compile Include="SteelMember\RawMaterialLibraryBLL.cs" />
+    <Compile Include="SteelMember\RawMaterialOrderBLL.cs" />
+    <Compile Include="SteelMember\RawMaterialOrderInfoBLL.cs" />
     <Compile Include="SteelMember\RawMaterialPurchaseBLL.cs" />
+    <Compile Include="SteelMember\RawMaterialWarehouseBLL.cs" />
+    <Compile Include="SteelMember\RawMterialCollarBLL.cs" />
+    <Compile Include="SteelMember\RawMterialCollarInfoBLL.cs" />
+    <Compile Include="SteelMember\SafetyEquipmentBLL.cs" />
     <Compile Include="SteelMember\SubProjectBLL.cs" />
     <Compile Include="SystemManage\AreaBLL.cs" />
     <Compile Include="SystemManage\CodeRuleBLL.cs" />
@@ -101,10 +117,6 @@
       <Project>{5af4997c-4395-48af-990c-932259111dff}</Project>
       <Name>LeaRun.Cache</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\LeaRun.Data\LeaRun.Data.Entity\LeaRun.Data.Entity.csproj">
-      <Project>{f862d5c4-8389-4057-83d2-a2e6a16f5928}</Project>
-      <Name>LeaRun.Data.Entity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\LeaRun.Data\LeaRun.Data.Repository\LeaRun.Data.Repository.csproj">
       <Project>{1751a2dd-0f00-4c76-b180-97e8f72fe078}</Project>
       <Name>LeaRun.Data.Repository</Name>
@@ -144,10 +156,6 @@
     <ProjectReference Include="..\LeaRun.Application.IService\LeaRun.Application.IService.csproj">
       <Project>{6ce11ff9-1cb7-494e-89c7-5f06bea94211}</Project>
       <Name>LeaRun.Application.IService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LeaRun.Application.Repository\LeaRun.Application.Repository.csproj">
-      <Project>{893508b9-4e64-40d3-87e1-0c601a11ffae}</Project>
-      <Name>LeaRun.Application.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\LeaRun.Application.Service\LeaRun.Application.Service.csproj">
       <Project>{d6b8abea-c923-4605-99a9-b7aca5de4d8a}</Project>

@@ -29,9 +29,9 @@
             colModel: [
                 { label: '主键', name: 'formid', hidden: true },
                 { label: '模块主键', name: 'moduleid', hidden: true },
-                { label: '表单名称', name: 'fullname', index: "tousername", width: 120, align: "left" },
-                { label: '表单编码', name: 'encode', index: "tousername", width: 120, align: "left" },
-                { label: '所属模块', name: 'modulename', index: "tousername", width: 120, align: "left" },
+                { label: '表单名称', name: 'fullname', index: "tousername", width: 120, align: "center" },
+                { label: '表单编码', name: 'encode', index: "tousername", width: 120, align: "center" },
+                { label: '所属模块', name: 'modulename', index: "tousername", width: 120, align: "center" },
                 {
                     label: "状态", name: "enabledmark", index: "enabledmark", width: 60, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
@@ -44,21 +44,21 @@
                         }
                     }
                 },
-                { label: "创建人", name: "createusername", index: "createusername", width: 150, align: "left" },
+                { label: "创建人", name: "createusername", index: "createusername", width: 150, align: "center" },
                 {
-                    label: "创建时间", name: "createdate", index: "createdate", width: 150, align: "left",
+                    label: "创建时间", name: "createdate", index: "createdate", width: 150, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
                     }
                 },
-                { label: "编辑人", name: "modifyusername", index: "modifyusername", width: 150, align: "left" },
+                { label: "编辑人", name: "modifyusername", index: "modifyusername", width: 150, align: "center" },
                 {
-                    label: "编辑时间", name: "modifydate", index: "modifydate", width: 150, align: "left",
+                    label: "编辑时间", name: "modifydate", index: "modifydate", width: 150, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
                     }
                 },
-                { label: "备注", name: "description", index: "description", width: 200, align: "left" }
+                { label: "备注", name: "description", index: "description", width: 200, align: "center" }
             ],
             viewrecords: true,
             rowNum: 30,

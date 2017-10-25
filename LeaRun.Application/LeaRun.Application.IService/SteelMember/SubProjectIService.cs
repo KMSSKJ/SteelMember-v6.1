@@ -1,6 +1,7 @@
 using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SteelMember
 {
@@ -18,6 +19,8 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
         IEnumerable<SubProjectEntity> GetList(string queryJson);
+
+        List<SubProjectEntity> GetListWant(Expression<System.Func<SubProjectEntity, bool>> condition);
         /// <summary>
         /// 获取实体
         /// </summary>

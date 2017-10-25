@@ -37,7 +37,7 @@ namespace LeaRun.Application.Entity.SystemManage
         /// </summary>
         public string defaults { get; set; }
         /// <summary>
-        /// 说明
+        /// 备注
         /// </summary>
         public string remark { get; set; }
     }

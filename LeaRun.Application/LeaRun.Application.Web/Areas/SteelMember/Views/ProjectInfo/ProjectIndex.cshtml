@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "项目信息预览";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<script type="text/javascript">
+    $(function () {
+        GetGrid();
+    });
+
+    //加载表格
+   // var ProjectId = "b51550ed-5f23-4de6-a509-b534c24ae2ee";
+    function GetGrid() {
+        $.ajax({
+            url: "/SteelMember/ProjectInfo/GetFormJson",
+            type: "get",
+            data: { },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data != null) {
+
+                    $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.ProjectName);
+                    $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.ProjectAddress);
+                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html(formatDate(data.StartTime, 'yyyy-MM-dd'));
+                    $("#table1").find("tr:eq(3)").find("td:eq(0)").html(formatDate(data.CompletedTime, 'yyyy-MM-dd'));
+                    $("#table1").find("tr:eq(4)").find("td:eq(0)").html(data.OwnerUnit);
+                    $("#table1").find("tr:eq(5)").find("td:eq(0)").html(data.DesignUnit);
+                    $("#table1").find("tr:eq(6)").find("td:eq(0)").html(data.SupervisionUnit);
+                    $("#table1").find("tr:eq(7)").find("td:eq(0)").html(data.ConstructionUnit);
+                    $("#table1").find("tr:eq(8)").find("td:eq(0)").html(data.Description);
+                   
+                }
+            },
+        });
+    }
+
+</script>
+<style>
+    * {
+        padding: 0px;
+        margin: 0px;
+        font-size: 20pt;
+    }
+    .form .formTitle {
+        position: relative;
+        left: 0px;
+        text-align: center;
+        white-space: nowrap;
+        font-weight: normal;
+        width: 260px;
+        padding-right: 10px;
+    }
+</style>
+    <div style="background-image:url('../../../../Content/images/background.jpg');background-size:100% 100%;filter:alpha(opacity=80);opacity:0.8;width:100%;height:900px">
+        <div style="padding:30px 450px">
+            <table class="form" id="table1">
+                <tr>
+                    <th class="formTitle">
+                        项目名称:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">
+                        项目地址:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">
+                        开工时间:
+                    </th>
+                    <td class="formValue"></td>
+
+                </tr>
+                <tr>
+                    <th class="formTitle">
+                        预计工期至:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">
+                        业主单位:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">
+                        设计单位:
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">监理单位:</th>
+                    <td class="formValue"></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">施工单位:</th>
+                    <td class="formValue"></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">工程概况:</th>
+                    <td class="formValue"></td>
+                </tr>
+            </table>
+        </div>
+    </div>

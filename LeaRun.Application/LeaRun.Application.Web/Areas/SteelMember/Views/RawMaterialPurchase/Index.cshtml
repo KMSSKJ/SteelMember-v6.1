@@ -1,41 +1,157 @@
-@{;
-    ViewBag.Title = "�б�ҳ��";
-    Layout = "~/Views/Shared/_Index.cshtml";
+﻿@{;
+    ViewBag.Title = "列表页面";
+    //Layout = "~/Views/Shared/_Index.cshtml";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-<script>;
+<script>
+    ;
     $(function () {
         InitialPage();
+        //GetTree();
         GetGrid();
+
     });
-    //��ʼ��ҳ��
+    //初始化页面
     function InitialPage() {
-        //resize���貼��;
+        //layout布局
+        $('#layout').layout({
+            applyDemoStyles: true,
+            onresize: function () {
+                $(window).resize()
+            }
+        });
+        //resize重设(表格、树形)宽高
+        $('.profile-nav').height($(window).height() - 50);
+
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $('#gridTable').setGridHeight($(window).height() - 136.5);
+                $("#gridTable").setGridHeight($(window).height() - 170);
+                $('.profile-nav').height($(window).height() - 50);
+                //$("#itemTree").setTreeHeight($(window).height() - 52);
             }, 200);
             e.stopPropagation();
         });
     }
-    //���ر���
-    function GetGrid() {
+
+    ////加载树
+    //var _Category;
+    //var SubProjectName;
+    //var HavesChildren;
+    //function GetTree() {
+    //    var item = {
+    //        height: $(window).height() - 52,
+    //        param: { Levels: 3 },
+    //        url: '../../SteelMember/SubProject/GetTreeJson',
+    //        onnodeclick: function (item) {
+    //            _Category = item.value;
+    //            HavesChildren = item.HasChildren;
+    //            SubProjectName = item.text;
+    //            $("#CenterTitle").html("-" + SubProjectName);
+    //            $('#btn_Search').trigger("click");
+    //        }
+    //    };
+    //    //初始化
+    //    $("#itemTree").treeview(item);
+    //}
+
+    function btn_summary() {
+        //queryJson = {
+        //    IsPurchase: 0,
+        //};
+        //$('#gridTable').jqGrid('setGridParam', {
+        //    url: '/SteelMember/RawMaterialPurchase/ItemList?category='+ category,
+        //    postData: { queryJson: JSON.stringify(queryJson) },
+        //    page: 1
+        //}).trigger('reloadGrid');
+        dialogOpen({
+            id: 'ItemList',
+            title: '选取材料',
+            url: '/SteelMember/RawMaterialPurchase/ItemList',
+            width: '700px',
+            height: '500px',
+            callBack: function (iframeId) {
+                top.frames[iframeId].btn_add_();
+                $('#PurchaseQuantity➩1').focus();
+            }
+        });
+    }
+    function btn_notPurchased() {
+        queryJson = {
+            IsPurchase: 0,
+        };
+        $('#gridTable').jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+    }
+
+    function btn_purchased() {
+        queryJson = {
+            IsPurchase: 1,
+        };
+        $('#gridTable').jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+    }
+
+    //加载表格
+    function GetGrid(obj) {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
             autowidth: true,
-            height: $(window).height() - 136.5,
+            height: $(window).height() - 170,
             url: "../../SteelMember/RawMaterialPurchase/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: '�ɹ�����', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', width: 80, align: '',sortable: true  },
-                { label: '�ύ', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: '',sortable: true  },
-                { label: '���', name: 'IsPassed', index: 'IsPassed', width: 80, align: '',sortable: true  },
-                { label: '�Ƶ���', name: 'CreateMan', index: 'CreateMan', width: 80, align: '',sortable: true  },
-                { label: '�Ƶ�ʱ��', name: 'CreateTime', index: 'CreateTime', width: 80, align: '',sortable: true  },
-                { label: '�����', name: 'ReviewMan', index: 'ReviewMan', width: 80, align: '',sortable: true  },
-                { label: '���ʱ��', name: 'ReviewTime', index: 'ReviewTime', width: 80, align: '',sortable: true  },
-                { label: '��ע', name: 'Description', index: 'Description', width: 80, align: '',sortable: true  },
+                { label: '主键', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', align: 'center', sortable: true, hidden: true },
+                { label: '采购单号', name: 'PurchaseNumbering', index: 'PurchaseNumbering', width: 180, align: 'center', sortable: true },
+                {
+                    label: '提交', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                {
+                    label: '审核', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未审核</span>";
+                        } else if (cellvalue == 1) {
+                            return "<span class=\"label label-success\">通过</span>";
+                        } else {
+                            return "<span class=\"label label-danger\">失败</span>";
+                        }
+                    }
+                },
+                {
+                    label: '是否采购', name: 'IsPurchase', index: 'IsPurchase', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: '制单人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
+                {
+                    label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 100, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    } },
+                { label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 100, align: 'center', sortable: true },
+                {
+                    label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 100, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    }
+                },
+                {
+                    label: '备注', name: 'Description', index: 'Description', width: 200,sortable: false, align: 'center',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                            return "";
+                        } else {
+                            return "<p style='color: red'>" + cellvalue + "</p>";
+                        }
+                    }
+                },
+
             ],
             viewrecords: true,
             rowNum: 30,
@@ -63,12 +179,18 @@
                     datatype: "json",
                     height: "100%",
                     colModel: [
-                { label: '����', name: 'InfoId', index: 'InfoId', width: 80, align: '',sortable: true ,hidden: true },
-                { label: '�ɹ�����', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', width: 80, align: '',sortable: true  },
-                { label: '��������', name: 'RawMaterialAnalysisId', index: 'RawMaterialAnalysisId', width: 80, align: '',sortable: true  },
-                { label: '�ɹ�����', name: 'PurchaseQuantity', index: 'PurchaseQuantity', width: 80, align: '',sortable: true  },
+                        { label: '主键', name: 'InfoId', index: 'InfoId', hidden: true },
+                        { label: '采购主键', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId',hidden: true },
+                        { label: '分析主键', name: 'RawMaterialAnalysisId', index: 'RawMaterialAnalysisId', hidden: true },
+                        { label: '材料名称', name: "RawMaterialName", align: 'center', width: 180, sortable: false },
+                        { label: '规格/型号', name: "RawMaterialModel", align: 'center', width: 180, sortable: false },
+                        { label: '采购量', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
+                        { label: '单位', name: "UnitId", align: 'center', width: 80, sortable: false },
+                        { label: '单价(元)', name: "RawMaterialPurchaseModelPrice", align: 'center', width: 80, sortable: false },
+                        { label: '供应商', name: "RawMaterialSupplier", align: 'center', width: 150, sortable: false },
+                        { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
                     ],
-                    caption: "��ϸ",
+                    caption: "明细",
                     rowNum: "1000",
                     rownumbers: true,
                     shrinkToFit: false,
@@ -77,81 +199,405 @@
                 });
             }
         });
+
+        //查询条件
+        $("#queryCondition .dropdown-menu li").click(function () {
+            var text = $(this).find('a').html();
+            var value = $(this).find('a').attr('data-value');
+            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+        });
+        //查询事件
+        $("#btn_Search").click(function () {
+            var queryJson = {
+                // condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                condition: "PurchaseNumbering",
+                HavesChildren: HavesChildren,
+                keyword: $("#txt_Keyword").val(),
+                SubProjectId: _Category,
+                BeginTime: $("#txt_BeginTime").val(),
+                EndTime: $("#txt_EndTime").val()
+            }
+            $gridTable.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) },
+                page: 1
+            }).trigger('reloadGrid');
+        });
+        //查询回车
+        $('#txt_Keyword').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                $('#btn_Search').trigger("click");
+            }
+        });
+
+        switch (obj) {
+            case "Search":
+                $('#btn_Search').trigger("click");
+                break;
+        }
     }
-    //����
+
+    //新增
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: '����ԭ���ϲɹ���',
+            title: '添加材料采购单',
             url: '/SteelMember/RawMaterialPurchase/Form',
             width: '1000px',
-            height: '750px',
+            height: '760px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
         });
     }
-    //�༭
+    //编辑
+
     function btn_edit() {
         var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        var Description = $('#gridTable').jqGridRowValue('Description');
+        var IsPurchase = $('#gridTable').jqGridRowValue('IsPurchase');
+        var IsSubmit = $('#gridTable').jqGridRowValue('IsSubmit');
+        var IsPassed = $('#gridTable').jqGridRowValue('IsPassed');
         if (checkedRow(keyValue)) {
-            dialogOpen({
-                id: 'Form',
-                title: '�༭ԭ���ϲɹ���',
-                url: '/SteelMember/RawMaterialPurchase/Form?keyValue=' + keyValue,
-                width: '1000px',
-                height: '750px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
+            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsPassed == "<span class=\"label label-danger\">失败</span>") {
+                var reviewsArr = IsPurchase.split(",");
+                if (reviewsArr.length > 0) {
+                    for (var i in reviewsArr) {
+                        if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
+                            dialogMsg("所选数据为已采购的数据，不能进行编辑！", 0);
+                            return false;
+                            //break;
+                        }
+                    }
                 }
-            })
+                dialogOpen({
+                    id: 'Form',
+                    title: '编辑材料采购单',
+                    url: '/SteelMember/RawMaterialPurchase/Form?keyValue=' + keyValue,
+                    //url: '/SteelMember/RawMaterialPurchase/EditForm?keyValue=' + keyValue + '&&Description=' + Description + '',
+                    width: '1000px',
+                    height: '760px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+
+            } else {
+                dialogMsg("已提交的数据只有审核失败后才能作编辑！", 0);
+            }
         }
     }
-    //ɾ��
+
+    //删除
     function btn_delete() {
-        var keyValue = $('#gridTable').jqGridRowValue( 'RawMaterialPurchaseId');
-        if (keyValue) {
-            $.RemoveForm({
-                url: '../../SteelMember/RawMaterialPurchase/RemoveForm',
-                param: { keyValue: keyValue },
-                success: function (data) {
-                    $('#gridTable').trigger('reloadGrid');
+        var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        var IsPurchase = $('#gridTable').jqGridRowValue('IsPurchase');
+        var IsSubmit = $('#gridTable').jqGridRowValue('IsSubmit');
+        var IsPassed = $('#gridTable').jqGridRowValue('IsPassed');
+
+        if (checkedRow(keyValue)) {
+            if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsPassed == "<span class=\"label label-danger\">失败</span>") {
+                var reviewsArr = IsPurchase.split(",");
+                if (reviewsArr.length > 0) {
+                    for (var i in reviewsArr) {
+                        if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
+                            dialogMsg("所选数据为已采购的数据，不能进行编辑！", 0);
+                            return false;
+                            //break;
+                        }
+                    }
                 }
-            })
-        } else {
-            dialogMsg('��ѡ����Ҫɾ����ԭ���ϲɹ�����', 0);
+
+                $.RemoveForm({
+                    url: '../../SteelMember/RawMaterialPurchase/RemoveForm',
+                    param: { keyValue: keyValue },
+                    success: function (data) {
+                        $('#gridTable').trigger('reloadGrid');
+                    }
+                })
+            } else {
+                dialogMsg("已提交的数据只有审核失败后才能作编辑！", 0);
+            }
         }
     }
-    //��ϸ
+    //详细
     function btn_details() {
         var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        //var Description = $('#gridTable').jqGridRowValue('Description');
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'Form',
-                title: '��ϸԭ���ϲɹ���',
-                url: '/SteelMember/RawMaterialPurchase/Form?keyValue=' + keyValue+'&isDeltail=true',
-                width: '1000px',
-                height: '750px',
-                btn:null,
+                title: '购单详情',
+                url: '/SteelMember/RawMaterialPurchase/Detail?keyValue=' + keyValue,
+                width: '1150px',
+                height: '800px',
+                btn: null,
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
             })
+        }
+    }
+    // 提交
+    function btn_submitReview() {
+        var keyValues = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        var reviews = $('#gridTable').jqGridRowValue('IsSubmit');
+        if (checkedArray(keyValues)) {
+            var reviewsArr = reviews.split(",");
+            if (reviewsArr.length > 0) {
+                for (var i in reviewsArr) {
+                    if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
+                        dialogMsg("所选数据中包含已提交的数据，请重新选择！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            dialogConfirm("注：您确定要提交所选中的数据吗？", function (r) {
+                if (r) {
+                    Loading(true, "正在提交...");
+                    window.setTimeout(function () {
+                        $.ajax({
+                            url: "../../SteelMember/RawMaterialPurchase/SubmitReview",
+                            data: { keyValues: keyValues },
+                            type: "post",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.type == "3") {
+                                    dialogAlert(data.message, -1);
+                                } else {
+                                    Loading(false);
+                                    dialogMsg(data.message, 1);
+                                }
+                                $('#gridTable').trigger('reloadGrid');
+                            }
+                        });
+                    }, 500);
+                }
+            });
+        }
+    }
+    //审核
+    function btn_passed(type) {
+        var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        var reviews = $('#gridTable').jqGridRowValue('IsSubmit');
+        var passeds = $('#gridTable').jqGridRowValue('IsPassed');
+        if (checkedArray(keyValue)) {
+            var reviewsArr = reviews.split(",");
+            var passedsArr = passeds.split(",");
+            if (reviewsArr.length > 0) {
+                for (var i in reviewsArr) {
+                    if (reviewsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
+                        dialogMsg("所选数据中包含未提交的数据，请重新选择！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            if (passedsArr.length > 0) {
+                for (var i in passedsArr) {
+                    if (passedsArr[i] == "<span class=\"label label-success\">通过</span>" || passedsArr[i] == "<span class=\"label label-danger\">失败</span>") {
+                        dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            var message = "";
+            if (type == 1) {
+                message = "注：您确定要对所选中的数据进行审核通过吗？";
+            } else {
+                message = "注：您确定要对所选中的数据进行审核失败吗？";
+            }
+            dialogConfirm(message, function (r) {
+                if (r) {
+                    Loading(true, "正在处理...");
+                    window.setTimeout(function () {
+
+                        if (type == 1) {
+                            $.SaveForm({
+                                url: "../../SteelMember/RawMaterialPurchase/ReviewOperation?keyValue=" + keyValue + "&type=" + type,
+                                param: {},
+                                loading: "正在保存数据...",
+                                success: function () {
+                                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                                }
+                            })
+                        } else {
+                            dialogOpen({
+                                id: 'NotReviewForm',
+                                title: '失败原因',
+                                url: '/SteelMember/RawMaterialPurchase/NotReviewForm?keyValue=' + keyValue + "&type=" + type,
+                                width: '400px',
+                                height: '300px',
+                                callBack: function (iframeId) {
+                                    top.frames[iframeId].AcceptClick();
+                                }
+                            });
+                        }
+
+                        //$.ajax({
+                        //    url: "../../SteelMember/RawMaterialPurchase/ReviewOperation",
+                        //    data: { keyValues: keyValues, type: type },
+                        //    type: "post",
+                        //    dataType: "json",
+                        //    success: function (data) {
+                        //        if (data.type == "3") {
+                        //            dialogAlert(data.message, -1);
+                        //        } else {
+                        //            Loading(false);
+                        //            dialogMsg(data.message, 1);
+                        //        }
+                        //        $('#gridTable').trigger('reloadGrid');
+                        //    }
+                        //});
+                    }, 500);
+                }
+            });
+        }
+    }
+    // 采购
+    function btn_IsPurchase() {
+        //IsPurchase
+        var keyValues = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+        var passeds = $('#gridTable').jqGridRowValue('IsPassed');
+        var IsPurchase = $('#gridTable').jqGridRowValue('IsPurchase');
+        if (checkedArray(keyValues)) {
+            var reviewsArr = IsPurchase.split(",");
+            var passedsArr = passeds.split(",");
+            if (passedsArr.length > 0) {
+                for (var i in passedsArr) {//<span class="label label-info">未审核</span>
+                    if (passedsArr[i] == "<span class=\"label label-info\">未审核</span>" || passedsArr[i] == "<span class=\"label label-danger\">失败</span>") {
+                        dialogMsg("所选数据中包含未通过审核的数据，请先去审核！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            if (reviewsArr.length > 0) {
+                for (var i in reviewsArr) {
+                    if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
+                        dialogMsg("所选数据中包含已采购的数据，请重新选择！", 0);
+                        return false;
+                        break;
+                    }
+                }
+            }
+            //dialogConfirm("注：您确定要所选中的数据都已经采购了吗？", function (r) {
+            //if (r) {
+            // alert(keyValues);
+            var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
+            var Description = $('#gridTable').jqGridRowValue('Description');
+            if (checkedRow(keyValue)) {
+                //dialogOpen({
+                //    id: 'Form',
+                //    title: '采购详情',
+                //    url: '/SteelMember/RawMaterialPurchase/Purchase?keyValue=' + keyValue + '&&Description=' + Description + '',
+                //    width: '1000px',
+                //    height: '750px',
+                //    // btn: null,
+                //    callBack: function (iframeId) {
+                //        top.frames[iframeId].AcceptClick();
+                //    }
+                //})
+                //$('#gridTable').trigger('reloadGrid');
+
+                  Loading(true, "正在提交...");
+               window.setTimeout(function () {
+                $.ajax({
+                    url: "../../SteelMember/RawMaterialPurchase/SubmitIsPurchase",
+                    data: { keyValues: keyValues },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.type == "3") {
+                            dialogAlert(data.message, -1);
+                        } else {
+                            Loading(false);
+                            dialogMsg(data.message, 1);
+                        }
+                        $('#gridTable').trigger('reloadGrid');
+                    }
+                });
+            }, 500);
+            }
         }
     }
 </script>
-<div class="titlePanel">
-    <div class="toolbar">
-        <div class="btn-group">
-            <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>ˢ��</a>
-            <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>����</a>
-            <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>�༭</a>
-            <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>ɾ��</a>
-            <a id="lr-details" class="btn btn-default" onclick="btn_details()"><i class="fa fa-list-alt"></i>��ϸ</a>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <div class="ui-layout-west">
+        <div class="west-Panel">
+            <div class="panel-Title">采购分类</div>
+            @*<div id="itemTree"></div>*@
+            <div class="profile-nav" style="overflow: auto;">
+                <ul id="nav_email" style="padding-top: 10px;">
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_summary()'>汇总</a></li>
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; margin-top: -2px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_notPurchased()'>未采购</a></li>
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_purchased()'>已采购</a></li>
+                    @*<li><i class="fa fa-trash-o" style="vertical-align: middle; margin-top: -3px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_completed()'>已完成</a></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="panel-Title">订单列表<span id="CenterTitle"></span></div>
+            <div class="titlePanel">
+                <div class="title-search" >
+                    <table>
+                        <tr>
+                            @*<td style="width:110px">
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()"/>
+                            </td>
+                            <td style="padding-left:2px;width:110px">
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()"/>
+                            </td>*@
+
+                            @*<td style="padding-left: 10px;">
+                        <div id="queryCondition" class="btn-group">
+                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a data-value="Category">构件类型</a></li>
+                                <li><a data-value="MemberName">构件名称</a></li>
+                                <li><a data-value="OrderNumbering">编号</a></li>
+                            </ul>
+                        </div>
+                    </td>*@
+                            <td style="padding-left: 5px;width:150px">
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="输入要查询编号" />
+                            </td>
+                            <td style="padding-left: 5px;">
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>新增采购</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>编辑</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+                        <a id="lr-details" class="btn btn-default" onclick="btn_details()"><i class="fa fa-list-alt"></i>详细</a>
+                        <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>提交</a>
+                        <a id="lr-passed" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-legal"></i>&nbsp;审核<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li id="lr-success"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
+                            <li id="lr-danger"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
+                        </ul>
+                        <a id="lr-Purchased" class="btn btn-default" onclick="btn_IsPurchase()"><i class="fa fa-phone-square"></i>已采购</a>
+                       
+                    </div>
+                    <script>$('.toolbar').authorizeButton()</script>
+                </div>
+            </div>
+            <div class="gridPanel">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
         </div>
     </div>
 </div>
-<div class="gridPanel">
-    <table id="gridTable"></table>
-    <div id="gridPager"></div>
-</div>
+

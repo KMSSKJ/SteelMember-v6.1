@@ -30,14 +30,16 @@
             height: $(window).height()-100,
             autowidth: true,
             colModel: [
+                { label: '主键', name: "MemberId", align: ' center', width: 100, sortable: false, hidden: true },
+                { label: '外键', name: "MemberDemandId", align: 'center', width: 100, sortable: false, hidden: true },
                 { label: '编号', name: "MemberNumbering", align:' center',width: 100, sortable: false },
                 { label: '名称', name: "MemberName", align:' center',width: 100, sortable: false },
-                { label: '规格或型号', name: "MemberModel", align:' center',width: 80, sortable: false},
+                //{ label: '规格或型号', name: "MemberModel", align:' center',width: 80, sortable: false},
                 { label: '需求量', name: "MemberNumber", align: ' center', width: 50, sortable: false },
-                { label: '单位', name: "MemberUnit", align:' center',width: 50, sortable: false},
+                { label: '单位', name: "UnitId", align:' center',width: 50, sortable: false},
             ],
             rowNum: 30,
-            sortname: 'SortCode',
+            sortname: 'MemberId',
             sortorder: 'Desc',//降序 asc升序
             pager: "#gridPager",
             viewrecords: true,
@@ -74,10 +76,10 @@
 
     //添加
     function btn_add_() {
-        var KeyValue = $('#gridTable').jqGridRowValue('MemberNumbering');
-        alert(KeyValue);
+        var KeyValue = $('#gridTable').jqGridRowValue('MemberId');
+        if (checkedArray(KeyValue)) {
             $.ajax({
-                url: "/SteelMember/ProjectOrder/ListMember",
+                url: "/SteelMember/MemberProductionOrder/ListMember",
                 type: "post",
                 datatype: 'json',
                 data: {
@@ -87,51 +89,53 @@
                 success: function (rowData) {
                     var rows = 1;
                     var $parentobj = top.frames["Form"];
-                    while(rows<30){
+                    while (rows < 30) {
                         $parentobj.$("#MemberNumbering➩" + rows).val(null);
                         $parentobj.$("#MemberName➩" + rows).val(null);
-                        $parentobj.$("#MemberModel➩" + rows).val(null);
-                        $parentobj.$("#MemberUnit➩" + rows).val(null);
+                        $parentobj.$("#UnitId➩" + rows).val(null);
                         $parentobj.$("#MemberNumber➩" + rows).val(null);
                         $parentobj.$("#Price➩" + rows).val(null);
                         $parentobj.$("#PriceAmount➩" + rows).val(null);
+                        $parentobj.$("#MemberId➩" + rows).val(null);
+                        $parentobj.$("#MemberDemandId➩" + rows).val(null);
+                        $parentobj.$("#MaxNumber➩" + rows).val(null);
                         rows++;
                     }
-                    if (rowData!=null){
+                    if (rowData != null) {
                         var index = 1;
                         var data1;
-                    for (var i = 0; i < rowData.length; i++) {
-                        $parentobj.IsExistItem(index, rowData[i].MemberNumbering);
-                        $.ajax({
-                            type: 'post',
-                            dataType: "text",
-                            url: "/SteelMember/ProjectOrder/AddMemberNumber",
-                            data: {
-                                category: Category,
-                                KeyValue: rowData[i].MemberNumbering
-                            },
-                            cache: false,
-                            async: false,
-                            success: function (data) {
-                                data1 = data;
-                            }
-                        
-                        });
+                        for (var i = 0; i < rowData.length; i++) {
+                            $parentobj.IsExistItem(index, rowData[i].MemberId);
+                            $.ajax({
+                                type: 'post',
+                                dataType: "text",
+                                url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
+                                data: {
+                                    category: Category,
+                                    KeyValue: rowData[i].MemberId
+                                },
+                                cache: false,
+                                async: false,
+                                success: function (data) {
+                                    data1 = data;
+                                }
 
-                        $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
-                        $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
-                        $parentobj.$("#MemberModel➩" + index).val(rowData[i].MemberModel);
-                        $parentobj.$("#MemberUnit➩" + index).val(rowData[i].MemberUnit);
-                        $parentobj.$("#MemberNumber➩" + index).val(Number(1000));
-                        $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
-                        $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
-                        $parentobj.$("#MaxNumber➩" + index).val(Number(1200));
-                        $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
-                        index++;
-                        $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
-                        $parentobj.$("#gridTable").find('.disabled').attr("disabled", "disabled");
-                        $parentobj.$("#MemberNumbering➩" + index).focus();
-                    }
+                            });
+                            $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
+                            $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
+                            $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
+                            $parentobj.$("#MemberNumber➩" + index).val(Number(data1));
+                            $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
+                            $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
+                            $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
+                            $parentobj.$("#MemberDemandId➩" + index).val(rowData[i].MemberDemandId);
+                            $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
+                            $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
+                            index++;
+                            $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
+                            $parentobj.$("#gridTable").find('.disabled').attr("disabled", "disabled");
+                            $parentobj.$("#MemberNumbering➩" + index).focus();
+                        }
                     }
                     dialogClose();
                 },
@@ -140,6 +144,7 @@
                 }
             });
         }
+    }
 </script>
 
 <div class="rightline" style="margin: 1px; margin-top: -1px;">

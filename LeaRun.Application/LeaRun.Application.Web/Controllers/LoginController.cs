@@ -27,6 +27,10 @@ namespace LeaRun.Application.Web.Controllers
     [HandlerLogin(LoginMode.Ignore)]
     public class LoginController : MvcControllerBase
     {
+        private UserBLL userbll = new UserBLL();
+        private FilterIPBLL filterIPBLL = new FilterIPBLL();
+        private FilterTimeBLL filterTimeBLL = new FilterTimeBLL();
+
         #region 视图功能
         /// <summary>
         /// 默认页面
@@ -37,6 +41,7 @@ namespace LeaRun.Application.Web.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 登录页面
         /// </summary>
@@ -92,6 +97,7 @@ namespace LeaRun.Application.Web.Controllers
             WebHelper.RemoveCookie("learn_autologin");                  //清除自动登录
             return Content(new AjaxResult { type = ResultType.success, message = "退出系统" }.ToJson());
         }
+
         /// <summary>
         /// 登录验证
         /// </summary>
@@ -103,8 +109,37 @@ namespace LeaRun.Application.Web.Controllers
         [HttpPost]
         [AjaxOnly]
         public ActionResult CheckLogin(string username, string password, string verifycode, int autologin)
-        
         {
+            //初始化用户
+            var User = userbll.GetEntity(f => f.Account == "System");
+            var User1 = userbll.GetEntity(f => f.Account == "Admin");
+            if (User == null)
+            {
+                User.Account = "System";
+                User.EnCode = "System";
+                User.Password = "0000";
+                User.RealName = "超级管理员";
+                User.Gender = 1;
+                User.UserOnLine = 1;
+                User.DeleteMark = 0;
+                User.EnabledMark = 1;
+                userbll.SaveForm("System", User);
+            }
+            else if (User1 == null)
+            {
+                User.Account = "Admin";
+                User.EnCode = "Admin";
+                User.Password = "0000";
+                User.RealName = "系统管理员";
+                User.Gender = 1;
+                User.UserOnLine = 1;
+                User.DeleteMark = 0;
+                User.EnabledMark = 1;
+                userbll.SaveForm("Admin", User);
+
+            }
+
+            //
             LogEntity logEntity = new LogEntity();
             logEntity.CategoryId = 1;
             logEntity.OperateTypeId = ((int)OperationType.Login).ToString();
@@ -179,13 +214,21 @@ namespace LeaRun.Application.Web.Controllers
                     {
                         operators.IsSystem = true;
                     }
+                    else if (userEntity.Account == "Admin")
+                    {
+                        operators.IsSystem = true;
+                    }
                     else
                     {
                         operators.IsSystem = false;
                     }
                     OperatorProvider.Provider.AddCurrent(operators);
                     //登录限制
-                    //LoginLimit(username, operators.IPAddress, operators.IPAddressName);
+                    var str = LoginLimit1(operators.UserId, operators.ObjectId, operators.IPAddress, operators.IPAddressName);
+                    if (!str.IsEmpty())
+                    {
+                        return Error(str);
+                    }
                     //写入日志
                     logEntity.ExecuteResult = 1;
                     logEntity.ExecuteResultJson = "登录成功";
@@ -232,6 +275,7 @@ namespace LeaRun.Application.Web.Controllers
             }
             return Success("获取成功。");
         }
+
         /// <summary>
         /// 注册账户
         /// </summary>
@@ -255,6 +299,7 @@ namespace LeaRun.Application.Web.Controllers
             accountBLL.Register(accountEntity);
             return Success("注册成功。");
         }
+
         /// <summary>
         /// 登录限制
         /// </summary>
@@ -263,12 +308,297 @@ namespace LeaRun.Application.Web.Controllers
         /// <param name="iPAddressName">IP所在城市</param>
         public void LoginLimit(string account, string iPAddress, string iPAddressName)
         {
-            //if (account == "System")
-            //{
-            //    return;
-            //}
+            if (account == "System" || account == "Admin")
+            {
+                return;
+            }
             string platform = Net.Browser;
             accountBLL.LoginLimit(platform, account, iPAddress, iPAddressName);
+        }
+
+        /// <summary>
+        /// 登录限制
+        /// </summary>
+        /// <param name="UserId">账户</param>
+        /// <param name="ObjectId"></param>
+        /// <param name="iPAddress">IP</param>
+        /// <param name="iPAddressName">IP所在城市</param>
+        public string LoginLimit1(string UserId, string ObjectId, string iPAddress, string iPAddressName)
+        {
+            string str = "";
+            if (UserId == "System" || UserId == "Admin")
+            {
+                return str;
+            }
+            else
+            {
+                var filterIP = filterIPBLL.GetEntity(UserId);
+                var filterIP1 = filterIPBLL.GetEntity(f=>f.ObjectId== ObjectId);
+                if (filterIP != null)
+                {
+                    if (iPAddress == filterIP.FilterIPId)
+                    {
+                        str = "该用户登录被限制";
+                    }
+                }else if (filterIP1 != null)
+                {
+                    if (iPAddress == filterIP1.FilterIPId)
+                    {
+                        str = "该用户登录被限制";
+                    }
+                }
+
+                var filterTime = filterTimeBLL.GetEntity(UserId);
+                var filterTime1 = filterTimeBLL.GetEntity(f=>f.ObjectId== ObjectId);
+                string DayOfWeek = DateTime.Now.DayOfWeek.ToString();
+                if (filterTime != null)
+                {
+                    if (DayOfWeek == "Monday")
+                    {
+                        if (!filterTime.WeekDay1.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay1.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString()+":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Tuesday")
+                    {
+                        if (!filterTime.WeekDay2.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay2.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Wednesday")
+                    {
+                        if (!filterTime.WeekDay3.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay3.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Thursday")
+                    {
+                        if (!filterTime.WeekDay4.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay4.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Friday")
+                    {
+                        if (!filterTime.WeekDay5.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay5.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Saturday")
+                    {
+                        if (!filterTime.WeekDay6.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay6.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Sunday")
+                    {
+                        if (!filterTime.WeekDay7.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay7.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else if (filterTime1 != null)
+                {
+                    if (DayOfWeek == "Monday")
+                    {
+                        if (!filterTime.WeekDay1.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay1.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Tuesday")
+                    {
+                        if (!filterTime.WeekDay2.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay2.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Wednesday")
+                    {
+                        if (!filterTime.WeekDay3.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay3.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Thursday")
+                    {
+                        if (!filterTime.WeekDay4.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay4.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Friday")
+                    {
+                        if (!filterTime.WeekDay5.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay5.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Saturday")
+                    {
+                        if (!filterTime.WeekDay6.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay6.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (DayOfWeek == "Sunday")
+                    {
+                        if (!filterTime.WeekDay7.IsEmpty())
+                        {
+                            string[] star = filterTime.WeekDay7.ToString().Split(',');
+                            {
+                                foreach (var item in star)
+                                {
+                                    string Hour = DateTime.Now.Hour.ToString() + ":00";
+                                    if (item == Hour)
+                                    {
+                                        str = "该用户登录被限制";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return str;
+            }
+            //string platform = Net.Browser;
+            //accountBLL.LoginLimit(platform, account, iPAddress, iPAddressName);
         }
         #endregion
     }

@@ -4,13 +4,14 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SteelMember
 {
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-19 10:03
-    /// 描 述：原材料库存
+    /// 描 述：材料库存
     /// </summary>
     public class RawMaterialInventoryBLL
     {
@@ -23,7 +24,7 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
-        public IEnumerable<RawMaterialInventoryEntity> GetPageList(Pagination pagination, string queryJson)
+        public List<RawMaterialInventoryEntity> GetPageList(Pagination pagination, string queryJson)
         {
             return service.GetPageList(pagination, queryJson);
         }
@@ -44,6 +45,24 @@ namespace LeaRun.Application.Busines.SteelMember
         public RawMaterialInventoryEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
+        }
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        public RawMaterialInventoryEntity GetEntity(Expression<Func<RawMaterialInventoryEntity,bool>> condition)
+        {
+            return service.GetEntity(condition);
+        }
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        ///  <param name="rawMaterialId">外键值</param>
+        /// <returns></returns>
+        public RawMaterialInventoryEntity GetEntityByRawMaterialId(string rawMaterialId)
+        {
+            return service.GetEntityByRawMaterialId(rawMaterialId);
         }
         #endregion
 

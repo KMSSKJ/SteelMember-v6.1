@@ -1,350 +1,139 @@
-ï»¿
-using LeaRun.Application.Repository.SteelMember.IBLL;
-using LeaRun.Data.Entity;
+using LeaRun.Application.Entity.SteelMember;
+using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
-using LeaRun.Util.WebControl;
-using Ninject;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml;
+using System.Linq;
+using System;
+using System.Web.WebPages;
+using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
     /// <summary>
-    /// ä»£ç ç”Ÿæˆå™¨
+    /// °æ ±¾ 6.1
+    /// ÈÕ ÆÚ£º2017-08-30 11:16
+    /// Ãè Êö£ºÏîÄ¿ĞÅÏ¢
     /// </summary>
     public class ProjectInfoController : MvcControllerBase
     {
-        //
-        // GET: /ProjectInfo/
-       // public Base_ModuleBll Sys_modulebll = new Base_ModuleBll();
-        //public Base_ButtonBll Sys_buttonbll = new Base_ButtonBll();
+        private ProjectInfoBLL projectinfobll = new ProjectInfoBLL();
 
-        [Inject]
-        public TreeIBLL TreeCurrent { get; set; }
-
-        [Inject]
-        public ProjectInfoIBLL ProjectInfoCurrent { get; set; }
-
-        public ActionResult Index()
+        #region ÊÓÍ¼¹¦ÄÜ
+        /// <summary>
+        /// ÁĞ±íÒ³Ãæ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult ProjectIndex()
         {
             return View();
         }
 
-        public ActionResult HomePage()
+        /// <summary>
+        /// ±íµ¥Ò³Ãæ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult ProjectForm()
         {
             return View();
         }
-    
+
+        /// <summary>
+        /// ²¿ÃÅÁĞ±íÒ³Ãæ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult DepartmentIndex()
         {
             return View();
         }
+        /// <summary>
+        /// ÓÃ»§ÁĞ±íÒ³Ãæ
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult ManIndex()
         {
             return View();
         }
 
+        #endregion
 
+        #region »ñÈ¡Êı¾İ
         /// <summary>
-        /// ã€å·¥ç¨‹é¡¹ç›®ç®¡ç†ã€‘è¿”å›æ ‘JONS
+        /// »ñÈ¡ÁĞ±í
         /// </summary>
-        /// <returns></returns>      
-        public ActionResult TreeJson(string ItemId)
+        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
+        /// <returns>·µ»ØÁĞ±íJson</returns>
+        [HttpGet]
+        public ActionResult GetListJson(string queryJson)
         {
-            List<RMC_Tree> list, list1, list2;
-            list1 = TreeCurrent.Find(t => t.DeleteFlag != 1 && t.ItemClass == 0).ToList();
-            list2 = TreeCurrent.Find(t => t.ModuleId == ItemId && t.DeleteFlag != 1 && t.ItemClass == 1).ToList();
-            list = list1.Concat(list2).Distinct().ToList();
-
-            List<TreeEntity> TreeList = new List<TreeEntity>();
-            foreach (RMC_Tree item in list)
-            {
-                TreeEntity tree = new TreeEntity();
-                bool hasChildren = false;
-                List<RMC_Tree> childnode = list.FindAll(t => t.ParentID == item.TreeID);
-                if (childnode.Count > 0)
-                {
-                    hasChildren = true;
-                }
-                tree.id = item.TreeID.ToString();
-                tree.text = item.TreeName;
-                tree.value = item.TreeID.ToString();
-                tree.ismenu = item.IsMenu.ToString();
-                tree.url = item.Url;
-                tree.isexpand = item.State == 1 ? true : false;
-                tree.complete = true;
-                tree.hasChildren = hasChildren;
-                tree.parentId = item.ParentID.ToString();
-                //tree.iconCls = item.Icon != null ? "/Content/Images/Icon16/" + item.Icon : item.Icon;
-                TreeList.Add(tree);
-            }
-            return Content(TreeList.TreeToJson());
+            var data = projectinfobll.GetList(queryJson);
+            return ToJsonResult(data);
         }
-
-        #region é¡¹ç›®ä¿¡æ¯ç®¡ç†
         /// <summary>
-        /// ã€é¡¹ç›®ç®¡ç†ã€‘è¿”å›æ–‡ä»¶ï¼ˆå¤¹ï¼‰åˆ—è¡¨JSON
+        /// »ñÈ¡ÊµÌå 
         /// </summary>
-        /// <param name="jqgridparam">åˆ†é¡µæ¡ä»¶</param>
-        /// <param name="TreeID">æ–‡ä»¶å¤¹ID</param>
-        /// <param name="IsPublic">æ˜¯å¦å…¬å…± 1-å…¬å…±ã€0-æˆ‘çš„</param>
-        /// <returns></returns>         
-        public ActionResult GridListJson(/*ProjectInfoViewModel model,*/ string TreeID, Pagination jqgridparam, string IsPublic)
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <returns>·µ»Ø¶ÔÏóJson</returns>
+        [HttpGet]
+        public ActionResult GetFormJson(string keyValue)
         {
-            try
-            {
-                int TreeId;
-                //int FolderId = Convert.ToInt32(FolderId);
-                if (TreeID == "" || TreeID == null)
-                {
-                    TreeId = 1;
-                }
-                else
-                {
-                    TreeId = Convert.ToInt32(TreeID);
-                }
-
-                int total = 0;
-                Expression<Func<RMC_ProjectInfo, bool>> func = ExpressionExtensions.True<RMC_ProjectInfo>();
-                func = f => f.DeleteFlag != 1 && f.TreeID == TreeId;
-                #region æŸ¥è¯¢æ¡ä»¶æ‹¼æ¥
-                //if (model.ProjectName != null && model.ProjectName != "&nbsp;")
-                //{
-                //    func = func.And(f => f.ProjectName.Contains(model.ProjectName));
-                //}
-                //if (!string.IsNullOrEmpty(model.ProjectAddress))
-                //{
-                //    func = func.And(f => f.ProjectAddress == model.ProjectAddress); /*func = func.And(f => f.FullPath.Contains(model.FilePath))*/
-                //}
-                #endregion
-
-                DataTable ListData, ListData1;
-                ListData = null;
-                //List<RMC_Tree> listtree = TreeCurrent.FindPage<string>(jqgridparam.page
-                //                         , jqgridparam.rows
-                //                         , func1
-                //                         , false
-                //                         , f => f.TreeID.ToString()
-                //                         , out total
-                //                         ).ToList();
-                List<RMC_ProjectInfo> listfile = ProjectInfoCurrent.FindPage<string>(jqgridparam.page
-                                         , jqgridparam.rows
-                                         , func
-                                         , false
-                                         , f => f.ProjectId.ToString()
-                                         , out total
-                                         ).ToList();
-                //List<ProjectDemandModel> projectdemandlist = new List<ProjectDemandModel>();
-                //foreach (var item in listfile)
-                //{
-                //    ProjectDemandModel projectdemand = new ProjectDemandModel();
-                //    projectdemand.ProjectId = item.ProjectId;
-                //    projectdemand.MemberNumbering = item.MemberNumbering;
-                //    var projectinfo = ProjectInfoCurrent.Find(f => f.ProjectId == item.ProjectId).SingleOrDefault();
-                //    projectdemand.ProjectName = projectinfo.ProjectName;
-                //    var memberlibrary = MemberLibraryCurrent.Find(f => f.MemberID == item.MemberId).SingleOrDefault();
-                //    projectdemand.MemberName = memberlibrary.MemberModel;
-                //    projectdemand.MemberNumber = item.MemberNumber;
-                //    projectdemand.MemberWeight = item.MemberWeight;
-                //    var company = CompanyCurrent.Find(f => f.MemberCompanyId == item.MemberCompanyId).SingleOrDefault();
-                //    projectdemand.MemberCompany = company.FullName;
-                //    projectdemand.Description = item.Description;
-                //    projectdemandlist.Add(projectdemand);
-                //}
-
-                if (listfile.Count() > 0)// && listtree.Count() > 0
-                {
-                    //ListData0 = ListToDataTable(listtree);
-                    ListData1 = DataHelper.ListToDataTable(listfile);
-                    ListData = ListData1.Clone();
-                    object[] obj = new object[ListData.Columns.Count];
-                    ////æ·»åŠ DataTable0çš„æ•°æ®
-                    //for (int i = 0; i < ListData0.Rows.Count; i++)
-                    //{
-                    //    ListData0.Rows[i].ItemArray.CopyTo(obj, 0);
-                    //    ListData.Rows.Add(obj);
-                    //}
-                    //æ·»åŠ DataTable1çš„æ•°æ®
-                    for (int i = 0; i < ListData1.Rows.Count; i++)
-                    {
-                        ListData1.Rows[i].ItemArray.CopyTo(obj, 0);
-                        ListData.Rows.Add(obj);
-                    }
-                }
-                //else if (listtree.Count() > 0)
-                //{
-                //    ListData = ListToDataTable(listtree);
-                //}
-                else if (listfile.Count() > 0)
-                {
-                    ListData = DataHelper.ListToDataTable(listfile);
-                }
-                else
-                {
-                    ListData = null;
-                }
-
-                var JsonData = new
-                {
-                    rows = ListData,
-                };
-                return Content(JsonData.ToJson());
-            }
-            catch
-            {
-                throw new Exception("æ“ä½œå¤±è´¥");
-            }
+            // var data = projectinfobll.GetEntity(keyValue
+            var data = projectinfobll.GetList(null).SingleOrDefault();
+            return ToJsonResult(data);
         }
+        #endregion
 
+        #region Ìá½»Êı¾İ
         /// <summary>
-        /// è¡¨å•è§†å›¾
+        /// É¾³ıÊı¾İ
         /// </summary>
-        /// <returns></returns>
-        public ActionResult Form()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// ã€é¡¹ç›®ä¿¡æ¯ç®¡ç†ã€‘è¿”å›æ–‡ä»¶å¤¹å¯¹è±¡JSON
-        /// </summary>
+        /// <param name="keyValue">Ö÷¼üÖµ</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateInput(false)]
-        //[LoginAuthorize]
-        public ActionResult SetDataForm()
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult RemoveForm(string keyValue)
         {
-            RMC_ProjectInfo entity = ProjectInfoCurrent.Find(f => f.ProjectId>0).SingleOrDefault();
-            //string JsonData = entity.ToJson();
-            ////è‡ªå®šä¹‰D:\SSKJProject\LeaRun.WebApp\Areas\CodeMaticModule\
-            //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
-            return Content(entity.ToJson());
-            //return Json(entity);
+            projectinfobll.RemoveForm(keyValue);
+            return Success("É¾³ı³É¹¦¡£");
         }
-        public ActionResult GetItemInfo(string KeyValue)
-        {
-            //int TreeId = Convert.ToInt32(KeyValue);
-            RMC_ProjectInfo entity = ProjectInfoCurrent.Find(f => f.TreeID>0).SingleOrDefault();
-            //string JsonData = entity.ToJson();
-            ////è‡ªå®šä¹‰
-            //JsonData = JsonData.Insert(1, Sys_FormAttributeBll.Instance.GetBuildForm(KeyValue));
-            return Content(entity.ToJson());
-            //return Json(entity);
-        }
-
         /// <summary>
-        /// æäº¤æ–‡ä»¶å¤¹è¡¨å•
+        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
         /// </summary>
-        /// <param name="entity">å®ä½“å¯¹è±¡</param>
-        /// <param name="KeyValue">ä¸»é”®å€¼</param>
-        /// <param name="TreeId">å¤–é”®å€¼</param>
+        /// <param name="ProjectId"></param>
+        /// <param name="entity">ÊµÌå¶ÔÏó</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateInput(false)]
-        //[LoginAuthorize]
-        public virtual ActionResult SubmitDataForm(RMC_ProjectInfo entity, string KeyValue, string TreeId)
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult SaveForm(string ProjectId, ProjectInfoEntity entity)
         {
-
-            try
-            {
-                string Message = KeyValue == "" ? "æ–°å¢æˆåŠŸã€‚" : "ç¼–è¾‘æˆåŠŸã€‚";
-                if (!string.IsNullOrEmpty(KeyValue))
-                {
-                    int keyvalue = Convert.ToInt32(KeyValue);
-                    RMC_ProjectInfo Oldentity = ProjectInfoCurrent.Find(t => t.ProjectId == keyvalue).SingleOrDefault();//è·å–æ²¡æ›´æ–°ä¹‹å‰å®ä½“å¯¹è±¡
-                    Oldentity.ProjectSystemTitel = entity.ProjectSystemTitel;
-                    Oldentity.ConstructionUnit = entity.ConstructionUnit;
-                    Oldentity.ConstructionPrincipal = entity.ConstructionPrincipal;
-                    Oldentity.ConstructionPrincipalTEL = entity.ConstructionPrincipalTEL;
-                    Oldentity.DesignUnit = entity.DesignUnit;
-                    Oldentity.DesignPrincipal = entity.DesignPrincipal;
-                    Oldentity.DesignPrincipalTEL = entity.DesignPrincipalTEL;
-                    Oldentity.GeneralContractor = entity.GeneralContractor;
-                    Oldentity.GeneralContractorPrincipal = entity.GeneralContractorPrincipal;
-                    Oldentity.GeneralContractorPrincipalTEL = entity.GeneralContractorPrincipalTEL;
-                    Oldentity.ProfessionalContractor = entity.ProfessionalContractor;
-                    Oldentity.ProfessionalContractorPrincipal = entity.ProfessionalContractorPrincipal;
-                    Oldentity.ProfessionalContractorPrincipalTEL = entity.ProfessionalContractorPrincipalTEL;
-                    Oldentity.SupervisionUnit = entity.SupervisionUnit;
-                    Oldentity.SupervisionPrincipal = entity.SupervisionPrincipal;
-                    Oldentity.SupervisionPrincipalTEL = entity.SupervisionPrincipalTEL;
-                    Oldentity.ProjectAddress = entity.ProjectAddress;
-                    Oldentity.ModifiedTime = entity.ModifiedTime;
-                    Oldentity.Description = entity.Description;
-                    ProjectInfoCurrent.Modified(Oldentity);
-                }
-                else
-                {
-                    int treeid = Convert.ToInt32(TreeId);
-                    var ProjectInfo = ProjectInfoCurrent.Find(f => f.TreeID == treeid).ToList();
-                    if (ProjectInfo.Count() > 0)
-                    {
-                        Message = "æ“ä½œå¤±è´¥é¡¹ç›®ä¸­å·²å­˜åœ¨è¯¥ä¿¡æ¯ï¼";
-                    }
-                    else
-                    {
-                        RMC_ProjectInfo Oldentity = new RMC_ProjectInfo();
-                        Oldentity.TreeID = treeid;
-                        var tree = TreeCurrent.Find(f => f.TreeID == TreeId).SingleOrDefault();
-                        Oldentity.ProjectSystemTitel = entity.ProjectSystemTitel;
-                        Oldentity.ConstructionUnit = entity.ConstructionUnit;
-                        Oldentity.ConstructionPrincipal = entity.ConstructionPrincipal;
-                        Oldentity.ConstructionPrincipalTEL = entity.ConstructionPrincipalTEL;
-                        Oldentity.DesignUnit = entity.DesignUnit;
-                        Oldentity.DesignPrincipal = entity.DesignPrincipal;
-                        Oldentity.DesignPrincipalTEL = entity.DesignPrincipalTEL;
-                        Oldentity.GeneralContractor = entity.GeneralContractor;
-                        Oldentity.GeneralContractorPrincipal = entity.GeneralContractorPrincipal;
-                        Oldentity.GeneralContractorPrincipalTEL = entity.GeneralContractorPrincipalTEL;
-                        Oldentity.ProfessionalContractor = entity.ProfessionalContractor;
-                        Oldentity.ProfessionalContractorPrincipal = entity.ProfessionalContractorPrincipal;
-                        Oldentity.ProfessionalContractorPrincipalTEL = entity.ProfessionalContractorPrincipalTEL;
-                        Oldentity.SupervisionUnit = entity.SupervisionUnit;
-                        Oldentity.SupervisionPrincipal = entity.SupervisionPrincipal;
-                        Oldentity.SupervisionPrincipalTEL = entity.SupervisionPrincipalTEL;
-                        Oldentity.ProjectAddress = entity.ProjectAddress;
-                        Oldentity.Description = entity.Description;
-                        ProjectInfoCurrent.Add(Oldentity);
-                    }
-                }
-                return Success("æ“ä½œæˆåŠŸã€‚");
-            }
-            catch (Exception)
-            {
-         
-                throw new Exception("æ“ä½œå¤±è´¥");
-              
-                //return Content(new JsonMessage { Success = false, Code = "-1", Message = "æ“ä½œå¤±è´¥ï¼š" + ex.Message }.ToString());
-            }
+            entity.ProjectId = ProjectId;
+            //entity.StartTime =Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+            projectinfobll.SaveForm(entity.ProjectInfoId, entity);
+            return Success("²Ù×÷³É¹¦¡£");
         }
-
         /// <summary>
-        /// åˆ é™¤ï¼ˆé”€æ¯ï¼‰æ–‡ä»¶
+        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
         /// </summary>
-        /// <param name="KeyValue"></param>
+        /// <param name="ProjectId"></param>
+        /// <param name="entity">ÊµÌå¶ÔÏó</param>
         /// <returns></returns>
-        public ActionResult DeleteProjectInfo(string KeyValue)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public string GetProjectInfoId(string ProjectId, ProjectInfoEntity entity)
         {
-            try
-            {
-                List<int> ids = new List<int>();
-                int ProjectId = Convert.ToInt32(KeyValue);
-                ids.Add(ProjectId);
-                ProjectInfoCurrent.Remove(ids);
-                return Success("æ“ä½œæˆåŠŸã€‚");
-            }
-            catch
-            {
-                throw new Exception("æ“ä½œå¤±è´¥");
-            }
+            entity.ProjectId = ProjectId;
+            //entity.StartTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+            return  projectinfobll.GetProjectInfoId(entity.ProjectInfoId, entity);
         }
         #endregion
     }

@@ -1,0 +1,331 @@
+﻿@{
+    ViewBag.Title = "OutInventoryDetail";
+    Layout = "~/Views/Shared/_Index.cshtml";
+
+}
+<script>
+    $(function () {
+        GetGrid();
+    });
+    //加载表格
+    function GetGrid() {
+        var selectedRowIndex = 0;
+        var $gridTable = $('#gridTable');
+        $gridTable.jqGrid({
+            autowidth: true,
+            height: $(window).height() - 108.5,
+            url: "../../SteelMember/MemberWarehouse/MemberCollar",
+            datatype: "json",
+            colModel: [
+                { label: '出库ID', name: 'CollarId', index: 'CollarId', hidden: true },
+                { label: '单号', name: 'CollarNumbering', index: 'CollarNumbering', width: 180, align: 'center', sortable: true },
+                { label: '所属工程', name: 'CollarEngineering', index: 'CollarEngineering', width: 120, align: 'center', sortable: true },
+                { label: '经办人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
+                { label: '审核人', name: 'Sender', index: 'Sender', width:100, align: 'center', sortable: true },
+                { label: '领用单位', name: 'DepartmentId', index: 'DepartmentId', width: 150, align: 'center', sortable: false },
+                { label: '领用人', name: 'ContactPerson', index: 'ContactPerson', width: 100, align: 'center', sortable: true },
+                { label: '领用人电话', name: 'ContactPersonTel', index: 'ContactPersonTel', width: 120, align: 'center', sortable: false },
+                {
+                    label: '出库时间', name: 'Date', index: 'Date', width: 100, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    }
+                },
+                { label: '收货地址', name: 'ShippingAddress', index: 'ShippingAddress', width: 160, align: 'center', sortable: false },
+            ],
+            viewrecords: true,
+            rowNum: 30,
+            rowList: [30, 50, 100],
+            pager: "#gridPager",
+            sortname: 'CollarId',
+            sortorder: 'desc',
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+            onSelectRow: function () {
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $('#' + this.id).setSelection(selectedRowIndex, false);
+            },
+            subGrid: true,
+            subGridRowExpanded: function (subgrid_id, row_id) {
+                var keyValue = $gridTable.jqGrid('getRowData', row_id)['CollarId'];
+                var subgrid_table_id = subgrid_id + "_t";
+                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "'></table>");
+                $("#" + subgrid_table_id).jqGrid({
+                    url: "../../SteelMember/MemberWarehouse/MemberCollarInfo",
+                    postData: { keyValue: keyValue },
+                    datatype: "json",
+                    height: "100%",
+                    colModel: [
+                        { label: '库存ID', name: 'MemberWarehouseId', index: 'InventoryId', hidden: true },
+                        { label: '构件编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 180, align: 'center', sortable: true },
+                        { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 120, align: 'center', sortable: true },
+                        { label: '构件类型', name: 'Category', index: 'Category', width: 120, align: 'center', sortable: true },
+                        { label: '出库数量', name: 'MemberNumber', index: 'MemberNumber', width: 110, align: 'center', sortable: true },
+                        { label: '单位', name: 'UnitId', index: 'UnitId', width: 90, align: 'center', sortable: true },
+                        {
+                            label: '备注', name: 'Description', index: 'Description', width: 200, align: 'left',
+                            formatter: function (cellvalue, options, rowObject) {
+                                if (rowObject.Description == null || rowObject.Description == "undefined") {
+                                    return "";
+                                } else {
+                                    return "<p style='color: red'>" + cellvalue + "</p>";
+                                }
+                            }
+                        },
+                    ],
+                    caption: "明细",
+                    rowNum: "1000",
+                    rownumbers: true,
+                    shrinkToFit: false,
+                    gridview: true,
+                    hidegrid: false
+                });
+            }
+        });
+        //查询条件
+        $("#queryCondition .dropdown-menu li").click(function () {
+            var text = $(this).find('a').html();
+            var value = $(this).find('a').attr('data-value');
+            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+        });
+        //查询事件
+        $("#btn_Search").click(function () {
+            var queryJson = {
+                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                //Category: Category = $("#Category").attr('data-text') == "选择材料类型" ? "" : $("#Category").attr('data-text'),
+                DepartmentId: $("#txt_DepartmentId").val(),
+                ShippingAddress: $("#txt_ShippingAddress").val(),
+                //HavesChildren: HavesChildren,
+                keyword: $("#txt_Keyword").val(),
+                BeginTime: $("#txt_BeginTime").val(),
+                EndTime: $("#txt_EndTime").val()
+            }
+            $gridTable.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) },
+                page: 1
+            }).trigger('reloadGrid');
+        });
+
+        //查询回车
+        $('#txt_Keyword').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                $('#btn_Search').trigger("click");
+            }
+        });
+
+        //switch (obj) {
+        //    case 'Search':
+        //        $('#btn_Search').trigger("click");
+        //        break;
+        //}
+    }
+
+    //删除
+    function btn_delete() {
+        var keyValue = $('#gridTable').jqGridRowValue('CollarId');
+        if (keyValue) {
+            $.RemoveForm({
+                url: '../../SteelMember/MemberWarehouse/RemoveFormCollar',
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $('#gridTable').trigger('reloadGrid');
+                }
+            })
+        } else {
+            dialogMsg('请选择需要删除的构件库存！', 0);
+        }
+    }
+
+    //详细
+    function btn_Detail() {
+        var keyValue = $('#gridTable').jqGridRowValue('CollarId');
+        if (checkedRow(keyValue)) {
+            dialogOpen({
+                id: 'CollarDetail',
+                title: '出库详情',
+                url: '/SteelMember/MemberWarehouse/CollarDetail?keyValue=' + keyValue,
+                //width: '1150px',
+                //height: '800px',
+                width: '1100px',
+                height: '760px',
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                },
+                btn: ['打印', '关闭']
+            });
+        }
+    }
+
+    //导出文件
+    var JsonData1 = ""; var TableObject = "";
+    function btn_derive() {
+        SetDeriveExcel("#gridTable", "材料出库信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
+        dialogOpen({
+            id: "DeriveFile",
+            title: '材料出库信息表',
+            url: '/Utility/DeriveFile',
+            width: "700px",
+            height: "435px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+
+        });
+    }
+
+    var _Category = "";
+    function Search() {
+        dialogOpen({
+            id: "AdvancedSearchMemberForm",
+            title: '高级查询',
+            url: '/Utility/AdvancedSearchMemberForm?SubProjectId=' + _Category,
+            width: "670px",
+            height: "180px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null,
+        });
+    }
+  
+    function btn_Summary() {
+        var queryJson = {
+            condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+            //Category: Category = $("#Category").attr('data-text') == "选择材料类型" ? "" : $("#Category").attr('data-text'),
+            DepartmentId: $("#txt_DepartmentId").val().trim(),
+            ShippingAddress: $("#txt_ShippingAddress").val().trim(),
+            //HavesChildren: HavesChildren,
+            CollarEngineering: $("#txt_Keyword").val().trim(),
+            BeginTime: $("#txt_BeginTime").val(),
+            EndTime: $("#txt_EndTime").val()
+        }
+
+        //获取所有行ID
+        var obj = $("#gridTable").jqGrid("getRowData");
+        var CollarJson = [];
+        var CollarEntityJson = "";
+        if (obj != "" || obj != null) {
+            for (i = 0; i < obj.length; i++) {
+                CollarJson[i] = { CollarId: obj[i].CollarId, Date: obj[i].Date }
+                CollarEntityJson = {
+                    CollarEngineering: obj[0].CollarEngineering,
+                    DepartmentId: obj[0].DepartmentId,
+                    ShippingAddress: obj[0].ShippingAddress,
+                    Date: queryJson["BeginTime"] + "——" + queryJson["EndTime"],
+                }
+            }
+        } //end
+
+
+        //验证
+        if (queryJson["BeginTime"] == "" || queryJson["BeginTime"] == null) {
+            dialogMsg("开始时间不能为空", 0);
+            return false;
+        }
+        if (queryJson["EndTime"] == "" || queryJson["EndTime"] == null) {
+            dialogMsg("结束时间不能为空", 0);
+            return false;
+        }
+        if (queryJson["condition"] != "CollarEngineering") {
+            dialogMsg("请把选择条件改为“项目名称”", 0);
+            return false;
+        }
+        if (queryJson["CollarEngineering"] == "" || queryJson["CollarEngineering"] == null) {
+            dialogMsg("项目名称不能空", 0);
+            return false;
+        }
+        if (queryJson["DepartmentId"] == "" || queryJson["DepartmentId"] == null) {
+            dialogMsg("收货单位不能为空", 0);
+            return false;
+        }
+        if (queryJson["ShippingAddress"] == "" || queryJson["ShippingAddress"] == null) {
+            dialogMsg("收货地址不能为空", 0);
+            return false;
+        }
+        if (CollarJson == []) {
+            dialogMsg("数据为空，请修改查询条件", 0);
+            return false;
+        }
+
+        dialogOpen({
+            id: 'QuantitySummary',
+            title: '汇总表',
+            url: '/SteelMember/MemberWarehouse/QuantitySummary?CollarEntityJson=' + escape(JSON.stringify(CollarEntityJson)) + '&CollarJson=' + escape(JSON.stringify(CollarJson)),
+            //width: '1150px',
+            //height: '800px',
+            width: '1100px',
+            height: '760px',
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null
+        });
+    }
+</script>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="panel-Title">出库信息</div>
+            <div class="titlePanel">
+                <div class="title-search">
+                    <table>
+                        <tr>
+                            <td style="padding-left: 5px;width:110px">
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()"/>
+                            </td>
+
+                            <td style="padding-left: 2px;width:110px">
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()"/>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div id="queryCondition" class="btn-group">
+                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        
+                                        <li><a data-value="CollarEngineering">项目名称</a></li>
+                                        <li><a data-value="CollarNumbering">单号</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="padding-left: 2px;width:110px">
+                                <input id="txt_Keyword"  type="text" class="form-control" placeholder="输入要查询关键字" />
+                            </td>
+                            <td style="padding-left: 10px;width:120px">
+                                <input id="txt_DepartmentId" type="text" class="form-control" placeholder="输入收货单位名称" />
+                            </td>
+                            <td style="padding-left: 10px;width:120px">
+                                <input id="txt_ShippingAddress" type="text" class="form-control" placeholder="输入收货地址" />
+                            </td>
+                            <td style="padding-left: 5px;">
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                                <a id="lr-Summary" class="btn btn-primary" onclick="btn_Summary()"><i class="fa fa-list-alt"></i>汇总</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        @*<a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>导出</a>*@
+                        <a id="lr-Detail" class="btn btn-default" onclick="btn_Detail()"><i class="fa fa-list-alt"></i>详细</a>
+                      
+                    </div>
+                    @*<div class="btn-group">
+                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </div>*@
+                </div>
+            </div>
+            <div class="gridPanel">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+    </div>
+</div>

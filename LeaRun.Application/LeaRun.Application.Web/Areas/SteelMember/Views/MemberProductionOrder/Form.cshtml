@@ -18,76 +18,103 @@
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $('#gridTable').setGridHeight($(window).height() - 240.5);
+                $('#gridTable').setGridHeight($(window).height() - 250.5);
             }, 200);
             e.stopPropagation();
-        });       
+        });
     }
     //加载明细表
     function GetOrderEntryGrid() {
         var $grid = $('#gridTable');
         $grid.jqGrid({
+            unwritten: false,
             datatype: 'local',
-            height: $(window).height() - 240.5,
+            height: $(window).height() - 250.5,
             autowidth: true,
             colModel: [
-                { label: '构件编号[<font face="宋体">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                { label: '构件编号[<font face="宋体" color="red">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
                 { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
-                { label: '构件型号', name: "MemberModel", align: ' center', width: 100, sortable: false },
-                { label: '单位', name: "MemberUnit", align: ' center', width: 80, sortable: false, align: 'center' },
-                { label: '生产数量[<font face="宋体">*</font>]', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
-                { label: '单价[<font face="宋体">*</font>]', name: 'Price', align: ' center', width: 80, sortable: false },
-                { label: '金额[<font face="宋体">*</font>]', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
-                { label: 'InfoId', name: 'InfoId', width: 80, align: '', sortable: false, resizable: false, hidden: true },
+                { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false, align: 'center' },
+                { label: '生产数量[<font face="宋体" color="red">*</font>]', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
+                //{ label: '单价[<font face="宋体" color="red">*</font>]', name: 'Price', align: ' center', width: 80, sortable: false },
+                //{ label: '金额[<font face="宋体" color="red">*</font>]', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
+                { label: 'InfoId', name: 'InfoId',  align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'MemberId', name: 'MemberId', align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'MemberDemandId', name: 'MemberDemandId', align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'MaxNumber', name: 'MaxNumber',  align: '', sortable: false, resizable: false, hidden: true },
             ],
             pager: false,
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
-            footerrow: true,
+            footerrow: false,
             gridComplete: function () {
-                //合计
-                $(this).footerData("set", {
-                    "MemberNumbering": "合计",
-                    "ProductionQuantity": "<span id='TotalQty'>0</span>",
-                    "Price": "<span id='TotalPrice'>0.00</span>",
-                    "PriceAmount": "<span id='TotalPriceAmount'>0.00</span>",
-                    //"PlusPrice": "<span id='TotalPlusPrice'>0.00</span>",
-                    //"CESSAmount": "<span id='TotalCESSAmount'>0.00</span>",
-                    //"PlusPriceAmount": "<span id='TotalPlusPriceAmount'>0.00</span>"
-                });
+                ////合计
+                //$(this).footerData("set", {
+                //    "MemberNumbering": "合计",
+                //    "MemberNumber": "<span id='TotalQty'>0</span>",
+                //    "Price": "<span id='TotalPrice'>0.00</span>",
+                //    "PriceAmount": "<span id='TotalPriceAmount'>0.00</span>",
+                //});
             },
-            ondblclick: function (rowid, e) {
-                var selectedId = $("#gridTable").jqGrid("getGridParam", "selrow");
-                $("#gridTable").jqGrid("delRowData", selectedId);
-            }
+            //ondblclick: function (rowid, e) {
+            //    var selectedId = $("#gridTable").jqGrid("getGridParam", "selrow");
+            //    $("#gridTable").jqGrid("delRowData", selectedId);
+            //}
         });
         //默认添加30行 空行
-        for (var i = 1; i <= 30; i++) {
+        for (var i = 1; i <17; i++) {
             var rowdata = {
-                MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="text" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
-                MemberName: '<input id="MemberName➩' + i + '" class="editable disabled" type="text" />',
-                MemberModel: '<input id="MemberModel➩' + i + '" class="editable disabled center" type="text" />',
-                MemberUnit: '<input id="MemberUnit➩' + i + '" class="editable disabled center" type="text" />',
-                MemberNumber: '<input name="MemberNumber" type="text" class="editable center" />',
-                Price: '<input id="Price➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
-                PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="text" datacol="No" err="金额" checkexpession="Double" />',
-                InfoId: '<input name="InfoId" type="text" class="editable center" />',
+                MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="form-control" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
+                MemberName: '<input id="MemberName➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
+                UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="form-control"disabled="disabled" />',
+                MemberNumber: '<input id="MemberNumber➩' + i + '" class="editable center" type="form-control" onkeyup="Conversion(' + i + ')" checkexpession="Number"/>',
+                //Price: '<input id="Price➩' + i + '" class="editable center" type="form-control" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
+                //PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="form-control" datacol="No" err="金额" checkexpession="Double" disabled="disabled"/>',
+                InfoId: '<input id="InfoId➩' + i + '" type="form-control" class="editable center" />',
+                MemberId: '<input id="MemberId➩' + i + '" type="form-control" class="editable center" />',
+                MemberDemandId: '<input id="MemberDemandId➩' + i + '" type="form-control" class="editable center" />',
+                MaxNumber: '<input id="MaxNumber➩' + i + '" type="form-control" class="editable center" />',
             }
             $grid.jqGrid('addRowData', i, rowdata);
         };
-        //金额设置居中、设置只能输入金额格式
-        $("#gridTable").find('.decimal').attr('onfocus', 'IsMoney(this.id)');
-        $("#gridTable").find('.center').css('text-align', 'center')
-        $("#gridTable").find('input').attr("disabled", "disabled");
-        $("#gridTable tbody tr:eq(1)").find('input').removeAttr('disabled').attr("datacol", "yes");
-        $("#gridTable").find('.disabled').attr("disabled", "disabled");
-        $('.jqgrid-rownum').attr('title', '双击清空一行');
+        ////金额设置居中、设置只能输入金额格式
+        //$("#gridTable").find('.decimal').attr('onfocus', 'IsMoney(this.id)');
+        //$("#gridTable").find('.center').css('text-align', 'center')
+        //$("#gridTable").find('input').attr("disabled", "disabled");
+        //for (var i = 1; i < 31; i++) {
+        //    $("#gridTable tbody tr:eq("+i+")").find('input').removeAttr('disabled').attr("datacol", "yes");
+        //}
+        //$("#gridTable").find('.disabled').attr("disabled", "disabled");
+        //$('.jqgrid-rownum').attr('title', '双击清空一行');
         //点击物料编码文本框时间，弹出选择物料信息
         $("#gridTable tbody tr").find('td:eq(1)').find('input').click(function () {
             var _category = $("#Category").attr('data-value');
             if (_category == undefined || _category == "" || _category == null) {
                 dialogTop("请选择工程名称", "error");
+                return false;
+            }
+            var _DepartmentId = $("#DepartmentId").attr('data-value');
+            if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
+                dialogMsg('请选择申购部门！', 0);
+                return false;
+            }
+
+            var _ShippingAddress = $("#ShippingAddress").val();
+            if (_ShippingAddress == undefined || _ShippingAddress == "" || _ShippingAddress == null) {
+                dialogMsg('请录入收货地址！', 0);
+                return false;
+            }
+
+            var _ContactPerson = $("#ContactPerson").val();
+            if (_ContactPerson == undefined || _ContactPerson == "" || _ContactPerson == null) {
+                dialogMsg('请录入联系人！', 0);
+                return false;
+            }
+
+            var _ContactPersonTel = $("#ContactPersonTel").val();
+            if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
+                dialogMsg('请录入联系人电话！', 0);
                 return false;
             }
             if ($(this).attr('disabled') == 'disabled') {
@@ -138,74 +165,75 @@
     }
     //采购订单明细换算+合计
     function Conversion(index) {
-        //alert(index);
         var MaxNumber = Number($("#MaxNumber➩" + index).val());
         var Qty = Number($("#MemberNumber➩" + index).val());//数量
-        if (Qty > MaxNumber) {
-            tipDialog("您的输入不能超过" + MaxNumber, 2)
+
+        if (Qty > MaxNumber) {//dialogMsg
+            dialogMsg("您的输入不能超过" + MaxNumber, 1)
             $("#MemberNumber➩" + index).val(MaxNumber);
             return
         }
-        var Price = $("#Price➩" + index).val();                            //单价
-        var PriceAmount = $("#PriceAmount➩" + index).val();                //金额
-        //var PlusPrice = $("#PlusPrice➩" + index).val();                    //含税单价
-        //var CESS = $("#CESS➩" + index).val();                              //税率(%)
-        //var CESSAmount = $("#CESSAmount➩" + index).val();                  //税额
-        //var PlusPriceAmount = $("#PlusPriceAmount➩" + index).val();        //含税金额
-        //数量*单价=金额
-        alert(MaxNumber);
-        alert(Qty);
-        alert(Price);
-        alert(Qty * Price);
-        $("#PriceAmount➩" + index).val(FormatCurrency(Qty * Price));
-        ////单价 * (1 + (税率 / 100))=含税单价
-        //$("#PlusPrice➩" + index).val(FormatCurrency(Price * (1 + (CESS / 100))));
-        ////(含税单价-单价)*数量=税额
-        //$("#CESSAmount➩" + index).val(FormatCurrency(($("#PlusPrice➩" + index).val() - Price) * Qty));
-        ////数量*含税单价=含税金额
-        //$("#PlusPriceAmount➩" + index).val(FormatCurrency(Qty * $("#PlusPrice➩" + index).val()));
+        //var Price = $("#Price➩" + index).val();                            //单价
+        //var PriceAmount = $("#PriceAmount➩" + index).val();                //金额
+        ////数量*单价=金额
+        //$("#PriceAmount➩" + index).val(FormatCurrency(Qty * Price));
+
         //统计合计
         var TotalQty = 0, TotalPrice = 0.00, TotalPriceAmount = 0.00, TotalPlusPrice = 0.00, TotalCESSAmount = 0.00, TotalPlusPriceAmount = 0.00;
         $("#gridTable tbody tr").each(function (i) {
-            var Qty = $(this).find('td:eq(5)').find('input').val();
+            var Qty = $(this).find('td:eq(4)').find('input').val();
             if (Qty != "" && Qty != undefined) {
                 TotalQty += Number(Qty);
             }
-            var Price = $(this).find('td:eq(6)').find('input').val();
-            if (Price != "" && Qty != undefined) {
-                TotalPrice += Number(Price);
-            }
-            var PriceAmount = $(this).find('td:eq(7)').find('input').val();
-            if (PriceAmount != "" && Qty != undefined) {
-                TotalPriceAmount += Number(PriceAmount);
-            }
-            var PlusPrice = $(this).find('td:eq(8)').find('input').val();
-            if (PlusPrice != "" && Qty != undefined) {
-                TotalPlusPrice += Number(PlusPrice);
-            }
-            var CESSAmount = $(this).find('td:eq(10)').find('input').val();
-            if (CESSAmount != "" && Qty != undefined) {
-                TotalCESSAmount += Number(CESSAmount);
-            }
-            var PlusPriceAmount = $(this).find('td:eq(11)').find('input').val();
-            if (PlusPriceAmount != "" && Qty != undefined) {
-                TotalPlusPriceAmount += Number(PlusPriceAmount);
-            }
+            //var Price = $(this).find('td:eq(5)').find('input').val();
+            //if (Price != "" && Qty != undefined) {
+            //    TotalPrice += Number(Price);
+            //}
+            //var PriceAmount = $(this).find('td:eq(6)').find('input').val();
+            //if (PriceAmount != "" && Qty != undefined) {
+            //    TotalPriceAmount += Number(PriceAmount);
+            //}
         });
         $("#TotalQty").text(TotalQty);
-        $("#TotalPrice").text(FormatCurrency(TotalPrice));
-        $("#TotalPriceAmount").text(FormatCurrency(TotalPriceAmount));
-        //$("#TotalPlusPrice").text(FormatCurrency(TotalPlusPrice));
-        //$("#TotalCESSAmount").text(FormatCurrency(TotalCESSAmount));
-        //$("#TotalPlusPriceAmount").text(FormatCurrency(TotalPlusPriceAmount));
+        //$("#TotalPrice").text(FormatCurrency(TotalPrice));
+        //$("#TotalPriceAmount").text(FormatCurrency(TotalPriceAmount));
     }
 
 
     //初始化控件
     function initControl() {
+        $("#DepartmentId").ComboBoxTree({
+            description: "==请选择==",
+        });
+
+        $("#Category").ComboBoxTree({
+            param: { Levels: 3 },
+            url: "../../SteelMember/SubProject/GetTreeJson",
+            description: "==请选择==",
+            allowSearch: true
+
+        });
+        //公司
+        $("#OrganizeId").ComboBoxTree({
+            url: "../../BaseManage/Organize/GetTreeJson",
+            description: "==请选择==",
+            height: "200px",
+            allowSearch: true,
+        }).bind("change", function () {
+
+            var value = $(this).attr('data-value');
+
+            //加载部门
+            $("#DepartmentId").ComboBoxTree({
+                url: "../../BaseManage/Department/GetTreeJson?organizeId=" + value,
+                description: "==请选择==",
+                allowSearch: true
+            });
+        });
+
         //工程
         $("#Category").ComboBoxTree({
-            param: { Levels: 2 },
+            param: { Levels: 3 },
             url: "../../SteelMember/SubProject/GetTreeJson",
             description: "==请选择==",
             height: "150px",
@@ -225,14 +253,46 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data.entity);
+
+                    //加载部门
+                    $("#DepartmentId").ComboBoxTree({
+                        url: "../../BaseManage/Department/GetTreeJson?organizeId=" + data.entity.OrganizeId,
+                        description: "==请选择==",
+                        allowSearch: true
+                    });
+                    $("#DepartmentId").ComboBoxTreeSetValue(data.entity.DepartmentId);
+
                     //明细
+                    var number = "";
                     var childEntity = data.childEntity;
                     $('#gridTable').find('[role=row]').each(function (i) {
                         var row = childEntity[i - 1];
                         if (row != undefined) {
-                            $(this).find('input[name="InfoId"]').val(row.InfoId);
-                            $(this).find('input[name="OrderId"]').val(row.OrderId);
-                            $(this).find('input[name="ProductionQuantity"]').val(row.ProductionQuantity);
+                            $(this).find('input[id="InfoId➩' + i + '"]').val(row.InfoId);
+                            //$(this).find('input[id="OrderId➩' + i + '"]').val(row.OrderId);
+                            $(this).find('input[id="MemberId➩' + i + '"]').val(row.MemberId);
+                            $(this).find('input[id="MemberDemandId➩' + i + '"]').val(row.MemberDemandId);
+                            $(this).find('input[id="MemberNumbering➩' + i + '"]').val(row.MemberNumbering);
+                            $(this).find('input[id="MemberName➩' + i + '"]').val(row.MemberName);
+                            $(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
+                            $(this).find('input[id="MemberNumber➩' + i + '"]').val(row.MemberNumber);
+
+                            $.ajax({
+                                type: 'post',
+                                dataType: "json",
+                                url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
+                                data: {
+                                    category: data.entity.Category,
+                                    KeyValue: row.MemberId
+                                },
+                                cache: false,
+                                async: false,
+                                success: function (data) {
+                                    number = data;
+                                }
+
+                            });
+                            $(this).find('input[id="MaxNumber➩' + i + '"]').val(Number(number) + Number(row.MemberNumber));
                         }
                     });
                 }
@@ -247,13 +307,15 @@
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
+        postData["CategoryName"] = $("#Category").attr('data-text');
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
-            if (!!$(this).find('input[name="OrderId"]').val()) {
+            if (!!$(this).find('input[id="MemberNumbering➩' + i + '"]').val()) {
                 childEntryJson.push({
-                    InfoId: $(this).find('input[name="InfoId"]').val(),
-                    OrderId: $(this).find('input[name="OrderId"]').val(),
-                    ProductionQuantity: $(this).find('input[name="ProductionQuantity"]').val(),
+                    InfoId: $(this).find('input[id="InfoId➩' + i + '"]').val(),
+                    MemberDemandId: $(this).find('input[id="MemberDemandId➩' + i + '"]').val(),
+                    MemberId: $(this).find('input[id="MemberId➩' + i + '"]').val(),
+                    ProductionQuantity: $(this).find('input[id="MemberNumber➩' + i + '"]').val(),
                 });
             }
         });
@@ -269,80 +331,90 @@
 
 </script>
 <div class="bills">
-    <div style="height:180px;overflow-y:auto;padding:10px 40px 10px 10px;">
-        <table class="bill" style="width: 100%;">
-            <tr>
-                <td align="center" colspan="8">
-                    <div style="font-family: 华文楷体; font-size: x-large; height: 50px; line-height: 50px;">
-                        构件生产订单&nbsp;
-                        @*<img src="../../Content/Images/billstatis1.png" style="vertical-align: middle;" />*@
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    订单编号：
-                </th>
-                <td>
-                    <input readonly id="OrderId" type="text" class="txt" datacol="yes" err="订单编号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" style="width: 95%" />
-                </td>
-                <th>
-                    制单员：
-                </th>
-                <td>
-                    <input readonly id="CreateMan" type="text" class="txt" style="width: 95%" value="@userName" />
-                </td>
-                <th>
-                    制单日期：
-                </th>
-                <td>
-                    <input id="CreateTime" type="text" class="txt" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" style="width: 95%" />
-                </td>
-            </tr>
-            <tr style="height:5px;"></tr>
-            <tr>
-                <th>
-                    所属工程[<font face="宋体" color="red">*</font>]：
-                </th>
-                <td class="formValue">
-                    <div id="Category" type="selectTree" class="ui-select" style="width: 95%" isvalid="yes" checkexpession="NotNull"></div>
-                </td>
-                <th>
-                    生产优先级：
-                </th>
-                <td>
-                    <select id="Priority" datacol="yes" err="生产优先级" class="form-control" checkexpession="NotNull" style="width: 95%">
-                        <option value="0">正常</option>
-                        <option value="1">加急</option>
-                    </select>
-                </td>
-                <th>
-                    工程专用：
-                </th>
-                <td>
-                    <select id="IsDddicated" datacol="yes" err="工程专用" class="form-control" checkexpession="NotNull" style="width: 95%">
-                        <option value="0">否</option>
-                        <option value="1">是</option>
-                    </select>
-                </td>
-            </tr>
-            <tr style="height:5px;"></tr>
-            <tr>
-                <th>
-                    备注：
-                </th>
-                <td colspan="7">
-                    <input id="Description" type="text" class="txt" style="width:99%" value="@ViewBag.Description" />
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="gridPanel">
+    <p style="font-family: 华文楷体; font-size:14pt;text-align:center"> 云南交投建设集团第十工程有限公司</p>
+    <p style="font-family: 华文楷体; font-size:20pt;text-align:center"> 构件生产申请单</p>
+    <table class="form" style="width:100%;">
+        <tr>
+            <th class="formTitle">
+                项目名称：<font face="宋体" color="red">*</font>
+            </th>
+            <td class="formValue">
+                <div id="Category" type="selectTree" class="ui-select" style="width:100%" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+            <th class="formTitle">
+                申请部门：<font face="宋体" color="red">*</font>
+            </th>
+            <td class="formValue">
+                <div id="OrganizeId" type="selectTree" class="ui-select" style="width: 43%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—
+                <div id="DepartmentId" type="selectTree" class="ui-select" style="width: 43%;float:right" isvalid="yes" checkexpession="NotNull"></div>
+
+            </td>
+            <th class="formTitle">
+                单号：
+            </th>
+            <td class="formValue">
+                <input readonly id="OrderNumbering" type="text" class="form-control" datacol="yes" err="单号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" style="width: 100%" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                收货地址：<font face="宋体" color="red">*</font>
+            </th>
+            <td class="formValue">
+                <input id="ShippingAddress" type="text" class="form-control" style="width:100%" datacol="yes" checkexpession="NotNull" />
+            </td>
+            <th class="formTitle">
+                联系人：<font face="宋体" color="red">*</font>
+            </th>
+            <td class="formValue">
+                <input id="ContactPerson" type="text" class="form-control" style="width:100%" datacol="yes" checkexpession="NotNull" />
+            </td>
+            <th class="formTitle">
+                电话：<font face="宋体" color="red">*</font>
+            </th>
+            <td class="formValue">
+                <input id="ContactPersonTel" type="text" class="form-control" style="width: 100%" datacol="yes" checkexpession="Phone" />
+            </td>
+
+        </tr>
+        <tr>
+            <th class="formTitle">
+                生产优先级：
+            </th>
+            <td class="formValue">
+                <select id="Priority" datacol="yes" err="生产优先级" class="form-control" checkexpession="NotNull" style="width: 100%">
+                    <option value="0">正常</option>
+                    <option value="1">加急</option>
+                </select>
+            </td>
+            <th class="formTitle">
+                工程专用：
+            </th>
+            <td class="formValue">
+                <select id="IsDedicated" datacol="yes" err="工程专用" class="form-control" checkexpession="NotNull" style="width: 100%">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </td>
+            <th class="formTitle">
+                制单日期：
+            </th>
+            <td class="formValue">
+                <input id="CreateTime" type="text" class="form-control" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" style="width: 100%" />
+            </td>
+        </tr>
+    </table>
+
+    <div class="gridPanel printArea">
         <table id="gridTable"></table>
     </div>
 </div>
 <style>
-    body {
+    .form .formTitle {
+        width: 65px;
+    }
+
+    /*body {
         margin: 0px;
     }
 
@@ -379,5 +451,5 @@
         border-left: 0px;
         border-right: 0px;
         border-bottom: 0px;
-    }
+    }*/
 </style>

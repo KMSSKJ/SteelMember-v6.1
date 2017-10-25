@@ -41,6 +41,11 @@ namespace LeaRun.Application.Busines.SystemManage
         {
             return service.GetEntity(keyValue);
         }
+        
+        public List< DataItemDetailEntity> GetByParentToItemIdIdList(string itemId)
+        {
+            return service.GetByParentToItemIdIdList(itemId);
+        }
         /// <summary>
         /// 数据字典列表
         /// </summary>
@@ -106,6 +111,26 @@ namespace LeaRun.Application.Busines.SystemManage
                 dataItemDetailEntity.SimpleSpelling = Str.PinYin(dataItemDetailEntity.ItemName);
                 service.SaveForm(keyValue, dataItemDetailEntity);
                 CacheFactory.Cache().RemoveCache(cacheKey);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 保存明细表单（新增、修改）并返回主键
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="dataItemDetailEntity">明细实体</param>
+        /// <returns></returns>
+        public string ReturnSaveForm(string keyValue, DataItemDetailEntity dataItemDetailEntity)
+        {
+            try
+            {
+                dataItemDetailEntity.SimpleSpelling = Str.PinYin(dataItemDetailEntity.ItemName);
+                var data=service.ReturnSaveForm(keyValue, dataItemDetailEntity);
+                CacheFactory.Cache().RemoveCache(cacheKey);
+                return data;
             }
             catch (Exception)
             {

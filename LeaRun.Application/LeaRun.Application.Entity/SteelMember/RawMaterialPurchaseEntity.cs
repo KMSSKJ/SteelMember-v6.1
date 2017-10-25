@@ -7,7 +7,7 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-08 11:58
-    /// 描 述：原材料采购管理
+    /// 描 述：材料采购管理
     /// </summary>
     public class RawMaterialPurchaseEntity : BaseEntity
     {
@@ -19,11 +19,12 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("RAWMATERIALPURCHASEID")]
         public string RawMaterialPurchaseId { get; set; }
         /// <summary>
-        /// 工程
+        /// 采购单号
         /// </summary>
         /// <returns></returns>
-        [Column("CATEGORY")]
-        public string Category { get; set; }
+        [Column("PURCHASENUMBERING")]
+        public string PurchaseNumbering { get; set; }
+       
         /// <summary>
         /// 提交
         /// </summary>
@@ -36,6 +37,17 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("ISPASSED")]
         public int? IsPassed { get; set; }
+        /// <summary>
+        /// 采购
+        /// </summary>
+        /// <returns></returns>
+        [Column("ISPURCHASE")]
+        public int? IsPurchase { get; set; }
+        /// <summary>
+        /// 入库
+        /// </summary>
+        [Column("ISWAREHOUSING")]
+        public int? IsWarehousing { get; set; }
         /// <summary>
         /// 制单人
         /// </summary>
@@ -60,12 +72,26 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("REVIEWTIME")]
         public DateTime? ReviewTime { get; set; }
+
         /// <summary>
-        /// 备注
+        /// 
         /// </summary>
         /// <returns></returns>
         [Column("DESCRIPTION")]
         public string Description { get; set; }
+        ///// <summary>
+        /////组织ID
+        ///// </summary>
+        ///// <returns></returns>
+        //[Column("ORGANIZEID")]
+        //public string OrganizeId { get; set; }
+
+        ///// <summary>
+        ///// 部门ID
+        ///// </summary>
+        ///// <returns></returns>
+        //[Column("DEPARTMENTID")]
+        //public string DepartmentId { get; set; }
         #endregion
 
         #region 扩展操作

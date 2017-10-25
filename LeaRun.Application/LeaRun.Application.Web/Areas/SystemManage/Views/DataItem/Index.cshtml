@@ -29,9 +29,9 @@
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'ItemId', hidden: true },
-                { label: '名称', name: 'ItemName', index: 'ItemName', width: 200, align: 'left' },
-                { label: '编号', name: 'ItemCode', index: 'ItemCode', width: 200, align: 'left' },
-                { label: '排序', name: 'SortCode', index: 'SortCode', width: 80, align: 'left' },
+                { label: '名称', name: 'ItemName', index: 'ItemName', width: 200, align: 'center' },
+                { label: '编号', name: 'ItemCode', index: 'ItemCode', width: 200, align: 'center' },
+                { label: '排序', name: 'SortCode', index: 'SortCode', width: 80, align: 'center' },
                 {
                     label: "树型", name: "IsTree", index: "IsTree", width: 50, align: "center",
                     formatter: function (cellvalue) {
@@ -44,7 +44,7 @@
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
-                { label: "备注", name: "Description", index: "Description", width: 200, align: "left" }
+                { label: "备注", name: "Description", index: "Description", width: 200, align: "center" }
             ],
             treeGrid: true,
             treeGridModel: "nested",

@@ -9,7 +9,7 @@ namespace LeaRun.Application.IService.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 22:03
-    /// 描 述：原材料分析
+    /// 描 述：材料分析
     /// </summary>
     public interface RawMaterialAnalysisIService:IBaseService<RawMaterialAnalysisEntity>
     {
@@ -21,6 +21,8 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
         List<RawMaterialAnalysisEntity> GetPageList(Pagination pagination, string queryJson);
+
+        List<RawMaterialAnalysisEntity> GetPageList1(Expression<Func<RawMaterialAnalysisEntity, bool>> condition, Pagination pagination);
         /// <summary>
         /// 获取列表
         /// </summary>

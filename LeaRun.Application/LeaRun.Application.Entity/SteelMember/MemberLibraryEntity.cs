@@ -1,5 +1,7 @@
 using System;
 using LeaRun.Application.Code;
+using System.Collections.Generic;
+using LeaRun.Application.Entity.SystemManage;
 
 namespace LeaRun.Application.Entity.SteelMember
 {
@@ -25,7 +27,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// SubProjectId
         /// </summary>
         /// <returns></returns>
-        public string SubProjectId { get; set; }
+        public string EngineeringId { get; set; }
         /// <summary>
         /// Category
         /// </summary>
@@ -37,25 +39,21 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string MemberName { get; set; }
         /// <summary>
-        /// MemberModel
-        /// </summary>
-        /// <returns></returns>
-        public string MemberModel { get; set; }
-        /// <summary>
         /// MemberNumbering
         /// </summary>
         /// <returns></returns>
         public string MemberNumbering { get; set; }
         /// <summary>
-        /// MemberUnit
+        /// 构件单位
         /// </summary>
-        /// <returns></returns>
-        public string MemberUnit { get; set; }
+        public string UnitId { get; set; }
+        //CONSTRAINT[FK_RMC_MemberLibrary_Base_DataItemDetail_UnitId] FOREIGN KEY([UnitId]) REFERENCES[Base_DataItemDetail] ([ItemDetailId])
+     
         /// <summary>
         /// UnitPrice
         /// </summary>
         /// <returns></returns>
-        public string UnitPrice { get; set; }
+        public decimal? UnitPrice { get; set; }
         /// <summary>
         /// CAD_Drawing
         /// </summary>
@@ -101,6 +99,15 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string FullPath { get; set; }
+        /// <summary>
+        /// 理论重量
+        /// </summary>
+        /// <returns></returns>
+        public decimal? MemberWeight { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Description { get; set; }
         #endregion
 
         #region 扩展操作

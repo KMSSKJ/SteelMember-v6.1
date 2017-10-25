@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LeaRunFramework_Base_2016Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="LeaRunFramework_Base_2016Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="RMC_MemberLibrary" EntityType="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" />
+    <EntitySet Name="RMC_SubProject" EntityType="LeaRunFramework_Base_2016Model.RMC_SubProject" />
+    <AssociationSet Name="FK_RMC_MemberLibrary_RMC_SubProject" Association="LeaRunFramework_Base_2016Model.FK_RMC_MemberLibrary_RMC_SubProject">
+      <End Role="RMC_SubProject" EntitySet="RMC_SubProject" />
+      <End Role="RMC_MemberLibrary" EntitySet="RMC_MemberLibrary" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="RMC_MemberLibrary">
+    <Key>
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="MemberId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MarkId" Type="Int32" Nullable="false" />
+    <Property Name="EngineeringId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="MemberNumbering" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="UnitId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UnitPrice" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CAD_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Model_Drawing" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsRawMaterial" Type="Int32" />
+    <Property Name="IsProcess" Type="Int32" />
+    <Property Name="Icon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedTime" Type="DateTime" Precision="3" />
+    <Property Name="IsReview" Type="Int32" />
+    <Property Name="UploadTime" Type="DateTime" Precision="3" />
+    <Property Name="FullPath" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="MemberWeight" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Description" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="RMC_SubProject" Relationship="LeaRunFramework_Base_2016Model.FK_RMC_MemberLibrary_RMC_SubProject" FromRole="RMC_MemberLibrary" ToRole="RMC_SubProject" />
+  </EntityType>
+  <EntityType Name="RMC_SubProject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Levels" Type="Int32" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="RMC_MemberLibrary" Relationship="LeaRunFramework_Base_2016Model.FK_RMC_MemberLibrary_RMC_SubProject" FromRole="RMC_SubProject" ToRole="RMC_MemberLibrary" />
+  </EntityType>
+  <Association Name="FK_RMC_MemberLibrary_RMC_SubProject">
+    <End Type="LeaRunFramework_Base_2016Model.RMC_SubProject" Role="RMC_SubProject" Multiplicity="0..1" />
+    <End Type="LeaRunFramework_Base_2016Model.RMC_MemberLibrary" Role="RMC_MemberLibrary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RMC_SubProject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RMC_MemberLibrary">
+        <PropertyRef Name="Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

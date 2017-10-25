@@ -11,7 +11,7 @@ namespace LeaRun.Application.Busines.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 22:03
-    /// 描 述：原材料分析
+    /// 描 述：材料分析
     /// </summary>
     public class RawMaterialAnalysisBLL
     {
@@ -28,12 +28,16 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetPageList(pagination, queryJson);
         }
+        public List<RawMaterialAnalysisEntity> GetPageList1(Expression<Func<RawMaterialAnalysisEntity, bool>> condition,Pagination pagination)
+        {
+            return service.GetPageList1(condition, pagination);
+        }
         /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="condition">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<RawMaterialAnalysisEntity> GetList(Expression<Func<RawMaterialAnalysisEntity, bool>> condition)
+        public List<RawMaterialAnalysisEntity> GetList(Expression<Func<RawMaterialAnalysisEntity, bool>> condition)
         {
             return service.GetList(condition);
         }

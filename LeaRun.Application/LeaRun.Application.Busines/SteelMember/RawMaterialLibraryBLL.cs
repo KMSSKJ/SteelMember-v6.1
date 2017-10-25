@@ -11,7 +11,7 @@ namespace LeaRun.Application.Busines.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 10:42
-    /// 描 述：原材料管理
+    /// 描 述：材料管理
     /// </summary>
     public class RawMaterialLibraryBLL
     {
@@ -31,9 +31,18 @@ namespace LeaRun.Application.Busines.SteelMember
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<RawMaterialLibraryEntity> GetList(Pagination pagination, string queryJson)
+        public IEnumerable<RawMaterialLibraryEntity> GetPageList(Pagination pagination, string queryJson)
         {
             return service.GetPageList(pagination, queryJson);
+        }
+        /// <summary>
+        /// 模糊查询(Category)
+        /// </summary>
+        /// <param name="category">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<RawMaterialLibraryEntity> GetPageListByLikeCategory(Pagination pagination, string category)
+        {
+            return service.GetPageListByLikeCategory(pagination, category);
         }
         /// <summary>
         /// 获取实体
@@ -43,6 +52,16 @@ namespace LeaRun.Application.Busines.SteelMember
         public RawMaterialLibraryEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
+        }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        public RawMaterialLibraryEntity GetEntity(Expression<Func<RawMaterialLibraryEntity,bool>>condition)
+        {
+            return service.GetEntity(condition);
         }
         #endregion
 
@@ -99,9 +118,9 @@ namespace LeaRun.Application.Busines.SteelMember
         /// <summary>
         /// 名称不能重复
         /// </summary>
-        public bool ExistFullName(string FullName, string category, string keyValue = "")
+        public bool ExistFullName(string FullName, string RawMaterialName,string category, string keyValue = "")
         {
-            return service.Exist(FullName, category, keyValue);
+            return service.Exist(FullName, RawMaterialName, category, keyValue);
         }
         #endregion
     }

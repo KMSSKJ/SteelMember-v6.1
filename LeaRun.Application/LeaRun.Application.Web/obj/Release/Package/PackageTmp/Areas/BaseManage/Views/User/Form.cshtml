@@ -2,16 +2,37 @@
     ViewBag.Title = "用户管理";
     Layout = "~/Views/Shared/_FlowForm.cshtml";
 }
+
+<script src="~/Content/scripts/plugins/uploadify/ajaxfileupload.js"></script>
 <script>
     var keyValue = request('keyValue');
     var instanceId = "";
     var formId = "";
+    var headIcon = "";
     $(function () {
         initControl();
     })
     //初始化控件
     function initControl() {
-        //公司
+        $('#uploadFile').change(function () {
+            var f = document.getElementById('uploadFile').files[0]
+            var src = window.URL.createObjectURL(f);
+            //document.getElementById('uploadPreview').src = src;
+            document.getElementById('checkimg').style.display = "none";
+            //上传应用图标
+            $.ajaxFileUpload({
+                url: "/User/UploadFile?id=" + keyValue,
+                secureuri: false,
+                fileElementId: 'uploadFile',
+                dataType: 'json',
+                success: function (data) {
+                    document.getElementById('uploadPreview').src = data.message;
+                    headIcon = data.message;
+                }
+            });
+        });
+
+        //单位
         $("#OrganizeId").ComboBoxTree({
             url: "../../BaseManage/Organize/GetTreeJson",
             description: "==请选择==",
@@ -128,12 +149,19 @@
                     $("#ManagerId").ComboBoxSetValue(data.ManagerId);
                     $("#Birthday").val(formatDate(data.Birthday, "yyyy-MM-dd"));
                     $("#Password").val("******").attr('disabled', 'disabled');
+                    if (data.HeadIcon) {
+                        document.getElementById('uploadPreview').src = top.contentPath + data.HeadIcon;
+                    }
                 }
             });
         }
     }
     //保存表单
     function AcceptClick() {
+        if ($('#uploadFile').val().length == 0) {
+            document.getElementById('checkimg').style.display = "block";
+            return false;
+        }
         if (!$('#form1').Validform()) {
             return false;
         }
@@ -141,6 +169,7 @@
         postData["DutyName"] = $("#DutyId").attr('data-text');
         postData["PostName"] = $("#PostId").attr('data-text');
         postData["Manager"] = $("#ManagerId").attr('data-text');
+        postData["HeadIcon"] = headIcon;
         if (postData["Birthday"] == "&nbsp;") {
             postData["Birthday"] = "";
         }
@@ -158,13 +187,24 @@
     }
 </script>
 <div style="margin-left: 10px; margin-right: 10px;">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#BaseInfo" data-toggle="tab">基本信息</a></li>
-        <li><a href="#ExpandInfo" data-toggle="tab">扩展属性</a></li>
-    </ul>
+    @*<ul class="nav nav-tabs">
+            <li class="active"><a href="#BaseInfo" data-toggle="tab">基本信息</a></li>
+            <li><a href="#ExpandInfo" data-toggle="tab">扩展属性</a></li>
+        </ul>*@
     <div class="tab-content" style="padding-top: 15px;">
         <div id="BaseInfo" class="tab-pane active" style=" padding-right: 30px;">
             <table class="form">
+                <tr>
+                    <td class="formTitle">头像<font face="宋体">*</font></td>
+                    <td class="formValue">
+                        <div class="file" style="margin-left:70px; width: 100px; height: 100px;">
+                            <img id="uploadPreview" style="width: 100px; height: 100px; border-radius: 100px;" src="~/Content/images/logo-headere47d5.png" />
+                            <input type="file" name="uploadFile" id="uploadFile">
+                        </div><span id="checkimg" style="display:none;color:red;float:right;margin-top:80px;">请选择图片</span>
+                    </td>
+                    <td style="width: 80px;"></td>
+                    <td style="line-height: 14px; color: #75777A; text-align: center;">建议上传图片尺寸为100x100，大小不超过2M。</td>
+                </tr>
                 <tr>
                     <td class="formTitle">账户<font face="宋体">*</font></td>
                     <td class="formValue">
@@ -176,7 +216,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle">公司<font face="宋体">*</font></td>
+                    <td class="formTitle">单位<font face="宋体">*</font></td>
                     <td class="formValue">
                         <div id="OrganizeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
@@ -208,7 +248,8 @@
                 <tr>
                     <td class="formTitle">工号</td>
                     <td class="formValue">
-                        <input id="EnCode" type="text" class="form-control" /></td>
+                        <input id="EnCode" type="text" class="form-control" />
+                    </td>
                     <td class="formTitle">姓名</td>
                     <td class="formValue">
                         <input id="RealName" type="text" class="form-control" />
@@ -232,30 +273,37 @@
                 <tr>
                     <td class="formTitle">手机</td>
                     <td class="formValue">
-                        <input id="Mobile" type="text" class="form-control" /></td>
+                        <input id="Mobile" type="text" class="form-control" />
+                    </td>
                     <td class="formTitle">电话</td>
                     <td class="formValue">
-                        <input id="Telephone" type="text" class="form-control" /></td>
+                        <input id="Telephone" type="text" class="form-control" />
+                    </td>
                 </tr>
                 <tr>
                     <td class="formTitle">邮箱</td>
                     <td class="formValue">
-                        <input id="Email" type="text" class="form-control" /></td>
+                        <input id="Email" type="text" class="form-control" />
+                    </td>
 
                     <td class="formTitle">微信</td>
                     <td class="formValue">
-                        <input id="WeChat" type="text" class="form-control" /></td>
+                        <input id="WeChat" type="text" class="form-control" />
+                    </td>
                 </tr>
                 <tr>
                     <td class="formTitle">QQ</td>
                     <td class="formValue">
-                        <input id="OICQ" type="text" class="form-control" /></td>
+                        <input id="OICQ" type="text" class="form-control" />
+                    </td>
                     <td class="formTitle">MSN</td>
                     <td class="formValue">
-                        <input id="" type="text" class="form-control" /></td>
+                        <input id="" type="text" class="form-control" />
+                    </td>
                 </tr>
                 <tr>
-                    <th class="formTitle" valign="top" style="padding-top: 4px;">备注
+                    <th class="formTitle" valign="top" style="padding-top: 4px;">
+                        备注
                     </th>
                     <td class="formValue" colspan="3">
                         <textarea id="Description" class="form-control" style="height: 50px;"></textarea>
@@ -263,9 +311,32 @@
                 </tr>
             </table>
         </div>
-        <div id="ExpandInfo" class="tab-pane ">
-            <div class="app_layout app_preview" style="border-top: 1px solid #ccc;" id="frmpreview"></div>
-        </div>
+        @*<div id="ExpandInfo" class="tab-pane ">
+                <div class="app_layout app_preview" style="border-top: 1px solid #ccc;" id="frmpreview"></div>
+            </div>*@
     </div>
 </div>
+<style>
+    .file {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        text-decoration: none;
+        text-indent: 0;
+        cursor: pointer !important;
+    }
 
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer !important;
+        }
+
+        .file:hover {
+            text-decoration: none;
+            cursor: pointer !important;
+        }
+</style>

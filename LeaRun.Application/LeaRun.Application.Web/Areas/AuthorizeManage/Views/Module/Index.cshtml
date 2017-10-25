@@ -52,9 +52,9 @@
             autowidth: true,
             colModel: [
                 { label: "主键", name: "ModuleId", index: "ModuleId", hidden: true },
-                { label: "编号", name: "EnCode", index: "EnCode", width: 150, align: "left" },
-                { label: "名称", name: "FullName", index: "FullName", width: 150, align: "left" },
-                { label: "地址", name: "UrlAddress", index: "UrlAddress", width: 350, align: "left" },
+                { label: "编号", name: "EnCode", index: "EnCode", width: 150, align: "center" },
+                { label: "名称", name: "FullName", index: "FullName", width: 150, align: "center" },
+                { label: "地址", name: "UrlAddress", index: "UrlAddress", width: 350, align: "center" },
                 { label: "目标", name: "Target", index: "Target", width: 60, align: "center" },
                 {
                     label: "菜单", name: "IsMenu", index: "IsMenu", width: 50, align: "center",
@@ -80,7 +80,7 @@
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
-                { label: "描述", name: "Description", index: "Description", width: 100, align: "left" }
+                { label: "描述", name: "Description", index: "Description", width: 100, align: "center" }
             ],
             pager: false,
             rowNum: "1000",

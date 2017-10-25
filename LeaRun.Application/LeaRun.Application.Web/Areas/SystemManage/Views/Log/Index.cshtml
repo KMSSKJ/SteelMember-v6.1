@@ -43,14 +43,14 @@
             colModel: [
                 { label: "主键", name: "LogId", hidden: true },
                 {
-                    label: "操作时间", name: "OperateTime", index: "OperateTime", width: 150, align: "left",
+                    label: "操作时间", name: "OperateTime", index: "OperateTime", width: 150, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd hh:mm:ss');
                     }
                 },
-                { label: "操作用户", name: "OperateAccount", index: "OperateAccount", width: 150, align: "left" },
-                { label: "IP地址", name: "IPAddress", index: "IPAddress", width: 150, align: "left" },
-                { label: "系统功能", name: "Module", index: "Module", width: 150, align: "left" },
+                { label: "操作用户", name: "OperateAccount", index: "OperateAccount", width: 150, align: "center" },
+                { label: "IP地址", name: "IPAddress", index: "IPAddress", width: 150, align: "center" },
+                { label: "系统功能", name: "Module", index: "Module", width: 150, align: "center" },
                 { label: "操作类型", name: "OperateType", index: "OperateType", width: 70, align: "center" },
                 {
                     label: "执行结果", name: "ExecuteResult", index: "ExecuteResult", width: 70, align: "center",
@@ -62,7 +62,7 @@
                         }
                     }
                 },
-                { label: "执行结果描述", name: "ExecuteResultJson", index: "ExecuteResultJson", width: 100, align: "left" }
+                { label: "执行结果描述", name: "ExecuteResultJson", index: "ExecuteResultJson", width: 100, align: "center" }
             ],
             viewrecords: true,
             rowNum: 30,
@@ -144,8 +144,8 @@
         dialogOpen({
             id: "ExcelIExportDialog",
             title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=gridTable',
-            width: "500px",
+            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename="+escape("日志导出"),
+            width: "500px",//?SubProject = ' + escape(SubProject) + "&SubProjectId=" + SubProjectId,
             height: "380px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();

@@ -18,6 +18,8 @@ namespace LeaRun.Application.IService.SystemManage
         /// <param name="itemId">分类Id</param>
         /// <returns></returns>
         IEnumerable<DataItemDetailEntity> GetList(string itemId);
+
+        List<DataItemDetailEntity> GetByParentToItemIdIdList(string itemId);
         /// <summary>
         /// 明细实体
         /// </summary>
@@ -63,6 +65,13 @@ namespace LeaRun.Application.IService.SystemManage
         /// <param name="dataItemDetailEntity">明细实体</param>
         /// <returns></returns>
         void SaveForm(string keyValue, DataItemDetailEntity dataItemDetailEntity);
+        /// <summary>
+        /// 保存明细表单（新增、修改）并返回
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="dataItemDetailEntity">明细实体</param>
+        /// <returns></returns>
+        string ReturnSaveForm(string keyValue, DataItemDetailEntity dataItemDetailEntity);
         #endregion
     }
 }

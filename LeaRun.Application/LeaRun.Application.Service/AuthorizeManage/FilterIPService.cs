@@ -2,8 +2,10 @@
 using LeaRun.Application.IService.AuthorizeManage;
 using LeaRun.Data.Repository;
 using LeaRun.Util.Extension;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.BaseManage
 {
@@ -53,6 +55,16 @@ namespace LeaRun.Application.Service.BaseManage
         public FilterIPEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
+        }
+
+        /// <summary>
+        /// 过滤IP实体
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public FilterIPEntity GetEntity(Expression<Func<FilterIPEntity,bool>>condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
         }
         #endregion
 

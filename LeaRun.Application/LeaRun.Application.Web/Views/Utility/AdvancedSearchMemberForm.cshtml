@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "高级查询";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    $(function () {
+        initControl();
+    });
+    var SubProjectId = request('SubProjectId');
+    var HavesChildren = request('HavesChildren');
+    //初始化控件
+    function initControl() {
+        //材料类型
+        $("#Category").ComboBox({
+            param: { EnCode: "MemberType" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            id: "ItemDetailId",
+            text: "ItemName",
+            height: "80px",
+            description: "选择构件类型",
+        })
+    }
+
+    //查询事件
+    function AcceptClick() {
+        var queryJson = {
+            Category: Category = $("#Category").attr('data-text') == "选择构件类型" ? "" : $("#Category").attr('data-text'),
+            CategoryId: $("#Category").attr('data-value'),
+            MemberName: $("#MemberName").val(),
+            Numbering: $("#Numbering").val(),
+            SubProjectId: SubProjectId,
+            HavesChildren: HavesChildren,
+            BeginTime: $("#txt_BeginTime").val(),
+            EndTime: $("#txt_EndTime").val()
+        }
+        $.currentIframe().$("#gridTable").jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+    };
+    //查询回车
+    $('#MemberName').bind('keypress', function (event) {
+        if (event.keyCode == "13") {
+            AcceptClick();
+        }
+    });
+</script>
+
+<div style="padding:10px">
+    <table>
+        <tr>
+            <td style="padding-left:10px;width:120px">
+                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" />
+            </td>
+            <td style="padding-left:10px;width:120px">
+                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" />
+            </td>
+            <td style="padding-left:10px;width:120px">
+                <div id="Category" type="select" class="ui-select" isvalid="yes"></div>
+            </td>
+            <td style="padding-left:10px;width:120px">
+                <input id="Numbering" type="text" class="form-control" placeholder="输入要查询的编号" />
+            </td>
+            <td style="padding-left:10px;width:120px">
+                <input id="MemberName" type="text" class="form-control" placeholder="输入要查询的名称" />
+            </td>
+            <td style="padding-left:10px;">
+                <a id="btn_Search" class="btn btn-primary" onclick="AcceptClick()"><i class="fa fa-search"></i>&nbsp;查询</a>
+            </td>
+        </tr>
+    </table>
+</div>

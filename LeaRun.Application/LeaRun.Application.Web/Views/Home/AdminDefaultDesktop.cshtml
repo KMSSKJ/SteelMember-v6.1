@@ -18,74 +18,364 @@
     <script src="~/Content/Scripts/plugins/highcharts/highcharts-more.js"></script>
     <script src="~/Content/Scripts/plugins/highcharts/modules/exporting.js"></script>
     <!--第三方统计图end-->
+
     <script>
         $(function () {
             InitialPage();
-            LoadInterfaceVisit();
-            LoadDepartmentApp();
+            GetGrid();
+
+            PictureScrolls();
+            LoadOrderSumProportion();
+            LoadMemberProduceSchedule();
+            LoadMemberSumProportion();
+            LoadMaterialAttritionRate();
+            LoadNotice();
+            LoadToBeDone();
         })
         //初始化
         function InitialPage() {
-            $('#desktop').height($(window).height() - 22);
+            $('#desktop').height($(window).height() - 20);
             $(window).resize(function (e) {
                 window.setTimeout(function () {
-                    $('#desktop').height($(window).height() - 22);
+                    $('#desktop').height($(window).height() - 20);
                 }, 200);
                 e.stopPropagation();
             });
         }
-        //访问流量图表
-        function LoadInterfaceVisit() {
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'piecontainer',
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    defaultSeriesType: 'pie'
-                },
-                title: {
-                    text: ''
-                },
-                exporting: {
-                    enabled: false
-                },
-                credits: {
-                    enabled: false
-                },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
-                    }
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true, //点击切换
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            formatter: function () {
-                                return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
+
+        //加载图片
+        function GetGrid() {
+            $.ajax({
+                url: "/SteelMember/ProjectInfo/GetFormJson",
+                type: "get",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data!=null) {
+                    var fileName = data.ProjectBackground;
+                    if (fileName != null) {
+                        var array = fileName.split(":");// 在每个逗号(:)处进行分解。
+                        var num = 0;
+                        array.forEach(function (filename) {
+                            if (filename == null || filename == "") {
+                                return false;
+                            } else {
+                                var filename1 = filename.substring(0, filename.lastIndexOf('.'));//获取文件名称，去除后缀名
+                                filename1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + filename;
+                                //$("ul").append("<li><img id= 'txImg" + num + "' class='txImg' src= '" + filename1 + "' /></li>");
+                                $("li").append("<img id= 'txImg" + num + "' class='txImg' src= '" + filename1 + "'/>");
+                                //document.getElementById("txImg").src = filename;
+                                num++;
                             }
-                        },
-                        showInLegend: true
+                        });
                     }
+                }
                 },
-                series: [{
-                    data: [
-                        ['枢纽楼', 10],
-                        ['IDC中心', 10],
-                        ['端局', 10],
-                        ['模块局', 10],
-                        ['营业厅', 10],
-                        ['办公大楼', 10],
-                        ['C网基站', 40],
-                    ]
-                }]
             });
         }
-        //部门应用图表
-        function LoadDepartmentApp() {
-            $('#container').highcharts({
+
+        //图片滚动
+        function PictureScrolls() {
+            var oDiv = document.getElementById('divPictureScrolls');
+            var oUl = document.getElementById('ul');//[0];
+            var speed = -2;//初始化速度
+
+            oUl.innerHTML += oUl.innerHTML;//图片内容*2-----参考图（2）
+            var oLi = document.getElementsByTagName('li');
+            //oUl.style.width = oLi.length * 900 + 'px';//设置ul的宽度使图片可以放下
+            oUl.style.width = oLi.length * 100 + '%';//设置ul的宽度使图片可以放下
+            //var oBtn1 = document.getElementById('btn1');
+            //var oBtn2 = document.getElementById('btn2');
+
+            function move() {
+                if (oUl.offsetLeft < -(oUl.offsetWidth / 2)) {//向左滚动，当靠左的图4移出边框时
+                    oUl.style.left = 0;
+                }
+
+                if (oUl.offsetLeft > 0) {//向右滚动，当靠右的图1移出边框时
+                    oUl.style.left = -(oUl.offsetWidth / 2) + 'px';
+                }
+                oUl.style.left = oUl.offsetLeft + speed + 'px';
+            }
+
+            var timer = setInterval(move, 30);//全局变量 ，保存返回的定时器
+
+            oDiv.addEventListener('mouseout', function () {
+                timer = setInterval(move, 30);
+            }, false);
+            oDiv.addEventListener('mousemove', function () {
+                clearInterval(timer);//鼠标移入清除定时器
+            }, false);
+        };
+
+        //构件总量占比
+        function LoadMemberSumProportion() {
+            $.getJSON('/Home/GetMemberSumProportion', function (data) {
+                var dt = [];
+                for (var i = 0; i < data.length; i++) {
+                    dt.push([data[i].SubProjectId, data[i].MemberNumber]);
+                }
+
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'member-sum-proportion',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        defaultSeriesType: 'pie'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(2) + ' %';
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true, //点击切换
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function () {
+                                    return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(2) + ' %';
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: dt,
+                    }]
+                });
+            });
+        }
+
+        //订单总量占比
+        function LoadOrderSumProportion() {
+            $.getJSON('/Home/GetOrderSumProportion', function (data) {
+                var Orderdt = [];
+                for (var i = 0; i < data.length; i++) {
+                    Orderdt.push([data[i].Category, data[i].Priority]);
+                }
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'order-sum-proportion',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        defaultSeriesType: 'pie'
+                    },
+                    colors: [
+                        'red',//第一个颜色，欢迎加入Highcharts学习交流群294191384
+                        'blue',//第二个颜色
+                        'yellow',//第三个颜色
+                        '#1aadce', //。。。。
+                        '#492970',
+                        '#f28f43',
+                        '#77a1e5',
+                        '#c42525',
+                        '#a6c96a'
+                    ],
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(2) + ' %';
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true, //点击切换
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function () {
+                                    return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(2) + ' %';
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        data: Orderdt//数据
+
+                    }]
+                });
+            });
+        }
+
+        //构件生产进度
+        function LoadMemberProduceSchedule() {// InfoId ProductionQuantity QualityInspectionNumber
+            $.getJSON('/Home/GetMemberProduceSchedule', function (data) {
+                var X = [];
+                var Y = [];
+                var Y1 = [];
+                for (var i = 0; i < data.length; i++) {
+                    X.push([data[i].InfoId]);
+                    Y.push([data[i].ProductionQuantity]);
+                    Y1.push([data[i].QualityInspectionNumber]);
+                }
+                $('#member-produce-schedule').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    colors: [
+                        'red',//第一个颜色，欢迎加入Highcharts学习交流群294191384
+                        'blue',//第二个颜色
+                        'yellow',//第三个颜色
+                        '#1aadce', //。。。。
+                        '#492970',
+                        '#f28f43',
+                        '#77a1e5',
+                        '#c42525',
+                        '#a6c96a'
+                    ],
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+                        //categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                        categories: X
+                    },
+                    yAxis: {
+                        title: {
+                            text: '数量'
+                        },
+                        labels: {
+                            formatter: function () {
+                                return this.value
+                            }
+                        }
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '需求用量',
+                        marker: {
+                            symbol: 'square'
+                        },
+                        //data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 23.3, 18.3, 13.9, 9.6, 1]
+                        data: Y
+
+                    }, {
+                        name: '已生产量',
+                        marker: {
+                            symbol: 'diamond'
+                        },
+                        //data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                        data: Y1
+                    }]
+                });
+
+
+                //var member_produces_chedule_chart = new Highcharts.Chart({
+                //    chart: {
+                //        renderTo: 'member-produce-schedule',
+                //        Type: 'spline'
+                //    },
+                //    colors: [
+                //        'red',//第一个颜色，欢迎加入Highcharts学习交流群294191384
+                //        'blue',//第二个颜色
+                //        'yellow',//第三个颜色
+                //        '#1aadce', //。。。。
+                //        '#492970',
+                //        '#f28f43',
+                //        '#77a1e5',
+                //        '#c42525',
+                //        '#a6c96a'
+                //    ],
+                //    title: {
+                //        text: ''
+                //    },
+                //    xAxis: {
+                //        //categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                //        categories: X
+                //    },
+                //    yAxis: {
+                //        title: {
+                //            text: '数量'
+                //        },
+                //        labels: {
+                //            formatter: function () {
+                //                return this.value
+                //            }
+                //        }
+                //    },
+                //    exporting: {
+                //        enabled: false
+                //    },
+                //    credits: {
+                //        enabled: false
+                //    },
+                //    tooltip: {
+                //        crosshairs: true,
+                //        shared: true
+                //    },
+                //    plotOptions: {
+                //        spline: {
+                //            marker: {
+                //                radius: 4,
+                //                lineColor: '#666666',
+                //                lineWidth: 1
+                //            }
+                //        }
+                //    },
+                //    series: [{
+                //        name: '需求用量',
+                //        marker: {
+                //            symbol: 'square'
+                //        },
+                //        //data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 23.3, 18.3, 13.9, 9.6, 1]
+                //        data: Y
+
+                //    }, {
+                //        name: '已生产量',
+                //        marker: {
+                //            symbol: 'diamond'
+                //        },
+                //        //data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                //        data: Y1
+                //    }]
+                //})
+
+
+            })
+        }
+
+        //材料损耗率
+        function LoadMaterialAttritionRate() {
+            $('#material-attrition-rate').highcharts({
                 chart: {
                     type: 'spline'
                 },
@@ -97,11 +387,11 @@
                 },
                 yAxis: {
                     title: {
-                        text: '电量（度）'
+                        text: '损耗量（%）'
                     },
                     labels: {
                         formatter: function () {
-                            return this.value + '度'
+                            return this.value + '%'
                         }
                     }
                 },
@@ -125,14 +415,14 @@
                     }
                 },
                 series: [{
-                    name: '预算',
+                    name: '理论值',
                     marker: {
                         symbol: 'square'
                     },
                     data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 23.3, 18.3, 13.9, 9.6, 1]
 
                 }, {
-                    name: '实际',
+                    name: '实际值',
                     marker: {
                         symbol: 'diamond'
                     },
@@ -141,181 +431,498 @@
             });
 
         }
+
+        //待办
+        //var pagination={
+        //    conditionJson: null,
+        //    rows: 30,
+        //    page:1,
+        //    records:0,
+        //    sidx:'ReleaseTime',
+        //    sord:'desc',
+        //    total: 0,
+        //}
+        function LoadToBeDone() {
+            $.ajax({
+                url: "/Home/GetToBeDoneMore",
+                type: "get",
+                data: {
+                    conditionJson: null,
+                    rows: 30,
+                    page: 1,
+                    records: 0,
+                    sidx: 'ReleaseTime',
+                    sord: 'desc',
+                    total: 0,
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var insertText = "";
+                    //data.forEach(function (item) {
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if (i < 6) {
+                            if (data.rows[i].Category != null || data.rows[i].Category != "" || data.rows[i].Category != undefined) {
+                                var Category = data.rows[i].Category.substring(data.rows[i].Category.length - 2);
+                                var ReleaseTime = formatDate(data.rows[i].ReleaseTime, 'yyyy-MM-dd');
+                                insertText += "<div style='line-height: 39px; border-bottom: 1px solid #ccc;'><a href='#'style='text-decoration: none;color: " + data.rows[i].FullHeadColor + " 'onclick=\"btn_ToBeDoneDetails('" + data.rows[i].Id + "','" + data.rows[i].Type + "')\">[" + Category + "]&nbsp;&nbsp;&nbsp;" + data.rows[i].FullHead + "</a><label style='float: right;color: " + data.rows[i].FullHeadColor + "'>" + ReleaseTime + "</label></div >";
+                            }
+                        }
+                    }
+                    //});
+                    if (insertText != "") {
+                        document.getElementById("ToBeDoneDiv").innerHTML = insertText;
+                    }
+                }
+            });
+        }
+        //待办详细
+        function btn_ToBeDoneDetails(keyValue,type) {
+            //var keyValue = $("#gridTable").jqGridRowValue("NewsId");
+            if (checkedRow(keyValue)) {
+                if (type == "RawMaterialAnalysis") {
+                    dialogOpen({
+                        id: 'Index',
+                        title: '材料需求',
+                        url: '/SteelMember/RawMaterialAnalysis/Index1',
+                        width: '1000px',
+                        height: '750px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+                } else if (type == "RawMaterialOrder") {
+                    dialogOpen({
+                        id: 'FormDetail',
+                        title: '材料申购单',
+                        url: '/SteelMember/RawMaterialOrder/FormDetail?keyValue=' + keyValue,
+                        width: '1000px',
+                        height: '750px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+
+                } else if (type == "RawMaterialPurchase") {
+                    dialogOpen({
+                        id: 'Form',
+                        title: '采购单详情',
+                        url: '/SteelMember/RawMaterialPurchase/Detail?keyValue=' + keyValue,
+                        width: '1150px',
+                        height: '800px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+
+                } else if (type == "MemberDemand") {
+                    dialogOpen({
+                        id: 'Index',
+                        title: '构件需求',
+                        url: '/SteelMember/MemberDemand/Index1',
+                        width: '1000px',
+                        height: '750px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+                } else if (type == "MemberOrder") {
+                    dialogOpen({
+                        id: 'Form',
+                        title: '构件生产申请单',
+                        url: '/SteelMember/MemberProductionOrder/FormDetail?keyValue=' + keyValue + '&isDeltail=true',
+                        width: '1000px',
+                        height: '750px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+                }
+                else if (type == "MemberProcess") {
+                    dialogOpen({
+                        id: 'Index',
+                        title: '生产制程',
+                        url: '/SteelMember/ProductionProcess/Index1',
+                        width: '1000px',
+                        height: '750px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+                }
+                else if (type == "ProduceEquipment") {
+                    dialogOpen({
+                        id: 'Index',
+                        title: '生产设备',
+                        url: '/SteelMember/ProduceEquipment/Index1',
+                        width: '1000px',
+                        height: '750px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+                }
+                else if (type == "SafetyEquipment") {
+                    dialogOpen({
+                        id: 'Index',
+                        title: '安全设备',
+                        url: '/SteelMember/SafetyEquipment/Index1',
+                        width: '1000px',
+                        height: '750px',
+                        btn: null,
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].AcceptClick();
+                        }
+                    })
+                }
+            }
+        }
+
+        //更多待办
+        function btn_ToBeDoneMore() {
+            dialogOpen({
+                id: 'IndexMore',
+                title: '更多待办>>点击看详情',
+                url: '/Home/ToBeDoneMoreIndex',
+                width: '1100px',
+                height: '800px',
+                btn: null,
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }
+            })
+        }
+
+
+
+        //通知/公告
+        function LoadNotice() {
+            $.ajax({
+                url: "/Home/GetNotice",
+                type: "get",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var insertText = "";
+                    data.forEach(function (item) {
+                        if (item.Category != null || item.Category != "" || item.Category != undefined) {
+                            var Category = item.Category.substring(item.Category.length - 2);
+                            var ReleaseTime = formatDate(item.ReleaseTime, 'yyyy-MM-dd');
+                            insertText += "<div style='line-height: 39px; border-bottom: 1px solid #ccc;'><a href='#'style='text-decoration: none;color: " + item.FullHeadColor + " 'onclick=\"btn_NoticeDetails('" + item.NewsId + "')\">[" + Category + "]&nbsp;&nbsp;&nbsp;" + item.FullHead + "</a><label style='float: right;color: " + item.FullHeadColor + "'>" + ReleaseTime + "</label></div >";
+                        }
+                    });
+                    if (insertText != "") {
+                        document.getElementById("NoticeDiv").innerHTML = insertText;
+                    }
+
+                }
+            });
+        }
+
+        //公告详细
+        function btn_NoticeDetails(keyValue) {
+            //var keyValue = $("#gridTable").jqGridRowValue("NewsId");
+            if (checkedRow(keyValue)) {
+                dialogOpen({
+                    id: 'Form',
+                    title: '公告详情',
+                    url: '/PublicInfoManage/Notice/FormDetail?keyValue=' + keyValue,
+                    width: '800px',
+                    height: '600px',
+                    btn: null,
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            }
+        }
+
+        //更多公告
+        function btn_NoticeMore() {
+            dialogOpen({
+                id: 'IndexMore',
+                title: '更多公告>>点击看详情',
+                url: '/PublicInfoManage/Notice/IndexMore',
+                width: '900px',
+                height: '700px',
+                btn: null,
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }
+            })
+        }
+
         //跳转到指定模块菜单
         function OpenNav(Navid) {
             top.$("#nav").find('a#' + Navid).trigger("click");
         }
     </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #divPictureScrolls {
+            width: 1800px;
+            height: 108px;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+            #divPictureScrolls ul {
+                position: absolute;
+                left: 0;
+                top: 0;
+                overflow: hidden;
+                background-color: #3b7796;
+            }
+
+                #divPictureScrolls ul li {
+                    float: left;
+                    width: 1800px;
+                    height: 108px;
+                    list-style: none;
+                }
+
+        .txImg {
+            width: 190px;
+            height: 108px;
+            padding-right: 5px;
+        }
+
+        /*.div {
+            float: left;
+            padding-left: 5px;
+            width: 50%;
+            height: 550px;
+            padding-right: 5px;
+        }*/
+    </style>
 </head>
 <body>
     <div class="border" id="desktop" style="margin: 10px 10px 0 10px; background: #fff; overflow: auto;">
         <div class="portal-panel">
-            <div class="row">
-                <div class="portal-panel-title">
-                    <i class="fa fa-balance-scale"></i>&nbsp;&nbsp;统计指标
-                </div>
-                <div class="portal-panel-content" style="margin-top: 15px; overflow: hidden;">
-                    <div class="row">
-                        <div style="width: 20%; position: relative; float: left;">
-                            <div class="task-stat" style="background-color: #578ebe;">
-                                <div class="visual">
-                                    <i class="fa fa-pie-chart"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        128
+            <div>
+                @*<div class="row">
+                        <div class="portal-panel-title">
+                            <i class="fa fa-balance-scale"></i>&nbsp;&nbsp;统计指标
+                        </div>
+                        <div class="portal-panel-content" style="margin-top: 15px; overflow: hidden;">
+                            <div class="row">
+                                <div style="width: 20%; position: relative; float: left;">
+                                    <div class="task-stat" style="background-color: #578ebe;">
+                                        <div class="visual">
+                                            <i class="fa fa-pie-chart"></i>
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+                                                128吨
+                                            </div>
+                                            <div class="desc">
+                                                材料库存总量
+                                            </div>
+                                        </div>
+                                        <a class="more" style="background-color: #4884b8;" href="javascript:;" onclick="OpenNav('66f6301c-1789-4525-a7d2-2b83272aafa6')">查看更多 <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
                                     </div>
-                                    <div class="desc">
-                                        最新商机量
+                                </div>
+                                <div style="width: 20%; position: relative; float: left;">
+                                    <div class="task-stat" style="background-color: #e35b5a;">
+                                        <div class="visual">
+                                            <i class="fa fa-bar-chart-o"></i>
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+                                                266吨
+                                            </div>
+                                            <div class="desc">
+                                                构件库存总量
+                                            </div>
+                                        </div>
+                                        <a class="more" style="background-color: #e04a49;" href="javascript:;" onclick="OpenNav('1d3797f6-5cd2-41bc-b769-27f2513d61a9')">查看更多 <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
                                     </div>
                                 </div>
-                                <a class="more" style="background-color: #4884b8;" href="javascript:;" onclick="OpenNav('66f6301c-1789-4525-a7d2-2b83272aafa6')">查看更多 <i class="fa fa-arrow-circle-right"></i>
-                                </a>
+                                <div style="width: 20%; position: relative; float: left;">
+                                    <div class="task-stat" style="background-color: #44b6ae;">
+                                        <div class="visual">
+                                            <i class="fa fa-windows"></i>
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+                                                39条
+                                            </div>
+                                            <div class="desc">
+                                                新签订单量
+                                            </div>
+                                        </div>
+                                        <a class="more" style="background-color: #3ea7a0;" href="javascript:;" onclick="OpenNav('b352f049-4331-4b19-ac22-e379cb30bd55')">查看更多 <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div style="width: 20%; position: relative; float: left;">
+                                    <div class="task-stat" style="background-color: #8775a7;">
+                                        <div class="visual">
+                                            <i class="fa fa-globe"></i>
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+                                                29898.00
+                                            </div>
+                                            <div class="desc">
+                                                本周付款额
+                                            </div>
+                                        </div>
+                                        <a class="more" style="background-color: #7c699f;" href="javascript:;">查看更多 <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div style="width: 20%; position: relative; float: left;">
+                                    <div class="task-stat" style="background-color: #3598dc;">
+                                        <div class="visual">
+                                            <i class="fa fa-globe"></i>
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+                                                16897.00
+                                            </div>
+                                            <div class="desc">
+                                                利润总额
+                                            </div>
+                                        </div>
+                                        <a class="more" style="background-color: #258fd7;" href="javascript:;">查看更多 <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div style="width: 20%; position: relative; float: left;">
-                            <div class="task-stat" style="background-color: #e35b5a;">
-                                <div class="visual">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        266
-                                    </div>
-                                    <div class="desc">
-                                        最新客户量
-                                    </div>
-                                </div>
-                                <a class="more" style="background-color: #e04a49;" href="javascript:;" onclick="OpenNav('1d3797f6-5cd2-41bc-b769-27f2513d61a9')">查看更多 <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div style="width: 20%; position: relative; float: left;">
-                            <div class="task-stat" style="background-color: #44b6ae;">
-                                <div class="visual">
-                                    <i class="fa fa-windows"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        39
-                                    </div>
-                                    <div class="desc">
-                                        新签订单量
-                                    </div>
-                                </div>
-                                <a class="more" style="background-color: #3ea7a0;" href="javascript:;" onclick="OpenNav('b352f049-4331-4b19-ac22-e379cb30bd55')">查看更多 <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div style="width: 20%; position: relative; float: left;">
-                            <div class="task-stat" style="background-color: #8775a7;">
-                                <div class="visual">
-                                    <i class="fa fa-globe"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        29898.00
-                                    </div>
-                                    <div class="desc">
-                                        本周付款额
-                                    </div>
-                                </div>
-                                <a class="more" style="background-color: #7c699f;" href="javascript:;">查看更多 <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div style="width: 20%; position: relative; float: left;">
-                            <div class="task-stat" style="background-color: #3598dc;">
-                                <div class="visual">
-                                    <i class="fa fa-globe"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        16897.00
-                                    </div>
-                                    <div class="desc">
-                                        利润总额
-                                    </div>
-                                </div>
-                                <a class="more" style="background-color: #258fd7;" href="javascript:;">查看更多 <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
+                    </div>*@
+            </div>
+
+            <div class="portal-panel-content" style="overflow: hidden;">
+                @*margin-top: 2px;*@
+                <div class="row" style="overflow: hidden;">
+                    <div id="divPictureScrolls" style=" height: 108px;">
+                        <ul id="ul">
+                            <li id="li"></li>
+                            @*<li><img id="txImg" class="txImg" src="" /></li>*@
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="row" style="overflow: hidden; margin-bottom: 10px;">
-                <div style="width: 50%; float: left;">
+            <div class="row" style="overflow: hidden;">
+                <div style="width: 33%; float: left;">
                     <div class="portal-panel-title">
-                        <i class="fa fa-coffee"></i>&nbsp;&nbsp;待办任务（Top 5）
+                        <i class="fa fa-coffee"></i>&nbsp;&nbsp;待办任务（Top 6）
+                        <a href="#" style="text-decoration: none;color:red" onclick="btn_ToBeDoneMore()">&nbsp;&nbsp;&nbsp;更多>></a>
                     </div>
-                    <div class="portal-panel-content" style="overflow: hidden; padding-top: 20px; padding-left: 30px; padding-right: 50px;">
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;老李的请假条</a>
-                            <label style="float: right">2016-05-25</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;陈日天的转岗申请单</a>
-                            <label style="float: right">2016-04-01</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[工作]&nbsp;&nbsp;&nbsp;回访千事汇通项目负责人</a>
-                            <label style="float: right">2015-09-11</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[工作]&nbsp;&nbsp;&nbsp;联系宋卡公司财务支付二期尾款</a>
-                            <label style="float: right">2015-02-19</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;刘昊的借支申请单</a>
-                            <label style="float: right">2015-02-26</label>
-                        </div>
+                    <div id="ToBeDoneDiv" class="portal-panel-content" style="overflow: hidden; padding-top: 5px; padding-left: 30px; padding-right: 50px;">
+                        @*<div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;老李的请假条</a>
+                                <label style="float: right">2016-05-25</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;陈日天的转岗申请单</a>
+                                <label style="float: right">2016-04-01</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[工作]&nbsp;&nbsp;&nbsp;回访千事汇通项目负责人</a>
+                                <label style="float: right">2015-09-11</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[工作]&nbsp;&nbsp;&nbsp;联系宋卡公司财务支付二期尾款</a>
+                                <label style="float: right">2015-02-19</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;刘昊的借支申请单</a>
+                                <label style="float: right">2015-02-26</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;刘昊的借支申请单</a>
+                                <label style="float: right">2015-02-26</label>
+                            </div>*@
                     </div>
                 </div>
-                <div style="width: 50%; float: left;">
+                <div style="width: 33%; float: left;">
                     <div class="portal-panel-title">
-                        <i class="fa fa-bullhorn"></i>&nbsp;&nbsp;公告/通知（Top 5）
+                        <i class="fa fa-bullhorn"></i>&nbsp;&nbsp;公告/通知（Top 6）
+                        <a href="#" style="text-decoration: none;color:red" onclick="btn_NoticeMore()">&nbsp;&nbsp;&nbsp;更多>></a>
                     </div>
-                    <div class="portal-panel-content" style="overflow: hidden; padding-top: 20px; padding-left: 30px; padding-right: 50px;">
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[公告]&nbsp;&nbsp;&nbsp;端午节放假安排</a>
-                            <label style="float: right">2016-06-01</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[通知]&nbsp;&nbsp;&nbsp;苏州分公司总经理任命书</a>
-                            <label style="float: right">2016-05-28</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[通知]&nbsp;&nbsp;&nbsp;公司开票信息更新通知</a>
-                            <label style="float: right">2016-05-23</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[公告]&nbsp;&nbsp;&nbsp;全体员工体检通知</a>
-                            <label style="float: right">2016-04-06</label>
-                        </div>
-                        <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
-                            <a href="#" style="text-decoration: none;">[通知]&nbsp;&nbsp;&nbsp;华东区营销总监任命书</a>
-                            <label style="float: right">2016-04-18</label>
-                        </div>
+                    <div id="NoticeDiv" class="portal-panel-content" style="overflow: hidden; padding-top: 5px; padding-left: 30px; padding-right: 50px;">
+                        @*<div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[公告]&nbsp;&nbsp;&nbsp;端午节放假安排</a>
+                                <label style="float: right">2016-06-01</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[通知]&nbsp;&nbsp;&nbsp;苏州分公司总经理任命书</a>
+                                <label style="float: right">2016-05-28</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[通知]&nbsp;&nbsp;&nbsp;公司开票信息更新通知</a>
+                                <label style="float: right">2016-05-23</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[公告]&nbsp;&nbsp;&nbsp;全体员工体检通知</a>
+                                <label style="float: right">2016-04-06</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[通知]&nbsp;&nbsp;&nbsp;华东区营销总监任命书</a>
+                                <label style="float: right">2016-04-18</label>
+                            </div>
+                            <div style="line-height: 39px; border-bottom: 1px solid #ccc;">
+                                <a href="#" style="text-decoration: none;">[通知]&nbsp;&nbsp;&nbsp;华东区营销总监任命书</a>
+                                <label style="float: right">2016-04-18</label>
+                            </div>*@
+                    </div>
+                </div>
+                <div style="width: 33%; float: left;">
+                    <div class="portal-panel-title">
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;材料损耗率
+                        <a href="#" style="text-decoration: none;"></a>
+                    </div>
+                    <div class="portal-panel-content" style="margin-top: 5px; overflow: hidden;">
+                        <div id="material-attrition-rate" style="height: 255px;"></div>
                     </div>
                 </div>
             </div>
-            <div class="row" style="overflow: hidden; height: 460px;">
-                <div style="width: 50%; float: left;">
+            <div class="row" style="overflow: hidden;">
+                <div style="width: 33%; float: left;">
                     <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;局站分类型总用电占比
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区分项工程构件总量占比
                     </div>
-                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="piecontainer">
+                    <div class="portal-panel-content" style="margin-top: 5px; overflow: hidden;">
+                        <div id="member-sum-proportion" style="height: 275px;">
                         </div>
                     </div>
                 </div>
-                <div style="width: 50%; float: left;">
+                <div style="width: 33%; float: left;">
                     <div class="portal-panel-title">
-                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;预算与实际用电量对比
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区分项工程构件订单总量占比
                     </div>
-                    <div class="portal-panel-content" style="margin-top: 10px; overflow: hidden;">
-                        <div id="container"></div>
+                    <div class="portal-panel-content" style="margin-top: 5px; overflow: hidden;">
+                        <div id="order-sum-proportion" style="height: 275px;">
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 33%; float: left;">
+                    <div class="portal-panel-title">
+                        <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;一工区分项工程构件生产进度
+                    </div>
+                    <div class="portal-panel-content" style="margin-top: 5px; overflow: hidden;">
+                        <div id="member-produce-schedule" style="height: 275px;">
+
+                        </div>
                     </div>
                 </div>
             </div>

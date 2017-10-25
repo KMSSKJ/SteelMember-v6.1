@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "构件列表";
+    Layout = "~/Views/Shared/_OrderForm.cshtml";
+}
+<script>
+    var Category = request('Category');
+    $(function () {
+        $("#keywords").focus();
+        //GetTree();
+        GetGrid();
+        //绑定键盘按下事件
+        $(document).keypress(function (e) {
+            // 回车键事件
+            if (e.which == 13) {
+                $("#keywords").focus();
+                $("#keywords").select();
+                $("#btnSearch").click();
+            }
+        });
+    });
+
+    var myArray = [];
+   
+    //显示物料
+    function GetGrid() {
+        var SelectRowIndx;
+        var queryJson = {
+           // Category: Category,
+            InStock: 0
+        }
+        $("#gridTable").jqGrid({
+            url: "@Url.Content("~/SteelMember/MemberWarehouse/GetPageListJson")?queryJson=" + JSON.stringify(queryJson),
+            datatype: "json",
+            height: $(window).height() - 100,
+            autowidth: true,
+            colModel: [
+                { label: '外键', name: "MemberId", align: ' center', sortable: false, hidden: true },
+                { label: '主键', name: "MemberWarehouseId", align: ' center', sortable: false, hidden: true },
+                { label: '构件编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 120, align: 'left', sortable: true },
+                { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 100, align: 'left', sortable: true },
+                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
+                { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 100, align: 'left', sortable: true },
+                { label: '库存量', name: 'InStock', index: 'InStock', width: 100, align: 'left', sortable: true },
+                      ],
+            rowNum: 30,
+            viewrecords: true,
+            rowNum: 30,
+            sortname: 'MemberId',
+            sortorder: 'Desc',//降序 asc升序
+            pager: "#gridPager",
+            viewrecords: true,
+            rownumbers: true,
+            gridview: true,
+            multiselect: true,
+            rowList: [15, 30, 50, 100, 500, 1000],
+            onSelectRow: function () {
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $("#" + this.id).jqGrid('setSelection', SelectRowIndx);
+
+                var rowIds = jQuery("#gridTable").jqGrid('getDataIDs');
+                var $parentobj = top.frames["Form"];
+                for (var k = 0; k < rowIds.length; k++) {
+                    var curRowData = jQuery("#gridTable").jqGrid('getRowData', rowIds[k]);
+                    var curChk = $("#" + rowIds[k] + "").find(":checkbox");
+                }
+            },
+        });
+    }
+
+    //添加
+    function btn_add_() {
+        var KeyValue = $('#gridTable').jqGridRowValue('MemberWarehouseId');
+        if (checkedArray(KeyValue)) {
+            $.ajax({
+                url: "/SteelMember/MemberWarehouse/ListMember",
+                type: "post",
+                datatype: 'json',
+                data: {
+                    //InStock: $('#gridTable').jqGridRowValue('InStock'),
+                    keyValue: KeyValue
+                },
+                success: function (rowData) {
+                    var rows = 1;
+                    var $parentobj = top.frames["Collar"];
+                    while (rows < 11) {
+                        $parentobj.$("#MemberId➩" + rows).val(null);
+                        $parentobj.$("#MemberWarehouseId➩" + rows).val(null);
+                        $parentobj.$("#MemberName➩" + rows).val(null);
+                        $parentobj.$("#UnitId➩" + rows).val(null);
+                        $parentobj.$("#CollarQuantity➩" + rows).val(null);
+                        $parentobj.$("#Category➩" + rows).val(null);
+                        $parentobj.$("#MemberNumbering➩" + rows).val(null);
+                        $parentobj.$("#MaxNumber➩" + rows).val(null);
+                        rows++;
+                    }
+                    if (rowData != null) {
+                        var index = 1;
+                        var data1;
+                        for (var i = 0; i < rowData.length; i++) {
+                            $parentobj.$("#MemberWarehouseId➩" + index).val(rowData[i].MemberWarehouseId);
+                            $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
+                            $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
+                            $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
+                            $parentobj.$("#CollarQuantity➩" + index).val(Number(rowData[i].MemberNumber));
+                            $parentobj.$("#Category➩" + index).val(rowData[i].Category);
+                            $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
+                            $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].MemberNumber));
+                            $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
+                            index++;
+                            $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
+                            $parentobj.$("#gridTable").find('.disabled').attr("disabled", "disabled");
+                            $parentobj.$("#MemberNumbering➩" + index).focus();
+                        }
+                    }
+                    dialogClose();
+                },
+                error: function (e) {
+                    dialogTop(e, "error");
+                }
+            });
+        }
+    }
+</script>
+
+<div class="rightline" style="margin: 1px; margin-top: -1px;">
+    <table id="gridTable"></table>
+    <div id="gridPager"></div>
+</div>

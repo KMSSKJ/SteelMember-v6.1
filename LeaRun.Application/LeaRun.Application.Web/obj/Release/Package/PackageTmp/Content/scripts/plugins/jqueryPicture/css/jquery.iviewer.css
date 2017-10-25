@@ -1,0 +1,79 @@
+/* 代码整理：懒人之家 lanrenzhijia.com */
+html, body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+.viewer {
+	height: 100%;
+	position: relative;
+	background-color: lightgreen;
+}
+.wrapper {
+	border: 1px solid black;
+	position: absolute;
+	top: 5em;
+	left: 1em;
+	bottom: 1em;
+	right: 1em;
+	overflow: hidden; /*for opera*/
+}
+.toolbar {
+	border: 1px solid black;
+	position: absolute;
+	top: 1em;
+	left: 1em;
+	right: 1em;
+	height: 3em;
+}
+#pointer {
+	background-image: url('../images/arrow.png');
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	display: none;
+}
+.iviewer_common {
+	position:absolute;
+	bottom:10px;
+	border: 1px solid #000;
+	height: 28px;
+	z-index: 5000;
+}
+.iviewer_cursor {
+	cursor: -moz-grab;
+}
+.iviewer_drag_cursor {
+	cursor: -moz-grabbing;
+}
+.iviewer_button {
+	width: 28px;
+	cursor: pointer;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+.iviewer_zoom_in {
+	left: 20px;
+	background: url(../images/iviewer.zoom_in.gif);
+}
+.iviewer_zoom_out {
+	left: 55px;
+	background: url(../images/iviewer.zoom_out.gif);
+}
+.iviewer_zoom_zero {
+	left: 90px;
+	background: url(../images/iviewer.zoom_zero.gif);
+}
+.iviewer_zoom_fit {
+	left: 125px;
+	background: url(../images/iviewer.zoom_fit.gif);
+}
+.iviewer_zoom_status {
+	left: 160px;
+	font: 1em/28px Sans;
+	color: #000;
+	background-color: #fff;
+	text-align: center;
+	width: 60px;
+}
+/* 代码整理：懒人之家 lanrenzhijia.com */

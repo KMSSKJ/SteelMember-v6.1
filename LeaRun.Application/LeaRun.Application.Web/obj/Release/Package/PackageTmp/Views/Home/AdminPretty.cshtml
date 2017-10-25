@@ -1,8 +1,12 @@
 ﻿@{
     bool isUserMessage = LeaRun.Util.Config.GetValue("UseMessage") == "true";
     var systemName = LeaRun.Util.Config.GetValue("SystemName");
+    var companyName = LeaRun.Util.Config.GetValue("CustomerCompanyName");
     var userId = LeaRun.Application.Code.OperatorProvider.Provider.Current().UserId;
     var userName = LeaRun.Application.Code.OperatorProvider.Provider.Current().UserName;
+
+    LeaRun.Application.Busines.BaseManage.UserBLL user = new LeaRun.Application.Busines.BaseManage.UserBLL();
+    string userHeadIcon = user.GetEntity(userId).HeadIcon;
 }
 <!DOCTYPE html>
 
@@ -14,7 +18,7 @@
     <link rel="icon" href="/Content/images/favicon.ico">
     <script src="~/Content/scripts/jquery/jquery-1.10.2.min.js"></script>
     <script src="~/Content/scripts/plugins/cookie/jquery.cookie.js"></script>
-    <link href="~/Content/styles/font-awesome.min.css" rel="stylesheet"/>
+    <link href="~/Content/styles/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/scripts/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/styles/learun-ui.css" rel="stylesheet" />
     @System.Web.Optimization.Scripts.Render("~/Content/scripts/utils/js")
@@ -25,31 +29,10 @@
 
     <script src="/Content/adminPretty/index.js"></script>
     <link href="/Content/adminPretty/css/index.css" rel="stylesheet" />
-    @if (isUserMessage)
-    {
-        <!--即时通信start-->
-        <script src="~/Content/scripts/plugins/signalr/jquery.signalR-2.2.0.min.js"></script>
-        <script src="@LeaRun.Util.Config.GetValue("SignalRUrl")/hubs"></script>
-        <link href="~/Content/styles/learun-im.css" rel="stylesheet" />
-        <script src="~/Content/scripts/utils/learun-im.js"></script>
-        <!--即时通信end-->
-    }
     <script>
-        var contentPath = '@Url.Content("~")'.substr(0, '@Url.Content("~")'.length - 1);
-        $(function () {
-            if ('@isUserMessage' == 'True') {
-                IMInit({
-                    url: "@LeaRun.Util.Config.GetValue("SignalRUrl")",
-                    userId: "@userId",
-                    userName: "@userName"
-                });
-            } else {
-                $('#btn_message').remove();
-                $('.message-wrap').remove();
-                $(".message-window").remove();
-            }
-        });
+    var contentPath = '@Url.Content("~")'.substr(0, '@Url.Content("~")'.length - 1);
     </script>
+
 </head>
 <body style="overflow: hidden;">
     <div id="ajax-loader" style="cursor: progress; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: #fff; z-index: 10000; overflow: hidden;">
@@ -57,27 +40,27 @@
     </div>
     <div class="lea-Head">
         <div class="logo">
-            <img src="/Content/adminPretty/images/new.logo.png" />
+            <div style="float:left">
+                @if (ViewData["prjLogo"].ToString() != "" || ViewData["prjLogo"].ToString() != "null")
+                {
+                    @*<img style="height:45px;width:75px;margin-top:-12px;border-radius:8px;margin-left:10px;" src="~/Content/images/login/SSKJ_Logo.jpg" />*@
+                    <img style="height:45px;width:75px;margin-top:-12px;border-radius:8px;margin-left:10px;" src=@ViewData["prjLogo"].ToString() />
+                }
+            </div>
+            <div style="float:right;font-size:24px;margin-left:20px;color:aliceblue;margin-top:-8px;">
+                @if (ViewData["prjName"].ToString() != "" || ViewData["prjName"].ToString() != "null")
+                {
+                    @ViewData["prjName"].ToString()
+                }
+                else
+                {
+                    @LeaRun.Util.Config.GetValue("SystemName").ToString()
+                }
+            </div>
+
         </div>
         <div class="left-bar" id="left-bar">
             <ul class="menu" id="top-menu"></ul>
-        </div>
-        <div class="right-bar">
-            <ul>
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/Content/images/head/user2-160x160.jpg"
-                             onerror="javascript: this.src = '../../Content/images/head/user2-160x160.jpg'" class="user-image" alt="User Image">
-                        <span class="hidden-xs">@userName</span>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li><a id="UserSetting"><i class="fa fa-user"></i>个人信息</a></li>
-                        <li><a href="javascript:void();"><i class="fa fa-trash-o"></i>清空缓存</a></li>
-                        <li class="divider"></li>
-                        <li><a onclick="$.learunindex.indexOut()"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
     <div class="lea-tabs">
@@ -114,10 +97,10 @@
     </div>
     <div class="footer">
         <div style="float: left; width: 30%;">
-            &nbsp;技术支持：<a href="#" target="_blank" style="color: white;">@systemName</a>
+            &nbsp;技术支持：<a href="#" target="_blank" style="color: white;">@companyName</a>
         </div>
         <div style="float: left; width: 40%; text-align: center;">
-            Copyright © 2013 - 2016 By 北京科技公司
+            Copyright © 2017 昆明双石科技有限公司
         </div>
         <div style="float: left; width: 30%; text-align: right;">
             <i id="btn_message" class="fa fa-comments" title="消息通知" style="width: 30px; font-size: 22px; vertical-align: middle; cursor: pointer;margin-top:-1px;margin-right:5px;"></i>
@@ -127,65 +110,7 @@
 
     <div id="loading_background" class="loading_background" style="display: none;"></div>
     <div id="loading_manage">
-        正在拼了命为您加载…
+        正加载数据，请稍后…
     </div>
-    <!--聊天窗口start-->
-    <div class="message-wrap">
-        <div class="message-content">
-            <div class="message-header">
-                企业内部微信
-                <div class="message-close">
-                    <a href="javascript:;">×</a>
-                </div>
-            </div>
-            <div class="message-body">
-                <div class="message-body-search">
-                    <input type="text" class="search-text" placeholder="搜索：同事名称、讨论组名称">
-                    <i class="fa fa-search"></i>
-                </div>
-                <div class="message-body-container">
-                    <div class="message-nav" style="display: block;">
-                        <ul>
-                            <li id="nav-contact-tab" class="active">
-                                <a title="联系人"><i class="fa fa-user"></i></a>
-                            </li>
-                            <li id="nav-group-tab">
-                                <a title="讨论组"><i class="fa fa-users" style="font-size: 20px;"></i></a>
-                            </li>
-                            <li id="nav-last-tab">
-                                <a title="最近回话"><i class="fa fa-comment"></i><span class="message-count">2</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="message-group" style="height: 335px; overflow: auto; overflow-x: hidden;">
-                        <ul id="message-contact-list"></ul>
-                        <ul id="message-group-list" class="message-chatlist" style="display: none;">
-                            <div style="color: red;">目前不支持</div>
-                        </ul>
-                        <ul id="message-last-list" class="message-chatlist" style="display: none;"></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="message-window">
-        <div class="message-window-header">
-            <span class="text">与 XXX 聊天中</span>
-            <div class="close">
-                <a href="javascript:;">×</a>
-            </div>
-        </div>
-        <div class="message-window-chat" style="overflow: auto; height: 260px;">
-            <div class="message-window-content" style="padding: 15px; height: auto; overflow: hidden;">
-            </div>
-        </div>
-        <div class="message-window-tool">
-            <a class="message-window-tool-seechatlog"><i class="fa fa-clock-o"></i>沟通记录</a>
-        </div>
-        <div class="message-window-send">
-            <textarea autofocus placeholder="按回车发送消息,shift+回车换行"></textarea>
-        </div>
-    </div>
-    <!--聊天窗口end-->
 </body>
 </html>

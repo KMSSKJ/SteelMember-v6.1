@@ -1,13 +1,20 @@
 ﻿using LeaRun.Application.Busines;
 using LeaRun.Application.Busines.BaseManage;
+using LeaRun.Application.Busines.PublicInfoManage;
+using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Application.Busines.SystemManage;
 using LeaRun.Application.Code;
 using LeaRun.Application.Entity;
+using LeaRun.Application.Entity.PublicInfoManage;
+using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Application.Entity.SystemManage;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
 using LeaRun.Util;
 using LeaRun.Util.Attributes;
+using LeaRun.Util.Extension;
 using LeaRun.Util.Log;
 using LeaRun.Util.Offices;
+using LeaRun.Util.WebControl;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +22,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace LeaRun.Application.Web.Controllers
@@ -25,14 +33,23 @@ namespace LeaRun.Application.Web.Controllers
     /// 描 述：系统首页
     /// </summary>
     [HandlerLogin(LoginMode.Enforce)]
-    public class HomeController : Controller
+    public class HomeController : MvcControllerBase
     {
         UserBLL user = new UserBLL();
         DepartmentBLL department = new DepartmentBLL();
+        private SystemConfigurationBLL systemconfigurationbll = new SystemConfigurationBLL();
+        private SubProjectBLL subprojectbll = new SubProjectBLL();
+        private NoticeBLL noticebll = new NoticeBLL();
+        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
+        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
+        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
 
-        [Ninject.Inject]
-        public LeaRun.Application.Repository.SteelMember.IBLL.ProjectInfoIBLL ProjectInfoCurrent { get; set; }
-        //string userId = OperatorProvider.Provider.Current().UserId;
+        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
+        private RawMaterialOrderBLL rawmaterialorderbll = new RawMaterialOrderBLL();
+        private RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
+
+        private ProduceEquipmentBLL produceequipmentbll = new ProduceEquipmentBLL();
+        private SafetyEquipmentBLL safetyequipmentbll = new SafetyEquipmentBLL();
 
         #region 视图功能
         /// <summary>
@@ -41,53 +58,61 @@ namespace LeaRun.Application.Web.Controllers
         /// <returns></returns>
         public ActionResult AdminDefault()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
+            var data = systemconfigurationbll.GetList(null).SingleOrDefault();
+            string prjName = "";
+            var virtualPath1 = "";
+            if (data != null)
             {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
+                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+                prjName = data.SystemName;
             }
-            ViewData["prjLogo"] = prjLogo;
+            ViewData["prjLogo"] = virtualPath1;
             ViewData["prjName"] = prjName;
             return View();
         }
         public ActionResult AdminLTE()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
+            var data = systemconfigurationbll.GetList(null).SingleOrDefault();
+            string prjName = "";
+            var virtualPath1 = "";
+            if (data != null)
             {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
+                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+                prjName = data.SystemName;
             }
-            ViewData["prjLogo"] = prjLogo;
+            ViewData["prjLogo"] = virtualPath1;
             ViewData["prjName"] = prjName;
             return View();
         }
         public ActionResult AdminWindos()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
+            var data = systemconfigurationbll.GetList(null).SingleOrDefault();
+            string prjName = "";
+            var virtualPath1 = "";
+            if (data != null)
             {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
+                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+                prjName = data.SystemName;
             }
-            ViewData["prjLogo"] = prjLogo;
+            ViewData["prjLogo"] = virtualPath1;
             ViewData["prjName"] = prjName;
             return View();
         }
         public ActionResult AdminPretty()
         {
-            var prjInfo = ProjectInfoCurrent.Find(p => p.ProjectId > 0).ToList();
-            string prjLogo = "", prjName = "";
-            if (prjInfo.Count() > 0)
+            var data = systemconfigurationbll.GetList(null).SingleOrDefault();
+            string prjName = "";
+            var virtualPath1 = "";
+            if (data != null)
             {
-                prjLogo = prjInfo[0].ProjectLogo;
-                prjName = prjInfo[0].ProjectSystemTitel;
+                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
+                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+                prjName = data.SystemName;
             }
-            ViewData["prjLogo"] = prjLogo;
+            ViewData["prjLogo"] = virtualPath1;
             ViewData["prjName"] = prjName;
             return View();
         }
@@ -104,6 +129,11 @@ namespace LeaRun.Application.Web.Controllers
             return View();
         }
         public ActionResult AdminPrettyDesktop()
+        {
+            return View();
+        }
+
+        public ActionResult ToBeDoneMoreIndex()
         {
             return View();
         }
@@ -142,6 +172,330 @@ namespace LeaRun.Application.Web.Controllers
         {
             return null;
         }
+        #endregion
+        #region 获取数据
+        [HttpGet]
+        public ActionResult GetMemberSumProportion()
+        {
+            List<MemberDemandEntity> MemberDemandList = new List<MemberDemandEntity>();
+            var Sub = subprojectbll.GetList(null);
+
+            foreach (var item in Sub)
+            {
+
+                var MemberDemand = memberdemandbll.GetList(f => f.SubProjectId == item.Id && f.IsReview == 1);
+                if (MemberDemand.Count() > 0)
+                {
+                    foreach (var item1 in MemberDemand)
+                    {
+                        if (MemberDemandList.Count() > 0)
+                        {
+                            var MemberDemand1 = MemberDemandList.Find(f => f.SubProjectId == subprojectbll.GetEntity(item1.SubProjectId).FullName);
+                            if (MemberDemand1 != null)
+                            {
+                                MemberDemand1.MemberNumber += item1.MemberNumber;
+                            }
+                            else
+                            {
+                                var _MemberDemandEntity = new MemberDemandEntity()
+                                {
+                                    SubProjectId = subprojectbll.GetEntity(item1.SubProjectId).FullName,
+                                    MemberNumber = item1.MemberNumber
+                                };
+                                MemberDemandList.Add(_MemberDemandEntity);
+                            }
+                        }
+                        else
+                        {
+                            var _MemberDemandEntity = new MemberDemandEntity()
+                            {
+                                SubProjectId = subprojectbll.GetEntity(item1.SubProjectId).FullName,
+                                MemberNumber = item1.MemberNumber
+                            };
+                            MemberDemandList.Add(_MemberDemandEntity);
+                        }
+                    }
+                }
+
+            }
+            return ToJsonResult(MemberDemandList);
+        }
+
+        [HttpGet]
+        public ActionResult GetOrderSumProportion()
+        {
+            List<MemberProductionOrderEntity> MemberProductionOrderList = new List<MemberProductionOrderEntity>();
+            var Sub = subprojectbll.GetList(null);
+
+            foreach (var item in Sub)
+            {
+                var MemberProductionOrder = memberproductionorderbll.GetList(f => f.Category == item.Id && f.IsPassed == 1);
+                if (MemberProductionOrder.Count() > 0)
+                {
+                    var _MemberProductionOrderEntity = new MemberProductionOrderEntity()
+                    {
+                        Category = subprojectbll.GetEntity(item.Id).FullName,
+                        Priority = MemberProductionOrder.Count()
+                    };
+                    MemberProductionOrderList.Add(_MemberProductionOrderEntity);
+                }
+
+            }
+            return ToJsonResult(MemberProductionOrderList);
+
+        }
+
+        [HttpGet]
+        public ActionResult GetMemberProduceSchedule()
+        {
+            List<MemberProductionOrderInfoEntity> MemberDemandList = new List<MemberProductionOrderInfoEntity>();
+            var Sub = subprojectbll.GetList(null);
+
+            foreach (var item in Sub)
+            {
+                var MemberProductionOrder = memberproductionorderbll.GetList(f => f.Category == item.Id && f.IsPassed == 1);
+                if (MemberProductionOrder.Count() > 0)
+                {
+                    foreach (var item1 in MemberProductionOrder)
+                    {
+                        var MemberProductionOrderInfo = memberproductionorderinfobll.GetList(f => f.OrderId == item1.OrderId);
+                        if (MemberProductionOrderInfo.Count() > 0)
+                        {
+                            foreach (var item2 in MemberProductionOrderInfo)
+                            {
+                                if (MemberProductionOrderInfo.Count() > 0)
+                                {
+                                    var MemberProductionOrder1 = MemberDemandList.Find(f => f.InfoId == subprojectbll.GetEntity(item.Id).FullName);
+                                    if (MemberProductionOrder1 != null)
+                                    {
+                                        MemberProductionOrder1.ProductionQuantity += Convert.ToInt32(item2.ProductionQuantity);//计划量
+                                        MemberProductionOrder1.QualityInspectionNumber += Convert.ToInt32(item2.QualityInspectionNumber);
+                                    }
+                                    else
+                                    {
+                                        var _MemberDemandEntity = new MemberProductionOrderInfoEntity()
+                                        {
+                                            InfoId = subprojectbll.GetEntity(item.Id).FullName,
+                                            ProductionQuantity = item2.ProductionQuantity,//计划量
+                                            QualityInspectionNumber = Convert.ToInt32(item2.QualityInspectionNumber)
+                                        };
+                                        MemberDemandList.Add(_MemberDemandEntity);
+                                    }
+                                }
+                                else
+                                {
+                                    var _MemberDemandEntity = new MemberProductionOrderInfoEntity()
+                                    {
+                                        InfoId = subprojectbll.GetEntity(item.Id).FullName,
+                                        ProductionQuantity = item2.ProductionQuantity,
+                                        QualityInspectionNumber = Convert.ToInt32(item2.QualityInspectionNumber)
+                                    };
+                                    MemberDemandList.Add(_MemberDemandEntity);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            return ToJsonResult(MemberDemandList);
+        }
+
+        /// <summary>
+        /// 获取公告最新6条
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetNotice()
+        {
+            var NoticeList = noticebll.GetList();
+            var list = DataTableToList<NewsEntity>.ConvertToModel(NoticeList);
+            return ToJsonResult(list);
+        }
+
+        /// <summary>
+        /// 更多待办
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetToBeDoneMore(Pagination pagination, string queryJson)
+        {
+            var list = new List<ToBeDoneModel>();
+            //材料需求
+            var RawMaterialAnalysisList = rawmaterialanalysisbll.GetList(f => f.IsSubmitReview == 1 && f.IsPassed == 0);
+            if (RawMaterialAnalysisList.Count() > 0)
+            {
+                foreach (var item in RawMaterialAnalysisList)
+                {
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.Id,
+                        Type = "RawMaterialAnalysis",
+                        Category = "审核",
+                        FullHead = item.CreateMan + "的材料需求",
+                        FullHeadColor = "red",
+                        ReleaseTime = item.ReviewTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            //材料申请
+            var RawMaterialOrderList = rawmaterialorderbll.GetList(f => f.IsSubmit == 1 && f.IsPassed == 0);
+            if (RawMaterialOrderList.Count() > 0)
+            {
+                foreach (var item in RawMaterialOrderList)
+                {
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.OrderId,
+                        Type = "RawMaterialOrder",
+                        Category = "审核",
+                        FullHead = item.CreateMan + "的材料申请",
+                        FullHeadColor = "red",
+                        ReleaseTime = item.ReviewTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            //材料采购
+            var RawMaterialPurchaseList = rawmaterialpurchasebll.GetList(f => f.IsSubmit == 1 && f.IsPassed == 0);
+            if (RawMaterialPurchaseList.Count() > 0)
+            {
+                foreach (var item in RawMaterialPurchaseList)
+                {
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.RawMaterialPurchaseId,
+                        Type = "RawMaterialPurchase",
+                        Category = "审核",
+                        FullHead = item.CreateMan + "的材料采购",
+                        FullHeadColor = "red",
+                        ReleaseTime = item.ReviewTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            //构件需求
+            var MemberDemandList = memberdemandbll.GetList(f => f.IsSubmit == 1 && f.IsReview == 0);
+            if (MemberDemandList.Count() > 0)
+            {
+                foreach (var item in MemberDemandList)
+                {
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.MemberDemandId,
+                        Type = "MemberDemand",
+                        Category = "审核",
+                        FullHead = item.CreateMan + "的构件需求",
+                        FullHeadColor = "red",
+                        ReleaseTime = item.ReviewTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            //构件申请
+            var MemberOrderList = memberproductionorderbll.GetList(f => f.IsSubmit == 1 && f.IsPassed == 0);
+            if (MemberOrderList.Count() > 0)
+            {
+                foreach (var item in MemberOrderList)
+                {
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.OrderId,
+                        Type = "MemberOrder",
+                        Category = "审核",
+                        FullHead = item.CreateMan + "的构件申请",
+                        FullHeadColor = "red",
+                        ReleaseTime = item.ReviewTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            //构件生产确认
+            var MemberProcessList = memberproductionorderbll.GetList(f => f.IsPassed == 1 && f.IsConfirm == 1);
+            if (MemberProcessList.Count() > 0)
+            {
+                foreach (var item in MemberProcessList)
+                {
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.OrderId,
+                        Type = "MemberProcess",
+                        Category = "审核",
+                        FullHead = item.CreateMan + "的构件生产",
+                        FullHeadColor = "red",
+                        ReleaseTime = item.ReviewTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            //生产设备维护
+            var ProduceEquipmentList = produceequipmentbll.GetList(f => f.Status == 0 && f.Status == 3);
+            if (ProduceEquipmentList.Count() > 0)
+            {
+                foreach (var item in ProduceEquipmentList)
+                {
+                    var text = item.Status == 0 ? "需保养" : "故障";
+                    var Color = item.Status == 0 ? "brown" : "yellow";
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.Id,
+                        Type = "ProduceEquipment",
+                        Category = "工作",
+                        FullHead = item.Name + text,
+                        FullHeadColor = Color,
+                        ReleaseTime = item.UpdateTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            //安全设备维护
+            var SafetyEquipmentList = safetyequipmentbll.GetList(f => f.Status == 0 && f.Status == 3);
+            if (SafetyEquipmentList.Count() > 0)
+            {
+                foreach (var item in SafetyEquipmentList)
+                {
+                    var text = item.Status == 0 ? "需保养" : "故障";
+                    var Color = item.Status == 0 ? "brown" : "yellow";
+                    var ToBeDone = new ToBeDoneModel()
+                    {
+                        Id = item.Id,
+                        Type = "ProduceEquipment",
+                        Category = "工作",
+                        FullHead = item.Name + text,
+                        FullHeadColor = Color,
+                        ReleaseTime = item.UpdateTime,
+                    };
+                    list.Add(ToBeDone);
+                }
+            }
+
+            var queryParam = queryJson.ToJObject();
+            if (!queryParam["FullHead"].IsEmpty())
+            {
+                string FullHead = queryParam["FullHead"].ToString();
+                list = list.FindAll(t => t.FullHead.Contains(FullHead));
+            }
+
+            list = list.OrderByDescending(f => f.ReleaseTime).ToList();
+
+            var JsonData = new
+            {
+                rows = list.Skip((pagination.page - 1) * pagination.rows).Take(pagination.rows),
+                total = pagination.total + 1,//总页数
+                page = pagination.page,//当前页
+                records = list.Count(),//总记录数
+            };
+            return ToJsonResult(JsonData);
+        }
+
         #endregion
     }
 }

@@ -68,7 +68,27 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
-      
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public string GetProjectInfoId(string keyValue, ProjectInfoEntity entity)
+        {
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                entity.Modify(keyValue);
+                this.BaseRepository().Update(entity);
+            }
+            else
+            {
+                entity.Create();
+                this.BaseRepository().Insert(entity);
+            }
+            return entity.ProjectInfoId;
+        }
         #endregion
     }
 }

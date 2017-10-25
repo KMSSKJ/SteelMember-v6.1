@@ -6,7 +6,7 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-06 10:42
-    /// 描 述：原材料管理
+    /// 描 述：材料管理
     /// </summary>
     public class RawMaterialLibraryEntity : BaseEntity
     {
@@ -17,11 +17,6 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string RawMaterialId { get; set; }
         /// <summary>
-        /// TreeId
-        /// </summary>
-        /// <returns></returns>
-        public string TreeId { get; set; }
-        /// <summary>
         /// 所属类别
         /// </summary>		
         public string Category { get; set; }
@@ -31,11 +26,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string RawMaterialName { get; set; }
-        /// <summary>
-        /// RawMaterialStandard
-        /// </summary>
-        /// <returns></returns>
-        public string RawMaterialStandard { get; set; }
+       
         /// <summary>
         /// UnitId
         /// </summary>
@@ -66,6 +57,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public int? Sort { get; set; }
+        /// <summary>
+        /// UpdateTime
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? UpdateTime { get; set; }
+
         #endregion
 
         #region 扩展操作
@@ -86,4 +83,5 @@ namespace LeaRun.Application.Entity.SteelMember
         }
         #endregion
     }
+
 }

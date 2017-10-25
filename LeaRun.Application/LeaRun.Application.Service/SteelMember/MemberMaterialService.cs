@@ -15,7 +15,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 09:49
-    /// 描 述：构件原材料
+    /// 描 述：构件材料
     /// </summary>
     public class MemberMaterialService : RepositoryFactory<MemberMaterialEntity>, MemberMaterialIService
     {
@@ -27,7 +27,17 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns>返回列表</returns>
         public IEnumerable<MemberMaterialEntity> GetList(string queryJson)
         {
-            return this.BaseRepository().IQueryable().ToList();
+            var expression = LinqExtensions.True<MemberMaterialEntity>();
+            //expression = expression.And(t => t.RawMaterialModel == FullName);
+            //if (!string.IsNullOrEmpty(TreeName))
+            //{
+            //    expression = expression.And(t => t.TreeName == TreeName);
+            //}
+            if (!string.IsNullOrEmpty(queryJson))
+            {
+                expression = expression.And(t => t.MemberId == queryJson);
+            }
+            return this.BaseRepository().IQueryable(expression).ToList();
         }
         /// <summary>
         /// 获取实体
@@ -81,11 +91,11 @@ namespace LeaRun.Application.Service.SteelMember
         public bool ExistFullName(string FullName, string TreeName, string keyValue)
         {
             var expression = LinqExtensions.True<MemberMaterialEntity>();
-            expression = expression.And(t => t.RawMaterialModel == FullName);
-            if (!string.IsNullOrEmpty(TreeName))
-            {
-                expression = expression.And(t => t.TreeName == TreeName);
-            }
+            expression = expression.And(t => t.RawMaterialId == FullName);
+            //if (!string.IsNullOrEmpty(TreeName))
+            //{
+            //    expression = expression.And(t => t.TreeName == TreeName);
+            //}
             if (!string.IsNullOrEmpty(keyValue))
             {
                 expression = expression.And(t => t.MemberId == keyValue);

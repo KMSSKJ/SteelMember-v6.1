@@ -260,7 +260,7 @@ loadnav = function () {
         var id = $(this).attr('id');
         var data = navJson[id];
         if (data.Target == "iframe") {
-            tablist.newTab({ moduleIdCookie: true, id: id, title: data.FullName, closed: true, icon: data.Icon, url: contentPath + data.UrlAddress });
+            tablist.newTab({ moduleIdCookie: true, id: id, title: data.FullName, closed: true, icon: data.Icon, url: contentPath + data.UrlAddress + "?moduleId=" + data.ModuleId });
         }
     })
     $("#nav li.item").hover(function (e) {

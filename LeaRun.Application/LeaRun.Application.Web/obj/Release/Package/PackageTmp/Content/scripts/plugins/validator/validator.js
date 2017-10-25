@@ -295,6 +295,15 @@ $.fn.Validform = function () {
                         }
                         break;
                     }
+                case "PositiveInteger":
+                    {
+                        if (!isInteger(value, $(this).attr("eqvalue"))) {
+                            Validatemsg = errormsg + "必须为大于零的正整数！\n";
+                            Validateflag = false;
+                            ValidationMessage($(this), Validatemsg); return false;
+                        }
+                        break;
+                    }
                 case "Double":
                     {
                         if (!isDouble(value, $(this).attr("eqvalue"))) {
@@ -387,6 +396,18 @@ $.fn.Validform = function () {
             return false;
         } else {
             return true;
+        }
+    }
+    //判断输入的字符是否为大于零的正整数
+    function isPositiveInteger(obj) {
+        if (obj.length != 0) {
+            reg = /^\+?[1-9]\d*$/;
+            if (!reg.test(obj)) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
     }
     //Email验证 email
@@ -723,6 +744,7 @@ $.fn.Validform = function () {
             }
         }
     }
+
     //判断输入的字符是否为双精度 double
     function isDouble(obj) {
         if (obj.length != 0) {
@@ -822,7 +844,7 @@ function ValidationMessage(obj, Validatemsg) {
                 e.stopPropagation();
             });
         }
-        return false;  
+        return false;
     } catch (e) {
         alert(e)
     }

@@ -1,5 +1,7 @@
 ﻿using LeaRun.Application.Entity.AuthorizeManage;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.AuthorizeManage
 {
@@ -30,6 +32,7 @@ namespace LeaRun.Application.IService.AuthorizeManage
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         FilterTimeEntity GetEntity(string keyValue);
+        FilterTimeEntity GetEntity(Expression<Func<FilterTimeEntity, bool>> condition);
         #endregion
 
         #region 提交数据

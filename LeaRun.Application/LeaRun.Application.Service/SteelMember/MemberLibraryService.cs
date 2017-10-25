@@ -8,6 +8,8 @@ using System.Linq;
 using LeaRun.Util;
 
 using LeaRun.Util.Extension;
+using System.Linq.Expressions;
+using System;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -30,30 +32,56 @@ namespace LeaRun.Application.Service.SteelMember
             var expression = LinqExtensions.True<MemberLibraryEntity>();
             var queryParam = queryJson.ToJObject();
             //查询条件
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
             {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-                  
-                    case "Category":              //构件类型
-                        expression = expression.And(t => t.Category.Contains(keyword));
-                        break;
-                    case "MemberName":              //构件名称
-                        expression = expression.And(t => t.MemberName.Contains(keyword));
-                        break;
-                    case "MemberNumbering":              //编号
-                        expression = expression.And(t => t.MemberNumbering.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
+                expression = expression.And(t => t.UploadTime >= BeginTime);
+                expression = expression.And(t => t.UploadTime <= EndTime);
             }
+            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UploadTime >= BeginTime);
+            }
+            else if(queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                expression = expression.And(t => t.UploadTime <= EndTime);
+            }
+
+            //if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            //{
+            //    string condition = queryParam["condition"].ToString();
+            //    string keyword = queryParam["keyword"].ToString();
+            //    switch (condition)
+            //    {
+                  
+            //        //case "Category":              //构件类型
+            //        //    expression = expression.And(t => t.Category.Contains(keyword));
+            //        //    break;
+            //        case "MemberName":              //构件名称
+            //            expression = expression.And(t => t.MemberName.Contains(keyword));
+            //            break;
+            //        case "MemberNumbering":              //编号
+            //            expression = expression.And(t => t.MemberNumbering.Contains(keyword));
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
             if(!queryParam["SubProjectId"].IsEmpty())
             {
                 var SubProjectId = queryParam["SubProjectId"].ToString();
-                expression = expression.And(t => t.SubProjectId == SubProjectId);
+                expression = expression.And(t => t.EngineeringId == SubProjectId);
+            }
+            if (!queryParam["MemberName"].IsEmpty())
+            {
+                var MemberName = queryParam["MemberName"].ToString();
+                expression = expression.And(t => t.MemberName.Contains(MemberName));
+            }
+            if (!queryParam["Numbering"].IsEmpty())
+            {
+                var Numbering = queryParam["Numbering"].ToString();
+                expression = expression.And(t => t.MemberNumbering.Contains(Numbering));
             }
             return this.BaseRepository().FindList(expression,pagination);
         }
@@ -62,7 +90,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// </summary>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回列表</returns>
-        public IEnumerable<MemberLibraryEntity> GetList(string queryJson)
+        public List<MemberLibraryEntity> GetList(string queryJson)
         {
             var expression = LinqExtensions.True<MemberLibraryEntity>();
             var queryParam = queryJson.ToJObject();
@@ -88,6 +116,17 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().IQueryable(expression).ToList();
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public List<MemberLibraryEntity> GetList(Expression<Func<MemberLibraryEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).ToList();
+        }
+
         /// <summary>
         /// 获取实体
         /// </summary>
@@ -96,6 +135,15 @@ namespace LeaRun.Application.Service.SteelMember
         public MemberLibraryEntity GetEntity(string keyValue)
         {
             return this.BaseRepository().FindEntity(keyValue);
+        }
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">主键值</param>
+        /// <returns></returns>
+        public MemberLibraryEntity GetEntity(Expression<Func<MemberLibraryEntity, bool>> condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
         }
         #endregion
 
@@ -164,7 +212,7 @@ namespace LeaRun.Application.Service.SteelMember
             expression = expression.And(t => t.MemberName.Trim() == FullName);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                expression = expression.And(t => t.SubProjectId.Trim() == keyValue);
+                expression = expression.And(t => t.EngineeringId.Trim() == keyValue);
             }
             if (!string.IsNullOrEmpty(Category)) { 
                 expression = expression.And(t => t.Category == Category);

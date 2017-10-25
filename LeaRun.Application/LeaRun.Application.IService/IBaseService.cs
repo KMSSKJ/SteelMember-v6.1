@@ -37,7 +37,15 @@ namespace LeaRun.Application.IService
         /// <param name="category">分类</param>
         /// <param name="keyValue">主键</param>
         /// <returns></returns>
-        bool Exist(string query,string category, string keyValue);
+        bool Exist(string query, string category, string keyValue);
+        /// <summary>
+        /// 字段不能重复（从全部数据里按分类验证）
+        /// </summary>
+        /// <param name="query">要验证的字段</param>
+        /// <param name="category">分类</param>
+        /// <param name="keyValue">主键</param>
+        /// <returns></returns>
+        bool Exist(string query, string RawMaterialName,string category, string keyValue);
         #endregion
     }
 }

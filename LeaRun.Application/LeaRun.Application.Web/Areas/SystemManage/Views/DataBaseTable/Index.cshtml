@@ -66,7 +66,7 @@
                 { label: "表类型", name: "reserved", width: 100, align: "center", sortable: false },
                 { label: "更新时间", name: "updatetime", width: 120, align: "center", sortable: false },
                 { label: "索引使用大小", name: "index_size", width: 120, align: "center", sortable: false },
-                { label: "说明", name: "tdescription", width: 120, align: "left", sortable: false }
+                { label: "备注", name: "tdescription", width: 120, align: "left", sortable: false }
             ],
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
@@ -96,7 +96,7 @@
                         { label: "标识", name: "identity", index: "identity", width: 58, align: "center", sortable: false },
                         { label: "主键", name: "key", index: "key", width: 57, align: "center", sortable: false },
                         { label: "默认值", name: "default", index: "default", width: 120, align: "center", sortable: false },
-                        { label: "说明", name: "remark", index: "remark", width: 200, sortable: false }
+                        { label: "备注", name: "remark", index: "remark", width: 200, sortable: false }
                     ],
                     caption: "表字段信息",
                     rowNum: "1000",

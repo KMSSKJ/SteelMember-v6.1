@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "Collar";
+    Layout = "~/Views/Shared/_OrderForm.cshtml";
+}
+<script>
+    var InventoryId = request('MemberWarehouseId');
+    $(function () {
+        initControl();
+        AddRawMaterial();
+        
+    });
+
+    //加载树
+    var _Category
+    function initControl() { 
+        $("#SubProject").ComboBoxTree({
+            //param: { EnCode: "RawMaterialType" },
+            //url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            param: { Levels: 2 },
+            url: '../../SteelMember/SubProject/GetTreeJson',
+            description: "==请选择==",
+            allowSearch: true
+        });
+    }
+
+    //加载构件
+    var _Quantity
+    function AddRawMaterial() {
+        if (InventoryId == "") {
+            return false;
+        }
+        $.ajax({
+            type:'Get',
+            dataType: 'json',
+            url: '../../SteelMember/MemberWarehouse/GetFormJson',
+            data: { keyValue: InventoryId },
+            success: function (data) {
+                _Quantity = data.InStock;
+                $("#Quantity").val(data.InStock); 
+                $("#Category").val(data.Category); 
+                $("#MemberStandard").val(data.MemberStandard);
+                $("#MemberUnit").html(data.MemberUnit); 
+            },
+            error: function (e) {
+                alert(e);
+            }
+
+        });
+    }
+    function AcceptClick() {
+        if ($("#SubProject").attr("data-text") == undefined) {
+            dialogTop("请选择工程名称", "error");
+            return false;
+        }
+       
+        if ($("#Quantity").val() == "" || $("#Quantity").val() > _Quantity || $("#Quantity").val() <= 0) {
+            dialogMsg("输入的领用数量有误！请重新输入",0);
+            $("#Quantity").val("");
+            return false;
+        }
+        var sb = $("#CollarCategory").val();
+        if ($("#CollarCategory").val() == "" || $("#Collaror").val() == "")
+        {
+            dialogMsg("请将信息填写完整！！", 0);
+            return false;
+        }
+      
+        var collarinfo = {
+            MemberWarehouseId: InventoryId,
+            SubProject: $("#SubProject").attr("data-text"),
+            Category: $("#Category").val(),
+            InStock: $("#Quantity").val(),
+            Receiver: $("#Receiver").val(),
+            Description: $("#Description").val()
+        };
+
+        $.ajax({
+            type: 'post',
+            url: '../../SteelMember/MemberWarehouse/SaveCollarinfo',
+            dataType: 'json',
+            data: { collarinfo: JSON.stringify(collarinfo) },
+            success: function (data) {
+                if (data.type == 1) {
+                    Loading(false);
+                    dialogMsg(data.message, 1);
+
+                } else {
+                    dialogAlert(data.message, -1);
+                }
+                dialogClose();
+            },
+            error: function (e) {
+                dialogAlert(e, -1);
+            }
+        });
+    }
+</script>
+
+<div class="bills">
+    <div style="height:100%;overflow-y:auto;margin:0px 10px;">
+        <table class="form" style="width: 100%;border-collapse:separate;border-spacing:30px;">
+            <tr>
+                <td align="center" colspan="10">
+                    <div style="font-family: 华文楷体; font-size: x-large; height: 50px; line-height: 50px;">
+                        构件出库&nbsp;
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    所属工程:
+                </th>
+                <td colspan="4">
+                    <div id="SubProject" type="select" class="ui-select" style="width:95%"></div>
+                </td>
+                <th>
+                    出库数量:
+                </th>
+                <td colspan="4">
+                    <input id="Quantity" type="number" style="width:80%;height:28px"><label id="Unit"style="margin-left:15px"></label>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    构件类型:
+                </th>
+                <td colspan="4">
+                    <input id="Category" type="text" class="form-control" style="width:95%;" disabled="disabled">
+                </td>
+                <th>
+                    规格:
+                </th>
+                <td colspan="4">
+                    <input id="MemberStandard" type="text" class="form-control" style="width:95%;" disabled="disabled">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    型号:
+                </th>
+                <td colspan="4">
+                    <input id="MemberModel" type="text" class="form-control" style="width:95%;" disabled="disabled">
+                </td>
+                <th>
+                    领取人:
+                </th>
+                <td colspan="4">
+                    <input id="Receiver" type="text" class="form-control" style="width:95%;" list="Collarorlist">
+                    <datalist id="Collarorlist">
+                        <option value="张三">张三</option>
+                        <option value="李四">李四</option>
+                    </datalist>
+                </td>
+            </tr>
+            
+            <tr>
+             
+                <th>
+                    备注:
+                </th>
+                <td colspan="4">
+                    <input id="Description" type="text" class="form-control" style="width:95%;">
+                </td>
+
+            </tr>
+          
+        </table>
+    </div>
+    @*<div class="gridPanel">
+        <table id="gridTable"></table>
+    </div>*@
+</div>
+<style>
+    body {
+        margin: 0px;
+    }
+
+    .bills {
+        overflow: hidden;
+        border-radius: 0px;
+        position: relative;
+        background: #FFFFFF;
+        border: 0px solid rgb(204, 204, 204);
+        box-shadow: none;
+        padding: 0px;
+    }
+
+    .ui-widget-content {
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 0px;
+    }
+</style>
+ 

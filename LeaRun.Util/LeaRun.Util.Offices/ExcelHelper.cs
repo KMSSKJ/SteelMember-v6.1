@@ -39,7 +39,7 @@ namespace LeaRun.Util.Offices
             curContext.Response.End();
         }
         /// <summary>
-        /// Excel导出下载
+        /// Excel导出下载(使用模板)
         /// </summary>
         /// <param name="list">数据源</param>
         /// <param name="templdateName">模板文件名</param>

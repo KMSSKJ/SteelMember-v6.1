@@ -9,7 +9,7 @@ namespace LeaRun.Application.IService.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 10:42
-    /// 描 述：原材料管理
+    /// 描 述：材料管理
     /// </summary>
     public interface RawMaterialLibraryIService:IBaseService<RawMaterialLibraryEntity>
     {
@@ -26,11 +26,23 @@ namespace LeaRun.Application.IService.SteelMember
         /// <returns>返回列表</returns>
         IEnumerable<RawMaterialLibraryEntity> GetPageList(Pagination pagination, string queryJson);
         /// <summary>
+        /// 模糊查询(Category)
+        /// </summary>
+        /// <param name="category">查询参数</param>
+        /// <returns>返回列表</returns>
+        IEnumerable<RawMaterialLibraryEntity> GetPageListByLikeCategory(Pagination pagination, string category);
+        /// <summary>
         /// 获取实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         RawMaterialLibraryEntity GetEntity(string keyValue);
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        RawMaterialLibraryEntity GetEntity(Expression<Func<RawMaterialLibraryEntity,bool>>condition);
         #endregion
 
         #region 提交数据

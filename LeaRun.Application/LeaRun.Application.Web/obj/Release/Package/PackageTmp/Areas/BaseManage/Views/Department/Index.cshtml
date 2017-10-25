@@ -13,7 +13,7 @@
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $("#gridTable").setGridHeight($(window).height() - 108.5);
+                $("#gridTable").setGridHeight($(window).height() - 136.5);
             }, 200);
             e.stopPropagation();
         });
@@ -25,7 +25,7 @@
         $gridTable.jqGrid({
             url: "../../BaseManage/Department/GetTreeListJson",
             datatype: "json",
-            height: $(window).height() - 108.5,
+            height: $(window).height() - 136.5,
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'DepartmentId', hidden: true },
@@ -36,9 +36,9 @@
                 { label: "部门简称", name: "ShortName", width: 100, align: "left", sortable: false },
                 { label: "部门性质", name: "Nature", width: 100, align: "left", sortable: false },
                 { label: "负责人", name: "Manager", width: 100, align: "left", sortable: false },
-                { label: "电话号", name: "OuterPhone", width: 100, align: "left", sortable: false },
-                { label: "分机号", name: "InnerPhone", width: 60, align: "center", sortable: false },
-                { label: "备注", name: "Description", width: 200, align: "left", sortable: false }
+                { label: "电话号", name: "OuterPhone", width: 150, align: "left", sortable: false },
+                { label: "分机号", name: "InnerPhone", width: 150, align: "center", sortable: false },
+                { label: "备注", name: "Description", width: 100, align: "left", sortable: false }
             ],
             treeGrid: true,
             treeGridModel: "nested",
@@ -78,25 +78,36 @@
     //新增
     function btn_add() {
         var keyValue = $("#gridTable").jqGridRowValue("DepartmentId");
-        if (checkedRow(keyValue)) {
-            var organizeId = $("#gridTable").jqGridRowValue("OrganizeId");
-            var parentId = $("#gridTable").jqGridRowValue("DepartmentId");
-            var sort = $("#gridTable").jqGridRowValue("Sort");
-            if (sort == 'Organize') {
-                parentId = 0;
-            }
-            dialogOpen({
-                id: "Form",
-                title: '添加部门',
-                url: '/BaseManage/Department/Form?departmentId=' + keyValue + "&organizeId=" + organizeId + "&parentId=" + parentId,
-                width: "700px",
-                height: "400px",
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                }
-            });
+        var organizeId = $("#gridTable").jqGridRowValue("OrganizeId");
+        var parentId = $("#gridTable").jqGridRowValue("DepartmentId");
+        var sort = $("#gridTable").jqGridRowValue("Sort");
+        if (sort == 'Organize') {
+            parentId = 0;
         }
+        dialogOpen({
+            id: "Form",
+            title: '添加部门',
+            url: '/BaseManage/Department/Form?departmentId=' + keyValue + "&organizeId=" + organizeId + "&parentId=" + parentId,
+            width: "700px",
+            height: "400px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            }
+        });
     };
+    //获取当前表格的所有数据
+    function getJQAllData() {
+        var o = jQuery("#gridTable");
+        //获取当前显示的数据
+        var rows = o.jqGrid('getRowData');
+        var rowNum = o.jqGrid('getGridParam', 'rowNum'); //获取显示配置记录数量
+        var total = o.jqGrid('getGridParam', 'records'); //获取查询得到的总记录数量
+        //设置rowNum为总记录数量并且刷新jqGrid，使所有记录现出来调用getRowData方法才能获取到所有数据
+        o.jqGrid('setGridParam', { rowNum: total }).trigger('reloadGrid');
+        var rows = o.jqGrid('getRowData');  //此时获取表格所有匹配的
+        o.jqGrid('setGridParam', { rowNum: rowNum }).trigger('reloadGrid'); //还原原来显示的记录数量
+        return rows;
+    }
     //编辑
     function btn_edit() {
         var keyValue = $("#gridTable").jqGridRowValue("DepartmentId");
@@ -173,8 +184,8 @@
             <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
         </div>
         @*<div class="btn-group">
-            <a id="lr-delete11" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-sitemap"></i>&nbsp;组织架构图</a>
-        </div>*@
+                <a id="lr-delete11" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-sitemap"></i>&nbsp;组织架构图</a>
+            </div>*@
         <script>$('.toolbar').authorizeButton()</script>
     </div>
 </div>

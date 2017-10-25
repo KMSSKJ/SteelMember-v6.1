@@ -5,3 +5,17 @@ D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framew
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.csprojResolveAssemblyReference.cache
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.dll
 D:\taobaoSVN\力软敏捷企业专业版(V6.1_升级版)\V6.1\code\LeaRun.Framework V6.1\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.pdb
+D:\project\LeaRun.Util\LeaRun.Util.Log\bin\Release\LeaRun.Util.Log.dll
+D:\project\LeaRun.Util\LeaRun.Util.Log\bin\Release\LeaRun.Util.Log.pdb
+D:\project\LeaRun.Util\LeaRun.Util.Log\bin\Release\log4net.dll
+D:\project\LeaRun.Util\LeaRun.Util.Log\bin\Release\log4net.xml
+D:\project\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.csprojResolveAssemblyReference.cache
+D:\project\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.dll
+D:\project\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Release\LeaRun.Util.Log.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Release\LeaRun.Util.Log.pdb
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Release\log4net.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Release\log4net.xml
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.csprojResolveAssemblyReference.cache
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.dll
+D:\GitHubProject\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Release\LeaRun.Util.Log.pdb

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.BaseManage
 {
@@ -71,6 +72,15 @@ namespace LeaRun.Application.Busines.BaseManage
         public UserEntity GetEntity(string keyValue)
         {
             return service.GetEntity(keyValue);
+        }
+        /// <summary>
+        /// 用户实体
+        /// </summary>
+        /// <param name="condition">参数</param>
+        /// <returns></returns>
+        public UserEntity GetEntity(Expression<Func<UserEntity,bool>>condition)
+        {
+            return service.GetEntity(condition);
         }
         #endregion
 
@@ -269,7 +279,7 @@ namespace LeaRun.Application.Busines.BaseManage
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "manager", ExcelColumn = "主管" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "organize", ExcelColumn = "公司" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "department", ExcelColumn = "部门" });
-            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "description", ExcelColumn = "说明" });
+            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "description", ExcelColumn = "备注" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "createdate", ExcelColumn = "创建日期" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "createusername", ExcelColumn = "创建人" });
             //调用导出方法

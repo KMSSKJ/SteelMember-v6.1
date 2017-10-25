@@ -14,6 +14,7 @@ using LeaRun.Application.IService.AuthorizeManage;
 using LeaRun.Application.Service.AuthorizeManage;
 using System;
 using LeaRun.Application.Code;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.BaseManage
 {
@@ -165,6 +166,17 @@ namespace LeaRun.Application.Service.BaseManage
         {
             return this.BaseRepository().FindEntity(keyValue);
         }
+
+        /// <summary>
+        /// 用户实体
+        /// </summary>
+        /// <param name="condition">参数</param>
+        /// <returns></returns>
+        public UserEntity GetEntity(Expression<Func<UserEntity,bool>>condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
+        }
+
         /// <summary>
         /// 登录验证
         /// </summary>
@@ -222,6 +234,20 @@ namespace LeaRun.Application.Service.BaseManage
                 #region 基本信息
                 if (!string.IsNullOrEmpty(keyValue))
                 {
+                    if (keyValue== "System") {
+                        userEntity.Create();
+                        keyValue = "System";
+                        userEntity.Secretkey = Md5Helper.MD5(CommonHelper.CreateNo(), 16).ToLower();
+                        userEntity.Password = Md5Helper.MD5(DESEncrypt.Encrypt(Md5Helper.MD5(userEntity.Password, 32).ToLower(), userEntity.Secretkey).ToLower(), 32).ToLower();
+                        db.Insert(userEntity);
+                    }else if (keyValue == "Admin")
+                    {
+                        userEntity.Create();
+                        keyValue = "Admin";
+                        userEntity.Secretkey = Md5Helper.MD5(CommonHelper.CreateNo(), 16).ToLower();
+                        userEntity.Password = Md5Helper.MD5(DESEncrypt.Encrypt(Md5Helper.MD5(userEntity.Password, 32).ToLower(), userEntity.Secretkey).ToLower(), 32).ToLower();
+                        db.Insert(userEntity);
+                    }
                     userEntity.Modify(keyValue);
                     userEntity.Password = null;
                     db.Update(userEntity);
@@ -331,6 +357,7 @@ namespace LeaRun.Application.Service.BaseManage
         {
             this.BaseRepository().Update(userEntity);
         }
+
         #endregion
     }
 }

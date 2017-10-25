@@ -5,29 +5,40 @@
 <script>
     var keyValue = request('keyValue');
     var category = request('category');
+
     $(function () {
         initControl();
     });
     //初始化控件
     function initControl() {
+        $("#Category").ComboBoxTree({
+            
+            param: { EnCode: "RawMaterialType" },
+            //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            description: "==请选择==",
+            allowSearch: true,
+
+        });
         //单位
         $("#Unit").ComboBox({
             param: { EnCode: "UnitName" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemValue",
+            id: "ItemDetailId",
             text: "ItemName",
             description: "==请选择==",
             height: "120px",
         });
         //类型
-        $("#Category").ComboBox({
-            param: { EnCode: "RawMaterialType" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            description: "==请选择==",
-            id: "ItemValue",
-            text: "ItemName",
-            height: "230px"
-        });
+        //$("#Category").ComboBox({
+        //    param: { EnCode: "RawMaterialType" },
+        //    url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+        //    description: "==请选择==",
+        //    id: "ItemValue",
+        //    text: "ItemName",
+        //    height: "230px"
+        //});
+        
         //获取表单
         if (!!keyValue) {
             $.SetForm({
@@ -35,6 +46,7 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
+                    $("#Unit").ComboBoxSetValue(data.Unit);
                 }
             })
         } else {
@@ -43,14 +55,16 @@
     }
     //验证
     $._ExistField = function (controlId, url, param) {
-        var a = $("#Category").attr('data-text');
+        var a = $("#Category").attr('data-value');
+        var RawMaterialName = $("#RawMaterialName").val();
         var $control = $("#" + controlId);
         if (!$control.val() || a == undefined || a == "" || a == '' || a == null) {
             return false;
         }
         var data = {
             keyValue: keyValue,
-            category: a
+            category: a,
+            RawMaterialName: RawMaterialName
         };
         data[controlId] = $control.val();
         var options = $.extend(data, param);
@@ -76,10 +90,19 @@
 
     //保存表单;
     function AcceptClick() {
+        var SB = $('#form1').Validform();
         if (!$('#form1').Validform()) {
             return false;
         }
+        var category = $("#ui-select-text").html();
+
+        if (category == "" || category == undefined) {
+            dialogMsg("请选择类型！！", 0);
+            return false;
+        }
         var postData = $("#form1").GetWebControls(keyValue);
+        postData["Unit"] = $("#Unit").attr('data-value')
+        postData["RawMaterialModel"] = $("#RawMaterialModel").val().replace(/\s+/g, "");//除去所有空格
         $.SaveForm({
             url: "../../SteelMember/RawMaterialLibrary/SaveForm?keyValue=" + keyValue,
             param: postData,
@@ -90,19 +113,26 @@
         })
     }
 </script>
-<div style="margin-top: 20px; margin-right: 30px;">
+<div style="margin: 15px;">
     <table class="form">
         <tr>
             <td class="formTitle">类型<font face="宋体">*</font></td>
             <td class="formValue">
+                @*<div id="Category" type="select" class="ui-select" checkexpession="NotNull"></div>*@
                 <div id="Category" type="select" class="ui-select"></div>
             </td>
-            <th class="formTitle">规格或型号<font face="宋体">*</font></th>
+            <th class="formTitle">材料名称<font face="宋体">*</font></th>
             <td class="formValue">
-                <input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" checkexpession="NotNull" />
+                @*<input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" checkexpession="NotNull" />*@
+                <input id="RawMaterialName" type="text"  class="form-control" placeholder="请输入材料名称" isvalid="yes" checkexpession="NotNull" />
             </td>
         </tr>
         <tr>
+            <th class="formTitle">规格或型号@*<font face="宋体">*</font>*@</th>
+            <td class="formValue">
+                @*<input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" checkexpession="NotNull" />*@
+                <input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" />
+            </td>
             <th class="formTitle">单位<font face="宋体">*</font></th>
             <td class="formValue">
                 <div id="Unit" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull">
@@ -114,7 +144,7 @@
                 描述
             </th>
             <td class="formValue" colspan="3">
-                <textarea id="Description" class="form-control" style="height: 70px;"></textarea>
+                <textarea id="Description" class="form-control" style="height: 130px;"></textarea>
             </td>
         </tr>
        

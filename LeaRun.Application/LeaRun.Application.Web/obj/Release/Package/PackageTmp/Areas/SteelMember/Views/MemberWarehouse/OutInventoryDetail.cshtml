@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "OutInventoryDetail";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+
+}
+<script>
+    $(function () {
+        GetGrid();
+    });
+    //加载表格
+    function GetGrid() {
+        var selectedRowIndex = 0;
+        var $gridTable = $('#gridTable');
+        $gridTable.jqGrid({
+            autowidth: true,
+            height: $(window).height() - 108.5,
+            url: "../../SteelMember/RawMterialCollar/OutInventoryDetailInfo",
+            datatype: "json",
+            colModel: [
+                { label: '出库ID', name: 'CollarId', index: 'CollarId', width: 80, align: 'center', sortable: true, hidden: true },
+                { label: '库存ID', name: 'InventoryId', index: 'InventoryId', width: 80, align: 'center', sortable: true, hidden: true },
+                { label: '所属工程', name: 'CollarEngineering', index: 'CollarEngineering', width: 80, align: 'center', sortable: true },
+                { label: '出库类型', name: 'CollarType', index: 'CollarType', width: 80, align: 'center', sortable: true },
+                { label: '材料类型', name: 'Category', index: 'Category', width: 80, align: 'center', sortable: true },
+                { label: '出库数量', name: 'CollarQuantity', index: 'CollarQuantity', width: 80, align: 'center', sortable: true },
+                { label: '单位', name: 'Unit', index: 'Unit', width: 80, align: 'center', sortable: true },
+                { label: '领用人', name: 'CollarMan', index: 'CollarMan', width: 80, align: 'center', sortable: true },
+                { label: '出库时间', name: 'CollarTime', index: 'CollarTime', width: 80, align: 'center', sortable: true },
+                { label: '描述', name: 'Description', index: 'Description', width: 80, align: 'center', sortable: true },
+            ],
+            viewrecords: true,
+            rowNum: 30,
+            rowList: [30, 50, 100],
+            pager: "#gridPager",
+            sortname: 'CollarId',
+            sortorder: 'desc',
+            rownumbers: true,
+            shrinkToFit: false,
+            gridview: true,
+
+
+            onSelectRow: function () {
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $('#' + this.id).setSelection(selectedRowIndex, false);
+            }
+        });
+    }
+
+    //导出文件
+    var JsonData1 = ""; var TableObject = "";
+    function btn_derive() {
+        SetDeriveExcel("#gridTable", "原材料出库信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
+        dialogOpen({
+            id: "DeriveFile",
+            title: '原材料出库信息表',
+            url: '/Utility/DeriveFile',
+            width: "700px",
+            height: "435px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+
+        });
+    }
+
+    //input改变事件
+    function InputChange() {
+        $('#btn_Search').trigger("click");
+    }
+</script>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="panel-Title">出库信息</div>
+            <div class="titlePanel">
+                <div class="title-search" style="padding-top:15px">
+                    <table>
+                        <tr>
+                            <td style="width:110px">
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                            </td>
+                            <td style="padding-left:2px;width:110px">
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                            </td>
+
+                            @*<td style="padding-left: 10px;">
+                                    <div id="queryCondition" class="btn-group">
+                                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-value="Category">构件类型</a></li>
+                                            <li><a data-value="MemberName">构件名称</a></li>
+                                            <li><a data-value="OrderNumbering">编号</a></li>
+                                        </ul>
+                                    </div>
+                                </td>*@
+                            @*<td style="padding-left: 5px;width:110px">
+                                    <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询编号" />
+                                </td>*@
+                            <td style="padding-left: 5px;display:none">
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>导出</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="gridPanel">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+    </div>
+</div>

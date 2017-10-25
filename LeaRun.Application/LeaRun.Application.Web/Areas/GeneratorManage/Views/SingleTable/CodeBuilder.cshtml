@@ -169,7 +169,7 @@
                 },
                 { label: "使用大小", name: "reserved", width: 100, align: "left", sortable: false },
                 { label: "更新时间", name: "updatetime", width: 120, align: "left", sortable: false },
-                { label: "说明", name: "tdescription", width: 120, align: "left", sortable: false }
+                { label: "备注", name: "tdescription", width: 120, align: "left", sortable: false }
             ],
             rowNum: "1000",
             rownumbers: true,
@@ -208,7 +208,7 @@
                             }
                         },
                         { label: "默认值", name: "default", index: "default", width: 120, align: "center", sortable: false },
-                        { label: "说明", name: "remark", index: "remark", width: 100, sortable: false }
+                        { label: "备注", name: "remark", index: "remark", width: 100, sortable: false }
                     ],
                     caption: "表字段信息",
                     rowNum: "1000",
@@ -499,7 +499,7 @@
                 <div class="panel-body" style="width: 99%;">
                     <table class="form">
                         <tr>
-                            <th class="formTitle">创建人员<font face="宋体">*</font></th>
+                            <th class="formTitle">创建人员<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="CreateUser" type="text" class="form-control" value="@ViewBag.UserName" isvalid="yes" checkexpession="NotNull" />
                             </td>
@@ -507,22 +507,22 @@
                             <td class="formValue">
                                 <input id="CreateDate" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")"  isvalid="yes" checkexpession="NotNull" />
                             </td>
-                            <th class="formTitle">类名描述<font face="宋体">*</font></th>
+                            <th class="formTitle">类名描述<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="Description" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
                         </tr>
                         <tr>
-                            <th class="formTitle">表主键名<font face="宋体">*</font></th>
+                            <th class="formTitle">表主键名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <div id="DataBaseTablePK" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull">
                                 </div>
                             </td>
-                            <th class="formTitle">实体类名<font face="宋体">*</font></th>
+                            <th class="formTitle">实体类名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="EntityClassName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
-                            <th class="formTitle">映射类名<font face="宋体">*</font></th>
+                            <th class="formTitle">映射类名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="MapClassName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
@@ -530,29 +530,29 @@
                         </tr>
                         <tr>
 
-                            <th class="formTitle">服务类名<font face="宋体">*</font></th>
+                            <th class="formTitle">服务类名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="ServiceClassName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
-                            <th class="formTitle">接口类名<font face="宋体">*</font></th>
+                            <th class="formTitle">接口类名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="IServiceClassName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
-                            <th class="formTitle">业务类名<font face="宋体">*</font></th>
+                            <th class="formTitle">业务类名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="BusinesClassName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
                         </tr>
                         <tr>
-                            <th class="formTitle">控制器名<font face="宋体">*</font></th>
+                            <th class="formTitle">控制器名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="ControllerName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
-                            <th class="formTitle">列表页名<font face="宋体">*</font></th>
+                            <th class="formTitle">列表页名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="IndexPageName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
-                            <th class="formTitle">表单页名<font face="宋体">*</font></th>
+                            <th class="formTitle">表单页名<font face="宋体" color="red">*</font></th>
                             <td class="formValue">
                                 <input id="FormPageName" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             </td>
@@ -695,25 +695,25 @@
             <div id="publish_panel" style="position: absolute; height: 400px; top: 700px; z-index: 100; background: #ffffff; margin-top: 15px; margin-right: 30px; display: none;">
                 <table class="form">
                     <tr>
-                        <th class="formTitle">功能编号<font face="宋体">*</font></th>
+                        <th class="formTitle">功能编号<font face="宋体" color="red">*</font></th>
                         <td class="formValue">
                             <input id="ModuleEnCode" type="text" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
                         </td>
                     </tr>
                     <tr>
-                        <th class="formTitle">功能名称<font face="宋体">*</font></th>
+                        <th class="formTitle">功能名称<font face="宋体" color="red">*</font></th>
                         <td class="formValue">
                             <input id="ModuleFullName" type="text" class="form-control" placeholder="请输入名称" isvalid="yes" checkexpession="NotNull" />
                         </td>
                     </tr>
                     <tr>
-                        <th class="formTitle">功能上级<font face="宋体">*</font></th>
+                        <th class="formTitle">功能上级<font face="宋体" color="red">*</font></th>
                         <td class="formValue">
                             <div id="ModuleParentId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                         </td>
                     </tr>
                     <tr>
-                        <th class="formTitle">功能图标<font face="宋体">*</font></th>
+                        <th class="formTitle">功能图标<font face="宋体" color="red">*</font></th>
                         <td class="formValue">
                             <input id="ModuleIcon" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
                             <span class="input-button" title="选取图标">...</span>

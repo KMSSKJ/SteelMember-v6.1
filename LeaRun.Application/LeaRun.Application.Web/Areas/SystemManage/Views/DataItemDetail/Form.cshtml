@@ -40,8 +40,8 @@
             loading: "正在保存数据...",
             success: function () {
                 $.currentIframe().$("#gridTable").resetSelection();
-                //$.currentIframe().$("#gridTable").trigger("reloadGrid");
-                $.currentIframe("MemberCategoryIndex").windowsload();
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                //$.currentIframe("MemberCategoryIndex").windowsload();
             }
         })
     }
@@ -55,19 +55,19 @@
     <input id="ItemId" type="hidden" />
     <table class="form">
         <tr>
-            <td class="formTitle">项目名<font face="宋体">*</font></td>
+            <td class="formTitle">项目名<font face="宋体" color="red">*</font></td>
             <td class="formValue">
                 <input id="ItemName" type="text" onblur="OverrideExistField(this.id,'../../SystemManage/DataItemDetail/ExistItemName')" class="form-control" placeholder="请输入项目名" isvalid="yes" checkexpession="NotNull" />
             </td>
         </tr>
         <tr>
-            <td class="formTitle">项目值<font face="宋体">*</font></td>
+            <td class="formTitle">项目值<font face="宋体" color="red">*</font></td>
             <td class="formValue">
                 <input id="ItemValue" type="text" onblur="OverrideExistField(this.id,'../../SystemManage/DataItemDetail/ExistItemValue')" class="form-control" placeholder="请输入项目值" isvalid="yes" checkexpession="NotNull" />
             </td>
         </tr>
         <tr>
-            <th class="formTitle">排序<font face="宋体">*</font></th>
+            <th class="formTitle">排序<font face="宋体" color="red">*</font></th>
             <td class="formValue">
                 <input id="SortCode" type="text" class="form-control" isvalid="yes" checkexpession="Num" />
             </td>

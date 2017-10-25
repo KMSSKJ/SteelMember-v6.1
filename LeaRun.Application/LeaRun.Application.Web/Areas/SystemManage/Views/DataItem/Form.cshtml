@@ -18,6 +18,7 @@
         });
         //获取表单
         if (!!keyValue) {
+         
             $.SetForm({
                 url: "../../SystemManage/DataItem/GetFormJson",
                 param: { keyValue: keyValue },
@@ -25,7 +26,10 @@
                     $("#form1").SetWebControls(data);
                 }
             });
+            //document.getElementById("ItemCode").style.readOnly = "readOnly";
+             
         } else {
+            $("#ItemCode").attr("readOnly", false);
             $("#ParentId").ComboBoxTreeSetValue(parentId);
         }
     }
@@ -58,19 +62,20 @@
             </td>
         </tr>
         <tr>
-            <td class="formTitle">名称<font face="宋体">*</font></td>
+            <td class="formTitle">名称<font face="宋体" color="red">*</font></td>
             <td class="formValue">
                 <input id="ItemName" type="text" onblur="$.ExistField(this.id,'../../SystemManage/DataItem/ExistItemName')" class="form-control" placeholder="请输入名称" isvalid="yes" checkexpession="NotNull" />
             </td>
         </tr>
         <tr>
-            <td class="formTitle">编号<font face="宋体">*</font></td>
+            <td class="formTitle">编号<font face="宋体" color="red">*</font></td>
             <td class="formValue">
-                <input id="ItemCode" type="text" onblur="$.ExistField(this.id,'../../SystemManage/DataItem/ExistItemCode')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
+                <input readonly id="ItemCode" type="text" onblur="$.ExistField(this.id,'../../SystemManage/DataItem/ExistItemCode')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
+                @*<input readonly id="OrderNumbering" type="text" datacol="yes" err="订单编号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" class="txt"style="width: 95%" />*@
             </td>
         </tr>
         <tr>
-            <th class="formTitle">排序<font face="宋体">*</font></th>
+            <th class="formTitle">排序<font face="宋体" color="red">*</font></th>
             <td class="formValue">
                 <input id="SortCode" type="text" class="form-control" isvalid="yes" checkexpession="Num" />
             </td>

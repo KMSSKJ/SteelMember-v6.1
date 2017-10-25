@@ -4,7 +4,11 @@ using LeaRun.Data.Repository;
 using LeaRun.Util;
 using LeaRun.Util.Extension;
 using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Reflection;
 
 namespace LeaRun.Application.Service.PublicInfoManage
 {
@@ -25,20 +29,31 @@ namespace LeaRun.Application.Service.PublicInfoManage
         public IEnumerable<NewsEntity> GetPageList(Pagination pagination, string queryJson)
         {
             var expression = LinqExtensions.True<NewsEntity>();
-            var queryParam = queryJson.ToJObject();
-            if (!queryParam["FullHead"].IsEmpty())
-            {
-                string FullHead = queryParam["FullHead"].ToString();
-                expression = expression.And(t => t.FullHead.Contains(FullHead));
-            }
-            if (!queryParam["Category"].IsEmpty())
-            {
-                string Category = queryParam["Category"].ToString();
-                expression = expression.And(t => t.Category == Category);
-            }
+                var queryParam = queryJson.ToJObject();
+                if (!queryParam["FullHead"].IsEmpty())
+                {
+                    string FullHead = queryParam["FullHead"].ToString();
+                    expression = expression.And(t => t.FullHead.Contains(FullHead));
+                }
+                if (!queryParam["Category"].IsEmpty())
+                {
+                    string Category = queryParam["Category"].ToString();
+                    expression = expression.And(t => t.Category == Category);
+                }
             expression = expression.And(t => t.TypeId == 2);
             return this.BaseRepository().FindList(expression, pagination);
         }
+
+        /// <summary>
+        /// 公告列表
+        /// </summary>
+        /// <param name="">查询参数</param>
+        /// <returns></returns>
+        public DataTable GetList()
+        {
+            return this.BaseRepository().FindTable("select top 6 * from Base_News where TypeId = 2 order by ReleaseTime desc");
+        }
+     
         /// <summary>
         /// 公告实体
         /// </summary>
