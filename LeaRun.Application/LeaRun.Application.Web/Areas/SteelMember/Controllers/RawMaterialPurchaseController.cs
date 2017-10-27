@@ -21,16 +21,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class RawMaterialPurchaseController : MvcControllerBase
     {
-        private RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
-        private RawMaterialOrderBLL rawmaterialorderbll = new RawMaterialOrderBLL();
-        private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
-        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
-        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
-        private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
-        private OrganizeBLL organizebll = new OrganizeBLL();
-        private DepartmentBLL departmentbll = new DepartmentBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面

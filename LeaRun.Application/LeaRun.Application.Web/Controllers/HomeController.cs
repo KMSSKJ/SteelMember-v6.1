@@ -37,19 +37,7 @@ namespace LeaRun.Application.Web.Controllers
     {
         UserBLL user = new UserBLL();
         DepartmentBLL department = new DepartmentBLL();
-        private SystemConfigurationBLL systemconfigurationbll = new SystemConfigurationBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
         private NoticeBLL noticebll = new NoticeBLL();
-        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
-        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
-        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
-
-        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
-        private RawMaterialOrderBLL rawmaterialorderbll = new RawMaterialOrderBLL();
-        private RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
-
-        private ProduceEquipmentBLL produceequipmentbll = new ProduceEquipmentBLL();
-        private SafetyEquipmentBLL safetyequipmentbll = new SafetyEquipmentBLL();
 
         #region 视图功能
         /// <summary>
@@ -63,12 +51,11 @@ namespace LeaRun.Application.Web.Controllers
             var virtualPath1 = "";
             if (data != null)
             {
-                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
-                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+                virtualPath1 = data.SystemLogo;
                 prjName = data.SystemName;
             }
             ViewData["prjLogo"] = virtualPath1;
-            ViewData["prjName"] = prjName;
+            ViewData["prjName"] = prjName + "钢构件生产管理系统";
             return View();
         }
         public ActionResult AdminLTE()
@@ -78,12 +65,11 @@ namespace LeaRun.Application.Web.Controllers
             var virtualPath1 = "";
             if (data != null)
             {
-                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
-                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+                virtualPath1 = data.SystemLogo;
                 prjName = data.SystemName;
             }
             ViewData["prjLogo"] = virtualPath1;
-            ViewData["prjName"] = prjName;
+            ViewData["prjName"] = prjName + "钢构件生产管理系统";
             return View();
         }
         public ActionResult AdminWindos()
@@ -93,12 +79,12 @@ namespace LeaRun.Application.Web.Controllers
             var virtualPath1 = "";
             if (data != null)
             {
-                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
-                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+
+                virtualPath1 = data.SystemLogo;
                 prjName = data.SystemName;
             }
             ViewData["prjLogo"] = virtualPath1;
-            ViewData["prjName"] = prjName;
+            ViewData["prjName"] = prjName + "钢构件生产管理系统";
             return View();
         }
         public ActionResult AdminPretty()
@@ -108,12 +94,12 @@ namespace LeaRun.Application.Web.Controllers
             var virtualPath1 = "";
             if (data != null)
             {
-                var filename1 = data.SystemLogo.Substring(0, data.SystemLogo.LastIndexOf('.'));//获取文件名称，去除后缀名
-                virtualPath1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + data.SystemLogo;
+
+                virtualPath1 = data.SystemLogo;
                 prjName = data.SystemName;
             }
             ViewData["prjLogo"] = virtualPath1;
-            ViewData["prjName"] = prjName;
+            ViewData["prjName"] = prjName + "钢构件生产管理系统";
             return View();
         }
         public ActionResult AdminDefaultDesktop()

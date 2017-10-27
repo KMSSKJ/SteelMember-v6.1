@@ -16,9 +16,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class MemberProcessController : MvcControllerBase
     {
-        private MemberProcessBLL memberprocessbll = new MemberProcessBLL();
-        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
-        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面

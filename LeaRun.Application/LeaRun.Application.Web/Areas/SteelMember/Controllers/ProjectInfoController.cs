@@ -16,8 +16,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class ProjectInfoController : MvcControllerBase
     {
-        private ProjectInfoBLL projectinfobll = new ProjectInfoBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面

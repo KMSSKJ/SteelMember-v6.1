@@ -15,10 +15,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class SafetyEquipmentController : MvcControllerBase
     {
-        private SafetyEquipmentBLL safetyequipmentbll = new SafetyEquipmentBLL();
-        private EquipmentMaintenanceRecordsBLL equipmentmaintenancerecordsbll = new EquipmentMaintenanceRecordsBLL();
-
-
         #region 视图功能
         /// <summary>
         /// 列表页面

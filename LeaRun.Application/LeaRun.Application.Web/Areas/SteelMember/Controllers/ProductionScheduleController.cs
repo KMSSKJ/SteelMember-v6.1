@@ -12,12 +12,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
     public class ProductionScheduleController : MvcControllerBase
     {
-        // private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
-        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
-        private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-
-        //
         // GET: /SteelMember/ProductionSchedule/
         #region 视图功能
         [HttpGet]

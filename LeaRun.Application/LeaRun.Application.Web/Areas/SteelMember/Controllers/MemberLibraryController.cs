@@ -28,18 +28,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
    
     public class MemberLibraryController : MvcControllerBase
     {
-        private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
-        private MemberMaterialBLL membermaterialbll = new MemberMaterialBLL();
-        private MemberProcessBLL memberprocessbll = new MemberProcessBLL();
-        private MemberWarehouseBLL memberwarehousebll = new MemberWarehouseBLL();
-        private ProjectInfoBLL projectinfobll = new ProjectInfoBLL();
-        private SystemConfigurationBLL systemconfigurationbll = new SystemConfigurationBLL();
-        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-        private DataItemBLL dataitembll = new DataItemBLL();
-        private DataItemCache dataItemCache = new DataItemCache();
-
         #region 视图功能
         /// <summary>
         /// 列表页面
