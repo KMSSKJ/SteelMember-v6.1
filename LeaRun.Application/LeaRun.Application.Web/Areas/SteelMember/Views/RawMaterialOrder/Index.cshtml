@@ -114,6 +114,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -221,7 +223,7 @@
         var keyValue = $('#gridTable').jqGridRowValue('OrderId');
         var IsReview = $('#gridTable').jqGridRowValue('IsPassed');
         var IsSubmit = $('#gridTable').jqGridRowValue('IsSubmit');
-        if (checkedRow(keyValue)) {
+        if (checkedArray(keyValue)) {
             if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsReview == "<span class=\"label label-danger\">Ê§°Ü</span>") {
                 $.RemoveForm({
                     url: '../../SteelMember/RawMaterialOrder/RemoveForm',

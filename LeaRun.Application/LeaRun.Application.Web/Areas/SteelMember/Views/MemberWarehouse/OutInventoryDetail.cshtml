@@ -42,6 +42,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -126,7 +128,7 @@
     //删除
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('CollarId');
-        if (keyValue) {
+        if (checkedArray(keyValue)) {
             $.RemoveForm({
                 url: '../../SteelMember/MemberWarehouse/RemoveFormCollar',
                 param: { keyValue: keyValue },

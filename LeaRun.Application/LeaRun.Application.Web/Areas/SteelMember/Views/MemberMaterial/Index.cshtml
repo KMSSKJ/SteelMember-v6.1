@@ -28,13 +28,13 @@
             url: "../../SteelMember/MemberMaterial/GetListJson",
             datatype: "json",
             colModel: [
-                { label: 'MemberMaterialId', name: 'MemberMaterialId', index: 'MemberMaterialId', width: 100, align: 'left',sortable: true  },
-                { label: 'RawMaterialId', name: 'RawMaterialId', index: 'RawMaterialId', width: 100, align: 'left',sortable: true  },
-                { label: 'MemberId', name: 'MemberId', index: 'MemberId', width: 100, align: 'left',sortable: true  },
-                { label: 'TreeId', name: 'TreeId', index: 'TreeId', width: 100, align: 'left',sortable: true  },
-                { label: 'RawMaterialModel', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 100, align: 'left',sortable: true  },
-                { label: 'Description', name: 'Description', index: 'Description', width: 100, align: 'left',sortable: true  },
-                { label: 'RawMaterialNumber', name: 'RawMaterialNumber', index: 'RawMaterialNumber', width: 100, align: 'left',sortable: true  },
+                { label: 'MemberMaterialId', name: 'MemberMaterialId', index: 'MemberMaterialId', width: 100, align: 'center',sortable: false  },
+                { label: 'RawMaterialId', name: 'RawMaterialId', index: 'RawMaterialId', width: 100, align: 'center',sortable: false   },
+                { label: 'MemberId', name: 'MemberId', index: 'MemberId', width: 100, align: 'center', sortable: false  },
+                { label: 'TreeId', name: 'TreeId', index: 'TreeId', width: 100, align: 'center', sortable: false  },
+                { label: 'RawMaterialModel', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 100, align: 'center', sortable: false  },
+                { label: 'Description', name: 'Description', index: 'Description', width: 100, align: 'center', sortable: false  },
+                { label: 'RawMaterialNumber', name: 'RawMaterialNumber', index: 'RawMaterialNumber', width: 100, align: 'center', sortable: false  },
             ],
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');

@@ -105,7 +105,7 @@
                     }
                 },
                 { label: '保修至', name: 'WarrantyDate', index: 'WarrantyDate', width: 80, align: 'center', sortable: true },
-                { label: '说明', name: 'Description', index: 'Description', width: 100, align: 'center', sortable: true },
+                { label: '说明', name: 'Description', index: 'Description', width: 100, align: 'center', sortable: false },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -116,6 +116,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -216,7 +218,7 @@
     //删除
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('Id');
-        if (checkedRow(keyValue)) {
+        if (checkedArray(keyValue)) {
             $.RemoveForm({
                 url: '../../SteelMember/ProduceEquipment/RemoveForm',
                 param: { keyValue: keyValue },

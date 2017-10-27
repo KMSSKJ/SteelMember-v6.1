@@ -144,7 +144,7 @@
                 { label: '已生产合格量', name: 'ProductionNumber', width: 80, index: 'ProductionNumber', align: ' center', sortable: false },
                 { label: '已使用量', name: 'CollaredNumber', width: 80, index: 'CollaredNumber', align: ' center', sortable: false },
                 {
-                    label: '备注', name: "Description", index: "Description", align: ' center',, sortable: false,
+                    label: '备注', name: "Description", index: "Description", align: ' center', sortable: false,
                     formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.Description == null || rowObject.Description == "undefined") {
                             return "";
@@ -163,6 +163,7 @@
             shrinkToFit: false,
             gridview: true,
             multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
