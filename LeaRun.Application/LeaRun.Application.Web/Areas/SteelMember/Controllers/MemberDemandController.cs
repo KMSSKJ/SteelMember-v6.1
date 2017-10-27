@@ -20,11 +20,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class MemberDemandController : MvcControllerBase
     {
-        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
-        private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面

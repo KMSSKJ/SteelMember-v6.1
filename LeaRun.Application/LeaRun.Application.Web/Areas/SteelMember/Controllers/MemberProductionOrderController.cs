@@ -23,16 +23,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class MemberProductionOrderController : MvcControllerBase
     {
-        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
-        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
-        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
-        private MemberCollarBLL membercollarbll = new MemberCollarBLL();
-        private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
-        private DepartmentBLL departmentbll = new DepartmentBLL();
-        private OrganizeBLL organizebll = new OrganizeBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面

@@ -46,29 +46,21 @@
         //加载图片
         function GetGrid() {
             $.ajax({
-                url: "/SteelMember/ProjectInfo/GetFormJson",
+                url: "/SteelMember/SystemConfiguration/GetFormJson",
                 type: "get",
                 data: {},
                 dataType: "json",
                 async: false,
                 success: function (data) {
                     if (data!=null) {
-                    var fileName = data.ProjectBackground;
+                        var fileName = data.EngineeringImg;
                     if (fileName != null) {
-                        var array = fileName.split(":");// 在每个逗号(:)处进行分解。
+                        var array = fileName.split(",");// 在每个逗号(:)处进行分解。
                         var num = 0;
-                        array.forEach(function (filename) {
-                            if (filename == null || filename == "") {
-                                return false;
-                            } else {
-                                var filename1 = filename.substring(0, filename.lastIndexOf('.'));//获取文件名称，去除后缀名
-                                filename1 = "../../Resource/Document/NetworkDisk/System/Project/" + filename1 + "/" + filename;
-                                //$("ul").append("<li><img id= 'txImg" + num + "' class='txImg' src= '" + filename1 + "' /></li>");
-                                $("li").append("<img id= 'txImg" + num + "' class='txImg' src= '" + filename1 + "'/>");
-                                //document.getElementById("txImg").src = filename;
-                                num++;
-                            }
-                        });
+
+                        for (var j = 0; j < array.length; j++) {
+                            $("li").append("<img id= 'txImg" + j + "' class='txImg' src= '" + array[j] + "'/>");
+                        }                        
                     }
                 }
                 },
@@ -673,8 +665,8 @@
         }
 
         #divPictureScrolls {
-            width: 1800px;
-            height: 108px;
+            width: 100%;
+            height: 150px;
             margin: auto;
             position: relative;
             overflow: hidden;
@@ -690,14 +682,14 @@
 
                 #divPictureScrolls ul li {
                     float: left;
-                    width: 1800px;
-                    height: 108px;
+                    width: 100%;
+                    height: 150px;
                     list-style: none;
                 }
 
         .txImg {
             width: 190px;
-            height: 108px;
+            height: 150px;
             padding-right: 5px;
         }
 
@@ -813,7 +805,7 @@
             <div class="portal-panel-content" style="overflow: hidden;">
                 @*margin-top: 2px;*@
                 <div class="row" style="overflow: hidden;">
-                    <div id="divPictureScrolls" style=" height: 108px;">
+                    <div id="divPictureScrolls" style="height:150px;">
                         <ul id="ul">
                             <li id="li"></li>
                             @*<li><img id="txImg" class="txImg" src="" /></li>*@

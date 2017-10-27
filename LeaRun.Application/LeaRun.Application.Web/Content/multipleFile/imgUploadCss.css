@@ -1,0 +1,66 @@
+﻿
+
+/*
+    多文件上传 样式表
+    created by chenbing 2016-05-16
+*/
+
+.houseImgUpload {
+    width: 600px;
+    float: left;
+}
+
+    .houseImgUpload i.button {
+        height: 30px;
+        width: 100px;
+        background-color: #ff4400;
+        color: #ffffff;
+        display: block;
+        line-height: 30px;
+        font-size: 14px;
+        text-align: center;
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        cursor: pointer;
+        float: left;
+    }
+
+    .houseImgUpload i.prompt {
+        height: 30px;
+        line-height: 30px;
+        float: left;
+    }
+
+    .houseImgUpload input.file-input {
+        display: none;
+    }
+
+    .houseImgUpload div.imgShow {
+        height: auto;
+        width: 100%;
+        margin-top: 32px;
+    }
+
+        .houseImgUpload div.imgShow i.list {
+            float: left;
+            position: relative;
+            width: 100px;
+            height: 120px;
+            display: block;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+            .houseImgUpload div.imgShow i.list img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .houseImgUpload div.imgShow i.list i {
+                position: absolute;
+                top: 102px;
+                left: 30px;
+                cursor: pointer;
+            }

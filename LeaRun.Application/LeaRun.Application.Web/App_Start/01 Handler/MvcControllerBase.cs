@@ -1,4 +1,8 @@
-﻿using LeaRun.Application.Code;
+﻿using LeaRun.Application.Busines.BaseManage;
+using LeaRun.Application.Busines.SteelMember;
+using LeaRun.Application.Busines.SystemManage;
+using LeaRun.Application.Cache;
+using LeaRun.Application.Code;
 using LeaRun.Util;
 using LeaRun.Util.Log;
 using LeaRun.Util.WebControl;
@@ -14,6 +18,39 @@ namespace LeaRun.Application.Web
     [HandlerLogin(LoginMode.Enforce)]
     public abstract class MvcControllerBase : Controller
     {
+        public MemberCollarBLL membercollarbll = new MemberCollarBLL();
+        public MemberCollarInfoBLL membercollarinfobll = new MemberCollarInfoBLL();
+        public MemberWarehouseBLL memberwarehousebll = new MemberWarehouseBLL();
+        public MemberDemandBLL memberdemandbll = new MemberDemandBLL();
+        public MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
+
+        public OrganizeBLL organizebll = new OrganizeBLL();
+        public DepartmentBLL departmentbll = new DepartmentBLL();
+        public SubProjectBLL subprojectbll = new SubProjectBLL();
+        public DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
+        public MemberMaterialBLL membermaterialbll = new MemberMaterialBLL();
+        public MemberProcessBLL memberprocessbll = new MemberProcessBLL();
+        public ProjectInfoBLL projectinfobll = new ProjectInfoBLL();
+        public SystemConfigurationBLL systemconfigurationbll = new SystemConfigurationBLL();
+        public RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
+        public DataItemBLL dataitembll = new DataItemBLL();
+        public DataItemCache dataItemCache = new DataItemCache();
+        public MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
+        public MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
+        public MemberWarehouseRecordingBLL memberwarehouserecordingbll = new MemberWarehouseRecordingBLL();
+        public ProduceEquipmentBLL produceequipmentbll = new ProduceEquipmentBLL();
+        public EquipmentMaintenanceRecordsBLL equipmentmaintenancerecordsbll = new EquipmentMaintenanceRecordsBLL();
+        public RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
+        public RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
+        public RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
+        public RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
+        public RawMaterialWarehouseBLL rawmaterialwarehousebll = new RawMaterialWarehouseBLL();
+        public RawMaterialOrderBLL rawmaterialorderbll = new RawMaterialOrderBLL();
+        public RawMterialCollarBLL rawmterialcollarbll = new RawMterialCollarBLL();
+        public RawMterialCollarInfoBLL rawmterialcollarinfobll = new RawMterialCollarInfoBLL();
+        public SafetyEquipmentBLL safetyequipmentbll = new SafetyEquipmentBLL();
+
+
         private Log _logger;
         /// <summary>
         /// 日志操作
@@ -59,5 +96,10 @@ namespace LeaRun.Application.Web
         {
             return Content(new AjaxResult { type = ResultType.error, message = message }.ToJson());
         }
+
+        //public int DeleteVerification(string keyValue )
+        //{
+
+        //}
     }
 }

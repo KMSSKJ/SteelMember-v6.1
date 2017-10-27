@@ -17,23 +17,24 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         public string SystemConfigurationId { get; set; }
 
-        /// <summary>
-        /// SystemName
-        /// </summary>
-        /// <returns></returns>
-        public string SystemName { get; set; }
-
-        /// <summary>
-        /// SystemLogo
-        /// </summary>
-        /// <returns></returns>
         public string SystemLogo { get; set; }
-
-        /// <summary>
-        /// ProjectBackground
-        /// </summary>
-        /// <returns></returns>
+        public string SystemName { get; set; }
+        public string ConstructUnit { get; set; }
+        public string Cu_principal { get; set; }
+        public string InvestigationUnit { get; set; }
+        public string Iu_principal { get; set; }
+        public string DesignUnit { get; set; }
+        public string Du_principal { get; set; }
+        public string ConstructionUnit { get; set; }
+        public string Ctu_principal { get; set; }
+        public string SupervisionUnit { get; set; }
+        public string Su_principal { get; set; }
+        public string EngineeringName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime ExpectedDuration { get; set; }
         public DateTime UploadDate { get; set; }
+        public string EngineeringImg { get; set; }
+        public string EngineeringOverview { get; set; }
 
         #endregion
 
@@ -44,6 +45,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Create()
         {
             this.SystemConfigurationId = Guid.NewGuid().ToString();
+            this.UploadDate = DateTime.Now;
         }
         /// <summary>
         /// ±à¼­µ÷ÓÃ
@@ -52,6 +54,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Modify(string keyValue)
         {
             this.SystemConfigurationId = keyValue;
+            this.UploadDate = DateTime.Now;
         }
         #endregion
     }

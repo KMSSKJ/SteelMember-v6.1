@@ -5,6 +5,10 @@ using System.Web.Mvc;
 using System.Linq;
 using System;
 using LeaRun.Application.Code;
+using System.Web;
+using System.IO;
+using System.Collections.Generic;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -15,8 +19,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class SystemConfigurationController : MvcControllerBase
     {
-        private SystemConfigurationBLL systemconfigurationbll = new SystemConfigurationBLL();
-
         #region 视图功能
         /// <summary>
         /// 表单页面
@@ -80,10 +82,116 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult SaveForm(SystemConfigurationEntity entity)
         {
-            entity.UploadDate = DateTime.Now;
+            entity.EngineeringImg = entity.EngineeringImg.Substring(0, entity.EngineeringImg.Length - 1);
             systemconfigurationbll.SaveForm(entity.SystemConfigurationId, entity);
             return Success("操作成功。");
         }
+
+        /// <summary>
+        /// 上传/修改系统logo
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UploadFile()
+        {
+            var files = Request.Files;
+            //HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
+            //没有文件上传，直接返回
+            if (files.Count == 0 || string.IsNullOrEmpty(files[0].FileName))
+            {
+                return Content("1");
+            }
+
+            Guid code = GuidComb.GenerateComb();
+            string FileEextension = Path.GetExtension(files[0].FileName);
+            string virtualPath = string.Format("/Resource/LogoFile/{0}{1}", code, FileEextension);
+
+            string fullFileName = Server.MapPath(virtualPath);
+            //创建文件夹，保存文件
+            string path = Path.GetDirectoryName(fullFileName);
+            Directory.CreateDirectory(path);
+            files[0].SaveAs(fullFileName);
+
+            //UserEntity userEntity = new UserEntity();
+            //userEntity.UserId = OperatorProvider.Provider.Current().UserId;
+            //userEntity.HeadIcon = virtualPath;
+            //userBLL.SaveForm(userEntity.UserId, userEntity);
+            return Content(virtualPath);
+        }
+
+        public ActionResult abc()
+        {
+            return View();
+        }
+
+
+        /// <summary>
+        /// 图片上传  [FromBody]string type
+        /// 单个图片最大支持200KB
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ImgUpload()
+        {
+            //var result = new List<ImgUploadResult>();
+            var result = "";
+
+            // 定义允许上传的文件扩展名 
+            const string fileTypes = "gif,jpg,jpeg,png,bmp";
+            // 最大文件大小(2MB)
+            const int maxSize = 1024000*5;
+            // 获取附带POST参数值
+            var type = Request["type"];
+
+            for (var fileId = 0; fileId < Request.Files.Count; fileId++)
+            {
+                var curFile = Request.Files[fileId];
+                if (curFile.ContentLength > maxSize)
+                {
+                    return Content("1");
+                }
+                var fileExt = Path.GetExtension(curFile.FileName);
+                if (String.IsNullOrEmpty(fileExt) || Array.IndexOf(fileTypes.Split(','), fileExt.Substring(1).ToLower()) == -1)
+                {
+                    return Content("2");
+                }
+                else
+                {
+                    Guid code = GuidComb.GenerateComb();
+                    // 存储文件名
+                    string fileName = code + fileExt;
+
+                    // 存储路径（绝对路径）
+                    string virtualPath = string.Format("/Resource/EngineeringImg/{0}", fileName);
+                    string fullFileName = Server.MapPath(virtualPath);
+                    try
+                    {
+                        string path = Path.GetDirectoryName(fullFileName);
+                        Directory.CreateDirectory(path);
+                        curFile.SaveAs(fullFileName);
+                        
+                        result= virtualPath;
+                        //result.Add(new ImgUploadResult()
+                        //{
+                        //    FullFileName = fileName,
+                        //    ImgUrl = virtualPath
+                        //});
+                    }
+                    catch (Exception)
+                    {
+                        return Content("3");
+                    }
+                }
+            }
+            return Content(result);
+        }
+
         #endregion
+    }
+
+    public class ImgUploadResult
+    {
+        public string FullFileName { get; set; }
+        public string ImgUrl { get; set; }
     }
 }
