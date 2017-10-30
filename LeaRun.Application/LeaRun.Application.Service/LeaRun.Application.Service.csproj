@@ -64,7 +64,6 @@
     <Compile Include="SteelMember\EquipmentMaintenanceRecordsService.cs" />
     <Compile Include="SteelMember\ProduceEquipmentService.cs" />
     <Compile Include="SteelMember\ProjectDemandService.cs" />
-    <Compile Include="SteelMember\SystemConfigurationService.cs" />
     <Compile Include="SteelMember\ProjectInfoService.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisService.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryService.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="SteelMember\SafetyEquipmentService.cs" />
     <Compile Include="SteelMember\SubProjectService.cs" />
     <Compile Include="PublicInfoManage\ScheduleService.cs" />
+    <Compile Include="SteelMember\SystemConfigurationService.cs" />
     <Compile Include="SystemManage\AreaService.cs" />
     <Compile Include="SystemManage\CodeRuleService.cs" />
     <Compile Include="SystemManage\DatabaseLinkService.cs" />

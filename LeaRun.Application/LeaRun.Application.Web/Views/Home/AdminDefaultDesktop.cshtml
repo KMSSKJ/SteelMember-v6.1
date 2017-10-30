@@ -9,6 +9,8 @@
     @*<link href="~/Content/styles/learun-ui.css" rel="stylesheet" />*@
     <script src="~/Content/Scripts/jquery/jquery-1.10.2.min.js"></script>
     <link href="~/Content/styles/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/liMarquee/css/liMarquee.css" rel="stylesheet" />
+    <script src="~/Content/liMarquee/js/jquery.liMarquee.js"></script>
     @*<script src="~/Content/Scripts/utils/learun-ui.js"></script>*@
     @System.Web.Optimization.Styles.Render("~/Content/styles/learun-ui.css")
     @System.Web.Optimization.Scripts.Render("~/Content/scripts/utils/js")
@@ -20,11 +22,11 @@
     <!--第三方统计图end-->
 
     <script>
-        $(function () {
+        $(function () {            
             InitialPage();
             GetGrid();
-
-            PictureScrolls();
+            $('.sucaihuo').liMarquee();
+            //PictureScrolls();
             LoadOrderSumProportion();
             LoadMemberProduceSchedule();
             LoadMemberSumProportion();
@@ -52,56 +54,19 @@
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    if (data!=null) {
-                        var fileName = data.EngineeringImg;
-                    if (fileName != null) {
-                        var array = fileName.split(",");// 在每个逗号(:)处进行分解。
-                        var num = 0;
-
-                        for (var j = 0; j < array.length; j++) {
-                            $("li").append("<img id= 'txImg" + j + "' class='txImg' src= '" + array[j] + "'/>");
-                        }                        
+                    if (data != null) {
+                        var img = data.EngineeringImg;
+                        if (img != null) {
+                            var array = img.split(",");// 在每个逗号(:)处进行分解。
+                            for (var j = 0; j < array.length; j++) {
+                                $(".sucaihuo").append("<img id= 'txImg" + j + "' class='txImg' src= '" + array[j] + "'/>");
+                            }
+                        }
                     }
-                }
                 },
             });
         }
 
-        //图片滚动
-        function PictureScrolls() {
-            var oDiv = document.getElementById('divPictureScrolls');
-            var oUl = document.getElementById('ul');//[0];
-            var speed = -2;//初始化速度
-
-            oUl.innerHTML += oUl.innerHTML;//图片内容*2-----参考图（2）
-            var oLi = document.getElementsByTagName('li');
-            //oUl.style.width = oLi.length * 900 + 'px';//设置ul的宽度使图片可以放下
-            oUl.style.width = oLi.length * 100 + '%';//设置ul的宽度使图片可以放下
-            //var oBtn1 = document.getElementById('btn1');
-            //var oBtn2 = document.getElementById('btn2');
-
-            function move() {
-                if (oUl.offsetLeft < -(oUl.offsetWidth / 2)) {//向左滚动，当靠左的图4移出边框时
-                    oUl.style.left = 0;
-                }
-
-                if (oUl.offsetLeft > 0) {//向右滚动，当靠右的图1移出边框时
-                    oUl.style.left = -(oUl.offsetWidth / 2) + 'px';
-                }
-                oUl.style.left = oUl.offsetLeft + speed + 'px';
-            }
-
-            var timer = setInterval(move, 30);//全局变量 ，保存返回的定时器
-
-            oDiv.addEventListener('mouseout', function () {
-                timer = setInterval(move, 30);
-            }, false);
-            oDiv.addEventListener('mousemove', function () {
-                clearInterval(timer);//鼠标移入清除定时器
-            }, false);
-        };
-
-        //构件总量占比
         function LoadMemberSumProportion() {
             $.getJSON('/Home/GetMemberSumProportion', function (data) {
                 var dt = [];
@@ -469,7 +434,7 @@
             });
         }
         //待办详细
-        function btn_ToBeDoneDetails(keyValue,type) {
+        function btn_ToBeDoneDetails(keyValue, type) {
             //var keyValue = $("#gridTable").jqGridRowValue("NewsId");
             if (checkedRow(keyValue)) {
                 if (type == "RawMaterialAnalysis") {
@@ -592,8 +557,6 @@
             })
         }
 
-
-
         //通知/公告
         function LoadNotice() {
             $.ajax({
@@ -664,35 +627,28 @@
             padding: 0;
         }
 
-        #divPictureScrolls {
-            width: 100%;
-            height: 150px;
-            margin: auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-            #divPictureScrolls ul {
-                position: absolute;
-                left: 0;
-                top: 0;
-                overflow: hidden;
-                background-color: #3b7796;
-            }
-
-                #divPictureScrolls ul li {
-                    float: left;
-                    width: 100%;
-                    height: 150px;
-                    list-style: none;
-                }
-
         .txImg {
             width: 190px;
             height: 150px;
             padding-right: 5px;
         }
 
+        .wrap {
+            padding: 10px;
+        }
+
+        .sucaihuo {
+            /*width: 790px;
+            margin: 100px auto;*/
+            height: 200px;
+            width: 100%;
+            font-size: 0;
+        }
+
+            .sucaihuo img {
+                margin-left: 10px;
+                vertical-align: top;
+            }
         /*.div {
             float: left;
             padding-left: 5px;
@@ -803,13 +759,9 @@
             </div>
 
             <div class="portal-panel-content" style="overflow: hidden;">
-                @*margin-top: 2px;*@
                 <div class="row" style="overflow: hidden;">
-                    <div id="divPictureScrolls" style="height:150px;">
-                        <ul id="ul">
-                            <li id="li"></li>
-                            @*<li><img id="txImg" class="txImg" src="" /></li>*@
-                        </ul>
+                    <div class="sucaihuo">
+
                     </div>
                 </div>
             </div>

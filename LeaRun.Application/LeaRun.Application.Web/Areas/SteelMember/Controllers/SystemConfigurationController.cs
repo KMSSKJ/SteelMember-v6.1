@@ -1,4 +1,4 @@
-using LeaRun.Application.Entity.SteelMember;
+ï»¿using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Util;
 using System.Web.Mvc;
@@ -12,18 +12,22 @@ using LeaRun.Application.Web.Areas.SteelMember.Models;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
-    /// <summary>
-    /// °æ ±¾ 6.1
-    /// ÈÕ ÆÚ£º2017-08-30 11:16
-    /// Ãè Êö£ºÏîÄ¿ĞÅÏ¢
-    /// </summary>
     public class SystemConfigurationController : MvcControllerBase
     {
-        #region ÊÓÍ¼¹¦ÄÜ
+        //
+        // GET: /SteelMember/SystemConfiguration/
+
+        #region è§†å›¾åŠŸèƒ½
         /// <summary>
-        /// ±íµ¥Ò³Ãæ
+        /// è¡¨å•é¡µé¢
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult Index()
+        {
+            return View();
+        }
         [HttpGet]
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult SystemConfigurationForm()
@@ -32,12 +36,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         #endregion
 
-        #region »ñÈ¡Êı¾İ
+        #region è·å–æ•°æ®
         /// <summary>
-        /// »ñÈ¡ÁĞ±í
+        /// è·å–åˆ—è¡¨
         /// </summary>
-        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
-        /// <returns>·µ»ØÁĞ±íJson</returns>
+        /// <param name="queryJson">æŸ¥è¯¢å‚æ•°</param>
+        /// <returns>è¿”å›åˆ—è¡¨Json</returns>
         [HttpGet]
         public ActionResult GetListJson(string queryJson)
         {
@@ -45,10 +49,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return ToJsonResult(data);
         }
         /// <summary>
-        /// »ñÈ¡ÊµÌå 
+        /// è·å–å®ä½“ 
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
-        /// <returns>·µ»Ø¶ÔÏóJson</returns>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
+        /// <returns>è¿”å›å¯¹è±¡Json</returns>
         [HttpGet]
         public ActionResult GetFormJson(string keyValue)
         {
@@ -57,11 +61,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         #endregion
 
-        #region Ìá½»Êı¾İ
+        #region æäº¤æ•°æ®
         /// <summary>
-        /// É¾³ıÊı¾İ
+        /// åˆ é™¤æ•°æ®
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -70,32 +74,50 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult RemoveForm(string keyValue)
         {
             systemconfigurationbll.RemoveForm(keyValue);
-            return Success("É¾³ı³É¹¦¡£");
+            return Success("åˆ é™¤æˆåŠŸã€‚");
         }
         /// <summary>
-        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
+        /// ä¿å­˜è¡¨å•ï¼ˆæ–°å¢ã€ä¿®æ”¹ï¼‰
         /// </summary>
-        /// <param name="entity">ÊµÌå¶ÔÏó</param>
+        /// <param name="entity">å®ä½“å¯¹è±¡</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
         public ActionResult SaveForm(SystemConfigurationEntity entity)
         {
-            entity.EngineeringImg = entity.EngineeringImg.Substring(0, entity.EngineeringImg.Length - 1);
-            systemconfigurationbll.SaveForm(entity.SystemConfigurationId, entity);
-            return Success("²Ù×÷³É¹¦¡£");
+            if (entity.EngineeringImg != null && entity.EngineeringImg != "")
+            {
+                entity.EngineeringImg = entity.EngineeringImg.Substring(0, entity.EngineeringImg.Length - 1);
+            }
+            else
+            {
+                entity.EngineeringImg = "";
+            }
+            if (entity.EngineeringOverview == null)
+            {
+                entity.EngineeringOverview = "";
+            }
+            try
+            {
+                systemconfigurationbll.SaveForm(entity.SystemConfigurationId, entity);
+                return Success("æ“ä½œæˆåŠŸ!");
+            }
+            catch (Exception)
+            {
+                return Error("æ“ä½œå¤±è´¥!");
+            }
         }
 
         /// <summary>
-        /// ÉÏ´«/ĞŞ¸ÄÏµÍ³logo
+        /// ä¸Šä¼ /ä¿®æ”¹ç³»ç»Ÿlogo
         /// </summary>
         /// <returns></returns>
         public ActionResult UploadFile()
         {
             var files = Request.Files;
             //HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
-            //Ã»ÓĞÎÄ¼şÉÏ´«£¬Ö±½Ó·µ»Ø
+            //æ²¡æœ‰æ–‡ä»¶ä¸Šä¼ ï¼Œç›´æ¥è¿”å›
             if (files.Count == 0 || string.IsNullOrEmpty(files[0].FileName))
             {
                 return Content("1");
@@ -106,7 +128,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string virtualPath = string.Format("/Resource/LogoFile/{0}{1}", code, FileEextension);
 
             string fullFileName = Server.MapPath(virtualPath);
-            //´´½¨ÎÄ¼ş¼Ğ£¬±£´æÎÄ¼ş
+            //åˆ›å»ºæ–‡ä»¶å¤¹ï¼Œä¿å­˜æ–‡ä»¶
             string path = Path.GetDirectoryName(fullFileName);
             Directory.CreateDirectory(path);
             files[0].SaveAs(fullFileName);
@@ -118,15 +140,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(virtualPath);
         }
 
-        public ActionResult abc()
-        {
-            return View();
-        }
-
-
         /// <summary>
-        /// Í¼Æ¬ÉÏ´«  [FromBody]string type
-        /// µ¥¸öÍ¼Æ¬×î´óÖ§³Ö200KB
+        /// å›¾ç‰‡ä¸Šä¼   [FromBody]string type
+        /// å•ä¸ªå›¾ç‰‡æœ€å¤§æ”¯æŒ200KB
         /// 
         /// </summary>
         /// <returns></returns>
@@ -136,11 +152,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //var result = new List<ImgUploadResult>();
             var result = "";
 
-            // ¶¨ÒåÔÊĞíÉÏ´«µÄÎÄ¼şÀ©Õ¹Ãû 
+            // å®šä¹‰å…è®¸ä¸Šä¼ çš„æ–‡ä»¶æ‰©å±•å 
             const string fileTypes = "gif,jpg,jpeg,png,bmp";
-            // ×î´óÎÄ¼ş´óĞ¡(2MB)
-            const int maxSize = 1024000*5;
-            // »ñÈ¡¸½´øPOST²ÎÊıÖµ
+            // æœ€å¤§æ–‡ä»¶å¤§å°(2MB)
+            const int maxSize = 1024000 * 5;
+            // è·å–é™„å¸¦POSTå‚æ•°å€¼
             var type = Request["type"];
 
             for (var fileId = 0; fileId < Request.Files.Count; fileId++)
@@ -158,10 +174,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     Guid code = GuidComb.GenerateComb();
-                    // ´æ´¢ÎÄ¼şÃû
+                    // å­˜å‚¨æ–‡ä»¶å
                     string fileName = code + fileExt;
 
-                    // ´æ´¢Â·¾¶£¨¾ø¶ÔÂ·¾¶£©
+                    // å­˜å‚¨è·¯å¾„ï¼ˆç»å¯¹è·¯å¾„ï¼‰
                     string virtualPath = string.Format("/Resource/EngineeringImg/{0}", fileName);
                     string fullFileName = Server.MapPath(virtualPath);
                     try
@@ -169,8 +185,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         string path = Path.GetDirectoryName(fullFileName);
                         Directory.CreateDirectory(path);
                         curFile.SaveAs(fullFileName);
-                        
-                        result= virtualPath;
+
+                        result = virtualPath;
                         //result.Add(new ImgUploadResult()
                         //{
                         //    FullFileName = fileName,
@@ -187,11 +203,5 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         #endregion
-    }
-
-    public class ImgUploadResult
-    {
-        public string FullFileName { get; set; }
-        public string ImgUrl { get; set; }
     }
 }

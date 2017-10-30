@@ -1,4 +1,4 @@
-using LeaRun.Application.Entity.SteelMember;
+ï»¿using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Application.IService.SteelMember;
 using LeaRun.Data.Repository;
 using LeaRun.Util.WebControl;
@@ -13,26 +13,26 @@ using System;
 namespace LeaRun.Application.Service.SteelMember
 {
     /// <summary>
-    /// °æ ±¾ 6.1
-    /// ÈÕ ÆÚ£º2017-07-06 11:18
-    /// Ãè Êö£ºÏîÄ¿ĞÅÏ¢
+    /// ç‰ˆ æœ¬ 6.1
+    /// æ—¥ æœŸï¼š2017-07-06 11:18
+    /// æ è¿°ï¼šé¡¹ç›®ä¿¡æ¯
     /// </summary>
     public class SystemConfigurationService : RepositoryFactory<SystemConfigurationEntity>, SystemConfigurationIService
     {
-        #region »ñÈ¡Êı¾İ
+        #region è·å–æ•°æ®
         /// <summary>
-        /// »ñÈ¡ÁĞ±í
+        /// è·å–åˆ—è¡¨
         /// </summary>
-        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
-        /// <returns>·µ»ØÁĞ±í</returns>
+        /// <param name="queryJson">æŸ¥è¯¢å‚æ•°</param>
+        /// <returns>è¿”å›åˆ—è¡¨</returns>
         public IEnumerable<SystemConfigurationEntity> GetList(string queryJson)
         {
             return this.BaseRepository().IQueryable().ToList();
         }
         /// <summary>
-        /// »ñÈ¡ÊµÌå
+        /// è·å–å®ä½“
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
         /// <returns></returns>
         public SystemConfigurationEntity GetEntity(string keyValue)
         {
@@ -40,20 +40,20 @@ namespace LeaRun.Application.Service.SteelMember
         }
         #endregion
 
-        #region Ìá½»Êı¾İ
+        #region æäº¤æ•°æ®
         /// <summary>
-        /// É¾³ıÊı¾İ
+        /// åˆ é™¤æ•°æ®
         /// </summary>
-        /// <param name="keyValue">Ö÷¼ü</param>
+        /// <param name="keyValue">ä¸»é”®</param>
         public void RemoveForm(string keyValue)
         {
             this.BaseRepository().Delete(keyValue);
         }
         /// <summary>
-        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
+        /// ä¿å­˜è¡¨å•ï¼ˆæ–°å¢ã€ä¿®æ”¹ï¼‰
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
-        /// <param name="entity">ÊµÌå¶ÔÏó</param>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
+        /// <param name="entity">å®ä½“å¯¹è±¡</param>
         /// <returns></returns>
         public void SaveForm(string keyValue, SystemConfigurationEntity entity)
         {
@@ -68,7 +68,7 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
-      
+
         #endregion
     }
 }
