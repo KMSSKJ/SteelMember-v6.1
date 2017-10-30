@@ -1,16 +1,16 @@
-using System;
+ï»¿using System;
 using LeaRun.Application.Code;
 
 namespace LeaRun.Application.Entity.SteelMember
 {
     /// <summary>
-    /// °æ ±¾
-    /// ÈÕ ÆÚ£º2017-07-06 11:18
-    /// Ãè Êö£ºÏîÄ¿ĞÅÏ¢
+    /// ç‰ˆ æœ¬
+    /// æ—¥ æœŸï¼š2017-07-06 11:18
+    /// æ è¿°ï¼šé¡¹ç›®ä¿¡æ¯
     /// </summary>
     public class SystemConfigurationEntity : BaseEntity
     {
-        #region ÊµÌå³ÉÔ±
+        #region å®ä½“æˆå‘˜
         /// <summary>
         /// SystemConfigurationId
         /// </summary>
@@ -38,9 +38,9 @@ namespace LeaRun.Application.Entity.SteelMember
 
         #endregion
 
-        #region À©Õ¹²Ù×÷
+        #region æ‰©å±•æ“ä½œ
         /// <summary>
-        /// ĞÂÔöµ÷ÓÃ
+        /// æ–°å¢è°ƒç”¨
         /// </summary>
         public override void Create()
         {
@@ -48,7 +48,7 @@ namespace LeaRun.Application.Entity.SteelMember
             this.UploadDate = DateTime.Now;
         }
         /// <summary>
-        /// ±à¼­µ÷ÓÃ
+        /// ç¼–è¾‘è°ƒç”¨
         /// </summary>
         /// <param name="keyValue"></param>
         public override void Modify(string keyValue)

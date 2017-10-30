@@ -1,25 +1,25 @@
-using LeaRun.Application.Entity.SteelMember;
+ï»¿using LeaRun.Application.Entity.SteelMember;
 using System.Data.Entity.ModelConfiguration;
 
 namespace LeaRun.Application.Mapping.SteelMember
 {
     /// <summary>
-    /// °æ ±¾
-    /// ÈÕ ÆÚ£º2017-07-06 11:18
-    /// Ãè Êö£ºÏîÄ¿ĞÅÏ¢
+    /// ç‰ˆ æœ¬
+    /// æ—¥ æœŸï¼š2017-07-06 11:18
+    /// æ è¿°ï¼šé¡¹ç›®ä¿¡æ¯
     /// </summary>
     public class SystemConfigurationMap : EntityTypeConfiguration<SystemConfigurationEntity>
     {
         public SystemConfigurationMap()
         {
-            #region ±í¡¢Ö÷¼ü
-            //±í
+            #region è¡¨ã€ä¸»é”®
+            //è¡¨
             this.ToTable("RMC_SystemConfiguration");
-            //Ö÷¼ü
+            //ä¸»é”®
             this.HasKey(t => t.SystemConfigurationId);
             #endregion
 
-            #region ÅäÖÃ¹ØÏµ
+            #region é…ç½®å…³ç³»
             #endregion
         }
     }

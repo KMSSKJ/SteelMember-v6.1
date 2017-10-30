@@ -184,7 +184,7 @@
             param: postData,
             loading: "正在保存数据...",
             success: function (data) {
-                alert(data);
+
             }
         })
     }
@@ -193,7 +193,7 @@
         $('#form1')[0].reset();
         $("#SystemLogo").val("");
         document.getElementById("uploadPreview").src = "/Content/images/logo-headere47d5.png";
-        
+
         $("#engineering_img").children("li").remove();
         $("#engineering_img").append("<li class='btnAvatar' style='float:left;margin-left:5px; margin-top:50px'><input id='Avatar' name='Avatar' type='file' class='Avatar required' accept='image/*' /><div id='errorimg' style='display:none;color:red;padding-top:50px;'></div></li >");
         UploadFile();
@@ -242,12 +242,13 @@
         margin: 5px;
         padding-bottom: 10px;
     }
+
     .txImg {
         float: left;
         padding-left: 2px;
         width: 120px;
         height: 100px;
-        border-radius:10px;
+        border-radius: 10px;
     }
 </style>
 @*<div class="ui-layout" id="layout" style="height: 100%; width: 100%;padding-right:15px">
