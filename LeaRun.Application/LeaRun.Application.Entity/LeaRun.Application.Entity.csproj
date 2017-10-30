@@ -80,7 +80,6 @@
     <Compile Include="SteelMember\MemberProductionOrderEntity.cs" />
     <Compile Include="SteelMember\MemberWarehouseEntity.cs" />
     <Compile Include="SteelMember\ProduceEquipmentEntity.cs" />
-    <Compile Include="SteelMember\SystemConfigurationEntity.cs" />
     <Compile Include="SteelMember\ProjectInfoEntity.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisEntity.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryEntity.cs" />
@@ -95,6 +94,7 @@
     <Compile Include="SteelMember\RawMterialCollarInfoEntity.cs" />
     <Compile Include="SteelMember\SafetyEquipmentEntity.cs" />
     <Compile Include="SteelMember\SubProjectEntity.cs" />
+    <Compile Include="SteelMember\SystemConfigurationEntity.cs" />
     <Compile Include="SystemManage\AreaEntity.cs" />
     <Compile Include="AuthorizeManage\ModuleEntity.cs" />
     <Compile Include="AuthorizeManage\ModuleButtonEntity.cs" />

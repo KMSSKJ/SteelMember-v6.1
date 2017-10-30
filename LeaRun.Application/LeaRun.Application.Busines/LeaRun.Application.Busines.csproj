@@ -65,7 +65,6 @@
     <Compile Include="SteelMember\EquipmentMaintenanceRecordsBLL.cs" />
     <Compile Include="SteelMember\ProduceEquipmentBLL.cs" />
     <Compile Include="SteelMember\ProjectDemandBLL.cs" />
-    <Compile Include="SteelMember\SystemConfigurationBLL.cs" />
     <Compile Include="SteelMember\ProjectInfoBLL.cs" />
     <Compile Include="SteelMember\RawMaterialAnalysisBLL.cs" />
     <Compile Include="SteelMember\RawMaterialInventoryBLL.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="SteelMember\RawMterialCollarInfoBLL.cs" />
     <Compile Include="SteelMember\SafetyEquipmentBLL.cs" />
     <Compile Include="SteelMember\SubProjectBLL.cs" />
+    <Compile Include="SteelMember\SystemConfigurationBLL.cs" />
     <Compile Include="SystemManage\AreaBLL.cs" />
     <Compile Include="SystemManage\CodeRuleBLL.cs" />
     <Compile Include="SystemManage\DatabaseLinkBLL.cs" />

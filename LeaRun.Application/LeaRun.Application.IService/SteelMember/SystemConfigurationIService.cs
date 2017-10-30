@@ -1,42 +1,42 @@
-using LeaRun.Application.Entity.SteelMember;
+ï»¿using LeaRun.Application.Entity.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 
 namespace LeaRun.Application.IService.SteelMember
 {
     /// <summary>
-    /// °æ ±¾ 6.1
-    /// ÈÕ ÆÚ£º2017-07-06 11:18
-    /// Ãè Êö£ºÏîÄ¿ĞÅÏ¢
+    /// ç‰ˆ æœ¬ 6.1
+    /// æ—¥ æœŸï¼š2017-07-06 11:18
+    /// æ è¿°ï¼šé¡¹ç›®ä¿¡æ¯
     /// </summary>
     public interface SystemConfigurationIService
     {
-        #region »ñÈ¡Êı¾İ
+        #region è·å–æ•°æ®
         /// <summary>
-        /// »ñÈ¡ÁĞ±í
+        /// è·å–åˆ—è¡¨
         /// </summary>
-        /// <param name="queryJson">²éÑ¯²ÎÊı</param>
-        /// <returns>·µ»ØÁĞ±í</returns>
+        /// <param name="queryJson">æŸ¥è¯¢å‚æ•°</param>
+        /// <returns>è¿”å›åˆ—è¡¨</returns>
         IEnumerable<SystemConfigurationEntity> GetList(string queryJson);
         /// <summary>
-        /// »ñÈ¡ÊµÌå
+        /// è·å–å®ä½“
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
         /// <returns></returns>
         SystemConfigurationEntity GetEntity(string keyValue);
         #endregion
 
-        #region Ìá½»Êı¾İ
+        #region æäº¤æ•°æ®
         /// <summary>
-        /// É¾³ıÊı¾İ
+        /// åˆ é™¤æ•°æ®
         /// </summary>
-        /// <param name="keyValue">Ö÷¼ü</param>
+        /// <param name="keyValue">ä¸»é”®</param>
         void RemoveForm(string keyValue);
         /// <summary>
-        /// ±£´æ±íµ¥£¨ĞÂÔö¡¢ĞŞ¸Ä£©
+        /// ä¿å­˜è¡¨å•ï¼ˆæ–°å¢ã€ä¿®æ”¹ï¼‰
         /// </summary>
-        /// <param name="keyValue">Ö÷¼üÖµ</param>
-        /// <param name="entity">ÊµÌå¶ÔÏó</param>
+        /// <param name="keyValue">ä¸»é”®å€¼</param>
+        /// <param name="entity">å®ä½“å¯¹è±¡</param>
         /// <returns></returns>
         void SaveForm(string keyValue, SystemConfigurationEntity entity);
         #endregion
