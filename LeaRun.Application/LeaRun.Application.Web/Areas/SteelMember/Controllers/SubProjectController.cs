@@ -18,16 +18,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class SubProjectController : MvcControllerBase
     {
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
-
-        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
-        private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
-        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
-        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
-        private RawMaterialOrderBLL rawmaterialorderbll = new RawMaterialOrderBLL();
-        private MemberWarehouseBLL memberwarehousebll = new MemberWarehouseBLL();
-        private RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面

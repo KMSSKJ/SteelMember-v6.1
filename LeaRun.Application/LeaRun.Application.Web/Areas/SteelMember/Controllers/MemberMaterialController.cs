@@ -14,8 +14,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class MemberMaterialController : MvcControllerBase
     {
-        private MemberMaterialBLL membermaterialbll = new MemberMaterialBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面

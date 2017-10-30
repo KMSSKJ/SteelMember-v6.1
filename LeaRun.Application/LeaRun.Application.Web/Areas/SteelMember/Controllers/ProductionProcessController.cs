@@ -21,16 +21,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     {
         //
         // GET: /SteelMember/ProductionProcess/
-        private MemberProductionOrderBLL memberproductionorderbll = new MemberProductionOrderBLL();
-        private MemberProductionOrderInfoBLL memberproductionorderinfobll = new MemberProductionOrderInfoBLL();
-        private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
-        private MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
-        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
-        private MemberMaterialBLL membermaterialbll = new MemberMaterialBLL();
-        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
-        private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面

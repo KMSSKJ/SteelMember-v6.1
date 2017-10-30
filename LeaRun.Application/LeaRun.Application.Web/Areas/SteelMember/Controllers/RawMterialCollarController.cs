@@ -21,17 +21,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class RawMterialCollarController : MvcControllerBase
     {
-        private RawMterialCollarBLL rawmterialcollarbll = new RawMterialCollarBLL();
-        private RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
-        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
-        private RawMterialCollarInfoBLL rawmterialcollarinfobll = new RawMterialCollarInfoBLL();
-        private DepartmentBLL departmentbll = new DepartmentBLL();
-        private OrganizeBLL organizebll = new OrganizeBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
-        private RawMaterialOrderInfoBLL rawmaterialorderinfobll = new RawMaterialOrderInfoBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -295,7 +284,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     }
     #endregion
 
-    #region 提交数据
+        #region 提交数据
 
     /// <summary>
     /// 删除数据

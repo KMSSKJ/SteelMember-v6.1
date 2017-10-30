@@ -26,11 +26,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class RawMaterialAnalysisController : MvcControllerBase
     {
-        private RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
-        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
-        private SubProjectBLL subprojectbll = new SubProjectBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面

@@ -20,9 +20,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class RawMaterialLibraryController : MvcControllerBase
     {
-
-        private RawMaterialLibraryBLL rawmateriallibrarybll = new RawMaterialLibraryBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面

@@ -20,17 +20,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class MemberCollarController : MvcControllerBase
     {
-        private MemberLibraryBLL MemberLibraryBLL = new MemberLibraryBLL();
-        private MemberCollarBLL membercollarbll = new MemberCollarBLL();
-        private MemberCollarInfoBLL membercollarinfobll = new MemberCollarInfoBLL();
-        private MemberWarehouseBLL memberwarehousebll = new MemberWarehouseBLL();
-        private MemberDemandBLL memberdemandbll = new MemberDemandBLL();
-        private OrganizeBLL organizebll = new OrganizeBLL();
-        private DepartmentBLL departmentbll = new DepartmentBLL();
-        private SubProjectBLL subprojectbll=new SubProjectBLL();
-        private DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
-
-
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -106,7 +95,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 foreach (var item in childData)
                 {
                     var memberwarehouse = memberwarehousebll.GetEntity(f => f.MemberId== item.MemberId);
-                    var MemberLibrary = MemberLibraryBLL.GetEntity(memberwarehouse.MemberId);
+                    var MemberLibrary = memberlibrarybll.GetEntity(memberwarehouse.MemberId);
                     var MemberCollarInfomodel = new MemberCollarInfoModel()
                     {
                         InfoId = item.InfoId,

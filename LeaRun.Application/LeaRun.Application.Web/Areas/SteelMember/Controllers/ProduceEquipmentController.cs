@@ -16,8 +16,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class ProduceEquipmentController : MvcControllerBase
     {
-        private ProduceEquipmentBLL produceequipmentbll = new ProduceEquipmentBLL();
-        private EquipmentMaintenanceRecordsBLL equipmentmaintenancerecordsbll = new EquipmentMaintenanceRecordsBLL();
         #region 视图功能
         /// <summary>
         /// 列表页面
