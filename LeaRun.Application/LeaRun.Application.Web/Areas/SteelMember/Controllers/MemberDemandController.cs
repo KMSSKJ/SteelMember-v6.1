@@ -237,7 +237,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetListJsonMemberlibrary(string EngineeringId)
         {
-            var data = memberlibrarybll.GetList(f=>f.EngineeringId == EngineeringId);
+            var data = memberlibrarybll.GetList(f=>f.EngineeringId == EngineeringId).OrderBy(o=>o.MemberNumbering);
             var JsonData = data.Select(p => new
             {
                 MemberId = p.MemberId,
@@ -284,9 +284,21 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult RemoveForm(string keyValue)
         {
             string[] Arry = keyValue.Split(',');//字符串转数组
+            int number = 0;
             foreach (var item in Arry)
             {
-                memberdemandbll.RemoveForm(item);
+                var member = memberdemandbll.GetEntity(f=>f.MemberDemandId== item);
+                var memberproductionorderinfo = memberproductionorderinfobll.GetList(f=>f.MemberDemandId== item);
+                var memberwarehouserecording = memberwarehouserecordingbll.GetList(f=>f.MemberId== member.MemberId);
+                var membercollarinfo = membercollarinfobll.GetList(f=>f.MemberDemandId== item);
+                number = memberproductionorderinfo.Count() + memberwarehouserecording.Count() + membercollarinfo.Count();
+                if (number== 0)
+                {
+                    memberdemandbll.RemoveForm(item);
+                }
+                else {
+                    return Error("数据中存在关联数据");
+                }
             }
             return Success("删除成功。");
         }

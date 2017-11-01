@@ -117,13 +117,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            produceequipmentbll.RemoveForm(keyValue);
-            var list = equipmentmaintenancerecordsbll.GetList(f=>f.Id== keyValue);
-            if (list.Count()>0)
+            string[] idsArr = keyValue.Split(',');
+            foreach (var item1 in idsArr)
             {
-                foreach (var item in list)
+                produceequipmentbll.RemoveForm(item1);
+                var list = equipmentmaintenancerecordsbll.GetList(f => f.Id == item1);
+                if (list.Count() > 0)
                 {
-                    equipmentmaintenancerecordsbll.RemoveForm(item.InfoId);
+                    foreach (var item in list)
+                    {
+                        equipmentmaintenancerecordsbll.RemoveForm(item.InfoId);
+                    }
                 }
             }
             return Success("É¾³ý³É¹¦¡£");

@@ -43,7 +43,7 @@
         //<img style=\"width:44px;height:32px;\" src=\"../../Resource/Document/NetworkDisk/System/Member/1/1.png\" onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\" onmouseout=\"leaveBigImg(event)\">
         var rowJson1 = JSON.stringify(rowJson).replace(/\//g, "").replace(/<img style=\\"width:44px;height:32px;\\" src=\\"/g, "").replace(/....ResourceDocumentNetworkDiskSystemMember/g, "").replace(/ /g, "").replace(/onmouseout=\\"leaveBigImg(event)\\"/g, "");
         rowJson1 = rowJson1.replace(/'\)\\"onmouseout=\\"leaveBigImg\(event\)\\">/g, "").replace(/\\"onmouseover=\\"showBigImg\(event,'/g, "")
-        alert(rowJson1);
+
         $('#executeexcel').remove();
         var $form = $("<form id='executeexcel' method='post' action='" + top.contentPath + "/Utility/ExecuteExportExcel' style='display:none;'>");
         var $input = $("<input type='hidden' name='columnJson' value='" + columnstr + "'><input type='hidden' name='rowJson' value='" + rowJson1 + "'><input type='hidden' name='exportField' value='" + String(exportField) + "'><input type='hidden' name='filename' value='" + escape(filename) + "'>");

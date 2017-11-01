@@ -27,6 +27,15 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetList(queryJson);
         }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<RawMaterialWarehouseEntity> GetList(Expression<Func<RawMaterialWarehouseEntity,bool>>condition)
+        {
+            return service.GetList(condition);
+        }
         public List<RawMaterialWarehouseEntity> GetPageList(Pagination pagination, string queryJson)
         {
             return service.GetPageList(pagination, queryJson);

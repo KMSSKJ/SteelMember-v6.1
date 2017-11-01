@@ -193,13 +193,83 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
         /// 删除明细
         /// </summary>
         /// <param name="keyValue">主键值</param>
+        /// <param name="itemType"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult RemoveForm(string keyValue)
+        public ActionResult RemoveForm(string keyValue, string itemType)
         {
-            dataItemDetailBLL.RemoveForm(keyValue);
+
+            if (itemType == "NoticeCategory")
+            {
+                var notice = noticebll.GetList(f => f.Category == keyValue);
+                if (notice.Count() == 0)
+                {
+                    dataItemDetailBLL.RemoveForm(keyValue);
+                }
+                else
+                {
+                    return Error("数据中存在关联数据");
+                }
+
+            }
+            else if (itemType == "MemberType")
+            {
+                var memberlibrary = memberlibrarybll.GetList(f => f.Category == keyValue);
+                if (memberlibrary.Count() == 0)
+                {
+                    dataItemDetailBLL.RemoveForm(keyValue);
+                }
+                else
+                {
+                    return Error("数据中存在关联数据");
+                }
+
+            }
+            else if (itemType == "RawMaterialType")
+            {
+                var rawmateriallibrary = rawmateriallibrarybll.GetList(f => f.Category == keyValue);
+                if (rawmateriallibrary.Count() == 0)
+                {
+                    dataItemDetailBLL.RemoveForm(keyValue);
+                }
+                else
+                {
+                    return Error("数据中存在关联数据");
+                }
+            }
+            else if (itemType == "RawMaterialSupplier"|| itemType == "RawMaterialManufacturer")
+            { int number = 0;
+                var rawmaterialorder = rawmaterialorderinfobll.GetList(f => f.RawMaterialSupplier == keyValue);
+                var rawmaterialorder1 = rawmaterialorderinfobll.GetList(f => f.RawMaterialManufacturer == keyValue);
+                number = rawmaterialorder.Count() + rawmaterialorder1.Count();
+                if (number == 0)
+                {
+                    dataItemDetailBLL.RemoveForm(keyValue);
+                }
+                else
+                {
+                    return Error("数据中存在关联数据");
+                }
+            }
+            else if (itemType == "UnitName")
+            {
+                int number = 0;
+                var rawmateriallibrary = rawmateriallibrarybll.GetList(f => f.Unit == keyValue);
+                var memberlibrary = memberlibrarybll.GetList(f => f.UnitId == keyValue);
+                number = rawmateriallibrary.Count() + memberlibrary.Count();
+                if (number == 0)
+                {
+                    dataItemDetailBLL.RemoveForm(keyValue);
+                }
+                else
+                {
+                    return Error("数据中存在关联数据");
+                }
+            }
+           
+
             return Success("删除成功。");
         }
         /// <summary>

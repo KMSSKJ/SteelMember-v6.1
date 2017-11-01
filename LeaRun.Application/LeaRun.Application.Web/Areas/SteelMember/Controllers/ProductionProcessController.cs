@@ -177,17 +177,27 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                                         if (rawmaterial != null)
                                         {
-                                            var RawMaterialNumber = new RawMaterialNumberModel()
-                                            {
-                                                Category = dataitemdetailbll.GetEntity(rawmaterial.Category).ItemName,
-                                                RawMaterialId = rawmaterial.RawMaterialId,
-                                                InventoryId = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == rawmaterial.RawMaterialId).InventoryId,
-                                                //RawMaterialAnalysisId = item,
-                                                RawMaterialModel = rawmaterial.RawMaterialModel,
-                                                RawMaterialName = rawmaterial.RawMaterialName,
-                                                Description = rawmaterial.Description,
-                                                UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName
-                                            };
+                                            //var RawMaterialNumber = new RawMaterialNumberModel()
+                                            //{
+                                            //    Category = dataitemdetailbll.GetEntity(rawmaterial.Category).ItemName,
+                                            //    RawMaterialId = rawmaterial.RawMaterialId,
+                                            //    InventoryId = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == rawmaterial.RawMaterialId).InventoryId,
+                                            //    //RawMaterialAnalysisId = item,
+                                            //    RawMaterialModel = rawmaterial.RawMaterialModel,
+                                            //    RawMaterialName = rawmaterial.RawMaterialName,
+                                            //    Description = rawmaterial.Description,
+                                            //    UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName
+                                            //};
+                                            var RawMaterialNumber = new RawMaterialNumberModel();
+
+                                            RawMaterialNumber.Category = dataitemdetailbll.GetEntity(rawmaterial.Category).ItemName;
+                                            RawMaterialNumber.RawMaterialId = rawmaterial.RawMaterialId;
+                                            RawMaterialNumber.InventoryId = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == rawmaterial.RawMaterialId).InventoryId;
+                                            RawMaterialNumber.RawMaterialModel = rawmaterial.RawMaterialModel;
+                                            RawMaterialNumber.RawMaterialName = rawmaterial.RawMaterialName;
+                                            RawMaterialNumber.Description = rawmaterial.Description;
+                                            RawMaterialNumber.UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName;
+                                            
 
                                             if (RawMaterial.Count() > 0)
                                             {

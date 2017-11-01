@@ -16,11 +16,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string ProjectInfoId { get; set; }
-        /// <summary>
-        /// ProjectId
-        /// </summary>
-        /// <returns></returns>
-        public string ProjectId { get; set; }
+        ///// <summary>
+        ///// ProjectId
+        ///// </summary>
+        ///// <returns></returns>
+        //public string ProjectId { get; set; }
         /// <summary>
         /// ProjectName
         /// </summary>

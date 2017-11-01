@@ -18,7 +18,8 @@
             datatype: "json",
             //height: $(window).height() - 100,
             colModel: [
-                { label: '主键', name: 'OrderId', index: 'OrderId', hidden: true},
+                { label: '主键', name: 'OrderId', index: 'OrderId', hidden: true },
+                { label: '外键', name: 'Category', index: 'Category', hidden: true },
                 { label: '单号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: 'center', sortable: true },
                 {
                     label: '生产状态', name: 'ProductionStatus', index: 'ProductionStatus', width: 65, align: 'center', sortable: true,
@@ -88,6 +89,8 @@
                         { label: 'InfoId', name: 'InfoId', index: 'InfoId', width: 80, align: '', sortable: true, hidden: true },
                         { label: 'OrderId', name: 'OrderId', index: 'OrderId', width: 80, align: '', sortable: true, hidden: true },
                         { label: '构件编号[<font face="宋体">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                        {label: '构件类型', name: "Category", align: ' center', width: 150, sortable: false
+                        },
                         { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
                         { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false, align: 'center' },
                         { label: '计划生产量', name: 'ProductionQuantity', index: 'ProductionQuantity', width: 80, align: '', sortable: true },

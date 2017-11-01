@@ -106,7 +106,7 @@
         var keyValue = $('#gridTable').jqGridRowValue('RecordingId');
         if (checkedArray(keyValue)) {
             $.RemoveForm({
-                url: '../../SteelMember/MemberWarehouse/RemoveForm',
+                url: '../../SteelMember/MemberWarehouseRecording/RemoveForm',
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $('#gridTable').trigger('reloadGrid');

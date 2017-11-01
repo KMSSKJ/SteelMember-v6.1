@@ -180,8 +180,6 @@ namespace LeaRun.Application.Service.SteelMember
                 model.Category = entity.Category;
                 model.Quantity = 0;
                 service.SaveForm(null, model);
-
-
             }
         }
         #endregion

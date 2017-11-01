@@ -135,8 +135,25 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            rawmateriallibrarybll.RemoveForm(keyValue);
-            return Success("删除成功。");
+           
+            string[] idsArr = keyValue.Split(',');
+            foreach (var item in idsArr)
+            {
+                int number = 0;
+                var memberMaterial = membermaterialbll.GetList(f => f.RawMaterialId == item);
+                var MaterialAnalysis = rawmaterialanalysisbll.GetList(f=>f.RawMaterialId==item);
+                number = memberMaterial.Count() + MaterialAnalysis.Count();
+                if (number==0)
+                {
+                    rawmateriallibrarybll.RemoveForm(item);
+                }
+                else
+                {
+                    return Error("数据中存在关联数据");
+
+                }
+            }
+            return Success("删除成功");
         }
         /// <summary>
         /// 保存表单（新增、修改）

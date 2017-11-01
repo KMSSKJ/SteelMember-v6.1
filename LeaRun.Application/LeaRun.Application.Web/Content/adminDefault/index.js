@@ -363,6 +363,7 @@ function IndexOut() {
 //移除Tab
 $.removeTab = function (type) {
     var Id = tabiframeId();
+    Id = Id.replace('iframe', '');
     var $tab = $(".tab-div");
     var $tabContent = $(".tab-div-content");
     switch (type) {

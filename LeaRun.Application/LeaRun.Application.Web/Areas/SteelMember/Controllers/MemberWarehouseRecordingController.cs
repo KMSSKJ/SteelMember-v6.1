@@ -197,7 +197,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            memberwarehouserecordingbll.RemoveForm(keyValue);
+            string[] idsArr = keyValue.Split(',');
+            foreach (var item in idsArr)
+            {
+                memberwarehouserecordingbll.RemoveForm(keyValue);
+            }
             return Success("É¾³ý³É¹¦¡£");
         }
         /// <summary>
