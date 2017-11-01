@@ -4,25 +4,25 @@
 }
 <script>
     $(function () {
-        InitialPage();
-        GetGrid();
+        InitialPage_dep();
+        GetGrid_dep();
     });
     //初始化页面
-    function InitialPage() {
+    function InitialPage_dep() {
         //resize重设(表格、树形)宽高
         $(window).resize(function (e) {
             window.setTimeout(function () {
-                $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $("#gridTable").setGridHeight($(window).height() - 136.5);
+                $('#gridTable_dep').setGridWidth(($('.gridPanel').width()));
+                $("#gridTable_dep").setGridHeight($(window).height() - 136.5);
             }, 200);
             e.stopPropagation();
         });
     }
     //加载表格
-    function GetGrid() {
+    function GetGrid_dep() {
         var selectedRowIndex = 0;
-        var $gridTable = $('#gridTable');
-        $gridTable.jqGrid({
+        var $gridTable_dep = $('#gridTable_dep');
+        $gridTable_dep.jqGrid({
             url: "../../BaseManage/Department/GetTreeListJson",
             datatype: "json",
             height: $(window).height() - 136.5,
@@ -52,7 +52,7 @@
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        $gridTable.authorizeColModel();
+        $gridTable_dep.authorizeColModel();
         //查询条件设置
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
@@ -61,7 +61,7 @@
         });
         //查询事件
         $("#btn_Search").click(function () {
-            $gridTable.jqGrid('setGridParam', {
+            $gridTable_dep.jqGrid('setGridParam', {
                 postData: {
                     condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                     keyword: $("#txt_Keyword").val()
@@ -77,10 +77,10 @@
     }
     //新增
     function btn_add() {
-        var keyValue = $("#gridTable").jqGridRowValue("DepartmentId");
-        var organizeId = $("#gridTable").jqGridRowValue("OrganizeId");
-        var parentId = $("#gridTable").jqGridRowValue("DepartmentId");
-        var sort = $("#gridTable").jqGridRowValue("Sort");
+        var keyValue = $("#gridTable_dep").jqGridRowValue("DepartmentId");
+        var organizeId = $("#gridTable_dep").jqGridRowValue("OrganizeId");
+        var parentId = $("#gridTable_dep").jqGridRowValue("DepartmentId");
+        var sort = $("#gridTable_dep").jqGridRowValue("Sort");
         if (sort == 'Organize') {
             parentId = 0;
         }
@@ -97,7 +97,7 @@
     };
     //获取当前表格的所有数据
     function getJQAllData() {
-        var o = jQuery("#gridTable");
+        var o = jQuery("#gridTable_dep");
         //获取当前显示的数据
         var rows = o.jqGrid('getRowData');
         var rowNum = o.jqGrid('getGridParam', 'rowNum'); //获取显示配置记录数量
@@ -110,9 +110,9 @@
     }
     //编辑
     function btn_edit() {
-        var keyValue = $("#gridTable").jqGridRowValue("DepartmentId");
+        var keyValue = $("#gridTable_dep").jqGridRowValue("DepartmentId");
         if (checkedRow(keyValue)) {
-            var sort = $("#gridTable").jqGridRowValue("Sort");
+            var sort = $("#gridTable_dep").jqGridRowValue("Sort");
             if (sort == 'Organize') {
                 return false;
             }
@@ -130,9 +130,9 @@
     }
     //删除
     function btn_delete() {
-        var keyValue = $("#gridTable").jqGridRowValue("DepartmentId");
+        var keyValue = $("#gridTable_dep").jqGridRowValue("DepartmentId");
         if (keyValue) {
-            var sort = $("#gridTable").jqGridRowValue("Sort");
+            var sort = $("#gridTable_dep").jqGridRowValue("Sort");
             if (sort == 'Organize') {
                 return false;
             }
@@ -140,8 +140,8 @@
                 url: "../../BaseManage/Department/RemoveForm",
                 param: { keyValue: keyValue },
                 success: function (data) {
-                    $("#gridTable").resetSelection();
-                    $("#gridTable").trigger("reloadGrid");
+                    $("#gridTable_dep").resetSelection();
+                    $("#gridTable_dep").trigger("reloadGrid");
                 }
             })
         } else {
@@ -190,5 +190,5 @@
         </div>
     </div>
 <div class="gridPanel">
-    <table id="gridTable"></table>
+    <table class="form" id="gridTable_dep"></table>
 </div>

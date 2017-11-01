@@ -236,7 +236,6 @@
     <Compile Include="Areas\SteelMember\Models\RawMaterialLibraryModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialPurchaseModel.cs" />
     <Compile Include="Areas\SteelMember\Models\RawMaterialWarehouseModel.cs" />
-    <Compile Include="Areas\SteelMember\Models\SystemConfigurationModel.cs" />
     <Compile Include="Areas\SteelMember\Models\ToBeDoneModel.cs" />
     <Compile Include="Areas\SteelMember\SteelMemberAreaRegistration.cs" />
     <Compile Include="Areas\AuthorizeManage\Controllers\FilterIPController.cs" />

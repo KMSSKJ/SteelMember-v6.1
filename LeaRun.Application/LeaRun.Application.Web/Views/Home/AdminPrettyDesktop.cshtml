@@ -25,7 +25,7 @@
         $(function () {
             InitialPage();
             GetGrid();
-            $('.sucaihuo').liMarquee();
+            
             //PictureScrolls();
             LoadOrderSumProportion();
             LoadMemberProduceSchedule();
@@ -48,7 +48,7 @@
         //加载图片
         function GetGrid() {
             $.ajax({
-                url: "/SteelMember/ProjectInfo/GetFormJson",
+                url: "/SteelMember/SystemConfiguration/GetFormJson",
                 type: "get",
                 data: {},
                 dataType: "json",
@@ -56,11 +56,12 @@
                 success: function (data) {
                     if (data != null) {
                         var img = data.EngineeringImg;
-                        if (img != null) {
-                            var array = img.split(",");// 在每个逗号(:)处进行分解。
+                        if (img != null && img!="") {
+                            var array = img.split(",");// 在每个逗号(,)处进行分解。
                             for (var j = 0; j < array.length; j++) {
-                                $(".sucaihuo").append("<img id= 'txImg" + j + "' class='txImg' src= '" + array[j] + "'/>");
+                                $(".sucaihuo").append("<img id= 'txImg" + j + "'class='txImg' src= '" + array[j] + "'/>");
                             }
+                            $('.sucaihuo').liMarquee();
                         }
                     }
                 },
