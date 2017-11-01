@@ -25,7 +25,7 @@
         $(function () {            
             InitialPage();
             GetGrid();
-            $('.sucaihuo').liMarquee();
+            
             //PictureScrolls();
             LoadOrderSumProportion();
             LoadMemberProduceSchedule();
@@ -56,11 +56,12 @@
                 success: function (data) {
                     if (data != null) {
                         var img = data.EngineeringImg;
-                        if (img != null) {
+                        if (img != null && img != "") {
                             var array = img.split(",");// 在每个逗号(:)处进行分解。
                             for (var j = 0; j < array.length; j++) {
                                 $(".sucaihuo").append("<img id= 'txImg" + j + "' class='txImg' src= '" + array[j] + "'/>");
                             }
+                            $('.sucaihuo').liMarquee();
                         }
                     }
                 },
@@ -659,7 +660,7 @@
     </style>
 </head>
 <body>
-    <div class="border" id="desktop" style="margin: 10px 10px 0 10px; background: #fff; overflow: auto;">
+    <div class="border" id="desktop" style="margin:10px 10px 0 10px; background:#fff; overflow:auto;">
         <div class="portal-panel">
             <div>
                 @*<div class="row">
@@ -758,20 +759,20 @@
                     </div>*@
             </div>
 
-            <div class="portal-panel-content" style="overflow: hidden;">
-                <div class="row" style="overflow: hidden;">
+            <div class="portal-panel-content" style="overflow:hidden;">
+                <div class="row" style="overflow:hidden;">
                     <div class="sucaihuo">
 
                     </div>
                 </div>
             </div>
-            <div class="row" style="overflow: hidden;">
-                <div style="width: 33%; float: left;">
+            <div class="row" style="overflow:hidden;">
+                <div style="width:33%; float:left;">
                     <div class="portal-panel-title">
                         <i class="fa fa-coffee"></i>&nbsp;&nbsp;待办任务（Top 6）
                         <a href="#" style="text-decoration: none;color:red" onclick="btn_ToBeDoneMore()">&nbsp;&nbsp;&nbsp;更多>></a>
                     </div>
-                    <div id="ToBeDoneDiv" class="portal-panel-content" style="overflow: hidden; padding-top: 5px; padding-left: 30px; padding-right: 50px;">
+                    <div id="ToBeDoneDiv" class="portal-panel-content" style="overflow: hidden; padding-top:5px; padding-left:30px; padding-right:50px;">
                         @*<div style="line-height: 39px; border-bottom: 1px solid #ccc;">
                                 <a href="#" style="text-decoration: none;">[审批]&nbsp;&nbsp;&nbsp;老李的请假条</a>
                                 <label style="float: right">2016-05-25</label>

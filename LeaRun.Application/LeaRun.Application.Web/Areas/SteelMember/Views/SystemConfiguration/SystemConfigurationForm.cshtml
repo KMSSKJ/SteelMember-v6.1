@@ -12,7 +12,6 @@
 <script src="~/Content/scripts/plugins/uploadify/ajaxfileupload.js"></script>
 <script src="~/Content/multipleFile/imgFileUpload.js"></script>
 
-
 <script>
     //var SystemConfigurationgId = "b51550ed-5f23-4de6-a509-b534c24ae2e1";
     var data_id = "";
@@ -87,7 +86,6 @@
                 }
             },
         });
-        //uploadify(data_id);
     }
 
     //删除
@@ -113,6 +111,7 @@
     function fullProjectName(name) {
         $("#EngineeringName").val(name);
     }
+
     function UploadFile() {
         $('#Avatar').uploadify({
             uploader: '/SystemConfiguration/ImgUpload',
@@ -147,10 +146,6 @@
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else {
-                    //document.getElementById("CAD").innerHTML += "<div style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></div><div style='clear:both'></div>";
-
-                    //document.getElementById("engineering_img").innerHTML += "<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>";
-
                     $("#engineering_img").prepend("<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>");
                 }
             }
@@ -199,6 +194,7 @@
         UploadFile();
     }
 </script>
+
 <style>
     .file {
         position: relative;
@@ -251,56 +247,6 @@
         border-radius: 10px;
     }
 </style>
-@*<div class="ui-layout" id="layout" style="height: 100%; width: 100%;padding-right:15px">
-        <div class="ui-layout-center">
-            <div class="center-Panel">
-                <div class="titlePanel">
-                    <div id="div_tools_bar" class="toolbar">
-                        <div class="btn-group">
-                            <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
-                            <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;保存</a>
-                            <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-                            <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
-                            <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-trash-o"></i>&nbsp;导出</a>
-                        </div>
-                        <script>$('.toolbar').authorizeButton()</script>
-                    </div>
-                </div>
-                <div class="gridPanel">
-                    <form id="form1">
-                        <div id="table_project">
-                            <input id="SystemConfigurationId" type="hidden" />
-                            <input id="SystemLogo" type="hidden" />
-                            <table class="form">
-                                <tr>
-                                    <td class="formTitle">
-                                        系统名称《必填项》
-                                    </td>
-                                    <td class="formTitle">
-                                       系统Logo《必填项》
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="formValue">
-                                        <textarea id="SystemName" type="text" class="form-control" style="height:90%" isvalid="yes" checkexpession="NotNull"></textarea>
-                                    </td>
-                                    <td class="formValue">
-                                       <div id="div_projcet_logo" style="margin:2px;">
-                                            <div style="float:left;margin:5px;">
-                                                <img id="txImg" name="txImg" src="" style=" height:80%;width:45%" />
-                                                <div class="btnAvatar" style="float:right;margin-right:160px; margin-top:60px;"><input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" /></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>*@
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%">
     <div class="ui-layout-center">
@@ -399,15 +345,6 @@
 
                             <div style="height:auto;width:100%;margin-top:10px;float:left">
                                 <div style="margin-right:10px;line-height:150px;float:left;font-size:14px;font-weight:600;">工程图片:</div>
-
-                                @*<div class="right houseImgUpload">
-                                        <i class="button">点击上传图片</i><i class="prompt">（单个文件大小不能超过200KB）</i>
-                                        <input class="file-input" type="file" name="file" accept="image/*" onchange="imgFileUpload.fileUploadChange(this);" />
-                                        <div class="imgShow">
-
-                                        </div>
-
-                                    </div>*@
                                 <div id="CAD" style="float:left;height:auto;word-break:break-all;width:80%;border:1px solid #cccccc;min-height:150px;padding-top:10px;padding-left:5px;margin-left:15px;" class="showImg;">
                                     <ul id="engineering_img">
                                         <li class="btnAvatar" style="float:left;margin-left:5px;margin-top:50px">
@@ -416,13 +353,6 @@
                                         </li>
                                     </ul>
                                 </div>
-
-
-                                @*<div class="file" id="engineeringUpload" style="width: 120px; height: 120px;float:left;margin-left:20px;">
-                                        <img id="engineeringPreview" style="width: 120px; height: 120px; border-radius: 120px;" />
-                                        <input type="file" name="engineeringFile" id="engineeringFile" onchange="engineeringUpload()" accept="image/gif,image/jpeg,image/png" />
-                                    </div>
-                                    <div id="engineeringimg" style="display:none;color:red;padding-top:100px;"></div>*@
                             </div>
                             <div style="clear:both"></div>
 

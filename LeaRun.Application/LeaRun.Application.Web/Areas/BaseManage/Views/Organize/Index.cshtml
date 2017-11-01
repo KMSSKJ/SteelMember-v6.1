@@ -4,32 +4,32 @@
 }
 <script>
     $(document).ready(function () {
-        initialPage();
-        GetGrid();
+        initialPage_org();
+        GetGrid_org();
     });
     //重设(表格)宽高
-    function initialPage() {
+    function initialPage_org() {
         //resize重设(表格、树形)宽高
         $(window).resize(function (e) {
             window.setTimeout(function () {
-                $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $("#gridTable").setGridHeight($(window).height() - 108.5);
+                $('#gridTable_org').setGridWidth(($('.gridPanel').width()));
+                $("#gridTable_org").setGridHeight($(window).height() - 195);
             }, 200);
             e.stopPropagation();
         });
     }
     //加载表格
-    function GetGrid() {
+    function GetGrid_org() {
         var selectedRowIndex = 0;
-        var $gridTable = $('#gridTable');
-        $gridTable.jqGrid({
+        var $gridTable_org = $('#gridTable_org');
+        $gridTable_org.jqGrid({
             url: "../../BaseManage/Organize/GetTreeListJson",
             datatype: "json",
-            height: $(window).height() - 108.5,
+            height: $(window).height() - 195,
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'OrganizeId', hidden: true },
-                { label: "单位名称", name: "FullName", width: 300, align: "center", sortable: false },
+                { label: "单位名称", name: "FullName", width: 300, align: "center", sortable: false},
                 //{ label: "外文名称", name: "EnCode", width: 150, align: "center", sortable: false },
                 //{ label: "中文名称", name: "ShortName", width: 150, align: "center", sortable: false },
                 { label: "单位性质", name: "Nature", width: 100, align: "center", sortable: false },
@@ -55,7 +55,7 @@
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        $gridTable.authorizeColModel();
+        $gridTable_org.authorizeColModel();
         //查询条件设置
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
@@ -64,7 +64,7 @@
         });
         //查询事件
         $("#btn_Search").click(function () {
-            $gridTable.jqGrid('setGridParam', {
+            $gridTable_org.jqGrid('setGridParam', {
                 postData: {
                     condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                     keyword: $("#txt_Keyword").val()
@@ -80,7 +80,7 @@
     }
     //新增
     function btn_add() {
-        var ParentId = $("#gridTable").jqGridRowValue("OrganizeId");
+        var ParentId = $("#gridTable_org").jqGridRowValue("OrganizeId");
         dialogOpen({
             id: "Form",
             title: '添加单位',
@@ -94,7 +94,7 @@
     };
     //编辑
     function btn_edit() {
-        var keyValue = $("#gridTable").jqGridRowValue("OrganizeId");
+        var keyValue = $("#gridTable_org").jqGridRowValue("OrganizeId");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "Form",
@@ -110,14 +110,14 @@
     }
     //删除
     function btn_delete() {
-        var keyValue = $("#gridTable").jqGridRowValue("OrganizeId");
+        var keyValue = $("#gridTable_org").jqGridRowValue("OrganizeId");
         if (keyValue) {
             $.RemoveForm({
                 url: "../../BaseManage/Organize/RemoveForm",
                 param: { keyValue: keyValue },
                 success: function (data) {
-                    $("#gridTable").resetSelection();
-                    $("#gridTable").trigger("reloadGrid");
+                    $("#gridTable_org").resetSelection();
+                    $("#gridTable_org").trigger("reloadGrid");
                 }
             })
         } else {
@@ -162,5 +162,5 @@
     </div>
 </div>
 <div class="gridPanel">
-    <table id="gridTable"></table>
+    <table class="form" id="gridTable_org"></table>
 </div>

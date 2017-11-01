@@ -4,25 +4,25 @@
 }
 <script>
     $(function () {
-        InitialPage();
-        GetGrid();
+        InitialPage_role();
+        GetGrid_role();
     });
     //初始化页面
-    function InitialPage() {
+    function InitialPage_role() {
         //resize重设(表格、树形)宽高
         $(window).resize(function (e) {
             window.setTimeout(function () {
-                $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $("#gridTable").setGridHeight($(window).height() - 136.5);
+                $('#gridTable_role').setGridWidth(($('.gridPanel').width()));
+                $("#gridTable_role").setGridHeight($(window).height() - 136.5);
             }, 200);
             e.stopPropagation();
         });
     }
     //加载表格
-    function GetGrid() {
+    function GetGrid_role() {
         var selectedRowIndex = 0;
-        var $gridTable = $('#gridTable');
-        $gridTable.jqGrid({
+        var $gridTable_role = $('#gridTable_role');
+        $gridTable_role.jqGrid({
             url: "../../BaseManage/Role/GetPageListJson",
             datatype: "json",
             height: $(window).height() - 136.5,
@@ -71,7 +71,7 @@
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        $gridTable.authorizeColModel();
+        $gridTable_role.authorizeColModel();
         //查询条件
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
@@ -84,7 +84,7 @@
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 keyword: $("#txt_Keyword").val()
             }
-            $gridTable.jqGrid('setGridParam', {
+            $gridTable_role.jqGrid('setGridParam', {
                 postData: { queryJson: JSON.stringify(queryJson) },
                 page: 1
             }).trigger('reloadGrid');
@@ -111,7 +111,7 @@
     };
     //编辑
     function btn_edit() {
-        var keyValue = $("#gridTable").jqGridRowValue("RoleId");
+        var keyValue = $("#gridTable_role").jqGridRowValue("RoleId");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "Form",
@@ -127,13 +127,13 @@
     }
     //删除
     function btn_delete() {
-        var keyValue = $("#gridTable").jqGridRowValue("RoleId");
+        var keyValue = $("#gridTable_role").jqGridRowValue("RoleId");
         if (keyValue) {
             $.RemoveForm({
                 url: "../../BaseManage/Role/RemoveForm",
                 param: { keyValue: keyValue },
                 success: function (data) {
-                    $("#gridTable").trigger("reloadGrid");
+                    $("#gridTable_role").trigger("reloadGrid");
                 }
             })
         } else {
@@ -142,8 +142,8 @@
     }
     //角色成员
     function btn_member() {
-        var keyValue = $("#gridTable").jqGridRowValue("RoleId");
-        var RoleName = $("#gridTable").jqGridRowValue("FullName");
+        var keyValue = $("#gridTable_role").jqGridRowValue("RoleId");
+        var RoleName = $("#gridTable_role").jqGridRowValue("FullName");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "AllotMember",
@@ -159,8 +159,8 @@
     }
     //角色授权
     function btn_authorize() {
-        var keyValue = $("#gridTable").jqGridRowValue("RoleId");
-        var RoleName = $("#gridTable").jqGridRowValue("FullName");
+        var keyValue = $("#gridTable_role").jqGridRowValue("RoleId");
+        var RoleName = $("#gridTable_role").jqGridRowValue("FullName");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "AllotAuthorize",
@@ -174,8 +174,8 @@
     }
     //IP过滤
     function btn_ipfilter() {
-        var keyValue = $("#gridTable").jqGridRowValue("RoleId");
-        var FullName = $("#gridTable").jqGridRowValue("FullName");
+        var keyValue = $("#gridTable_role").jqGridRowValue("RoleId");
+        var FullName = $("#gridTable_role").jqGridRowValue("FullName");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "FilterIP",
@@ -189,8 +189,8 @@
     }
     //时段过滤
     function btn_timefilter() {
-        var keyValue = $("#gridTable").jqGridRowValue("RoleId");
-        var FullName = $("#gridTable").jqGridRowValue("FullName");
+        var keyValue = $("#gridTable_role").jqGridRowValue("RoleId");
+        var FullName = $("#gridTable_role").jqGridRowValue("FullName");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: "FilterTime",
@@ -252,6 +252,6 @@
     </div>
 </div>
 <div class="gridPanel">
-    <table id="gridTable"></table>
+    <table class="form" id="gridTable_role"></table>
     <div id="gridPager"></div>
 </div>

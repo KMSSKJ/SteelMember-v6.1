@@ -55,13 +55,13 @@
                 allowSearch: true
             });
             //加载岗位
-            $("#DutyId").ComboBox({
-                url: "../../BaseManage/Post/GetListJson?organizeId=" + value,
-                id: "RoleId",
-                text: "FullName",
-                description: "==请选择==",
-                allowSearch: true
-            });
+            //$("#DutyId").ComboBox({
+            //    url: "../../BaseManage/Post/GetListJson?organizeId=" + value,
+            //    id: "RoleId",
+            //    text: "FullName",
+            //    description: "==请选择==",
+            //    allowSearch: true
+            //});
         });
         //部门
         $("#DepartmentId").ComboBoxTree({
@@ -101,11 +101,11 @@
             allowSearch: true
         });
         //职位
-        $("#PostId").ComboBox({
-            description: "==请选择==",
-            height: "200px",
-            allowSearch: true
-        });
+        //$("#PostId").ComboBox({
+        //    description: "==请选择==",
+        //    height: "200px",
+        //    allowSearch: true
+        //});
         //主管
         $("#ManagerId").ComboBox({
             description: "==请选择==",
@@ -226,7 +226,7 @@
                         <div id="DepartmentId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
                 </tr>
-                <tr>
+                @*<tr>
                     <td class="formTitle">岗位</td>
                     <td class="formValue">
                         <div id="DutyId" type="select" class="ui-select"></div>
@@ -235,7 +235,7 @@
                     <td class="formValue">
                         <div id="PostId" type="select" class="ui-select"></div>
                     </td>
-                </tr>
+                </tr>*@
                 <tr>
                     <td class="formTitle">角色</td>
                     <td class="formValue">
