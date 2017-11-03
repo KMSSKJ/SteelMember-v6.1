@@ -9,6 +9,7 @@ using LeaRun.Util;
 
 using LeaRun.Util.Extension;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SteelMember
 {
@@ -99,6 +100,16 @@ namespace LeaRun.Application.Service.SteelMember
                 }
             }
             return this.BaseRepository().IQueryable(expression).ToList();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<MemberWarehouseRecordingEntity> GetList(Expression<Func<MemberWarehouseRecordingEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).ToList();
         }
         /// <summary>
         /// 获取实体

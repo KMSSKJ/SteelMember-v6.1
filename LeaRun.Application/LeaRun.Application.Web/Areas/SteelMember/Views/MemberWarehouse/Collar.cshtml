@@ -122,12 +122,14 @@
 
     //保存表单;
     function AcceptClick() {
-        var val = document.getElementById("gridTable").rows[i].cells[5].innerText;
+      
+            var val = document.getElementById("gridTable").rows[1].cells[5].innerText;
 
-        if (val == undefined || val == "" || val == null) {
-            dialogMsg('请选取构件！', 0);
-            return false;
-        }
+            if (val == undefined || val == "" || val == null) {
+                dialogMsg('请选取构件！', 0);
+                return false;
+            }
+
         if (!$('#form1').Validform()) {
             return false;
         }
@@ -142,17 +144,18 @@
             //        return false;
             //    }
             //}
-
-            if (!!document.getElementById("gridTable").rows[i].cells[5].innerText) {
-                a = a + Number(document.getElementById("gridTable").rows[i].cells[5].innerText);
-                childEntryJson.push({
-                    CollarQuantity: document.getElementById("gridTable").rows[i].cells[5].innerText,
-                    Description: document.getElementById("gridTable").rows[i].cells[6].innerText,
-                    CollarId: document.getElementById("gridTable").rows[i].cells[10].innerText,
-                    InfoId: document.getElementById("gridTable").rows[i].cells[12].innerText,
-                    MemberWarehouseId: document.getElementById("gridTable").rows[i].cells[13].innerText,
-                    MemberId: document.getElementById("gridTable").rows[i].cells[14].innerText,
-                });
+            if (i > 1 && i < 11) {
+                if (!!document.getElementById("gridTable").rows[i].cells[5].innerText) {
+                    a = a + Number(document.getElementById("gridTable").rows[i].cells[5].innerText);
+                    childEntryJson.push({
+                        CollarQuantity: document.getElementById("gridTable").rows[i].cells[5].innerText,
+                        Description: document.getElementById("gridTable").rows[i].cells[6].innerText,
+                        CollarId: document.getElementById("gridTable").rows[i].cells[10].innerText,
+                        InfoId: document.getElementById("gridTable").rows[i].cells[12].innerText,
+                        MemberWarehouseId: document.getElementById("gridTable").rows[i].cells[13].innerText,
+                        MemberId: document.getElementById("gridTable").rows[i].cells[14].innerText,
+                    });
+                }
             }
         });
         var CollarNumbering = $("#table1").find("tr:eq(2)").find("td:eq(2)").html();

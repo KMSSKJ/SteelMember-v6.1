@@ -338,15 +338,38 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            var meminfo = rawmaterialorderinfobll.GetList(f => f.OrderId == keyValue);
-            if (meminfo.Count() > 0)
+            string[] idsArr = keyValue.Split(',');
+            int number = 0;
+            foreach (var item1 in idsArr)
             {
-                foreach (var item in meminfo)
+                var meminfo = rawmaterialorderinfobll.GetList(f => f.OrderId == item1);
+                if (meminfo.Count() > 0)
                 {
-                    rawmaterialorderinfobll.RemoveForm(item.InfoId);
+                    foreach (var item in meminfo)
+                    {
+                        var rawmaterialPurchaseinfo = rawmaterialpurchasebll.GetInfoList(f => f.InfoId == item.InfoId);
+                        number = rawmaterialPurchaseinfo.Count();
+                        if (number==0)
+                        {
+                            rawmaterialorderinfobll.RemoveForm(item.InfoId);
+                        }
+                        else
+                        {
+                            return Error("数据中存在关联数据");
+                        }
+                    }
                 }
+                if (number==0)
+                {
+                    rawmaterialorderbll.RemoveForm(keyValue);
+                }
+                else
+                {
+                    return Error("数据中存在关联数据");
+                }
+                
             }
-            rawmaterialorderbll.RemoveForm(keyValue);
+           
             return Success("删除成功。");
         }
         ///// <summary>

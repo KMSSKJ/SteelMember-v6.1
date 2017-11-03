@@ -113,7 +113,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult SaveForm(string ProjectId, ProjectInfoEntity entity)
         {
-            entity.ProjectId = ProjectId;
+            //entity.ProjectId = ProjectId;
             //entity.StartTime =Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
             projectinfobll.SaveForm(entity.ProjectInfoId, entity);
             return Success("²Ù×÷³É¹¦¡£");
@@ -129,7 +129,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public string GetProjectInfoId(string ProjectId, ProjectInfoEntity entity)
         {
-            entity.ProjectId = ProjectId;
+            //entity.ProjectId = ProjectId;
             //entity.StartTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
             return  projectinfobll.GetProjectInfoId(entity.ProjectInfoId, entity);
         }

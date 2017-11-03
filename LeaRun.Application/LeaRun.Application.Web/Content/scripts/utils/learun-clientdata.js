@@ -13,6 +13,8 @@ var authorizeButtonData = [];
 var authorizeColumnData = [];
 var clientunitData = [];
 
+
+
 $.getclientdata = function () {
     $.ajax({
         url: contentPath + "/ClientData/GetClientDataJson",

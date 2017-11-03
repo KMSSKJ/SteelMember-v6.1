@@ -29,16 +29,8 @@
             text: "ItemName",
             height: "150px",
         }).bind("change", function () {
-            var value = $(this).attr('data-value');
-            ////加载材料名称
-            //$("#RawMaterialName").ComboBox({
-            //    url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName1?rawmaterianame=" + value,
-            //    description: "==请选择==",
-            //    id: "str",
-            //    text: "str",
-            //    height: "150px",
-            //});
-             //    //加载规格或型号
+            var value = $(this).attr('data-value');   
+             //加载规格或型号
             $("#RawMaterialModel").ComboBox({
                 url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
                 description: "==请选择==",
@@ -154,7 +146,7 @@
             </td>
             <th class="formTitle">数量<font face="宋体">*</font></th>
             <td class="formValue">
-                <input id="RawMaterialDosage" type="text" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="ExceedZero" />
+                <input id="RawMaterialDosage" type="text"onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="ExceedZero" />
             </td>
         </tr>
 
@@ -163,7 +155,7 @@
                 描述
             </th>
             <td class="formValue" colspan="3">
-                <textarea id="Description" class="form-control" style="height: 160px;"></textarea>
+                <textarea id="Description" class="form-control" onmouseover="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" style="height: 160px;"></textarea>
             </td>
         </tr>
     </table>

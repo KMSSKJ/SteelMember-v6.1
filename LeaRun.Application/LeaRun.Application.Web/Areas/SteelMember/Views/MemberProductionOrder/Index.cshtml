@@ -62,10 +62,17 @@
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', hidden: true },
-                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: 'center', sortable: true },
+                { label: '申请编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: 'center', sortable: true },
                 { label: '经办人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
-                { label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 90, align: 'center', sortable: true },
-                { label: '预计完成时间', name: 'EstimatedFinishTime', index: 'EstimatedFinishTime', width: 90, align: 'center', sortable: true },
+                {
+                    label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 90, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    } },
+                { label: '预计完成时间', name: 'EstimatedFinishTime', index: 'EstimatedFinishTime', width: 90, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    } },
                 {
                     label: '优先级', name: 'Priority', index: 'Priority', width: 80, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
@@ -438,7 +445,7 @@
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">订单列表<span id="CenterTitle"></span></div>
+            <div class="panel-Title">申请列表<span id="CenterTitle"></span></div>
             <div class="titlePanel">
                 <div class="title-search">
                     <table>

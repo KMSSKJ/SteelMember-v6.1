@@ -1,4 +1,5 @@
 ﻿using LeaRun.Application.Busines.BaseManage;
+using LeaRun.Application.Busines.PublicInfoManage;
 using LeaRun.Application.Busines.SteelMember;
 using LeaRun.Application.Busines.SystemManage;
 using LeaRun.Application.Cache;
@@ -49,7 +50,7 @@ namespace LeaRun.Application.Web
         public RawMterialCollarBLL rawmterialcollarbll = new RawMterialCollarBLL();
         public RawMterialCollarInfoBLL rawmterialcollarinfobll = new RawMterialCollarInfoBLL();
         public SafetyEquipmentBLL safetyequipmentbll = new SafetyEquipmentBLL();
-
+        public NoticeBLL noticebll = new NoticeBLL();
 
         private Log _logger;
         /// <summary>

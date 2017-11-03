@@ -4,6 +4,7 @@ using LeaRun.Application.Service.SteelMember;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SteelMember
 {
@@ -35,6 +36,15 @@ namespace LeaRun.Application.Busines.SteelMember
         public IEnumerable<MemberWarehouseRecordingEntity> GetList(string queryJson)
         {
             return service.GetList(queryJson);
+        }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<MemberWarehouseRecordingEntity> GetList(Expression<Func<MemberWarehouseRecordingEntity,bool>>condition)
+        {
+            return service.GetList(condition);
         }
         /// <summary>
         /// 获取实体

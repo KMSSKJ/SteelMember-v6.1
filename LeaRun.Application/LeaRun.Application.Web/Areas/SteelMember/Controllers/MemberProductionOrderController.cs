@@ -405,13 +405,24 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            memberproductionorderbll.RemoveForm(keyValue);
-            var meminfo = memberproductionorderinfobll.GetList(f => f.OrderId == keyValue);
-            if (meminfo.Count() > 0)
+            string[] ids = new string[] { };
+            if (!string.IsNullOrEmpty(keyValue))
             {
-                foreach (var item in meminfo)
+                ids = keyValue.Split(',');
+            }
+            if (!ids.IsEmpty())
+            {
+                foreach (var item1 in ids)
                 {
-                    memberproductionorderinfobll.RemoveForm(item.InfoId);
+                    memberproductionorderbll.RemoveForm(item1);
+                    var meminfo = memberproductionorderinfobll.GetList(f => f.OrderId == item1);
+                    if (meminfo.Count() > 0)
+                    {
+                        foreach (var item in meminfo)
+                        {
+                            memberproductionorderinfobll.RemoveForm(item.InfoId);
+                        }
+                    }
                 }
             }
             return Success("É¾³ý³É¹¦¡£");

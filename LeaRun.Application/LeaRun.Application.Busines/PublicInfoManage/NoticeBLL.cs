@@ -6,6 +6,7 @@ using LeaRun.Util.WebControl;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.PublicInfoManage
 {
@@ -40,6 +41,18 @@ namespace LeaRun.Application.Busines.PublicInfoManage
         {
             return service.GetList();
         }
+
+        /// <summary>
+        /// 公告列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns></returns>
+        public IEnumerable<NewsEntity> GetList(Expression<Func<NewsEntity,bool>>condition)
+        {
+            return service.GetList(condition);
+        }
+
         /// <summary>
         /// 公告实体
         /// </summary>

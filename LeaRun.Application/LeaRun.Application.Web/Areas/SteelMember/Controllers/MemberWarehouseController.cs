@@ -202,7 +202,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult MemberCollar(Pagination pagination, string queryJson)
         {
 
-            var data = membercollarbll.GetPageList(pagination, queryJson).ToList();
+            var data = membercollarbll.GetPageList(pagination, queryJson).ToList().FindAll(f=>f.CollarNumbering!=null);
             if (data.Count() > 0)
             {
                 for (int i = 0; i < data.Count(); i++)
@@ -249,16 +249,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             foreach (var item in childData)
             {
                 var rawmaterialinventory = memberwarehousebll.GetEntity(item.MemberWarehouseId);
-                var RawMaterialLibrary = memberlibrarybll.GetEntity(rawmaterialinventory.MemberId);
+                var MemberLibrary = memberlibrarybll.GetEntity(rawmaterialinventory.MemberId);
                 var rawmaterial = new MemberDemandModel()
                 {
                     MemberWarehouseId = rawmaterialinventory.MemberWarehouseId,
                     MemberId = rawmaterialinventory.MemberId,
-                    MemberNumbering = RawMaterialLibrary.MemberNumbering,
-                    MemberName = RawMaterialLibrary.MemberName,
-                    Category = dataitemdetailbll.GetEntity(RawMaterialLibrary.Category).ItemName,
+                    MemberNumbering = MemberLibrary.MemberNumbering,
+                    MemberName = MemberLibrary.MemberName,
+                    Category = dataitemdetailbll.GetEntity(MemberLibrary.Category).ItemName,
                     MemberNumber = Convert.ToDecimal(item.CollarQuantity),
-                    UnitId = dataitemdetailbll.GetEntity(RawMaterialLibrary.UnitId).ItemName,
+                    UnitId = dataitemdetailbll.GetEntity(MemberLibrary.UnitId).ItemName,
                     Description = item.Description,
                 };
                 list.Add(rawmaterial);
@@ -354,7 +354,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberWarehouse.ProductionedQuantity = item.ProductionedQuantity;
                     MemberWarehouse.WarehousedQuantity = item.WarehousedQuantity;
                     MemberWarehouse.QualifiedQuantity = item.QualifiedQuantity;
-                    MemberWarehouse.Category = data1.Category;
+                    MemberWarehouse.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
                     MemberWarehouse.MemberName = data1.MemberName;
                     MemberWarehouse.MemberNumbering = data1.MemberNumbering;
                     MemberWarehouse.UnitId = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
@@ -517,6 +517,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         //获取到订单下的所有构件
                         var _OrderId = OrderIds[i];
+                        var MemberOrder = memberproductionorderbll.GetEntity(_OrderId);
                         var data = memberproductionorderinfobll.GetList(f => f.OrderId == _OrderId);
                         for (int i0 = 0; i0 < data.Count; i0++)
                         {
@@ -557,7 +558,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             warehouseRecording.Librarian = OperatorProvider.Provider.Current().UserName;
                             warehouseRecording.MemberId = memberinfo.MemberId;
                             warehouseRecording.UpdateTime = System.DateTime.Now;
-                            // warehouseRecording.ToReportPeople = orderinfo.CreateMan;
+                            warehouseRecording.SubProject = MemberOrder.Category;
                             warehouseRecording.InStock = data[i0].QualifiedQuantity;
                             warehouseRecording.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
                             warehouseRecording.Type = "入库";

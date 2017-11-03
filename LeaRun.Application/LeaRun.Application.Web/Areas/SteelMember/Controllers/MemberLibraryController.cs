@@ -247,7 +247,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetMemberRawMaterialJson(string MemberId)
         {
             var MemberRawMaterial = new List<MemberMaterialModel>();
-            var data = membermaterialbll.GetList(null).ToList().FindAll(f => f.MemberId == MemberId);
+            var data = membermaterialbll.GetList(f => f.MemberId == MemberId).ToList();
             for (int i = 0; i < data.Count(); i++)
             {
                 var rawmateriallibrary = rawmateriallibrarybll.GetEntity(data[i].RawMaterialId);
@@ -321,77 +321,87 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 var data = memberlibrarybll.GetList("").ToList();
                 var MemberEntity = data.Find(f => f.MemberId == item);
-                memberlibrarybll.RemoveForm(item);
-                memberwarehousebll.RemoveForm(item);
 
-                var MemberEntity1 = data.FindAll(f => f.MarkId > MemberEntity.MarkId);//&& f.EngineeringId == MemberEntity.EngineeringId
-                if (MemberEntity1.Count() > 0)
+                var memberdemand = memberdemandbll.GetList(f=>f.MemberId==item);
+                if (memberdemand.Count()==0)
                 {
-                    foreach (var item1 in MemberEntity1)
-                    {
-                        var MemberEntity2 = data.Find(f => f.MemberId == item1.MemberId);
+                    memberlibrarybll.RemoveForm(item);
+                    memberwarehousebll.RemoveForm(item);
 
-                        char[] Number = MemberEntity2.MemberNumbering.ToArray();
-                        string MemberNumbering = "";
-                        string Letter = "";
-                        for (int I = 0; I < Number.Length; I++)
+                    var MemberEntity1 = data.FindAll(f => f.MarkId > MemberEntity.MarkId);//&& f.EngineeringId == MemberEntity.EngineeringId
+                    if (MemberEntity1.Count() > 0)
+                    {
+                        foreach (var item1 in MemberEntity1)
                         {
-                            if (("0123456789").IndexOf(Number[I] + "") != -1)
+                            var MemberEntity2 = data.Find(f => f.MemberId == item1.MemberId);
+
+                            char[] Number = MemberEntity2.MemberNumbering.ToArray();
+                            string MemberNumbering = "";
+                            string Letter = "";
+                            for (int I = 0; I < Number.Length; I++)
                             {
-                                //if (Number[I].ToString() != "0")
-                                //{
-                                //    MemberNumbering += Number[I];//获取不等于0的数字
-                                //}
-                                //else
-                                //{
-                                //    Letter += Number[I];//获取0
-                                //}
-                                MemberNumbering += Number[I];//获取数字
+                                if (("0123456789").IndexOf(Number[I] + "") != -1)
+                                {
+                                    //if (Number[I].ToString() != "0")
+                                    //{
+                                    //    MemberNumbering += Number[I];//获取不等于0的数字
+                                    //}
+                                    //else
+                                    //{
+                                    //    Letter += Number[I];//获取0
+                                    //}
+                                    MemberNumbering += Number[I];//获取数字
+                                }
+                                else
+                                {
+                                    Letter += Number[I];//获取字母（字符）
+                                }
                             }
-                            else
-                            {
-                                Letter += Number[I];//获取字母（字符）
-                            }
+                            MemberEntity2.MarkId--;
+                            MemberEntity2.MemberNumbering = (Convert.ToInt64(MemberNumbering) - 1).ToString();
+                            memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
                         }
-                        MemberEntity2.MarkId--;
-                        MemberEntity2.MemberNumbering = (Convert.ToInt64(MemberNumbering) - 1).ToString();
-                        memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
                     }
-                }
 
-                //删除构件材料
-                var MemberMaterial = membermaterialbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
+                    //删除构件材料
+                    var MemberMaterial = membermaterialbll.GetList(t => t.MemberId == keyValue).ToList();
 
-                if (MemberMaterial.Count() > 0)
-                {
-                    for (int i = 0; i < MemberMaterial.Count(); i++)
+                    if (MemberMaterial.Count() > 0)
                     {
-                        membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId);
+                        for (int i = 0; i < MemberMaterial.Count(); i++)
+                        {
+                            membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId);
+                        }
                     }
-                }
-                //
+                    //
 
-                //删除构件制程
-                //var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
-                //if (MemberProcess.Count() > 0)
-                //{
-                //    for (int i = 0; i < MemberProcess.Count(); i++)
-                //    {
-                //        memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
-                //    }
-                //}
-                //
+                    //删除构件制程
+                    //var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
+                    //if (MemberProcess.Count() > 0)
+                    //{
+                    //    for (int i = 0; i < MemberProcess.Count(); i++)
+                    //    {
+                    //        memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
+                    //    }
+                    //}
+                    //
 
-                //删除构件库存
-                var MemberWarehouse = memberwarehousebll.GetList(t => t.MemberId == keyValue);
+                    //删除构件库存
+                    var MemberWarehouse = memberwarehousebll.GetList(t => t.MemberId == keyValue);
 
-                if (MemberWarehouse.Count() > 0)
-                {
-                    for (int i = 0; i < MemberWarehouse.Count(); i++)
+                    if (MemberWarehouse.Count() > 0)
                     {
-                        memberwarehousebll.RemoveForm(MemberWarehouse[i].MemberWarehouseId);
+                        for (int i = 0; i < MemberWarehouse.Count(); i++)
+                        {
+                            memberwarehousebll.RemoveForm(MemberWarehouse[i].MemberWarehouseId);
+                        }
                     }
                 }
+                else
+                {
+                    return Error("数据中存在关联数据");
+                }
+                
             }
 
             return Success("删除成功。");
@@ -472,7 +482,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             if (data1.Count() > 0)
             {
                 // if (keyValue != null || keyValue != "") {
-                var MemberMaterial = membermaterialbll.GetList(null).ToList().FindAll(f => f.MemberId == keyValue);
+                var MemberMaterial = membermaterialbll.GetList(f => f.MemberId == keyValue);
                 if (MemberMaterial.Count() > 0)
                 {
                     foreach (var item in MemberMaterial)

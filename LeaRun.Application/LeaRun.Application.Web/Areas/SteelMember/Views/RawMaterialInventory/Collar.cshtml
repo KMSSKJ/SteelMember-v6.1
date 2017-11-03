@@ -45,12 +45,12 @@
 
     //保存表单;
     function AcceptClick() {
-        var val = document.getElementById("gridTable").rows[i].cells[4].innerText;
-
-        if (val == undefined || val == "" || val == null) {
-            dialogMsg('请选取材料！', 0);
-            return false;
-        }
+       
+            var val = document.getElementById("gridTable").rows[1].cells[4].innerText;
+            if (val == undefined || val == "" || val == null) {
+                dialogMsg('请选取材料！', 0);
+                return false;
+            }
 
         if (!$('#form1').Validform()) {
             return false;
@@ -65,16 +65,19 @@
             //        return false;
             //    }
             //}
-            if (!!document.getElementById("gridTable").rows[i].cells[4].innerText) {
-                a = a + Number(document.getElementById("gridTable").rows[i].cells[4].innerText);
-                childEntryJson.push({
-                    CollarQuantity: document.getElementById("gridTable").rows[i].cells[4].innerText,
-                    Description: document.getElementById("gridTable").rows[i].cells[5].innerText,
-                    InfoId: document.getElementById("gridTable").rows[i].cells[6].innerText,
-                    InventoryId: document.getElementById("gridTable").rows[i].cells[7].innerText,
-                    CollarId: document.getElementById("gridTable").rows[i].cells[8].innerText,
-                });
+            if (i>1&&i<11) {
+                if (!!document.getElementById("gridTable").rows[i].cells[4].innerText) {
+                    a = a + Number(document.getElementById("gridTable").rows[i].cells[4].innerText);
+                    childEntryJson.push({
+                        CollarQuantity: document.getElementById("gridTable").rows[i].cells[4].innerText,
+                        Description: document.getElementById("gridTable").rows[i].cells[7].innerText,
+                        InfoId: document.getElementById("gridTable").rows[i].cells[8].innerText,
+                        InventoryId: document.getElementById("gridTable").rows[i].cells[9].innerText,
+                        CollarId: document.getElementById("gridTable").rows[i].cells[10].innerText,
+                    });
+                }
             }
+          
         });
 
         var CollarNumbering = $("#table1").find("tr:eq(2)").find("td:eq(2)").html();
@@ -212,7 +215,7 @@
                                 $(this).find("td:eq(1)").html(row.RawMaterialName);
                                 $(this).find("td:eq(2)").html(row.RawMaterialModel);
                                 $(this).find("td:eq(3)").html(row.UnitId);
-                                $(this).find("td:eq(4)").html(Number(row.Quantity) - Number(row.CollaredQuantity));
+                                $(this).find("td:eq(4)").html(Number(row.Quantity) - Number(row.CollaredQuantity));//当前出库量
                                 $(this).find("td:eq(5)").html(row.Price);
                                 $(this).find("td:eq(6)").html(row.Price*Number(row.Quantity) - Number(row.CollaredQuantity));
                                 $(this).find("td:eq(7)").html(row.Description);

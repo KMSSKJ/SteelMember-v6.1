@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace LeaRun.Application.Service.PublicInfoManage
@@ -53,7 +54,17 @@ namespace LeaRun.Application.Service.PublicInfoManage
         {
             return this.BaseRepository().FindTable("select top 6 * from Base_News where TypeId = 2 order by ReleaseTime desc");
         }
-     
+
+        /// <summary>
+        /// 公告列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns></returns>
+        public IEnumerable<NewsEntity> GetList(Expression<Func<NewsEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition);
+        }
+
         /// <summary>
         /// 公告实体
         /// </summary>

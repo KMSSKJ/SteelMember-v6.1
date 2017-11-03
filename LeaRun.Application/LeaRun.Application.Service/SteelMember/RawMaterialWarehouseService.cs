@@ -28,8 +28,20 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns>返回列表</returns>
         public IEnumerable<RawMaterialWarehouseEntity> GetList(string queryJson)
         {
-            throw new NotImplementedException();
-            //return this.BaseRepository().IQueryable().ToList();
+            var expression = LinqExtensions.True<RawMaterialWarehouseEntity>();
+         
+            return this.BaseRepository().IQueryable(expression);
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<RawMaterialWarehouseEntity> GetList(Expression<Func<RawMaterialWarehouseEntity, bool>> condition)
+        {
+          
+            return this.BaseRepository().IQueryable(condition).ToList();
         }
         /// <summary>
         /// 获取实体
@@ -38,8 +50,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns></returns>
         public RawMaterialWarehouseEntity GetEntity(string keyValue)
         {
-            throw new NotImplementedException();
-            //return this.BaseRepository().FindEntity(keyValue);
+          return this.BaseRepository().FindEntity(keyValue);
         }
         #endregion
 

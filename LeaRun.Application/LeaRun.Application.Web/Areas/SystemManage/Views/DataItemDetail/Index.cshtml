@@ -31,6 +31,7 @@
     var _itemId = "";
     var _itemName = "";
     var _isTree = "";
+    var _itemType = "";
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
@@ -39,6 +40,7 @@
                 _itemId = item.id;
                 _itemName = item.text;
                 _isTree = item.isTree;
+                _itemType = item.value;
                 $("#titleinfo").html(_itemName + "(" + item.value + ")");
                 $("#txt_Keyword").val("");
                 $('#btn_Search').trigger("click");
@@ -154,7 +156,7 @@
         if (keyValue) {
             $.RemoveForm({
                 url: "../../SystemManage/DataItemDetail/RemoveForm",
-                param: { keyValue: keyValue },
+                param: { keyValue: keyValue,itemType: _itemType },
                 success: function (data) {
                     $("#gridTable").resetSelection();
                     $("#gridTable").trigger("reloadGrid");

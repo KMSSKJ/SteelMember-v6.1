@@ -95,7 +95,7 @@ namespace LeaRun.Application.Service.SteelMember
             //}
             //if (queryJson != "")
             //{
-            //    expression = expression.And(t => t.Category==queryJson);
+            //    expression = expression.And(t => t.Category == queryJson);
             //}
             return this.BaseRepository().IQueryable(expression);
         }

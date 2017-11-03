@@ -80,11 +80,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
-            if (pagination.sidx== "RawMaterialName"|| pagination.sidx == "RawMaterialCategory")
+            if (pagination.sidx == "RawMaterialName" || pagination.sidx == "RawMaterialCategory")
             {
                 pagination.sidx = "RawMaterialId";
             }
-         
+
             var data = new List<RawMaterialAnalysisModel>();
             var watch = CommonHelper.TimerStart();
             var HavesChildren = "";
@@ -153,7 +153,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         total = pagination.total,
                         page = pagination.page,
                         records = pagination.records,
-                          costtime = CommonHelper.TimerEnd(watch)
+                        costtime = CommonHelper.TimerEnd(watch)
                     };
 
                     return ToJsonResult(Data);
@@ -289,7 +289,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult RawMateriaName1(string rawmaterianame)
         {
             var expression = LinqExtensions.True<RawMaterialLibraryEntity>();
-            
+
             if (!string.IsNullOrEmpty(rawmaterianame))
             {
                 expression = expression.And(r => r.Category.Trim() == rawmaterianame.Trim());
@@ -347,9 +347,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             List<TemplateMode> list = new List<TemplateMode>();
             //设置主表信息(上部)
-            list.Add(new TemplateMode() { row = 0, cell = 0, value = entity.ExportTableTitle});
-            list.Add(new TemplateMode() { row = 1, cell = 0, value = "工程名称："+ subprojectbll.GetEntity(entity.SubProjectId).FullName });
-            list.Add(new TemplateMode() { row = 1, cell = 5, value = "单项工程名称："+ entity.IndividualProjectName });
+            list.Add(new TemplateMode() { row = 0, cell = 0, value = entity.ExportTableTitle });
+            list.Add(new TemplateMode() { row = 1, cell = 0, value = "工程名称：" + subprojectbll.GetEntity(entity.SubProjectId).FullName });
+            list.Add(new TemplateMode() { row = 1, cell = 5, value = "单项工程名称：" + entity.IndividualProjectName });
             list.Add(new TemplateMode() { row = 2, cell = 0, value = "施工单位：" + entity.ConstructionUnit });
 
             //设置明细信息
@@ -366,8 +366,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
 
             //设置主表信息(下部)
-            list.Add(new TemplateMode() { row = 36, cell = 0, value = "分析员：" + rawmaterialanalysis.CreateMan });
-            list.Add(new TemplateMode() { row = 36, cell = 4, value = "审核人：" + rawmaterialanalysis.ReviewMan });
+            var CreateMan = "";
+            var ReviewMan = "";
+            if (rawmaterialanalysis != null)
+            {
+                CreateMan = rawmaterialanalysis.CreateMan.IsEmpty() ? "" : rawmaterialanalysis.CreateMan;
+                ReviewMan = rawmaterialanalysis.ReviewMan.IsEmpty() ? "" : rawmaterialanalysis.ReviewMan;
+            }
+
+            list.Add(new TemplateMode() { row = 36, cell = 0, value = "分析员：" + CreateMan });
+            list.Add(new TemplateMode() { row = 36, cell = 4, value = "审核人：" + ReviewMan });
             list.Add(new TemplateMode() { row = 36, cell = 7, value = "日期:" + DateTime.Now.Year + "年" + DateTime.Now.Month + "月" + DateTime.Now.Day + "日" });
 
             ExcelHelper.ExcelDownload(list, "材料分析模板.xlsx", entity.ExportFileName + ".xlsx");
@@ -395,18 +403,34 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             string[] idsArr = keyValue.Split(',');
+            int number = 0;
             List<RawMaterialAnalysisEntity> List = new List<RawMaterialAnalysisEntity>();
             foreach (var item in idsArr)
             {
+                var memberMaterial = membermaterialbll.GetList(f => f.RawMaterialId == item);
+                var materialOrderInfo = rawmaterialorderinfobll.GetList(f => f.RawMaterialId == item);
+                var rawmaterialwarehouse = rawmaterialwarehousebll.GetList(f=>f.RawMaterialId== item);
+                var rawmaterialcallinfo = rawmterialcollarinfobll.GetList(f => f.RawMaterialId == item);
+                                     
+                number = memberMaterial.Count() + materialOrderInfo.Count()+ rawmaterialwarehouse.Count()+ rawmaterialcallinfo.Count();
+
                 var model = rawmaterialanalysisbll.GetEntity(item);
                 List.Add(model);
             }
-            rawmaterialanalysisbll.RemoveList(List);
-            return Success("删除成功。");
+
+            if (number == 0)
+            {
+                rawmaterialanalysisbll.RemoveList(List);
+            }
+            else
+            {
+                return Error("数据中存在关联数据");
+            }
+            return Success("删除成功");
         }
         /// <summary>
         /// 保存表单（新增、修改）
@@ -481,7 +505,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult ReviewOperation(string keyValue, RawMaterialAnalysisEntity entity, int type)
         {
             string[] ids = new string[] { };
