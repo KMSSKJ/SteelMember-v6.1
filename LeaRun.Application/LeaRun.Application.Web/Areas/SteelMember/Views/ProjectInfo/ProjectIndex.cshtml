@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "项目信息预览";
-    Layout = "~/Views/Shared/_Index.cshtml";
+    Layout = "~/Views/Shared/_Form.cshtml";
 }
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,29 +9,31 @@
     $(function () {
         GetGrid();
     });
-
     //加载表格
-   // var ProjectId = "b51550ed-5f23-4de6-a509-b534c24ae2ee";
     function GetGrid() {
         $.ajax({
-            url: "/SteelMember/ProjectInfo/GetFormJson",
+            url: "/SteelMember/SystemConfiguration/GetFormJson",
             type: "get",
-            data: { },
+            data: {},
             dataType: "json",
             async: false,
             success: function (data) {
                 if (data != null) {
-
-                    $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.ProjectName);
-                    $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.ProjectAddress);
-                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html(formatDate(data.StartTime, 'yyyy-MM-dd'));
-                    $("#table1").find("tr:eq(3)").find("td:eq(0)").html(formatDate(data.CompletedTime, 'yyyy-MM-dd'));
-                    $("#table1").find("tr:eq(4)").find("td:eq(0)").html(data.OwnerUnit);
-                    $("#table1").find("tr:eq(5)").find("td:eq(0)").html(data.DesignUnit);
-                    $("#table1").find("tr:eq(6)").find("td:eq(0)").html(data.SupervisionUnit);
-                    $("#table1").find("tr:eq(7)").find("td:eq(0)").html(data.ConstructionUnit);
-                    $("#table1").find("tr:eq(8)").find("td:eq(0)").html(data.Description);
-                   
+                    $("#EngineeringName").text(data.EngineeringName);
+                    $("#StartDate").text(formatDate(data.StartDate, 'yyyy-MM-dd'));
+                    $("#ExpectedDuration").text(formatDate(data.ExpectedDuration, 'yyyy-MM-dd'));
+                    $("#ConstructUnit").text(data.ConstructUnit);
+                    $("#Cu_principal").text(data.Cu_principal);
+                    $("#InvestigationUnit").text(data.InvestigationUnit);
+                    $("#Iu_principal").text(data.Iu_principal);
+                    $("#DesignUnit").text(data.DesignUnit);
+                    $("#Du_principal").text(data.Du_principal);
+                    $("#ConstructionUnit").text(data.ConstructionUnit);
+                    $("#Ctu_principal").text(data.Ctu_principal);
+                    $("#SupervisionUnit").text(data.SupervisionUnit);
+                    $("#Su_principal").text(data.Su_principal);
+                    $("#EngineeringOverview").text(data.EngineeringOverview);
+                    //$("#engineeringInfo").SetWebControls(data);
                 }
             },
         });
@@ -39,73 +41,143 @@
 
 </script>
 <style>
-    * {
-        padding: 0px;
-        margin: 0px;
-        font-size: 20pt;
+    .gridPanel {
+        background-image: url('../../../../Content/images/background.jpg');
+        background-size: 100% 100%;
+        min-height: -webkit-fill-available;
+        color: #064071;
+        font-family: monospace;
+        font-weight: 600;
+        text-shadow: 2px 2px 1px #ffffff;
     }
-    .form .formTitle {
-        position: relative;
-        left: 0px;
-        text-align: center;
-        white-space: nowrap;
-        font-weight: normal;
-        width: 260px;
-        padding-right: 10px;
+    ._top {
+        padding: 50px 10px 10px 50px;
+    }
+    .title_info {
+        margin-right: 10px;
+        float: left;
+        line-height: 30px;
+        font-size: 20pt;
+        height: 30px;
+        margin-top: 10px;
+    }
+    .value_info {
+        font-size: 20pt!important;
+        width: auto;
+        float: left;
+        line-height: 30px;
+        height: 100%;
+        margin-top: 10px;
+    }
+    label{
+        font-size:20pt!important;
     }
 </style>
-    <div style="background-image:url('../../../../Content/images/background.jpg');background-size:100% 100%;filter:alpha(opacity=80);opacity:0.8;width:100%;height:900px">
-        <div style="padding:30px 450px">
-            <table class="form" id="table1">
-                <tr>
-                    <th class="formTitle">
-                        项目名称:
-                    </th>
-                    <td class="formValue"></td>
-                </tr>
-                <tr>
-                    <th class="formTitle">
-                        项目地址:
-                    </th>
-                    <td class="formValue"></td>
-                </tr>
-                <tr>
-                    <th class="formTitle">
-                        开工时间:
-                    </th>
-                    <td class="formValue"></td>
 
-                </tr>
-                <tr>
-                    <th class="formTitle">
-                        预计工期至:
-                    </th>
-                    <td class="formValue"></td>
-                </tr>
-                <tr>
-                    <th class="formTitle">
-                        业主单位:
-                    </th>
-                    <td class="formValue"></td>
-                </tr>
-                <tr>
-                    <th class="formTitle">
-                        设计单位:
-                    </th>
-                    <td class="formValue"></td>
-                </tr>
-                <tr>
-                    <th class="formTitle">监理单位:</th>
-                    <td class="formValue"></td>
-                </tr>
-                <tr>
-                    <th class="formTitle">施工单位:</th>
-                    <td class="formValue"></td>
-                </tr>
-                <tr>
-                    <th class="formTitle">工程概况:</th>
-                    <td class="formValue"></td>
-                </tr>
-            </table>
+<div class="ui-layout" id="layout" style="padding-left:10px;padding-bottom:10px;">
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="gridPanel">
+                <div class="_top">
+                    <div class="title_info">
+                        工程名称:
+                    </div>
+                    <div class="value_info">
+                        <label id="EngineeringName"></label>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div style="height:30px;float:left">
+                        <div class="title_info">开工日期:</div>
+                        <div class="value_info">
+                            <label id="StartDate" />
+                        </div>
+                    </div>
+                    <div style="height:30px;float:left;margin-left:433px;">
+                        <div class="title_info">预计工期:</div>
+                        <div class="title_info">
+                            <label id="ExpectedDuration" />
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div style="height:30px;float:left;margin-top:10px;">
+                        <div class="title_info">建设单位:</div>
+                        <div class="value_info">
+                            <label id="ConstructUnit" />
+                        </div>
+                    </div>
+                    <div style="height:30px;float:left;margin-left:300px;margin-top:10px;">
+                        <div class="title_info">项目负责人:</div>
+                        <div class="value_info">
+                            <label id="Cu_principal" />
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+
+                    <div style="height:30px;float:left;margin-top:10px;">
+                        <div class="title_info">勘察单位:</div>
+                        <div class="value_info">
+                            <label id="InvestigationUnit" />
+                        </div>
+                    </div>
+                    <div style="height:30px;float:left;margin-left:300px;margin-top:10px;">
+                        <div class="title_info">项目负责人:</div>
+                        <div class="value_info">
+                            <label id="Iu_principal" />
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+
+                    <div style="height:30px;float:left;margin-top:10px;">
+                        <div class="title_info">设计单位:</div>
+                        <div class="value_info">
+                            <label id="DesignUnit" />
+                        </div>
+                    </div>
+                    <div style="height:30px;float:left;margin-left:300px;margin-top:10px;">
+                        <div class="title_info">项目负责人:</div>
+                        <div class="value_info">
+                            <label id="Du_principal" />
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+
+                    <div style="height:30px;float:left;margin-top:10px;">
+                        <div class="title_info">施工单位:</div>
+                        <div class="value_info">
+                            <label id="ConstructionUnit" />
+                        </div>
+                    </div>
+                    <div style="height:30px;float:left;margin-left:300px;margin-top:10px;">
+                        <div class="title_info">项目负责人:</div>
+                        <div class="value_info">
+                            <label id="Ctu_principal" />
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+
+                    <div style="height:30px;float:left;margin-top:10px;">
+                        <div class="title_info">监理单位:</div>
+                        <div class="value_info">
+                            <label id="SupervisionUnit" />
+                        </div>
+                    </div>
+                    <div style="height:30px;float:left;margin-left:300px;margin-top:10px;">
+                        <div class="title_info">项目负责人:</div>
+                        <div class="value_info">
+                            <label id="Su_principal" />
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="_bottom" style="width:100%;padding:10px 50px 10px 50px">
+                    <div style="clear:both"></div>
+                    <div class="title_info" style="width:50%">工程概况:</div>
+                    <label id="EngineeringOverview" style="line-height:30px;"></label>
+                </div>
+
+            </div>
+
         </div>
     </div>
+</div>

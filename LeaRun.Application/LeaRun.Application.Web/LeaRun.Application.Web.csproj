@@ -294,6 +294,10 @@
     <Content Include="Content\images\arrow.png" />
     <Content Include="Content\images\arrow1.png" />
     <Content Include="Content\images\background.jpg" />
+    <Content Include="Content\images\background1.jpg" />
+    <Content Include="Content\images\background2.jpg" />
+    <Content Include="Content\images\background3.jpg" />
+    <Content Include="Content\images\background4.jpg" />
     <Content Include="Content\images\black_arrow_8.png" />
     <Content Include="Content\images\button_pm_close.png" />
     <Content Include="Content\images\checkAllOff.gif" />
