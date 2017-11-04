@@ -128,7 +128,11 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            roleBLL.RemoveForm(keyValue);
+            string[] idsArr = keyValue.Split(',');
+            foreach (var item in idsArr)
+            {
+                roleBLL.RemoveForm(item);
+            }
             return Success("删除成功。");
         }
         /// <summary>

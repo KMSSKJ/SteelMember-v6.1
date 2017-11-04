@@ -73,7 +73,7 @@ namespace LeaRun.Util
             sbHtml.AppendLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
             sbHtml.AppendLine("<table cellspacing=\"0\" cellpadding=\"5\" rules=\"all\" border=\"1\">");
             //写出列名
-            sbHtml.AppendLine("<tr style=\"font-weight: bold; white-space: nowrap;\">");
+            sbHtml.AppendLine("<tr style=\"font-weight: bold; white-space: nowrap;\">"); /*border: 1px solid #000;*/
             foreach (string item in DataColumn)
             {
                 sbHtml.AppendLine("<td>" + item + "</td>");

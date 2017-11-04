@@ -23,10 +23,10 @@
         var selectedRowIndex = 0;
         var $gridTable_user = $('#gridTable_user');
         $gridTable_user.jqGrid({
+            autowidth: true,
             url: "../../BaseManage/User/GetPageListJson",
             datatype: "json",
             height: $(window).height() - 136.5,
-            autowidth: true,
             colModel: [
                 { label: '主键', name: 'UserId', hidden: true },
                 { label: '账户', name: 'Account', index: 'Account', width: 100, align: 'center' },
@@ -79,6 +79,8 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
             },

@@ -76,8 +76,8 @@
             param: postData,
             loading: "正在保存数据...",
             success: function () {
-                $.currentIframe().$("#gridTable").resetSelection();
-                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                $.currentIframe().$("#gridTable_dep").resetSelection();
+                $.currentIframe().$("#gridTable_dep").trigger("reloadGrid");
             }
         })
     }

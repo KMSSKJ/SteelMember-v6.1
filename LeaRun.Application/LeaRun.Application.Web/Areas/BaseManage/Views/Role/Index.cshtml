@@ -60,10 +60,12 @@
             rowList: [30, 50, 100],
             pager: "#gridPager",
             sortname: 'CreateDate',
-            sortorder: 'desc',
+            sortorder: 'asc', //desc
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            multiselect: true,
+            multiboxonly: true,
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
             },

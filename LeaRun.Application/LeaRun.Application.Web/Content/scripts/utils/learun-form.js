@@ -69,7 +69,8 @@ $.SetForm = function (options) {
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             dialogMsg(errorThrown, -1);
-        }, beforeSend: function () {
+        },
+        beforeSend: function () {
             Loading(true);
         },
         complete: function () {

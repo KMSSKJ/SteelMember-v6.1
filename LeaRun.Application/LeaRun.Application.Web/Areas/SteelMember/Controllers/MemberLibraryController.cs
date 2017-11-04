@@ -25,7 +25,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// 日 期：2017-07-05 17:15
     /// 描 述：构件库管理
     /// </summary>
-   
+
     public class MemberLibraryController : MvcControllerBase
     {
         #region 视图功能
@@ -157,6 +157,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 data[i].UnitId = dataitemdetailbll.GetEntity(data[i].UnitId).ItemName;
                 data[i].Category = dataitemdetailbll.GetEntity(data[i].Category).ItemName;
+                var MemberId = data[i].MemberId;
+                var memberRawMaterial = membermaterialbll.GetList(f => f.MemberId == MemberId);
+                if (memberRawMaterial.Count() > 0)
+                {
+                    data[i].IsRawMaterial = 1;
+                }
             }
 
             var queryParam = queryJson.ToJObject();
@@ -169,14 +175,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                     case "Category":              //构件类型
                         data = data.FindAll(t => t.Category.Contains(keyword));
-                       // expression = expression.And(t => t.Category.Contains(keyword));
+                        // expression = expression.And(t => t.Category.Contains(keyword));
                         break;
                 }
             }
 
             var jsonData = new
             {
-               
+
                 rows = data,
                 total = pagination.total,
                 page = pagination.page,
@@ -281,7 +287,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 expression = expression.And(r => r.Category.Trim() == KeyValue.Trim());
             }
-            var RawMaterial = rawmateriallibrarybll.GetList(expression);
+            var RawMaterial = rawmateriallibrarybll.GetList(expression).OrderBy(o => o.RawMaterialName);
             var JsonData = RawMaterial.Select(p => new
             {
                 RawMaterialId = p.RawMaterialId,
@@ -319,11 +325,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string[] Arry = keyValue.Split(',');//字符串转数组
             foreach (var item in Arry)
             {
-                var data = memberlibrarybll.GetList("").ToList();
+                var data = memberlibrarybll.GetList(f => f.MemberId != null).ToList();
                 var MemberEntity = data.Find(f => f.MemberId == item);
 
-                var memberdemand = memberdemandbll.GetList(f=>f.MemberId==item);
-                if (memberdemand.Count()==0)
+                var memberdemand = memberdemandbll.GetList(f => f.MemberId == item);
+                if (memberdemand.Count() == 0)
                 {
                     memberlibrarybll.RemoveForm(item);
                     memberwarehousebll.RemoveForm(item);
@@ -401,7 +407,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     return Error("数据中存在关联数据");
                 }
-                
+
             }
 
             return Success("删除成功。");
@@ -512,7 +518,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="KeyValue"></param>
+        /// <param name="MemberLibrary"></param>
+        /// <returns></returns>
+        [HttpPost]
         public ContentResult SubmitImportFile(string KeyValue, MemberLibraryEntity MemberLibrary)
         {
             try
@@ -591,7 +603,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 myCommand.Fill(myDataSet, "ExcelInfo");
                 // Data.Deleted();
                 DataTable table = myDataSet.Tables["ExcelInfo"].DefaultView.ToTable();
-                if (table.Columns.Count != 6)
+                if (table.Columns.Count != 7)
                 {
                     return Content("文件数据格式不正确");
                 }
@@ -610,15 +622,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 else
                 {
                     int _count = 0;
-                    for (int i = 0; i < table.Rows.Count; i++)
+                    for (int i = 1; i < table.Rows.Count; i++)
                     {
                         if (!table.Rows[i].IsNull(0))
                         {
-                            string MemberName = table.Rows[i][0].ToString().Trim();
+                            string MemberName = table.Rows[i][2].ToString().Trim();
                             string Category = table.Rows[i][1].ToString().Trim();
 
                             var _MemberLibrary = memberlibrarybll.GetList(f => f.MemberName == MemberName && f.Category == Category);
-                            if (_MemberLibrary == null)
+                            if (_MemberLibrary.Count() == 0)
                             {
                                 MemberLibrary.EngineeringId = KeyValue;
                                 MemberLibrary.UploadTime = DateTime.Now;
@@ -641,7 +653,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 MemberLibrary.IsRawMaterial = 0;
                                 MemberLibrary.IsProcess = 0;
                                 MemberLibrary.MemberName = table.Rows[i][0].ToString().Trim();
-                                //自动获取构件所属工程类型ID
+                                //自动获取构件类型ID
                                 var category = dataItemCache.GetDataItemList("MemberType");
                                 if (table.Rows[i][1].ToString().Trim().Count() > 0)
                                 {
@@ -652,7 +664,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                     }
                                     else
                                     {
-                                        return Content("操作失败：系统中不存在" + table.Rows[i][1].ToString().Trim() + "的所属工程类型");
+                                        return Content("操作失败：系统中不存在" + table.Rows[i][1].ToString().Trim() + "的所属构件类型");
                                     }
                                 }
                                 else
@@ -722,6 +734,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 MemberLibrary.Icon = Icon;
                                 MemberLibrary.IsProcess = 0;
                                 MemberLibrary.IsRawMaterial = 0;
+                                MemberLibrary.Description = table.Rows[i][6].ToString() + "—外部导入数据，请添加该构件所需材料和图片信息！";
                                 var memberId = memberlibrarybll.SaveForm("", MemberLibrary);
 
                                 var entitys1 = new MemberWarehouseEntity()
@@ -1046,7 +1059,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     Filedata.SaveAs(fullFileName + filename);
                 }
- 
+
                 return Content("../.." + NewPath + "/" + filename);
             }
             catch (Exception ex)
@@ -1060,18 +1073,35 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 导出Excell模板
         /// </summary>
         /// <returns></returns>
-        public void GetExcellTemperature(string ImportId)
+        public void GetExcellTemperature1()//string ImportId
         {
-
             DataTable data = new DataTable();
-            //string fileName = "导入构件模板.xlsx";
+            string fileName = "导入构件模板";
             //string TableHeader = "构件模板";
-            string DataColumn = "型号|";
-            DataColumn += "构件类型|构件名称|单位|图纸|模型|图标";
-            //DeriveExcel.DataTableToExcel(data, DataColumn.Split('|'), fileName);
-            // ExcelHelper.ExcelDownload(exportTable, excelconfig);
-            // userBLL.GetExportList();
+            string DataColumn = "构件名称|构件类型|单位|图纸|模型|图标|备注";
+            //DataColumn += "h|B|b|D|d| t|r|r1|Ix | Ix0 | Ix1 | Iy | Iy0 | Iy1 | Iu | ix |";
+            DeriveExcel.DataTableToExcel(data, DataColumn.Split('|'), fileName);
         }
+
+        /// <summary>
+        /// 导出Excell模板
+        /// </summary>
+        /// <returns></returns>
+        public void GetExcellTemperature()
+        {
+            var Path = this.Server.MapPath("/Resource/ExcelTemplate/构件信息导入模板.xls");// UserId,
+            FileInfo file = new FileInfo(Path);
+            var name = "构件信息导入模板.xls";
+            Response.Clear();
+            Response.ClearHeaders();
+            Response.Buffer = false;
+            Response.ContentType = "application/octet-stream";
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(name, System.Text.Encoding.UTF8));
+            Response.AppendHeader("Content-Length", file.Length.ToString());
+            Response.WriteFile(file.FullName);
+            Response.Flush();
+        }
+
         #endregion
 
         #endregion

@@ -95,7 +95,16 @@
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }},
-                { label: "备注", name: "Description", index: "Description", width: 200, align: "center" }
+                {
+                    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center', sortable: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                            return "";
+                        } else {
+                            return "<p style='color: red'>" + cellvalue + "</p>";
+                        }
+                    }
+                },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -195,12 +204,11 @@
     }
     //文件导入
     function btn_import() {
-        // if (_Category != null || _Category != undefined || _Category!="") {  url: '/SteelMember/MemberLibrary/ImportFile?KeyValue=' + _Category,
         if (!!_Category) {
             dialogOpen({
                 id: "ImportFile",
                 title: '导入功能',
-                url: '/SteelMember/MemberLibrary/ImportFile?KeyValue=' + _Category,
+                url: '/SteelMember/RawMaterialLibrary/ImportFile?KeyValue=' + _Category,
                 width: "400px",
                 height: "300px",
                 callBack: function (iframeId) {

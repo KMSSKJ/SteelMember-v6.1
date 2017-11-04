@@ -32,7 +32,7 @@
                 { label: "单位名称", name: "FullName", width: 300, align: "center", sortable: false},
                 //{ label: "外文名称", name: "EnCode", width: 150, align: "center", sortable: false },
                 //{ label: "中文名称", name: "ShortName", width: 150, align: "center", sortable: false },
-                { label: "单位性质", name: "Nature", width: 100, align: "center", sortable: false },
+                { label: "单位类型", name: "Nature", width: 100, align: "center", sortable: false },
                 {
                     label: "成立时间", name: "FoundedTime", width: 100, align: "center", sortable: false,
                     formatter: function (cellvalue, options, rowObject) {
@@ -40,12 +40,16 @@
                     }
                 },
                 { label: "负责人", name: "Manager", width: 100, align: "center", sortable: false },
+                { label: "排序", name: "SortCode", width: 100, align: "center", sortable: false },
                 { label: "经营范围", name: "Fax", width: 200, align: "center", sortable: false },
                 { label: "备注", name: "Description", width: 200, align: "center", sortable: false }
             ],
             treeGrid: true,
             treeGridModel: "nested",
             ExpandColumn: "EnCode",
+            //sortname: 'SortCode asc',
+            //sortname: 'SortCode',
+            //sortorder: 'Desc',
             rowNum: "all",
             rownumbers: true,
             onSelectRow: function () {
