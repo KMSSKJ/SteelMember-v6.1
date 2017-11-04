@@ -1,5 +1,5 @@
 @{;
-    ViewBag.Title = "材料分析页面";
+    ViewBag.Title = "材料需求页面";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 <script>
@@ -361,8 +361,8 @@
     //导出
     function btn_derive() {
         var time = new Date();
-        var ExportFileName = "材料分析_" + time.getFullYear() + time.getMonth() + time.getDate() + time.getHours() + time.getMinutes() + time.getSeconds();
-        var ExportTableTitle = "材料需求分析表";
+        var ExportFileName = "材料需求_" + time.getFullYear() + time.getMonth() + time.getDate() + time.getHours() + time.getMinutes() + time.getSeconds();
+        var ExportTableTitle = "材料需求表";
 
         if (SubProjectId != null) {
             dialogOpen({

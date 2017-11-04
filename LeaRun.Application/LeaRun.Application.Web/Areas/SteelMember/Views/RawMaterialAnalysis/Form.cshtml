@@ -18,7 +18,7 @@
             description: "==请选择==",
             height: "150px",
         });
-      
+
         //材料类型
         $("#RawMaterialCategory").ComboBoxTree({
             param: { EnCode: "RawMaterialType" },
@@ -29,8 +29,8 @@
             text: "ItemName",
             height: "150px",
         }).bind("change", function () {
-            var value = $(this).attr('data-value');   
-             //加载规格或型号
+            var value = $(this).attr('data-value');
+            //加载规格或型号
             $("#RawMaterialModel").ComboBox({
                 url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
                 description: "==请选择==",
@@ -39,19 +39,14 @@
                 height: "150px",
             });
         });
-      
-        //材料名称
-        $("#RawMaterialName").ComboBox({
-            description: "==请选择==",
-            height: "150px",
-        })
+
         //规格或型号
         $("#RawMaterialModel").ComboBox({
             description: "==请选择==",
             height: "150px",
         })
+
         //获取表单
-       
         if (!!keyValue) {
             $.SetForm({
                 url: "../../SteelMember/RawMaterialAnalysis/GetFormJson",
@@ -60,14 +55,33 @@
                     $("#form1").SetWebControls(data);
                     InputValue = data.RawMaterialName + data.RawMaterialModel;
                     $("#RawMaterialCategory").trigger("change");
-                    $("#RawMaterialName").ComboBoxSetValue(data.RawMaterialName);
                     $("#RawMaterialModel").ComboBoxSetValue(data.RawMaterialId);
+
+                    if (R(0)>0){
+                    //加载规格或型号
+                    $("#RawMaterialModel").ComboBox({
+                        url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + data.RawMaterialCategory,
+                        description: "==请选择==",
+                        id: "RawMaterialId",
+                        text: "RawMaterialModel",
+                        height: "150px",
+                        });
+                    }
                 }
             })
         } else {
             $("#Category").ComboBoxTreeSetValue(category);
         }
     }
+
+    function R(value) {
+        var number = 0;
+        if (value == 1) {
+          number++;
+        } 
+        return number;
+    };
+
 
     //验证构件不能重复
     $._ExistField = function (controlId, url, param) {
@@ -137,16 +151,16 @@
         </tr>
         <tr>
             @*<td class="formTitle">材料名称<font face="宋体">*</font></td>
-    <td class="formValue">
-        <div id="RawMaterialName" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-    </td>*@
+                <td class="formValue">
+                    <div id="RawMaterialName" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                </td>*@
             <td class="formTitle">材料<font face="宋体">*</font></td>
             <td class="formValue">
-                <div id="RawMaterialModel" type="select"onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="RawMaterialModel" type="select" onclick="R(1)" onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
             <th class="formTitle">数量<font face="宋体">*</font></th>
             <td class="formValue">
-                <input id="RawMaterialDosage" type="text"onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="ExceedZero" />
+                <input id="RawMaterialDosage" type="text" onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="ExceedZero" />
             </td>
         </tr>
 

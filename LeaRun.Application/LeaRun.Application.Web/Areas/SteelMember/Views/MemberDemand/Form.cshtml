@@ -103,12 +103,31 @@
             })
         }
         else {
+            ////加载构件
+            //$("#MemberId").ComboBox({
+            //    description: "==请选择==",
+            //    height: "160px",
+            //});
+            $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
+            $.ajax({
+                url: "../../SteelMember/SubProject/GetTreeJsonParentId",
+                data: { SubProjectId: SubProjectId },
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    EngineeringId = data.ParentId;
+                }
+            });
             //加载构件
             $("#MemberId").ComboBox({
-                description: "==请选择==",
+                url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+                param: { EngineeringId: EngineeringId },
+                id: "MemberId",
+                text: "MemberNumbering",
                 height: "160px",
-            });
-            $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
+                description: "==请选择==",
+            })
         }
 
         ////加载构件

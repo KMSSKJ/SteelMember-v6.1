@@ -18,10 +18,10 @@
             height: "260px",
             allowSearch: true
         });
-        //单位性质
+        //单位类型
         $("#Nature").ComboBox({
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            param: { EnCode: "CompanyNature" },
+            param: { EnCode: "CompanyType" },
             id: "ItemValue",
             text: "ItemName",
             description: "==请选择==",
@@ -109,8 +109,8 @@
             param: postData,
             loading: "正在保存数据...",
             success: function () {
-                $.currentIframe().$("#gridTable").resetSelection();
-                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                $.currentIframe().$("#gridTable_org").resetSelection();
+                $.currentIframe().$("#gridTable_org").trigger("reloadGrid");
             }
         })
     }
@@ -122,7 +122,7 @@
             <td class="formValue">
                 <input id="FullName" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Organize/ExistFullName')" class="form-control" isvalid="yes" checkexpession="NotNull"/>
             </td>
-            <th class="formTitle">单位性质</th>
+            <th class="formTitle">单位类型</th>
             <td class="formValue">
                 <div id="Nature" type="select" class="ui-select">
                 </div>
@@ -174,12 +174,12 @@
         <tr>
             <th class="formTitle">单位地点</th>
             <td class="formValue" colspan="3">
-                <div style="float: left; width: 255px;">
-                    <div id="ProvinceId" type="select" class="ui-select" style="float: left; width: 84px; margin-right: 1px;"></div>
-                    <div id="CityId" type="select" class="ui-select" style="float: left; width: 84px; margin-right: 1px;"></div>
-                    <div id="CountyId" type="select" class="ui-select" style="float: left; width: 84px; margin-right: 1px;"></div>
+                <div style="float: left; width:275px;">
+                    <div id="ProvinceId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
+                    <div id="CityId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
+                    <div id="CountyId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
                 </div>
-                <div style="margin: 0 auto; width: 100%;">
+                <div style="margin: 0 auto; width:100%;">
                     <input id="Address" type="text" class="form-control" style="float: left; width: 355px;" />
                 </div>
             </td>
@@ -197,8 +197,12 @@
         <tr>
             <th class="formTitle">经营范围
             </th>
-            <td class="formValue" colspan="3">
+            <td class="formValue"> @*colspan="3"*@
                 <input id="BusinessScope" type="text" class="form-control" />
+            </td>
+            <th class="formTitle">排序<font face="宋体" color="red">*</font></th>
+            <td class="formValue">
+                <input id="SortCode" type="text" class="form-control" isvalid="yes" checkexpession="Num"/>
             </td>
         </tr>
         <tr>

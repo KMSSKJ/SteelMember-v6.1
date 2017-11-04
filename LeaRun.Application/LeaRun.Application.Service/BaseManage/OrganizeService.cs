@@ -22,7 +22,7 @@ namespace LeaRun.Application.Service.BaseManage
         /// <returns></returns>
         public IEnumerable<OrganizeEntity> GetList()
         {
-            return this.BaseRepository().IQueryable().OrderByDescending(t => t.SortCode).ToList();
+            return this.BaseRepository().IQueryable().OrderBy(t => t.SortCode).ToList();
         }
         /// <summary>
         /// 机构实体

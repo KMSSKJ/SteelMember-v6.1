@@ -221,21 +221,24 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            var user = userBLL.GetEntity(keyValue);
-            if (user.HeadIcon != "" || user.HeadIcon != null)
+            string[] idsArr = keyValue.Split(',');
+            foreach (var item in idsArr)
             {
-                var _path = Server.MapPath("~" + user.HeadIcon);
-                if (System.IO.File.Exists(_path))
+                var user = userBLL.GetEntity(item);
+                if (user.HeadIcon != "" || user.HeadIcon != null)
                 {
-                    System.IO.File.Delete(_path);
+                    var _path = Server.MapPath("~" + user.HeadIcon);
+                    if (System.IO.File.Exists(_path))
+                    {
+                        System.IO.File.Delete(_path);
+                    }
                 }
+                if (item == "System")
+                {
+                    throw new Exception("当前账户不能删除");
+                }
+                userBLL.RemoveForm(item);
             }
-            if (keyValue == "System")
-            {
-                throw new Exception("当前账户不能删除");
-            }
-            userBLL.RemoveForm(keyValue);
-
             return Success("删除成功。");
         }
         /// <summary>
