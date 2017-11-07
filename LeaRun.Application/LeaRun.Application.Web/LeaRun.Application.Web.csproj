@@ -298,6 +298,7 @@
     <Content Include="Content\images\background2.jpg" />
     <Content Include="Content\images\background3.jpg" />
     <Content Include="Content\images\background4.jpg" />
+    <Content Include="Content\images\background5.jpg" />
     <Content Include="Content\images\black_arrow_8.png" />
     <Content Include="Content\images\button_pm_close.png" />
     <Content Include="Content\images\checkAllOff.gif" />
@@ -1614,7 +1615,6 @@
     <Content Include="Areas\SteelMember\Views\MemberDemand\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\SafetyEquipment\Index1.cshtml" />
-    <Content Include="Areas\SteelMember\Views\SystemConfiguration\SystemConfigurationForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\SystemConfiguration\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\AdminDefaultDesktop - 复制.cshtml" />
