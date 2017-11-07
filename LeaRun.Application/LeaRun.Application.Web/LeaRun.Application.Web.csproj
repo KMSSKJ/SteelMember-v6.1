@@ -1616,6 +1616,7 @@
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\SafetyEquipment\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\SystemConfiguration\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\SystemConfiguration\Img.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\AdminDefaultDesktop - 复制.cshtml" />
     <Content Include="Resource\DocumentFile\System\20151216\55f6e360-c3ce-4f87-8f58-86cf63d129f3.doc" />

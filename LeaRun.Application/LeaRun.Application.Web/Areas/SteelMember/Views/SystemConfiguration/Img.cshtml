@@ -1,0 +1,18 @@
+﻿<link href="~/Content/multipleFile/imgUploadCss.css" rel="stylesheet" />
+<script src="~/Content/scripts/jquery/jquery-2.0.3.min.js"></script>
+<script src="~/Content/multipleFile/ajaxfileupload1.js"></script>
+<script src="~/Content/multipleFile/imgFileUpload.js"></script>
+<script>
+    $(document).ready(function () {
+        imgFileUpload.init([$(".houseImgUpload")], "file", "/Common/ImgUpload/");
+
+    });
+</script>
+
+
+<div class="right houseImgUpload">
+    <i class="button">点击上传图片</i><i class="prompt">（单个文件大小不能超过200KB）</i>
+    <input class="file-input" type="file" name="file" multiple="true" accept="image/*" onchange="imgFileUpload.fileUploadChange(this);" />
+    <div class="imgShow">
+    </div>
+</div> 
