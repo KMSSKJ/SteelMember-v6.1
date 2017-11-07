@@ -30,8 +30,9 @@
             autowidth: true,
             colModel: [
                 { label: 'Id', name: 'Id', index: 'Id', align: 'left', sortable: true, hidden: true },
+                { label: 'ParentId', name: 'ParentId', index: 'ParentId', align: 'left', sortable: true, hidden: true },
                 { label: '工程名称', name: 'FullName', index: 'FullName', width: 150, align: 'left', sortable: false },
-                { label: 'EnCode', name: 'EnCode', hidden: true },
+                { label: 'EnCode', name: 'EnCode', hidden: true }
             ],
             treeGrid: true,
             treeGridModel: "nested",
@@ -87,77 +88,87 @@
     //编辑
     function btn_edit() {
         var keyValue = $('#gridTable').jqGridRowValue('Id');
-        if (checkedRow(keyValue)) {
-            dialogOpen({
-                id: 'Form',
-                title: '编辑子工程信息',
-                url: '/SteelMember/SubProject/Form?keyValue=' + keyValue,
-                width: '380px',
-                height: '280px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                }
-            })
+        var pid = $("#gridTable").jqGridRowValue("ParentId");
+        if (pid == "0") {
+            dialogMsg('该工程不允许编辑！', 0);
+        } else {
+            if (checkedRow(keyValue)) {
+                dialogOpen({
+                    id: 'Form',
+                    title: '编辑子工程信息',
+                    url: '/SteelMember/SubProject/Form?keyValue=' + keyValue,
+                    width: '380px',
+                    height: '280px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            }
         }
     }
     //删除
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('Id');
-        if (keyValue) {
-            $.ajax({
-                url: "../../SteelMember/SubProject/ExistSubData",
-                data: { keyValue: keyValue },
-                type: "get",
-                dataType: "text",
-                async: false,
-                success: function (data) {
-                    if (data == "True") {
-                        $.RemoveForm({
-                            url: '../../SteelMember/SubProject/RemoveForm',
-                            param: { keyValue: keyValue },
-                            success: function (data) {
-                                $('#gridTable').trigger('reloadGrid');
-                            }
-                        })
-                    } else {
-                        $.SubRemoveForm({
-                            url: '../../SteelMember/SubProject/RemoveForm',
-                            param: { keyValue: keyValue },
-                            success: function (data) {
-                                $('#gridTable').trigger('reloadGrid');
-                            }
-                        })
-                    }
-                },
-
-            })
+        var pid = $("#gridTable").jqGridRowValue("ParentId");
+        if (pid == "0") {
+            dialogMsg('该工程不允许删除！', 0);
         } else {
-            dialogMsg('请选择需要删除的子工程信息！', 0);
+            if (keyValue) {
+                $.ajax({
+                    url: "../../SteelMember/SubProject/ExistSubData",
+                    data: { keyValue: keyValue },
+                    type: "get",
+                    dataType: "text",
+                    async: false,
+                    success: function (data) {
+                        if (data == "True") {
+                            $.RemoveForm({
+                                url: '../../SteelMember/SubProject/RemoveForm',
+                                param: { keyValue: keyValue },
+                                success: function (data) {
+                                    $('#gridTable').trigger('reloadGrid');
+                                }
+                            })
+                        } else {
+                            $.SubRemoveForm({
+                                url: '../../SteelMember/SubProject/RemoveForm',
+                                param: { keyValue: keyValue },
+                                success: function (data) {
+                                    $('#gridTable').trigger('reloadGrid');
+                                }
+                            })
+                        }
+                    },
+
+                })
+            } else {
+                dialogMsg('请选择需要删除的子工程信息！', 0);
+            }
         }
     }
 </script>
 <div class="titlePanel">
     @*<div class="title-search">
-        <table>
-            <tr>
-                <td>
-                    <div id="queryCondition" class="btn-group">
-                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">工程名称</a>
-                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a data-value="FullName">工程名称</a></li>
-                        </ul>
-                    </div>
-                </td>
-                <td>
-                    <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
-                </td>
-                <td style="padding-left: 5px;">
-                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>查询</a>
-                </td>
-            </tr>
-        </table>
-    </div>*@
+            <table>
+                <tr>
+                    <td>
+                        <div id="queryCondition" class="btn-group">
+                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">工程名称</a>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a data-value="FullName">工程名称</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                    </td>
+                    <td style="padding-left: 5px;">
+                        <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>查询</a>
+                    </td>
+                </tr>
+            </table>
+        </div>*@
     <div class="toolbar">
         <div class="btn-group">
             <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
