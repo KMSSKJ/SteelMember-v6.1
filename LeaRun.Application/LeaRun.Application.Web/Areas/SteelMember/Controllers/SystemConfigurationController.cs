@@ -28,12 +28,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-        [HttpGet]
-        [HandlerAuthorize(PermissionMode.Enforce)]
-        public ActionResult SystemConfigurationForm()
-        {
-            return View();
-        }
         #endregion
 
         #region 获取数据
@@ -101,6 +95,20 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             try
             {
                 systemconfigurationbll.SaveForm(entity.SystemConfigurationId, entity);
+
+                var model = subprojectbll.GetListWant(s => s.ParentId == "0").SingleOrDefault();
+                if (model== null)
+                {
+                    model.ParentId = "0";
+                    model.FullName = entity.EngineeringName;
+                    model.Levels = 1;
+                    subprojectbll.SaveForm("", model);
+                }
+                else
+                {                    
+                    model.FullName = entity.EngineeringName;
+                    subprojectbll.SaveForm(model.Id, model);
+                }
                 return Success("操作成功!");
             }
             catch (Exception)
@@ -122,7 +130,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 return Content("1");
             }
-
+            if (files[0].ContentLength > 512000)
+            {
+                return Content("2");
+            }
             Guid code = GuidComb.GenerateComb();
             string FileEextension = Path.GetExtension(files[0].FileName);
             string virtualPath = string.Format("/Resource/LogoFile/{0}{1}", code, FileEextension);
@@ -142,7 +153,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
         /// <summary>
         /// 图片上传  [FromBody]string type
-        /// 单个图片最大支持200KB
+        /// 单个图片最大支持2KB
         /// 
         /// </summary>
         /// <returns></returns>
@@ -154,8 +165,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             // 定义允许上传的文件扩展名 
             const string fileTypes = "gif,jpg,jpeg,png,bmp";
-            // 最大文件大小(2MB)
-            const int maxSize = 1024000 * 5;
+            // 最大文件大小(500KB)
+            const int maxSize = 1024000 / 2;
             // 获取附带POST参数值
             var type = Request["type"];
 
