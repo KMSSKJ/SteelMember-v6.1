@@ -1804,4 +1804,3 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.We
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.pdb
 D:\Source\Repos\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\LeaRun.Application.Mapping.dll
-D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Oracle.DataAccess.dll
