@@ -286,6 +286,8 @@
     <Content Include="Content\adminPretty\index.js" />
     <Content Include="Content\adminWindos\css\index.css" />
     <Content Include="Content\adminWindos\index.js" />
+    <Content Include="Content\images\1.jpg" />
+    <Content Include="Content\images\2.jpg" />
     <Content Include="Content\images\404_r1_c2.png" />
     <Content Include="Content\images\80_1.png" />
     <Content Include="Content\images\a2.png" />

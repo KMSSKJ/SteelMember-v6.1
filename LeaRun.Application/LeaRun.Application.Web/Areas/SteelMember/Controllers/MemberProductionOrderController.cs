@@ -167,7 +167,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     InfoId = childData[i].InfoId,
                     MemberId = childData[i].MemberId,
-                    MemberDemandId= childData[i].MemberDemandId,
+                    MemberDemandId = childData[i].MemberDemandId,
                     MemberNumber = childData[i].ProductionQuantity,
                     ProductionedQuantity = Convert.ToInt32(childData[i].ProductionQuantity),
                     SelfDetectNumber = childData[i].SelfDetectNumber,
@@ -177,6 +177,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberName = MemberLibrary.MemberName,
                     MemberNumbering = MemberLibrary.MemberNumbering,
                     UnitId = dataitemdetailbll.GetEntity(MemberLibrary.UnitId).ItemName,
+                    Description = childData[i].Description,
                 };
                 MemberList.Add(Member);
             }
@@ -201,7 +202,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             if (data!=null)
             {
                 data.Category = subprojectbll.GetEntity(data.Category).FullName;
-                data.DepartmentId = organizebll.GetEntity(data.OrganizeId).FullName + "¡ª" + departmentbll.GetEntity(data.DepartmentId).FullName;
+                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName + "(" + organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
 
                 var childData = memberproductionorderbll.GetDetails(keyValue).ToList();
                 for (int i = 0; i < childData.Count(); i++)

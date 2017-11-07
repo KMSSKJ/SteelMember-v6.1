@@ -371,7 +371,9 @@ $.removeTab = function (type) {
             $.currentIframe().reload();
             break;
         case "closeCurrent":
-            remove(Id);
+            if (Id != "desktop") {
+                remove(Id);
+            }
             break;
         case "closeAll":
             $tab.find("div.tab_close").each(function () {

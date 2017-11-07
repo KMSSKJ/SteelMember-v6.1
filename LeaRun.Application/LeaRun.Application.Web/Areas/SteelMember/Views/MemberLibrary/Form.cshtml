@@ -14,6 +14,8 @@
 <script type="text/javascript">
     var KeyValue = request('keyValue');
     var SubProjectId = request('SubProjectId');
+    var categoryInput ="";
+    
     $(function () {
         initialPage();
         UploadFile();
@@ -27,10 +29,15 @@
             var $finish = $("#btn_finish");
             var $next = $("#btn_next");
             if (data.direction == "next") {
+                if (categoryInput == "请选择工程名称而不是工程分类") {
+                    dialogMsg("工程应选择二级工程而不是工程总称", "error");
+                    return false;
+                }
                 //非空验证
                 if (!$('#form1').Validform()) {
                     return false;
                 }
+               
                 if (data.step == 2) {
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
@@ -80,11 +87,21 @@
         /*添加构件开始====================================*/
         //工程类型
         $("#EngineeringId").ComboBoxTree({
-            param: { Levels: 3 },
+            param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             description: "==请选择==",
             height: "200px",
             allowSearch: true,
+            click: function (item) {
+                if (!item.hasChildren) {
+                    categoryInput = "";
+                }
+                else {
+                    categoryInput = "请选择工程名称而不是工程分类";
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return "false";
+                }
+            }
         });
 
         //构件类别

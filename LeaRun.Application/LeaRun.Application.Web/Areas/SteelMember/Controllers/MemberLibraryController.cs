@@ -152,7 +152,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = memberlibrarybll.GetPageList(pagination, queryJson).OrderBy(o => o.MemberNumbering).ToList();
+            var data = memberlibrarybll.GetPageList(pagination, queryJson).ToList();/* OrderBy(o => o.MemberNumbering).*/
             for (int i = 0; i < data.Count(); i++)
             {
                 data[i].UnitId = dataitemdetailbll.GetEntity(data[i].UnitId).ItemName;
