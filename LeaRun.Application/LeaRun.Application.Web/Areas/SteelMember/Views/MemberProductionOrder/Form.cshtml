@@ -7,6 +7,7 @@
 <script>
     var keyValue = request('keyValue');
     var category = request('category');
+    var categoryInput = "";
     $(function () {
         InitialPage();
         GetOrderEntryGrid();
@@ -36,12 +37,13 @@
                 { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false, align: 'center' },
                 { label: '生产数量[<font face="宋体" color="red">*</font>]', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
+                { label: '备注', name: "Description", align: ' center', width: 80, sortable: false, align: 'center' },
                 //{ label: '单价[<font face="宋体" color="red">*</font>]', name: 'Price', align: ' center', width: 80, sortable: false },
                 //{ label: '金额[<font face="宋体" color="red">*</font>]', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
-                { label: 'InfoId', name: 'InfoId',  align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'InfoId', name: 'InfoId', align: '', sortable: false, resizable: false, hidden: true },
                 { label: 'MemberId', name: 'MemberId', align: '', sortable: false, resizable: false, hidden: true },
                 { label: 'MemberDemandId', name: 'MemberDemandId', align: '', sortable: false, resizable: false, hidden: true },
-                { label: 'MaxNumber', name: 'MaxNumber',  align: '', sortable: false, resizable: false, hidden: true },
+                { label: 'MaxNumber', name: 'MaxNumber', align: '', sortable: false, resizable: false, hidden: true },
             ],
             pager: false,
             rownumbers: true,
@@ -63,12 +65,13 @@
             //}
         });
         //默认添加30行 空行
-        for (var i = 1; i <17; i++) {
+        for (var i = 1; i < 17; i++) {
             var rowdata = {
                 MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="form-control" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
                 MemberName: '<input id="MemberName➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
                 UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="form-control"disabled="disabled" />',
                 MemberNumber: '<input id="MemberNumber➩' + i + '" class="editable center" type="form-control" onkeyup="Conversion(' + i + ')" checkexpession="Number"/>',
+                Description: '<input id="Description➩' + i + '" class="editable center" type="form-control" />',
                 //Price: '<input id="Price➩' + i + '" class="editable center" type="form-control" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
                 //PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="form-control" datacol="No" err="金额" checkexpession="Double" disabled="disabled"/>',
                 InfoId: '<input id="InfoId➩' + i + '" type="form-control" class="editable center" />',
@@ -93,6 +96,9 @@
             if (_category == undefined || _category == "" || _category == null) {
                 dialogTop("请选择工程名称", "error");
                 return false;
+            } else if (categoryInput == "请选择工程名称而不是工程分类") {
+                dialogMsg("项目名称应选择工程名称而不是工程分类", "error");
+                return false;
             }
             var _DepartmentId = $("#DepartmentId").attr('data-value');
             if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
@@ -115,6 +121,9 @@
             var _ContactPersonTel = $("#ContactPersonTel").val();
             if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
                 dialogMsg('请录入联系人电话！', 0);
+                return false;
+            } else if (_ContactPersonTel.length != 13 && _ContactPersonTel.length != 11) {
+                dialogMsg('请录入电话(****-********)或手机格式！', 0);
                 return false;
             }
             if ($(this).attr('disabled') == 'disabled') {
@@ -210,42 +219,42 @@
             param: { Levels: 3 },
             url: "../../SteelMember/SubProject/GetTreeJson",
             description: "==请选择==",
-            allowSearch: true
-
-        });
-        //公司
-        $("#OrganizeId").ComboBoxTree({
-            url: "../../BaseManage/Organize/GetTreeJson",
-            description: "==请选择==",
-            height: "200px",
             allowSearch: true,
-        }).bind("change", function () {
-
-            var value = $(this).attr('data-value');
-
-            //加载部门
-            $("#DepartmentId").ComboBoxTree({
-                url: "../../BaseManage/Department/GetTreeJson?organizeId=" + value,
-                description: "==请选择==",
-                allowSearch: true
-            });
-        });
-
-        //工程
-        $("#Category").ComboBoxTree({
-            param: { Levels: 3 },
-            url: "../../SteelMember/SubProject/GetTreeJson",
-            description: "==请选择==",
-            height: "150px",
             click: function (item) {
                 if (!item.hasChildren) {
+                    categoryInput = "";
                 }
                 else {
+                    categoryInput = "请选择工程名称而不是工程分类";
                     dialogTop("请选择工程名称而不是工程分类", "error");
                     return "false";
                 }
             }
+
         });
+
+        //加载部门
+        $("#DepartmentId").ComboBoxTree({
+            url: "../../BaseManage/Department/GetTreeJson1",
+            description: "==请选择==",
+            allowSearch: true
+        });
+
+        ////工程
+        //$("#Category").ComboBoxTree({
+        //    param: { Levels: 3 },
+        //    url: "../../SteelMember/SubProject/GetTreeJson",
+        //    description: "==请选择==",
+        //    height: "150px",
+        //    click: function (item) {
+        //        if (!item.hasChildren) {
+        //        }
+        //        else {
+        //            dialogTop("请选择工程名称而不是工程分类", "error");
+        //            return "false";
+        //        }
+        //    }
+        //});
         //获取表单
         if (!!keyValue) {
             $.SetForm({
@@ -276,7 +285,7 @@
                             $(this).find('input[id="MemberName➩' + i + '"]').val(row.MemberName);
                             $(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
                             $(this).find('input[id="MemberNumber➩' + i + '"]').val(row.MemberNumber);
-
+                            $(this).find('input[id="Description➩' + i + '"]').val(row.Description);
                             $.ajax({
                                 type: 'post',
                                 dataType: "json",
@@ -316,6 +325,7 @@
                     MemberDemandId: $(this).find('input[id="MemberDemandId➩' + i + '"]').val(),
                     MemberId: $(this).find('input[id="MemberId➩' + i + '"]').val(),
                     ProductionQuantity: $(this).find('input[id="MemberNumber➩' + i + '"]').val(),
+                    Description: $(this).find('input[id="Description➩' + i + '"]').val(),
                 });
             }
         });
@@ -345,8 +355,8 @@
                 申请部门：<font face="宋体" color="red">*</font>
             </th>
             <td class="formValue">
-                <div id="OrganizeId" type="selectTree" class="ui-select" style="width: 43%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—
-                <div id="DepartmentId" type="selectTree" class="ui-select" style="width: 43%;float:right" isvalid="yes" checkexpession="NotNull"></div>
+                @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 43%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—*@
+                <div id="DepartmentId" type="selectTree" class="ui-select" style="width: 100%;float:right" isvalid="yes" checkexpession="NotNull"></div>
 
             </td>
             <th class="formTitle">

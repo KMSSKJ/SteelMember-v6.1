@@ -112,14 +112,21 @@
                     }
                 },
                 { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 150, align: 'center', sortable: true },
-                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'center', sortable: true },
                 { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 150, align: 'center', sortable: false },
+                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'center', sortable: true },
                 { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 90, align: 'center', sortable: true },
                 {
                     label: '更新时间', name: 'UploadTime', index: 'UploadTime', width: 90, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
-                    }},
+                    }
+                },
+                {
+                    label: '材料状态', name: 'IsRawMaterial', index: 'IsRawMaterial', width: 90, align: 'center', sortable: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
                 {
                     label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center', sortable: false ,
                     formatter: function (cellvalue, options, rowObject) {
@@ -134,8 +141,8 @@
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'MemberId',
-            sortorder: 'desc',
+            sortname: 'MemberNumbering',
+            sortorder: 'asc', /*desc*/
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
@@ -182,7 +189,7 @@
             title: '添加构件',
             url: '/SteelMember/MemberLibrary/Form?SubProjectId=' + SubProjectId,
             width: '700px',
-            height: '500px',
+            height: '600px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             },
@@ -198,7 +205,7 @@
                 title: '编辑构件',
                 url: '/SteelMember/MemberLibrary/Form?keyValue=' + keyValue,
                 width: '700px',
-                height: '500px',
+                height: '600px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 },
@@ -265,7 +272,7 @@
         dialogOpen({
             id: "ExcelIExportDialog",
             title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("构件库导出"),
+            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("构件信息导出"),
             width: "500px",
             height: "380px",
             callBack: function (iframeId) {

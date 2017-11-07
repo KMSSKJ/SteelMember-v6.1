@@ -50,6 +50,14 @@
             height: $(window).height() - 52,
             param: { Levels: 3 },
             url: '../../SteelMember/SubProject/GetTreeJson',
+            click: function (item) {
+                if (!item.hasChildren) {
+                }
+                else {
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return "false";
+                }
+            },
             onnodeclick: function (item) {
                 SubProject = item.text;
                 SubProjectId = item.id;
@@ -106,8 +114,8 @@
                 },
                 { label: '构件编号', name: "MemberNumbering", width: 150, index: "MemberNumbering", align: 'center', },
                 { label: '构件类型', name: "Category", width: 100, index: "Category", align: ' center' },
-                { label: '构件名', name: "MemberName", width: 100, index: "MemberName", align: ' center', sortable: false},
-                { label: '需求量', name: "MemberNumber", width: 80, index: "MemberNumber", align: ' center',},
+                { label: '构件名', name: "MemberName", width: 100, index: "MemberName", align: ' center', sortable: false },
+                { label: '需求量', name: "MemberNumber", width: 80, index: "MemberNumber", align: ' center', },
                 {
                     label: '单位', name: "UnitId", width: 80, index: "MemberUnit", align: ' center', sortable: false,
                     formatter: function (cellvalue, value, row, index) {
@@ -116,7 +124,7 @@
                     }
                 },
                 {
-                    label: '提交', name: 'IsSubmit', index: 'IsSubmit', width: 70, align: 'center', 
+                    label: '提交', name: 'IsSubmit', index: 'IsSubmit', width: 70, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
@@ -140,7 +148,7 @@
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }
                 },
-                { label: '已成订单量', name: 'OrderedQuantity', width: 80, index: 'OrderedQuantity', align: ' center', sortable: false},
+                { label: '已成订单量', name: 'OrderedQuantity', width: 80, index: 'OrderedQuantity', align: ' center', sortable: false },
                 { label: '已生产合格量', name: 'ProductionNumber', width: 80, index: 'ProductionNumber', align: ' center', sortable: false },
                 { label: '已使用量', name: 'CollaredNumber', width: 80, index: 'CollaredNumber', align: ' center', sortable: false },
                 {
@@ -151,7 +159,8 @@
                         } else {
                             return "<p style='color: red'>" + cellvalue + "</p>";
                         }
-                    }},
+                    }
+                },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -351,7 +360,7 @@
                         if (type == 1) {
                             $.ajax({
                                 url: "../../SteelMember/MemberDemand/ReviewMemberDemand",
-                                data: { keyValue: keyValue, type: type }, 
+                                data: { keyValue: keyValue, type: type },
                                 type: "post",
                                 dataType: "json",
                                 success: function (data) {
@@ -492,39 +501,39 @@
                         </table>
                     </div>*@
 
-            <div class="toolbar">
-                <div class="btn-group">
-                    <a id="lr-reload" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
-                    <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
-                    <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
-                    <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-                    <a id="lr-drawing_model" class="btn btn-default" onclick="btn_drawing()"><i class="fa fa-reorder"></i>&nbsp;构件详情</a>
-                    <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>&nbsp;提交</a>
-                    <a id="lr-0_review" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-filter"></i>&nbsp;审核<span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li id="lr-review"><a onclick="btn_review(1)"><i class="fa fa-filter"></i>&nbsp;通过</a></li>
-                        <li id="lr-no_review"><a onclick="btn_review(2)"><i class="fa fa-filter"></i>&nbsp;失败</a></li>
-                    </ul>
-                    <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
+                <div class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-reload" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        <a id="lr-drawing_model" class="btn btn-default" onclick="btn_drawing()"><i class="fa fa-reorder"></i>&nbsp;构件详情</a>
+                        <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>&nbsp;提交</a>
+                        <a id="lr-0_review" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-filter"></i>&nbsp;审核<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li id="lr-review"><a onclick="btn_review(1)"><i class="fa fa-filter"></i>&nbsp;通过</a></li>
+                            <li id="lr-no_review"><a onclick="btn_review(2)"><i class="fa fa-filter"></i>&nbsp;失败</a></li>
+                        </ul>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
 
+                    </div>
+                    <div class="btn-group">
+                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </div>
+                    <script>$('.toolbar').authorizeButton()</script>
                 </div>
-                <div class="btn-group">
-                    <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
-                </div>
-                <script>$('.toolbar').authorizeButton()</script>
             </div>
-        </div>
-        <div id="BigDiv" style="margin-left:50px;margin-top:160px; width:360px;height:360px; position: absolute; visibility: hidden; padding: 5px;z-index:999">
-            <img id="bigImg" src="" style="width:100%;height:100%;" />
-        </div>
-        <div class="gridPanel" @*style="width:100%"*@>
-            <table id="gridTable"></table>
-            <div id="gridPager"></div>
+            <div id="BigDiv" style="margin-left:50px;margin-top:160px; width:360px;height:360px; position: absolute; visibility: hidden; padding: 5px;z-index:999">
+                <img id="bigImg" src="" style="width:100%;height:100%;" />
+            </div>
+            <div class="gridPanel" @*style="width:100%"*@>
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+
         </div>
 
     </div>
-
-</div>
 </div>

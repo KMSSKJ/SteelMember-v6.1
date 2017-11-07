@@ -181,7 +181,7 @@
             param: { "keyValue": keyValue, "strUserEntity": JSON.stringify(postData), "FormInstanceId": instanceId, "strModuleFormInstanceEntity": JSON.stringify(moduleFormInstanceEntity) },
             loading: "正在保存数据...",
             success: function (data) {
-                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                $.currentIframe().$("#gridTable_user").trigger("reloadGrid");
             }
         })
     }

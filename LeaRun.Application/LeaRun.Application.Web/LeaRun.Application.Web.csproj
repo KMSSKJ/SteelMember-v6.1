@@ -286,6 +286,8 @@
     <Content Include="Content\adminPretty\index.js" />
     <Content Include="Content\adminWindos\css\index.css" />
     <Content Include="Content\adminWindos\index.js" />
+    <Content Include="Content\images\1.jpg" />
+    <Content Include="Content\images\2.jpg" />
     <Content Include="Content\images\404_r1_c2.png" />
     <Content Include="Content\images\80_1.png" />
     <Content Include="Content\images\a2.png" />
@@ -1336,19 +1338,10 @@
     <Content Include="Resource\EmailFile\System_b8d9fe40-37c9-43b6-bd8f-ffb425cff89d.txt" />
     <Content Include="Resource\EngineeringImg\0034063f-75ed-4107-bb92-a81a008344e4.jpg" />
     <Content Include="Resource\LogoFile\ff128221-2268-4430-b888-a81900d9b7b1.png" />
-    <Content Include="Resource\PhotoFile\00192317-4b6a-4667-bedf-a80f002c6d23.jpg" />
-    <Content Include="Resource\PhotoFile\00d37bc4-24f8-4a0f-89fc-a80f002734dc.jpg" />
     <Content Include="Resource\PhotoFile\275b5154-d9ac-4d20-8ac6-a79b00df9ddf.jpg" />
     <Content Include="Resource\PhotoFile\2b851a74-2660-40d4-9199-a80e009fc4d3.jpg" />
     <Content Include="Resource\PhotoFile\5c877ba9-6ce6-4ded-89d9-a816009dc8f4.jpg" />
-    <Content Include="Resource\PhotoFile\78c86419-b4ca-476e-8ac0-a80f002e3fa3.jpg" />
-    <Content Include="Resource\PhotoFile\91b05f71-6078-49a8-81f4-a80f002696a5.jpg" />
-    <Content Include="Resource\PhotoFile\95b2c3f8-7b88-492c-9bb1-a811008d1ef0.jpg" />
     <Content Include="Resource\PhotoFile\9f45bb75-a2ff-49ea-912c-a79b00df33a7.jpg" />
-    <Content Include="Resource\PhotoFile\a51cc02a-2bde-406c-81a7-a81200182b84.jpg" />
-    <Content Include="Resource\PhotoFile\add621f1-6523-40d5-a4a4-a80f002d9cfb.jpg" />
-    <Content Include="Resource\PhotoFile\e136050b-81e4-482d-b36e-a81200142a03.jpg" />
-    <Content Include="Resource\PhotoFile\f614f359-c223-4bb1-be7a-a812001487f2.jpg" />
     <Content Include="Resource\WeChatFile\0c18da8a-20ed-462f-aa21-7dc73ec9bf12.JPG" />
     <Content Include="Resource\WeChatFile\0c396507-4627-4329-b356-7e6e99bf49b5.png" />
     <Content Include="Resource\WeChatFile\2175be63-9a5b-4115-b5a5-d1494c6007ea.JPG" />
@@ -1616,6 +1609,7 @@
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\SafetyEquipment\Index1.cshtml" />
     <Content Include="Areas\SteelMember\Views\SystemConfiguration\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\ImportFile.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\AdminDefaultDesktop - 复制.cshtml" />
     <Content Include="Resource\DocumentFile\System\20151216\55f6e360-c3ce-4f87-8f58-86cf63d129f3.doc" />
@@ -1628,6 +1622,10 @@
     <Content Include="Views\Utility\AdvancedSearchMemberForm.cshtml" />
     <Content Include="Views\Home\ToBeDoneMoreIndex.cshtml" />
     <Content Include="Views\Shared\_PrintForm_A5.cshtml" />
+    <Content Include="Resource\ExcelTemplate\原材料申购清单.xlsx" />
+    <Content Include="Resource\ExcelTemplate\材料信息导入模板.xls" />
+    <Content Include="Resource\ExcelTemplate\材料需求模板.xlsx" />
+    <Content Include="Resource\ExcelTemplate\构件信息导入模板.xls" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

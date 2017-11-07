@@ -50,6 +50,14 @@
             height: $(window).height() - 52,
             param: { Levels: 3 },
             url: '../../SteelMember/SubProject/GetTreeJson',
+            click: function (item) {
+                if (!item.hasChildren) {
+                }
+                else {
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return "false";
+                }
+            }，
             onnodeclick: function (item) {
                 SubProject = item.text;
                 SubProjectId = item.id;

@@ -6,6 +6,7 @@
     var keyValue = request('keyValue');
     var SubProject = request('SubProject');
     var SubProjectId = request('SubProjectId');
+    var categoryInput = "";
     $(function () {
         initControl();
     });
@@ -22,8 +23,10 @@
             height: "160px",
             click: function (item) {
                 if (!item.hasChildren) {
+                    categoryInput = "";
                 }
                 else {
+                    categoryInput = "请选择工程名称而不是工程分类";
                     dialogTop("请选择工程名称而不是工程分类", "error");
                     return "false";
                 }
@@ -103,12 +106,33 @@
             })
         }
         else {
-            //加载构件
+          //加载构件
             $("#MemberId").ComboBox({
                 description: "==请选择==",
                 height: "160px",
             });
             $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
+            $.ajax({
+                url: "../../SteelMember/SubProject/GetTreeJsonParentId",
+                data: { SubProjectId: SubProjectId },
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    EngineeringId = data.ParentId;
+                }
+            });
+            //加载构件
+            $("#MemberId").ComboBox({
+                url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+                param: { EngineeringId: EngineeringId },
+                id: "MemberId",
+                text: "MemberNumbering",
+                height: "160px",
+                description: "==请选择==",
+            })
+
+              
         }
 
         ////加载构件
@@ -125,6 +149,10 @@
     //保存表单;
     function AcceptClick() {
         if (!$('#form1').Validform()) {
+            return false;
+        }
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogMsg("分项目名称应选择工程名称而不是工程分类", "error");
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);

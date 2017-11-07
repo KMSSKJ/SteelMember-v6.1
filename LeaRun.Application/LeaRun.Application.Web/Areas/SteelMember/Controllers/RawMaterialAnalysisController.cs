@@ -22,7 +22,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-06 22:03
-    /// 描 述：材料分析
+    /// 描 述：材料需求
     /// </summary>
     public class RawMaterialAnalysisController : MvcControllerBase
     {
@@ -273,7 +273,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 expression = expression.And(r => r.Category.Trim() == rawmaterianame.Trim());
             }
-            var data = rawmateriallibrarybll.GetList(expression);
+            var data = rawmateriallibrarybll.GetList(expression).OrderBy(o=>o.RawMaterialName);
             foreach (var item in data)
             {
                 item.RawMaterialModel = item.RawMaterialName + item.RawMaterialModel;
@@ -316,7 +316,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             _model.Category = data.Category;
             _model.RawMaterialId = data.RawMaterialId;
             _model.RawMaterialCategory = model.Category;
-            _model.RawMaterialModel = model.RawMaterialModel;
+            _model.RawMaterialModel = model.RawMaterialName+ model.RawMaterialModel;
             _model.RawMaterialName = model.RawMaterialName;
             _model.RawMaterialDosage = data.RawMaterialDosage;
             _model.RawMaterialUnit = model.Unit;
@@ -378,7 +378,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             list.Add(new TemplateMode() { row = 36, cell = 4, value = "审核人：" + ReviewMan });
             list.Add(new TemplateMode() { row = 36, cell = 7, value = "日期:" + DateTime.Now.Year + "年" + DateTime.Now.Month + "月" + DateTime.Now.Day + "日" });
 
-            ExcelHelper.ExcelDownload(list, "材料分析模板.xlsx", entity.ExportFileName + ".xlsx");
+            ExcelHelper.ExcelDownload(list, "材料需求模板.xlsx", entity.ExportFileName + ".xlsx");
         }
         /// <summary>
         /// 获取树字节父节点(自循环)
@@ -411,10 +411,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             List<RawMaterialAnalysisEntity> List = new List<RawMaterialAnalysisEntity>();
             foreach (var item in idsArr)
             {
-                var memberMaterial = membermaterialbll.GetList(f => f.RawMaterialId == item);
-                var materialOrderInfo = rawmaterialorderinfobll.GetList(f => f.RawMaterialId == item);
-                var rawmaterialwarehouse = rawmaterialwarehousebll.GetList(f=>f.RawMaterialId== item);
-                var rawmaterialcallinfo = rawmterialcollarinfobll.GetList(f => f.RawMaterialId == item);
+                var rawmaterialanalysis = rawmaterialanalysisbll.GetEntity(item);
+                var memberMaterial = membermaterialbll.GetList(f => f.RawMaterialId == rawmaterialanalysis.RawMaterialId);
+                var materialOrderInfo = rawmaterialorderinfobll.GetList(f => f.RawMaterialId == rawmaterialanalysis.RawMaterialId);
+                var rawmaterialwarehouse = rawmaterialwarehousebll.GetList(f=>f.RawMaterialId== rawmaterialanalysis.RawMaterialId);
+                var rawmaterialcallinfo = rawmterialcollarinfobll.GetList(f => f.RawMaterialId == rawmaterialanalysis.RawMaterialId);
                                      
                 number = memberMaterial.Count() + materialOrderInfo.Count()+ rawmaterialwarehouse.Count()+ rawmaterialcallinfo.Count();
 

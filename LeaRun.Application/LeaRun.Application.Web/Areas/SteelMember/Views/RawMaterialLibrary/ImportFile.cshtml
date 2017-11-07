@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "材料管理》导入数据页面";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script type="text/javascript">
+    var KeyValue = request('KeyValue')
+    function UpladFile() {
+        // js 获取文件对象
+        var fileObj = document.getElementById("fileToUpload").files;
+        // 接收上传文件的后台地址
+        var FileController = "/SteelMember/RawMaterialLibrary/SubmitImportFile?KeyValue=" + KeyValue;
+
+        // FormData 对象
+        var form = new FormData();
+        // 可以增加表单数据
+        form.append("author", "hooyes");
+        // 文件对象
+        for (var i = 0; i < fileObj.length; i++)
+            form.append("file" + i, fileObj[i]);
+
+        var defaults = {
+            url: "",
+            param: [],
+            type: "post",
+            dataType: "json",
+            loading: "正在上传数据...",
+            success: null,
+            close: true
+        };
+        var options = $.extend(defaults, options);
+
+        $.ajax({
+            url: FileController,
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data == "2") {
+                    //btn_upload();
+                    dialogClose();
+                } else {
+                    if (data == "1") {
+                        dialogMsg("操作成功", 0);
+                        $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                        dialogClose();
+                    } else {
+                        dialogMsg(data, 0);
+                    }
+                }
+            },
+            error: function (e) {
+                dialogMsg(e, 0);
+            },
+            beforeSend: function () {
+                Loading(true, options.loading);
+            },
+        });
+
+    }
+    //上传图片
+    function btn_upload() {
+        dialogOpen({
+            id: "UpLoadFile",
+            title: '批量上传图片',
+            url: '/SteelMember/MemberLibrary/UpLoadFile',
+            width: "500px",
+            height: "200px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null
+        });
+
+    }
+</script>
+<style>
+    .uploadify-button {
+        border: 1px solid #459830;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAcCAMAAACgTerKAAAAA3NCSVQICAjb4U/gAAAAVFBMVEVsu1prullquVhpuVZouFVmt1NktlFjtVBhtU5ftExes0pcskhasUZYsERWrkFUrT9SrD1QqztOqjlNqTdLqDVJqDNIpzFGpjBFpS5CpCtDpC1Boyrl/2+uAAAACXBIWXMAAArwAAAK8AFCrDSYAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA0LzEyLzEyiu5yJQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNAay06AAAABOSURBVEiJvcGHAUAwAADBV6MTJNr+e9ri78BQCCgFVAJqAY2AVkAQ0AnoBQwCRgGTgFnAImAVsAmIAnYBh4BTQBKQBVwCbgGvgEfAJ/gBUt6TqcmCyTYAAAAASUVORK5CYII=");
+        background-position: center top;
+        background-repeat: no-repeat;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        color: #FFF;
+        text-align: center;
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+        /*width: 100%;*/
+    }
+</style>
+<br />
+<div>
+    导入模板： <a href="/SteelMember/RawMaterialLibrary/GetExcellTemperature" style="color:red">下载模板.xls</a>
+</div>
+<br />
+<form id="form1" name="form1">
+    <table>
+        <tr>
+            <td style="width:400px"><div style="border:1px solid #08dede"><input style="width:100%" type="file" name="fileToUpload" id="fileToUpload" @*multiple="multiple" onchange="onc()"*@ /></div></td>
+            <td><input type="button" class="uploadify-button " onclick="UpladFile()" value="上传" style="margin-left: 20px" /></td>
+        </tr>
+    </table>
+</form>
