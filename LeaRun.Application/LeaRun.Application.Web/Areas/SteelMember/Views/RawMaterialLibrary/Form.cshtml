@@ -12,7 +12,6 @@
     //初始化控件
     function initControl() {
         $("#Category").ComboBoxTree({
-            
             param: { EnCode: "RawMaterialType" },
             //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
             url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
@@ -119,7 +118,7 @@
             <td class="formTitle">类型<font face="宋体">*</font></td>
             <td class="formValue">
                 @*<div id="Category" type="select" class="ui-select" checkexpession="NotNull"></div>*@
-                <div id="Category" type="select" class="ui-select"></div>
+                <div id="Category" type="select" class="ui-select"isvalid="yes" checkexpession="NotNull"></div>
             </td>
             <th class="formTitle">材料名称<font face="宋体">*</font></th>
             <td class="formValue">

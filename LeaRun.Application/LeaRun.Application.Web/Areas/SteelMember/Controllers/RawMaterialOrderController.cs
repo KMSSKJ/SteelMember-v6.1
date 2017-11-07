@@ -169,7 +169,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             if (data != null)
             {
                 data.Category = subprojectbll.GetEntity(data.Category).FullName;
-                data.DepartmentId = organizebll.GetEntity(data.OrganizeId).FullName + "¡ª" + departmentbll.GetEntity(data.DepartmentId).FullName;
+                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName+"("+ organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
 
                 var childData = rawmaterialorderinfobll.GetList(f => f.OrderId == keyValue).ToList();
                 for (int i = 0; i < childData.Count(); i++)
@@ -227,6 +227,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     RawMaterialName = RawMaterial.RawMaterialName,
                     UnitId = dataitemdetailbll.GetEntity(RawMaterial.Unit).ItemName,
                     Qty = item.RawMaterialDosage,
+                    PurchasedQuantity = item.ApplicationPurchasedQuantity
                 };
                 data.Add(RawMaterialLibrary);
             }

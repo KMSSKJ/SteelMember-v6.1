@@ -75,6 +75,40 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             }
             return Content(treeList.TreeToJson());
         }
+
+        /// <summary>
+        /// 部门列表 
+        /// </summary>
+        /// <param name="organizeId">公司Id</param>
+        /// <param name="keyword">关键字</param>
+        /// <returns>返回树形Json</returns>
+        [HttpGet]
+        public ActionResult GetTreeJson1(string organizeId, string keyword)
+        {
+            var data = departmentCache.GetList(organizeId).ToList();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                data = data.TreeWhere(t => t.FullName.Contains(keyword), "DepartmentId");
+            }
+            var treeList = new List<TreeEntity>();
+            foreach (DepartmentEntity item in data)
+            {
+                TreeEntity tree = new TreeEntity();
+                bool hasChildren = data.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
+                var data1 = organizeCache.GetEntity(item.OrganizeId);
+                tree.id = item.DepartmentId;
+                tree.text = item.FullName+"("+ data1.FullName+")";
+                tree.value = item.DepartmentId;
+                tree.isexpand = true;
+                tree.complete = true;
+                tree.hasChildren = hasChildren;
+                tree.parentId = item.ParentId;
+                treeList.Add(tree);
+            }
+            return Content(treeList.TreeToJson());
+        }
+
+
         /// <summary>
         /// 部门列表
         /// </summary>

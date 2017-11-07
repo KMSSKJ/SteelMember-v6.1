@@ -5,6 +5,7 @@
 <script>
     var keyValue = request('keyValue');
     var category = request('category');
+    var categoryInput = "";
     $(function () {
         initControl();
     });
@@ -17,6 +18,16 @@
             url: "../../SteelMember/SubProject/GetTreeJson",
             description: "==请选择==",
             height: "150px",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    categoryInput==""
+                }
+                else {
+                    categoryInput = "请选择工程名称而不是工程分类";
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return "false";
+                }
+            }
         });
 
         //材料类型
@@ -123,6 +134,10 @@
     //保存表单;
     function AcceptClick() {
         if (!$('#form1').Validform()) {
+            return false;
+        }
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogMsg("工程应选择工程名称而不是工程分类", "error");
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);

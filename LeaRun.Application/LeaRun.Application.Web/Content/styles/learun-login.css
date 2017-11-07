@@ -33,12 +33,11 @@ select::-ms-expand { display: none; }
 .lr-input-form .login_tips-succeed{position:absolute;text-indent:3px;height:30px;line-height:33px;border:1px solid #5e8800;color: #fff;background-color: #62b600 ;border-radius:5px;width: 306px;margin-top: -35px;}
 .login_tips-succeed i{position: relative;top: 1px;font-size: 14px;padding-right: 5px;}
 .lr-login-bottom { /*width:1024px;*/
-    /*margin: auto;*/
+    margin: auto;
     text-align:right;
-    margin-top: 400px;
     color: #fff;
     margin-right: 5%;
-    font-size:16pt;
+    font-size:14pt;
 }
 
 /*我是悬浮菜单*/

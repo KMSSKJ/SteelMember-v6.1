@@ -80,7 +80,7 @@
       <publishTime>07/07/2017 13:17:38</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/Department/Form.cshtml">
-      <publishTime>11/01/2017 15:11:19</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/Department/Index.cshtml">
       <publishTime>11/01/2017 08:38:41</publishTime>
@@ -92,10 +92,10 @@
       <publishTime>10/25/2017 15:53:19</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/Organize/Form.cshtml">
-      <publishTime>11/01/2017 15:04:37</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/Organize/Index.cshtml">
-      <publishTime>11/01/2017 15:00:12</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/Post/Form.cshtml">
       <publishTime>10/25/2017 15:53:19</publishTime>
@@ -104,16 +104,16 @@
       <publishTime>10/25/2017 15:53:19</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/Role/Form.cshtml">
-      <publishTime>11/01/2017 15:26:42</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/Role/Index.cshtml">
-      <publishTime>11/01/2017 15:36:28</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/User/Form.cshtml">
-      <publishTime>11/01/2017 16:19:46</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/User/Index.cshtml">
-      <publishTime>11/01/2017 11:15:37</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/BaseManage/Views/User/RevisePassword.cshtml">
       <publishTime>10/25/2017 15:53:19</publishTime>
@@ -239,7 +239,7 @@
       <publishTime>09/13/2017 23:00:49</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/MemberDemand/Form.cshtml">
-      <publishTime>11/01/2017 08:38:06</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/MemberDemand/Index.cshtml">
       <publishTime>11/01/2017 08:38:06</publishTime>
@@ -257,13 +257,13 @@
       <publishTime>10/25/2017 15:53:20</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/MemberLibrary/Form.cshtml">
-      <publishTime>10/25/2017 15:53:20</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/MemberLibrary/ImportFile.cshtml">
-      <publishTime>11/02/2017 11:27:56</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/MemberLibrary/Index.cshtml">
-      <publishTime>11/02/2017 10:54:04</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/MemberLibrary/MemberCategoryIndex.cshtml">
       <publishTime>07/13/2017 08:20:05</publishTime>
@@ -431,7 +431,7 @@
       <publishTime>10/25/2017 15:53:20</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/ProductionProcess/MemberSummary.cshtml">
-      <publishTime>11/01/2017 09:29:16</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/ProductionProcess/NotConfirmOrder.cshtml">
       <publishTime>10/25/2017 15:53:20</publishTime>
@@ -479,7 +479,7 @@
       <publishTime>11/01/2017 08:38:41</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/ProjectInfo/ProjectIndex.cshtml">
-      <publishTime>10/25/2017 15:53:20</publishTime>
+      <publishTime>11/04/2017 10:44:25</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/ProjectInfoManagement/Form.cshtml">
       <publishTime>07/07/2017 14:05:14</publishTime>
@@ -518,13 +518,13 @@
       <publishTime>07/07/2017 14:05:14</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/RawMaterialAnalysis/Form.cshtml">
-      <publishTime>11/01/2017 08:38:06</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/RawMaterialAnalysis/Index.cshtml">
-      <publishTime>11/01/2017 09:31:51</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/RawMaterialAnalysis/Index1.cshtml">
-      <publishTime>11/01/2017 09:31:48</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/RawMaterialAnalysis/NotReviewForm.cshtml">
       <publishTime>10/25/2017 15:53:20</publishTime>
@@ -566,10 +566,10 @@
       <publishTime>10/25/2017 15:53:20</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/RawMaterialLibrary/ImportFile.cshtml">
-      <publishTime>11/02/2017 14:33:23</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/RawMaterialLibrary/Index.cshtml">
-      <publishTime>11/02/2017 11:53:19</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Areas/SteelMember/Views/RawMaterialOrder/Form.cshtml">
       <publishTime>10/25/2017 15:53:20</publishTime>
@@ -725,46 +725,46 @@
       <publishTime>07/07/2017 13:18:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Busines.dll">
-      <publishTime>11/02/2017 11:26:00</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Busines.dll.config">
       <publishTime>07/07/2017 14:05:14</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Busines.pdb">
-      <publishTime>11/02/2017 11:26:00</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Cache.dll">
-      <publishTime>11/02/2017 11:26:01</publishTime>
+      <publishTime>11/04/2017 10:55:12</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Cache.dll.config">
       <publishTime>07/07/2017 14:05:14</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Cache.pdb">
-      <publishTime>11/02/2017 11:26:01</publishTime>
+      <publishTime>11/04/2017 10:55:12</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Code.dll">
-      <publishTime>11/02/2017 11:25:55</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Code.pdb">
-      <publishTime>11/02/2017 11:25:55</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Entity.dll">
-      <publishTime>11/02/2017 11:25:56</publishTime>
+      <publishTime>11/04/2017 10:55:10</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Entity.pdb">
-      <publishTime>11/02/2017 11:25:56</publishTime>
+      <publishTime>11/04/2017 10:55:10</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.IService.dll">
-      <publishTime>11/02/2017 11:25:56</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.IService.pdb">
-      <publishTime>11/02/2017 11:25:56</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Mapping.dll">
-      <publishTime>11/02/2017 11:25:56</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Mapping.pdb">
-      <publishTime>11/02/2017 11:25:56</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Repository.dll">
       <publishTime>08/02/2017 09:09:46</publishTime>
@@ -773,52 +773,52 @@
       <publishTime>08/02/2017 09:09:46</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Service.dll">
-      <publishTime>11/02/2017 11:25:59</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Service.pdb">
-      <publishTime>11/02/2017 11:25:59</publishTime>
+      <publishTime>11/04/2017 10:55:11</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Web.dll">
-      <publishTime>11/02/2017 16:30:48</publishTime>
+      <publishTime>11/04/2017 10:55:14</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Web.pdb">
-      <publishTime>11/02/2017 16:30:48</publishTime>
+      <publishTime>11/04/2017 10:55:14</publishTime>
     </File>
     <File Include="bin/LeaRun.Application.Web.XML">
-      <publishTime>11/02/2017 16:30:48</publishTime>
+      <publishTime>11/04/2017 10:55:14</publishTime>
     </File>
     <File Include="bin/LeaRun.Cache.dll">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Cache.Factory.dll">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Cache.Factory.pdb">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Cache.pdb">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Cache.Redis.dll">
-      <publishTime>11/02/2017 11:25:52</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Cache.Redis.pdb">
-      <publishTime>11/02/2017 11:25:52</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.CodeGenerator.dll">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.CodeGenerator.pdb">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Data.dll">
-      <publishTime>11/02/2017 11:25:52</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Data.EF.dll">
-      <publishTime>11/02/2017 11:25:54</publishTime>
+      <publishTime>11/04/2017 10:55:10</publishTime>
     </File>
     <File Include="bin/LeaRun.Data.EF.pdb">
-      <publishTime>11/02/2017 11:25:54</publishTime>
+      <publishTime>11/04/2017 10:55:10</publishTime>
     </File>
     <File Include="bin/LeaRun.Data.Entity.dll">
       <publishTime>08/02/2017 09:09:46</publishTime>
@@ -830,55 +830,55 @@
       <publishTime>08/02/2017 09:09:46</publishTime>
     </File>
     <File Include="bin/LeaRun.Data.pdb">
-      <publishTime>11/02/2017 11:25:52</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Data.Repository.dll">
-      <publishTime>11/02/2017 11:25:54</publishTime>
+      <publishTime>11/04/2017 10:55:10</publishTime>
     </File>
     <File Include="bin/LeaRun.Data.Repository.pdb">
-      <publishTime>11/02/2017 11:25:54</publishTime>
+      <publishTime>11/04/2017 10:55:10</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.dll">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Extension.dll">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Extension.pdb">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Ioc.dll">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Ioc.pdb">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Log.dll">
-      <publishTime>11/02/2017 11:25:54</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Log.pdb">
-      <publishTime>11/02/2017 11:25:54</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Offices.dll">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.Offices.pdb">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.pdb">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:08</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.SignalR.dll">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.SignalR.pdb">
-      <publishTime>11/02/2017 11:25:53</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.WebControl.dll">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/LeaRun.Util.WebControl.pdb">
-      <publishTime>11/02/2017 11:25:51</publishTime>
+      <publishTime>11/04/2017 10:55:09</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>07/07/2017 13:18:09</publishTime>
@@ -1089,6 +1089,18 @@
     </File>
     <File Include="Content/images/background.jpg">
       <publishTime>10/25/2017 15:53:20</publishTime>
+    </File>
+    <File Include="Content/images/background1.jpg">
+      <publishTime>11/04/2017 10:44:25</publishTime>
+    </File>
+    <File Include="Content/images/background2.jpg">
+      <publishTime>11/04/2017 10:44:25</publishTime>
+    </File>
+    <File Include="Content/images/background3.jpg">
+      <publishTime>11/04/2017 10:44:25</publishTime>
+    </File>
+    <File Include="Content/images/background4.jpg">
+      <publishTime>11/04/2017 10:44:25</publishTime>
     </File>
     <File Include="Content/images/black_arrow_8.png">
       <publishTime>07/07/2017 13:17:38</publishTime>
@@ -3302,7 +3314,7 @@
       <publishTime>07/07/2017 13:17:44</publishTime>
     </File>
     <File Include="Content/scripts/utils/learun-form.js">
-      <publishTime>07/07/2017 14:05:14</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Content/scripts/utils/learun-im.js">
       <publishTime>07/07/2017 13:17:44</publishTime>
@@ -3359,7 +3371,7 @@
       <publishTime>07/07/2017 13:17:44</publishTime>
     </File>
     <File Include="Content/styles/learun-login.css">
-      <publishTime>11/02/2017 16:19:04</publishTime>
+      <publishTime>11/04/2017 10:43:23</publishTime>
     </File>
     <File Include="Content/styles/learun-login2.css">
       <publishTime>07/07/2017 13:17:44</publishTime>
@@ -4418,16 +4430,16 @@
       <publishTime>10/25/2017 15:53:21</publishTime>
     </File>
     <File Include="Resource/ExcelTemplate/材料信息导入模板.xls">
-      <publishTime>11/02/2017 14:42:26</publishTime>
+      <publishTime>11/04/2017 10:43:24</publishTime>
     </File>
     <File Include="Resource/ExcelTemplate/材料订单模板.xlsx">
       <publishTime>08/26/2017 09:27:19</publishTime>
     </File>
     <File Include="Resource/ExcelTemplate/材料需求模板.xlsx">
-      <publishTime>10/25/2017 15:53:21</publishTime>
+      <publishTime>11/04/2017 10:43:25</publishTime>
     </File>
     <File Include="Resource/ExcelTemplate/构件信息导入模板.xls">
-      <publishTime>11/02/2017 11:17:40</publishTime>
+      <publishTime>11/04/2017 10:43:24</publishTime>
     </File>
     <File Include="Resource/LogoFile/ff128221-2268-4430-b888-a81900d9b7b1.png">
       <publishTime>10/30/2017 09:12:56</publishTime>
@@ -4613,10 +4625,10 @@
       <publishTime>08/10/2017 08:40:52</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/02/2017 16:25:52</publishTime>
+      <publishTime>11/04/2017 10:57:45</publishTime>
     </File>
     <File Include="XmlConfig/database.config">
-      <publishTime>11/01/2017 11:19:53</publishTime>
+      <publishTime>11/04/2017 10:43:24</publishTime>
     </File>
     <File Include="XmlConfig/ioc.config">
       <publishTime>07/07/2017 13:17:48</publishTime>
