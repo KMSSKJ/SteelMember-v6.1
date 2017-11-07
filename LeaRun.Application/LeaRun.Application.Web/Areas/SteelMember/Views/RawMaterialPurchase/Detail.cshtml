@@ -206,8 +206,7 @@
                 success: function (data) {
                     $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.PurchaseNumbering);
                     $("#table1").find("tr:eq(1)").find("td:eq(1)").html(data.entity.Category);
-                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.OrganizeId);
-                    $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.DepartmentId);
+                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.DepartmentId);
                     
                     $("#table2").find("tr:eq(2)").find("td:eq(0)").html(data.entity.CreateMan);
                     var ReviewMan;
@@ -356,12 +355,6 @@
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    组织：
-                </th>
-                <td class="formValue">
-                    @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 100%" isvalid="yes" checkexpession="NotNull"></div>*@
-                </td>
                 <th class="formTitle" style="text-align:right" >
                     申购部门：
                 </th>

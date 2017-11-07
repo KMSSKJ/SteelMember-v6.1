@@ -89,7 +89,7 @@
                 success: function (rowData) {
                     var rows = 1;
                     var $parentobj = top.frames["Form"];
-                    while (rows < 30) {
+                    while (rows < 17) {
                         $parentobj.$("#MemberNumbering➩" + rows).val(null);
                         $parentobj.$("#MemberName➩" + rows).val(null);
                         $parentobj.$("#UnitId➩" + rows).val(null);
@@ -98,6 +98,7 @@
                         $parentobj.$("#PriceAmount➩" + rows).val(null);
                         $parentobj.$("#MemberId➩" + rows).val(null);
                         $parentobj.$("#MemberDemandId➩" + rows).val(null);
+                        $parentobj.$("#Description➩" + rows).val(null);
                         $parentobj.$("#MaxNumber➩" + rows).val(null);
                         rows++;
                     }

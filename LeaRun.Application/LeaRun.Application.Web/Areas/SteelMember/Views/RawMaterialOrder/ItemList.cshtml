@@ -91,14 +91,18 @@
                 success: function (rowData) {
                     var rows = 1;
                     var $parentobj = top.frames["Form"];
-                    while (rows < 30) {
+                    while (rows < 16) {
                         $parentobj.$("#Quantity➩" + rows).val(null);
                         $parentobj.$("#RawMaterialPurchaseId➩" + rows).val(null);
                         $parentobj.$("#RawMaterialAnalysisId➩" + rows).val(null);
                         $parentobj.$("#RawMaterialId➩" + rows).val(null);
                         $parentobj.$("#RawMaterialName➩" + rows).val(null);
                         $parentobj.$("#RawMaterialModel➩" + rows).val(null);
+                        $parentobj.$("#PriceAmount➩" + rows).val(null);
+                        $parentobj.$("#Price➩" + rows).val(null);
                         $parentobj.$("#UnitId➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialManufacturer➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialSupplier➩" + rows).val(null);
                         $parentobj.$("#Description➩" + rows).val(null);
                         $parentobj.$("#MaxNumber➩" + rows).val(null);
                         rows++;

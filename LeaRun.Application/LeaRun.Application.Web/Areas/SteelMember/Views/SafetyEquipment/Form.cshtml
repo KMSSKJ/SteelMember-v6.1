@@ -5,6 +5,8 @@
 <link href="~/Content/scripts/plugins/uploadify/uploadify.css" rel="stylesheet" />
 <script src="~/Content/scripts/plugins/uploadify/jquery.uploadify.js"></script>
 
+<script src="~/Content/scripts/plugins/uploadify/ajaxfileupload.js"></script>
+<script src="~/Content/multipleFile/imgFileUpload.js"></script>
 <script>
     var keyValue = request('keyValue');
     $(function () {
@@ -34,27 +36,47 @@
     }
 
     function UploadFile() {
-        $('#Avatar2').uploadify({
-            uploader: '/SteelMember/MemberLibrary/SubmitUploadify',
-            swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-            buttonText: "选择图片",
-            height: 24,
-            width: 70,
-            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
-            fileSizeLimit: '5MB',
+        var f = document.getElementById('uploadFile').files[0];
+        if (!/image\/\w+/.test(f.type)) {
+            var txt = "<span>上传的不是图片!</span>";
+            $("#checkimg").append(txt);
+            document.getElementById('checkimg').style.display = "block";
+            //alert('上传的不是图片');
+            return false;
+        }
+        document.getElementById('checkimg').style.display = "none";
 
-            onFallback: function () {
-                dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
-            },
-            onUploadSuccess: function (file, data, response) {
+        //上传应用图标
+        $.ajaxFileUpload({
+            url: "/SystemConfiguration/UploadFile",
+            secureuri: false,
+            fileElementId: 'uploadFile',
+            dataType: 'text',
+            //data:{"file":f},
+            success: function (data) {
+                $("#errorimg").children("span").remove();
+                if (data == "1") {
+                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "2") {
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "3") {
+                    var txt = "<span>添加图片失败!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }else{
                 document.getElementById("Icon").value = data;
                 document.getElementById("_Icon").src = data;
                 document.getElementById("DelAvatar2").setAttribute("type", "button");
                 document.getElementById("DelAvatar2").value = "删除图片";
+                }
             },
         });
-
     }
 
     function DelIcon() {
@@ -159,7 +181,8 @@
                 <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
                 <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
                     <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                    <input id="Avatar2" name="Avatar" type="file" class="Avatar required" isvalid="yes" checkexpession="NotNull" />
+                    <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
+                    <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                 </div>
             </td>
             <td class="formTitle">备注</td>

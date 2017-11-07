@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 
 }
-
+<script src="~/Content/scripts/plugins/formatMoney/formatMoney.js"></script>
 <script>
     var keyValue = request('keyValue');
     $(function () {
@@ -31,9 +31,8 @@
             BeginTime: $("#txt_BeginTime").val(),
             EndTime: $("#txt_EndTime").val(),
         }
-       
+
         $gridTable.jqGrid({
-            //url: "Url.Content("~/SteelMember/RawMaterialPurchase/GetListByIsPassed")?category=" + Category,
             url: "@Url.Content("~/SteelMember/RawMaterialPurchase/GetListByIsPassed")?queryJson=" + JSON.stringify(queryJson) + "&keyValue=" + keyValue,
             datatype: "json",
             height: $(window).height()-150,
@@ -50,7 +49,7 @@
                 { label: '需采购量', name: "Qty", align: ' center', width: 100, sortable: false },
                 { label: '已采购量', name: "PurchasedQuantity", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false },
-                { label: '时间', name: "Time", align: ' center', width: 80, sortable: false },
+                { label: '时间', name: "Date", align: ' center', width: 80, sortable: false },
                 { label: '描述', name: "Description", align: ' center', width: 100, sortable: false },
             ],
             rowNum: 30,
@@ -162,6 +161,7 @@
                     if (rowData!=null){
                         var index = 1;
                         var data1;
+                        var TotalPriceAmount = 0.00;
                     for (var i = 0; i < rowData.length; i++) {
                         //$parentobj.IsExistItem(index, rowData[i].MemberNumbering);
 
@@ -173,13 +173,19 @@
                         $parentobj.$("#RawMaterialName➩" + index).val(rowData[i].RawMaterialName);
                         $parentobj.$("#RawMaterialModel➩" + index).val(rowData[i].RawMaterialModel);
                         $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
+                        $parentobj.$("#Date➩" + index).val(rowData[i].Date);
                         $parentobj.$("#RawMaterialOrderInfoId➩" + index).val(rowData[i].RawMaterialOrderInfoId);
                         $parentobj.$("#PurchaseQuantity➩" + index).val(Number(rowData[i].Quantity) - Number(rowData[i].PurchaseQuantity));
                         $parentobj.$("#Price➩" + index).val(rowData[i].Price);
-                        $parentobj.$("#PriceAmount➩" + index).val((Number(rowData[i].Quantity) - Number(rowData[i].PurchaseQuantity)) * Number(rowData[i].Price));
+                        var PriceAmount = (Number(rowData[i].Quantity) - Number(rowData[i].PurchaseQuantity)) * Number(rowData[i].Price);
+                        $parentobj.$("#PriceAmount➩" + index).val(PriceAmount);
                         $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].Quantity) - Number(rowData[i].PurchaseQuantity));
-                          index++;
-                    }
+                        index++;
+                        TotalPriceAmount = PriceAmount++
+                        }
+
+                    $parentobj.$("#table2").find("tr:eq(0)").find("td:eq(0)").html('&nbsp;&nbsp;&nbsp;&nbsp;&otimes;' + formatMoney(TotalPriceAmount));
+                    $parentobj.$("#table2").find("tr:eq(0)").find("td:eq(1)").html(FormatCurrency(TotalPriceAmount));
                     }
                     dialogClose();
                 },
@@ -193,10 +199,10 @@
     <table>
         <tr>
             <td style="width:110px">
-                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()"/>
+                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" />
             </td>
             <td style="padding-left:2px;width:110px">
-                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()"/>
+                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" />
             </td>
 
             @*<td style="padding-left: 10px;">
@@ -208,7 +214,7 @@
                     </ul>
                     </div>
                 </td>*@
-       
+
             <td style="padding-left: 5px;">
                 <a id="btn_Search" onclick="Search()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
             </td>
@@ -219,4 +225,3 @@
     <table id="gridTable"></table>
     <div id="gridPager"></div>
 </div>
-   

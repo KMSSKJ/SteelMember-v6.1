@@ -178,7 +178,7 @@
         var Qty = Number($("#MemberNumber➩" + index).val());//数量
 
         if (Qty > MaxNumber) {//dialogMsg
-            dialogMsg("您的输入不能超过" + MaxNumber, 1)
+            dialogMsg("您的输入不能超过" + MaxNumber, 0)
             $("#MemberNumber➩" + index).val(MaxNumber);
             return
         }

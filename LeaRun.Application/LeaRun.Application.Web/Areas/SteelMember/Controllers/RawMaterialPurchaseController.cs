@@ -163,6 +163,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                         Category = dataitemdetailbll.GetEntity(model.Category).ItemName,
                                         UnitId = dataitemdetailbll.GetEntity(model.Unit).ItemName,
                                         Price = item1.Price,
+                                        Date = item1.Time.ToDate(),
                                         RawMaterialManufacturer = item1.RawMaterialManufacturer,
                                         RawMaterialSupplier = item1.RawMaterialSupplier,
                                         Description = model.Description,
@@ -178,6 +179,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                     RawMaterialId = model.RawMaterialId,
                                     Qty = item1.Quantity,
                                     InfoId = item1.InfoId,
+                                    Date = item1.Time.ToDate(),
                                     RawMaterialName = model.RawMaterialName,
                                     RawMaterialModel = model.RawMaterialModel,
                                     Category = dataitemdetailbll.GetEntity(model.Category).ItemName,
@@ -221,6 +223,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                         Category = dataitemdetailbll.GetEntity(model.Category).ItemName,
                                         UnitId = dataitemdetailbll.GetEntity(model.Unit).ItemName,
                                         Price = item1.Price,
+                                        //Date = item1..ToDate(),
                                         RawMaterialManufacturer = item1.RawMaterialManufacturer,
                                         RawMaterialSupplier = item1.RawMaterialSupplier,
                                         Description = model.Description,
@@ -240,6 +243,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                     RawMaterialModel = model.RawMaterialModel,
                                     Category = dataitemdetailbll.GetEntity(model.Category).ItemName,
                                     UnitId = dataitemdetailbll.GetEntity(model.Unit).ItemName,
+                                    //Date = item1.Time.ToDate(),
                                     Description = model.Description,
                                 };
                                 datapurchase.Add(_data);
@@ -314,6 +318,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 RawMaterialName = arrayRawMaterialName[i],
                                 RawMaterialModel = arrayRawMaterialModel[i],
                                 UnitId = arrayUnitId[i],
+                                Price = arrayRawMaterialPrice[i].ToDecimal(),
                                 Description = arrayDescription[i],
                                 RawMaterialSupplier = arrayRawMaterialSupplier[i],
                                 RawMaterialManufacturer = arrayRawMaterialManufacturer[i],
@@ -407,6 +412,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson1(string keyValue)
         {
             var data = rawmaterialpurchasebll.GetEntity(keyValue);
+            
             var childData = rawmaterialpurchasebll.GetDetails(keyValue).ToList();
             List<RawMaterialPurchaseModel> list = new List<RawMaterialPurchaseModel>();
             if (childData.Count > 0)
@@ -493,7 +499,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPurchaseList()
         {
-            var data = rawmaterialpurchasebll.GetList("").ToList().FindAll(f => f.IsWarehousing != 1);
+            var data = rawmaterialpurchasebll.GetList("").ToList().FindAll(f => f.IsWarehousing != 1&&f.IsPurchase==1);
             return ToJsonResult(data);
         }
         #endregion
