@@ -24,7 +24,7 @@
     function initControl() {
         var f = document.getElementById('uploadFile').files[0];
         if (!/image\/\w+/.test(f.type)) {
-            var txt = "<span>上传的不是图片!</span>";
+            var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
             $("#checkimg").append(txt);
             document.getElementById('checkimg').style.display = "block";
             //alert('上传的不是图片');
@@ -46,7 +46,7 @@
                     $("#checkimg").append(txt);
                     document.getElementById('checkimg').style.display = "block";
                 } else if (data == "2") {
-                    var txt = "<span>图片大小不能超出500KB!</span>";
+                    var txt = "<span>图片大小不能超出200KB!</span>";
                     $("#checkimg").append(txt);
                     document.getElementById('checkimg').style.display = "block";
                 } else {
@@ -101,7 +101,7 @@
             height: 25,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
             fileSizeLimit: '100MB',
             queueID: 'fileQueue',                        //队列的ID
             queueSizeLimit: 1,                          //队列最多可上传文件数量，默认为999
@@ -112,7 +112,7 @@
             onUploadSuccess: function (file, data, response) {
                 $("#errorimg").children("span").remove();
                 if (data == "1") {
-                    var txt = "<span>图片大小不能超出500KB!</span>";
+                    var txt = "<span>图片大小不能超出200KB!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 }
@@ -245,7 +245,7 @@
                                 <div style="margin-right:10px;line-height:150px;float:left;font-size:14px;font-weight:600;">系统Logo:&nbsp;<font face="宋体" color="red">*</font>&nbsp;</div>
                                 <div class="file" id="myupload" style="width: 120px; height: 120px;float:left;margin-left:100px;">
                                     <img id="uploadPreview" style="width: 120px; height: 120px; border-radius: 120px;" src="~/Content/images/logo-headere47d5.png" />
-                                    <input type="file" name="uploadFile" id="uploadFile" onchange="initControl()" accept="image/gif,image/jpeg,image/png" />
+                                    <input type="file" name="uploadFile" id="uploadFile" onchange="initControl()" accept="image/*" />
                                 </div>
                                 <div id="checkimg" style="display:none;color:red;padding-top:100px;"></div>
                             </div>

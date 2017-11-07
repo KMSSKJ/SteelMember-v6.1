@@ -28,6 +28,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
+
+        public ActionResult Img()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据
@@ -97,7 +102,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 systemconfigurationbll.SaveForm(entity.SystemConfigurationId, entity);
 
                 var model = subprojectbll.GetListWant(s => s.ParentId == "0").SingleOrDefault();
-                if (model== null)
+                if (model == null)
                 {
                     model.ParentId = "0";
                     model.FullName = entity.EngineeringName;
@@ -105,7 +110,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     subprojectbll.SaveForm("", model);
                 }
                 else
-                {                    
+                {
                     model.FullName = entity.EngineeringName;
                     subprojectbll.SaveForm(model.Id, model);
                 }
@@ -130,7 +135,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 return Content("1");
             }
-            if (files[0].ContentLength > 512000)
+            if (files[0].ContentLength > 200000)
             {
                 return Content("2");
             }
@@ -153,7 +158,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
         /// <summary>
         /// 图片上传  [FromBody]string type
-        /// 单个图片最大支持2KB
+        /// 单个图片最大支持200KB
         /// 
         /// </summary>
         /// <returns></returns>
@@ -165,18 +170,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             // 定义允许上传的文件扩展名 
             const string fileTypes = "gif,jpg,jpeg,png,bmp";
-            // 最大文件大小(500KB)
-            const int maxSize = 1024000 / 2;
+            // 最大文件大小(200KB)
+            const int maxSize = 1024000 / 5;
             // 获取附带POST参数值
             var type = Request["type"];
 
             for (var fileId = 0; fileId < Request.Files.Count; fileId++)
             {
                 var curFile = Request.Files[fileId];
-                if (curFile.ContentLength > maxSize)
-                {
-                    return Content("1");
-                }
+
                 var fileExt = Path.GetExtension(curFile.FileName);
                 if (String.IsNullOrEmpty(fileExt) || Array.IndexOf(fileTypes.Split(','), fileExt.Substring(1).ToLower()) == -1)
                 {
@@ -184,6 +186,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 else
                 {
+                    if (curFile.ContentLength > maxSize)
+                    {
+                        return Content("1");
+                    }
                     Guid code = GuidComb.GenerateComb();
                     // 存储文件名
                     string fileName = code + fileExt;
