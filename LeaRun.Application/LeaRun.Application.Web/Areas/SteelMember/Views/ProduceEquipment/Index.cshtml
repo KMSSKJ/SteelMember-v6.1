@@ -124,43 +124,6 @@
             gridComplete: function () {
                 $('#' + this.id).setSelection(selectedRowIndex, false);
             },
-            subGrid: true,
-            subGridRowExpanded: function (subgrid_id, row_id) {
-                var keyValue = $gridTable.jqGrid('getRowData', row_id)['Id'];
-                subgrid_table_id = subgrid_id + "_t";
-                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "'></table>");
-                $("#" + subgrid_table_id).jqGrid({
-                    url: "../../SteelMember/EquipmentMaintenanceRecords/GetListJsonFunc",
-                    postData: { keyValue: keyValue },
-                    datatype: "json",
-                    height: "100%",
-                    colModel: [
-                        { label: 'InfoId', name: 'InfoId', index: 'InfoId', hidden: true },
-                        { label: 'Id', name: 'Id', index: 'Id', width: 80, align: '', sortable: true, hidden: true },
-                        { label: '维护项目', name: 'MaintenanceContent', index: 'MaintenanceContent', width: 180, align: 'center', sortable: true },
-                        { label: '故障原因', name: 'MalfunctionReason', index: 'MalfunctionReason', width: 190, align: 'center', sortable: true },
-                        { label: '维护时间', name: 'MaintenanceDate', index: 'MaintenanceDate', width: 90, align: 'center', sortable: true },
-                        { label: '解决方法', name: 'SolveMethod', index: 'SolveMethod', width: 200, align: 'center', sortable: true },
-                        { label: '维护人', name: 'MaintenancePeople', index: 'MaintenancePeople', width: 90, align: 'center', sortable: true },
-                        {
-                            label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center',
-                            formatter: function (cellvalue, options, rowObject) {
-                                if (rowObject.Description == null || rowObject.Description == "undefined") {
-                                    return "";
-                                } else {
-                                    return "<p style='color: red'>" + cellvalue + "</p>";
-                                }
-                            }
-                        },
-                    ],
-                    caption: "明细",
-                    rowNum: "1000",
-                    rownumbers: true,
-                    shrinkToFit: false,
-                    gridview: true,
-                    hidegrid: false
-                });
-            }
         });
         //查询条件
         $("#queryCondition .dropdown-menu li").click(function () {
@@ -229,53 +192,65 @@
         }
     }
 
-    //新增
-    function btn_addMaintain() {
+
+    //报修
+    function btn_Warranty() {
+        var Id = $('#gridTable').jqGridRowValue('Id');
+        var Status = $('#gridTable').jqGridRowValue('Status');
+        if (checkedArray(Id)) {
+            var StatusArr = Status.split(",");
+            if (StatusArr.length > 0) {
+                for (var i in StatusArr) {
+                    if (StatusArr[i] == "<span class=\"label label-danger\">故障</span>") {
+                        dialogMsg("所选数据包含已报修数据！", 0);
+                        return false;
+                        //break;
+                    }
+                }
+
+                $.SaveForm({
+                    url: "../../SteelMember/ProduceEquipment/Warranty?keyValue=" + Id,
+                    param: {},
+                    loading: "正在保存数据...",
+                    success: function () {
+                        $.currentIframe().$("#gridTable").trigger("reloadGrid");
+                    }
+                })
+            }
+        }
+    }
+
+     //维护确认
+    function btn_MaintenanceReport() {
         var Id = $('#gridTable').jqGridRowValue('Id');
         if (checkedRow(Id)) {
             dialogOpen({
                 id: 'Form',
-                title: '添加设备',
+                title: '维护记录',
                 url: '/SteelMember/ProduceEquipment/MaintenanceRecordsForm?Id=' + Id,
-                width: '500px',
-                height: '360px',
+                width: '480px',
+                height: '380px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
             });
-        } else {
-            dialogMsg('请选择要维护设备！', 0);
         }
     }
-    //编辑
-    function btn_editMaintain() {
-        var keyValue = $('#' + subgrid_table_id).jqGridRowValue('InfoId');
-        if (checkedRow(keyValue)) {
+
+    //维护记录
+    function btn_MaintenanceRecording() {
+        var Id = $('#gridTable').jqGridRowValue('Id');
+        if (checkedRow(Id)) {
             dialogOpen({
-                id: 'Form',
-                title: '编辑设备维护',
-                url: '/SteelMember/ProduceEquipment/MaintenanceRecordsForm?keyValue=' + keyValue,
-                width: '500px',
-                height: '360px',
+                id: 'Index',
+                title: '维护记录',
+                url: '/SteelMember/ProduceEquipment/MaintenanceRecordsIndex?Id=' + Id,
+                width: '960px',
+                height: '660px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
-            })
-        }
-    }
-    //删除
-    function btn_deleteMaintain() {
-        var keyValue = $('#' + subgrid_table_id).jqGridRowValue('InfoId');
-        if (checkedRow(keyValue)) {
-            $.RemoveForm({
-                url: '../../SteelMember/EquipmentMaintenanceRecords/RemoveForm',
-                param: { keyValue: keyValue },
-                success: function (data) {
-                    $('#gridTable').trigger('reloadGrid');
-                }
-            })
-        } else {
-            dialogMsg('请选择需要删除的生产设备！', 0);
+            });
         }
     }
 </script>
@@ -311,9 +286,9 @@
             <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
         </div>
         <div class="btn-group">
-            <a id="lr-addMaintain" class="btn btn-default" onclick="btn_addMaintain()"><i class="fa fa-plus"></i>&nbsp;新增维护</a>
-            <a id="lr-editMaintain" class="btn btn-default" onclick="btn_editMaintain()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑维护</a>
-            <a id="lr-deleteMaintain" class="btn btn-default" onclick="btn_deleteMaintain()"><i class="fa fa-trash-o"></i>&nbsp;删除维护</a>
+            <a id="lr-Warranty" class="btn btn-default" onclick="btn_Warranty()"><i class="fa fa-pencil-square-o"></i>&nbsp;报修</a>
+            <a id="lr-MaintenanceReport" class="btn btn-default" onclick="btn_MaintenanceReport()"><i class="fa fa-pencil-square-o"></i>&nbsp;维修确认</a>
+            <a id="lr-Maintenancerecording" class="btn btn-default" onclick="btn_MaintenanceRecording()"><i class="fa fa-pencil-square-o"></i>&nbsp;维修记录</a>
         </div>
         <script>$('.toolbar').authorizeButton()</script>
     </div>

@@ -5,6 +5,7 @@ using LeaRun.Util.WebControl;
 using System.Web.Mvc;
 using System.Linq;
 using LeaRun.Application.Code;
+using System;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -76,12 +77,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="keyValue">查询参数</param>
+        /// <param name="Id">查询参数</param>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetListJsonFunc(string keyValue)
+        public ActionResult GetListJsonFunc(string Id)
         {
-            var data = equipmentmaintenancerecordsbll.GetList(f=>f.Id== keyValue);
+            var data = equipmentmaintenancerecordsbll.GetList(f => f.Id == Id);
             return ToJsonResult(data);
         }
         /// <summary>
@@ -109,7 +110,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            equipmentmaintenancerecordsbll.RemoveForm(keyValue);
+            string[] ids = new string[] { };
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                ids = keyValue.Split(',');
+            }
+            foreach (var item in ids)
+            {
+                equipmentmaintenancerecordsbll.RemoveForm(item);
+            }
+         
             return Success("删除成功。");
         }
         /// <summary>
@@ -123,6 +133,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult SaveForm(string keyValue, EquipmentMaintenanceRecordsEntity entity)
         {
+            entity.MaintenanceDate = DateTime.Now;
+            entity.MaintenancePeople = OperatorProvider.Provider.Current().UserName;
             equipmentmaintenancerecordsbll.SaveForm(keyValue, entity);
             return Success("操作成功。");
         }
