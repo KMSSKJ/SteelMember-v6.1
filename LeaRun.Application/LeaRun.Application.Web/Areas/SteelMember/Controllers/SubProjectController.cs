@@ -8,6 +8,8 @@ using System.Linq;
 using LeaRun.Util.Extension;
 using System;
 using LeaRun.Application.Code;
+using LeaRun.Application.Web.Areas.SteelMember.Models;
+using LeaRun.Application.Cache;
 
 namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 {
@@ -18,6 +20,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class SubProjectController : MvcControllerBase
     {
+        private UserCache userCache = new UserCache();
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -78,6 +81,26 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return ToJsonResult(data);
         }
         /// <summary>
+        /// 用户列表
+        /// </summary>
+        /// <returns>返回列表Json</returns>
+        [HttpGet]
+        public ActionResult GetUserListJson()
+        {
+            var data = userbll.GetList();
+            return Content(data.ToJson());
+        }
+        /// <summary>
+        /// 单位列表
+        /// </summary>
+        /// <returns>返回列表Json</returns>
+        [HttpGet]
+        public ActionResult GetOrganizeListJson()
+        {
+            var data = organizebll.GetList().Where(o=>o.Nature.Trim()=="施工单位"&&o.ParentId!="0");
+            return Content(data.ToJson());
+        }
+        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="queryJson">查询参数</param>
@@ -86,17 +109,28 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetListJson(string queryJson)
         {
             var data = subprojectbll.GetList(queryJson).ToList();
+
+            var temp = data.Select(s => new
+            {
+                Id=s.Id,
+                ParentId=s.ParentId,
+                Principal=userbll.GetEntity(s.PrincipalId)?.RealName,
+                Organize=organizebll.GetEntity(s.OrganizeId)?.FullName,
+                Phone=userbll.GetEntity(s.PrincipalId)?.Mobile,
+                Levels=s.Levels,
+                FullName=s.FullName
+            }).ToList();
             if (!string.IsNullOrEmpty(queryJson))
             {
                 var queryParam = queryJson.ToJObject();
                 var FullName = queryParam["keyword"].ToString();
-                data = data.FindAll(t => t.FullName.Contains(FullName));
+                temp = temp.FindAll(t => t.FullName.Contains(FullName));
             }
             var treeList = new List<TreeGridEntity>();
-            foreach (SubProjectEntity item in data)
+            foreach (var item in temp)
             {
                 TreeGridEntity tree = new TreeGridEntity();
-                bool hasChildren = data.Count(t => t.ParentId == item.Id) == 0 ? false : true;
+                bool hasChildren = temp.Count(t => t.ParentId == item.Id) == 0 ? false : true;
                 tree.id = item.Id;
                 tree.hasChildren = hasChildren;
                 tree.parentId = item.ParentId;

@@ -54,7 +54,7 @@
                     document.getElementById('SystemLogo').value = data;
 
                     $("#uploadFile").remove();
-                    var input = " <input type=\"file\" id=\"uploadFile\" name=\"uploadFile\" onchange=\"initControl()\" accept=\"image/gif, image/jpeg, image/png\"/>";
+                    var input = " <input type=\"file\" id=\"uploadFile\" name=\"uploadFile\" onchange=\"initControl()\" accept=\"image/*\"/>";
                     $("#myupload").append(input);
                 }
 
@@ -100,7 +100,7 @@
             buttonText: "选择图片",
             height: 25,
             width: 70,
-            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            //fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
             //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
             fileSizeLimit: '100MB',
             queueID: 'fileQueue',                        //队列的ID
@@ -127,10 +127,6 @@
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else {
-                    //document.getElementById("CAD").innerHTML += "<div style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></div><div style='clear:both'></div>";
-
-                    //document.getElementById("engineering_img").innerHTML += "<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>";
-
                     $("#engineering_img").prepend("<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>");
                 }
             }

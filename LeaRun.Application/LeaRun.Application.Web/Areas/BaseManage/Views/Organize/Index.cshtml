@@ -25,11 +25,17 @@
         $gridTable_org.jqGrid({
             url: "../../BaseManage/Organize/GetTreeListJson",
             datatype: "json",
+            treeGrid: true,
             height: $(window).height() - 195,
             autowidth: true,
+            shrinkToFit: false,
+            gridview: true,
+            treeGridModel: "nested",
+            ExpandColumn: "FullName",
             colModel: [
                 { label: '主键', name: 'OrganizeId', hidden: true },
-                { label: "单位名称", name: "FullName", width: 300, align: "center", sortable: false},
+                //{ label: '排序', name: "SortCode", hidden:true },
+                { label: "单位名称", name: "FullName", width: 300, align: "left", sortable: false },
                 //{ label: "外文名称", name: "EnCode", width: 150, align: "center", sortable: false },
                 //{ label: "中文名称", name: "ShortName", width: 150, align: "center", sortable: false },
                 { label: "单位类型", name: "Nature", width: 100, align: "center", sortable: false },
@@ -40,18 +46,18 @@
                     }
                 },
                 { label: "负责人", name: "Manager", width: 100, align: "center", sortable: false },
-                { label: "排序", name: "SortCode", width: 100, align: "center", sortable: false },
+
                 { label: "经营范围", name: "Fax", width: 200, align: "center", sortable: false },
                 { label: "备注", name: "Description", width: 200, align: "center", sortable: false }
             ],
-            treeGrid: true,
-            treeGridModel: "nested",
-            ExpandColumn: "EnCode",
+            //treeGrid: true,
+            //treeGridModel: "nested",
+            //ExpandColumn: "EnCode",
             //sortname: 'SortCode asc',
             //sortname: 'SortCode',
             //sortorder: 'Desc',
-            rowNum: "all",
-            rownumbers: true,
+            //rowNum: "all",
+            //rownumbers: true,
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
             },
@@ -88,7 +94,7 @@
         dialogOpen({
             id: "Form",
             title: '添加单位',
-            url: '/BaseManage/Organize/Form?ParentId=' + ParentId,
+            url: '/BaseManage/Organize/Form?parentId=' + ParentId,
             width: "750px",
             height: "470px",
             callBack: function (iframeId) {
@@ -141,7 +147,7 @@
                         <ul class="dropdown-menu">
                             <li><a data-value="FullName">单位名称</a></li>
                             @*<li><a data-value="EnCode">外文名称</a></li>
-                            <li><a data-value="ShortName">中文名称</a></li>*@
+                                <li><a data-value="ShortName">中文名称</a></li>*@
                             <li><a data-value="Manager">负责人</a></li>
                         </ul>
                     </div>
