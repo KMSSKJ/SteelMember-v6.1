@@ -26,6 +26,7 @@ namespace LeaRun.Application.Web
         public MemberLibraryBLL memberlibrarybll = new MemberLibraryBLL();
 
         public OrganizeBLL organizebll = new OrganizeBLL();
+        public UserBLL userbll = new UserBLL();
         public DepartmentBLL departmentbll = new DepartmentBLL();
         public SubProjectBLL subprojectbll = new SubProjectBLL();
         public DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
