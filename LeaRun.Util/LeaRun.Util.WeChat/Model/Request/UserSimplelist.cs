@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LeaRun.Util.WeChat.Model.Request
 {
     /// <summary>
-    /// 获取部门成员
+    /// 获取申请部门成员
     /// </summary>
     public class UserSimplelist : OperationRequestBase<UserSimplelistResult,HttpGetRequest>
     {
@@ -18,14 +18,14 @@ namespace LeaRun.Util.WeChat.Model.Request
         }
 
         /// <summary>
-        /// 获取的部门id
+        /// 获取的申请部门id
         /// </summary>
         /// <returns></returns>
         [IsNotNull]
         public string department_id { get; set; }
 
         /// <summary>
-        /// 1/0：是否递归获取子部门下面的成员
+        /// 1/0：是否递归获取子申请部门下面的成员
         /// </summary>
         /// <returns></returns>
         public int fetch_child { get; set; }

@@ -232,11 +232,11 @@
             return false;
         }
         if (queryJson["condition"] != "CollarEngineering") {
-            dialogMsg("请把选择条件改为“项目名称”", 0);
+            dialogMsg("请把选择条件改为“工程”", 0);
             return false;
         }
         if (queryJson["CollarEngineering"] == "" || queryJson["CollarEngineering"] == null) {
-            dialogMsg("项目名称不能空", 0);
+            dialogMsg("工程不能空", 0);
             return false;
         }
         if (queryJson["DepartmentId"] == "" || queryJson["DepartmentId"] == null) {
@@ -289,7 +289,7 @@
                                     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         
-                                        <li><a data-value="CollarEngineering">项目名称</a></li>
+                                        <li><a data-value="CollarEngineering">工程</a></li>
                                         <li><a data-value="CollarNumbering">单号</a></li>
                                     </ul>
                                 </div>

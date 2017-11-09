@@ -6,13 +6,13 @@ namespace LeaRun.Application.Entity.BaseManage
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2015.11.02 14:27
-    /// 描 述：部门管理
+    /// 描 述：申请部门管理
     /// </summary>
     public class DepartmentEntity : BaseEntity
     {
         #region 实体成员
         /// <summary>
-        /// 部门主键
+        /// 申请部门主键
         /// </summary>	
         public string DepartmentId { get; set; }
         /// <summary>
@@ -24,19 +24,19 @@ namespace LeaRun.Application.Entity.BaseManage
         /// </summary>		
         public string ParentId { get; set; }
         /// <summary>
-        /// 部门代码
+        /// 申请部门代码
         /// </summary>		
         public string EnCode { get; set; }
         /// <summary>
-        /// 部门名称
+        /// 申请部门名称
         /// </summary>		
         public string FullName { get; set; }
         /// <summary>
-        /// 部门简称
+        /// 申请部门简称
         /// </summary>		
         public string ShortName { get; set; }
         /// <summary>
-        /// 部门类型
+        /// 申请部门类型
         /// </summary>		
         public string Nature { get; set; }
         /// <summary>
@@ -60,7 +60,7 @@ namespace LeaRun.Application.Entity.BaseManage
         /// </summary>		
         public string Email { get; set; }
         /// <summary>
-        /// 部门传真
+        /// 申请部门传真
         /// </summary>		
         public string Fax { get; set; }
         /// <summary>

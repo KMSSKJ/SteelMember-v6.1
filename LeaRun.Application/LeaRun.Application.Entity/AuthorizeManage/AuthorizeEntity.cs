@@ -16,7 +16,7 @@ namespace LeaRun.Application.Entity.AuthorizeManage
         /// </summary>		
         public string AuthorizeId { get; set; }
         /// <summary>
-        /// 对象分类:1-部门2-角色3-岗位4-职位5-工作组
+        /// 对象分类:1-申请部门2-角色3-岗位4-职位5-工作组
         /// </summary>		
         public int? Category { get; set; }
         /// <summary>

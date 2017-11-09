@@ -87,7 +87,7 @@ namespace LeaRun.Application.Entity.SteelMember
         //public string OrganizeId { get; set; }
 
         ///// <summary>
-        ///// 部门ID
+        ///// 申请部门ID
         ///// </summary>
         ///// <returns></returns>
         //[Column("DEPARTMENTID")]

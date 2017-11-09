@@ -278,7 +278,7 @@ $.fn.flowdesign = function (options) {
 
         var _NodeRejectType = { "0": "前一步", "1": "第一步", "2": "某一步", "3": "用户指定", "4": "不处理" };
         var _NodeIsOver = { "0": "不允许", "1": "允许" };
-        var _NodeDesignate = { "NodeDesignateType1": "所有成员", "NodeDesignateType2": "指定成员", "NodeDesignateType3": "发起者领导", "NodeDesignateType4": "前一步骤领导", "NodeDesignateType5": "发起者部门领导", "NodeDesignateType6": "发起者公司领导" };
+        var _NodeDesignate = { "NodeDesignateType1": "所有成员", "NodeDesignateType2": "指定成员", "NodeDesignateType3": "发起者领导", "NodeDesignateType4": "前一步骤领导", "NodeDesignateType5": "发起者申请部门领导", "NodeDesignateType6": "发起者公司领导" };
         var _NodeConfluenceType = { "0": "所有步骤通过", "1": "一个步骤通过即可", "2": "按百分比计算" };
         $.each(options.flowcontent.nodes, function (i, item) {
             if (item.setInfo != undefined) {

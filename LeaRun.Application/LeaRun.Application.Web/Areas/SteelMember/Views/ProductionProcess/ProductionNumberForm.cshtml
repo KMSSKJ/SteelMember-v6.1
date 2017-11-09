@@ -16,7 +16,7 @@
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $('#gridTable').setGridHeight($(window).height() - 240.5);
+                $('#gridTable').setGridHeight($(window).height() - 170.5);
             }, 200);
             e.stopPropagation();
         });
@@ -28,8 +28,9 @@
             //url: "../../SteelMember/MemberProductionOrder/GetDetailsJson",
             //postData: { keyValue: keyValue },
             //datatype: "json",
+            unwritten: false,
             datatype: 'local',
-            height: $(window).height() - 240.5,
+            height: $(window).height() - 170.5,
             autowidth: true,
             colModel: [
                 { label: '构件编号[<font face="宋体" color="red">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },

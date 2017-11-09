@@ -10,7 +10,7 @@ namespace LeaRun.Util.WeChat.Model.Request
     {
 
         /// <summary>
-        /// 部门id
+        /// 申请部门id
         /// </summary>
         /// <returns></returns>
         public string id { get; set; }

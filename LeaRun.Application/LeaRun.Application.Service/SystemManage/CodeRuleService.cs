@@ -227,7 +227,7 @@ namespace LeaRun.Application.Service.SystemManage
                                 nextBillCode = nextBillCode + NextSeriousStr;
 
                                 break;
-                            //部门
+                            //申请部门
                             case "3":
                                 DepartmentEntity departmentEntity = db.FindEntity<DepartmentEntity>(userEntity.DepartmentId);
                                 if (codeRuleFormatEntity.FormatStr == "code")
@@ -406,7 +406,7 @@ namespace LeaRun.Application.Service.SystemManage
                                 nextBillCode = nextBillCode + NextSeriousStr;
 
                                 break;
-                            //部门
+                            //申请部门
                             case "3":
                                 DepartmentEntity departmentEntity = db.FindEntity<DepartmentEntity>(userEntity.DepartmentId);
                                 if (codeRuleFormatEntity.FormatStr == "code")

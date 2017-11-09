@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LeaRun.Util.WeChat.Model.Request
 {
     /// <summary>
-    /// 获取部门成员接口返回结果
+    /// 获取申请部门成员接口返回结果
     /// </summary>
     public class UserSimplelistResult : OperationResultsBase
     {

@@ -69,7 +69,7 @@ namespace LeaRun.Application.Service.BaseManage
                 string organizeId = queryParam["organizeId"].ToString();
                 expression = expression.And(t => t.OrganizeId.Equals(organizeId));
             }
-            //部门主键
+            //申请部门主键
             if (!queryParam["departmentId"].IsEmpty())
             {
                 string departmentId = queryParam["departmentId"].ToString();

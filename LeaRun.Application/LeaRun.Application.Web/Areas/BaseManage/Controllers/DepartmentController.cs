@@ -13,7 +13,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2015.11.02 14:27
-    /// 描 述：部门管理
+    /// 描 述：申请部门管理
     /// </summary>
     public class DepartmentController : MvcControllerBase
     {
@@ -23,7 +23,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 
         #region 视图功能
         /// <summary>
-        /// 部门管理
+        /// 申请部门管理
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -33,7 +33,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             return View();
         }
         /// <summary>
-        /// 部门表单
+        /// 申请部门表单
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -46,7 +46,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 
         #region 获取数据
         /// <summary>
-        /// 部门列表 
+        /// 申请部门列表 
         /// </summary>
         /// <param name="organizeId">公司Id</param>
         /// <param name="keyword">关键字</param>
@@ -77,7 +77,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         }
 
         /// <summary>
-        /// 部门列表 
+        /// 申请部门列表 
         /// </summary>
         /// <param name="organizeId">公司Id</param>
         /// <param name="keyword">关键字</param>
@@ -110,10 +110,10 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 
 
         /// <summary>
-        /// 部门列表
+        /// 申请部门列表
         /// </summary>
         /// <param name="keyword">关键字</param>
-        /// <returns>返回机构+部门树形Json</returns>
+        /// <returns>返回机构+申请部门树形Json</returns>
         public ActionResult GetOrganizeTreeJson(string keyword)
         {
             var organizedata = organizeCache.GetList();
@@ -148,7 +148,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             }
             //foreach (DepartmentEntity item in departmentdata)
             //{
-            //    #region 部门
+            //    #region 申请部门
             //    TreeEntity tree = new TreeEntity();
             //    bool hasChildren = departmentdata.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
             //    tree.id = item.DepartmentId;
@@ -177,7 +177,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             return Content(treeList.TreeToJson());
         }
         /// <summary>
-        /// 部门列表 
+        /// 申请部门列表 
         /// </summary>
         /// <param name="condition">查询条件</param>
         /// <param name="keyword">关键字</param>
@@ -192,13 +192,13 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
                 #region 多条件查询
                 switch (condition)
                 {
-                    case "FullName":    //部门名称
+                    case "FullName":    //申请部门名称
                         departmentdata = departmentdata.TreeWhere(t => t.FullName.Contains(keyword), "DepartmentId");
                         break;
-                    case "EnCode":      //部门编号
+                    case "EnCode":      //申请部门编号
                         departmentdata = departmentdata.TreeWhere(t => t.EnCode.Contains(keyword), "DepartmentId");
                         break;
-                    case "ShortName":   //部门简称
+                    case "ShortName":   //申请部门简称
                         departmentdata = departmentdata.TreeWhere(t => t.ShortName.Contains(keyword), "DepartmentId");
                         break;
                     case "Manager":     //负责人
@@ -262,7 +262,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             return Content(treeList.TreeJson());
         }
         /// <summary>
-        /// 部门实体
+        /// 申请部门实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns>返回对象Json</returns>
@@ -276,7 +276,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 
         #region 验证数据
         /// <summary>
-        /// 部门编号不能重复
+        /// 申请部门编号不能重复
         /// </summary>
         /// <param name="EnCode">编号</param>
         /// <param name="keyValue">主键</param>
@@ -288,7 +288,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             return Content(IsOk.ToString());
         }
         /// <summary>
-        /// 部门名称不能重复
+        /// 申请部门名称不能重复
         /// </summary>
         /// <param name="FullName">名称</param>
         /// <param name="keyValue">主键</param>
@@ -303,7 +303,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 
         #region 提交数据
         /// <summary>
-        /// 删除部门
+        /// 删除申请部门
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
@@ -317,10 +317,10 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             return Success("删除成功。");
         }
         /// <summary>
-        /// 保存部门表单（新增、修改）
+        /// 保存申请部门表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="departmentEntity">部门实体</param>
+        /// <param name="departmentEntity">申请部门实体</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

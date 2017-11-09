@@ -42,7 +42,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         public string OrganizeId { get; set; }
         /// <summary>
-        /// 部门
+        /// 申请部门
         /// </summary>
         public string DepartmentId { get; set; }
         /// <summary>

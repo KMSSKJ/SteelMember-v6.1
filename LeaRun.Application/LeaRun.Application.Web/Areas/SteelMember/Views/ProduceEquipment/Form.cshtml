@@ -40,7 +40,7 @@
             height: 24,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
             fileSizeLimit: '5MB',
 
             onFallback: function () {
@@ -186,7 +186,7 @@
                 <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
                 <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
                     <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                    <input id="Avatar2" name="Avatar" type="file" class="Avatar required" />
+                    <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*"/>
                     <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                 </div>
             </td>

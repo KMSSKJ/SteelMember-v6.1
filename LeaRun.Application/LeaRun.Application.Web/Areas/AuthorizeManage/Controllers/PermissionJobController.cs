@@ -58,7 +58,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// <summary>
         /// 用户列表
         /// </summary>
-        /// <param name="departmentId">部门Id</param>
+        /// <param name="departmentId">申请部门Id</param>
         /// <param name="jobId">职位Id</param>
         /// <returns></returns>
         [HttpGet]

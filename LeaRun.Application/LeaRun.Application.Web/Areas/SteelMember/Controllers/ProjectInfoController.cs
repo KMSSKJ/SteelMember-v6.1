@@ -40,7 +40,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        /// 部门列表页面
+        /// 申请部门列表页面
         /// </summary>
         /// <returns></returns>
         [HttpGet]

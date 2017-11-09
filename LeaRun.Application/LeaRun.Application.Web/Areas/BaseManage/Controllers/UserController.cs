@@ -69,7 +69,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         /// 用户列表
         /// </summary>
         /// <param name="keyword">关键字</param>
-        /// <returns>返回机构+部门+用户树形Json</returns>
+        /// <returns>返回机构+申请部门+用户树形Json</returns>
         [HttpGet]
         public ActionResult GetTreeJson(string keyword)
         {
@@ -104,7 +104,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
             }
             foreach (DepartmentEntity item in departmentdata)
             {
-                #region 部门
+                #region 申请部门
                 TreeEntity tree = new TreeEntity();
                 tree.id = item.DepartmentId;
                 tree.text = item.FullName;
@@ -152,7 +152,7 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         /// <summary>
         /// 用户列表
         /// </summary>
-        /// <param name="departmentId">部门Id</param>
+        /// <param name="departmentId">申请部门Id</param>
         /// <returns>返回用户列表Json</returns>
         [HttpGet]
         public ActionResult GetListJson(string departmentId)

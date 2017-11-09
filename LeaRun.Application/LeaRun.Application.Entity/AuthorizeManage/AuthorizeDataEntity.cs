@@ -16,11 +16,11 @@ namespace LeaRun.Application.Entity.AuthorizeManage
         /// </summary>		
         public string AuthorizeDataId { get; set; }
         /// <summary>
-        /// 授权类型:1-仅限本人2-仅限本人及下属3-所在部门4-所在公司5-按明细设置
+        /// 授权类型:1-仅限本人2-仅限本人及下属3-所在申请部门4-所在公司5-按明细设置
         /// </summary>		
         public int? AuthorizeType { get; set; }
         /// <summary>
-        /// 对象分类:1-部门2-角色3-岗位4-职位5-工作组
+        /// 对象分类:1-申请部门2-角色3-岗位4-职位5-工作组
         /// </summary>		
         public int Category { get; set; }
         /// <summary>
@@ -32,7 +32,7 @@ namespace LeaRun.Application.Entity.AuthorizeManage
         /// </summary>		
         public string ItemId { get; set; }
         /// <summary>
-        /// 项目名称
+        /// 工程
         /// </summary>		
         public string ItemName { get; set; }
         /// <summary>

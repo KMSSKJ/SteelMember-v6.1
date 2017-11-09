@@ -21,7 +21,7 @@ namespace LeaRun.Util.WeChat.Model.Request
         public string name { get; set; }
 
         /// <summary>
-        /// 成员所属部门id列表
+        /// 成员所属申请部门id列表
         /// </summary>
         /// <returns></returns>
         public List<int> department { get; set; }

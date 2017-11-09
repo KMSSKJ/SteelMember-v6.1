@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LeaRun.Util.WeChat.Model.Request
 {
     /// <summary>
-    /// 创建部门
+    /// 创建申请部门
     /// </summary>
     public class DepartmentCreate : OperationRequestBase<DepartmentResult, HttpPostRequest>
     {
@@ -17,7 +17,7 @@ namespace LeaRun.Util.WeChat.Model.Request
         }
 
         /// <summary>
-        /// 部门名称。长度限制为1~64个字符
+        /// 申请部门名称。长度限制为1~64个字符
         /// </summary>
         /// <returns></returns>
         [Length(1, 64)]
@@ -25,14 +25,14 @@ namespace LeaRun.Util.WeChat.Model.Request
         public string name { get; set; }
 
         /// <summary>
-        /// 父亲部门id。根部门id为1
+        /// 父亲申请部门id。根申请部门id为1
         /// </summary>
         /// <returns></returns>
         [IsNotNull]
         public string parentid { get; set; }
 
         /// <summary>
-        /// 在父部门中的次序。从1开始，数字越大排序越靠后
+        /// 在父申请部门中的次序。从1开始，数字越大排序越靠后
         /// </summary>
         /// <returns></returns>
         public string order { get; set; }

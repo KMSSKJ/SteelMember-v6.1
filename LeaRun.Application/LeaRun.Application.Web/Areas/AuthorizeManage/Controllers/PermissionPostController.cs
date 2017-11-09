@@ -58,7 +58,7 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
 
         #region 获取数据
         /// <summary>
-        /// 部门列表 
+        /// 申请部门列表 
         /// </summary>
         /// <param name="postId">岗位Id</param>
         /// <returns>返回树形Json</returns>
