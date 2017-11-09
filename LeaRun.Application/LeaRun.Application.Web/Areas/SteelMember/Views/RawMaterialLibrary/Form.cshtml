@@ -112,18 +112,18 @@
         })
     }
 </script>
-<div style="margin: 15px;">
+<div style="padding:15px;">
     <table class="form">
         <tr>
             <td class="formTitle">类型<font face="宋体">*</font></td>
             <td class="formValue">
                 @*<div id="Category" type="select" class="ui-select" checkexpession="NotNull"></div>*@
-                <div id="Category" type="select" class="ui-select"isvalid="yes" checkexpession="NotNull"></div>
+                <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
             <th class="formTitle">材料名称<font face="宋体">*</font></th>
             <td class="formValue">
                 @*<input id="RawMaterialModel" type="text" onblur="$._ExistField(this.id,'../../SteelMember/RawMaterialLibrary/ExistFullName')" class="form-control" placeholder="请输入型号" isvalid="yes" checkexpession="NotNull" />*@
-                <input id="RawMaterialName" type="text"  class="form-control" placeholder="请输入材料名称" isvalid="yes" checkexpession="NotNull" />
+                <input id="RawMaterialName" type="text" class="form-control" placeholder="请输入材料名称" isvalid="yes" checkexpession="NotNull" />
             </td>
         </tr>
         <tr>
@@ -146,6 +146,6 @@
                 <textarea id="Description" class="form-control" style="height: 130px;"></textarea>
             </td>
         </tr>
-       
+
     </table>
 </div>

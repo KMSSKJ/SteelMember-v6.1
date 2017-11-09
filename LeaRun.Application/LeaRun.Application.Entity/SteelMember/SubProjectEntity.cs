@@ -7,7 +7,7 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-06-30 22:01
-    /// 描 述：子工程信息
+    /// 描 述：分项工程信息
     /// </summary>
     public class SubProjectEntity : BaseEntity
     {
@@ -22,6 +22,14 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string ParentId { get; set; }
+        /// <summary>
+        /// PrincipalId
+        /// </summary>
+        public string PrincipalId { get; set; }
+        /// <summary>
+        /// OrganizeId
+        /// </summary>
+        public string OrganizeId { get; set; }
         /// <summary>
         /// Levels
         /// </summary>
@@ -42,7 +50,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Create()
         {
             this.Id = Guid.NewGuid().ToString();
-                                            }
+        }
         /// <summary>
         /// 编辑调用
         /// </summary>
@@ -50,7 +58,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Modify(string keyValue)
         {
             this.Id = keyValue;
-                                            }
+        }
         #endregion
     }
 }

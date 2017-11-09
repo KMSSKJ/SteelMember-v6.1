@@ -19,26 +19,33 @@
             e.stopPropagation();
         });
     }
-    //加载表格
+    //加载表格    
     function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
             url: "../../SteelMember/SubProject/GetListJson",
             datatype: "json",
+            treeGrid: true,
             height: $(window).height() - 108.5,
             autowidth: true,
-            colModel: [
-                { label: 'Id', name: 'Id', index: 'Id', align: 'left', sortable: true, hidden: true },
-                { label: 'ParentId', name: 'ParentId', index: 'ParentId', align: 'left', sortable: true, hidden: true },
-                { label: '工程名称', name: 'FullName', index: 'FullName', width: 150, align: 'left', sortable: false },
-                { label: 'EnCode', name: 'EnCode', hidden: true }
-            ],
-            treeGrid: true,
+            shrinkToFit: false,
+            gridview: true,
             treeGridModel: "nested",
-            ExpandColumn: "EnCode",
-            rowNum: "all",
-            rownumbers: true,
+            ExpandColumn: "FullName",
+            colModel: [                
+                { label: 'Id', name: 'Id', index: 'Id', align: 'left',sortable: true, hidden: true },
+                { label: 'ParentId', name: 'ParentId', index: 'ParentId', align: 'left', sortable: true, hidden: true },
+                { label: '工程名称', name: 'FullName', index: 'FullName', width: 300, align: 'left', sortable: false },
+                { label: '负责人', name: 'Principal', index: 'Principal', width: 150, align: 'left', sortable: false },
+                { label: '联系电话', name: 'Phone', index: 'Phone', width: 150, align: 'left', sortable: false },
+                { label: '施工单位', name: 'Organize', index: 'Organize', width: 300, align: 'left', sortable: false }
+            ],
+            
+            //treeGridModel: "nested",
+            //ExpandColumn: "Id",
+            //rowNum: "all",
+            //rownumbers: true,
             onSelectRow: function () {
                 selectedRowIndex = $('#' + this.id).getGridParam('selrow');
             },
@@ -76,10 +83,10 @@
         var ParentId = $("#gridTable").jqGridRowValue("Id");
         dialogOpen({
             id: 'Form',
-            title: '添加子工程信息',
+            title: '添加分项工程信息',
             url: '/SteelMember/SubProject/Form?parentId=' + ParentId,
             width: '380px',
-            height: '280px',
+            height: '380px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -95,10 +102,10 @@
             if (checkedRow(keyValue)) {
                 dialogOpen({
                     id: 'Form',
-                    title: '编辑子工程信息',
+                    title: '编辑分项工程信息',
                     url: '/SteelMember/SubProject/Form?keyValue=' + keyValue,
                     width: '380px',
-                    height: '280px',
+                    height: '380px',
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick();
                     }

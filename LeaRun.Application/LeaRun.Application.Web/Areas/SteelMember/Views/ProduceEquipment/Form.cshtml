@@ -18,7 +18,7 @@
                 url: "../../SteelMember/ProduceEquipment/GetFormJson",
                 param: { keyValue: keyValue },
                 success: function (data) {
-                   var filename2 = data.Icon;
+                    var filename2 = data.Icon;
                     if (filename2 != "1.png") {
                         filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
                         filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
@@ -91,7 +91,7 @@
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
-      
+
         $.SaveForm({
             url: "../../SteelMember/ProduceEquipment/SaveForm?keyValue=" + keyValue,
             param: postData,
@@ -178,7 +178,7 @@
             </td>
         </tr>
         <tr>
-           
+
             <td class="formTitle">
                 图片<font face="宋体" color="red">*</font>
             </td>
@@ -191,11 +191,11 @@
                 </div>
             </td>
             <td class="formTitle">备注</td>
-            <td class="formValue" >
+            <td class="formValue">
                 <textarea id="Description" class="form-control"></textarea>
             </td>
         </tr>
-      
+
     </table>
 </div>
 <style>
