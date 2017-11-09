@@ -415,14 +415,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             
             var childData = rawmaterialpurchasebll.GetDetails(keyValue).ToList();
             List<RawMaterialPurchaseModel> list = new List<RawMaterialPurchaseModel>();
+            var rawmaterialorder = new RawMaterialOrderEntity();
             if (childData.Count > 0)
             {
+              
                 foreach (var item in childData)
                 {
                     RawMaterialPurchaseModel rawMaterialPurchaseModel = new RawMaterialPurchaseModel();
                     var purchaseQuantity = item.PurchaseQuantity;//实际购买量
-                    var rawMaterialAnalysisId = item.RawMaterialOrderInfoId;
-                    var entityrawmaterialanalysis = rawmaterialanalysisbll.GetEntity(item.RawMaterialOrderInfoId);
+                    //var rawMaterialAnalysisId = item.RawMaterialOrderInfoId;
+                    var OrderId = rawmaterialorderinfobll.GetEntity(item.RawMaterialOrderInfoId).OrderId;
+                     rawmaterialorder = rawmaterialorderbll.GetEntity(OrderId);
+                    var entityrawmaterialanalysis = rawmaterialanalysisbll.GetEntity(item.RawMaterialAnalysisId);
                     var entityrawmateriallibrary = rawmateriallibrarybll.GetEntity(entityrawmaterialanalysis.RawMaterialId);
                     var entityrawmaterialinventory = rawmaterialinventorybll.GetList(null).ToList().Find(f => f.RawMaterialId == entityrawmaterialanalysis.RawMaterialId);
 
@@ -437,14 +441,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawMaterialPurchaseModel.Price = item.Price;
                     rawMaterialPurchaseModel.RawMaterialManufacturer = item.RawMaterialManufacturer;
                     rawMaterialPurchaseModel.RawMaterialSupplier = item.RawMaterialSupplier;
-                    //rawMaterialPurchaseModel.PurchasedQuantity = item.PurchasedQuantity;
+                   
                     //rawMaterialPurchaseModel.Quantity = entityrawmaterialanalysis.RawMaterialDosage.ToString();
                     list.Add(rawMaterialPurchaseModel);
                 }
             }
-
+            var DepartmentId = departmentbll.GetEntity(rawmaterialorder.DepartmentId).FullName + "(" + organizebll.GetEntity(departmentbll.GetEntity(rawmaterialorder.DepartmentId).OrganizeId).FullName + ")";
+            var Category = subprojectbll.GetEntity(rawmaterialorder.Category).FullName;
             var jsonData = new
             {
+                DepartmentId= DepartmentId,
+                Category= Category,
                 entity = data,
                 childEntity = list
             };
@@ -520,6 +527,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Success("删除成功。");
 
         }
+     
+
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>

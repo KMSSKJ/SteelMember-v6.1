@@ -36,24 +36,20 @@
     }
 
     function UploadFile() {
-        var f = document.getElementById('uploadFile').files[0];
-        if (!/image\/\w+/.test(f.type)) {
-            var txt = "<span>上传的不是图片!</span>";
-            $("#checkimg").append(txt);
-            document.getElementById('checkimg').style.display = "block";
-            //alert('上传的不是图片');
-            return false;
-        }
-        document.getElementById('checkimg').style.display = "none";
+        $('#Avatar2').uploadify({
+            uploader: '/SteelMember/MemberLibrary/SubmitUploadify',
+            swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
+            buttonText: "选择图片",
+            height: 24,
+            width: 70,
+            fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
+            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileSizeLimit: '5MB',
 
-        //上传应用图标
-        $.ajaxFileUpload({
-            url: "/SystemConfiguration/UploadFile",
-            secureuri: false,
-            fileElementId: 'uploadFile',
-            dataType: 'text',
-            //data:{"file":f},
-            success: function (data) {
+            onFallback: function () {
+                dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
+            },
+            onUploadSuccess: function (file, data, response) {
                 $("#errorimg").children("span").remove();
                 if (data == "1") {
                     var txt = "<span>选择的图片大小超出200KB!</span>";

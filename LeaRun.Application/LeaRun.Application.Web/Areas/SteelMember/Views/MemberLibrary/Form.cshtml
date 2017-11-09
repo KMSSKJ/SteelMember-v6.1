@@ -207,8 +207,25 @@
                 //}
                 //document.getElementById("DelAvatar").setAttribute("type", "button");
                 //document.getElementById("DelAvatar").value = "删除图片";
-                if (data != null) {
-                    $("#engineering_img").prepend("<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>");
+                $("#errorimg").children("span").remove();
+                if (data == "1") {
+                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "2") {
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "3") {
+                    var txt = "<span>添加图片失败!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                } else {
+                    if (data != null) {
+                        $("#engineering_img").prepend("<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>");
+                    }
                 }
             }
         });
@@ -227,10 +244,27 @@
                 dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
             },
             onUploadSuccess: function (file, data, response) {
-                document.getElementById("Model_Drawing").value = data;
-                document.getElementById("_Model_Drawing").src = data;
-                document.getElementById("DelAvatar1").setAttribute("type", "button");
-                document.getElementById("DelAvatar1").value = "删除图片";
+                $("#errorimg").children("span").remove();
+                if (data == "1") {
+                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "2") {
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "3") {
+                    var txt = "<span>添加图片失败!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                } else {
+                    document.getElementById("Model_Drawing").value = data;
+                    document.getElementById("_Model_Drawing").src = data;
+                    document.getElementById("DelAvatar1").setAttribute("type", "button");
+                    document.getElementById("DelAvatar1").value = "删除图片";
+                }
             },
         });
 
@@ -248,11 +282,27 @@
                 dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
             },
             onUploadSuccess: function (file, data, response) {
-                document.getElementById("Icon").value = data;
-                document.getElementById("_Icon").src = data;
-                document.getElementById("DelAvatar2").setAttribute("type", "button");
-                document.getElementById("DelAvatar2").value = "删除图片";
-
+                $("#errorimg").children("span").remove();
+                if (data == "1") {
+                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "2") {
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "3") {
+                    var txt = "<span>添加图片失败!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                } else {
+                    document.getElementById("Icon").value = data;
+                    document.getElementById("_Icon").src = data;
+                    document.getElementById("DelAvatar2").setAttribute("type", "button");
+                    document.getElementById("DelAvatar2").value = "删除图片";
+                }
             },
         });
 
@@ -572,6 +622,7 @@
                         <div class="btnAvatar" style="float:left;margin:5px;">
                             <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
                             <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                            <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                         </div>
                     </td>
                     <td class="formTitle">
@@ -582,6 +633,7 @@
                         <div class="btnAvatar" style="float:left;margin:5px;">
                             <input id="DelAvatar1" onclick="DelModel_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:10px" />
                             <input id="Avatar1" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                            <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                         </div>
                     </td>
                 </tr>

@@ -222,7 +222,7 @@ namespace LeaRun.Application.Service.SteelMember
                 var SubProjectId = queryParam["SubProjectId"].ToString();
                 expression = expression.And(t => t.CollarEngineering == SubProjectId);
             }
-            expression = expression.And(t => t.CollarNumbering !=null);
+            expression = expression.And(t => t.CollarNumbering !=null&& t.CollarNumbering != "");
             return this.BaseRepository().FindList(expression, pagination).ToList();
         }
 

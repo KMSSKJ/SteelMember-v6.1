@@ -57,6 +57,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 表单页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult MaintenanceRecordsIndex()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据
@@ -145,6 +154,23 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             entity.Icon= System.IO.Path.GetFileName(entity.Icon);
             produceequipmentbll.SaveForm(keyValue, entity);
+            return Success("操作成功。");
+        }
+
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult Warranty(string keyValue/*, SafetyEquipmentEntity entity*/)
+        {
+            var produceequipment = produceequipmentbll.GetEntity(keyValue);
+            produceequipment.Status = 3;
+            produceequipmentbll.SaveForm(keyValue, produceequipment);
             return Success("操作成功。");
         }
         #endregion

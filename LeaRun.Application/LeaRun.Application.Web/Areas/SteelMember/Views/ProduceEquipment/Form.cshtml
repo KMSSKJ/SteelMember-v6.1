@@ -47,11 +47,27 @@
                 dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
             },
             onUploadSuccess: function (file, data, response) {
-                document.getElementById("Icon").value = data;
-                document.getElementById("_Icon").src = data;
-                document.getElementById("DelAvatar2").setAttribute("type", "button");
-                document.getElementById("DelAvatar2").value = "删除图片";
-
+                $("#errorimg").children("span").remove();
+                if (data == "1") {
+                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "2") {
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                }
+                else if (data == "3") {
+                    var txt = "<span>添加图片失败!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
+                } else {
+                    document.getElementById("Icon").value = data;
+                    document.getElementById("_Icon").src = data;
+                    document.getElementById("DelAvatar2").setAttribute("type", "button");
+                    document.getElementById("DelAvatar2").value = "删除图片";
+                }
             },
         });
 
@@ -171,6 +187,7 @@
                 <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
                     <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
                     <input id="Avatar2" name="Avatar" type="file" class="Avatar required" />
+                    <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                 </div>
             </td>
             <td class="formTitle">备注</td>

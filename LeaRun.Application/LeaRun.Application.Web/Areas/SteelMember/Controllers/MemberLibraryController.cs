@@ -1057,12 +1057,25 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 ////获取文件完整文件名(包含绝对路径)
                 ////文件存放路径格式：/Resource/Document/NetworkDisk/{日期}/{guid}.{后缀名}
                 ////例如：/Resource/Document/Email/20130913/43CA215D947F8C1F1DDFCED383C4D706.jpg
-
+               
                 string filename = Filedata.FileName;
                 string filename1 = filename.Substring(0, filename.LastIndexOf('.'));//获取文件名称，去除后缀名
                 string NewPath = string.Format("/Resource/Document/NetworkDisk/System/{0}/{1}", "Member", filename1);
                 long filesize = Filedata.ContentLength;
                 string FileEextension = Path.GetExtension(Filedata.FileName);
+                // 定义允许上传的文件扩展名 
+                const string fileTypes = "gif,jpg,jpeg,png,bmp";
+                // 最大文件大小(200KB)
+                const int maxSize = 1024 * 200;
+                var fileExt = Path.GetExtension(Filedata.FileName);
+                if (String.IsNullOrEmpty(fileExt) || Array.IndexOf(fileTypes.Split(','), fileExt.Substring(1).ToLower()) == -1)
+                {
+                    return Content("2");
+                }
+                if (filesize > maxSize)
+                {
+                    return Content("1");
+                }
 
                 // virtualPath = string.Format("/Content/Images/Avatar/{0}/{1}/{2}{3}", UserId, uploadDate, fileGuid, FileEextension);
                 string fullFileName = this.Server.MapPath(NewPath + "/");
@@ -1076,9 +1089,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                 return Content("../.." + NewPath + "/" + filename);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.ToString());
+                return Content("3");
             }
         }
 

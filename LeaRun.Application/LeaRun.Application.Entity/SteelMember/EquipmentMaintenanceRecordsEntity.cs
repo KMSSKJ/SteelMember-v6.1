@@ -48,6 +48,14 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("SOLVEMETHOD")]
         public string SolveMethod { get; set; }
+
+        /// <summary>
+        /// 解决方法
+        /// </summary>
+        /// <returns></returns>
+        [Column("ISSOLVE")]
+        public int? IsSolve { get; set; }
+
         /// <summary>
         /// 维护人
         /// </summary>

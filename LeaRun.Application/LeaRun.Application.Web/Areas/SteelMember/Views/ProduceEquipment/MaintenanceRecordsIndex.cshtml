@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "维护记录";
+    Layout = "~/Views/Shared/_Index.cshtml";
+
+}
+<script>
+    var Id = request('Id');
+    $(function () {
+        GetGrid();
+    });
+
+    //显示物料
+    function GetGrid() {
+        var selectedRowIndex = 0;
+        var $gridTable = $('#gridTable');
+        $gridTable.jqGrid({
+            url: "../../SteelMember/EquipmentMaintenanceRecords/GetListJsonFunc?Id=" + Id,
+            datatype: "json",
+            height: $(window).height() - 150,
+            autowidth: true,
+            colModel: [
+                { label: 'InfoId', name: 'InfoId', index: 'InfoId', hidden: true },
+                { label: 'Id', name: 'Id', index: 'Id', hidden: true },
+                { label: '故障', name: 'MaintenanceContent', index: 'MaintenanceContent', align: 'center', sortable: false },
+                { label: '故障原因', name: 'MalfunctionReason', index: 'MalfunctionReason', width: 180, align: 'center', sortable: false },
+                { label: '解决方案', name: 'SolveMethod', index: 'SolveMethod', width: 200, align: 'center', sortable: false },
+                {
+                    label: '维护时间', name: 'MaintenanceDate', index: 'MaintenanceDate', width: 100, align: 'center', sortable: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                    } },
+                { label: '维护人', name: 'MaintenancePeople', index: 'MaintenancePeople', width: 90, align: 'center', sortable: false },
+                {
+                    label: '是否解决', name: 'IsSolve', index: 'IsSolve', width: 80, align: 'center', sortable: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                {
+                    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'left', sortable: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                            return "";
+                        } else {
+                            return "<p style='color: red'>" + cellvalue + "</p>";
+                        }
+                    }
+                },
+            ],
+            rowNum: 30,
+            sortname: 'SortCode',
+            sortorder: 'Desc',//降序 asc升序
+            sortname: 'Id',
+            pager: "#gridPager",
+            viewrecords: true,
+            rownumbers: true,
+            gridview: true,
+            multiselect: true,
+            multiboxonly: true,
+            rowList: [15, 30, 50, 100, 500, 1000],
+            onSelectRow: function () {
+                selectedRowIndex = $('#' + this.id).getGridParam('selrow');
+            },
+            gridComplete: function () {
+                $("#" + this.id).jqGrid('setSelection', selectedRowIndex);
+
+                var rowIds = jQuery("#gridTable").jqGrid('getDataIDs');
+                var $parentobj = top.frames["Form"];
+                for (var k = 0; k < rowIds.length; k++) {
+                    var curRowData = jQuery("#gridTable").jqGrid('getRowData', rowIds[k]);
+                    var curChk = $("#" + rowIds[k] + "").find(":checkbox");
+                }
+            },
+        });
+    }
+
+    //删除
+    function btn_deleteMaintain() {
+        var keyValue = $('#gridTable').jqGridRowValue('InfoId');
+        if (checkedArray(keyValue)) {
+            $.RemoveForm({
+                url: '../../SteelMember/EquipmentMaintenanceRecords/RemoveForm',
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $('#gridTable').trigger('reloadGrid');
+                }
+            })
+        } else {
+            dialogMsg('请选择需要删除的生产设备！', 0);
+        }
+    }
+</script>
+<div class="title-search" style="padding:10px">
+        @*<table>
+            <tr>
+                <td style="width:110px">
+                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" />
+                </td>
+                <td style="padding-left:2px;width:110px">
+                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" />
+                </td>
+                <td style="padding-left: 5px;">
+                    <a id="btn_Search" onclick="Search()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                </td>
+            </tr>
+        </table>*@
+    <a id="lr-addMaintain" class="btn btn-default" onclick="btn_deleteMaintain()"><i class="fa fa-plus"></i>&nbsp;删除记录</a>
+    </div>
+<div class="rightline" style="margin:15px;">
+    <table id="gridTable"></table>
+    <div id="gridPager"></div>
+</div>

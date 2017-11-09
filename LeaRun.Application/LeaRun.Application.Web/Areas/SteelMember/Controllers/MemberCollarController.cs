@@ -76,6 +76,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
+        /// 获取单号
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetNumberingList()
+        {
+            //List<Text> list = new List<Text>();
+            var MemberCollar = membercollarbll.GetList("");
+
+            return ToJsonResult(MemberCollar);
+        }
+
+        /// <summary>
         /// 获取实体 
         /// </summary>
         /// <param name="Numbering">主键值</param>
@@ -87,7 +100,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = membercollarbll.GetEntity(f => f.Numbering == Numbering.Trim());
             if (data != null)
             {
-                data.DepartmentId = organizebll.GetEntity(data.OrganizeId).FullName + "—" + departmentbll.GetEntity(data.DepartmentId).FullName;
+                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName + "(" + organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
                 data.CollarEngineering = subprojectbll.GetEntity(data.CollarEngineering).FullName;
 
                 var childData = membercollarinfobll.GetList(f => f.CollarId == data.CollarId);

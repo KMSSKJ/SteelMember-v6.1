@@ -136,6 +136,24 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             safetyequipmentbll.SaveForm(keyValue, entity);
             return Success("操作成功。");
         }
+
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="entity">实体对象</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        public ActionResult Warranty(string keyValue, SafetyEquipmentEntity entity)
+        {
+            var safetyequipment = safetyequipmentbll.GetEntity(keyValue);
+            safetyequipment.Status = 3;
+            safetyequipmentbll.SaveForm(keyValue, safetyequipment);
+            return Success("操作成功。");
+        }
         #endregion
     }
 }
