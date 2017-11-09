@@ -15,6 +15,7 @@
     $(function () {
         InitialPage();
         GetCollarEntryGrid();
+        SelectInput();
     });
     //初始化页面
     function InitialPage() {
@@ -43,6 +44,98 @@
     }
 
 
+
+    //获取采购单
+    var Numbering = "";
+  function  SelectInput(){
+    
+    $("#Numbering").ComboBox({
+        param: {},
+        url: "../../SteelMember/RawMterialCollar/GetNumberingList",
+        id: "CollarId",
+        text: "Numbering",
+        description: "==请选择材料申请或领用单==",
+        height: "120px",
+
+    }).bind("change", function () {
+        Numbering = $(this).attr('data-text');
+       // Numbering = $("#Numbering").val().replace(/(^\s*)|(\s*$)/g, "");
+        $("#table1").find("tr:eq(0)").find("td:eq(0)").html();
+        $("#table1").find("tr:eq(1)").find("td:eq(0)").html();
+        $("#table1").find("tr:eq(1)").find("td:eq(1)").html();
+        $("#table1").find("tr:eq(1)").find("td:eq(2)").html();
+        $("#table1").find("tr:eq(2)").find("td:eq(0)").html();
+        $("#table1").find("tr:eq(2)").find("td:eq(1)").html();
+        $("#table1").find("tr:eq(2)").find("td:eq(2)").html();
+        $("#table2").find("tr:eq(0)").find("td:eq(0)").html();
+        $("#table2").find("tr:eq(0)").find("td:eq(1)").html();
+        for (var i = 1; i < 11; i++) {
+            for (var c = 0; c < 12; c++) {
+                $("#gridTable").find("tr:eq(" + i + ")").find("td:eq(" + i + ")").html();
+            }
+        }
+
+        if (Numbering != "") {
+            $.SetForm({
+                url: "../../SteelMember/RawMterialCollar/NumberingToGetFormJson",
+                param: { Numbering: Numbering },
+                success: function (data) {
+                    if (data.entity != null) {
+                        var myDate = new Date();//获取系统当前时间
+                        //myDate.getYear(); //获取当前年份(2位)
+                        //myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+                        //myDate.getMonth(); //获取当前月份(0-11,0代表1月)
+                        //myDate.getDate(); //获取当前日(1-31)
+                        //myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+                        //myDate.getTime(); //获取当前时间(从1970.1.1开始的毫秒数)
+                        //myDate.getHours(); //获取当前小时数(0-23)
+                        //myDate.getMinutes(); //获取当前分钟数(0-59)
+                        //myDate.getSeconds(); //获取当前秒数(0-59)
+                        //myDate.getMilliseconds(); //获取当前毫秒数(0-999)
+                        //myDate.toLocaleDateString(); //获取当前日期
+                        //var mytime = myDate.toLocaleTimeString(); //获取当前时间
+                        //myDate.toLocaleString(); //获取日期与时间
+                        if (data.entity.CollarNumbering == null || data.entity.CollarNumbering =="") {
+                            data.entity.CollarNumbering = "CLCKD" + myDate.getFullYear() + "" + myDate.getMonth() + "" + myDate.getDate() + "" + myDate.getHours() + "" + myDate.getMinutes() + "" + myDate.getMilliseconds();
+                        }
+                        $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CollarEngineering);
+                        $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.DepartmentId);
+                        $("#table1").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ContactPerson);
+                        $("#table1").find("tr:eq(1)").find("td:eq(2)").html(data.entity.Date);
+                        $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.ShippingAddress);
+                        $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.ContactPersonTel);
+                        $("#table1").find("tr:eq(2)").find("td:eq(2)").html(data.entity.CollarNumbering);
+                        $("#table2").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CreateMan);
+                        $("#table2").find("tr:eq(0)").find("td:eq(1)").html(data.entity.ReviewMan);
+                        //明细
+                        var childEntity = data.childEntity;
+                        $('#gridTable').find('tr').each(function (i) {
+                            var row = childEntity[i - 1];
+                            if (row != undefined) {
+                                $(this).find("td:eq(1)").html(row.RawMaterialName);
+                                $(this).find("td:eq(2)").html(row.RawMaterialModel);
+                                $(this).find("td:eq(3)").html(row.UnitId);
+                                $(this).find("td:eq(4)").html(Number(row.Quantity) - Number(row.CollaredQuantity));//当前出库量
+                                $(this).find("td:eq(5)").html(row.Price);
+                                $(this).find("td:eq(6)").html(row.Price * Number(row.Quantity) - Number(row.CollaredQuantity));
+                                $(this).find("td:eq(7)").html(row.Description);
+                                $(this).find("td:eq(8)").html(row.InfoId);
+                                $(this).find("td:eq(9)").html(row.InventoryId);
+                                $(this).find("td:eq(10)").html(row.CollarId);
+                                $(this).find("td:eq(11)").html(row.CollaredQuantity);
+                                $(this).find("td:eq(12)").html(row.InventoryQuantity);
+                                $(this).find("td:eq(13)").html(row.Quantity);
+
+                                Conversion(i);
+                            }
+                        });
+                    }
+                }
+            })
+        }
+    })
+  }
+
     //保存表单;
     function AcceptClick() {
        
@@ -65,7 +158,7 @@
             //        return false;
             //    }
             //}
-            if (i>1&&i<11) {
+            if (i>0&&i<11) {
                 if (!!document.getElementById("gridTable").rows[i].cells[4].innerText) {
                     a = a + Number(document.getElementById("gridTable").rows[i].cells[4].innerText);
                     childEntryJson.push({
@@ -131,110 +224,6 @@
             $("#gridTable").find("tr:eq(11)").find("td:eq(1)").html('(小写):' + FormatCurrency(TotalPriceAmount));
     }
 
-    //
-    var Numbering = "";
-    function btn_Search() {
-        Numbering = $("#Numbering").val().replace(/(^\s*)|(\s*$)/g, "");
-        $("#table1").find("tr:eq(0)").find("td:eq(0)").html();
-        $("#table1").find("tr:eq(1)").find("td:eq(0)").html();
-        $("#table1").find("tr:eq(1)").find("td:eq(1)").html();
-        $("#table1").find("tr:eq(1)").find("td:eq(2)").html();
-        $("#table1").find("tr:eq(2)").find("td:eq(0)").html();
-        $("#table1").find("tr:eq(2)").find("td:eq(1)").html();
-        $("#table1").find("tr:eq(2)").find("td:eq(2)").html();
-        $("#table2").find("tr:eq(0)").find("td:eq(0)").html();
-        $("#table2").find("tr:eq(0)").find("td:eq(1)").html();
-        for (var i = 1; i < 11; i++) {
-
-            //$('#gridTable').find('input[id="RawMaterialName➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="RawMaterialModel➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="UnitId➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="CollarQuantity➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="Description➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="InfoId➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="InventoryId➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="CollarId➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="MaxNumber➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="CollaredQuantity➩' + i + '"]').val();
-            //$('#gridTable').find('input[id="InventoryQuantity➩' + i + '"]').val();
-            for (var c = 0; c< 12; c++) {
-                $("#gridTable").find("tr:eq(" + i + ")").find("td:eq(" + i + ")").html();
-            }
-          
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(2)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(3)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(4)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(5)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(6)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(7)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(8)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(9)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(10)").html();
-            //$("#gridTable").find("tr:eq(" + i + ")").find("td:eq(11)").html();
-        }
-
-        if (Numbering != "") {
-            $.SetForm({
-                url: "../../SteelMember/RawMterialCollar/NumberingToGetFormJson",
-                param: { Numbering: Numbering },
-                success: function (data) {
-                    if (data.entity != null) {
-                        var myDate = new Date();//获取系统当前时间
-                        //myDate.getYear(); //获取当前年份(2位)
-                        //myDate.getFullYear(); //获取完整的年份(4位,1970-????)
-                        //myDate.getMonth(); //获取当前月份(0-11,0代表1月)
-                        //myDate.getDate(); //获取当前日(1-31)
-                        //myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
-                        //myDate.getTime(); //获取当前时间(从1970.1.1开始的毫秒数)
-                        //myDate.getHours(); //获取当前小时数(0-23)
-                        //myDate.getMinutes(); //获取当前分钟数(0-59)
-                        //myDate.getSeconds(); //获取当前秒数(0-59)
-                        //myDate.getMilliseconds(); //获取当前毫秒数(0-999)
-                        //myDate.toLocaleDateString(); //获取当前日期
-                        //var mytime = myDate.toLocaleTimeString(); //获取当前时间
-                        //myDate.toLocaleString(); //获取日期与时间
-                        if (data.entity.CollarNumbering == null) {
-                            data.entity.CollarNumbering = "CLCKD" + myDate.getFullYear() + "" + myDate.getMonth() + "" + myDate.getDate() + "" + myDate.getHours() + "" + myDate.getMinutes() + "" + myDate.getMilliseconds();
-                        }
-
-                        //$("#form1").SetWebControls(data.entity);
-                        $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CollarEngineering);
-                        $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.DepartmentId);
-                        $("#table1").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ContactPerson);
-                        $("#table1").find("tr:eq(1)").find("td:eq(2)").html(data.entity.Date);
-                        $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.ShippingAddress);
-                        $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.ContactPersonTel);
-                        $("#table1").find("tr:eq(2)").find("td:eq(2)").html(data.entity.CollarNumbering);
-                        $("#table2").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CreateMan);
-                        $("#table2").find("tr:eq(0)").find("td:eq(1)").html(data.entity.ReviewMan);
-                        //明细
-                        var childEntity = data.childEntity;
-                        $('#gridTable').find('tr').each(function (i) {
-                            var row = childEntity[i - 1];
-                            if (row != undefined) {
-                                $(this).find("td:eq(1)").html(row.RawMaterialName);
-                                $(this).find("td:eq(2)").html(row.RawMaterialModel);
-                                $(this).find("td:eq(3)").html(row.UnitId);
-                                $(this).find("td:eq(4)").html(Number(row.Quantity) - Number(row.CollaredQuantity));//当前出库量
-                                $(this).find("td:eq(5)").html(row.Price);
-                                $(this).find("td:eq(6)").html(row.Price*Number(row.Quantity) - Number(row.CollaredQuantity));
-                                $(this).find("td:eq(7)").html(row.Description);
-                                $(this).find("td:eq(8)").html(row.InfoId);
-                                $(this).find("td:eq(9)").html(row.InventoryId);
-                                $(this).find("td:eq(10)").html(row.CollarId);
-                                $(this).find("td:eq(11)").html(row.CollaredQuantity);
-                                $(this).find("td:eq(12)").html(row.InventoryQuantity);
-                                $(this).find("td:eq(13)").html(row.Quantity);
-
-                                Conversion(i);
-                            }
-                        });
-                    }
-                }
-            })
-        }
-    }
-
     //打印
     function btn_print() {
         //$(".bills").printTable();
@@ -248,11 +237,12 @@
 <div class="title-search" style="padding-bottom:10px">
     <table>
         <tr>
-            <td style="width:190px">
+            @*<td style="width:190px">
                 <input id="Numbering" type="text" class="form-control" placeholder="请输入申请单号" />
-            </td>
+            </td>*@
             <td style="padding-left: 5px;">
-                <a id="btn_Search" class="btn btn-primary" onclick="btn_Search()"><i class="fa fa-search"></i>&nbsp;确定</a>
+                <div id="Numbering" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"style="width:200px"></div>
+                @*<a id="btn_Search" class="btn btn-primary" onclick="btn_Search()"><i class="fa fa-search"></i>&nbsp;确定</a>*@
             </td>
         </tr>
     </table>
@@ -376,51 +366,3 @@
         margin-right: 15px;
     }
 </style>
-
-
-@*<style>
-
-        body {
-            margin: 0px;
-        }
-
-        .bill {
-            margin: 5px;
-        }
-
-            .bill th {
-                text-align: left;
-                width: 7%;
-                color: #222222;
-            }
-
-            .bill td {
-                width: 20%;
-            }
-
-            .bill tr {
-                margin-bottom: 10px;
-            }
-
-            .bill input {
-                text-align: left;
-                border-width: 0px;
-                border-bottom: 1px solid #e2dada;
-            }
-
-        .bills {
-            overflow: hidden;
-            border-radius: 0px;
-            position: relative;
-            background: #FFFFFF;
-            border: 0px solid rgb(204, 204, 204);
-            box-shadow: none;
-            padding: 0px;
-        }
-
-        .ui-widget-content {
-            border-left: 0px;
-            border-right: 0px;
-            border-bottom: 0px;
-        }
-    </style>*@

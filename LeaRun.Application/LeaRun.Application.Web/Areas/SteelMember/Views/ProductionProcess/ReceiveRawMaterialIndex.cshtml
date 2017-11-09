@@ -83,24 +83,23 @@
             allowSearch: true
 
         });
-        //公司
-        $("#OrganizeId").ComboBoxTree({
-            url: "../../BaseManage/Organize/GetTreeJson",
-            description: "==请选择==",
-            height: "200px",
-            allowSearch: true,
-        }).bind("change", function () {
-            var value = $(this).attr('data-value');
+        ////公司
+        //$("#OrganizeId").ComboBoxTree({
+        //    url: "../../BaseManage/Organize/GetTreeJson",
+        //    description: "==请选择==",
+        //    height: "200px",
+        //    allowSearch: true,
+        //}).bind("change", function () {
+        //    var value = $(this).attr('data-value');
             //加载部门
             $("#DepartmentId").ComboBoxTree({
-                url: "../../BaseManage/Department/GetTreeJson?organizeId=" + value,
+                url: "../../BaseManage/Department/GetTreeJson1",
                 description: "==请选择==",
                 allowSearch: true
             }).bind("change", function () {
-                $("#table1").find("tr:eq(1)").find("td:eq(0)").html($("#OrganizeId").attr('data-text') + "—" + $("#DepartmentId").attr('data-text'));
+                $("#table1").find("tr:eq(1)").find("td:eq(0)").html($("#DepartmentId").attr('data-text')); //
             });
-            $("#table1").find("tr:eq(1)").find("td:eq(0)").html($("#OrganizeId").attr('data-text') + "—" + $("#DepartmentId").attr('data-text'));
-        });
+        //});
 
         //获取表单
         if (!!keyValue) {
@@ -214,6 +213,7 @@
                     childEntryJson.push({
                         //document.getElementById("gridTable").rows[i].cells[6].innerText
                         //CollarId: $(this).find('input[id="CollarId➩' + i + '"]').val(),
+                        Quantity: document.getElementById("gridTable").rows[i].cells[4].innerText,
                         CollarQuantity: document.getElementById("gridTable").rows[i].cells[4].innerText,
                         Description: document.getElementById("gridTable").rows[i].cells[5].innerText,
                         InventoryId: document.getElementById("gridTable").rows[i].cells[6].innerText,
@@ -282,12 +282,12 @@
 <table id="table" class="form" style="width:100%;">
     <tr>
         <th class="formTitle">
-            领用单位<font face="宋体" color="red">*</font>：
+            领用单位：<font face="宋体" color="red">*</font>
         </th>
         <td class="formValue" colspan="3">
             <div id="CollarEngineering" type="selectTree" class="ui-select" style="display:none" isvalid="yes" checkexpession="NotNull"></div>
-            <div id="OrganizeId" type="selectTree" class="ui-select" style="width: 42%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—
-            <div id="DepartmentId" type="selectTree" class="ui-select" style="width:42%;float:right" isvalid="yes" checkexpession="NotNull"></div>
+            @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 42%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—*@
+            <div id="DepartmentId" type="selectTree" class="ui-select" style="width:100%;float:right" isvalid="yes" checkexpession="NotNull"></div>
         </td>
 
         <th class="formTitle">
@@ -299,7 +299,7 @@
         @*</tr>
             <tr>*@
         <th class="formTitle">
-            联系电话<font face="宋体" color="red">*</font>：
+            联系电话：<font face="宋体" color="red">*</font>
         </th>
         <td class="formValue" colspan="2">
             <input id="ContactPersonTel" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="MobileOrPhoneOrNull" onkeyup="input()" />
