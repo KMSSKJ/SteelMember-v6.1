@@ -169,7 +169,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberId = childData[i].MemberId,
                     MemberDemandId = childData[i].MemberDemandId,
                     MemberNumber = childData[i].ProductionQuantity,
-                    ProductionedQuantity = Convert.ToInt32(childData[i].ProductionQuantity),
+                    ProductionedQuantity = Convert.ToInt32(childData[i].ProductionedQuantity),
                     SelfDetectNumber = childData[i].SelfDetectNumber,
                     SelfDetectRemarks = childData[i].SelfDetectRemarks,
                     QualityInspectionNumber = childData[i].QualityInspectionNumber,

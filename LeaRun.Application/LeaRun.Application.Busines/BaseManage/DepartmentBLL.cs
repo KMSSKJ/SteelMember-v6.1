@@ -11,7 +11,7 @@ namespace LeaRun.Application.Busines.BaseManage
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2015.11.02 14:27
-    /// 描 述：部门管理
+    /// 描 述：申请部门管理
     /// </summary>
     public class DepartmentBLL
     {
@@ -23,7 +23,7 @@ namespace LeaRun.Application.Busines.BaseManage
 
         #region 获取数据
         /// <summary>
-        /// 部门列表
+        /// 申请部门列表
         /// </summary>
         /// <returns></returns>
         public IEnumerable<DepartmentEntity> GetList()
@@ -31,7 +31,7 @@ namespace LeaRun.Application.Busines.BaseManage
             return service.GetList();
         }
         /// <summary>
-        /// 部门实体
+        /// 申请部门实体
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
@@ -43,7 +43,7 @@ namespace LeaRun.Application.Busines.BaseManage
 
         #region 验证数据
         /// <summary>
-        /// 部门编号不能重复
+        /// 申请部门编号不能重复
         /// </summary>
         /// <param name="enCode">编号</param>
         /// <param name="keyValue">主键</param>
@@ -53,7 +53,7 @@ namespace LeaRun.Application.Busines.BaseManage
             return service.ExistEnCode(enCode, keyValue);
         }
         /// <summary>
-        /// 部门名称不能重复
+        /// 申请部门名称不能重复
         /// </summary>
         /// <param name="fullName">名称</param>
         /// <param name="keyValue">主键</param>
@@ -66,7 +66,7 @@ namespace LeaRun.Application.Busines.BaseManage
 
         #region 提交数据
         /// <summary>
-        /// 删除部门
+        /// 删除申请部门
         /// </summary>
         /// <param name="keyValue">主键</param>
         public void RemoveForm(string keyValue)
@@ -82,10 +82,10 @@ namespace LeaRun.Application.Busines.BaseManage
             }
         }
         /// <summary>
-        /// 保存部门表单（新增、修改）
+        /// 保存申请部门表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="departmentEntity">部门实体</param>
+        /// <param name="departmentEntity">申请部门实体</param>
         /// <returns></returns>
         public void SaveForm(string keyValue, DepartmentEntity departmentEntity)
         {

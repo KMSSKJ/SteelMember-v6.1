@@ -102,7 +102,7 @@
             }
             var _DepartmentId = $("#DepartmentId").attr('data-value');
             if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
-                dialogMsg('请选择申购部门！', 0);
+                dialogMsg('请选择申请部门！', 0);
                 return false;
             }
 
@@ -233,7 +233,7 @@
 
         });
 
-        //加载部门
+        //加载申请部门
         $("#DepartmentId").ComboBoxTree({
             url: "../../BaseManage/Department/GetTreeJson1",
             description: "==请选择==",
@@ -263,7 +263,7 @@
                 success: function (data) {
                     $("#form1").SetWebControls(data.entity);
 
-                    //加载部门
+                    //加载申请部门
                     $("#DepartmentId").ComboBoxTree({
                         url: "../../BaseManage/Department/GetTreeJson?organizeId=" + data.entity.OrganizeId,
                         description: "==请选择==",
@@ -346,13 +346,13 @@
     <table class="form" style="width:100%;">
         <tr>
             <th class="formTitle">
-                项目名称：<font face="宋体" color="red">*</font>
+                分项工程：<font face="宋体" color="red">*</font>
             </th>
             <td class="formValue">
                 <div id="Category" type="selectTree" class="ui-select" style="width:100%" isvalid="yes" checkexpession="NotNull"></div>
             </td>
             <th class="formTitle">
-                申请部门：<font face="宋体" color="red">*</font>
+                施工单位：<font face="宋体" color="red">*</font>
             </th>
             <td class="formValue">
                 @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 43%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—*@
@@ -407,7 +407,7 @@
                 </select>
             </td>
             <th class="formTitle">
-                制单日期：
+                申请日期：
             </th>
             <td class="formValue">
                 <input id="CreateTime" type="text" class="form-control" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" style="width: 100%" />

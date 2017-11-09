@@ -6,7 +6,7 @@ namespace LeaRun.Application.Mapping.BaseManage
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2015.11.02 14:27
-    /// 描 述：部门管理
+    /// 描 述：申请部门管理
     /// </summary>
     public class DepartmentMap : EntityTypeConfiguration<DepartmentEntity>
     {

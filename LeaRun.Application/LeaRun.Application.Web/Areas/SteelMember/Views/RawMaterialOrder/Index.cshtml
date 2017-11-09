@@ -61,8 +61,8 @@
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'OrderId', index: 'OrderId', hidden: true },
-                { label: '订单编号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: 'center', sortable: true },
-                { label: '申购人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
+                { label: '单号', name: 'OrderNumbering', index: 'OrderNumbering', width: 190, align: 'center', sortable: true },
+                { label: '申请人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
                 {
                     label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 90, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
@@ -140,11 +140,11 @@
                         { label: '材料名称', name: 'RawMaterialName', align: 'center', width: 180, sortable: false },
                         { label: '型号/规格', name: 'RawMaterialModel', align: 'center', width: 160, sortable: false },
                         { label: '单位', name: 'UnitId', align: 'center', width: 90, sortable: false },
-                        { label: '数量', name: 'RawMaterialNumber', align: 'center', width: 100, sortable: false },
+                        { label: '申请数量', name: 'RawMaterialNumber', align: 'center', width: 100, sortable: false },
                         //{ label: '单价', name: 'Price', align: ' center', width: 80, sortable: false },
                         //{ label: '金额', name: 'PriceAmount', align: ' center', width: 120, sortable: false },
                     ],
-                    caption: "明细",
+                    caption: "材料信息",
                     rowNum: "1000",
                     rownumbers: true,
                     shrinkToFit: false,
@@ -187,7 +187,7 @@
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: '添加材料申购单',
+            title: '新增申请单',
             url: '/SteelMember/RawMaterialOrder/Form?category=' + _Category,
             width: '1035px',
             height: '780px',
@@ -205,7 +205,7 @@
             if (IsSubmit != "<i class=\"fa fa-toggle-on\"></i>" || IsReview == "<span class=\"label label-danger\">失败</span>") {
                 dialogOpen({
                     id: 'Form',
-                    title: '编辑材料申购单',
+                    title: '编辑申请单',
                     url: '/SteelMember/RawMaterialOrder/Form?keyValue=' + keyValue,
                     width: '1035px',
                     height: '780px',
@@ -243,7 +243,7 @@
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'FormDetail',
-                title: '材料申购单',
+                title: '材料申请单',
                 url: '/SteelMember/RawMaterialOrder/FormDetail?keyValue=' + keyValue,
                 width: '1125px',
                 height: '760px',
@@ -398,7 +398,7 @@
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">申购列表<span id="CenterTitle"></span></div>
+            <div class="panel-Title">申请列表<span id="CenterTitle"></span></div>
             <div class="titlePanel">
                 <div class="title-search">
                     <table>

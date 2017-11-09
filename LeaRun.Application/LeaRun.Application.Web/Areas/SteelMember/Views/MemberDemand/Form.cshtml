@@ -152,7 +152,7 @@
             return false;
         }
         if (categoryInput == "请选择工程名称而不是工程分类") {
-            dialogMsg("分项目名称应选择工程名称而不是工程分类", "error");
+            dialogMsg("分工程应选择工程名称而不是工程分类", "error");
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
@@ -225,7 +225,7 @@
     <table class="form">
         <tr>
             <td class="formTitle">
-                分项目名称<font face="宋体" color="red">*</font>
+                分工程<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
                 <div id="SubProjectId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>

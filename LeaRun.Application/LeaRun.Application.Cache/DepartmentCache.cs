@@ -11,14 +11,14 @@ namespace LeaRun.Application.Cache
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2016.3.4 9:56
-    /// 描 述：部门信息缓存
+    /// 描 述：申请部门信息缓存
     /// </summary>
     public class DepartmentCache
     {
         private DepartmentBLL busines = new DepartmentBLL();
 
         /// <summary>
-        /// 部门列表
+        /// 申请部门列表
         /// </summary>
         /// <returns></returns>
         public IEnumerable<DepartmentEntity> GetList()
@@ -36,7 +36,7 @@ namespace LeaRun.Application.Cache
             }
         }
         /// <summary>
-        /// 部门列表
+        /// 申请部门列表
         /// </summary>
         /// <param name="organizeId">公司Id</param>
         /// <returns></returns>

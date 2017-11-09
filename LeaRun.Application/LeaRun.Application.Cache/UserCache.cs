@@ -39,7 +39,7 @@ namespace LeaRun.Application.Cache
         /// <summary>
         /// 用户列表
         /// </summary>
-        /// <param name="departmentId">部门Id</param>
+        /// <param name="departmentId">申请部门Id</param>
         /// <returns></returns>
         public IEnumerable<UserEntity> GetList(string departmentId)
         {

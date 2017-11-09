@@ -187,7 +187,7 @@ IMInit = function (options) {
                 html += '</li>';
             }
             $ul.html(html);
-            //点击部门名称展开
+            //点击申请部门名称展开
             $message_wrap.find('.message-group a').click(function () {
                 if (!$(this).hasClass("active")) {
                     $(this).addClass("active")

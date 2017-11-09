@@ -47,11 +47,11 @@ namespace LeaRun.Application.Code
         /// </summary>
         public string CompanyId { get; set; }
         /// <summary>
-        /// 部门Id
+        /// 申请部门Id
         /// </summary>
         public string DepartmentId { get; set; }
         /// <summary>
-        /// 对象用户关系Id,对象分类:1-部门2-角色3-岗位4-群组
+        /// 对象用户关系Id,对象分类:1-申请部门2-角色3-岗位4-群组
         /// </summary>
         public string ObjectId { get; set; }
         /// <summary>

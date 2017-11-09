@@ -190,7 +190,7 @@
             height: 24,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
             fileSizeLimit: '10MB',
             queueID: 'fileQueue',                        //队列的ID
             queueSizeLimit: 50,                          //队列最多可上传文件数量，默认为999
@@ -237,7 +237,7 @@
             height: 24,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
             fileSizeLimit: '10MB',
             multi: false,
             onFallback: function () {
@@ -275,7 +275,7 @@
             height: 24,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',
             fileSizeLimit: '10MB',
             multi: false,
             onFallback: function () {
@@ -621,7 +621,7 @@
                         <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
                         <div class="btnAvatar" style="float:left;margin:5px;">
                             <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                            <input id="Avatar2" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                            <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
                             <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                         </div>
                     </td>
@@ -632,7 +632,7 @@
                         <div style="float:left;margin:5px;" class="showImg;"><img id="_Model_Drawing" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
                         <div class="btnAvatar" style="float:left;margin:5px;">
                             <input id="DelAvatar1" onclick="DelModel_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:10px" />
-                            <input id="Avatar1" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
+                            <input id="Avatar1" name="Avatar" type="file" class="Avatar required" accept="image/*" />
                             <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                         </div>
                     </td>

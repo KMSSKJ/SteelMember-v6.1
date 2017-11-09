@@ -812,7 +812,7 @@
                 "Icon": designer.projectIcon,
             };
             if (_projectEntity.Name == "") {
-                $lrdialogTop('请输入项目名称', 'error');
+                $lrdialogTop('请输入工程', 'error');
                 return false;
             }
 

@@ -15,7 +15,7 @@ namespace LeaRun.Util.WeChat.Model.Request
         }
 
         /// <summary>
-        /// 部门id。（注：不能删除根部门；不能删除含有子部门、成员的部门）
+        /// 申请部门id。（注：不能删除根申请部门；不能删除含有子申请部门、成员的申请部门）
         /// </summary>
         /// <returns></returns>
         [IsNotNull]

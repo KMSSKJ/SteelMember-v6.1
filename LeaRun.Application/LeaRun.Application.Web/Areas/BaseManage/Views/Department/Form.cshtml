@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "部门管理";
+    ViewBag.Title = "申请部门管理";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
 <script>
@@ -12,7 +12,7 @@
     })
     //初始化控件
     function initControl() {
-        //上级部门
+        //上级申请部门
         $("#OrganizeTree").ComboBoxTree({
             url: "../../BaseManage/Department/GetOrganizeTreeJson",
             description: "==请选择==",
@@ -33,7 +33,7 @@
             height: "220px",
             allowSearch: true
         });
-        //部门性质
+        //申请部门性质
         $("#Nature").ComboBox({
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
             param: { EnCode: "DepartmentNature" },
@@ -95,21 +95,21 @@
             </td>
         </tr>
         <tr>
-            <th class="formTitle">部门名称<font face="宋体" color="red">*</font></th>
+            <th class="formTitle">申请部门名称<font face="宋体" color="red">*</font></th>
             <td class="formValue">
                 <input id="FullName" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Department/ExistEnCode')" class="form-control" placeholder="请输入名称" isvalid="yes" checkexpession="NotNull" />
             </td>
-            <th class="formTitle">部门编号<font face="宋体" color="red">*</font></th>
+            <th class="formTitle">申请部门编号<font face="宋体" color="red">*</font></th>
             <td class="formValue">
                 <input id="EnCode" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Department/ExistFullName')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
             </td>
         </tr>
         <tr>
-            <th class="formTitle">部门简称</th>
+            <th class="formTitle">申请部门简称</th>
             <td class="formValue">
                 <input id="ShortName" type="text" class="form-control" />
             </td>
-            <th class="formTitle">部门性质</th>
+            <th class="formTitle">申请部门性质</th>
             <td class="formValue">
                 <div id="Nature" type="select" class="ui-select"></div>
             </td>

@@ -40,7 +40,7 @@ namespace LeaRun.Application.Web.Controllers
             var jsonData = new
             {
                 organize = this.GetOrganizeData(),              //公司
-                department = this.GetDepartmentData(),          //部门
+                department = this.GetDepartmentData(),          //申请部门
                 post = this.GetPostData(),                      //岗位
                 role = this.GetRoleData(),                      //角色
                 userGroup = this.GetUserGroupData(),            //用户组
@@ -76,7 +76,7 @@ namespace LeaRun.Application.Web.Controllers
             return dictionary;
         }
         /// <summary>
-        /// 获取部门数据
+        /// 获取申请部门数据
         /// </summary>
         /// <returns></returns>
         private object GetDepartmentData()

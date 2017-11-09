@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "部门管理";
+    ViewBag.Title = "申请部门管理";
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 <script>
@@ -31,10 +31,10 @@
                 { label: '主键', name: 'DepartmentId', hidden: true },
                 { label: '公司Id', name: 'OrganizeId', hidden: true },
                 { label: 'Sort', name: 'Sort', hidden: true },
-                { label: "部门名称", name: "FullName", width: 200, align: "center", sortable: false },
-                //{ label: "部门编号", name: "EnCode", width: 100, align: "left", sortable: false },
-                //{ label: "部门简称", name: "ShortName", width: 100, align: "left", sortable: false },
-                //{ label: "部门性质", name: "Nature", width: 100, align: "left", sortable: false },
+                { label: "申请部门名称", name: "FullName", width: 200, align: "center", sortable: false },
+                //{ label: "申请部门编号", name: "EnCode", width: 100, align: "left", sortable: false },
+                //{ label: "申请部门简称", name: "ShortName", width: 100, align: "left", sortable: false },
+                //{ label: "申请部门性质", name: "Nature", width: 100, align: "left", sortable: false },
                 { label: "负责人", name: "Manager", width: 100, align: "center", sortable: false },
                 { label: "电话号", name: "OuterPhone", width: 150, align: "center", sortable: false },
                 //{ label: "分机号", name: "InnerPhone", width: 150, align: "center", sortable: false },
@@ -86,7 +86,7 @@
         }
         dialogOpen({
             id: "Form",
-            title: '添加部门',
+            title: '添加申请部门',
             url: '/BaseManage/Department/Form?departmentId=' + keyValue + "&organizeId=" + organizeId + "&parentId=" + parentId,
             width: "700px",
             height: "400px",
@@ -118,7 +118,7 @@
             }
             dialogOpen({
                 id: "Form",
-                title: '编辑部门',
+                title: '编辑申请部门',
                 url: '/BaseManage/Department/Form?keyValue=' + keyValue,
                 width: "700px",
                 height: "400px",
@@ -145,7 +145,7 @@
                 }
             })
         } else {
-            dialogMsg('请选择需要删除的部门！', 0);
+            dialogMsg('请选择需要删除的申请部门！', 0);
         }
     }
 </script>
@@ -158,9 +158,9 @@
                             <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a data-value="FullName">部门名称</a></li>
-                                <li><a data-value="EnCode">部门编号</a></li>
-                                <li><a data-value="ShortName">部门简称</a></li>
+                                <li><a data-value="FullName">申请部门名称</a></li>
+                                <li><a data-value="EnCode">申请部门编号</a></li>
+                                <li><a data-value="ShortName">申请部门简称</a></li>
                                 <li><a data-value="Manager">负责人</a></li>
                                 <li><a data-value="OuterPhone">电话号</a></li>
                                 <li><a data-value="InnerPhone">分机号</a></li>

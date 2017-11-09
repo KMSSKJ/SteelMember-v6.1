@@ -13,9 +13,9 @@ namespace LeaRun.Application.Code
     public enum AuthorizeTypeEnum
     {
         /// <summary>
-        /// 部门
+        /// 申请部门
         /// </summary>
-        [Description("部门")]
+        [Description("申请部门")]
         Department = 1,
         /// <summary>
         /// 角色

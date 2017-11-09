@@ -29,7 +29,7 @@ namespace LeaRun.Util.WeChat.Model.Request
         public string name { get; set; }
 
         /// <summary>
-        /// 成员所属部门id列表。注意，每个部门的直属员工上限为1000个
+        /// 成员所属申请部门id列表。注意，每个申请部门的直属员工上限为1000个
         /// </summary>
         /// <returns></returns>
         [IsNotNull]

@@ -124,7 +124,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //}
 
         /// <summary>
-        /// 获取申购中审核通过的材料  IsPassed=1表示通过
+        /// 获取申请中审核通过的材料  IsPassed=1表示通过
         /// </summary>
         /// <param name="pagination"></param>
         /// <param name="queryJson"></param>

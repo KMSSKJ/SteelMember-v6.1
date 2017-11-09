@@ -96,7 +96,7 @@ namespace LeaRun.Application.Entity.BaseManage
         /// </summary>		
         public string OrganizeId { get; set; }
         /// <summary>
-        /// 部门主键
+        /// 申请部门主键
         /// </summary>		
         public string DepartmentId { get; set; }
         /// <summary>

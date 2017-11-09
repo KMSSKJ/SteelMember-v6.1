@@ -104,7 +104,7 @@
 
             var _DepartmentId = $("#DepartmentId").attr('data-value');
             if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
-                dialogMsg('请选择申购部门！', 0);
+                dialogMsg('请选择部门！', 0);
                 return false;
             }
 
@@ -192,7 +192,6 @@
             param: { Levels: 3 },
             url: "../../SteelMember/SubProject/GetTreeJson",
             description: "==请选择==",
-
             allowSearch: true,
             click: function (item) {
                 if (!item.hasChildren) {
@@ -205,7 +204,20 @@
                     return "false";
                 }
             }
-        });
+        }).bind("change", function () {
+            Category = $("#Category").
+            $.SetForm({
+                url: "../../SteelMember/SubProject/GetFormJson",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $("#DepartmentId").val() = data._DepartmentId; 
+                    $("#ShippingAddress").val() = data._ShippingAddress; 
+                    $("#ContactPerson").val() = data._ContactPerson; 
+                    $("#ContactPersonTel").val() = data._ContactPersonTel; 
+                    
+                }
+            })
+         })
 
       
         ////公司
@@ -429,19 +441,19 @@
     <input id="CreateMan" type="hidden" value="@ViewData["CreateMan"]" />
     <input id="CreateTime" type="hidden" value="@ViewData["CreateTime"]" />
     <p style="font-size:14px;text-align:center">@*<img src="~/Content/images/head/tablelogo.png" style="margin-top: -10px;" />*@ 云南交投建设集团第十工程有限公司</p>
-    <p style="font-size:20pt;text-align:center"> 材料申购单 </p>
+    <p style="font-size:20pt;text-align:center"> 材料申请单 </p>
 
     <div class="printArea">
         <table class="form" style="width:100%;">
             <tr>
                 <th class="formTitle">
-                    项目名称<font face="宋体" color="red">*</font>：
+                    分项工程：<font face="宋体" color="red">*</font>
                 </th>
                 <td class="formValue">
                     <div id="Category" type="selectTree" class="ui-select" style="width:100%" isvalid="yes" checkexpession="NotNull"></div>
                 </td>
                 <th class="formTitle">
-                    申购部门<font face="宋体" color="red">*</font>：
+                    施工单位<font face="宋体" color="red">*</font>：
                 </th>
                 <td class="formValue">
                     @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 43%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—*@
@@ -504,7 +516,7 @@
             </tr>
             <tr>
                 <th class="formTitle">
-                    申购人：
+                    申请人：
                 </th>
                 <td class="formValue"></td>
                 <th class="formTitle">
@@ -512,7 +524,7 @@
                 </th>
                 <td class="formValue"></td>
                 <th class="formTitle">
-                    日期：
+                    申请日期：
                 </th>
                 <td class="formValue">
                     @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
@@ -526,48 +538,4 @@
         width: 60px;
     }
 </style>
-@*<style>
-        body {
-            margin: 0px;
-        }
 
-        .bill {
-            margin: 5px;
-        }
-
-            .bill th {
-                text-align: left;
-                width: 7%;
-                color: #222222;
-            }
-
-            .bill td {
-                width: 20%;
-            }
-
-            .bill tr {
-                margin-bottom: 10px;
-            }
-
-            .bill input {
-                text-align: left;
-                border-width: 0px;
-                border-bottom: 1px solid #e2dada;
-            }
-
-        .bills {
-            overflow: hidden;
-            border-radius: 0px;
-            position: relative;
-            background: #FFFFFF;
-            border: 0px solid rgb(204, 204, 204);
-            box-shadow: none;
-            padding: 0px;
-        }
-
-        .ui-widget-content {
-            border-left: 0px;
-            border-right: 0px;
-            border-bottom: 0px;
-        }
-    </style>*@
