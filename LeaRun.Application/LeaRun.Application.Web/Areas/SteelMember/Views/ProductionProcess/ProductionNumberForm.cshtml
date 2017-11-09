@@ -56,14 +56,14 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
-            footerrow: true,
-            gridComplete: function () {
-                //合计
-                $(this).footerData("set", {
-                    "MemberNumbering": "合计",
-                    "ProductionQuantity": "<span id='TotalQty'>0</span>",
-                });
-            },
+            //footerrow: true,
+            //gridComplete: function () {
+            //    //合计
+            //    $(this).footerData("set", {
+            //        "MemberNumbering": "合计",
+            //        "ProductionQuantity": "<span id='TotalQty'>0</span>",
+            //    });
+            //},
             ondblclick: function (rowid, e) {
                 var selectedId = $("#gridTable").jqGrid("getGridParam", "selrow");
                 $("#gridTable").jqGrid("delRowData", selectedId);

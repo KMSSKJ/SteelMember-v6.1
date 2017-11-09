@@ -70,6 +70,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //}
 
         /// <summary>
+        /// 获取单号
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetNumberingList()
+        {
+            //List<Text> list = new List<Text>();
+            var RawMaterialCollar = rawmterialcollarbll.GetCallarList(f=>f.CollarId!="");
+          
+            return ToJsonResult(RawMaterialCollar);
+        }
+
+        /// <summary>
         /// 分页查询出库信息
         /// </summary>
         /// <returns></returns>
@@ -79,7 +92,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             for (var i = 0; i < list.Count(); i++)
             {
                 list[i].CollarEngineering = subprojectbll.GetEntity(list[i].CollarEngineering).FullName;
-                list[i].DepartmentId = organizebll.GetEntity(list[i].OrganizeId).FullName + "-" + departmentbll.GetEntity(list[i].DepartmentId).FullName;
+                list[i].DepartmentId = departmentbll.GetEntity(list[i].DepartmentId).FullName+"(" +organizebll.GetEntity(departmentbll.GetEntity(list[i].DepartmentId).OrganizeId).FullName + ")";
 
             }
 
@@ -152,7 +165,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = rawmterialcollarbll.GetEntity(f => f.Numbering == Numbering.Trim());
             if (data != null)
             {
-                data.DepartmentId = organizebll.GetEntity(data.OrganizeId).FullName + "—" + departmentbll.GetEntity(data.DepartmentId).FullName;
+                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName + "("+organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
                 data.CollarEngineering = subprojectbll.GetEntity(data.CollarEngineering).FullName;
                 data.ReviewMan = OperatorProvider.Provider.Current().UserName;
 
@@ -309,14 +322,44 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
         return Success("删除成功。");
     }
-    /// <summary>
-    /// 保存表单（新增、修改）
-    /// </summary>
-    /// <param name="keyValue">主键值</param>
-    /// <param name="strEntity"></param>
-    /// <param name="strChildEntitys"></param>
-    /// <returns></returns>
-    [HttpPost]
+
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AjaxOnly]
+        //[HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult RemoveFormEdit(string keyValue)
+        {
+          var rawmterialcollar= rawmterialcollarbll.GetEntity(keyValue);
+            rawmterialcollar.CollarNumbering ="";
+            rawmterialcollarbll.SaveForm(keyValue, rawmterialcollar);
+            var data = rawmterialcollarinfobll.GetList(f => f.CollarId == keyValue).ToList();
+            if (data.Count() > 0)
+            {
+                foreach (var item in data)
+                {
+                    var rawmterialcollarinfo = data.Find(f => f.InfoId == item.InfoId);
+
+                    rawmterialcollarinfo.InventoryId = "";
+                    rawmterialcollarinfo.CollarQuantity = 0;
+                    rawmterialcollarinfo.CollaredQuantity = 0;
+                    rawmterialcollarinfobll.SaveForm(item.InfoId, rawmterialcollarinfo);
+                }
+            }
+            return Success("删除成功。");
+        }
+        /// <summary>
+        /// 保存表单（新增、修改）
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="strEntity"></param>
+        /// <param name="strChildEntitys"></param>
+        /// <returns></returns>
+        [HttpPost]
     [ValidateAntiForgeryToken]
     [AjaxOnly]
 
