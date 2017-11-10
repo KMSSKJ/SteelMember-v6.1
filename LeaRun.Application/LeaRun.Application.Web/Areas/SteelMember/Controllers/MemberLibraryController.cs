@@ -1066,7 +1066,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 // 定义允许上传的文件扩展名 
                 const string fileTypes = "gif,jpg,jpeg,png,bmp";
                 // 最大文件大小(200KB)
-                const int maxSize = 1024 * 200;
+                const int maxSize = 1024 * 500;
                 var fileExt = Path.GetExtension(Filedata.FileName);
                 if (String.IsNullOrEmpty(fileExt) || Array.IndexOf(fileTypes.Split(','), fileExt.Substring(1).ToLower()) == -1)
                 {

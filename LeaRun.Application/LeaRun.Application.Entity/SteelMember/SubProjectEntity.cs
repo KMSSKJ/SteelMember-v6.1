@@ -40,6 +40,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string FullName { get; set; }
+        /// <summary>
+        /// Description
+        /// </summary>
+        /// <returns></returns>
+        public string Description { get; set; }
 
         #endregion
 

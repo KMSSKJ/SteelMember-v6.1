@@ -42,7 +42,7 @@ namespace LeaRun.Application.Busines.BaseManage
         /// 用户列表
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<UserEntity> GetList()
+        public List<UserEntity> GetList()
         {
             return service.GetList();
         }

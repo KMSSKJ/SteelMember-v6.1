@@ -25,9 +25,9 @@
                     if (filename2 != "1.png") {
                         filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
                         filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
-                        document.getElementById("_Icon").src = filename2;
-                        document.getElementById("DelAvatar2").setAttribute("type", "button");
-                        document.getElementById("DelAvatar2").value = "删除图片";
+                        $("#_Icon").children().remove();
+                        $("#_Icon").prepend("<img class='txImg' src='" + filename2 + "' id='" + filename2 + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:30px;margin-top:5px' value='删除图片' />");
+                        $("#Icon").val(filename2);
                     }
                     $("#form1").SetWebControls(data);
                 }
@@ -44,7 +44,7 @@
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
             //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
-            fileSizeLimit: '5MB',
+            fileSizeLimit: '100MB',
 
             onFallback: function () {
                 dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
@@ -65,27 +65,26 @@
                     var txt = "<span>添加图片失败!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
-                }else{
-                document.getElementById("Icon").value = data;
-                document.getElementById("_Icon").src = data;
-                document.getElementById("DelAvatar2").setAttribute("type", "button");
-                document.getElementById("DelAvatar2").value = "删除图片";
+                } else {
+                    $("#_Icon").children().remove();
+                    $("#_Icon").prepend("<img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:30px;margin-top:5px' value='删除图片' />");
+                    $("#Icon").val(data);
                 }
             },
         });
     }
 
-    function DelIcon() {
-        document.getElementById("_Icon").src = "";
+    function Delimg($i) {
+        $($i).parent().children().remove();
         document.getElementById("Icon").value = "";
-        document.getElementById("DelAvatar2").setAttribute("type", "hidden");
     }
-
 
     //保存表单;
     function AcceptClick() {
         if (document.getElementById("Icon").value == "" || document.getElementById("Icon").value == null || document.getElementById("Icon").value == undefined) {
-            dialogMsg("图片不能为空！", 0);
+            var txt = "<span>图片不能为空!</span>";
+            $("#errorimg").append(txt);
+            document.getElementById('errorimg').style.display = "block";
             return false;
         }
 
@@ -104,8 +103,9 @@
         })
     }
 </script>
-<div style="margin-top: 20px; margin-right: 30px;">
+<div style="margin: 20px; margin-top:0px;margin-bottom:10px;">
     <input id="Icon" type="hidden" />
+    <div id="errorimg" style="display:block;color:red;width:100%;text-align:center;padding:2px;height:20px;"></div>
     <table class="form">
         <tr>
             <td class="formTitle">设备名称<font face="宋体" color="red">*</font></td>
@@ -122,7 +122,7 @@
             <td class="formValue">
                 <input id="StandardModel" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
             </td>
-            <td class="formTitle">安全责任人<font face="宋体" color="red">*</font></td>
+            <td class="formTitle">负责人<font face="宋体" color="red">*</font></td>
             <td class="formValue">
                 <input id="SafetyResponsiblePerson" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
             </td>
@@ -131,15 +131,15 @@
         <tr>
             <td class="formTitle">生产厂商</td>
             <td class="formValue">
-                <input id="ProduceManufacturers" type="text" class="form-control"/>
+                <input id="ProduceManufacturers" type="text" class="form-control" />
             </td>
             <td class="formTitle">厂商电话</td>
             <td class="formValue">
-                <input id="ManufacturersTel" type="text" class="form-control"/>
+                <input id="ManufacturersTel" type="text" class="form-control" />
             </td>
         </tr>
         <tr>
-            <td class="formTitle">状态<font face="宋体" color="red">*</font></td>
+            <td class="formTitle">设备状态<font face="宋体" color="red">*</font></td>
             <td class="formValue">
                 @*<input id="Status" type="text" class="form-control" list="itemlist" isvalid="yes" checkexpession="NotNull" />
                     <datalist id="itemlist">
@@ -147,9 +147,9 @@
                         <option value="0">需保养</option>
                         <option value="2">故障</option>
                     </datalist>*@
-                <select id="Status" datacol="yes" err="运行状态" class="form-control" checkexpession="NotNull">
+                <select id="Status" datacol="yes" err="设备状态" class="form-control" checkexpession="NotNull">
                     <option value="1">正常</option>
-                    <option value="0">需保养</option>
+                    <option value="0">需维护</option>
                     <option value="2">维护中</option>
                     <option value="3">故障</option>
                 </select>
@@ -160,13 +160,13 @@
             </td>
         </tr>
         <tr>
-            <td class="formTitle">最近保养时间</td>
+            <td class="formTitle">最近维护时间</td>
             <td class="formValue">
-                <input id="MaintenanceDate" type="text" class="form-control input-datepicker" placeholder="选择保养时间" onfocus="WdatePicker()" />
+                <input id="MaintenanceDate" type="text" class="form-control input-datepicker" placeholder="选择维护时间" onfocus="WdatePicker()" />
             </td>
-            <td class="formTitle">保修至<font face="宋体" color="red">*</font></td>
+            <td class="formTitle">下次维护时间<font face="宋体" color="red">*</font></td>
             <td class="formValue">
-                <input id="WarrantyDate" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull" placeholder="选择保修时间" onfocus="WdatePicker()" />
+                <input id="WarrantyDate" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull" placeholder="选择维护时间" onfocus="WdatePicker()" />
             </td>
         </tr>
         <tr>
@@ -174,11 +174,12 @@
                 图片<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
-                <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
-                <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                    <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                    <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
-                    <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
+                <div style="height:150px;border:1px solid #cccccc">
+                    <div id="_Icon" style="float:left;padding:5px;width:120px;height:100%" class="showImg;"></div>
+                    <div class="btnAvatar" style="float:left;margin-left:15px;margin-top:65px;">
+                        @*<input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />*@
+                        <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
+                    </div>
                 </div>
             </td>
             <td class="formTitle">备注</td>
@@ -190,14 +191,21 @@
 </div>
 <style>
     #Description {
-        height: 80px;
+        height: 150px;
     }
 
     .form .formTitle {
-        width: 70px;
+        width: 80px;
     }
 
     .uploadify-queue {
         display: none;
+    }
+    .txImg {
+        float: left;
+        padding: 2px;
+        width: 110px;
+        height: 100px;
+        border: none !important;
     }
 </style>

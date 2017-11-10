@@ -14,8 +14,8 @@
 <script type="text/javascript">
     var KeyValue = request('keyValue');
     var SubProjectId = request('SubProjectId');
-    var categoryInput ="";
-    
+    var categoryInput = "";
+
     $(function () {
         initialPage();
         UploadFile();
@@ -37,7 +37,7 @@
                 if (!$('#form1').Validform()) {
                     return false;
                 }
-               
+
                 if (data.step == 2) {
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
@@ -141,30 +141,21 @@
                         } else {
                             var fileName1 = fileName.substring(0, fileName.lastIndexOf('.'));//获取文件名称，去除后缀名
                             fileName1 = "../../Resource/Document/NetworkDisk/System/Member/" + fileName1 + "/" + fileName;
-                            //document.getElementById("CAD").innerHTML += "<img id='txImg' class='txImg' src='" + fileName1 + "' height='100' widtd='100'/>";
-                            $("#engineering_img").prepend("<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + fileName1 + "' id='" + fileName1 + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>");
+                            $("#engineering_img").prepend("<li style='width:130px;height:140px;float:left;margin-right:10px;'><img class='txImg' src='" + fileName1 + "' id='" + fileName1 + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:35px;margin-top:5px' value='删除图片' /></li>");
                         }
                     });
-
-                    //document.getElementById("DelAvatar").setAttribute("type", "button");
-                    //document.getElementById("DelAvatar").value = "删除图片";
-
-
                     filename1 = data.Model_Drawing;
                     if (filename1 != "1.png") {
                         filename1 = filename1.substring(0, filename1.lastIndexOf('.'));//获取文件名称，去除后缀名
                         filename1 = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + data.Model_Drawing;
-                        document.getElementById("_Model_Drawing").src = filename1;
-                        document.getElementById("DelAvatar1").setAttribute("type", "button");
-                        document.getElementById("DelAvatar1").value = "删除图片";
+
+                        $("#_Model_Drawing").prepend("<img class='txImg' src='" + filename1 + "' id='" + filename1 + "'/> <input onclick='_Delimg(this)' type='button' class='uploadify-button' style='margin-left:35px;margin-top:5px' value='删除图片' />");
                     }
                     filename2 = data.Icon;
                     if (filename2 != "1.png") {
                         filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
                         filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
-                        document.getElementById("_Icon").src = filename2;
-                        document.getElementById("DelAvatar2").setAttribute("type", "button");
-                        document.getElementById("DelAvatar2").value = "删除图片";
+                        $("#_Icon").prepend("<img class='txImg' src='" + filename2 + "' id='" + filename2 + "'/> <input onclick='_Delimg(this)' type='button' class='uploadify-button' style='margin-left:35px;margin-top:5px' value='删除图片' />");
                     }
                     $("#form1").SetWebControls(data);
                     $("#EngineeringId").ComboBoxSetValue(data.EngineeringId);//.trigger("change");
@@ -186,7 +177,7 @@
         $('#Avatar').uploadify({
             uploader: '/SteelMember/MemberLibrary/SubmitUploadifys',
             swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-            buttonText: "选择图片",
+            buttonText: "选择图纸",
             height: 24,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
@@ -209,22 +200,22 @@
                 //document.getElementById("DelAvatar").value = "删除图片";
                 $("#errorimg").children("span").remove();
                 if (data == "1") {
-                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    var txt = "<span>图纸的大小不超出500KB!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else if (data == "2") {
-                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图纸!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else if (data == "3") {
-                    var txt = "<span>添加图片失败!</span>";
+                    var txt = "<span>添加图纸失败!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 } else {
                     if (data != null) {
-                        $("#engineering_img").prepend("<li style='width:120px;height:150px;float:left;margin-right:5px;'><img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:33px;margin-top:5px' value='删除图片' /></li>");
+                        $("#engineering_img").prepend("<li style='float:left;width:130px;height:140px;margin-right:10px;'><img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:35px;margin-top:5px' value='删除图纸' /></li>");
                     }
                 }
             }
@@ -233,12 +224,12 @@
         $('#Avatar1').uploadify({
             uploader: '/SteelMember/MemberLibrary/SubmitUploadify',      //处理文件上传Action?FolderId=' + GetQuery('FolderId')
             swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-            buttonText: "选择图片",
+            buttonText: "选择模型",
             height: 24,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
             //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
-            fileSizeLimit: '10MB',
+            fileSizeLimit: '100MB',
             multi: false,
             onFallback: function () {
                 dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
@@ -246,24 +237,23 @@
             onUploadSuccess: function (file, data, response) {
                 $("#errorimg").children("span").remove();
                 if (data == "1") {
-                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    var txt = "<span>模型的大小不超出200KB!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else if (data == "2") {
-                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的模型!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else if (data == "3") {
-                    var txt = "<span>添加图片失败!</span>";
+                    var txt = "<span>添加模型失败!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 } else {
-                    document.getElementById("Model_Drawing").value = data;
-                    document.getElementById("_Model_Drawing").src = data;
-                    document.getElementById("DelAvatar1").setAttribute("type", "button");
-                    document.getElementById("DelAvatar1").value = "删除图片";
+                    $("#_Model_Drawing").children().remove();
+                    $("#_Model_Drawing").prepend("<img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='_Delimg_model(this)' type='button' class='uploadify-button' style='margin-left:35px;margin-top:5px' value='删除模型' />");
+                    $("#Model_Drawing").val(data);
                 }
             },
         });
@@ -271,12 +261,12 @@
         $('#Avatar2').uploadify({
             uploader: '/SteelMember/MemberLibrary/SubmitUploadify',
             swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
-            buttonText: "选择图片",
+            buttonText: "选择图标",
             height: 24,
             width: 70,
             fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
             //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',
-            fileSizeLimit: '10MB',
+            fileSizeLimit: '100MB',
             multi: false,
             onFallback: function () {
                 dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
@@ -284,24 +274,23 @@
             onUploadSuccess: function (file, data, response) {
                 $("#errorimg").children("span").remove();
                 if (data == "1") {
-                    var txt = "<span>选择的图片大小超出200KB!</span>";
+                    var txt = "<span>图标的大小超出200KB!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else if (data == "2") {
-                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图片!</span>";
+                    var txt = "<span>请选择格式为:'gif,jpg,jpeg,png,bmp'的图标!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 }
                 else if (data == "3") {
-                    var txt = "<span>添加图片失败!</span>";
+                    var txt = "<span>添加图标失败!</span>";
                     $("#errorimg").append(txt);
                     document.getElementById('errorimg').style.display = "block";
                 } else {
-                    document.getElementById("Icon").value = data;
-                    document.getElementById("_Icon").src = data;
-                    document.getElementById("DelAvatar2").setAttribute("type", "button");
-                    document.getElementById("DelAvatar2").value = "删除图片";
+                    $("#_Icon").children().remove();
+                    $("#_Icon").prepend("<img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='_Delimg_icon(this)' type='button' class='uploadify-button' style='margin-left:35px;margin-top:5px' value='删除图标' />");
+                    $("#Icon").val(data);
                 }
             },
         });
@@ -311,23 +300,13 @@
     function Delimg($i) {
         $($i).parent().remove();
     }
-
-    //function DelCAD_Drawing() {
-    //    //document.getElementById("_CAD_Drawing").src = "";
-    //    document.getElementById("CAD").innerHTML = "";
-    //    document.getElementById("CAD_Drawing").value = "";
-    //    document.getElementById("DelAvatar").setAttribute("type", "hidden");
-    //}
-
-    function DelModel_Drawing() {
-        document.getElementById("_Model_Drawing").src = "";
-        document.getElementById("Model_Drawing").value = "";
-        document.getElementById("DelAvatar1").setAttribute("type", "hidden");
-    }
-    function DelIcon() {
-        document.getElementById("_Icon").src = "";
+    function _Delimg_icon($i) {
+        $($i).parent().children().remove();
         document.getElementById("Icon").value = "";
-        document.getElementById("DelAvatar2").setAttribute("type", "hidden");
+    }
+    function _Delimg_model($i) {
+        $($i).parent().children().remove();
+        document.getElementById("Model_Drawing").value = "";
     }
     /*添加构件结束====================================*/
 
@@ -542,8 +521,6 @@
             }
         })
     }
-
-
 </script>
 <style>
     .uploadify-queue {
@@ -552,9 +529,10 @@
 
     .txImg {
         float: left;
-        padding-left: 2px;
-        width:100px;
-        height:80px;
+        padding: 2px;
+        width: 120px;
+        height: 100px;
+        border: none !important;
     }
 </style>
 
@@ -566,13 +544,14 @@
         </ul>
     </div>
     <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
-        <div class="step-pane active" id="step-1" style="margin-left: 0px; margin-top: 15px;">
+        <div class="step-pane active" id="step-1" style="margin-left: 0px;">
             <input id="MemberId" type="hidden" value="@Guid.NewGuid().ToString()" />
             <input id="CAD_Drawing" type="hidden" />
             <input id="Model_Drawing" type="hidden" />
             <input id="Icon" type="hidden" />
 
             <div id="message" style="display: none"></div>
+            <div id="errorimg" style="display:block;color:red;width:100%;text-align:center;padding:2px;height:20px;"></div>
             <table class="form">
                 <tr>
                     <td class="formTitle">
@@ -618,22 +597,24 @@
                         图标
                     </td>
                     <td class="formValue">
-                        <div style="float:left;margin:5px;" class="showImg;"><img id="_Icon" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
-                        <div class="btnAvatar" style="float:left;margin:5px;">
-                            <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
-                            <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
-                            <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
+                        <div style="height:150px;border:1px solid #cccccc">
+                            <div id="_Icon" style="float:left;margin:5px;width:140px;height:100%" class="showImg;"></div>
+                            <div class="btnAvatar" style="float:left;margin-left:15px;margin-top:65px;">
+                                <input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />
+                                <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
+                            </div>
                         </div>
                     </td>
                     <td class="formTitle">
                         模型
                     </td>
                     <td class="formValue">
-                        <div style="float:left;margin:5px;" class="showImg;"><img id="_Model_Drawing" name="txImg" class="txImg" src="" height="100" widtd="100" /></div>
-                        <div class="btnAvatar" style="float:left;margin:5px;">
-                            <input id="DelAvatar1" onclick="DelModel_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:10px" />
-                            <input id="Avatar1" name="Avatar" type="file" class="Avatar required" accept="image/*" />
-                            <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
+                        <div style="height:150px;border:1px solid #cccccc">
+                            <div id="_Model_Drawing" style="float:left;margin:5px;width:140px;height:100%" class="showImg;"></div>
+                            <div class="btnAvatar" style="float:left;margin-left:15px;margin-top:65px;">
+                                <input id="DelAvatar1" onclick="DelModel_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:10px" />
+                                <input id="Avatar1" name="Avatar" type="file" class="Avatar required" accept="image/*" />
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -642,17 +623,10 @@
                         图纸
                     </td>
                     <td class="formValue" colspan="3">
-                        @*<div id="CAD" style="float:left;margin:5px;" class="showImg;">
-                            </div>
-                            <div class="btnAvatar" style="float:left;margin-left:5px;margin-top:10px">
-                                <input id="DelAvatar" onclick="DelCAD_Drawing()" class="uploadify-button " type="hidden" style="height: 24px;margin-left:20px" />
-                                <input id="Avatar" name="Avatar" type="file" class="Avatar required" checkexpession="NotNull" />
-                            </div>*@
-                        <div id="CAD" style="float:left;height:auto;word-break:break-all;width:100%;height:230px;min-height:150px;padding-top:10px;padding-left:5px;margin-left:15px;overflow-y:auto;">@*border:1px solid #cccccc;*@
+                        <div id="CAD" style="float:left;height:155px;word-break:break-all;width:100%;min-height:150px;padding:5px;overflow-y:auto;border:1px solid #cccccc">
                             <ul id="engineering_img">
-                                <li class="btnAvatar" style="float:left;margin:5px;">
+                                <li class="btnAvatar" style="float:left;margin:5px;margin-top:55px;">
                                     <input id="Avatar" name="Avatar" type="file" class="Avatar required" accept="image/*" />
-                                    <div id="errorimg" style="display:none;color:red;padding-top:50px;"></div>
                                 </li>
                             </ul>
                         </div>

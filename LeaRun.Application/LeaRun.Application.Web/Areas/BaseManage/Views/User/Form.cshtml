@@ -40,7 +40,7 @@
             allowSearch: true,
         }).bind("change", function () {
             var value = $(this).attr('data-value');
-            //加载申请部门
+            //加载部门
             $("#DepartmentId").ComboBoxTree({
                 url: "../../BaseManage/Department/GetTreeJson?organizeId=" + value,
                 description: "==请选择==",
@@ -63,7 +63,7 @@
             //    allowSearch: true
             //});
         });
-        //申请部门
+        //部门
         $("#DepartmentId").ComboBoxTree({
             description: "==请选择==",
             height: "200px",
@@ -221,7 +221,7 @@
                     <td class="formValue">
                         <div id="OrganizeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>
-                    <td class="formTitle">申请部门<font face="宋体" color="red">*</font></td>
+                    <td class="formTitle">部门<font face="宋体" color="red">*</font></td>
                     <td class="formValue">
                         <div id="DepartmentId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                     </td>

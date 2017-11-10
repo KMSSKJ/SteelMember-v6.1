@@ -14,7 +14,7 @@
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
-            url: "../../SteelMember/EquipmentMaintenanceRecords/GetListJsonFunc?Id=" + Id,
+            url: "../../SteelMember/EquipmentMaintenanceRecords/GetPageListJson?Id=" + Id,
             datatype: "json",
             height: $(window).height() - 150,
             autowidth: true,
@@ -22,8 +22,8 @@
                 { label: 'InfoId', name: 'InfoId', index: 'InfoId', hidden: true },
                 { label: 'Id', name: 'Id', index: 'Id', hidden: true },
                 { label: '故障', name: 'MaintenanceContent', index: 'MaintenanceContent', align: 'center', sortable: false },
-                { label: '故障原因', name: 'MalfunctionReason', index: 'MalfunctionReason', width: 180, align: 'center', sortable: false },
-                { label: '解决方案', name: 'SolveMethod', index: 'SolveMethod', width: 200, align: 'center', sortable: false },
+                { label: '故障说明', name: 'MalfunctionReason', index: 'MalfunctionReason', width: 250, align: 'center', sortable: false },
+                //{ label: '解决方案', name: 'SolveMethod', index: 'SolveMethod', width: 200, align: 'center', sortable: false },
                 {
                     label: '维护时间', name: 'MaintenanceDate', index: 'MaintenanceDate', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
@@ -35,22 +35,21 @@
                     formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
-                },
-                {
-                    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'left', sortable: false,
-                    formatter: function (cellvalue, options, rowObject) {
-                        if (rowObject.Description == null || rowObject.Description == "undefined") {
-                            return "";
-                        } else {
-                            return "<p style='color: red'>" + cellvalue + "</p>";
-                        }
-                    }
-                },
+                }
+                //{
+                //    label: '备注', name: 'Description', index: 'Description', width: 200, align: 'left', sortable: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        if (rowObject.Description == null || rowObject.Description == "undefined") {
+                //            return "";
+                //        } else {
+                //            return "<p style='color: red'>" + cellvalue + "</p>";
+                //        }
+                //    }
+                //},
             ],
             rowNum: 30,
-            sortname: 'SortCode',
-            sortorder: 'Desc',//降序 asc升序
-            sortname: 'Id',
+            sortorder: 'desc',//降序 asc升序
+            sortname: 'MaintenanceDate',
             pager: "#gridPager",
             viewrecords: true,
             rownumbers: true,

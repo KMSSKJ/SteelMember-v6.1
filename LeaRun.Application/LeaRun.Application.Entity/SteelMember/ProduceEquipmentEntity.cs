@@ -1,5 +1,6 @@
 using System;
 using LeaRun.Application.Code;
+using System.ComponentModel.DataAnnotations;
 
 namespace LeaRun.Application.Entity.SteelMember
 {
@@ -65,6 +66,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// ApproachDate
         /// </summary>
         /// <returns></returns>
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? ApproachDate { get; set; }
         /// <summary>
         /// Status
@@ -75,11 +77,13 @@ namespace LeaRun.Application.Entity.SteelMember
         /// MaintenanceDate
         /// </summary>
         /// <returns></returns>
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? MaintenanceDate { get; set; }
         /// <summary>
         /// WarrantyDate
         /// </summary>
         /// <returns></returns>
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? WarrantyDate { get; set; }
         /// <summary>
         /// Description
@@ -90,6 +94,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// UploadTime
         /// </summary>
         /// <returns></returns>
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? UpdateTime { get; set; }
         #endregion
 
@@ -100,7 +105,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Create()
         {
             this.Id = Guid.NewGuid().ToString();
-                                            }
+        }
         /// <summary>
         /// ±à¼­µ÷ÓÃ
         /// </summary>
@@ -108,7 +113,7 @@ namespace LeaRun.Application.Entity.SteelMember
         public override void Modify(string keyValue)
         {
             this.Id = keyValue;
-                                            }
+        }
         #endregion
     }
 }
