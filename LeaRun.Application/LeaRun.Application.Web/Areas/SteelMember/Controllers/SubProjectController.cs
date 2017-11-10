@@ -175,7 +175,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             foreach (var item in list)
             {
-                var memberdemand = memberdemandbll.GetList(item.Id);
+                var memberdemand = memberdemandbll.GetList(m=>m.SubProjectId==item.Id).ToList();
                 var memberlibrary= memberlibrarybll.GetList(f =>f.EngineeringId == item.Id);
                 var memberproductionorder=  memberproductionorderbll.GetList(f=>f.Category== item.Id);
                 var rawmaterialanalysis =rawmaterialanalysisbll.GetList(f=>f.Id== item.Id);

@@ -16,8 +16,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
     /// </summary>
     public class EquipmentMaintenanceRecordsController : MvcControllerBase
     {
-        private EquipmentMaintenanceRecordsBLL equipmentmaintenancerecordsbll = new EquipmentMaintenanceRecordsBLL();
-
         #region 视图功能
         /// <summary>
         /// 列表页面
@@ -119,7 +117,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 equipmentmaintenancerecordsbll.RemoveForm(item);
             }
-         
+
             return Success("删除成功。");
         }
         /// <summary>
@@ -131,11 +129,29 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, EquipmentMaintenanceRecordsEntity entity)
+        public ActionResult SaveForm(string keyValue, EquipmentMaintenanceRecordsEntity entity, DateTime warrantyDate, int type)
         {
             entity.MaintenanceDate = DateTime.Now;
             entity.MaintenancePeople = OperatorProvider.Provider.Current().UserName;
             equipmentmaintenancerecordsbll.SaveForm(keyValue, entity);
+
+            if (type == 1)
+            {
+                var model = produceequipmentbll.GetEntity(entity.Id);
+                model.Status = 1;
+                model.MaintenanceDate = entity.MaintenanceDate;
+                model.WarrantyDate = warrantyDate;
+                produceequipmentbll.SaveForm(entity.Id, model);
+            }
+            else
+            {
+                var model = safetyequipmentbll.GetEntity(entity.Id);
+                model.Status = 1;
+                model.MaintenanceDate = entity.MaintenanceDate;
+                model.WarrantyDate = warrantyDate;
+                safetyequipmentbll.SaveForm(entity.Id, model);
+            }
+
             return Success("操作成功。");
         }
         #endregion

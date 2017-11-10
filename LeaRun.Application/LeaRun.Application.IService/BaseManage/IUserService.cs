@@ -24,7 +24,7 @@ namespace LeaRun.Application.IService.BaseManage
         /// 用户列表
         /// </summary>
         /// <returns></returns>
-        IEnumerable<UserEntity> GetList();
+        List<UserEntity> GetList();
         /// <summary>
         /// 用户列表
         /// </summary>
