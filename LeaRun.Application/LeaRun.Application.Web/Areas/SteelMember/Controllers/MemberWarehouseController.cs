@@ -114,7 +114,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var watch = CommonHelper.TimerStart();
             var datatabel = new List<MemberWarehouseModel>();
-            var data = memberwarehousebll.GetPageList(pagination, queryJson).ToList().FindAll(f => f.InStock > 0);
+            var data = memberwarehousebll.GetPageList(pagination, queryJson).ToList();//
+            data = data.FindAll(f => f.InStock > 0);
             if (data.Count() > 0)
             {
                 foreach (var item in data)
@@ -202,7 +203,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult MemberCollar(Pagination pagination, string queryJson)
         {
 
-            var data = membercollarbll.GetPageList(pagination, queryJson).ToList().FindAll(f=>f.CollarNumbering!=null);
+            var data = membercollarbll.GetPageList(pagination, queryJson).ToList().FindAll(f => f.CollarNumbering != null);
             if (data.Count() > 0)
             {
                 for (int i = 0; i < data.Count(); i++)
@@ -342,13 +343,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetDetailsJson(string keyValue, MemberProductionOrderInfoEntity Entity)
         {
             List<MemberWarehouseModel> MemberWarehouseModelList = new List<MemberWarehouseModel>();
-            var data = memberproductionorderinfobll.GetList(f => f.OrderId == keyValue);//.FindAll(f => f.ProductionedQuantity != f.WarehousedQuantity)
+            var data = memberproductionorderinfobll.GetList(f => f.QualifiedQuantity != f.WarehousedQuantity);//.FindAll(f => f.ProductionedQuantity != f.WarehousedQuantity)
             if (data.Count > 0)
             {
                 foreach (var item in data)
                 {
                     MemberWarehouseModel MemberWarehouse = new MemberWarehouseModel();
                     var data1 = memberlibrarybll.GetEntity(f => f.MemberId == item.MemberId);
+                    var order = memberproductionorderbll.GetList(f => f.OrderId == item.OrderId).SingleOrDefault();
+
                     MemberWarehouse.MemberId = item.MemberId;
                     MemberWarehouse.ProductionQuantity = Convert.ToInt32(item.ProductionQuantity);
                     MemberWarehouse.ProductionedQuantity = item.ProductionedQuantity;
@@ -358,6 +361,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberWarehouse.MemberName = data1.MemberName;
                     MemberWarehouse.MemberNumbering = data1.MemberNumbering;
                     MemberWarehouse.UnitId = dataitemdetailbll.GetEntity(data1.UnitId).ItemName;
+                    MemberWarehouse.OrderId = order.OrderId;
                     MemberWarehouseModelList.Add(MemberWarehouse);
                 }
             }
@@ -473,7 +477,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveFormCollar(string keyValue)
         {
             membercollarbll.RemoveForm(keyValue);
@@ -506,21 +510,29 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 入库
         /// </summary>
         /// <returns></returns>
-        public ActionResult Inventory(string OrderId)
+        public ActionResult Inventory(string queryJson)
         {
+            var queryParam = queryJson.ToJObject();
+
+            var OrderId = queryParam["OrderId"].ToString();
+            var MemberId = queryParam["MemberId"].ToString();
+
             string[] OrderIds = OrderId.Split(',');
+            string[] MemberIds = MemberId.Split(',');
             try
             {
                 if (OrderIds.Length > 0)
                 {
                     for (var i = 0; i < OrderIds.Length; i++)
                     {
-                        //获取到订单下的所有构件
-                        var _OrderId = OrderIds[i];
-                        var MemberOrder = memberproductionorderbll.GetEntity(_OrderId);
-                        var data = memberproductionorderinfobll.GetList(f => f.OrderId == _OrderId);
-                        for (int i0 = 0; i0 < data.Count; i0++)
+                        for (var j = 0; j < MemberIds.Length; j++)
                         {
+                            //获取到订单下的所有构件
+                            var _OrderId = OrderIds[i];
+                            var _MemberId = MemberIds[i];
+                            var MemberOrder = memberproductionorderbll.GetEntity(_OrderId);
+                            var data = memberproductionorderinfobll.GetList(f => f.OrderId == _OrderId&&f.MemberId==_MemberId).SingleOrDefault();
+
                             ////修改生产订单中入库状态
                             //var MembeOrder = memberproductionorderbll.GetEntity(_OrderId);
                             //if (MembeOrder != null)
@@ -530,25 +542,22 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             //}
 
                             //修改生产订单中构件已入库量
-                            var dataEntity = data.Where(w => w.InfoId == data[i].InfoId).SingleOrDefault();
-                            dataEntity.WarehousedQuantity = dataEntity.WarehousedQuantity.ToDecimal() + data[i].QualifiedQuantity.ToDecimal();
-                            memberproductionorderinfobll.SaveForm(data[i].InfoId, dataEntity);
+
+                            data.WarehousedQuantity = data.WarehousedQuantity.ToDecimal() + data.QualifiedQuantity.ToDecimal();
+                            memberproductionorderinfobll.SaveForm(data.InfoId, data);
                             //end
 
-
-
-                            var MemberId = data[i].MemberId;
-                            var memberinfo = memberlibrarybll.GetEntity(f => f.MemberId == MemberId);
+                            var memberinfo = memberlibrarybll.GetEntity(f => f.MemberId == _MemberId);
                             var orderinfo = memberproductionorderbll.GetList(f => f.OrderId == _OrderId);
 
                             //更改库存量
                             MemberWarehouseEntity MemberWarehouse = new MemberWarehouseEntity();
-                            var MemberWarehouses = memberwarehousebll.GetEntity(f => f.MemberId == MemberId);
+                            var MemberWarehouses = memberwarehousebll.GetEntity(f => f.MemberId == _MemberId);
                             if (MemberWarehouses != null)
                             {
                                 MemberWarehouse.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
                                 MemberWarehouse.Librarian = OperatorProvider.Provider.Current().UserName;
-                                MemberWarehouse.InStock = MemberWarehouses.InStock.ToDecimal() + data[i0].QualifiedQuantity.ToDecimal();//库存量++                       
+                                MemberWarehouse.InStock = MemberWarehouses.InStock.ToDecimal() + data.QualifiedQuantity.ToDecimal();//库存量++                       
                                 memberwarehousebll.SaveForm(MemberWarehouse.MemberWarehouseId, MemberWarehouse);
                             }//end
 
@@ -559,11 +568,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             warehouseRecording.MemberId = memberinfo.MemberId;
                             warehouseRecording.UpdateTime = System.DateTime.Now;
                             warehouseRecording.SubProject = MemberOrder.Category;
-                            warehouseRecording.InStock = data[i0].QualifiedQuantity;
+                            warehouseRecording.InStock = data.QualifiedQuantity;
                             warehouseRecording.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
                             warehouseRecording.Type = "入库";
                             memberwarehouserecordingbll.SaveForm(keyValue1, warehouseRecording);
-                        }//end
+                            //end
+                        }
                     }
                 }
             }

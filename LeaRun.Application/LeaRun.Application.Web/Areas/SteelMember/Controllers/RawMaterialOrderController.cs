@@ -169,7 +169,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             if (data != null)
             {
                 data.Category = subprojectbll.GetEntity(data.Category).FullName;
-                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName+"("+ organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
+                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName;
 
                 var childData = rawmaterialorderinfobll.GetList(f => f.OrderId == keyValue).ToList();
                 for (int i = 0; i < childData.Count(); i++)
@@ -220,14 +220,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                 RawMaterialLibraryModel RawMaterialLibrary = new RawMaterialLibraryModel()
                 {
-
                     RawMaterialId = RawMaterial.RawMaterialId,
                     RawMaterialAnalysisId = item.Id,
                     RawMaterialModel = RawMaterial.RawMaterialModel,
                     RawMaterialName = RawMaterial.RawMaterialName,
                     UnitId = dataitemdetailbll.GetEntity(RawMaterial.Unit).ItemName,
                     Qty = item.RawMaterialDosage,
-                    PurchasedQuantity = item.ApplicationPurchasedQuantity
+                    PurchasedQuantity = item.PurchasedQuantity
                 };
                 data.Add(RawMaterialLibrary);
             }
@@ -443,6 +442,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             return Success("操作成功。");
         }
+
         /// <summary>
         /// 审核处理
         /// </summary>

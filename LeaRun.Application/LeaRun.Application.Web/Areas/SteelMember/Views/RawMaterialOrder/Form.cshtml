@@ -7,6 +7,7 @@
     var keyValue = request('keyValue');
     var category = request("category");
     var categoryInput = "";
+    var OrganizeId = "";
     $(function () {
         InitialPage();
         GetOrderEntryGrid();
@@ -92,19 +93,19 @@
         //$("#gridTable").find('.disabled').attr("disabled", "disabled");
 
         $("#gridTable tbody tr").find('td:eq(1)').find('input').click(function () {
-         
+
             var _category = $("#Category").attr('data-value');
             if (_category == undefined || _category == "" || _category == null) {
                 dialogMsg("请选择工程名称", "error");
                 return false;
-            } else if (categoryInput == "请选择工程名称而不是工程分类"){
+            } else if (categoryInput == "请选择工程名称而不是工程分类") {
                 dialogMsg("项目名称应选择工程名称而不是工程分类", "error");
                 return false;
             }
 
-            var _DepartmentId = $("#DepartmentId").attr('data-value');
+            var _DepartmentId = $("#OrganizeId").val();
             if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
-                dialogMsg('请选择部门！', 0);
+                dialogMsg('请选择施工单位！', 0);
                 return false;
             }
 
@@ -124,7 +125,7 @@
             if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
                 dialogMsg('请录入联系人电话！', 0);
                 return false;
-            } else if (_ContactPersonTel.length != 13 && _ContactPersonTel.length != 11){
+            } else if (_ContactPersonTel.length != 13 && _ContactPersonTel.length != 11) {
                 dialogMsg('请录入电话(****-********)或手机格式！', 0);
                 return false;
             }
@@ -182,16 +183,14 @@
         })
 
     }
-  
+
     //初始化控件
     function initControl() {
-        $("#DepartmentId").ComboBoxTree({
-            description: "==请选择==",
-        });
+
         $("#Category").ComboBoxTree({
             param: { Levels: 3 },
             url: "../../SteelMember/SubProject/GetTreeJson",
-            description: "==请选择==",
+            description: "&nbsp&nbsp&nbsp&nbsp==请选择==",
             allowSearch: true,
             click: function (item) {
                 if (!item.hasChildren) {
@@ -205,38 +204,28 @@
                 }
             }
         }).bind("change", function () {
-            Category = $("#Category").
+            var Category = $("#Category").attr('data-value');
             $.SetForm({
                 url: "../../SteelMember/SubProject/GetFormJson",
-                param: { keyValue: keyValue },
+                param: { keyValue: Category },
                 success: function (data) {
-                    $("#DepartmentId").val() = data._DepartmentId; 
-                    $("#ShippingAddress").val() = data._ShippingAddress; 
-                    $("#ContactPerson").val() = data._ContactPerson; 
-                    $("#ContactPersonTel").val() = data._ContactPersonTel; 
-                    
+                    if (data != null) {
+                        OrganizeId = data.OrganizeId;
+                        document.getElementById("OrganizeId").value = top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName;
+                        document.getElementById("ShippingAddress").value = $("#Category").attr('data-text') + "施工现场";
+                        document.getElementById("ContactPerson").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName;
+                        document.getElementById("ContactPersonTel").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile;
+                    }
                 }
             })
-         })
+        })
 
-      
-        ////公司
+        ////加载部门
         //$("#OrganizeId").ComboBoxTree({
-        //    url: "../../BaseManage/Organize/GetTreeJson",
+        //    url: "../../BaseManage/Department/GetTreeJson1",
         //    description: "==请选择==",
         //    height: "200px",
-        //    allowSearch: true,
-        //}).bind("change", function () {
-
-        //    var value = $(this).attr('data-value');
-
-            //加载部门
-            $("#DepartmentId").ComboBoxTree({
-                url: "../../BaseManage/Department/GetTreeJson1",
-                description: "==请选择==",
-                height: "200px",
-                allowSearch: true
-            });
+        //    allowSearch: true
         //});
 
         //获取表单
@@ -246,16 +235,8 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data.entity);
-                    $("#table2").find("tr:eq(1)").find("td:eq(0)").html(data.entity.CreateMan);
-                    $("#table2").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ReviewMan);
-
-                    //加载部门
-                    $("#DepartmentId").ComboBoxTree({
-                        url: "../../BaseManage/Department/GetTreeJson?organizeId=" + data.entity.OrganizeId,
-                        description: "==请选择==",
-                        allowSearch: true
-                    });
-                    $("#DepartmentId").ComboBoxTreeSetValue(data.entity.DepartmentId);
+                  
+                    $("#OrganizeId").val(top.clientorganizeData[data.entity.OrganizeId] == null ? "" : top.clientorganizeData[data.entity.OrganizeId].FullName);
 
                     //明细
                     var childEntity = data.childEntity;
@@ -300,8 +281,19 @@
             })
         } else {
             $("#Category").ComboBoxTreeSetValue(category);
-            $("#table2").find("tr:eq(1)").find("td:eq(0)").html($("#CreateMan").val());
-            $("#table2").find("tr:eq(1)").find("td:eq(2)").html($("#CreateTime").val());
+            $.SetForm({
+                url: "../../SteelMember/SubProject/GetFormJson",
+                param: { keyValue: category },
+                success: function (data) {
+                    if (data != null) {
+                    OrganizeId = data.OrganizeId;
+                    document.getElementById("OrganizeId").value = top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName;
+                    document.getElementById("ShippingAddress").value = $("#Category").attr('data-text') + "施工现场";
+                    document.getElementById("ContactPerson").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName;
+                    document.getElementById("ContactPersonTel").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile;
+                    }
+                    }
+            })
         }
     }
 
@@ -337,12 +329,10 @@
                 TotalPriceAmount += Number(PriceAmount);
             }
         });
-
-        //$("#TotalQty").text(TotalQty);
-        // $("#TotalPrice").text(FormatCurrency(TotalPrice));
-        // $("#TotalPriceAmount").text(FormatCurrency(TotalPriceAmount));
-        $("#table2").find("tr:eq(0)").find("td:eq(0)").html('&nbsp;&nbsp;&nbsp;&nbsp;&otimes;' + formatMoney(TotalPriceAmount));
+        $("#table2").find("tr:eq(0)").find("td:eq(0)").html('&otimes;' + formatMoney(TotalPriceAmount));
         $("#table2").find("tr:eq(0)").find("td:eq(1)").html(FormatCurrency(TotalPriceAmount));
+        //document.getElementById("TotalPriceAmountCapital").value =formatMoney(TotalPriceAmount);
+        //document.getElementById("TotalPriceAmount").value = FormatCurrency(TotalPriceAmount);
     }
 
     var array = new Array();
@@ -426,7 +416,8 @@
                 }
             }
         }
-
+        postData["Category"] = $("#Category").attr('data-value');
+        postData["OrganizeId"] = OrganizeId;
         $.SaveForm({
             url: "../../SteelMember/RawMaterialOrder/SaveForm?keyValue=" + keyValue,
             param: { "strEntity": JSON.stringify(postData), "strChildEntitys": JSON.stringify(childEntryJson) },
@@ -437,97 +428,98 @@
         })
     }
 </script>
-<div class="bills" style="font-family: 华文楷体; font-size:12px;">
-    <input id="CreateMan" type="hidden" value="@ViewData["CreateMan"]" />
-    <input id="CreateTime" type="hidden" value="@ViewData["CreateTime"]" />
-    <p style="font-size:14px;text-align:center">@*<img src="~/Content/images/head/tablelogo.png" style="margin-top: -10px;" />*@ 云南交投建设集团第十工程有限公司</p>
+<div class="bills" style="font-family: 华文楷体; font-size:12pt;">
+   
+    <p style="font-size:14pt;text-align:center">@*<img src="~/Content/images/head/tablelogo.png" style="margin-top: -10px;" />*@ 云南交投建设集团第十工程有限公司</p>
     <p style="font-size:20pt;text-align:center"> 材料申请单 </p>
 
     <div class="printArea">
-        <table class="form" style="width:100%;">
+        <table @*class="form"*@ style="width:100%;margin-bottom:15px">
             <tr>
-                <th class="formTitle">
-                    分项工程：<font face="宋体" color="red">*</font>
+                <th class="th">
+                    分项工程:
                 </th>
-                <td class="formValue">
-                    <div id="Category" type="selectTree" class="ui-select" style="width:100%" isvalid="yes" checkexpession="NotNull"></div>
+                <td>
+                    <div id="Category" type="selectTree" class="input" ></div>
                 </td>
-                <th class="formTitle">
-                    施工单位<font face="宋体" color="red">*</font>：
+                <th class="th">
+                    施工单位:
                 </th>
-                <td class="formValue">
-                    @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 43%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—*@
-                    <div id="DepartmentId" type="selectTree" class="ui-select" style="width: 100%;float:right" isvalid="yes" checkexpession="NotNull"></div>
-
+                <td >
+                    <input readonly id="OrganizeId" type="text" class="input"/>
                 </td>
-                <th class="formTitle">
-                    单号：
+                <th class="th">
+                    单号:
                 </th>
-                <td class="formValue">
-                    <input readonly id="OrderNumbering" type="text" class="form-control" datacol="yes" err="单号" checkexpession="NotNull" value="@ViewBag.OrderNumbering" style="width: 100%" />
+                <td>
+                    <input readonly id="OrderNumbering" type="text" class="input" value="@ViewBag.OrderNumbering" />
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
-                    收货地址<font face="宋体" color="red">*</font>：
+                <th class="th">
+                    收货地址:
                 </th>
-                <td class="formValue">
-                    <input id="ShippingAddress" type="text" class="form-control" style="width:100%" datacol="yes" checkexpession="NotNull"/>
+                <td>
+                    <input readonly id="ShippingAddress" type="text" class="input" />
                 </td>
-                <th class="formTitle">
-                    联系人<font face="宋体" color="red">*</font>：
+                <th class="th">
+                    联系人:
                 </th>
-                <td class="formValue">
-                    <input id="ContactPerson" type="text" class="form-control" style="width:100%" datacol="yes" checkexpession="NotNull"/>
+                <td>
+                    <input readonly id="ContactPerson" type="text" class="input"/>
                 </td>
-                <th class="formTitle">
-                    电话<font face="宋体" color="red">*</font>：
+                <th class="th">
+                    电话:
                 </th>
-                <td class="formValue">
-                    <input id="ContactPersonTel" type="text" class="form-control"style="width: 100%" datacol="yes" checkexpession="MobileOrPhone"  />
+                <td>
+                    <input readonly id="ContactPersonTel" type="text" class="input" />
                 </td>
-               
+
             </tr>
         </table>
     </div>
 
-    <div class="gridPanel printArea">
+    <div class="gridPanel">
         <table id="gridTable"></table>
     </div>
 
-    <div class="printArea">
-        <table id="table2" class="form" style="width:100%;">
+    <div>
+        <table id="table2" style="width:100%; margin-top:15px">
 
             <tr>
-                <th class="formTitle">
+                <th class="th">
                     合计(大写):
                 </th>
-                <td class="formValue" colspan="3">
-                    @*<input readonly id="TotalPriceAmountCapital" type="text" class="form-control" style="width:100%;font-size:14pt" value="" /></div>*@
+                <td colspan="3" class="input" style="width:45%">
+                  @*  <input readonly id="TotalPriceAmountCapital" type="text" class="input"/>*@
                 </td>
-                @*<th></th>
-                    <td></td>*@
-                <th class="formTitle">
+            
+                <th class="th">
                     (小写):
                 </th>
-                <td class="formValue">
-                    @*<input readonly id="TotalPriceAmount" type="text" class="form-control" style="width:100%;font-size:14pt" value="" />*@
+                <td class="input" style="width:30%">
+                   @* <input readonly id="TotalPriceAmount" type="text" class="input"/>*@
                 </td>
             </tr>
             <tr>
-                <th class="formTitle">
+                <th class="th">
                     申请人：
                 </th>
-                <td class="formValue"></td>
-                <th class="formTitle">
+                <td>
+                    <input readonly id="CreateMan" type="text" value="@ViewData["CreateMan"]" class="input"/>
+                  
+                </td>
+                <th class="th">
                     审核人：
                 </th>
-                <td class="formValue"></td>
-                <th class="formTitle">
+                <td>
+                    <input readonly id="ReviewMan" type="text" class="input" />
+                </td>
+                <th class="th">
                     申请日期：
                 </th>
-                <td class="formValue">
-                    @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
+                <td>
+                    <input readonly id="CreateTime" type="text" value="@ViewData["CreateTime"]"class="input"  />
                 </td>
             </tr>
         </table>
@@ -537,5 +529,17 @@
     .form .formTitle {
         width: 60px;
     }
-</style>
 
+    .input {
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid #cccccc;
+    }
+
+    .th {
+        font-family: 华文楷体;
+        font-size: 12pt;
+        font-weight:200;
+    }
+
+</style>

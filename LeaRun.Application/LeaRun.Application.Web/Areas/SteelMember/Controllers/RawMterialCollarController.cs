@@ -165,7 +165,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = rawmterialcollarbll.GetEntity(f => f.Numbering == Numbering.Trim());
             if (data != null)
             {
-                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName + "("+organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
+                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName;
                 data.CollarEngineering = subprojectbll.GetEntity(data.CollarEngineering).FullName;
                 data.ReviewMan = OperatorProvider.Provider.Current().UserName;
 

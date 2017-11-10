@@ -83,7 +83,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetNumberingList()
         {
             //List<Text> list = new List<Text>();
-            var MemberCollar = membercollarbll.GetList("");
+            var MemberCollar = membercollarbll.GetList(f=>f.CollarId!="");
 
             return ToJsonResult(MemberCollar);
         }
@@ -100,7 +100,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = membercollarbll.GetEntity(f => f.Numbering == Numbering.Trim());
             if (data != null)
             {
-                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName + "(" + organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
+                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName;
                 data.CollarEngineering = subprojectbll.GetEntity(data.CollarEngineering).FullName;
 
                 var childData = membercollarinfobll.GetList(f => f.CollarId == data.CollarId);

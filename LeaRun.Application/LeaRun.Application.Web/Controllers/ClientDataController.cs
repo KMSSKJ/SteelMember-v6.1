@@ -168,7 +168,9 @@ namespace LeaRun.Application.Web.Controllers
                     Account = item.Account,
                     RealName = item.RealName,
                     OrganizeId = item.OrganizeId,
-                    DepartmentId = item.DepartmentId
+                    DepartmentId = item.DepartmentId,
+                    Telephone = item.Telephone,
+                    Mobile= item.Mobile
                 };
                 dictionary.Add(item.UserId, fieldItem);
             }

@@ -277,6 +277,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         data[i].PurchasedQuantity = 0;
                     }
                 }
+                data = data.Where(f => f.Qty != f.PurchasedQuantity).ToList();//把已采购的移除
             }
 
             return ToJsonResult(data);
@@ -700,40 +701,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                 //更改需求量
                                 for (var j = 0; j < listInfo.Count; j++)
                                 {
-
-                                    var rawmaterialanalysis = rawmaterialanalysisbll.GetEntity(listInfo[j].RawMaterialAnalysisId);//通过分析ID取得分析数据
+                                    var OrderId = rawmaterialorderinfobll.GetEntity(listInfo[i].RawMaterialOrderInfoId).OrderId;
+                                    var Category = rawmaterialorderbll.GetEntity(OrderId).Category;
+                                    var RawMaterialAnalysisId = listInfo[j].RawMaterialAnalysisId;
+                                    var rawmaterialanalysis = rawmaterialanalysisbll.GetList(f=>f.Category==Category&& f.Id== RawMaterialAnalysisId).SingleOrDefault();//通过分析ID取得分析数据
                                     rawmaterialanalysis.PurchasedQuantity = rawmaterialanalysis.PurchasedQuantity.ToDecimal() + listInfo[j].PurchaseQuantity;
                                     rawmaterialanalysisbll.SaveForm(listInfo[j].RawMaterialAnalysisId, rawmaterialanalysis);
-                                    //RawMaterialInventoryEntity rawMaterialInventoryEntity = new RawMaterialInventoryEntity();
-                                    //var quantity = listInfo[j].PurchaseQuantity;//采购的数量
-                                    //var rawmaterialanalysis = rawmaterialanalysisbll.GetEntity(listInfo[j].RawMaterialAnalysisId);//通过分析ID取得分析数据
-                                    //var rawMaterialId = rawmaterialanalysis.RawMaterialId;//取得材料ID
-                                    //var rawmateriallibrary = rawmateriallibrarybll.GetEntity(rawMaterialId);//根据材料ID取得材料所有信息
-
-                                    //rawMaterialInventoryEntity.RawMaterialId = rawMaterialId;
-                                    //rawMaterialInventoryEntity.RawMaterialModel = rawmateriallibrary.RawMaterialModel;
-                                    //rawMaterialInventoryEntity.RawMaterialStandard = rawmateriallibrary.RawMaterialStandard;
-                                    //rawMaterialInventoryEntity.Quantity = quantity;
-                                    //rawMaterialInventoryEntity.Unit = rawmateriallibrary.Unit;
-                                    //rawMaterialInventoryEntity.Category = rawmateriallibrary.Category;
-                                    //rawMaterialInventoryEntity.InventoryTime = System.DateTime.Now;  //入库时间
-
-                                    ////查看材料库中是否有该材料，有就直接加库存rawMaterialId
-                                    //var linventoryEntity = rawmaterialinventorybll.GetEntityByRawMaterialId(rawMaterialId);
-                                    //if (linventoryEntity != null)
-                                    //{
-                                    //    RawMaterialInventoryEntity Entity = new RawMaterialInventoryEntity();
-                                    //    var allquantity = linventoryEntity.Quantity + quantity;
-                                    //    Entity.Quantity = allquantity;
-                                    //    Entity.InventoryTime = System.DateTime.Now;
-                                    //    rawmaterialinventorybll.SaveForm(linventoryEntity.InventoryId, Entity);
-                                    //}
-                                    //else
-                                    //{
-                                    //    string keyvalue = null;
-                                    //    rawmaterialinventorybll.SaveForm(keyvalue, rawMaterialInventoryEntity);
-                                    //}
-
                                 }
                             }
                         }
