@@ -40,18 +40,18 @@ namespace LeaRun.Application.Service.BaseManage
                             FROM    Base_User u
                                     LEFT JOIN Base_Department d ON d.DepartmentId = u.DepartmentId
                             WHERE   1=1");
-            strSql.Append(" AND u.UserId <> 'System' AND u.EnabledMark = 1 AND u.DeleteMark=0");
+            strSql.Append(" AND u.UserId <> 'System' AND u.EnabledMark = 1 AND u.DeleteMark=0 AND u.Account!='System' AND u.Account!='Admin'");
             return this.BaseRepository().FindTable(strSql.ToString());
         }
         /// <summary>
         /// 用户列表
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<UserEntity> GetList()
+        public List<UserEntity> GetList()
         {
             var expression = LinqExtensions.True<UserEntity>();
-            expression = expression.And(t => t.UserId != "System").And(t => t.EnabledMark == 1).And(t => t.DeleteMark == 0);
-            return this.BaseRepository().IQueryable(expression).OrderByDescending(t => t.CreateDate).ToList();
+            expression = expression.And(t => t.EnabledMark == 1).And(t => t.DeleteMark == 0);
+            return this.BaseRepository().IQueryable(expression).OrderByDescending(t => t.CreateDate).ToList().Where(u => u.Account.Trim().ToLower() != "system" && u.Account.Trim().ToLower() != "admin").ToList();
         }
         /// <summary>
         /// 用户列表
@@ -96,7 +96,7 @@ namespace LeaRun.Application.Service.BaseManage
                 }
             }
             //expression = expression.And(t => t.UserId != "System");
-            return this.BaseRepository().FindList(expression, pagination);
+            return this.BaseRepository().FindList(expression, pagination).Where(u=>u.Account.Trim().ToLower()!="system"&&u.Account.Trim().ToLower()!="admin");
         }
         /// <summary>
         /// 用户列表（ALL）
@@ -127,7 +127,7 @@ namespace LeaRun.Application.Service.BaseManage
                                     LEFT JOIN Base_Organize o ON o.OrganizeId = u.OrganizeId
                                     LEFT JOIN Base_Department d ON d.DepartmentId = u.DepartmentId
                             WHERE   1=1");
-            strSql.Append(" AND u.UserId <> 'System' AND u.EnabledMark = 1 AND u.DeleteMark=0 order by o.FullName,d.FullName,u.RealName");
+            strSql.Append(" AND u.UserId <> 'System' AND u.EnabledMark = 1 AND u.DeleteMark=0 AND u.Account!='System' AND u.Account!='Admin' order by o.FullName,d.FullName,u.RealName");
             return this.BaseRepository().FindTable(strSql.ToString());
         }
         /// <summary>

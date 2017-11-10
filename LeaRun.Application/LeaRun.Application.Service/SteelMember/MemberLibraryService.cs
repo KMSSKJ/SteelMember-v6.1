@@ -28,7 +28,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表</returns>
         public IEnumerable<MemberLibraryEntity> GetPageList(Pagination pagination, string queryJson)
-        {
+        {           
             var expression = LinqExtensions.True<MemberLibraryEntity>();
             var queryParam = queryJson.ToJObject();
             //查询条件

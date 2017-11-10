@@ -66,6 +66,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult EquipmentDeail(string keyValue)
+        {
+            var model = produceequipmentbll.GetEntity(keyValue);
+            return View(model);
+        }
         #endregion
 
         #region 获取数据

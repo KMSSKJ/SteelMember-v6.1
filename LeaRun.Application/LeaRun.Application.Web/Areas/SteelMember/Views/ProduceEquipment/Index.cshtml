@@ -44,9 +44,9 @@
             url: "../../SteelMember/ProduceEquipment/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: 'Id', name: 'Id', index: 'Id',hidden: true },
+                { label: 'Id', name: 'Id', index: 'Id', hidden: true },
                 {
-                    label: '图片', name: 'Icon', index: 'Icon', width: 60, align: 'center',
+                    label: '图片', name: 'Icon', index: 'Icon', width: 80, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
                         var Icon = cellvalue;
                         if (Icon != "" || Icon != null) {
@@ -69,20 +69,20 @@
                         }
                     }
                 },
-                { label: '设备名称', name: 'Name', index: 'Name', width: 180, align: 'center', sortable: true },
-                { label: '编号', name: 'Code', index: 'Code', width: 150, align: 'center', sortable: true },
+                { label: '设备名称', name: 'Name', index: 'Name', width: 300, align: 'center', sortable: true },
+                { label: '编号', name: 'Code', index: 'Code', width: 300, align: 'center', sortable: true },
                 { label: '规格型号', name: 'StandardModel', index: 'StandardModel', width: 150, align: 'center', sortable: true },
-                { label: '操作员', name: 'Operator', index: 'Operator', width: 100, align: 'center', sortable: true },
-                { label: '机修负责人', name: 'ServicePrincipal', index: 'ServicePrincipal', width: 100, align: 'center', sortable: true },
-                { label: '电气负责人', name: 'ElectricPrincipal', index: 'ElectricPrincipal', width: 100, align: 'center', sortable: true },
-                { label: '生产厂商', name: 'ProduceManufacturers', index: 'ProduceManufacturers', width: 130, align: 'center', sortable: true },
-                { label: '厂商电话', name: 'ManufacturersTel', index: 'ManufacturersTel', width: 100, align: 'center', sortable: true },
+                //{ label: '操作员', name: 'Operator', index: 'Operator', width: 60, align: 'center', sortable: true },
+                //{ label: '机修负责人', name: 'ServicePrincipal', index: 'ServicePrincipal', width: 80, align: 'center', sortable: true },
+                //{ label: '电气负责人', name: 'ElectricPrincipal', index: 'ElectricPrincipal', width: 80, align: 'center', sortable: true },
+                //{ label: '生产厂商', name: 'ProduceManufacturers', index: 'ProduceManufacturers', width: 130, align: 'center', sortable: true },
+                //{ label: '厂商电话', name: 'ManufacturersTel', index: 'ManufacturersTel', width: 100, align: 'center', sortable: true },
 
                 {
-                    label: '状态', name: 'Status', index: 'Status', width: 70, align: 'center', sortable: true,
+                    label: '设备状态', name: 'Status', index: 'Status', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, value, row, index) {
                         if (cellvalue == 0) {
-                            return "<span class=\"label label-info\">需保养</span>";
+                            return "<span class=\"label label-info\">需维护</span>";
                         } else if (cellvalue == 1) {
                             return "<span class=\"label label-success\">正常</span>";
                         } else if (cellvalue == 2) {
@@ -93,25 +93,30 @@
                     }
                 },
                 {
-                    label: '进场时间', name: 'ApproachDate', index: 'ApproachDate', width: 100, align: 'center', sortable: true,
+                    label: '进场时间', name: 'ApproachDate', index: 'ApproachDate', width: 150, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }
-                },
-                {
-                    label: '最新保养时间', name: 'MaintenanceDate', index: 'MaintenanceDate', width: 90, align: 'center', sortable: true,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
-                    }
-                },
-                { label: '保修至', name: 'WarrantyDate', index: 'WarrantyDate', width: 80, align: 'center', sortable: true },
-                { label: '说明', name: 'Description', index: 'Description', width: 100, align: 'center', sortable: false },
+                }
+                //{
+                //    label: '最近维护时间', name: 'MaintenanceDate', index: 'MaintenanceDate', width: 90, align: 'center', sortable: true,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                //    }
+                //},
+                //{
+                //    label: '下次维护时间', name: 'WarrantyDate', index: 'WarrantyDate', width: 90, align: 'center', sortable: true,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                //    }
+                //},
+                //{ label: '设备描述', name: 'Description', index: 'Description', width: 100, align: 'center', sortable: false },
             ],
             viewrecords: true,
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'Id',
+            sortname: 'ApproachDate',
             sortorder: 'desc',
             rownumbers: true,
             shrinkToFit: false,
@@ -156,7 +161,7 @@
             title: '添加生产设备',
             url: '/SteelMember/ProduceEquipment/Form',
             width: '660px',
-            height: '460px',
+            height: '510px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -171,10 +176,26 @@
                 title: '编辑生产设备',
                 url: '/SteelMember/ProduceEquipment/Form?keyValue=' + keyValue,
                 width: '660px',
-                height: '460px',
+                height: '510px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
+            })
+        }
+    }
+
+    //明细
+    function btn_detail() {
+        var keyValue = $('#gridTable').jqGridRowValue('Id');
+        var name = $('#gridTable').jqGridRowValue('Name');
+        if (checkedRow(keyValue)) {
+            dialogOpen({
+                id: 'Form',
+                title: '设备明细——'+name,
+                url: '/SteelMember/ProduceEquipment/EquipmentDeail?keyValue=' + keyValue,
+                width: '660px',
+                height: '510px',
+                btn: null
             })
         }
     }
@@ -191,7 +212,6 @@
             })
         }
     }
-
 
     //报修
     function btn_Warranty() {
@@ -220,20 +240,26 @@
         }
     }
 
-     //维护确认
+    //维护确认
     function btn_MaintenanceReport() {
         var Id = $('#gridTable').jqGridRowValue('Id');
+        var Status = $('#gridTable').jqGridRowValue('Status');
         if (checkedRow(Id)) {
-            dialogOpen({
-                id: 'Form',
-                title: '维护记录',
-                url: '/SteelMember/ProduceEquipment/MaintenanceRecordsForm?Id=' + Id,
-                width: '480px',
-                height: '380px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                }
-            });
+            if (Status == "<span class=\"label label-success\">正常</span>") {
+                dialogMsg("当前设备不需要维护！", 0);
+                return false;
+            } else {
+                dialogOpen({
+                    id: 'Form',
+                    title: '维护确认',
+                    url: "/SteelMember/ProduceEquipment/MaintenanceRecordsForm?Id=" + Id ,
+                    width: '480px',
+                    height: '330px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                });
+            }
         }
     }
 
@@ -247,9 +273,7 @@
                 url: '/SteelMember/ProduceEquipment/MaintenanceRecordsIndex?Id=' + Id,
                 width: '960px',
                 height: '660px',
-                callBack: function (iframeId) {
-                    top.frames[iframeId].AcceptClick();
-                }
+                btn: null
             });
         }
     }
@@ -283,12 +307,13 @@
             <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
             <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
             <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+            <a id="lr-equipmentInfo" class="btn btn-default" onclick="btn_detail()"><i class="fa fa-reorder"></i>&nbsp;明细</a>
             <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
         </div>
         <div class="btn-group">
             <a id="lr-Warranty" class="btn btn-default" onclick="btn_Warranty()"><i class="fa fa-pencil-square-o"></i>&nbsp;报修</a>
-            <a id="lr-MaintenanceReport" class="btn btn-default" onclick="btn_MaintenanceReport()"><i class="fa fa-pencil-square-o"></i>&nbsp;维修确认</a>
-            <a id="lr-Maintenancerecording" class="btn btn-default" onclick="btn_MaintenanceRecording()"><i class="fa fa-pencil-square-o"></i>&nbsp;维修记录</a>
+            <a id="lr-MaintenanceReport" class="btn btn-default" onclick="btn_MaintenanceReport()"><i class="fa fa-pencil-square-o"></i>&nbsp;维护确认</a>
+            <a id="lr-Maintenancerecording" class="btn btn-default" onclick="btn_MaintenanceRecording()"><i class="fa fa-pencil-square-o"></i>&nbsp;维护记录</a>
         </div>
         <script>$('.toolbar').authorizeButton()</script>
     </div>
