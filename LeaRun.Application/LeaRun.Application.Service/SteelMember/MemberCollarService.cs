@@ -91,6 +91,16 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().IQueryable(expression).ToList();
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回列表</returns>
+        public IEnumerable<MemberCollarEntity> GetList(Expression<Func<MemberCollarEntity,bool>>condition)
+        {
+            return this.BaseRepository().IQueryable(condition);
+        }
         /// <summary>
         /// 获取实体
         /// </summary>

@@ -5,7 +5,7 @@
 
 <script>
     var keyValue = request('keyValue');
-    var CollarEngineering = request("category");
+   // var CollarEngineering = request("category");
     $(function () {
         InitialPage();
         GetCollarEntryGrid();
@@ -72,9 +72,6 @@
 
     //初始化控件
     function initControl() {
-        $("#DepartmentId").ComboBoxTree({
-            description: "==请选择==",
-        });
 
         $("#CollarEngineering").ComboBoxTree({
             param: { Levels: 3 },
@@ -83,24 +80,7 @@
             allowSearch: true
 
         });
-        ////公司
-        //$("#OrganizeId").ComboBoxTree({
-        //    url: "../../BaseManage/Organize/GetTreeJson",
-        //    description: "==请选择==",
-        //    height: "200px",
-        //    allowSearch: true,
-        //}).bind("change", function () {
-        //    var value = $(this).attr('data-value');
-            //加载申请部门
-            $("#DepartmentId").ComboBoxTree({
-                url: "../../BaseManage/Department/GetTreeJson1",
-                description: "==请选择==",
-                allowSearch: true
-            }).bind("change", function () {
-                $("#table1").find("tr:eq(1)").find("td:eq(0)").html($("#DepartmentId").attr('data-text')); //
-            });
-        //});
-
+      
         //获取表单
         if (!!keyValue) {
             $.SetForm({
@@ -109,11 +89,22 @@
                 success: function (data) {
                     $("#CollarEngineering").ComboBoxTreeSetValue(data.entity.Category);
                     $("#table1").find("tr:eq(0)").find("td:eq(0)").html($("#CollarEngineering").attr('data-text'));
-                    $("#table1").find("tr:eq(1)").find("td:eq(0)").html();
-                    $("#table1").find("tr:eq(1)").find("td:eq(1)").html($("#ContactPerson").val());
-                    $("#table1").find("tr:eq(1)").find("td:eq(2)").html($("#CreateTime").val());
-                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html("构件厂");
-                    $("#table1").find("tr:eq(2)").find("td:eq(1)").html($("#ContactPersonTel").val());
+
+                    var Category = $("#CollarEngineering").attr('data-value');
+                    $.SetForm({
+                        url: "../../SteelMember/SubProject/GetFormJson",
+                        param: { keyValue: Category },
+                        success: function (data) {
+                            if (data != null) {
+                                $("#table1").find("tr:eq(1)").find("td:eq(0)").html(top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName);
+                                $("#table1").find("tr:eq(1)").find("td:eq(1)").html(top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName);
+                                $("#table1").find("tr:eq(1)").find("td:eq(2)").html($("#CreateTime").val());
+                                $("#table1").find("tr:eq(2)").find("td:eq(0)").html($("#CollarEngineering").attr('data-text') + "施工现场");
+                                $("#table1").find("tr:eq(2)").find("td:eq(1)").html(top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile);
+                            }
+                        }
+                    })
+
                     $("#table1").find("tr:eq(2)").find("td:eq(2)").html($("#Numbering").val());
 
                     $("#table2").find("tr:eq(0)").find("td:eq(0)").html($("#CreateMan").val());
@@ -147,37 +138,24 @@
             $("#CollarEngineering").ComboBoxTreeSetValue(CollarEngineering);
         }
     }
-    function input() {
-        $("#table1").find("tr:eq(1)").find("td:eq(1)").html($("#ContactPerson").val());
-        $("#table1").find("tr:eq(2)").find("td:eq(1)").html($("#ContactPersonTel").val());
-    }
+
     //保存表单;
     function AcceptClick() {
-        //var CollarEngineering = $("#CollarEngineering").attr('data-value');
-        //if (CollarEngineering == undefined || CollarEngineering == "" || CollarEngineering == null) {
-        //    dialogMsg("请选择工程名称", "error");
+        //var _DepartmentId = $("#DepartmentId").attr('data-value');
+        //if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
+        //    dialogMsg('请选择领用单位！', 0);
         //    return false;
         //}
-        //var _ShippingAddress = $("#ShippingAddress").val();
-        //if (_ShippingAddress == undefined || _ShippingAddress == "" || _ShippingAddress == null) {
-        //    dialogMsg('请录入收货地址！', 0);
+        //var _ContactPerson = $("#ContactPerson").val();
+        //if (_ContactPerson == undefined || _ContactPerson == "" || _ContactPerson == null) {
+        //    dialogMsg('请录入联系人！', 0);
         //    return false;
         //}
-        var _DepartmentId = $("#DepartmentId").attr('data-value');
-        if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
-            dialogMsg('请选择领用单位！', 0);
-            return false;
-        }
-        var _ContactPerson = $("#ContactPerson").val();
-        if (_ContactPerson == undefined || _ContactPerson == "" || _ContactPerson == null) {
-            dialogMsg('请录入联系人！', 0);
-            return false;
-        }
-        var _ContactPersonTel = $("#ContactPersonTel").val();
-        if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
-            dialogMsg('请录入联系人电话！', 0);
-            return false;
-        }
+        //var _ContactPersonTel = $("#ContactPersonTel").val();
+        //if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
+        //    dialogMsg('请录入联系人电话！', 0);
+        //    return false;
+        //}
 
         if ($(this).attr('disabled') == 'disabled') {
             return false;
@@ -250,26 +228,6 @@
 
     //打印
     function btn_print() {
-        //var _ShippingAddress = $("#ShippingAddress").val();
-        //if (_ShippingAddress == undefined || _ShippingAddress == "" || _ShippingAddress == null) {
-        //    dialogMsg('请录入收货地址！', 0);
-        //    return false;
-        //}
-        var _DepartmentId = $("#DepartmentId").attr('data-value');
-        if (_DepartmentId == undefined || _DepartmentId == "" || _DepartmentId == null) {
-            dialogMsg('请选择领用单位！', 0);
-            return false;
-        }
-        var _ContactPerson = $("#ContactPerson").val();
-        if (_ContactPerson == undefined || _ContactPerson == "" || _ContactPerson == null) {
-            dialogMsg('请录入联系人！', 0);
-            return false;
-        }
-        var _ContactPersonTel = $("#ContactPersonTel").val();
-        if (_ContactPersonTel == undefined || _ContactPersonTel == "" || _ContactPersonTel == null) {
-            dialogMsg('请录入联系人电话！', 0);
-            return false;
-        }
         //$(".bills").printTable();
         $(".bills").jqprint();
     }
@@ -279,45 +237,10 @@
     }
 </script>
 
-<table id="table" class="form" style="width:100%;">
-    <tr>
-        <th class="formTitle">
-            领用单位：<font face="宋体" color="red">*</font>
-        </th>
-        <td class="formValue" colspan="3">
-            <div id="CollarEngineering" type="selectTree" class="ui-select" style="display:none" isvalid="yes" checkexpession="NotNull"></div>
-            @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 42%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp;—*@
-            <div id="DepartmentId" type="selectTree" class="ui-select" style="width:100%;float:right" isvalid="yes" checkexpession="NotNull"></div>
-        </td>
-
-        <th class="formTitle">
-            联系人<font face="宋体" color="red">*</font>：
-        </th>
-        <td class="formValue" colspan="2">
-            <input id="ContactPerson" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" onkeyup="input()" />
-        </td>
-        @*</tr>
-            <tr>*@
-        <th class="formTitle">
-            联系电话：<font face="宋体" color="red">*</font>
-        </th>
-        <td class="formValue" colspan="2">
-            <input id="ContactPersonTel" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="MobileOrPhoneOrNull" onkeyup="input()" />
-        </td>
-        @*<th class="formTitle">
-                收货地址<font face="宋体" color="red">*</font>：
-            </th>
-            <td class="formValue" colspan="3">
-                <input id="ShippingAddress" type="text" class="form-control" datacol="yes" err="收货地址" checkexpession="NotNull" style="width: 100%" />
-            </td>*@
-
-    </tr>
-</table>
 <div class="bills">
-
-    <input id="CreateMan" type="hidden" value="@ViewBag.CreateMan" />
-    <input id="CreateTime" type="hidden" Date value="@ViewBag.CreateTime" />
     <input id="Numbering" type="hidden" Numbering value="@ViewBag.Numbering" />
+    <input id="CreateTime" type="hidden" Date value="@ViewBag.CreateTime" />
+    <div id="CollarEngineering" type="selectTree" class="ui-select" style="display:none" isvalid="yes" checkexpession="NotNull"></div>
     <div style="float:left;font-family: 华文楷体">
         <div>
             <p style="font-size:14pt;padding-bottom:10px;text-align:center"> 云南交投建设集团第十工程有限公司</p>

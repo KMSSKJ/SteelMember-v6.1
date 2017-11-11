@@ -185,6 +185,7 @@
 
     //新增
     function btn_add() {
+      if(!HavesChildren){
         dialogOpen({
             id: 'Form',
             title: '新增申请单',
@@ -194,7 +195,10 @@
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
-        });
+          });
+      } else {
+          dialogMsg("请选择子级工程", 0);
+      }
     }
     //编辑
     function btn_edit() {

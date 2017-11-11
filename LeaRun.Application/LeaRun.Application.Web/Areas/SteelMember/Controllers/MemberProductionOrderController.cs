@@ -202,7 +202,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             if (data!=null)
             {
                 data.Category = subprojectbll.GetEntity(data.Category).FullName;
-                data.DepartmentId = departmentbll.GetEntity(data.DepartmentId).FullName + "(" + organizebll.GetEntity(departmentbll.GetEntity(data.DepartmentId).OrganizeId).FullName + ")";
+                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName ;
 
                 var childData = memberproductionorderbll.GetDetails(keyValue).ToList();
                 for (int i = 0; i < childData.Count(); i++)
@@ -428,6 +428,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             return Success("删除成功。");
         }
+
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>

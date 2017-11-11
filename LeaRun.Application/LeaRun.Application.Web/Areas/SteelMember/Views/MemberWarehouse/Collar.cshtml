@@ -53,7 +53,7 @@
         }).bind("change", function () {
             Numbering = $(this).attr('data-text');
 
-            Numbering = $("#Numbering").val().replace(/(^\s*)|(\s*$)/g, "");
+            //Numbering = $("#Numbering").val().replace(/(^\s*)|(\s*$)/g, "");
             $("#table1").find("tr:eq(0)").find("td:eq(0)").html();
             $("#table1").find("tr:eq(1)").find("td:eq(0)").html();
             $("#table1").find("tr:eq(1)").find("td:eq(1)").html();
@@ -95,7 +95,7 @@
 
                             //$("#form1").SetWebControls(data.entity);
                             $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CollarEngineering);
-                            $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.DepartmentId);
+                            $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.OrganizeId);
                             $("#table1").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ContactPerson);
                             $("#table1").find("tr:eq(1)").find("td:eq(2)").html(data.entity.Date);
                             $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.ShippingAddress);
@@ -237,7 +237,7 @@
     <div>
         <p style="font-size:14pt;padding-bottom:10px;text-align:center"> 云南交投建设集团第十工程有限公司</p>
         <p style="font-size:20pt;padding-bottom:15px;text-align:center;font-family: 华文楷体;font-weight:bold;"> 构件出库单</p>
-
+       
         <table id="table1" class="form" style="width:100%;">@*border:1px solid #ccc;*@
             <tr>
                 <th class="formTitle">

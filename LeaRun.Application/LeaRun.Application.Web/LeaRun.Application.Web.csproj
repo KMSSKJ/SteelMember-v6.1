@@ -1612,8 +1612,7 @@
     <Content Include="Areas\SteelMember\Views\RawMaterialLibrary\ImportFile.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\MaintenanceRecordsIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialInventory\CollarDetail.cshtml" />
-    <Content Include="Areas\SteelMember\Views\ProduceEquipment\EquipmentDeail.cshtml" />
-    <Content Include="Areas\SteelMember\Views\SafetyEquipment\EquipmentDeail.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberWarehouse\InventoryInfo - 复制.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\AdminDefaultDesktop - 复制.cshtml" />
     <Content Include="Resource\DocumentFile\System\20151216\55f6e360-c3ce-4f87-8f58-86cf63d129f3.doc" />

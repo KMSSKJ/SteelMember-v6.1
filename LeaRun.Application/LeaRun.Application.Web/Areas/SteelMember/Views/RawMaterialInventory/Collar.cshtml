@@ -54,7 +54,7 @@
         url: "../../SteelMember/RawMterialCollar/GetNumberingList",
         id: "CollarId",
         text: "Numbering",
-        description: "==请选择材料申请或领用单==",
+        description: "==请选择构件申请单==",
         height: "120px",
 
     }).bind("change", function () {
@@ -99,7 +99,7 @@
                             data.entity.CollarNumbering = "CLCKD" + myDate.getFullYear() + "" + myDate.getMonth() + "" + myDate.getDate() + "" + myDate.getHours() + "" + myDate.getMinutes() + "" + myDate.getMilliseconds();
                         }
                         $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CollarEngineering);
-                        $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.DepartmentId);
+                        $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.OrganizeId);
                         $("#table1").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ContactPerson);
                         $("#table1").find("tr:eq(1)").find("td:eq(2)").html(data.entity.Date);
                         $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.ShippingAddress);
@@ -169,8 +169,7 @@
                         CollarId: document.getElementById("gridTable").rows[i].cells[10].innerText,
                     });
                 }
-            }
-          
+            } 
         });
 
         var CollarNumbering = $("#table1").find("tr:eq(2)").find("td:eq(2)").html();

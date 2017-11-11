@@ -220,6 +220,7 @@
 
     //新增
     function btn_add() {
+        if (!HavesChildren){
         dialogOpen({
             id: 'Form',
             title: '添加构件生产申请',
@@ -230,6 +231,9 @@
                 top.frames[iframeId].AcceptClick();
             }
         });
+    } else {
+        dialogMsg("请选择子级工程", 0);
+    }
     }
     //编辑
     function btn_edit() {
