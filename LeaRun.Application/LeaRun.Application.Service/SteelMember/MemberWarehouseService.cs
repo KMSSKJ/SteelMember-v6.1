@@ -77,7 +77,7 @@ namespace LeaRun.Application.Service.SteelMember
             if (!queryParam["InStock"].IsEmpty())
             {
                 int InStock =Convert.ToInt32(queryParam["InStock"]);
-                expression = expression.And(t => t.InStock > InStock);
+                expression = expression.And(t => t.InStock >= InStock);
             }
             return this.BaseRepository().FindList(expression, pagination);
         }

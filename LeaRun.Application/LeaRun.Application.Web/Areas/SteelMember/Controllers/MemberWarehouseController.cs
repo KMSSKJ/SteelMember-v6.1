@@ -115,7 +115,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var watch = CommonHelper.TimerStart();
             var datatabel = new List<MemberWarehouseModel>();
             var data = memberwarehousebll.GetPageList(pagination, queryJson).ToList();//
-            data = data.FindAll(f => f.InStock > 0);
+           // data = data.FindAll(f => f.InStock > 0);
             if (data.Count() > 0)
             {
                 foreach (var item in data)
