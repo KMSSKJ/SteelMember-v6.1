@@ -19,7 +19,6 @@
             e.stopPropagation();
         });
     }
-
     //鼠标移动放大图片
     function showBigImg(oEvent, imgPath) {
         bigImg.src = imgPath;
@@ -32,7 +31,6 @@
         var oDiv = document.getElementById("BigDiv");
         oDiv.style.visibility = "hidden";
     }//鼠标移动放大图片end
-
     //加载表格
     var subgrid_table_id;
     function GetGrid() {
@@ -52,13 +50,6 @@
                         if (Icon != "" || Icon != null) {
                             var filename = Icon.substring(0, Icon.lastIndexOf('.'));//获取文件名称，去除后缀名
                             filename = filename + "/" + Icon;
-
-                            //var filename1 = rowObject.CAD_Drawing.substring(0, rowObject.CAD_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            //CADPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename1 + "/" + rowObject.CAD_Drawing;
-
-                            //var filename2 = rowObject.Model_Drawing.substring(0, rowObject.Model_Drawing.lastIndexOf('.'));//获取文件名称，去除后缀名
-                            //ModelPath = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + rowObject.Model_Drawing;
-
                             if (Icon == "1.png") {
                                 return "<img style='width:44px;height:32px;' src='../../Resource/Document/NetworkDisk/System/Member/1/1.png'onmouseover=\"showBigImg(event,'../../Resource/Document/NetworkDisk/System/Member/1/1.png')\"onmouseout=\"leaveBigImg(event)\"/>";
                             } else {
@@ -72,12 +63,6 @@
                 { label: '设备名称', name: 'Name', index: 'Name', width: 300, align: 'center', sortable: true },
                 { label: '编号', name: 'Code', index: 'Code', width: 300, align: 'center', sortable: true },
                 { label: '规格型号', name: 'StandardModel', index: 'StandardModel', width: 150, align: 'center', sortable: true },
-                //{ label: '操作员', name: 'Operator', index: 'Operator', width: 60, align: 'center', sortable: true },
-                //{ label: '机修负责人', name: 'ServicePrincipal', index: 'ServicePrincipal', width: 80, align: 'center', sortable: true },
-                //{ label: '电气负责人', name: 'ElectricPrincipal', index: 'ElectricPrincipal', width: 80, align: 'center', sortable: true },
-                //{ label: '生产厂商', name: 'ProduceManufacturers', index: 'ProduceManufacturers', width: 130, align: 'center', sortable: true },
-                //{ label: '厂商电话', name: 'ManufacturersTel', index: 'ManufacturersTel', width: 100, align: 'center', sortable: true },
-
                 {
                     label: '设备状态', name: 'Status', index: 'Status', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, value, row, index) {
@@ -95,22 +80,9 @@
                 {
                     label: '进场时间', name: 'ApproachDate', index: 'ApproachDate', width: 150, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                        return formatDate(cellvalue, 'yyyy-MM-dd');
                     }
                 }
-                //{
-                //    label: '最近维护时间', name: 'MaintenanceDate', index: 'MaintenanceDate', width: 90, align: 'center', sortable: true,
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
-                //    }
-                //},
-                //{
-                //    label: '下次维护时间', name: 'WarrantyDate', index: 'WarrantyDate', width: 90, align: 'center', sortable: true,
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
-                //    }
-                //},
-                //{ label: '设备描述', name: 'Description', index: 'Description', width: 100, align: 'center', sortable: false },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -183,7 +155,6 @@
             })
         }
     }
-
     //明细
     function btn_detail() {
         var keyValue = $('#gridTable').jqGridRowValue('Id');
@@ -212,7 +183,6 @@
             })
         }
     }
-
     //报修
     function btn_Warranty() {
         var Id = $('#gridTable').jqGridRowValue('Id');
@@ -227,7 +197,6 @@
                         //break;
                     }
                 }
-
                 $.SaveForm({
                     url: "../../SteelMember/ProduceEquipment/Warranty?keyValue=" + Id,
                     param: {},
@@ -239,7 +208,6 @@
             }
         }
     }
-
     //维护确认
     function btn_MaintenanceReport() {
         var Id = $('#gridTable').jqGridRowValue('Id');
@@ -252,7 +220,7 @@
                 dialogOpen({
                     id: 'Form',
                     title: '维护确认',
-                    url: "/SteelMember/ProduceEquipment/MaintenanceRecordsForm?Id=" + Id ,
+                    url: "/SteelMember/ProduceEquipment/MaintenanceRecordsForm?t=1&Id=" + Id ,
                     width: '480px',
                     height: '330px',
                     callBack: function (iframeId) {
@@ -262,7 +230,6 @@
             }
         }
     }
-
     //维护记录
     function btn_MaintenanceRecording() {
         var Id = $('#gridTable').jqGridRowValue('Id');

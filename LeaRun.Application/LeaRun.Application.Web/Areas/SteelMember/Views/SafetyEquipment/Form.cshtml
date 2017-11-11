@@ -34,7 +34,6 @@
             })
         }
     }
-
     function UploadFile() {
         $('#Avatar2').uploadify({
             uploader: '/SteelMember/MemberLibrary/SubmitUploadify',
@@ -73,12 +72,10 @@
             },
         });
     }
-
     function Delimg($i) {
         $($i).parent().children().remove();
         document.getElementById("Icon").value = "";
     }
-
     //保存表单;
     function AcceptClick() {
         if (document.getElementById("Icon").value == "" || document.getElementById("Icon").value == null || document.getElementById("Icon").value == undefined) {
@@ -141,12 +138,6 @@
         <tr>
             <td class="formTitle">设备状态<font face="宋体" color="red">*</font></td>
             <td class="formValue">
-                @*<input id="Status" type="text" class="form-control" list="itemlist" isvalid="yes" checkexpession="NotNull" />
-                    <datalist id="itemlist">
-                        <option value="1">正常</option>
-                        <option value="0">需保养</option>
-                        <option value="2">故障</option>
-                    </datalist>*@
                 <select id="Status" datacol="yes" err="设备状态" class="form-control" checkexpession="NotNull">
                     <option value="1">正常</option>
                     <option value="0">需维护</option>
@@ -177,7 +168,6 @@
                 <div style="height:150px;border:1px solid #cccccc">
                     <div id="_Icon" style="float:left;padding:5px;width:120px;height:100%" class="showImg;"></div>
                     <div class="btnAvatar" style="float:left;margin-left:15px;margin-top:65px;">
-                        @*<input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />*@
                         <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
                     </div>
                 </div>
