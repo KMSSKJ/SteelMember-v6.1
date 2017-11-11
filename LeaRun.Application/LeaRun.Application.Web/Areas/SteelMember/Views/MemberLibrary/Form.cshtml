@@ -42,12 +42,10 @@
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
                 } else {
-                    // $finish.attr('disabled', 'disabled');
                     $finish.removeAttr('disabled');
                     $next.attr('disabled', 'disabled');
                 }
             } else {
-                // $finish.attr('disabled', 'disabled');
                 $next.removeAttr('disabled');
             }
         });
@@ -190,14 +188,6 @@
                 dialogMsg("您未安装FLASH控件，无法上传！请安装FLASH控件后再试", 0);
             },
             onUploadSuccess: function (file, data, response) {
-                //dialogMsg(data, 0);
-
-                //if (data != null) {
-                //    document.getElementById("CAD").innerHTML += "<img id='txImg' class='txImg' src='" + data + "' height='100' widtd='100'/>";
-                //    document.getElementById("CAD_Drawing").value += getFileName(data) + ":";
-                //}
-                //document.getElementById("DelAvatar").setAttribute("type", "button");
-                //document.getElementById("DelAvatar").value = "删除图片";
                 $("#errorimg").children("span").remove();
                 if (data == "1") {
                     var txt = "<span>图纸的大小不超出500KB!</span>";
@@ -222,7 +212,7 @@
         });
 
         $('#Avatar1').uploadify({
-            uploader: '/SteelMember/MemberLibrary/SubmitUploadify',      //处理文件上传Action?FolderId=' + GetQuery('FolderId')
+            uploader: '/SteelMember/MemberLibrary/SubmitUploadify',      //处理文件上传
             swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
             buttonText: "选择模型",
             height: 24,
@@ -294,7 +284,6 @@
                 }
             },
         });
-
     }
 
     function Delimg($i) {
@@ -311,7 +300,6 @@
     /*添加构件结束====================================*/
 
     /*添加材料开始====================================*/
-
     var RawMaterialJson = "";
     function getGridRawMaterial() {
         var MemberId = $("#MemberId").val();
@@ -331,18 +319,16 @@
             height: $(window).height() - 165,
             width: $(window).width() - 11,
             colModel: [
-                //{ label: "主键", name: "MemberRawMaterialId", hidden: true },
                 { label: "外键", name: "RawMaterialId", hidden: true },
                 { label: "外键", name: "MemberId", hidden: true },
                 { label: "外键", name: "TreeId", hidden: true },
                 { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
                 { label: "材料名称", name: "RawMaterialName", width: 140, align: "left", sortable: false },
                 { label: "型号/规格", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
-                { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false },
+                { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false }
             ],
             treeGrid: true,
             treeGridModel: "nested",
-            //ExpandColumn: "TreeName",
             rowNum: "all",
             rownumbers: true
         });
@@ -361,7 +347,6 @@
         }
         //新增
         $("#lr-add-RawMaterial").click(function () {
-            //var MemberId = $("#gridTable-RawMaterial").jqGridRowValue("MemberId");
             dialogOpen({
                 id: "RawMaterialNumForm",
                 title: '添加材料',
@@ -414,7 +399,6 @@
             }
         });
     }
-
     /*添加材料结束====================================*/
     //验证构件
     $._ExistField = function (controlId, url, param) {
@@ -452,7 +436,6 @@
             }
         });
     }
-
     //返回材料验证值
     function ExistRawMaterial(RawMaterialModel) {
         var a;
@@ -473,7 +456,6 @@
             return true;
         }
     }
-
     //返回材料实体
     function RawMaterialModel(RawMaterialId) {
         var data;
@@ -494,7 +476,6 @@
             return data;
         }
     }
-
     //保存表单
     function AcceptClick() {
         if (!$('#form1').Validform()) {
@@ -583,13 +564,6 @@
                     </td>
                 </tr>
                 <tr>
-
-                    @*<td class="formTitle">
-                            单价<font face="宋体" color="red">*</font>
-                        </td>
-                        <td class="formValue">
-                            <input id="UnitPrice" type="text" class="form-control" placeholder="请输入单价" isvalid="yes" checkexpession="Double" />
-                        </td>*@
                 </tr>
                 <tr>
 

@@ -41,11 +41,6 @@
                 { label: "联系电话", name: "OuterPhone", width: 150, align: "left", sortable: false },
                 { label: "备注", name: "Description", width: 100, align: "left", sortable: false }
             ],
-            //treeGrid: true,
-            //treeGridModel: "nested",
-            //ExpandColumn: "DepartmentId",
-            //rowNum: "all",
-            //rownumbers: true,
             onSelectRow: function (rowid) {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
             },
@@ -53,7 +48,6 @@
                 $("#" + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //$gridTable_dep.authorizeColModel();
         //查询条件设置
         $("#queryCondition .dropdown-menu li").click(function () {
             var text = $(this).find('a').html();
@@ -151,32 +145,6 @@
     }
 </script>
 <div class="titlePanel">
-    @*<div class="title-search">
-            <table>
-                <tr>
-                    <td>
-                        <div id="queryCondition" class="btn-group">
-                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a data-value="FullName">部门名称</a></li>
-                                <li><a data-value="EnCode">部门编号</a></li>
-                                <li><a data-value="ShortName">部门简称</a></li>
-                                <li><a data-value="Manager">负责人</a></li>
-                                <li><a data-value="OuterPhone">电话号</a></li>
-                                <li><a data-value="InnerPhone">分机号</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td style="padding-left: 2px;">
-                        <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
-                    </td>
-                    <td style="padding-left: 5px;">
-                        <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                    </td>
-                </tr>
-            </table>
-        </div>*@
     <div class="toolbar">
         <div class="btn-group">
             <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
@@ -184,9 +152,6 @@
             <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
             <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
         </div>
-        @*<div class="btn-group">
-                <a id="lr-delete11" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-sitemap"></i>&nbsp;组织架构图</a>
-            </div>*@
         <script>$('.toolbar').authorizeButton()</script>
     </div>
 </div>

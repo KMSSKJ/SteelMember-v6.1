@@ -30,25 +30,7 @@ namespace LeaRun.Application.Service.SteelMember
         public IEnumerable<EquipmentMaintenanceRecordsEntity> GetPageList(Pagination pagination, string queryJson)
         {
             var expression = LinqExtensions.True<EquipmentMaintenanceRecordsEntity>();
-            var queryParam = queryJson.ToJObject();
-            //查询条件
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
-            {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-                    //case "Name":              //设备名称
-                    //    expression = expression.And(t => t..Contains(keyword));
-                    //    break;
-                    //case "StandardModel":              //规格型号
-                    //    expression = expression.And(t => t.StandardModel.Contains(keyword));
-                    //    break;
-                    default:
-                        break;
-                }
-            }
-            return this.BaseRepository().FindList(expression,pagination);
+            return this.BaseRepository().FindList(e=>e.Id==queryJson,pagination);
         }
         /// <summary>
         /// 获取列表

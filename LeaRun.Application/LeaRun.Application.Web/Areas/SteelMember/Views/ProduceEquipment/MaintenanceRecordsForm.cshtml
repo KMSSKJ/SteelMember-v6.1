@@ -4,10 +4,10 @@
 }
 <script>
     var Id = request('Id');
-    var type = request('type');
-    //DocumentEvent.getElementById("Id").value = Id;
+    var typ = request('t');
+    var keyValue = request('keyValue');
     $(function () {
-        initControl();
+        //initControl();
     });
     //初始化控件
     function initControl() {
@@ -31,7 +31,7 @@
         var date = $("#warrantyDate").val();
         postData["Id"] = Id;
         $.SaveForm({
-            url: "../../SteelMember/EquipmentMaintenanceRecords/SaveForm?keyValue=" + "" + "& warrantyDate=" + date & 'type=' + type,
+            url: "../../SteelMember/EquipmentMaintenanceRecords/SaveForm?keyValue=" + "" + "& warrantyDate=" + date  +'&type=' + typ,
             param: postData,
             loading: "正在保存数据...",
             success: function () {
@@ -55,13 +55,6 @@
                 <textarea id="MalfunctionReason" class="form-control" isvalid="yes" checkexpession="NotNull"></textarea>
             </td>
         </tr>
-        @*<tr>
-                <td class="formTitle">解决方案：<font face="宋体" color="red">*</font></td>
-                <td class="formValue">
-                    <input id="SolveMethod" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
-                </td>
-
-            </tr>*@
         <tr>
             <td class="formTitle">是否决解：<font face="宋体" color="red">*</font></td>
             <td class="formValue">
@@ -79,13 +72,6 @@
                 <input id="warrantyDate" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull" placeholder="选择维护时间" onfocus="WdatePicker()" />
             </td>
         </tr>
-        @*<tr>
-                <td class="formTitle">备注：</td>
-                <td class="formValue">
-                    <input id="Description" type="text" class="form-control"  />
-                </td>
-            </tr>*@
-
     </table>
 </div>
 <style>

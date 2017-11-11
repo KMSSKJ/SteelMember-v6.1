@@ -159,7 +159,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult SaveForm(string keyValue, ProduceEquipmentEntity entity)
         {
-            entity.Icon= System.IO.Path.GetFileName(entity.Icon);
+            entity.Icon = System.IO.Path.GetFileName(entity.Icon);
             produceequipmentbll.SaveForm(keyValue, entity);
             return Success("操作成功。");
         }
@@ -175,9 +175,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult Warranty(string keyValue/*, SafetyEquipmentEntity entity*/)
         {
-            var produceequipment = produceequipmentbll.GetEntity(keyValue);
-            produceequipment.Status = 3;
-            produceequipmentbll.SaveForm(keyValue, produceequipment);
+            var ids = keyValue.Split(',');
+
+            if (ids.Count() > 0)
+            {
+                foreach (var item in ids)
+                {
+                    var produceequipment = produceequipmentbll.GetEntity(item);
+                    produceequipment.Status = 3;
+                    produceequipmentbll.SaveForm(item, produceequipment);
+                }
+            }
             return Success("操作成功。");
         }
         #endregion
