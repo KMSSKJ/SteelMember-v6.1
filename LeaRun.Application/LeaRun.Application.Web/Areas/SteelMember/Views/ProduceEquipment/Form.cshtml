@@ -22,10 +22,6 @@
                     if (filename2 != "1.png") {
                         filename2 = filename2.substring(0, filename2.lastIndexOf('.'));//获取文件名称，去除后缀名
                         filename2 = "../../Resource/Document/NetworkDisk/System/Member/" + filename2 + "/" + data.Icon;
-                        //document.getElementById("_Icon").src = filename2;
-                        //document.getElementById("DelAvatar2").setAttribute("type", "button");
-                        //document.getElementById("DelAvatar2").value = "删除图片";
-
                         $("#_Icon").children().remove();
                         $("#_Icon").prepend("<img class='txImg' src='" + filename2 + "' id='" + filename2 + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:30px;margin-top:5px' value='删除图片' />");
                         $("#Icon").val(filename2);
@@ -70,11 +66,6 @@
                     $("#_Icon").children().remove();
                     $("#_Icon").prepend("<img class='txImg' src='" + data + "' id='" + data + "'/> <input onclick='Delimg(this)' type='button' class='uploadify-button' style='margin-left:30px;margin-top:5px' value='删除图片' />");
                     $("#Icon").val(data);
-
-                    //document.getElementById("Icon").value = data;
-                    //document.getElementById("_Icon").src = data;
-                    //document.getElementById("DelAvatar2").setAttribute("type", "button");
-                    //document.getElementById("DelAvatar2").value = "删除图片";
                 }
             },
         });
@@ -155,13 +146,6 @@
         <tr>
             <td class="formTitle">设备状态<font face="宋体" color="red">*</font></td>
             <td class="formValue">
-                @*<input id="Status" type="text" class="form-control" list="itemlist" isvalid="yes" checkexpession="NotNull" />
-                    <datalist id="itemlist">
-                        <option value="1">正常</option>
-                        <option value="0">需保养</option>
-                        <option value="2">故障</option>
-                    </datalist>*@
-
                 <select id="Status" datacol="yes" err="设备状态" class="form-control" checkexpession="NotNull">
                     <option value="1">正常</option>
                     <option value="0">需维护</option>
@@ -193,8 +177,7 @@
                 <div style="height:150px;border:1px solid #cccccc">
                     <div id="_Icon" style="float:left;padding:5px;width:120px;height:100%" class="showImg;"></div>
                     <div class="btnAvatar" style="float:left;margin-left:15px;margin-top:65px;">
-                        @*<input id="DelAvatar2" onclick="DelIcon()" class="uploadify-button " type="hidden" style="height: 24px; margin-left:20px" />*@
-                        <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
+            <input id="Avatar2" name="Avatar" type="file" class="Avatar required" accept="image/*" />
                     </div>
                 </div>
             </td>

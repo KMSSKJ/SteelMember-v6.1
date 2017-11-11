@@ -147,16 +147,23 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 修改数据
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="entity">实体对象</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult Warranty(string keyValue, SafetyEquipmentEntity entity)
+        public ActionResult Warranty(string keyValue)
         {
-            var safetyequipment = safetyequipmentbll.GetEntity(keyValue);
-            safetyequipment.Status = 3;
-            safetyequipmentbll.SaveForm(keyValue, safetyequipment);
+            var ids = keyValue.Split(',');
+
+            if (ids.Count() > 0)
+            {
+                foreach (var item in ids)
+                {
+                    var safetyequipment = safetyequipmentbll.GetEntity(item);
+                    safetyequipment.Status = 3;
+                    safetyequipmentbll.SaveForm(item, safetyequipment);
+                }
+            }
             return Success("操作成功。");
         }
         #endregion

@@ -14,7 +14,7 @@
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
-            url: "../../SteelMember/EquipmentMaintenanceRecords/GetPageListJson?Id=" + Id,
+            url: "../../SteelMember/EquipmentMaintenanceRecords/GetPageListJson?id=" + Id,
             datatype: "json",
             height: $(window).height() - 150,
             autowidth: true,
@@ -85,7 +85,7 @@
                 }
             })
         } else {
-            dialogMsg('请选择需要删除的生产设备！', 0);
+            dialogMsg('请选择需要删除的设备！', 0);
         }
     }
 </script>

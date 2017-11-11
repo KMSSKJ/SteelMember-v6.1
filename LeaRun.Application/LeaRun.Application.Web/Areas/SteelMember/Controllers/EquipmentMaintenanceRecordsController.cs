@@ -44,13 +44,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 获取列表
         /// </summary>
         /// <param name="pagination">分页参数</param>
-        /// <param name="queryJson">查询参数</param>
+        /// <param name="id">查询参数</param>
         /// <returns>返回分页列表Json</returns>
         [HttpGet]
-        public ActionResult GetPageListJson(Pagination pagination, string queryJson)
+        public ActionResult GetPageListJson(Pagination pagination, string id)
         {
             var watch = CommonHelper.TimerStart();
-            var data = equipmentmaintenancerecordsbll.GetPageList(pagination, queryJson);
+            var data = equipmentmaintenancerecordsbll.GetPageList(pagination, id);
             var jsonData = new
             {
                 rows = data,
