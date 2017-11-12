@@ -33,7 +33,7 @@
             height: $(window).height() - 170.5,
             autowidth: true,
             colModel: [
-                { label: '构件编号[<font face="宋体" color="red">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
+                { label: '构件编号', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
                 { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false, align: 'center' },
                 { label: '计划生产量', name: 'MemberNumber', align: ' center', width: 80, sortable: false },
@@ -180,6 +180,7 @@
                             //$(this).find('input[id="OrderId➩' + i + '"]').val(row.OrderId);
                             $(this).find('input[id="MemberId➩' + i + '"]').val(row.MemberId);
                             $(this).find('input[id="MemberNumbering➩' + i + '"]').val(row.MemberNumbering);
+                            $(this).find('input[id="QualifiedQuantity➩' + i + '"]').val(row.QualifiedQuantity);
                             $(this).find('input[id="MemberName➩' + i + '"]').val(row.MemberName);
                             $(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
                             $(this).find('input[id="MemberNumber➩' + i + '"]').val(row.MemberNumber);

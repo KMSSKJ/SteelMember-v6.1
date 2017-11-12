@@ -348,6 +348,7 @@
         var postData = $("#form1").GetWebControls(keyValue);
         postData["CategoryName"] = $("#Category").attr('data-text');
         postData["OrganizeId"] = OrganizeId;
+        postData["Category"] = $("#Category").attr('data-value');
         var childEntryJson = [];
         $('#gridTable').find('[role=row]').each(function (i) {
             if (!!$(this).find('input[id="MemberNumbering➩' + i + '"]').val()) {
@@ -440,7 +441,7 @@
                 申请日期：
             </th>
             <td>
-                <input readonly id="CreateTime" type="text" class="input" @*value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })"*@/>
+                <input readonly id="CreateTime" type="text" class="input" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")"/>
             </td>
         </tr>
     </table>

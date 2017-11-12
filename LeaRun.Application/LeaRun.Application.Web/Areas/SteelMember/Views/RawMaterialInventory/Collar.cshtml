@@ -36,11 +36,11 @@
     function GetCollarEntryGrid() {
         var $grid = $('#gridTable');
 
-        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>规格/型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:70px'>单价<br/>(元)</td><td style='width:100px'>金额<br/>(元)</td><td style='width:105px'>备注</td></tr>")
+        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>规格/型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>") /*< td style= 'width:70px' > 单价 < br />(元)</td > <td style='width:100px'>金额<br />(元)</td>*/
         for (var i = 1; i < 11; i++) {
-            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:70px'></td><td style='width:100px'></td><td style='width:105px'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td></tr>")
+            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:205px'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td><td style='display:none'></td></tr>")
         }
-        $grid.append("<tr><td style='border:1px solid #000;' colspan='6'></td><td style='border:1px solid #000;'colspan='2'></td></tr>")
+        //$grid.append("<tr><td style='border:1px solid #000;' colspan='6'></td><td style='border:1px solid #000;'colspan='2'></td></tr>")
     }
 
 
@@ -116,8 +116,8 @@
                                 $(this).find("td:eq(2)").html(row.RawMaterialModel);
                                 $(this).find("td:eq(3)").html(row.UnitId);
                                 $(this).find("td:eq(4)").html(Number(row.Quantity) - Number(row.CollaredQuantity));//当前出库量
-                                $(this).find("td:eq(5)").html(row.Price);
-                                $(this).find("td:eq(6)").html(row.Price * Number(row.Quantity) - Number(row.CollaredQuantity));
+                                //$(this).find("td:eq(5)").html(row.Price);
+                                //$(this).find("td:eq(6)").html(row.Price * Number(row.Quantity) - Number(row.CollaredQuantity));
                                 $(this).find("td:eq(7)").html(row.Description);
                                 $(this).find("td:eq(8)").html(row.InfoId);
                                 $(this).find("td:eq(9)").html(row.InventoryId);
@@ -219,8 +219,8 @@
                 }
             });
 
-            $("#gridTable").find("tr:eq(11)").find("td:eq(0)").html('合计(大写):&otimes;' + formatMoney(TotalPriceAmount));
-            $("#gridTable").find("tr:eq(11)").find("td:eq(1)").html('(小写):' + FormatCurrency(TotalPriceAmount));
+            //$("#gridTable").find("tr:eq(11)").find("td:eq(0)").html('合计(大写):&otimes;' + formatMoney(TotalPriceAmount));
+            //$("#gridTable").find("tr:eq(11)").find("td:eq(1)").html('(小写):' + FormatCurrency(TotalPriceAmount));
     }
 
     //打印

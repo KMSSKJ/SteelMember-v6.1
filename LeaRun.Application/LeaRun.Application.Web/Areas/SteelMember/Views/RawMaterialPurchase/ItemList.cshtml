@@ -8,8 +8,9 @@
     var keyValue = request('keyValue');
     $(function () {
         $("#keywords").focus();
-        //GetTree();
-        GetGrid();
+        InitialPage();
+        GetTree();
+        //GetGrid();
         //绑定键盘按下事件
         $(document).keypress(function (e) {
             // 回车键事件
@@ -20,22 +21,78 @@
             }
         });
     });
+    //初始化页面
+    function InitialPage() {
+        //layout布局
+        $('#layout').layout({
+            applyDemoStyles: true,
+            onresize: function () {
+                $(window).resize()
+            }
+        });
+        //resize重设(表格、树形)宽高
+        $(window).resize(function (e) {
+            window.setTimeout(function () {
+                $('#gridTable').setGridWidth(($('.gridPanel').width()));
+                $("#gridTable").setGridHeight($(window).height() - 170);
+                $("#itemTree").setTreeHeight($(window).height() - 52);
+            }, 200);
+            e.stopPropagation();
+        });
+    }
 
-    var myArray = [];
+    //加载树
+    var _CategoryFather;
+    var _HavesChildren;
+    var SubProjectName;
+    var _Category;
+
+    function GetTree() {
+        var item = {
+            height: $(window).height() - 52,
+            param: { EnCode: "RawMaterialType" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            onnodeclick: function (item) {
+                _Category = item.id;
+                SubProjectName = item.text;
+                $("#CenterTitle").html("-" + SubProjectName)
+                GetGrid();
+                //$('#btn_Search').trigger("click");
+            }
+        };
+        //初始化
+        $("#itemTree").treeview(item);
+
+        GetGrid();
+    }
+
     //显示物料
     function GetGrid() {
+        if (_Category==null) {
+            _Category = document.getElementById("itemTree").getElementsByTagName("li")[0].getElementsByTagName("div")[0].attributes["id"].value;//设置默认加载的材料类型
+            _Category = _Category.replace(/itemTree_/, "").replace(/_/g, "-")
+        }
+
         var $gridTable = $('#gridTable');
         var SelectRowIndx;
+
         var queryJson = {
-            IsPassed:1,
+            IsPassed: 1,
+            MaterialCategory: _Category,
             BeginTime: $("#txt_BeginTime").val(),
             EndTime: $("#txt_EndTime").val(),
         }
+        $gridTable.jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson), keyValue: keyValue },
+            page: 1
+        }).trigger('reloadGrid');
 
         $gridTable.jqGrid({
-            url: "@Url.Content("~/SteelMember/RawMaterialPurchase/GetListByIsPassed")?queryJson=" + JSON.stringify(queryJson) + "&keyValue=" + keyValue,
+            url: "../../SteelMember/RawMaterialPurchase/GetListByIsPassed",
+            postData: { queryJson: JSON.stringify(queryJson), keyValue: keyValue },
+           // param: { queryJson: JSON.stringify(queryJson), keyValue: keyValue },
             datatype: "json",
-            height: $(window).height()-150,
+            height: $(window).height()-170,
             autowidth: true,
             colModel: [
                 { label: '申请材料ID', name: "InfoId", hidden: true },
@@ -43,14 +100,21 @@
                 { label: 'Price', name: "Price", sortable: false, hidden: true },
                 { label: 'RawMaterialManufacturer', name: "RawMaterialManufacturer", sortable: false, hidden: true },
                 { label: 'RawMaterialSupplier', name: "RawMaterialSupplier", sortable: false, hidden: true },
-                { label: '材料类型', name: "Category", align: ' center', width: 100, sortable: false },
+                { label: '材料类型', name: "Category", align: ' center', width: 100, sortable: false,},
                 { label: '材料名称', name: "RawMaterialName", align:' center',width: 100, sortable: false },
-                { label: '规格/型号', name: "RawMaterialModel", align:' center',width: 100, sortable: false },
-                { label: '需采购量', name: "Qty", align: ' center', width: 100, sortable: false },
-                { label: '已采购量', name: "PurchasedQuantity", align: ' center', width: 100, sortable: false },
+                { label: '规格/型号', name: "RawMaterialModel", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false },
+                { label: '计划采购量', name: "Qty", align: ' center', width: 100, sortable: false, hidden: true},
+                { label: '已采购量', name: "PurchasedQuantity", align: ' center', width: 100, sortable: false, hidden: true },
+                {
+                    label: '还需采购量', name: "Quantity", align: ' center', width: 100, sortable: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return rowObject.Qty - rowObject.PurchasedQuantity;
+                    }
+                },
+               
             ],
-            rowNum: 30,
+            rowNum: 15,
             sortname: 'SortCode',
             sortorder: 'Desc',//降序 asc升序
             sortname: 'OrderId',
@@ -71,17 +135,6 @@
                 for (var k = 0; k < rowIds.length; k++) {
                     var curRowData = jQuery("#gridTable").jqGrid('getRowData', rowIds[k]);
                     var curChk = $("#" + rowIds[k] + "").find(":checkbox");
-                    //curChk.attr('name', 'checkboxname');   //给每一个checkbox赋名字
-                    //curChk.attr('value', curRowData['MY_ID']);   //给checkbox赋值
-                    //curChk.attr('title', curRowData['NAME']);   //给checkbox赋予额外的属性值
-                    ////curChk.attr('checked', 'true');   //设置所有checkbox被选中
-                    //if (!$parentobj.HaveExistItem(k, curRowData.MemberId)) {
-                    //    //$("#gridTable").attr("checked", false);
-                    //    curChk.attr('checked', false);
-                    //} else {
-                    //    //$("#gridTable").attr("checked", true);
-                    //    curChk.attr('checked', true);
-                    //}
                 }
             },
         });
@@ -91,7 +144,8 @@
         var $gridTable = $('#gridTable');
 
         var queryJson = {
-            IsPassed:1,
+            IsPassed: 1,
+            MaterialCategory: _Category,
             BeginTime: $("#txt_BeginTime").val(),
             EndTime: $("#txt_EndTime").val(),
         }
@@ -193,7 +247,7 @@
             });
         }
 </script>
-<div class="title-search" style="padding:15px">
+@*<div class="title-search" style="padding:15px">
     <table>
         <tr>
             <td style="width:110px">
@@ -202,17 +256,6 @@
             <td style="padding-left:2px;width:110px">
                 <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" />
             </td>
-
-            @*<td style="padding-left: 10px;">
-                    <div id="queryCondition" class="btn-group">
-                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a data-value="OrderNumbering">编号</a></li>
-                    </ul>
-                    </div>
-                </td>*@
-
             <td style="padding-left: 5px;">
                 <a id="btn_Search" onclick="Search()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
             </td>
@@ -222,4 +265,81 @@
 <div class="rightline" style="margin:15px;">
     <table id="gridTable"></table>
     <div id="gridPager"></div>
+</div>*@
+<div style="color:red;margin:5px">注:每个采购单下只能选择一个类型下的材料</div>
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <div class="ui-layout-west">
+        <div class="west-Panel">
+            <div class="panel-Title">材料类型</div>
+            <div id="itemTree"></div>
+        </div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="panel-Title">材料信息<span id="CenterTitle"></span></div>
+            <div class="titlePanel">
+                <div id="searchDialog" class="title-search">
+                        @*<table>
+                            <tr>
+                                <td style="width:110px">
+                                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                                </td>
+                                <td style="padding-left:2px;width:110px">
+                                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                                </td>
+
+                                <td style="padding-left: 10px;">
+                                        <div id="queryCondition" class="btn-group">
+                                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-value="Category">材料类型</a></li>
+                                                <li><a data-value="RawMaterialName">材料名称</a></li>
+                                                <li><a data-value="RawMaterialModel">型号</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                <td style="padding-left: 5px;width:110px">
+                                    <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询关键字" />
+                                </td>
+                                <td style="padding-left: 5px;">
+                                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                                </td>
+                            </tr>
+                        </table>*@
+                    <table>
+                        <tr>
+                            <td style="width:110px">
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" />
+                            </td>
+                            <td style="padding-left:2px;width:110px">
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" />
+                            </td>
+                            <td style="padding-left: 5px;">
+                                <a id="btn_Search" onclick="Search()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                @*<div class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
+                    </div>
+                    <div class="btn-group">
+                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </div>
+                    <script>$('.toolbar').authorizeButton()</script>
+                </div>*@
+            </div>
+            <div class="gridPanel">
+                <table id="gridTable"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+    </div>
 </div>

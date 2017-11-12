@@ -49,14 +49,13 @@
     }
 
     //º”‘ÿ±Ì∏Ò
-    var InStock = "0";
+
     function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
 
         var queryJson = {
             SubProjectId: EngineeringId,
-            InStock: InStock
         }
         $gridTable.jqGrid('setGridParam', {
             postData: { queryJson: JSON.stringify(queryJson) },

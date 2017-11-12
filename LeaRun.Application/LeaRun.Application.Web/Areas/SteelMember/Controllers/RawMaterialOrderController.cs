@@ -212,23 +212,39 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GridListJsonRawAnalysis(Pagination pagination, string category)
         {
             var data = new List<RawMaterialLibraryModel>();
-            var data1 = rawmaterialanalysisbll.GetPageList1(f => f.Category == category && f.IsPassed == 1, pagination).ToList();//.OrderByDescending(o => o.MemberNumbering)
-
-            foreach (var item in data1)
+            var RawMaterialAnalysis = rawmaterialanalysisbll.GetPageList1(f => f.Category == category && f.IsPassed == 1, pagination).ToList();//.OrderByDescending(o => o.MemberNumbering)
+            var RawMaterialOrder = rawmaterialorderbll.GetList(f => f.Category == category);
+            foreach (var item in RawMaterialAnalysis)
             {
-                var RawMaterial = rawmateriallibrarybll.GetList(f => f.RawMaterialId == item.RawMaterialId).SingleOrDefault();
+                decimal Number = 0;
+                foreach (var item1 in RawMaterialOrder)
+                {
+                    var RawMaterialOrderinfo = rawmaterialorderinfobll.GetList(f =>f.RawMaterialAnalysisId == item.Id && f.RawMaterialId == item.RawMaterialId && f.OrderId == item1.OrderId).SingleOrDefault();
+                    if (RawMaterialOrderinfo==null)
+                    {
+                        Number = 0;
+                    }
+                    else if(RawMaterialOrderinfo.RawMaterialId == item.RawMaterialId)
+                    {
+                        Number += RawMaterialOrderinfo.IsEmpty() ? 0 : RawMaterialOrderinfo.Quantity.ToDecimal();
+                    }
+                }
 
+                var RawMaterial = rawmateriallibrarybll.GetList(f => f.RawMaterialId == item.RawMaterialId).SingleOrDefault();
                 RawMaterialLibraryModel RawMaterialLibrary = new RawMaterialLibraryModel()
                 {
                     RawMaterialId = RawMaterial.RawMaterialId,
+                    Category = dataitemdetailbll.GetEntity(RawMaterial.Category).ItemName,
                     RawMaterialAnalysisId = item.Id,
                     RawMaterialModel = RawMaterial.RawMaterialModel,
                     RawMaterialName = RawMaterial.RawMaterialName,
                     UnitId = dataitemdetailbll.GetEntity(RawMaterial.Unit).ItemName,
-                    Qty = item.RawMaterialDosage,
-                    PurchasedQuantity = item.PurchasedQuantity
+                    Qty = item.RawMaterialDosage - Number,//可申请量                                      //PurchasedQuantity = item.PurchasedQuantity
                 };
-                data.Add(RawMaterialLibrary);
+                if (RawMaterialLibrary.Qty > 0)
+                {
+                    data.Add(RawMaterialLibrary);//可申请量大于0就加入
+                }
             }
             return ToJsonResult(data);
         }
@@ -335,7 +351,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             string[] idsArr = keyValue.Split(',');
@@ -349,7 +365,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         var rawmaterialPurchaseinfo = rawmaterialpurchasebll.GetInfoList(f => f.InfoId == item.InfoId);
                         number = rawmaterialPurchaseinfo.Count();
-                        if (number==0)
+                        if (number == 0)
                         {
                             rawmaterialorderinfobll.RemoveForm(item.InfoId);
                         }
@@ -359,7 +375,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         }
                     }
                 }
-                if (number==0)
+                if (number == 0)
                 {
                     rawmaterialorderbll.RemoveForm(keyValue);
                 }
@@ -367,9 +383,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     return Error("数据中存在关联数据");
                 }
-                
+
             }
-           
+
             return Success("删除成功。");
         }
         ///// <summary>
@@ -415,7 +431,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult SubmitReview(string keyValues)
         {
             string[] ids = new string[] { };

@@ -83,7 +83,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetNumberingList()
         {
             //List<Text> list = new List<Text>();
-            var MemberCollar = membercollarbll.GetList(f=>f.CollarId!="");
+            var MemberCollar = membercollarbll.GetList(f => f.CollarId != "");
 
             return ToJsonResult(MemberCollar);
         }
@@ -107,14 +107,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
                 foreach (var item in childData)
                 {
-                    var memberwarehouse = memberwarehousebll.GetEntity(f => f.MemberId== item.MemberId);
+                    var memberwarehouse = memberwarehousebll.GetEntity(f => f.MemberId == item.MemberId);
                     var MemberLibrary = memberlibrarybll.GetEntity(memberwarehouse.MemberId);
                     var MemberCollarInfomodel = new MemberCollarInfoModel()
                     {
                         InfoId = item.InfoId,
                         MemberWarehouseId = memberwarehouse.MemberWarehouseId,
                         MemberName = MemberLibrary.MemberName,
-                        MemberNumbering= MemberLibrary.MemberNumbering,
+                        MemberNumbering = MemberLibrary.MemberNumbering,
                         CollarQuantity = item.CollarQuantity,
                         CollaredQuantity = item.CollaredQuantity,
                         Quantity = item.CollarQuantity,
@@ -195,6 +195,18 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             if (childEntitys.Count > 0)
             {
+                foreach (var item in childEntitys)
+                {
+                    //判断库存量是否满足出库
+                    var model = memberwarehousebll.GetEntity(item.MemberWarehouseId);
+                    model.InStock = model.InStock.ToDecimal() - item.CollarQuantity.ToDecimal();//库存--
+                    if (model.InStock < 0)
+                    {
+                        //var member = memberlibrarybll.GetEntity(item.MemberId);
+                        return Error("存在构件库存不足构件，无法出库");
+                    }
+                }
+
                 foreach (var item in childEntitys)
                 {
                     //在库存量中减掉领出的数量

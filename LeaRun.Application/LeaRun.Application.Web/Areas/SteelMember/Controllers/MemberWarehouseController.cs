@@ -112,6 +112,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
+            if (queryJson==null)
+            {
+                queryJson = "{\"InStock\":\"0.00000001\"}";
+            }
+            else
+            {
+                queryJson = queryJson.Replace("}", ",\"InStock\":\"0.00000001\"}");
+             }
+
             var watch = CommonHelper.TimerStart();
             var datatabel = new List<MemberWarehouseModel>();
             var data = memberwarehousebll.GetPageList(pagination, queryJson).ToList();//
@@ -279,7 +288,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             if (data != null)
             {
                 data.CollarEngineering = subprojectbll.GetEntity(data.CollarEngineering).FullName;
-                data.DepartmentId = organizebll.GetEntity(data.OrganizeId).FullName + "-" + departmentbll.GetEntity(data.DepartmentId).FullName;
+                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName;
             }
 
             var childData = membercollarinfobll.GetList(keyValue);
