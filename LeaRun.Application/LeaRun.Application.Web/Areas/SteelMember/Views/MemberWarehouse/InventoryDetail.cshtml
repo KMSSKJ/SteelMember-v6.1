@@ -119,17 +119,15 @@
     //导出文件
     var JsonData1 = ""; var TableObject = "";
     function btn_derive() {
-        SetDeriveExcel("#gridTable", "构件出入库信息表", "云南公投澄川高速", JsonData1, TableObject.toString());
         dialogOpen({
-            id: "DeriveFile",
-            title: '构件出入库信息表',
-            url: '/Utility/DeriveFile',
-            width: "700px",
-            height: "435px",
+            id: "ExcelIExportDialog",
+            title: '导出Excel数据',
+            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("构件入库表"),
+            width: "500px",
+            height: "380px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
-            },
-
+            }, btn: ['导出Excel', '关闭']
         });
 
     }

@@ -4,7 +4,7 @@
 }
 <script>
     var Category = request('Category');
-
+    var childEntity;
     $(function () {
         initControl();
     });
@@ -30,27 +30,43 @@
             text: "PurchaseNumbering",
             description: "==请选择==",
             height: "120px",
-        });
+        }).bind("change", function () {
+            var value = "";
+            var keyValue = $(this).attr('data-value');
+            $.SetForm({
+                url: "../../SteelMember/RawMaterialPurchase/GetDetailsJson1",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    document.getElementById("Category").value = data.CategoryName;
+                    childEntity = data.childEntity;
+                    for (var i = 0; i < childEntity; i++) {
+                        value = childEntity[0].Category;
+                    }
 
-        //生产厂家
-        $("#RawMaterialManufacturer").ComboBox({
-            param: { EnCode: "RawMaterialManufacturer" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemDetailId",
-            text: "ItemName",
-            description: "==请选择==",
-            height: "120px",
-        });
+                    //加载规格或型号
+                    $("#RawMaterialId").ComboBox({
+                        url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
+                        description: "==请选择==",
+                        id: "RawMaterialId",
+                        text: "RawMaterialModel",
+                        height: "150px",
+                        click: function (item) {
+                            var RawMaterialId = $(this).attr('data-value');
 
-        //材料供应商
-        $("#RawMaterialSupplier").ComboBox({
-            param: { EnCode: "RawMaterialSupplier" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemDetailId",
-            text: "ItemName",
-            description: "==请选择==",
-            height: "120px",
-        });
+                            for (var i = 0; i < childEntity; i++) {
+                                if (RawMaterialId != childEntity[0].RawMaterialId) {
+                                    dialogTop("该订单下不存在此材料", "0");
+                                    return false;
+                                }
+                                
+                            }
+                        }
+                    });
+                }
+            })
+
+
+        })
 
         $("#Category").ComboBoxTree({
             param: { EnCode: "RawMaterialType" },
@@ -78,6 +94,28 @@
                 height: "150px",
             });
         });
+
+        //生产厂家
+        $("#RawMaterialManufacturer").ComboBox({
+            param: { EnCode: "RawMaterialManufacturer" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            id: "ItemDetailId",
+            text: "ItemName",
+            description: "==请选择==",
+            height: "120px",
+        });
+
+        //材料供应商
+        $("#RawMaterialSupplier").ComboBox({
+            param: { EnCode: "RawMaterialSupplier" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            id: "ItemDetailId",
+            text: "ItemName",
+            description: "==请选择==",
+            height: "120px",
+        });
+
+       
         if (Category != null || Category != "") {
             $("#Category").ComboBoxTreeSetValue(Category);
         }
@@ -113,13 +151,23 @@
                 </td>
             </tr>
             <tr>
+
+                <th>
+                    所属采购单<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="5">
+                    <div id="PurchaseId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                    @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
+                </td>
+            </tr>
+            <tr>
                 <th>
                     材料类型<font face="宋体" color="red">*</font>
                 </th>
                 <td colspan="2">
-                    <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                   
+                    <input readonly id="Category" type="text" class="form-control" />
                 </td>
-
                 @*<th>
                     材料名称<font face="宋体" color="red">*</font>
                 </th>
@@ -134,16 +182,7 @@
                     @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
                 </td>
             </tr>
-            <tr>
-              
-                <th>
-                    所属采购单<font face="宋体" color="red">*</font>
-                </th>
-                <td colspan="5">
-                    <div id="PurchaseId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                    @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
-                </td>
-            </tr>
+           
 
             <tr>
                 <th>

@@ -19,7 +19,6 @@
         });
     });
 
-    var myArray = [];
     //显示物料
     function GetGrid() {
         var SelectRowIndx;
@@ -32,10 +31,11 @@
             colModel: [
                 { label: '主键', name: "MemberId", align: ' center',sortable: false, hidden: true },
                 { label: '外键', name: "MemberDemandId", align: 'center', sortable: false, hidden: true },
-                { label: '编号', name: "MemberNumbering", align:' center',width: 130, sortable: false },
+                { label: '编号', name: "MemberNumbering", align: ' center', width: 130, sortable: false },
+                { label: '类型', name: "Category", align: ' center', width: 130, sortable: false },
                 { label: '名称', name: "MemberName", align:' center',width: 110, sortable: false },
                 //{ label: '规格或型号', name: "MemberModel", align:' center',width: 80, sortable: false},
-                { label: '需求量', name: "MemberNumber", align: ' center', width: 100, sortable: false },
+                { label: '可申请量', name:"MemberNumber", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "UnitId", align:' center',width: 50, sortable: false},
             ],
             rowNum: 30,
@@ -94,8 +94,8 @@
                         $parentobj.$("#MemberName➩" + rows).val(null);
                         $parentobj.$("#UnitId➩" + rows).val(null);
                         $parentobj.$("#MemberNumber➩" + rows).val(null);
-                        $parentobj.$("#Price➩" + rows).val(null);
-                        $parentobj.$("#PriceAmount➩" + rows).val(null);
+                        //$parentobj.$("#Price➩" + rows).val(null);
+                        //$parentobj.$("#PriceAmount➩" + rows).val(null);
                         $parentobj.$("#MemberId➩" + rows).val(null);
                         $parentobj.$("#MemberDemandId➩" + rows).val(null);
                         $parentobj.$("#Description➩" + rows).val(null);
@@ -107,30 +107,30 @@
                         var data1;
                         for (var i = 0; i < rowData.length; i++) {
                             $parentobj.IsExistItem(index, rowData[i].MemberId);
-                            $.ajax({
-                                type: 'post',
-                                dataType: "text",
-                                url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
-                                data: {
-                                    category: Category,
-                                    KeyValue: rowData[i].MemberId
-                                },
-                                cache: false,
-                                async: false,
-                                success: function (data) {
-                                    data1 = data;
-                                }
+                            //$.ajax({
+                            //    type: 'post',
+                            //    dataType: "text",
+                            //    url: "/SteelMember/MemberProductionOrder/AddMemberNumber",
+                            //    data: {
+                            //        category: Category,
+                            //        KeyValue: rowData[i].MemberId
+                            //    },
+                            //    cache: false,
+                            //    async: false,
+                            //    success: function (data) {
+                            //        data1 = data;
+                            //    }
 
-                            });
+                            //});
                             $parentobj.$("#MemberNumbering➩" + index).val(rowData[i].MemberNumbering);
                             $parentobj.$("#MemberName➩" + index).val(rowData[i].MemberName);
                             $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
-                            $parentobj.$("#MemberNumber➩" + index).val(Number(data1));
-                            $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
-                            $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
+                            $parentobj.$("#MemberNumber➩" + index).val(Number(rowData[i].MemberNumber));
+                            //$parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
+                            //$parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
                             $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
                             $parentobj.$("#MemberDemandId➩" + index).val(rowData[i].MemberDemandId);
-                            $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
+                            $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].MemberNumber));
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
                             index++;
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');

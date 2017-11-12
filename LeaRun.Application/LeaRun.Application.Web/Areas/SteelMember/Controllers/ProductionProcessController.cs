@@ -425,9 +425,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 foreach (var item in childEntitys)
                 {
-                    a += Convert.ToInt32(item.ProductionQuantity);
-                    b += Convert.ToInt32(item.ProductionedQuantity);
                     var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
+                    a += Convert.ToInt32(item.ProductionQuantity);
+                    b += Convert.ToInt32(item.ProductionedQuantity) + Convert.ToInt32(ProductionedOrderInfo.QualifiedQuantity);
                     ProductionedOrderInfo.ProductionedQuantity = ProductionedOrderInfo.ProductionedQuantity.ToDecimal() + item.ProductionedQuantity.ToDecimal();
                     ProductionedOrderInfo.Description = item.Description;
                     memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
@@ -463,9 +463,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 foreach (var item in childEntitys)
                 {
-                    a += Convert.ToInt32(item.ProductionedQuantity);
-                    b += Convert.ToInt32(item.SelfDetectNumber);
                     var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
+                    a += Convert.ToInt32(ProductionedOrderInfo.ProductionQuantity);
+                    b += Convert.ToInt32(item.SelfDetectNumber);
+                   
                     ProductionedOrderInfo.SelfDetectNumber = item.SelfDetectNumber;
                     //ProductionedOrderInfo.QualifiedQuantity = ProductionedOrderInfo.QualifiedQuantity.ToDecimal() + item.SelfDetectNumber.ToDecimal();
                     ProductionedOrderInfo.SelfDetectRemarks = item.SelfDetectRemarks;
@@ -504,9 +505,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 foreach (var item in childEntitys)
                 {
-                    a += item.QualityInspectionNumber.ToDecimal();
-                    b += item.SelfDetectNumber.ToDecimal();
                     var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
+                    a += item.QualityInspectionNumber.ToDecimal();
+                    b += ProductionedOrderInfo.ProductionQuantity.ToDecimal();
+                   
                     ProductionedOrderInfo.QualityInspectionNumber = item.QualityInspectionNumber;
                     ProductionedOrderInfo.QualifiedQuantity = ProductionedOrderInfo.QualifiedQuantity.ToDecimal() + item.QualityInspectionNumber.ToDecimal();
                     ProductionedOrderInfo.QualityInspectionRemarks = item.QualityInspectionRemarks;

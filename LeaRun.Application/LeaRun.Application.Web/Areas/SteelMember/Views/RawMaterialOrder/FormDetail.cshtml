@@ -46,11 +46,11 @@
 
         //    $('#gridTable').jqGrid('addRowData', i, rowdata);
         ////默认添加16行 空行
-        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>规格/<br/>型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:70px'>单价<br/>(元)</td><td style='width:100px'>金额<br/>(元)</td><td style='width:110px'>生产厂家</td><td style='width:140px'>供应商名称</td><td style='width:105px'>备注</td></tr>")
+        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>规格/<br/>型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
         for (var i = 1; i < 16; i++) {
-            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:70px'></td><td style='width:100px'></td><td style='width:110px'></td><td style='width:140px'></td><td style='width:105px'></td></tr>")
+            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:205px'></td></tr>")
         }
-        $grid.append("<tr><td style='border:1px solid #000;' colspan='7'></td><td style='border:1px solid #000;'colspan='3'></td></tr>")
+        //$grid.append("<tr><td style='border:1px solid #000;' colspan='7'></td><td style='border:1px solid #000;'colspan='3'></td></tr>")
     }
 
     //初始化控件
@@ -93,10 +93,10 @@
                             $(this).find('td:eq(2)').html(row.RawMaterialModel);
                             $(this).find('td:eq(3)').html(row.UnitId);
                             $(this).find('td:eq(4)').html(row.RawMaterialNumber);
-                            $(this).find('td:eq(5)').html(row.Price);
-                            $(this).find('td:eq(6)').html(row.Price * row.RawMaterialNumber);
-                            $(this).find('td:eq(7)').html(row.RawMaterialManufacturer);
-                            $(this).find('td:eq(8)').html(row.RawMaterialSupplier);
+                            //$(this).find('td:eq(5)').html(row.Price);
+                            //$(this).find('td:eq(6)').html(row.Price * row.RawMaterialNumber);
+                            //$(this).find('td:eq(7)').html(row.RawMaterialManufacturer);
+                            //$(this).find('td:eq(8)').html(row.RawMaterialSupplier);
                             $(this).find('td:eq(9)').html(row.Description);
 
                             Conversion(i);
@@ -125,8 +125,8 @@
             }
         });
 
-        $("#gridTable").find("tr:eq(16)").find("td:eq(0)").html('合计(大写):&otimes;' + formatMoney(TotalPriceAmount));
-        $("#gridTable").find("tr:eq(16)").find("td:eq(1)").html('(小写):'+FormatCurrency(TotalPriceAmount));
+        //$("#gridTable").find("tr:eq(16)").find("td:eq(0)").html('合计(大写):&otimes;' + formatMoney(TotalPriceAmount));
+        //$("#gridTable").find("tr:eq(16)").find("td:eq(1)").html('(小写):'+FormatCurrency(TotalPriceAmount));
     }
     //打印
     function btn_print() {

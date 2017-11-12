@@ -33,6 +33,19 @@
                     dialogMsg("工程应选择二级工程而不是工程总称", "error");
                     return false;
                 }
+                if ($("#Icon").val() == "" || $("#Icon").val() == null) {
+                    dialogMsg("构件图标不能为空", 0);
+                    return false;
+                }
+                if ($("#Model_Drawing").val() == "" || $("#Model_Drawing").val() == null) {
+                    dialogMsg("构件模型不能为空", 0);
+                    return false;
+                }
+                if ($("#CAD_Drawing").val() == "" || $("#CAD_Drawing").val() == null) {
+                    dialogMsg("构件图纸不能为空", 0);
+                    return false;
+                }
+
                 //非空验证
                 if (!$('#form1').Validform()) {
                     return false;
@@ -478,6 +491,18 @@
     }
     //保存表单
     function AcceptClick() {
+        if ($("#Icon").val() == "" || $("#Icon").val() == null) {
+            dialogMsg("构件图标不能为空", 0);
+            return false;
+        }
+        if ($("#Model_Drawing").val() == "" || $("#Model_Drawing").val() == null) {
+            dialogMsg("构件模型不能为空", 0);
+            return false;
+        }
+        if ($("#CAD_Drawing").val() == "" || $("#CAD_Drawing").val() == null) {
+            dialogMsg("构件图纸不能为空", 0);
+            return false;
+        }
         if (!$('#form1').Validform()) {
             return false;
         }
@@ -600,7 +625,7 @@
                         <div id="CAD" style="float:left;height:155px;word-break:break-all;width:100%;min-height:150px;padding:5px;overflow-y:auto;border:1px solid #cccccc">
                             <ul id="engineering_img">
                                 <li class="btnAvatar" style="float:left;margin:5px;margin-top:55px;">
-                                    <input id="Avatar" name="Avatar" type="file" class="Avatar required" accept="image/*" />
+                                    <input id="Avatar" name="Avatar" type="file" class="Avatar required" accept="image/*"/>
                                 </li>
                             </ul>
                         </div>
