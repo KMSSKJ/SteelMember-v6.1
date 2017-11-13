@@ -96,7 +96,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = rawmaterialorderbll.GetPageList(pagination, queryJson).OrderBy(o => o.OrderNumbering);
+            var data = rawmaterialorderbll.GetPageList(pagination, queryJson);
             var jsonData = new
             {
                 rows = data,
@@ -219,14 +219,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 decimal Number = 0;
                 foreach (var item1 in RawMaterialOrder)
                 {
-                    var RawMaterialOrderinfo = rawmaterialorderinfobll.GetList(f =>f.RawMaterialAnalysisId == item.Id && f.RawMaterialId == item.RawMaterialId && f.OrderId == item1.OrderId).SingleOrDefault();
-                    if (RawMaterialOrderinfo==null)
+                    var RawMaterialOrderinfo = rawmaterialorderinfobll.GetList(f => f.RawMaterialId == item.RawMaterialId && f.OrderId == item1.OrderId).SingleOrDefault();
+                    if (RawMaterialOrderinfo == null)
                     {
-                        Number = 0;
+                        var a = 0;
+                        Number += a;
                     }
-                    else if(RawMaterialOrderinfo.RawMaterialId == item.RawMaterialId)
+                    else if (RawMaterialOrderinfo.RawMaterialId == item.RawMaterialId)
                     {
-                        Number += RawMaterialOrderinfo.IsEmpty() ? 0 : RawMaterialOrderinfo.Quantity.ToDecimal();
+                        Number += RawMaterialOrderinfo.Quantity.ToDecimal();
                     }
                 }
 
@@ -235,6 +236,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     RawMaterialId = RawMaterial.RawMaterialId,
                     Category = dataitemdetailbll.GetEntity(RawMaterial.Category).ItemName,
+                    CategoryId = RawMaterial.Category,
                     RawMaterialAnalysisId = item.Id,
                     RawMaterialModel = RawMaterial.RawMaterialModel,
                     RawMaterialName = RawMaterial.RawMaterialName,
@@ -305,30 +307,73 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <param name="KeyValue"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public ActionResult ListMember(string KeyValue, string category)
+        //public ActionResult ListMember(string KeyValue, string category)
+        //{
+        //    var listmember = new List<RawMaterialLibraryModel>();
+        //    if (KeyValue != null)
+        //    {
+        //        string[] array = KeyValue.Split(',');
+        //        if (array.Count() > 0)
+        //        {
+        //            if (array != null)
+        //                foreach (var item in array)
+        //                {
+        //                    var a = rawmaterialanalysisbll.GetList(f => f.Category == category && f.RawMaterialId == item).SingleOrDefault();
+        //                    var rawmaterial = rawmateriallibrarybll.GetList(f => f.RawMaterialId == a.RawMaterialId).SingleOrDefault();
+        //                    var rawmaterialInventory = rawmaterialinventorybll.GetList(null).ToList().Find(f => f.RawMaterialId == a.RawMaterialId);
+        //                    RawMaterialLibraryModel projectdemand = new RawMaterialLibraryModel()
+        //                    {
+        //                        RawMaterialId = rawmaterial.RawMaterialId,
+        //                        RawMaterialAnalysisId = a.Id,
+        //                        RawMaterialModel = rawmaterial.RawMaterialModel,
+        //                        RawMaterialName = rawmaterial.RawMaterialName,
+        //                        UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName,
+        //                        Qty = a.RawMaterialDosage,
+        //                        InventoryQty = Convert.ToDecimal(rawmaterialInventory.Quantity),
+        //                        InventoryId = rawmaterialInventory.InventoryId,
+        //                    };
+        //                    listmember.Add(projectdemand);
+        //                }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        listmember = null;
+        //    }
+        //    return Json(listmember);
+        //}
+
+        public ActionResult ListMember(string RawMaterialAnalysisId, string RawMaterialId, string RawMaterialCategory, string RawMaterialName, string RawMaterialModel, string UnitId, string Qty)
         {
-            var listmember = new List<RawMaterialLibraryModel>();
-            if (KeyValue != null)
+            // var inventory = 0; //库存量
+            var listmember = new List<Text>();
+            if (RawMaterialId != null && RawMaterialId != "")
             {
-                string[] array = KeyValue.Split(',');
-                if (array.Count() > 0)
+                string[] arrayRawMaterialAnalysisId = RawMaterialAnalysisId.Split(',');
+                string[] arrayRawMaterialId = RawMaterialId.Split(',');
+                string[] arrayRawMaterialCategory = RawMaterialCategory.Split(',');
+                string[] arrayRawMaterialName = RawMaterialName.Split(',');
+                string[] arrayRawMaterialModel = RawMaterialModel.Split(',');
+                string[] arrayUnitId = UnitId.Split(',');
+                string[] arrayRawMaterialQty = Qty.Split(',');
+               
+                if (arrayRawMaterialId.Count() > 0)
                 {
-                    if (array != null)
-                        foreach (var item in array)
+                    if (arrayRawMaterialAnalysisId != null)
+                        for (int i = 0; i < arrayRawMaterialAnalysisId.Length; i++)
                         {
-                            var a = rawmaterialanalysisbll.GetList(f => f.Category == category && f.RawMaterialId == item).SingleOrDefault();
-                            var rawmaterial = rawmateriallibrarybll.GetList(f => f.RawMaterialId == a.RawMaterialId).SingleOrDefault();
-                            var rawmaterialInventory = rawmaterialinventorybll.GetList(null).ToList().Find(f => f.RawMaterialId == a.RawMaterialId);
-                            RawMaterialLibraryModel projectdemand = new RawMaterialLibraryModel()
+                            // var sb = arrayRawMaterialId[i];
+                            //var rawmaterialinventory = rawmaterialinventorybll.GetEntityByRawMaterialId(arrayRawMaterialId[i].ToString());
+                            //var inventory = rawmaterialinventory.Quantity.ToDecimal();//需采购量
+                            Text projectdemand = new Text()
                             {
-                                RawMaterialId = rawmaterial.RawMaterialId,
-                                RawMaterialAnalysisId = a.Id,
-                                RawMaterialModel = rawmaterial.RawMaterialModel,
-                                RawMaterialName = rawmaterial.RawMaterialName,
-                                UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName,
-                                Qty = a.RawMaterialDosage,
-                                InventoryQty = Convert.ToDecimal(rawmaterialInventory.Quantity),
-                                InventoryId = rawmaterialInventory.InventoryId,
+                                RawMaterialAnalysisId= arrayRawMaterialAnalysisId[i],
+                                RawMaterialId= arrayRawMaterialId[i],
+                                RawMaterialCategory= arrayRawMaterialCategory[i],
+                                RawMaterialName= arrayRawMaterialName[i],
+                                RawMaterialModel= arrayRawMaterialModel[i],
+                                UnitId= arrayUnitId[i],
+                                Qty= arrayRawMaterialQty[i].ToDecimal(),
                             };
                             listmember.Add(projectdemand);
                         }
@@ -336,7 +381,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             else
             {
-                listmember = null;
+                return Json(listmember);
             }
             return Json(listmember);
         }
