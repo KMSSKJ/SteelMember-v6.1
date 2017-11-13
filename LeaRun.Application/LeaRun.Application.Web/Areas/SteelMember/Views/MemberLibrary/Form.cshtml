@@ -29,20 +29,30 @@
             var $finish = $("#btn_finish");
             var $next = $("#btn_next");
             if (data.direction == "next") {
-                if (categoryInput == "请选择工程名称而不是工程分类") {
-                    dialogMsg("工程应选择二级工程而不是工程总称", "error");
+                if (!$('#form1').Validform()) {
                     return false;
                 }
+                var images = "";
+                var imgs = document.getElementById("CAD").getElementsByTagName("img");
+                for (var j = 0; j < imgs.length; j++) {
+                    images += getFileName(imgs[j].id) + ':';
+                }
                 if ($("#Icon").val() == "" || $("#Icon").val() == null) {
-                    dialogMsg("构件图标不能为空", 0);
+                    var txt = "<span>构件图标不能为空!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
                     return false;
                 }
                 if ($("#Model_Drawing").val() == "" || $("#Model_Drawing").val() == null) {
-                    dialogMsg("构件模型不能为空", 0);
+                    var txt = "<span>构件模型不能为空!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
                     return false;
                 }
-                if ($("#CAD_Drawing").val() == "" || $("#CAD_Drawing").val() == null) {
-                    dialogMsg("构件图纸不能为空", 0);
+                if (images == "" || images == null) {
+                    var txt = "<span>构件图纸不能为空!</span>";
+                    $("#errorimg").append(txt);
+                    document.getElementById('errorimg').style.display = "block";
                     return false;
                 }
 
@@ -329,8 +339,8 @@
             unwritten: false,
             url: "/SteelMember/MemberLibrary/GetMemberRawMaterialJson?MemberId=" + escape(MemberId),
             datatype: "json",
-            height: $(window).height() - 165,
-            width: $(window).width() - 11,
+            height: $(window).height() - 195,
+            width: $(window).width() - 40,
             colModel: [
                 { label: "外键", name: "RawMaterialId", hidden: true },
                 { label: "外键", name: "MemberId", hidden: true },
@@ -491,27 +501,34 @@
     }
     //保存表单
     function AcceptClick() {
+        var images = "";
+        var imgs = document.getElementById("CAD").getElementsByTagName("img");
+        for (var j = 0; j < imgs.length; j++) {
+            images += getFileName(imgs[j].id) + ':';
+        }
         if ($("#Icon").val() == "" || $("#Icon").val() == null) {
-            dialogMsg("构件图标不能为空", 0);
+            var txt = "<span>构件图标不能为空!</span>";
+            $("#errorimg").append(txt);
+            document.getElementById('errorimg').style.display = "block";
             return false;
         }
         if ($("#Model_Drawing").val() == "" || $("#Model_Drawing").val() == null) {
-            dialogMsg("构件模型不能为空", 0);
+            var txt = "<span>构件模型不能为空!</span>";
+            $("#errorimg").append(txt);
+            document.getElementById('errorimg').style.display = "block";
             return false;
         }
-        if ($("#CAD_Drawing").val() == "" || $("#CAD_Drawing").val() == null) {
-            dialogMsg("构件图纸不能为空", 0);
+        if (images == "" || images == null) {
+            var txt = "<span>构件图纸不能为空!</span>";
+            $("#errorimg").append(txt);
+            document.getElementById('errorimg').style.display = "block";
             return false;
         }
         if (!$('#form1').Validform()) {
             return false;
         }
         var postData = $("#form1").GetWebControls(KeyValue);
-        var images = "";
-        var imgs = document.getElementById("CAD").getElementsByTagName("img");
-        for (var j = 0; j < imgs.length; j++) {
-            images += getFileName(imgs[j].id) + ':';
-        }
+        
         postData["CAD_Drawing"] = images;
         postData["MemberName"] = $("#MemberName").val().replace(/\s+/g, "");//除去所有空格
         postData["EngineeringId"] = $("#EngineeringId").attr('data-value');
@@ -593,7 +610,7 @@
                 <tr>
 
                     <td class="formTitle">
-                        图标
+                        图标<font face="宋体" color="red">*</font>
                     </td>
                     <td class="formValue">
                         <div style="height:150px;border:1px solid #cccccc">
@@ -605,7 +622,7 @@
                         </div>
                     </td>
                     <td class="formTitle">
-                        模型
+                        模型<font face="宋体" color="red">*</font>
                     </td>
                     <td class="formValue">
                         <div style="height:150px;border:1px solid #cccccc">
@@ -619,7 +636,7 @@
                 </tr>
                 <tr>
                     <td class="formTitle">
-                        图纸
+                        图纸<font face="宋体" color="red">*</font>
                     </td>
                     <td class="formValue" colspan="3">
                         <div id="CAD" style="float:left;height:155px;word-break:break-all;width:100%;min-height:150px;padding:5px;overflow-y:auto;border:1px solid #cccccc">
