@@ -30,6 +30,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult EquipmentDeail(string keyValue)
         {
             var model = safetyequipmentbll.GetEntity(keyValue);
+            string filePath = System.IO.Path.GetFileNameWithoutExtension(model.Icon);
+            model.Icon = "/Resource/Document/NetworkDisk/System/Member/" + filePath + "/" + model.Icon;
             return View(model);
         }
         /// <summary>
