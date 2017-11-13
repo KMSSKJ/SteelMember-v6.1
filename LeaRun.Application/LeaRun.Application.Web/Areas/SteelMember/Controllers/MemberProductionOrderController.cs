@@ -125,7 +125,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetPageListJsonProcess(Pagination pagination, string queryJson)
         {
             var watch = CommonHelper.TimerStart();
-            var data = memberproductionorderbll.GetPageList(pagination, queryJson).ToList().FindAll(f=>f.IsPassed==1).OrderByDescending(O => O.Priority).ToList();
+            var data = memberproductionorderbll.GetPageList(pagination, queryJson).ToList().FindAll(f => f.IsPassed == 1).OrderByDescending(O => O.Priority).ToList();
             foreach (var item in data)
             {
                 item.Category = subprojectbll.GetEntity(item.Category).FullName;
@@ -170,6 +170,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberDemandId = childData[i].MemberDemandId,
                     MemberNumber = childData[i].ProductionQuantity,
                     ProductionedQuantity = Convert.ToInt32(childData[i].ProductionedQuantity),
+                    QualifiedQuantity = childData[i].QualifiedQuantity,
                     SelfDetectNumber = childData[i].SelfDetectNumber,
                     SelfDetectRemarks = childData[i].SelfDetectRemarks,
                     QualityInspectionNumber = childData[i].QualityInspectionNumber,
@@ -199,10 +200,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var data = memberproductionorderbll.GetEntity(keyValue);
             var MemberList = new List<MemberDemandModel>();
-            if (data!=null)
+            if (data != null)
             {
                 data.Category = subprojectbll.GetEntity(data.Category).FullName;
-                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName ;
+                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName;
 
                 var childData = memberproductionorderbll.GetDetails(keyValue).ToList();
                 for (int i = 0; i < childData.Count(); i++)
@@ -226,7 +227,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberList.Add(Member);
                 }
             }
-           
+
             var jsonData = new
             {
                 entity = data,
@@ -278,19 +279,35 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var watch = CommonHelper.TimerStart();
             var data = new List<MemberDemandModel>();
             var memberdemand = memberdemandbll.GetPageList1(pagination, f => f.SubProjectId == category && f.IsReview == 1).ToList();//.OrderByDescending(o => o.MemberNumbering)
-
+            var MemberProductionOrder = memberproductionorderbll.GetList(f => f.Category == category);
             foreach (var item in memberdemand)
             {
+                decimal Number=0;
+                foreach (var item1 in MemberProductionOrder)
+                {
+                    var memberproductionorderinfo = memberproductionorderinfobll.GetList(f => f.MemberDemandId == item.MemberDemandId && f.MemberId == item.MemberId && f.OrderId == item1.OrderId).SingleOrDefault();
+                    if (memberproductionorderinfo == null)
+                    {
+                        Number = 0;
+                    }
+                    else if (memberproductionorderinfo.MemberId == item.MemberId)
+                    {
+                        Number += memberproductionorderinfo.IsEmpty() ? 0 : memberproductionorderinfo.ProductionQuantity.ToDecimal();
+                    }
+                }
                 MemberDemandModel MemberDemand = new MemberDemandModel();
                 var member = memberlibrarybll.GetEntity(f => f.MemberId == item.MemberId);
                 MemberDemand.MemberId = member.MemberId;
                 MemberDemand.MemberDemandId = item.MemberDemandId;
-                MemberDemand.Category = member.Category;
+                MemberDemand.Category = dataitemdetailbll.GetEntity(member.Category).ItemName;
                 MemberDemand.MemberNumbering = member.MemberNumbering;
                 MemberDemand.MemberName = member.MemberName;
                 MemberDemand.UnitId = dataitemdetailbll.GetEntity(member.UnitId).ItemName;
-                MemberDemand.MemberNumber = item.MemberNumber;
+                //MemberDemand.MemberNumber;需求量
+                MemberDemand.MemberNumber = item.MemberNumber.ToDecimal() - Number;//可申请
+                if (MemberDemand.MemberNumber > 0) { 
                 data.Add(MemberDemand);
+                }
             }
             var jsonData = new
             {
@@ -374,7 +391,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         MemberDemandModel projectdemand = new MemberDemandModel()
                         {
                             MemberId = a.MemberId,
-                            MemberDemandId=a.MemberDemandId,
+                            MemberDemandId = a.MemberDemandId,
                             MemberName = member.MemberName,
                             UnitPrice = member.UnitPrice,
                             UnitId = dataitemdetailbll.GetEntity(member.UnitId).ItemName,
@@ -403,7 +420,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             string[] ids = new string[] { };
@@ -452,7 +469,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 entity.QualityInspectionStatus = 0;
                 entity.SelfDetectStatus = 0;
                 entity.IsReceiveRawMaterial = 0;
-                entity.CreateMan= OperatorProvider.Provider.Current().UserName;
+                entity.CreateMan = OperatorProvider.Provider.Current().UserName;
             }
 
             entity.IsPassed = 0;
@@ -470,7 +487,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult SubmitReview(string keyValues)
         {
             string[] ids = new string[] { };
@@ -507,8 +524,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
-        public ActionResult ReviewOperation(string keyValue,MemberProductionOrderEntity entity, int type)
+        // [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult ReviewOperation(string keyValue, MemberProductionOrderEntity entity, int type)
         {
             string[] ids = new string[] { };
             if (!string.IsNullOrEmpty(keyValue))
@@ -530,7 +547,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         model.Description = entity.Description;
                         list.Add(model);
                     }
-                    if (type==1)
+                    if (type == 1)
                     {
                         //数据添加至出库信息
                         var childEntitys1 = new List<MemberCollarInfoEntity>();

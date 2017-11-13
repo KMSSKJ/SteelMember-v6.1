@@ -1030,7 +1030,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 return Content("../.." + NewPath + "/" + filename);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Content("3");
             }

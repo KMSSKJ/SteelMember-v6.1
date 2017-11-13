@@ -6,6 +6,11 @@
 <script>
     var keyValue = request('keyValue');
    // var CollarEngineering = request("category");
+    var OrganizeId = "";
+    var ContactPerson = "";
+    var ShippingAddress = "";
+    var ContactPersonTel = "";
+
     $(function () {
         InitialPage();
         GetCollarEntryGrid();
@@ -71,6 +76,7 @@
     }
 
     //初始化控件
+
     function initControl() {
 
         $("#CollarEngineering").ComboBoxTree({
@@ -96,9 +102,11 @@
                         param: { keyValue: Category },
                         success: function (data) {
                             if (data != null) {
+                                OrganizeId = data.OrganizeId;
+
                                 $("#table1").find("tr:eq(1)").find("td:eq(0)").html(top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName);
-                                $("#table1").find("tr:eq(1)").find("td:eq(1)").html(top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName);
                                 $("#table1").find("tr:eq(1)").find("td:eq(2)").html($("#CreateTime").val());
+                                $("#table1").find("tr:eq(1)").find("td:eq(1)").html(top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName);
                                 $("#table1").find("tr:eq(2)").find("td:eq(0)").html($("#CollarEngineering").attr('data-text') + "施工现场");
                                 $("#table1").find("tr:eq(2)").find("td:eq(1)").html(top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile);
                             }
@@ -172,7 +180,13 @@
         postData["CollarType"] = 1;
         postData["Date"] = $("#CreateTime").val();
         postData["ReviewMan"] = $("#ReviewMan").val();
-        postData["ShippingAddress"] ="构件厂";
+        postData["OrganizeId"] = OrganizeId;
+
+        //$("#table1").find("tr:eq(1)").find("td:eq(1)").innerText()
+       
+        postData["ContactPerson"] = document.getElementById("table1").rows[1].cells[3].innerText;
+        postData["ShippingAddress"] = document.getElementById("table1").rows[2].cells[1].innerText;
+        postData["ContactPersonTel"] = document.getElementById("table1").rows[2].cells[3].innerText;
 
         var childEntryJson = [];
 
@@ -207,20 +221,35 @@
             return false;
         }
 
-        $.SaveForm({
-            url: "/SteelMember/ProductionProcess/ReceiveRawMaterial",
-            param: { keyValue: keyValue },
-            loading: "正在保存数据...",
-            success: function () {
-                $.currentIframe().$("#gridTable").trigger("reloadGrid");
-            }
-        })
+        //$.SaveForm({
+        //    url: "/SteelMember/ProductionProcess/ReceiveRawMaterial",
+        //    param: { keyValue: keyValue },
+        //    loading: "正在保存数据...",
+        //    success: function () {
+        //        $.currentIframe().$("#gridTable").trigger("reloadGrid");
+        //    }
+        //})
 
         $.SaveForm({
             url: "../../SteelMember/RawMterialCollar/SaveForm_Memebr",
             param: { "strEntity": JSON.stringify(postData), "strChildEntitys": JSON.stringify(childEntryJson) },
-            //loading: "正在保存数据...",
+            loading: "正在保存数据...",
             success: function () {
+                $.ajax({
+                    url: "/SteelMember/ProductionProcess/ReceiveRawMaterial",
+                    data: { keyValue: keyValue},
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        //if (data.type == "3") {
+                        //    dialogAlert(data.message, -1);
+                        //} else {
+                        //    Loading(false);
+                        //    dialogMsg(data.message, 1);
+                        //}
+                        //$('#gridTable').trigger('reloadGrid');
+                    }
+                });
                 $.currentIframe().$("#gridTable").trigger("reloadGrid");
             }
         })
@@ -240,6 +269,10 @@
 <div class="bills">
     <input id="Numbering" type="hidden" Numbering value="@ViewBag.Numbering" />
     <input id="CreateTime" type="hidden" Date value="@ViewBag.CreateTime" />
+    <input id="ContactPerson" type="hidden" />
+    <input id="ShippingAddress" type="hidden" />
+    <input id="ContactPersonTel" type="hidden" />
+
     <div id="CollarEngineering" type="selectTree" class="ui-select" style="display:none" isvalid="yes" checkexpession="NotNull"></div>
     <div style="float:left;font-family: 华文楷体">
         <div>

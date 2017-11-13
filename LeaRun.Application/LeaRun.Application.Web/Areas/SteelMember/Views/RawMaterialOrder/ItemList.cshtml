@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "材料列表";
-    Layout = "~/Views/Shared/_OrderForm.cshtml";
+    Layout = "~/Views/Shared/_Index.cshtml";
 }
 <script>
     var Category = request('category');
@@ -19,7 +19,6 @@
         });
     });
 
-    var myArray = [];
     //显示物料
     function GetGrid() {
         var SelectRowIndx;
@@ -27,20 +26,18 @@
         $("#gridTable").jqGrid({
             url: "@Url.Content("~/SteelMember/RawMaterialOrder/GridListJsonRawAnalysis")?category=" + Category,
             datatype: "json",
-            height: $(window).height()-100,
+            height: $(window).height()-80,
             autowidth: true,
             colModel: [
-                { label: '外键', name: "RawMaterialAnalysisId", align: ' center', width: 100, sortable: false, hidden: true },
-                { label: '主键', name: "RawMaterialId", align: ' center', width: 100, sortable: false ,hidden:true},
-                { label: '规格或型号', name: "RawMaterialModel", align: ' center', width:100, sortable: false },
-                { label: '材料名称', name: "RawMaterialName", align: ' center', width: 100, sortable: false },//Category
-                //{ label: '需求量', name: "Qty", align: ' center', width: 50, sortable: false,},
-                { label: '已采购量', name: "PurchasedQuantity", align: ' center', width: 50, sortable: false, },
-                { label: '单位', name: "UnitId", align:' center',width: 50, sortable: false},
+                { label: '外键', name: "RawMaterialAnalysisId", hidden: true },
+                { label: '主键', name: "RawMaterialId", hidden: true },
+                { label: '材料类型', name: "Category", align: ' center', width: 150, sortable: false },
+                { label: '材料名称', name: "RawMaterialName", align: ' center', width: 150, sortable: false },
+                { label: '规格或型号', name: "RawMaterialModel", align: ' center', width:150, sortable: false },
+                { label: '单位', name: "UnitId", align: ' center', width: 50, sortable: false },
+                { label: '可申请量', name: "Qty", align: ' center', width: 80, sortable: false, },
             ],
-            rowNum: 30,
-            viewrecords: true,
-            rowNum: 30,
+            rowNum: 15,
             sortname: 'RawMaterialId',
             sortorder: 'Desc',//降序 asc升序
             pager: "#gridPager",
@@ -60,17 +57,6 @@
                 for (var k = 0; k < rowIds.length; k++) {
                     var curRowData = jQuery("#gridTable").jqGrid('getRowData', rowIds[k]);
                     var curChk = $("#" + rowIds[k] + "").find(":checkbox");
-                    //curChk.attr('name', 'checkboxname');   //给每一个checkbox赋名字
-                    //curChk.attr('value', curRowData['MY_ID']);   //给checkbox赋值
-                    //curChk.attr('title', curRowData['NAME']);   //给checkbox赋予额外的属性值
-                    ////curChk.attr('checked', 'true');   //设置所有checkbox被选中
-                    //if (!$parentobj.HaveExistItem(k, curRowData.RawMaterialId)) {
-                    //    //$("#gridTable").attr("checked", false);
-                    //    curChk.attr('checked', false);
-                    //} else {
-                    //    //$("#gridTable").attr("checked", true);
-                    //    curChk.attr('checked', true);
-                    //}
                 }
             },
         });
@@ -98,11 +84,11 @@
                         $parentobj.$("#RawMaterialId➩" + rows).val(null);
                         $parentobj.$("#RawMaterialName➩" + rows).val(null);
                         $parentobj.$("#RawMaterialModel➩" + rows).val(null);
-                        $parentobj.$("#PriceAmount➩" + rows).val(null);
-                        $parentobj.$("#Price➩" + rows).val(null);
                         $parentobj.$("#UnitId➩" + rows).val(null);
-                        $parentobj.$("#RawMaterialManufacturer➩" + rows).val(null);
-                        $parentobj.$("#RawMaterialSupplier➩" + rows).val(null);
+                        //$parentobj.$("#PriceAmount➩" + rows).val(null);
+                        //$parentobj.$("#Price➩" + rows).val(null);
+                        //$parentobj.$("#RawMaterialManufacturer➩" + rows).val(null);
+                        //$parentobj.$("#RawMaterialSupplier➩" + rows).val(null);
                         $parentobj.$("#Description➩" + rows).val(null);
                         $parentobj.$("#MaxNumber➩" + rows).val(null);
                         rows++;
@@ -112,29 +98,29 @@
                         var data1;
                         for (var i = 0; i < rowData.length; i++) {
                             $parentobj.IsExistItem(index, rowData[i].MemberNumbering);
-                            $.ajax({
-                                type: 'post',
-                                dataType: "text",
-                                url: "/SteelMember/RawMaterialOrder/AddRawMaterialNumber",
-                                data: {
-                                    category: Category,
-                                    KeyValue: rowData[i].RawMaterialId
-                                },
-                                cache: false,
-                                async: false,
-                                success: function (data) {
-                                    data1 = data;
-                                }
-                            });
+                            //$.ajax({
+                            //    type: 'post',
+                            //    dataType: "text",
+                            //    url: "/SteelMember/RawMaterialOrder/AddRawMaterialNumber",
+                            //    data: {
+                            //        category: Category,
+                            //        KeyValue: rowData[i].RawMaterialId
+                            //    },
+                            //    cache: false,
+                            //    async: false,
+                            //    success: function (data) {
+                            //        data1 = data;
+                            //    }
+                            //});
                             $parentobj.$("#RawMaterialId➩" + index).val(rowData[i].RawMaterialId);
                             $parentobj.$("#RawMaterialAnalysisId➩" + index).val(rowData[i].RawMaterialAnalysisId);
                             $parentobj.$("#RawMaterialName➩" + index).val(rowData[i].RawMaterialName);
                             $parentobj.$("#RawMaterialModel➩" + index).val(rowData[i].RawMaterialModel);
                             $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
-                            $parentobj.$("#Quantity➩" + index).val(Number(data1));
-                            $parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
-                            $parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
-                            $parentobj.$("#MaxNumber➩" + index).val(Number(data1));
+                            $parentobj.$("#Quantity➩" + index).val(Number(rowData[i].Qty));
+                            //$parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
+                            //$parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
+                            $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].Qty));
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
                             index++;
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');
@@ -152,7 +138,7 @@
     }
 </script>
 
-<div class="rightline" style="margin: 1px; margin-top: -1px;">
+<div class="rightline" style="margin: 5px;">
     <table id="gridTable"></table>
     <div id="gridPager"></div>
 </div>
