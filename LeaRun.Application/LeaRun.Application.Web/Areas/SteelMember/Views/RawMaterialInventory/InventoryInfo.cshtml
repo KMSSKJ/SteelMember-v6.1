@@ -108,8 +108,15 @@
                 <td align="center" colspan="6">
                     <div style="font-family: 华文楷体; font-size: x-large; height: 40px; line-height: 40px;">
                         材料入库&nbsp;
-
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    所属采购单<font face="宋体" color="red">*</font>
+                </th>
+                <td colspan="5">
+                    <div id="PurchaseId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 </td>
             </tr>
             <tr>
@@ -119,32 +126,13 @@
                 <td colspan="2">
                     <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 </td>
-
-                @*<th>
-                    材料名称<font face="宋体" color="red">*</font>
-                </th>
-                <td colspan="2">
-                    <div id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                </td>*@
                 <th>
                     材料<font face="宋体" color="red">*</font>
                 </th>
                 <td colspan="2">
                     <div id="RawMaterialId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                    @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
                 </td>
             </tr>
-            <tr>
-              
-                <th>
-                    所属采购单<font face="宋体" color="red">*</font>
-                </th>
-                <td colspan="5">
-                    <div id="PurchaseId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                    @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
-                </td>
-            </tr>
-
             <tr>
                 <th>
                     入库数量<font face="宋体" color="red">*</font>
