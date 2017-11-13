@@ -99,15 +99,24 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             try
             {
-                systemconfigurationbll.SaveForm(entity.SystemConfigurationId, entity);
+                var a = systemconfigurationbll.GetList(null).ToList();
+                if (a.Count()>0)
+                {
+                    foreach (var item in a)
+                    {
+                        systemconfigurationbll.RemoveForm(entity.SystemConfigurationId);
+                    }
+                }
+                systemconfigurationbll.SaveForm(null, entity);
 
                 var model = subprojectbll.GetListWant(s => s.ParentId == "0").SingleOrDefault();
                 if (model == null)
                 {
-                    model.ParentId = "0";
-                    model.FullName = entity.EngineeringName;
-                    model.Levels = 1;
-                    subprojectbll.SaveForm("", model);
+                    var _entity = new SubProjectEntity();
+                    _entity.ParentId = "0";
+                    _entity.FullName = entity.EngineeringName;
+                    _entity.Levels = 1;
+                    subprojectbll.SaveForm("", _entity);
                 }
                 else
                 {

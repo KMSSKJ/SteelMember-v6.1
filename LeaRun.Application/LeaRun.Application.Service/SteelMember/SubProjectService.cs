@@ -107,7 +107,7 @@ namespace LeaRun.Application.Service.SteelMember
             else
             {
                 entity.Create();
-                if (entity.ParentId == null)
+                if (entity.ParentId == null||entity.ParentId=="0")
                 {
                     entity.ParentId = "0";
                     entity.Levels = 1;

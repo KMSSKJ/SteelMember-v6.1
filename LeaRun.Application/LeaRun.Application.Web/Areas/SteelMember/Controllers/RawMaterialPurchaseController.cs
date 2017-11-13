@@ -86,6 +86,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var data = ToJsonResult(entityrawMaterialPurchaseId);
             return data;
         }
+
         ///// <summary>
         ///// 获取订单下children详情
         ///// </summary>
@@ -387,7 +388,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     //var entityrawmaterialanalysis = rawmaterialanalysisbll.GetEntity(item.RawMaterialAnalysisId);
                     var entityrawmateriallibrary = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
                     //var entityrawmaterialinventory = rawmaterialinventorybll.GetList(null).ToList().Find(f => f.RawMaterialId == item.RawMaterialId);
-                    rawMaterialPurchaseModel.Quantity = rawmaterialpurchasebll.GetEntity(f=>f.RawMaterialOrderInfoId== item.RawMaterialOrderInfoId).PurchaseQuantity;
+                    rawMaterialPurchaseModel.Quantity = rawmaterialpurchasebll.GetEntity(f => f.RawMaterialOrderInfoId == item.RawMaterialOrderInfoId).PurchaseQuantity;
                     rawMaterialPurchaseModel.RawMaterialPurchaseId = item.RawMaterialPurchaseId;
                     rawMaterialPurchaseModel.RawMaterialOrderInfoId = item.RawMaterialOrderInfoId;
                     rawMaterialPurchaseModel.PurchaseQuantity = item.PurchaseQuantity;
@@ -397,8 +398,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawMaterialPurchaseModel.Description = item.Description;
                     rawMaterialPurchaseModel.RawMaterialName = entityrawmateriallibrary.RawMaterialName;
                     rawMaterialPurchaseModel.Price = item.Price;
-                    rawMaterialPurchaseModel.RawMaterialManufacturer = item.RawMaterialManufacturer;
-                    rawMaterialPurchaseModel.RawMaterialSupplier = item.RawMaterialSupplier;
+                    rawMaterialPurchaseModel.RawMaterialManufacturer = dataitemdetailbll.GetEntity(item.RawMaterialManufacturer).ItemName;
+                    rawMaterialPurchaseModel.RawMaterialSupplier = dataitemdetailbll.GetEntity(item.RawMaterialSupplier).ItemName;
                     //rawMaterialPurchaseModel.Quantity = entityrawmaterialinventory.Quantity.ToString();
                     //rawMaterialPurchaseModel.PurchasedQuantity = item..ToString();
                     list.Add(rawMaterialPurchaseModel);
@@ -423,20 +424,20 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetFormJson1(string keyValue)
         {
             var data = rawmaterialpurchasebll.GetEntity(keyValue);
-            
+
             var childData = rawmaterialpurchasebll.GetDetails(keyValue).ToList();
             List<RawMaterialPurchaseModel> list = new List<RawMaterialPurchaseModel>();
             var rawmaterialorder = new RawMaterialOrderEntity();
             if (childData.Count > 0)
             {
-              
+
                 foreach (var item in childData)
                 {
                     RawMaterialPurchaseModel rawMaterialPurchaseModel = new RawMaterialPurchaseModel();
                     var purchaseQuantity = item.PurchaseQuantity;//实际购买量
                     //var rawMaterialAnalysisId = item.RawMaterialOrderInfoId;
                     var OrderId = rawmaterialorderinfobll.GetEntity(item.RawMaterialOrderInfoId).OrderId;
-                     rawmaterialorder = rawmaterialorderbll.GetEntity(OrderId);
+                    rawmaterialorder = rawmaterialorderbll.GetEntity(OrderId);
                     var entityrawmaterialanalysis = rawmaterialanalysisbll.GetEntity(item.RawMaterialAnalysisId);
                     var entityrawmateriallibrary = rawmateriallibrarybll.GetEntity(entityrawmaterialanalysis.RawMaterialId);
                     var entityrawmaterialinventory = rawmaterialinventorybll.GetList(null).ToList().Find(f => f.RawMaterialId == entityrawmaterialanalysis.RawMaterialId);
@@ -452,7 +453,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawMaterialPurchaseModel.Price = item.Price;
                     rawMaterialPurchaseModel.RawMaterialManufacturer = item.RawMaterialManufacturer;
                     rawMaterialPurchaseModel.RawMaterialSupplier = item.RawMaterialSupplier;
-                   
+
                     //rawMaterialPurchaseModel.Quantity = entityrawmaterialanalysis.RawMaterialDosage.ToString();
                     list.Add(rawMaterialPurchaseModel);
                 }
@@ -461,8 +462,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var Category = subprojectbll.GetEntity(rawmaterialorder.Category).FullName;
             var jsonData = new
             {
-                DepartmentId= DepartmentId,
-                Category= Category,
+                DepartmentId = DepartmentId,
+                Category = Category,
                 entity = data,
                 childEntity = list
             };
@@ -542,6 +543,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     rawMaterialPurchaseModel.RawMaterialName = entityrawmateriallibrary.RawMaterialName;
                     rawMaterialPurchaseModel.RawMaterialPurchaseModelPrice = item.Price;
                     rawMaterialPurchaseModel.RawMaterialSupplier = item.RawMaterialSupplier;
+                    rawMaterialPurchaseModel.RawMaterialManufacturer = item.RawMaterialManufacturer;
                     //rawMaterialPurchaseModel.Inventory = entityrawmaterialinventory.Quantity.ToString();
                     //rawMaterialPurchaseModel.SuggestQuantity = entityrawmaterialanalysis.RawMaterialDosage.ToString();
                     list.Add(rawMaterialPurchaseModel);
@@ -566,7 +568,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPurchaseList()
         {
-            var data = rawmaterialpurchasebll.GetList("").ToList().FindAll(f => f.IsWarehousing != 1&&f.IsPurchase==1);
+            var data = rawmaterialpurchasebll.GetList("").ToList().FindAll(f => f.IsWarehousing != 1 && f.IsPurchase == 1);
             return ToJsonResult(data);
         }
         #endregion
@@ -580,14 +582,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-       // [HandlerAuthorize(PermissionMode.Enforce)]
+        // [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
             rawmaterialpurchasebll.RemoveForm(keyValue);
             return Success("删除成功。");
 
         }
-     
+
 
         /// <summary>
         /// 保存表单（新增、修改）
@@ -601,6 +603,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [AjaxOnly]
         public ActionResult SaveForm(string keyValue, string strEntity, string strChildEntitys)
         {
+            //return Success("操作成功。");
             var entity = strEntity.ToObject<RawMaterialPurchaseEntity>();
             entity.IsSubmit = entity.IsSubmit.IsEmpty() ? 0 : entity.IsSubmit;
             entity.IsPassed = entity.IsPassed.IsEmpty() ? 0 : entity.IsPassed;
@@ -610,10 +613,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             List<RawMaterialPurchaseInfoEntity> childEntitys = strChildEntitys.ToList<RawMaterialPurchaseInfoEntity>();
             foreach (var item in childEntitys)
             {
+                item.RawMaterialManufacturer = dataitemdetailbll.GetDataItemList().Where(d => d.ItemName.Trim() == item.RawMaterialManufacturer.Trim()).SingleOrDefault()?.ItemDetailId;
+                item.RawMaterialSupplier = dataitemdetailbll.GetDataItemList().Where(s => s.ItemName.Trim() == item.RawMaterialSupplier.Trim()).SingleOrDefault()?.ItemDetailId;
                 var RawMaterialorderInfo = rawmaterialorderinfobll.GetEntity(item.RawMaterialOrderInfoId);
                 item.RawMaterialAnalysisId = RawMaterialorderInfo.RawMaterialAnalysisId;
             }
-           
+
             rawmaterialpurchasebll.SaveForm(keyValue, entity, childEntitys);
             return Success("操作成功。");
         }
@@ -763,7 +768,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                                     var OrderId = rawmaterialorderinfobll.GetEntity(listInfo[i].RawMaterialOrderInfoId).OrderId;
                                     var Category = rawmaterialorderbll.GetEntity(OrderId).Category;
                                     var RawMaterialAnalysisId = listInfo[j].RawMaterialAnalysisId;
-                                    var rawmaterialanalysis = rawmaterialanalysisbll.GetList(f=>f.Category==Category&& f.Id== RawMaterialAnalysisId).SingleOrDefault();//通过分析ID取得分析数据
+                                    var rawmaterialanalysis = rawmaterialanalysisbll.GetList(f => f.Category == Category && f.Id == RawMaterialAnalysisId).SingleOrDefault();//通过分析ID取得分析数据
                                     rawmaterialanalysis.PurchasedQuantity = rawmaterialanalysis.PurchasedQuantity.ToDecimal() + listInfo[j].PurchaseQuantity;
                                     rawmaterialanalysisbll.SaveForm(listInfo[j].RawMaterialAnalysisId, rawmaterialanalysis);
                                 }

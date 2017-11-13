@@ -160,7 +160,8 @@
             param: postData,
             loading: "正在保存数据...",
             success: function (data) {
-
+                btn_reset();
+                GetGrid();
             }
         })
     }

@@ -65,7 +65,7 @@ namespace LeaRun.Application.Busines.SteelMember
             {
                 service.SaveForm(keyValue, entity);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

@@ -77,8 +77,8 @@
                 PurchaseQuantity: '<input id="PurchaseQuantity➩' + i + '"class="editable center" type="form-control" onkeyup="Conversion(' + i + ')"/>',
                 Price: '<input id="Price➩' + i + '" class="editable center" type="form-control" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
                 PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="form-control"/>',
-                RawMaterialManufacturer: '<input id="RawMaterialManufacturer➩' + i + '" class="editable disabled center" list="itemlist" type="form-control" onclick="searchManufacturer()"/><datalist id="itemlist"></datalist>',
-                RawMaterialSupplier: '<input id="RawMaterialSupplier➩' + i + '" class="editable disabled center" list="itemlist" type="form-control" onclick="searchSupplier()"/><datalist id="itemlist"></datalist>',
+                RawMaterialManufacturer: '<input id="RawMaterialManufacturer➩' + i + '" class="editable disabled center" list="itemlist_f" type="form-control" onclick="searchManufacturer()"/><datalist id="itemlist_f"></datalist>',
+                RawMaterialSupplier: '<input id="RawMaterialSupplier➩' + i + '" class="editable disabled center" list="itemlist_s" type="form-control" onclick="searchSupplier()"/><datalist id="itemlist_s"></datalist>',
                 Description: '<input id="Description➩' + i + '" class="editable disabled center" type="form-control"/>',
             }
             $('#gridTable').jqGrid('addRowData', i, rowdata);
@@ -105,7 +105,7 @@
 
     //生产商下拉框
     function searchManufacturer() {
-        $('#itemlist').empty();
+        $('#itemlist_f').empty();
         $.SetForm({
             param: { EnCode: "RawMaterialManufacturer" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
@@ -113,7 +113,7 @@
                 if (data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
                         var item = data[i];
-                        $('#itemlist').append('<option value="' + item.ItemName + '"></option>'); //label = "' + item.ItemDetailId + '"
+                        $('#itemlist_f').append('<option id="' + item.ItemDetailId + '" value="' + item.ItemName +'"></option>'); //label = "' + item.ItemDetailId + '"
                     }
                 }
             }
@@ -123,7 +123,7 @@
 
     //供应商下拉框
     function searchSupplier() {
-        $('#itemlist').empty();
+        $('#itemlist_s').empty();
         $.SetForm({
             param: { EnCode: "RawMaterialSupplier" },
             url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
@@ -131,7 +131,7 @@
                 if (data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
                         var item = data[i];
-                        $('#itemlist').append('<option value="' + item.ItemName + '"></option>'); //label = "' + item.ItemDetailId + '"
+                        $('#itemlist_s').append('<option id="' + item.ItemDetailId + '" value="' + item.ItemName + '"></option>'); //label = "' + item.ItemDetailId + '"
                     }
                 }
             }
@@ -267,7 +267,7 @@
                     Price: $(this).find('input[id="Price➩' + i + '"]').val(),
                     Description: $(this).find('input[id="Description➩'+i+'"]').val(),
                     RawMaterialId: $(this).find('input[id="RawMaterialId➩' + i + '"]').val(),
-                    RawMaterialManufacturer: $(this).find('input[id="RawMaterialManufacturer➩' + i + '"]').val(),
+                    RawMaterialManufacturer: $(this).find('input[id="RawMaterialManufacturer➩' + i + '"]').val(),//attributes["id"].value,
                     RawMaterialSupplier: $(this).find('input[id="RawMaterialSupplier➩' + i + '"]').val(),
                 });
             }
