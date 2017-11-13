@@ -112,12 +112,12 @@
                         }
                     }
                 },
-                { label: '构件编号', name: "MemberNumbering", width: 150, index: "MemberNumbering", align: 'center', },
                 { label: '构件类型', name: "Category", width: 100, index: "Category", align: ' center' },
-                { label: '构件名', name: "MemberName", width: 100, index: "MemberName", align: ' center', sortable: false},
+                { label: '构件名', name: "MemberName", width: 100, index: "MemberName", align: ' center', sortable: false },
+                { label: '构件编号', name: "MemberNumbering", width: 150, index: "MemberNumbering", align: 'center', },
                 { label: '需求量', name: "MemberNumber", width: 80, index: "MemberNumber", align: ' center',},
                 {
-                    label: '单位', name: "UnitId", width: 80, index: "MemberUnit", align: ' center', sortable: false,
+                    label: '计量单位', name: "UnitId", width: 80, index: "MemberUnit", align: ' center', sortable: false,
                     formatter: function (cellvalue, value, row, index) {
                         unit_name = cellvalue;
                         return unit_name
@@ -148,8 +148,8 @@
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }
                 },
-                { label: '已成订单量', name: 'OrderedQuantity', width: 80, index: 'OrderedQuantity', align: ' center', sortable: false},
-                { label: '已生产合格量', name: 'ProductionNumber', width: 80, index: 'ProductionNumber', align: ' center', sortable: false },
+                //{ label: '已成订单量', name: 'OrderedQuantity', width: 80, index: 'OrderedQuantity', align: ' center', sortable: false},
+                //{ label: '已生产合格量', name: 'ProductionNumber', width: 80, index: 'ProductionNumber', align: ' center', sortable: false },
                 { label: '已使用量', name: 'CollaredNumber', width: 80, index: 'CollaredNumber', align: ' center', sortable: false },
                 {
                     label: '备注', name: "Description", index: "Description", align: ' center', sortable: false,

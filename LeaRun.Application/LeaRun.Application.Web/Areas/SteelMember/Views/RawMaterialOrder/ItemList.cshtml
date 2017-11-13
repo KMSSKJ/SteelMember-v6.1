@@ -31,6 +31,7 @@
             colModel: [
                 { label: '外键', name: "RawMaterialAnalysisId", hidden: true },
                 { label: '主键', name: "RawMaterialId", hidden: true },
+                { label: 'CategoryId', name: "CategoryId", hidden: true },
                 { label: '材料类型', name: "Category", align: ' center', width: 150, sortable: false },
                 { label: '材料名称', name: "RawMaterialName", align: ' center', width: 150, sortable: false },
                 { label: '规格或型号', name: "RawMaterialModel", align: ' center', width:150, sortable: false },
@@ -65,14 +66,29 @@
     //添加
     function btn_add_() {
         var KeyValue = $('#gridTable').jqGridRowValue('RawMaterialId');
+        var RawMaterialAnalysisId = $('#gridTable').jqGridRowValue('RawMaterialAnalysisId');
+        var RawMaterialId = $('#gridTable').jqGridRowValue('RawMaterialId');
+        var RawMaterialCategory = $('#gridTable').jqGridRowValue('CategoryId');
+        var RawMaterialName = $('#gridTable').jqGridRowValue('RawMaterialName');
+        var RawMaterialModel = $('#gridTable').jqGridRowValue('RawMaterialModel');
+        var UnitId = $('#gridTable').jqGridRowValue('UnitId');
+        var Qty = $('#gridTable').jqGridRowValue('Qty');
+       
         if (checkedArray(KeyValue)) {
             $.ajax({
                 url: "/SteelMember/RawMaterialOrder/ListMember",
                 type: "post",
                 datatype: 'json',
                 data: {
-                    category: Category,
-                    KeyValue: KeyValue
+                    //category: Category,
+                    //KeyValue: KeyValue,
+                    RawMaterialAnalysisId: RawMaterialAnalysisId,
+                    RawMaterialId:RawMaterialId,
+                    RawMaterialCategory: RawMaterialCategory,
+                    RawMaterialName: RawMaterialName,
+                    RawMaterialModel: RawMaterialModel,
+                    UnitId: UnitId,
+                    Qty: Qty,
                 },
                 success: function (rowData) {
                     var rows = 1;
