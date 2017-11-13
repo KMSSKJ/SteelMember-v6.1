@@ -23,8 +23,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public int IsSubmitReview { get; set; }
         public DateTime? UpdateTime { get; set; }
     }
-    public class Text {
-        
+    public class Text
+    {
+
         public string RawMaterialSupplier { get; set; }
         public string RawMaterialManufacturer { get; set; }
         public string InfoId { get; set; }
@@ -39,5 +40,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string RawMaterialPurchaseId { get; set; }
         public string RawMaterialOrderInfoId { get; set; }
         public decimal? Price { get; set; }
-    }
+
+        public string RawMaterialAnalysisId { get; set; }
+        public string RawMaterialCategory { get; set; }
+        public decimal Qty { get; set; }
+}
 }

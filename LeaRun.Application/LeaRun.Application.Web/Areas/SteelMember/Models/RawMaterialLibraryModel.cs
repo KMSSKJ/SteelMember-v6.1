@@ -19,6 +19,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string RawMaterialAnalysisId { get; set; }
         public string RawMaterialModel { get; set; }
         public string Category { get; set; }
+        public string CategoryId { get; set; }
         public DateTime? WarehousingTime { get; set; }
         public string RawMaterialName { get; set; }
         public Nullable<int> RawMaterialNumber { get; set; }

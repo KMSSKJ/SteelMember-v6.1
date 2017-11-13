@@ -34,8 +34,8 @@
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $("#gridTable").setGridHeight($(window).height() - 170);
-                $("#itemTree").setTreeHeight($(window).height() - 52);
+                $("#gridTable").setGridHeight($(window).height() - 180);
+                $("#itemTree").setTreeHeight($(window).height() - 62);//52
             }, 200);
             e.stopPropagation();
         });
@@ -49,7 +49,7 @@
 
     function GetTree() {
         var item = {
-            height: $(window).height() - 52,
+            height: $(window).height() - 62,
             param: { EnCode: "RawMaterialType" },
             url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             onnodeclick: function (item) {
@@ -92,7 +92,7 @@
             postData: { queryJson: JSON.stringify(queryJson), keyValue: keyValue },
            // param: { queryJson: JSON.stringify(queryJson), keyValue: keyValue },
             datatype: "json",
-            height: $(window).height()-170,
+            height: $(window).height()-180,
             autowidth: true,
             colModel: [
                 { label: '申请材料ID', name: "InfoId", hidden: true },
@@ -100,18 +100,13 @@
                 { label: 'Price', name: "Price", sortable: false, hidden: true },
                 { label: 'RawMaterialManufacturer', name: "RawMaterialManufacturer", sortable: false, hidden: true },
                 { label: 'RawMaterialSupplier', name: "RawMaterialSupplier", sortable: false, hidden: true },
-                { label: '材料类型', name: "Category", align: ' center', width: 100, sortable: false,},
+                { label: '材料类型', name: "Category", align: ' center', width: 100, sortable: false, hidden: true},
                 { label: '材料名称', name: "RawMaterialName", align:' center',width: 100, sortable: false },
                 { label: '规格/型号', name: "RawMaterialModel", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false },
-                { label: '计划采购量', name: "Qty", align: ' center', width: 100, sortable: false, hidden: true},
-                { label: '已采购量', name: "PurchasedQuantity", align: ' center', width: 100, sortable: false, hidden: true },
-                {
-                    label: '还需采购量', name: "Quantity", align: ' center', width: 100, sortable: false,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return rowObject.Qty - rowObject.PurchasedQuantity;
-                    }
-                },
+                //{ label: '计划采购量', name: "Qty", align: ' center', width: 100, sortable: false},
+                //{ label: '已采购量', name: "PurchasedQuantity", align: ' center', width: 100, sortable: false},
+                {label: '可采购量', name: "Quantity", align: ' center', width: 100, sortable: false },
                
             ],
             rowNum: 15,
@@ -266,8 +261,9 @@
     <table id="gridTable"></table>
     <div id="gridPager"></div>
 </div>*@
-<div style="color:red;margin:5px">注:每个采购单下只能选择一个类型下的材料</div>
+
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    @*<div style="color:red;margin:5px">注:每个采购单下只能选择一个类型下的材料</div>*@
     <div class="ui-layout-west">
         <div class="west-Panel">
             <div class="panel-Title">材料类型</div>
