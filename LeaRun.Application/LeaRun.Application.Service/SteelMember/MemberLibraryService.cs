@@ -85,6 +85,18 @@ namespace LeaRun.Application.Service.SteelMember
             }
             return this.BaseRepository().FindList(expression,pagination);
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="condition">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<MemberLibraryEntity> GetPageListLambda(Pagination pagination, Expression<Func<MemberLibraryEntity, bool>> condition)
+        {
+            return this.BaseRepository().FindList(condition, pagination);
+        }
+
         /// <summary>
         /// 获取列表
         /// </summary>

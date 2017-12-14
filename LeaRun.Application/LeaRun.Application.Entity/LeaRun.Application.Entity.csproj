@@ -49,6 +49,7 @@
     <Compile Include="AuthorizeManage\ModuleFormInstanceEntity.cs" />
     <Compile Include="AuthorizeManage\ViewModel\AuthorizeUrlModel.cs" />
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="BaseManage\PersonEntity.cs" />
     <Compile Include="MessageManage\IMContentEntity.cs" />
     <Compile Include="MessageManage\IMGroupEntity.cs" />
     <Compile Include="MessageManage\IMGroupModel.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="AuthorizeManage\FilterIPEntity.cs" />
     <Compile Include="AuthorizeManage\FilterTimeEntity.cs" />
     <Compile Include="SteelMember\EquipmentMaintenanceRecordsEntity.cs" />
+    <Compile Include="SteelMember\EquipmentPreWearPartsEntity.cs" />
     <Compile Include="SteelMember\MemberCollarEntity.cs" />
     <Compile Include="SteelMember\MemberCollarInfoEntity.cs" />
     <Compile Include="SteelMember\MemberDemandEntity.cs" />

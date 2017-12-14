@@ -20,7 +20,9 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
     {
         private DataItemBLL dataItemBLL = new DataItemBLL();
         private DataItemDetailBLL dataItemDetailBLL = new DataItemDetailBLL();
+#pragma warning disable CS0108 // “DataItemListController.dataItemCache”隐藏继承的成员“MvcControllerBase.dataItemCache”。如果是有意隐藏，请使用关键字 new。
         private DataItemCache dataItemCache = new DataItemCache();
+#pragma warning restore CS0108 // “DataItemListController.dataItemCache”隐藏继承的成员“MvcControllerBase.dataItemCache”。如果是有意隐藏，请使用关键字 new。
 
         #region 视图功能
         /// <summary>

@@ -265,7 +265,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     RawMaterialNumber = data[i].RawMaterialNumber,
                     RawMaterialName = rawmateriallibrary.RawMaterialName,
                     Category = rawmateriallibrary.Category,
-                    TreeName = dataitemdetailbll.GetEntity(rawmateriallibrary.Category).ItemName,
+
+                    TreeName = dataitemdetailbll.GetEntity(dataitemdetailbll.GetEntity(rawmateriallibrary.Category).ParentId).ItemName,
+
                     RawMaterialModel = rawmateriallibrary.RawMaterialModel,
                     UnitId = rawmateriallibrary.Unit,
                     Description = rawmateriallibrary.Description
@@ -331,76 +333,84 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 var memberdemand = memberdemandbll.GetList(f => f.MemberId == item);
                 if (memberdemand.Count() == 0)
                 {
-                    memberlibrarybll.RemoveForm(item);
-                    memberwarehousebll.RemoveForm(item);
-
-                    var MemberEntity1 = data.FindAll(f => f.MarkId > MemberEntity.MarkId);//&& f.EngineeringId == MemberEntity.EngineeringId
-                    if (MemberEntity1.Count() > 0)
+                    if (memberwarehousebll.GetEntity(f => f.MemberId == item).InStock == 0)
                     {
-                        foreach (var item1 in MemberEntity1)
-                        {
-                            var MemberEntity2 = data.Find(f => f.MemberId == item1.MemberId);
+                        memberlibrarybll.RemoveForm(item);
+                        // memberwarehousebll.RemoveForm(item);
 
-                            char[] Number = MemberEntity2.MemberNumbering.ToArray();
-                            string MemberNumbering = "";
-                            string Letter = "";
-                            for (int I = 0; I < Number.Length; I++)
+                        var MemberEntity1 = data.FindAll(f => f.MarkId > MemberEntity.MarkId);//&& f.EngineeringId == MemberEntity.EngineeringId
+                        if (MemberEntity1.Count() > 0)
+                        {
+                            foreach (var item1 in MemberEntity1)
                             {
-                                if (("0123456789").IndexOf(Number[I] + "") != -1)
+                                var MemberEntity2 = data.Find(f => f.MemberId == item1.MemberId);
+
+                                char[] Number = MemberEntity2.MemberNumbering.ToArray();
+                                string MemberNumbering = "";
+                                string Letter = "";
+                                for (int I = 0; I < Number.Length; I++)
                                 {
-                                    //if (Number[I].ToString() != "0")
-                                    //{
-                                    //    MemberNumbering += Number[I];//获取不等于0的数字
-                                    //}
-                                    //else
-                                    //{
-                                    //    Letter += Number[I];//获取0
-                                    //}
-                                    MemberNumbering += Number[I];//获取数字
+                                    if (("0123456789").IndexOf(Number[I] + "") != -1)
+                                    {
+                                        //if (Number[I].ToString() != "0")
+                                        //{
+                                        //    MemberNumbering += Number[I];//获取不等于0的数字
+                                        //}
+                                        //else
+                                        //{
+                                        //    Letter += Number[I];//获取0
+                                        //}
+                                        MemberNumbering += Number[I];//获取数字
+                                    }
+                                    else
+                                    {
+                                        Letter += Number[I];//获取字母（字符）
+                                    }
                                 }
-                                else
-                                {
-                                    Letter += Number[I];//获取字母（字符）
-                                }
+                                MemberEntity2.MarkId--;
+                                MemberEntity2.MemberNumbering = (Convert.ToInt64(MemberNumbering) - 1).ToString();
+                                memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
                             }
-                            MemberEntity2.MarkId--;
-                            MemberEntity2.MemberNumbering = (Convert.ToInt64(MemberNumbering) - 1).ToString();
-                            memberlibrarybll.SaveForm(item1.MemberId, MemberEntity2);
+                        }
+
+                        //删除构件材料
+                        var MemberMaterial = membermaterialbll.GetList(t => t.MemberId == keyValue).ToList();
+
+                        if (MemberMaterial.Count() > 0)
+                        {
+                            for (int i = 0; i < MemberMaterial.Count(); i++)
+                            {
+                                membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId);
+                            }
+                        }
+                        //
+
+                        //删除构件制程
+                        //var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
+                        //if (MemberProcess.Count() > 0)
+                        //{
+                        //    for (int i = 0; i < MemberProcess.Count(); i++)
+                        //    {
+                        //        memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
+                        //    }
+                        //}
+                        //
+
+                        //删除构件库存
+                        var MemberWarehouse = memberwarehousebll.GetList(t => t.MemberId == keyValue);
+
+                        if (MemberWarehouse.Count() > 0)
+                        {
+                            for (int i = 0; i < MemberWarehouse.Count(); i++)
+                            {
+                                memberwarehousebll.RemoveForm(MemberWarehouse[i].MemberWarehouseId);
+                            }
                         }
                     }
-
-                    //删除构件材料
-                    var MemberMaterial = membermaterialbll.GetList(t => t.MemberId == keyValue).ToList();
-
-                    if (MemberMaterial.Count() > 0)
+                    else
                     {
-                        for (int i = 0; i < MemberMaterial.Count(); i++)
-                        {
-                            membermaterialbll.RemoveForm(MemberMaterial[i].MemberMaterialId);
-                        }
-                    }
-                    //
-
-                    //删除构件制程
-                    //var MemberProcess = memberprocessbll.GetList(null).ToList().FindAll(t => t.MemberId == keyValue);
-                    //if (MemberProcess.Count() > 0)
-                    //{
-                    //    for (int i = 0; i < MemberProcess.Count(); i++)
-                    //    {
-                    //        memberprocessbll.RemoveForm(MemberProcess[i].MemberProcessId.ToString());
-                    //    }
-                    //}
-                    //
-
-                    //删除构件库存
-                    var MemberWarehouse = memberwarehousebll.GetList(t => t.MemberId == keyValue);
-
-                    if (MemberWarehouse.Count() > 0)
-                    {
-                        for (int i = 0; i < MemberWarehouse.Count(); i++)
-                        {
-                            memberwarehousebll.RemoveForm(MemberWarehouse[i].MemberWarehouseId);
-                        }
+                        var member = memberlibrarybll.GetEntity(item);
+                        return Error("构件" + dataitemdetailbll.GetEntity(member.Category).ItemName + member.MemberName + "存在库存");
                     }
                 }
                 else
@@ -429,6 +439,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string str1 = "";
             MemberLibraryEntity entitys = new MemberLibraryEntity();
             MemberWarehouseEntity entitys1 = new MemberWarehouseEntity();
+           
 
             entitys.Category = entity.Category;
             entitys.UnitId = entity.UnitId;
@@ -472,10 +483,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 entitys.MarkId = Num;
                 entitys.MemberNumbering = str + str1 + Num.ToString();
-                entitys.IsRawMaterial = 0;
                 entitys.IsProcess = 0;
                 entitys1.InStock = 0;
-
+                entitys.IsRawMaterial = 0;
             }
             var MemberId = memberlibrarybll.SaveForm(keyValue, entitys);
             if (keyValue == null || keyValue == "")
@@ -579,7 +589,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 string result = string.Empty;
                 string strConn;
                 //strConn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + savePath + "; " + "Extended Properties=Excel 8.0;";  
-                strConn = "Provider=Microsoft.Ace.OleDb.12.0;" + "data source=" + savePath + ";Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'"; //此连接可以操作.xls与.xlsx文件 (支持Excel2003 和 Excel2007 的连接字符串)  
+                strConn = "Provider=Microsoft.Ace.OleDb.12.0;" + "data source=" + savePath + ";Extended Properties='Excel 12.0; HDR=Yes; IMEX=2'"; //此连接可以操作.xls与.xlsx文件 (支持Excel2003 和 Excel2007 的连接字符串)  
 
                 //OleDbDataAdapter myCommand = new OleDbDataAdapter("select * from [Sheet1$]", strConn);  
                 //连接串  
@@ -605,7 +615,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 DataTable table = myDataSet.Tables["ExcelInfo"].DefaultView.ToTable();
                 if (table.Columns.Count != 7)
                 {
-                    return Content("文件数据格式不正确");
+                    return Content("文件数据格式错误，请参照模板文件");
+                }
+                if (table.Rows[0][0].ToString().Trim() != "构件名称" || table.Rows[0][1].ToString().Trim() != "构件类型" || table.Rows[0][2].ToString().Trim() != "计量单位" || table.Rows[0][3].ToString().Trim() != "图纸" || table.Rows[0][4].ToString().Trim() != "模型" || table.Rows[0][5].ToString().Trim() != "图标" || table.Rows[0][6].ToString().Trim() != "备注")
+                {
+                    return Content("文件数据格式错误，请参照模板文件");
                 }
                 int count = 0;
                 for (int i = 0; i < table.Rows.Count; i++)
@@ -1016,7 +1030,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     return Content("1");
                 }
-             
+
                 string FileEextension = Path.GetExtension(Filedata.FileName);
 
                 // virtualPath = string.Format("/Content/Images/Avatar/{0}/{1}/{2}{3}", UserId, uploadDate, fileGuid, FileEextension);
@@ -1030,7 +1044,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 }
                 return Content("../.." + NewPath + "/" + filename);
             }
+#pragma warning disable CS0168 // 声明了变量“ex”，但从未使用过
             catch (Exception ex)
+#pragma warning restore CS0168 // 声明了变量“ex”，但从未使用过
             {
                 return Content("3");
             }
@@ -1057,7 +1073,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 ////获取文件完整文件名(包含绝对路径)
                 ////文件存放路径格式：/Resource/Document/NetworkDisk/{日期}/{guid}.{后缀名}
                 ////例如：/Resource/Document/Email/20130913/43CA215D947F8C1F1DDFCED383C4D706.jpg
-               
+
                 string filename = Filedata.FileName;
                 string filename1 = filename.Substring(0, filename.LastIndexOf('.'));//获取文件名称，去除后缀名
                 string NewPath = string.Format("/Resource/Document/NetworkDisk/System/{0}/{1}", "Member", filename1);
@@ -1137,7 +1153,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         ///构件不能重复
         /// </summary>
-        /// <param name="MemberName">型号</param>
+        /// <param name="MemberName">牌号/规格</param>
         /// <param name="Category"></param>
         /// <param name="KeyValue"></param>
         /// <returns></returns>
@@ -1149,9 +1165,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         }
 
         /// <summary>
-        ///构件材料中型号不能重复
+        ///构件材料中牌号/规格不能重复
         /// </summary>
-        /// <param name="RawMaterialModel">型号</param>
+        /// <param name="RawMaterialModel">牌号/规格</param>
         /// <param name="TreeName"></param>
         /// <param name="MemberId"></param>
 

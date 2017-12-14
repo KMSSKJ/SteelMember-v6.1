@@ -53,12 +53,6 @@ namespace LeaRun.Application.Entity.SteelMember
         /// 申请编号
         /// </summary>
         /// <returns></returns>
-        [Column("DEPARTMENTID")]
-        public string DepartmentId { get; set; }
-        /// <summary>
-        /// 申请编号
-        /// </summary>
-        /// <returns></returns>
         [Column("SHIPPINGADDRESS")]
         public string ShippingAddress { get; set; }
         /// <summary>
@@ -103,6 +97,15 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("ISCONFIRM")]
         public int? IsConfirm { get; set; }
+
+        /// <summary>
+        /// 领取状态
+        /// </summary>
+        /// <returns></returns>
+        [Column("ISPACKAGE")]
+        public int? IsPackage { get; set; }
+
+        
         /// <summary>
         /// 材料领取状态
         /// </summary>
@@ -129,36 +132,53 @@ namespace LeaRun.Application.Entity.SteelMember
         public int? QualityInspectionStatus { get; set; }
 
         /// <summary>
-        /// ORDERWAREHOUSINGSTATUS
+        /// 审核人
         /// </summary>
         /// <returns></returns>
-        [Column("ORDERWAREHOUSINGSTATUS")]
-        public int? OrderWarehousingStatus  { get; set; }
-    /// <summary>
-    /// 审核人
-    /// </summary>
-    /// <returns></returns>
-    [Column("REVIEWMAN")]
-        public string ReviewMan { get; set; }
+        [Column("REVIEWMAN1")]
+        public string ReviewMan1 { get; set; }
+
         /// <summary>
-        /// 审核时间
+        /// 审核人
         /// </summary>
         /// <returns></returns>
-        [Column("REVIEWTIME")]
-        public DateTime? ReviewTime { get; set; }
+        [Column("REVIEWMAN2")]
+        public string ReviewMan2 { get; set; }
+
+        /// <summary>
+        /// 审核人
+        /// </summary>
+        /// <returns></returns>
+        [Column("REVIEWMAN3")]
+        public string ReviewMan3 { get; set; }
+
+        /// <summary>
+        /// 审核人
+        /// </summary>
+        /// <returns></returns>
+        [Column("REVIEWMAN4")]
+        public string ReviewMan4 { get; set; }
+
         /// <summary>
         /// 预计完成时间
         /// </summary>
         /// <returns></returns>
         [Column("ESTIMATEDFINISHTIME")]
         public DateTime? EstimatedFinishTime { get; set; }
-       
+
         /// <summary>
-        /// 打包
+        /// 是否收货
         /// </summary>
         /// <returns></returns>
-        [Column("ISPACKAGE")]
-        public int IsPackage { get; set; }
+        [Column("ISRECEIVED")]
+        public int IsReceived { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Column("REVIEWDESCRIPTION")]
+        public string ReviewDescription { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

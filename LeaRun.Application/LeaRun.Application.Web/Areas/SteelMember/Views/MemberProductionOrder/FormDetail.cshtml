@@ -63,46 +63,46 @@
         //    }
         //});
         //默认添加25行 空行
-     
-            //var rowdata = {
-            //    MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="text" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
-            //    MemberName: '<input id="MemberName➩' + i + '" class="editable disabled" type="text" />',
-            //    UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="text" />',
-            //    MemberNumber: '<input id="MemberNumber➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" checkexpession="Number"/>',
-            //    Price: '<input id="Price➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
-            //    PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="text" datacol="No" err="金额" checkexpession="Double" />',
-            //    InfoId: '<input id="InfoId➩' + i + '" type="text" class="editable center" />',
-            //    MemberId: '<input id="MemberId➩' + i + '" type="text" class="editable center" />',
-            //    MemberDemandId: '<input id="MemberDemandId➩' + i + '" type="text" class="editable center" />',
-            //    MaxNumber: '<input id="MaxNumber➩' + i + '" type="text" class="editable center" />',
-            //}
-            //$grid.jqGrid('addRowData', i, rowdata);
 
-            $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>构件编号</td><td style='width:120px'>构件名称</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
-            for (var i = 1; i < 17; i++) {
-                $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td></td><td style='width:105px'></td></tr>")
-            } 
+        //var rowdata = {
+        //    MemberNumbering: '<input readonly id="MemberNumbering➩' + i + '" class="editable" type="text" style="cursor:pointer" datacol="no" err="构件编号" checkexpession="NotNull" /><input id="MemberNumbering➩' + i + '" type="hidden" />',
+        //    MemberName: '<input id="MemberName➩' + i + '" class="editable disabled" type="text" />',
+        //    UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="text" />',
+        //    MemberNumber: '<input id="MemberNumber➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" checkexpession="Number"/>',
+        //    Price: '<input id="Price➩' + i + '" class="editable center" type="text" onkeyup="Conversion(' + i + ')" datacol="No" err="单价" checkexpession="Double" />',
+        //    PriceAmount: '<input id="PriceAmount➩' + i + '" class="editable disabled center" type="text" datacol="No" err="金额" checkexpession="Double" />',
+        //    InfoId: '<input id="InfoId➩' + i + '" type="text" class="editable center" />',
+        //    MemberId: '<input id="MemberId➩' + i + '" type="text" class="editable center" />',
+        //    MemberDemandId: '<input id="MemberDemandId➩' + i + '" type="text" class="editable center" />',
+        //    MaxNumber: '<input id="MaxNumber➩' + i + '" type="text" class="editable center" />',
+        //}
+        //$grid.jqGrid('addRowData', i, rowdata);
+
+        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>构件编号</td><td style='width:120px'>构件名称</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
+        for (var i = 1; i < 17; i++) {
+            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td></td><td style='width:105px'></td></tr>")
+        }
     }
 
     //初始化控件
     function initControl() {
-      
+
         //获取表单
         if (!!keyValue) {
             $.SetForm({
                 url: "../../SteelMember/MemberProductionOrder/GetFormJson1",
                 param: { keyValue: keyValue },
                 success: function (data) {
-                   // $("#form1").SetWebControls(data.entity);
+                    // $("#form1").SetWebControls(data.entity);
                     $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.entity.Category);
-                    $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.DepartmentId);
-                    $("#table1").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ContactPerson);
-                    $("#table1").find("tr:eq(1)").find("td:eq(2)").html(data.entity.CreateTime);
-                    $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.ShippingAddress);
-                    $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.ContactPersonTel);
-                    $("#table1").find("tr:eq(2)").find("td:eq(2)").html(data.entity.OrderNumbering);
+                    $("#table1").find("tr:eq(0)").find("td:eq(1)").html(data.entity.OrganizeId);
+                    $("#table1").find("tr:eq(0)").find("td:eq(2)").html(data.entity.ContactPerson);
+                    $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.ShippingAddress);
+                    $("#table1").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ContactPersonTel);
+                    $("#table1").find("tr:eq(1)").find("td:eq(2)").html(data.entity.OrderNumbering);
                     $("#table2").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CreateMan);
-                    $("#table2").find("tr:eq(0)").find("td:eq(1)").html(data.entity.ReviewMan);
+                    $("#table2").find("tr:eq(0)").find("td:eq(1)").html(data.entity.CreateTime);
+                    $("#table2").find("tr:eq(1)").find("td:eq(0)").html(data.entity.ReviewMan1 == "0" ? "" : data.entity.ReviewMan1 + "&nbsp;&nbsp;&nbsp;&nbsp;" + data.entity.ReviewMan2 + "&nbsp;&nbsp;&nbsp;&nbsp;" + data.entity.ReviewMan3 + "&nbsp;&nbsp;&nbsp;&nbsp;" + data.entity.ReviewMan4);
 
                     //明细
                     var number = "";
@@ -128,7 +128,7 @@
             })
         }
     }
-    
+
     //打印
     function btn_print() {
         //$(".bills").printTable();
@@ -136,102 +136,107 @@
     }
 </script>
 <div class="bills">
-        <div>
-            <p style="font-size:14pt;padding-bottom:10px;text-align:center"> 云南交投建设集团第十工程有限公司</p>
-            <p style="font-size:20pt;padding-bottom:15px;text-align:center;font-family: 华文楷体;font-weight:bold;"> 构件生产申请单</p>
-            <table id="table1" class="form"style="width:100%;" >@*style="width:100%;border:1px solid #ccc;"*@
-                <tr>
-                    <th class="formTitle">
-                        工程：
-                    </th>
-                    <td class="formValue" colspan="8">
-                        @*<div id="CollarEngineering" type="selectTree" class="ui-select" style="width:100%" isvalid="yes" checkexpession="NotNull"></div>*@
-                    </td>
-                    @*<th class="formTitle">
-                        领用类型<font face="宋体" color="red">*</font>：
-                    </th>
-                    <td class="formValue" colspan="4">
-                        <select id="CollarType" type="text" class="form-control" style="width:100%;" isvalid="yes" checkexpession="NotNull" list="CollarList">
-                            <option value="">==请选择==</option>
-                            <option value="生产领用">生产领用</option>
-                            <option value="工程领用">工程领用</option>
-                            <option value="材料退货">材料退货</option>
-                        </select>
-                    </td>*@
-                </tr>
-                <tr>
-                    <th class="formTitle">
-                        领用单位：
-                    </th>
-                    <td class="formValue" colspan="2">
-                        @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 45%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp; —
-                        <div id="DepartmentId" type="selectTree" class="ui-select" style="width: 45%;float:right" isvalid="yes" checkexpession="NotNull"></div>*@
-                    </td>
-                    <th class="formTitle">
-                        联系人：
-                    </th>
-                    <td class="formValue" colspan="2">
-                        @*<input id="ContactPerson" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" />*@
-                    </td>
-                    <th class="formTitle">
-                        日期：
-                    </th>
-                    <td class="formValue" colspan="2">
-                        @*<input id="Date" type="text" class="form-control input-wdatepicker" placeholder="选择日期" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
-                    </td>
-                </tr>
+    <div>
+        <p style="font-size:14pt;padding-bottom:10px;text-align:center"> 云南交投建设集团第十工程有限公司</p>
+        <p style="font-size:20pt;padding-bottom:15px;text-align:center;font-family: 华文楷体;font-weight:bold;"> 构件生产申请单</p>
+        <table id="table1" class="form" style="width:100%;">
+            @*style="width:100%;border:1px solid #ccc;"*@
+       @* <tr>
 
-                <tr>
-                    <th class="formTitle">
-                        收货地址：
-                    </th>
-                    <td class="formValue" colspan="2">
-                        @*<input id="ShippingAddress" type="text" class="form-control" datacol="yes" err="收货地址" checkexpession="NotNull" style="width: 100%" />*@
-                    </td>
+           <th class="formTitle">
+                领用类型<font face="宋体" color="red">*</font>：
+            </th>
+            <td class="formValue" colspan="4">
+                <select id="CollarType" type="text" class="form-control" style="width:100%;" isvalid="yes" checkexpession="NotNull" list="CollarList">
+                    <option value="">==请选择==</option>
+                    <option value="生产领用">生产领用</option>
+                    <option value="工程领用">工程领用</option>
+                    <option value="材料退货">材料退货</option>
+                </select>
+            </td>
+    </tr>*@
+        <tr>
+            <th class="formTitle">
+                工程：
+            </th>
+            <td class="formValue" colspan="2">
+                @*<div id="CollarEngineering" type="selectTree" class="ui-select" style="width:100%" isvalid="yes" checkexpession="NotNull"></div>*@
+            </td>
+            <th class="formTitle">
+                领用单位：
+            </th>
+            <td class="formValue" colspan="2">
+                @*<div id="OrganizeId" type="selectTree" class="ui-select" style="width: 45%;float:left" isvalid="yes" checkexpession="NotNull"></div>&nbsp; —
+                    <div id="DepartmentId" type="selectTree" class="ui-select" style="width: 45%;float:right" isvalid="yes" checkexpession="NotNull"></div>*@
+            </td>
+            <th class="formTitle">
+                联系人：
+            </th>
+            <td class="formValue" colspan="2">
+                @*<input id="ContactPerson" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" />*@
+            </td>
+          
+        </tr>
+
+        <tr>
+            <th class="formTitle">
+                收货地址：
+            </th>
+            <td class="formValue" colspan="2">
+                @*<input id="ShippingAddress" type="text" class="form-control" datacol="yes" err="收货地址" checkexpession="NotNull" style="width: 100%" />*@
+            </td>
 
 
-                    <th class="formTitle">
-                        联系电话：
-                    </th>
-                    <td class="formValue" colspan="2">
-                        @*<input id="ContactPersonTel" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" />*@
-                    </td>
-                    <th class="formTitle">
-                        单号：
-                    </th>
-                    <td class="formValue" colspan="2">
-                        @*<input id="CollarNumbering" type="text" class="form-control" datacol="yes" err="单号" checkexpession="NotNull" value="@ViewBag.CollarNumbering" style="width: 100%" />*@
-                    </td>
-                </tr>
-            </table>
-        </div>
-    <div class="gridPanel">
-        <table id="gridTable" class="formPrint"></table>
-    </div>
-        <div class="printArea">
-            <table id="table2" class="form" style="width:100%;">
-                <tr>
-                    <th class="formTitle">
-                        申请人：
-                    </th>
-                    <td class="formValue">
-                        @*<input id="CreateMan" type="text" class="form-control" style="width: 100%" value="@ViewBag.CreateMan" />*@
-                    </td>
-                    <th class="formTitle">
-                        经办人：
-                    </th>
-                    <td class="formValue">
-                        @*<input id="Sender" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" />*@
-                    </td>
-                    <th class="formTitle">
-                        领用人(签字)：
-                    </th>
-                    <td class="formValue">
-                        @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
-                    </td>
-                </tr>
-            </table>
-        </div>
+            <th class="formTitle">
+                联系电话：
+            </th>
+            <td class="formValue" colspan="2">
+                @*<input id="ContactPersonTel" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" />*@
+            </td>
+            <th class="formTitle">
+                单号：
+            </th>
+            <td class="formValue" colspan="2">
+                @*<input id="CollarNumbering" type="text" class="form-control" datacol="yes" err="单号" checkexpession="NotNull" value="@ViewBag.CollarNumbering" style="width: 100%" />*@
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="gridPanel">
+    <table id="gridTable" class="formPrint"></table>
+</div>
+<div class="printArea">
+    <table id="table2" class="form" style="width:100%;">
+        <tr>
+            <th class="formTitle">
+                申请人：
+            </th>
+            <td class="formValue">
+                @*<input id="CreateMan" type="text" class="form-control" style="width: 100%" value="@ViewBag.CreateMan" />*@
+            </td>
+            <th class="formTitle">
+                日期：
+            </th>
+            <td class="formValue">
+                @*<input id="Date" type="text" class="form-control input-wdatepicker" placeholder="选择日期" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">
+                审核人：
+            </th>
+            <td class="formValue">
+                @*<input id="Sender" type="text" class="form-control" style="width: 100%" isvalid="yes" checkexpession="NotNull" />*@
+            </td>
+            <th class="formTitle">
+                领用人(签字)：
+            </th>
+            <td class="formValue">
+                @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
+            </td>
+        </tr>
+    </table>
+</div>
 </div>
 <div id="bottomField">
     <div class="btn-group">

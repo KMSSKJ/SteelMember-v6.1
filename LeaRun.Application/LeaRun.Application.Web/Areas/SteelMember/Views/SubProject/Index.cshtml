@@ -19,7 +19,7 @@
             e.stopPropagation();
         });
     }
-    //加载表格    
+    //加载表格
     function GetGrid() {
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
@@ -33,15 +33,16 @@
             gridview: true,
             treeGridModel: "nested",
             ExpandColumn: "FullName",
-            colModel: [                
-                { label: 'Id', name: 'Id', index: 'Id', align: 'left',sortable: true, hidden: true },
+            colModel: [
+                { label: 'Id', name: 'Id', index: 'Id', align: 'left', sortable: true, hidden: true },
                 { label: 'ParentId', name: 'ParentId', index: 'ParentId', align: 'left', sortable: true, hidden: true },
                 { label: '工程名称', name: 'FullName', index: 'FullName', width: 300, align: 'left', sortable: false },
-                { label: '负责人', name: 'Principal', index: 'Principal', width: 150, align: 'left', sortable: false },
-                { label: '联系电话', name: 'Phone', index: 'Phone', width: 150, align: 'left', sortable: false },
-                { label: '施工单位', name: 'Organize', index: 'Organize', width: 300, align: 'left', sortable: false }
+                { label: '施工单位', name: 'Organize', index: 'Organize', width: 300, align: 'center', sortable: false },
+                { label: '联系人', name: 'Principal', index: 'Principal', width: 150, align: 'center', sortable: false },
+                { label: '联系电话', name: 'Phone', index: 'Phone', width: 100, align: 'center', sortable: false },
+                { label: '备注', name: 'Description', index: 'Description', width: 150, align: 'center', sortable: false },
             ],
-            
+
             //treeGridModel: "nested",
             //ExpandColumn: "Id",
             //rowNum: "all",
@@ -53,30 +54,30 @@
                 $('#' + this.id).setSelection(selectedRowIndex, false);
             }
         });
-        //$gridTable.authorizeColModel();
-        //查询条件
-        $("#queryCondition .dropdown-menu li").click(function () {
-            var text = $(this).find('a').html();
-            var value = $(this).find('a').attr('data-value');
-            $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
-        });
-        //查询事件
-        $("#btn_Search").click(function () {
-            var queryJson = {
-                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                keyword: $("#txt_Keyword").val()
-            }
-            $gridTable.jqGrid('setGridParam', {
-                postData: { queryJson: JSON.stringify(queryJson) },
-                page: 1
-            }).trigger('reloadGrid');
-        });
-        //查询回车
-        $('#txt_Keyword').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                $('#btn_Search').trigger("click");
-            }
-        });
+    //$gridTable.authorizeColModel();
+    //查询条件
+    $("#queryCondition .dropdown-menu li").click(function () {
+        var text = $(this).find('a').html();
+        var value = $(this).find('a').attr('data-value');
+        $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+    });
+    //查询事件
+    $("#btn_Search").click(function () {
+        var queryJson = {
+            condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+            keyword: $("#txt_Keyword").val()
+        }
+        $gridTable.jqGrid('setGridParam', {
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
+    });
+    //查询回车
+    $('#txt_Keyword').bind('keypress', function (event) {
+        if (event.keyCode == "13") {
+            $('#btn_Search').trigger("click");
+        }
+    });
     }
     //新增
     function btn_add() {

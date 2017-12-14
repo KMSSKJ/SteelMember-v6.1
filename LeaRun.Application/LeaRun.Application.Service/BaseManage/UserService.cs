@@ -36,13 +36,40 @@ namespace LeaRun.Application.Service.BaseManage
         {
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT  u.*,
-                                    d.FullName AS DepartmentName 
+                                    d.FullName AS DepartmentName
                             FROM    Base_User u
                                     LEFT JOIN Base_Department d ON d.DepartmentId = u.DepartmentId
                             WHERE   1=1");
             strSql.Append(" AND u.UserId <> 'System' AND u.EnabledMark = 1 AND u.DeleteMark=0 AND u.Account!='System' AND u.Account!='Admin'");
             return this.BaseRepository().FindTable(strSql.ToString());
         }
+
+        ///// <summary>
+        ///// 用户列表
+        ///// </summary>
+        ///// <returns></returns>
+        //public DataTable GetTable()
+        //{
+        //    var strSql = new StringBuilder();
+        //    strSql.Append(@"SELECT  u.*,
+        //                            d.FullName AS OrganizeName 
+        //                    FROM    Base_User u
+        //                            LEFT JOIN Base_Organize d ON d.OrganizeId = u.OrganizeId
+        //                    WHERE   1=1");
+        //    strSql.Append(" AND u.UserId <> 'System' AND u.EnabledMark = 1 AND u.DeleteMark=0 AND u.Account!='System' AND u.Account!='Admin'");
+        //    return this.BaseRepository().FindTable(strSql.ToString());
+        //}
+
+        /// <summary>
+        /// 用户列表
+        /// </summary>
+        /// <returns></returns>
+        public List<UserEntity> GetList(Expression<Func<UserEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).ToList();
+        }
+
+
         /// <summary>
         /// 用户列表
         /// </summary>

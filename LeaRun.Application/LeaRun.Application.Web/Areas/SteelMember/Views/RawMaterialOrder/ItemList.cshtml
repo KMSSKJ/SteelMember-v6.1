@@ -34,9 +34,9 @@
                 { label: 'CategoryId', name: "CategoryId", hidden: true },
                 { label: '材料类型', name: "Category", align: ' center', width: 150, sortable: false },
                 { label: '材料名称', name: "RawMaterialName", align: ' center', width: 150, sortable: false },
-                { label: '规格或型号', name: "RawMaterialModel", align: ' center', width:150, sortable: false },
+                { label: '牌号/规格', name: "RawMaterialModel", align: ' center', width:150, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 50, sortable: false },
-                { label: '可申请量', name: "Qty", align: ' center', width: 80, sortable: false, },
+                { label: '可申请量', name: "Qty", align: ' center', width: 80, sortable: false,hidden: true },
             ],
             rowNum: 15,
             sortname: 'RawMaterialId',
@@ -133,10 +133,8 @@
                             $parentobj.$("#RawMaterialName➩" + index).val(rowData[i].RawMaterialName);
                             $parentobj.$("#RawMaterialModel➩" + index).val(rowData[i].RawMaterialModel);
                             $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
-                            $parentobj.$("#Quantity➩" + index).val(Number(rowData[i].Qty));
-                            //$parentobj.$("#Price➩" + index).val(rowData[i].UnitPrice);
-                            //$parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
-                            $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].Qty));
+                            //$parentobj.$("#Quantity➩" + index).val(Number(rowData[i].Qty));
+                           // $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].Qty));
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
                             index++;
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');

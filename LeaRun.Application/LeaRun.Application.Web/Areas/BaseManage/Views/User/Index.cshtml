@@ -29,7 +29,7 @@
             height: $(window).height() - 136.5,
             colModel: [
                 { label: '主键', name: 'UserId', hidden: true },
-                { label: '账户', name: 'Account', index: 'Account', width: 100, align: 'center' },
+                { label: '账户', name: 'Account', index: 'Account', width: 160, align: 'center' },
                 { label: '姓名', name: 'RealName', index: 'RealName', width: 100, align: 'center' },
                 {
                     label: '性别', name: 'Gender', index: 'Gender', width: 45, align: 'center',
@@ -37,7 +37,7 @@
                         return cellvalue == 1 ? "男" : "女";
                     }
                 },
-                { label: '手机', name: 'Mobile', index: 'Mobile', width: 100, align: 'center' },
+                { label: '联系电话', name: 'Mobile', index: 'Mobile', width: 100, align: 'center' },
                 {
                     label: '单位', name: 'OrganizeId', index: 'OrganizeId', width: 200, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
@@ -46,19 +46,19 @@
                 },
                 {
                     label: '部门', name: 'DepartmentId', index: 'DepartmentId', width: 100, align: 'center',
-                    formatter: function (cellvalue, options, rowObject) {
-                        return top.clientdepartmentData[cellvalue] == null ? "" : top.clientdepartmentData[cellvalue].FullName;
-                    }
+                    //formatter: function (cellvalue, options, rowObject) {
+                    //    return top.clientdepartmentData[cellvalue] == null ? "" : top.clientdepartmentData[cellvalue].FullName;
+                    //}
                 },
+                { label: '职务', name: 'PostId', index: 'PostId', width: 100, align: 'center' },
                 //{ label: '岗位', name: 'DutyName', index: 'DutyName', width: 100, align: 'center' },
-                //{ label: '职位', name: 'PostName', index: 'PostName', width: 100, align: 'center' },
-                {
-                    label: '角色', name: 'RoleId', index: 'RoleId', width: 100, align: 'center',
-                    formatter: function (cellvalue, options, rowObject) {
-                        return top.clientroleData[cellvalue] == null ? "" : top.clientroleData[cellvalue].FullName;
-                    }
-                },
-                { label: '主管', name: 'Manager', index: 'Manager', width: 100, align: 'center' },
+                //{
+                //    label: '角色', name: 'RoleId', index: 'RoleId', width: 100, align: 'center',
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return top.clientroleData[cellvalue] == null ? "" : top.clientroleData[cellvalue].FullName;
+                //    }
+                //},
+                //{ label: '主管', name: 'Manager', index: 'Manager', width: 100, align: 'center' },
                 {
                     label: "状态", name: "EnabledMark", index: "EnabledMark", width: 50, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
@@ -285,7 +285,7 @@
                         <ul class="dropdown-menu">
                             <li><a data-value="Account">账户</a></li>
                             <li><a data-value="RealName">姓名</a></li>
-                            <li><a data-value="Mobile">手机</a></li>
+                            <li><a data-value="Mobile">联系电话</a></li>
                         </ul>
                     </div>
                 </td>
@@ -308,7 +308,7 @@
             <a id="lr-more" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-reorder"></i>&nbsp;更多<span class="caret"></span>
             </a>
-            <ul class="dropdown-menu pull-right">
+            <ul id="ul-lr-more" class="dropdown-menu pull-right">
                 <li id="lr-export"><a onclick="btn_export()"><i></i>&nbsp;导出Excel</a></li>
                 <li id="lr-disabled"><a onclick="btn_disabled()"><i></i>&nbsp;禁用账户</a></li>
                 <li id="lr-enabled"><a onclick="btn_enabled()"><i></i>&nbsp;启用账户</a></li>
@@ -319,7 +319,7 @@
             <a id="lr-appfilter" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-filter"></i>&nbsp;访问过滤<span class="caret"></span>
             </a>
-            <ul class="dropdown-menu pull-right">
+            <ul id="ul-lr-appfilter" class="dropdown-menu pull-right">
                 <li id="lr-ipfilter"><a onclick="btn_ipfilter()"><i></i>&nbsp;IP过滤</a></li>
                 <li id="lr-timefilter"><a onclick="btn_timefilter()"><i></i>&nbsp;时段过滤</a></li>
             </ul>

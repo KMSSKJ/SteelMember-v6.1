@@ -31,6 +31,11 @@ namespace LeaRun.Application.Entity.BaseManage
         /// 密码秘钥
         /// </summary>		
         public string Secretkey { get; set; }
+
+        /// <summary>
+        /// 人员主键
+        /// </summary>		
+        public string PersonId { get; set; }
         /// <summary>
         /// 真实姓名
         /// </summary>		

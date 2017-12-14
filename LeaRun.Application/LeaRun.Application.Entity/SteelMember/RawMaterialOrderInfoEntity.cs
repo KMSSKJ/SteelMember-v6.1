@@ -28,26 +28,11 @@ namespace LeaRun.Application.Entity.SteelMember
         public decimal? Quantity { get; set; }
 
         /// <summary>
-        /// Price
-        /// </summary>
-        /// <returns></returns>
-        public decimal? Price { get; set; }
-
-        /// <summary>
         /// Time
         /// </summary>
         /// <returns></returns>
         public DateTime? Time { get; set; }
-        /// <summary>
-        /// RawMaterialManufacturer
-        /// </summary>
-        /// <returns></returns>
-        public string RawMaterialManufacturer { get; set; }
-        /// <summary>
-        /// RawMaterialSupplier
-        /// </summary>
-        /// <returns></returns>
-        public string RawMaterialSupplier { get; set; }
+
         /// <summary>
         /// RawMaterialId
         /// </summary>

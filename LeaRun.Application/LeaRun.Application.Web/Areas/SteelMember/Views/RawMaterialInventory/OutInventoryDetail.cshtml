@@ -30,7 +30,7 @@
             url: "../../SteelMember/RawMterialCollar/OutInventory",
             datatype: "json",
             colModel: [
-                { label: '出库ID', name: 'CollarId', index: 'CollarId',hidden: true },
+                { label: '出库ID', name: 'CollarId', index: 'CollarId', hidden: true },
                 { label: '单号', name: 'CollarNumbering', index: 'CollarNumbering', width: 180, align: 'center', sortable: true },
                 { label: '所属工程', name: 'CollarEngineering', index: 'CollarEngineering', width: 180, align: 'center', sortable: true },
                 {
@@ -43,8 +43,8 @@
                         }
                     }
                 },
-                { label: '经办人', name: 'CreateMan', index: 'CreateMan', width: 110, align: 'center', sortable: true },
-                { label: '审核人', name: 'Sender', index: 'Sender', width: 110, align: 'center', sortable: true },
+                //{ label: '经办人', name: 'CreateMan', index: 'CreateMan', width: 110, align: 'center', sortable: true },
+                //{ label: '审核人', name: 'Sender', index: 'Sender', width: 110, align: 'center', sortable: true },
                 { label: '领用单位', name: 'OrganizeId', index: 'OrganizeId', width: 150, align: 'center', sortable: true },
                 { label: '领用人', name: 'ContactPerson', index: 'ContactPerson', width: 110, align: 'center', sortable: true },
                 { label: '领用人电话', name: 'ContactPersonTel', index: 'ContactPersonTel', width: 120, align: 'center', sortable: true },
@@ -60,7 +60,7 @@
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'CollarId',
+            sortname: 'Date',
             sortorder: 'desc',
             rownumbers: true,
             shrinkToFit: false,
@@ -83,12 +83,12 @@
                     height: "100%",
                     colModel: [
                         { label: '库存ID', name: 'InventoryId', index: 'InventoryId', hidden: true },
-                        { label: '材料名称', name: 'RawMaterialName', index: 'RawMaterialName', width: 120, align: 'center', sortable: true },
-                        { label: '规格/型号', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 120, align: 'center', sortable: true },
-                        { label: '出库数量', name: 'Qty', index: 'CollarQuantity', width: 100, align: 'center', sortable: true },
+                        { label: '材料名称', name: 'RawMaterialName', index: 'RawMaterialName', width: 180, align: 'center', sortable: true },
+                        { label: '牌号/规格', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 200, align: 'center', sortable: true },
+                        { label: '出库数量', name: 'CollarQuantity', index: 'CollarQuantity', width: 100, align: 'center', sortable: true },
                         { label: '单位', name: 'UnitId', index: 'UnitId', width: 90, align: 'center', sortable: true },
                         {
-                            label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center',
+                            label: '备注', name: 'Description', index: 'Description', width: 100, align: 'center',
                             formatter: function (cellvalue, options, rowObject) {
                                 if (rowObject.Description == null || rowObject.Description == "undefined") {
                                     return "";
@@ -119,7 +119,7 @@
                 condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 //Category: Category = $("#Category").attr('data-text') == "选择材料类型" ? "" : $("#Category").attr('data-text'),
                 DepartmentId: $("#txt_DepartmentId").val(),
-                ShippingAddress: $("#txt_ShippingAddress").val(),
+               // ShippingAddress: $("#txt_ShippingAddress").val(),
                 //HavesChildren: HavesChildren,
                 keyword: $("#txt_Keyword").val(),
                 BeginTime: $("#txt_BeginTime").val(),
@@ -137,12 +137,6 @@
                 $('#btn_Search').trigger("click");
             }
         });
-
-        //switch (obj) {
-        //    case 'Search':
-        //        $('#btn_Search').trigger("click");
-        //        break;
-        //}
     }
 
     //删除
@@ -198,7 +192,7 @@
             condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
             //Category: Category = $("#Category").attr('data-text') == "选择材料类型" ? "" : $("#Category").attr('data-text'),
             DepartmentId: $("#txt_DepartmentId").val().trim(),
-            ShippingAddress: $("#txt_ShippingAddress").val().trim(),
+            //ShippingAddress: $("#txt_ShippingAddress").val().trim(),
             //HavesChildren: HavesChildren,
             CollarEngineering: $("#txt_Keyword").val().trim(),
             BeginTime: $("#txt_BeginTime").val(),
@@ -214,7 +208,7 @@
                 CollarJson[i] = { CollarId: obj[i].CollarId, Date: obj[i].Date }
                 CollarEntityJson = {
                     CollarEngineering: obj[0].CollarEngineering,
-                    DepartmentId: obj[0].DepartmentId,
+                    OrganizeId: obj[0].OrganizeId,
                     ShippingAddress: obj[0].ShippingAddress,
                     Date: queryJson["BeginTime"] + "——" + queryJson["EndTime"],
                 }
@@ -239,25 +233,20 @@
             dialogMsg("项目名称不能空", 0);
             return false;
         }
-        if (queryJson["DepartmentId"] == "" || queryJson["DepartmentId"] == null) {
-            dialogMsg("收货单位不能为空", 0);
-            return false;
-        }
-        if (queryJson["ShippingAddress"] == "" || queryJson["ShippingAddress"] == null) {
-            dialogMsg("收货地址不能为空", 0);
-            return false;
-        }
+        //if (queryJson["DepartmentId"] == "" || queryJson["DepartmentId"] == null) {
+        //    dialogMsg("收货单位不能为空", 0);
+        //    return false;
+        //}
+
         if (CollarJson == []) {
             dialogMsg("数据为空，请修改查询条件", 0);
             return false;
         }
 
         dialogOpen({
-            id: 'QuantitySummary',
+            id: 'OutQuantitySummary',
             title: '汇总表',
-            url: '/SteelMember/RawMaterialInventory/QuantitySummary?CollarEntityJson=' + escape(JSON.stringify(CollarEntityJson)) + '&CollarJson=' + escape(JSON.stringify(CollarJson)),
-            //width: '1150px',
-            //height: '800px',
+            url: '/SteelMember/RawMaterialInventory/OutQuantitySummary?CollarEntityJson=' + escape(JSON.stringify(CollarEntityJson)) + '&CollarJson=' + escape(JSON.stringify(CollarJson)),
             width: '1100px',
             height: '760px',
             callBack: function (iframeId) {
@@ -297,11 +286,11 @@
                                 <input id="txt_Keyword" type="text" class="form-control" placeholder="输入要查询关键字" />
                             </td>
                             <td style="padding-left: 10px;width:120px">
-                                <input id="txt_DepartmentId"type="text" class="form-control" placeholder="输入收货单位名称" />
+                                <input id="txt_DepartmentId" type="text" class="form-control" placeholder="输入领用单位名称" />
                             </td>
-                            <td style="padding-left: 10px;width:120px">
+                            @*<td style="padding-left: 10px;width:120px">
                                 <input id="txt_ShippingAddress" type="text" class="form-control" placeholder="输入收货地址" />
-                            </td>
+                            </td>*@
                             <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
                                 <a id="lr-Summary" class="btn btn-primary" onclick="btn_Summary()"><i class="fa fa-list-alt"></i>汇总</a>
@@ -315,11 +304,11 @@
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                         <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>导出</a>
                         @*<a id="lr-Detail" class="btn btn-default" onclick="btn_Detail()"><i class="fa fa-list-alt"></i>详细</a>*@
-                       
+
                     </div>
                     @*<div class="btn-group">
-                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
-                    </div>*@
+                            <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                        </div>*@
                 </div>
             </div>
             <div class="gridPanel">

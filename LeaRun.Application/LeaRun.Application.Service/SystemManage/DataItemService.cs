@@ -2,8 +2,10 @@
 using LeaRun.Application.IService.SystemManage;
 using LeaRun.Data.Repository;
 using LeaRun.Util.Extension;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SystemManage
 {
@@ -21,8 +23,17 @@ namespace LeaRun.Application.Service.SystemManage
         /// <returns></returns>
         public IEnumerable<DataItemEntity> GetList()
         {
-            return this.BaseRepository().IQueryable().OrderBy(t => t.CreateDate).ToList();
+            return this.BaseRepository().IQueryable().OrderBy(t => t.SortCode).ToList();
         }
+        /// <summary>
+        /// 分类列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<DataItemEntity> GetList(Expression<Func<DataItemEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).OrderBy(t => t.SortCode).ToList();
+        }
+       
         /// <summary>
         /// 分类实体
         /// </summary>

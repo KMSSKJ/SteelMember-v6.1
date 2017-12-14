@@ -631,11 +631,14 @@ $.fn.authorizeButton = function () {
     var $element = $(this);
     $element.find('a.btn').attr('authorize', 'no')
     $element.find('ul.dropdown-menu').find('li').attr('authorize', 'no')
+
+    $element.find('ul.dropdown-menu').attr('authorize', 'no')
     var moduleId = tabiframeId().substr(6);
     var data = top.authorizeButtonData[moduleId];
     if (data != undefined) {
         $.each(data, function (i) {
             $element.find("#" + data[i].EnCode).attr('authorize', 'yes');
+            $element.find("#ul-" + data[i].EnCode).attr('authorize', 'yes');
         });
     }
     $element.find('[authorize=no]').remove();

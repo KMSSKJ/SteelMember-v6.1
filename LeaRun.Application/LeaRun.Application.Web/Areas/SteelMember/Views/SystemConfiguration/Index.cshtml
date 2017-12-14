@@ -17,8 +17,6 @@
     $(function () {
         GetGrid();
         UploadFile();
-        //imgFileUpload.init([$(".houseImgUpload")], "file", "/SystemConfiguration/ImgUpload");
-
     });
     //上传系统Logo
     function initControl() {
@@ -95,13 +93,13 @@
     //上传工程图片
     function UploadFile() {
         $('#Avatar').uploadify({
-            uploader: '/SystemConfiguration/ImgUpload',
+            uploader: '/SteelMember/SystemConfiguration/ImgUpload',
             swf: '/Content/Scripts/plugins/uploadify/uploadify.swf',
             buttonText: "选择图片",
             height: 25,
             width: 70,
             //fileTypeDesc: '支持格式:jpg/gif/jpeg/png/bmp.',
-            //fileTypeExts: '*.jpg;*.gif;*.jpeg;*.png;*.bmp',//允许的格式
+            fileTypeExts: '',//允许的格式*.jpg;*.gif;*.jpeg;*.png;*.bmp
             fileSizeLimit: '100MB',
             queueID: 'fileQueue',                        //队列的ID
             queueSizeLimit: 1,                          //队列最多可上传文件数量，默认为999
@@ -243,8 +241,8 @@
 
                             <div style="height:150px;width:50%;margin-top:10px;float:left">
                                 <div style="margin-right:10px;line-height:150px;float:left;font-size:14px;font-weight:600;">系统Logo:&nbsp;<font face="宋体" color="red">*</font>&nbsp;</div>
-                                <div class="file" id="myupload" style="width: 120px; height: 120px;float:left;margin-left:100px;">
-                                    <img id="uploadPreview" style="width: 120px; height: 120px; border-radius: 120px;" src="~/Content/images/logo-headere47d5.png" />
+                                <div class="file" id="myupload" style="width: auto; height: 120px;float:left;margin-top:25px;">
+                                    <img id="uploadPreview" style="height:90px;width:auto; border-radius: 35px;" src="~/Content/images/logo-headere47d5.png" />
                                     <input type="file" name="uploadFile" id="uploadFile" onchange="initControl()" accept="image/*" />
                                 </div>
                                 <div id="checkimg" style="display:none;color:red;padding-top:100px;"></div>

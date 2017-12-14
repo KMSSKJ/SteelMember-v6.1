@@ -47,32 +47,43 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public int? IsPassed { get; set; }
+
         /// <summary>
-        /// OrderWarehousingStatus
+        /// IsReceived
         /// </summary>
         /// <returns></returns>
-        public int? OrderWarehousingStatus { get; set; }
+        public int? IsReceived { get; set; }
         /// <summary>
         /// ReviewMan
         /// </summary>
         /// <returns></returns>
-        public string ReviewMan { get; set; }
+        public string ReviewMan1 { get; set; }
         /// <summary>
-        /// ReviewTime
+        /// ReviewMan
         /// </summary>
         /// <returns></returns>
-        public DateTime? ReviewTime { get; set; }
+        public string ReviewMan2 { get; set; }
+        /// <summary>
+        /// ReviewMan
+        /// </summary>
+        /// <returns></returns>
+        public string ReviewMan3 { get; set; }
+        /// <summary>
+        /// ReviewMan
+        /// </summary>
+        /// <returns></returns>
+        public string ReviewMan4 { get; set; }
+        /// <summary>
+        /// ReviewMan
+        /// </summary>
+        /// <returns></returns>
+        public string ReviewMan5 { get; set; }
 
         /// <summary>
         /// ReviewMan
         /// </summary>
         /// <returns></returns>
         public string OrganizeId { get; set; }
-        /// <summary>
-        /// ReviewMan
-        /// </summary>
-        /// <returns></returns>
-        public string DepartmentId { get; set; }
 
         /// <summary>
         /// ContactPerson
@@ -89,6 +100,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string ContactPersonTel { get; set; }
+
+        /// <summary>
+        /// ReviewDescription
+        /// </summary>
+        /// <returns></returns>
+        public string ReviewDescription { get; set; }
 
         /// <summary>
         /// Description

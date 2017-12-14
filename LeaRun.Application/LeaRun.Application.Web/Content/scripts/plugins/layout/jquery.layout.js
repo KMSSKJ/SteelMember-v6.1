@@ -843,13 +843,13 @@
     }
     , east: {
         paneSelector: ".ui-layout-east"
-        , size: 200
+        , size: 140
         , resizerCursor: "e-resize"
         , customHotkey: ""
     }
     , west: {
         paneSelector: ".ui-layout-west"
-        , size: 200
+        , size: 140
         , resizerCursor: "col-resize"
         , customHotkey: ""
     }

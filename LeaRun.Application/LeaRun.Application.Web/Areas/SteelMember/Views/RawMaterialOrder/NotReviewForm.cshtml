@@ -5,6 +5,7 @@
 <script>
     var keyValue = request('keyValue');
     var type = request('type');
+    var operat = request('operat');
     $(function () {
         initControl();
     });
@@ -29,7 +30,7 @@
         }
         var postData = $("#form1").GetWebControls(keyValue);
         $.SaveForm({
-            url: "../../SteelMember/RawMaterialOrder/ReviewOperation?keyValue=" + keyValue + "&type=" + type,
+            url: "../../SteelMember/RawMaterialOrder/ReviewOperation?keyValue=" + keyValue + "&operat=" + operat + "&type=" + type, 
             param: postData,
             loading: "正在保存数据...",
             success: function () {

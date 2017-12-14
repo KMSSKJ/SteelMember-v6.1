@@ -59,7 +59,7 @@ namespace LeaRun.Application.Service.SteelMember
             //        //case "Category":              //构件类型
             //        //    expression = expression.And(t => t.Category.Contains(keyword));
             //        //    break;
-            //        //case "MemberModel":              //构件型号
+            //        //case "MemberModel":              //构件牌号/规格
             //        //    expression = expression.And(t => t.MemberModel.Contains(keyword));
             //        //    break;
             //        case "EngineeringId":              //编号
@@ -119,7 +119,7 @@ namespace LeaRun.Application.Service.SteelMember
         //    //        //case "Category":              //构件类型
         //    //        //    expression = expression.And(t => t.Category.Contains(keyword));
         //    //        //    break;
-        //    //        //case "MemberModel":              //构件型号
+        //    //        //case "MemberModel":              //构件牌号/规格
         //    //        //    expression = expression.And(t => t.MemberModel.Contains(keyword));
         //    //        //    break;
         //    //        case "EngineeringId":              //编号
@@ -160,7 +160,7 @@ namespace LeaRun.Application.Service.SteelMember
                     //case "Category":              //构件类型
                     //    expression = expression.And(t => t.Category.Contains(keyword));
                     //    break;
-                    //case "MemberModel":              //构件型号
+                    //case "MemberModel":              //构件牌号/规格
                     //    expression = expression.And(t => t.MemberModel.Contains(keyword));
                     //    break;
                     default:

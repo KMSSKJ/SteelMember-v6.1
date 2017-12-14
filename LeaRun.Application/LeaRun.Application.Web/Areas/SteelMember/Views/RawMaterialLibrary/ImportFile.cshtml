@@ -18,6 +18,11 @@
         for (var i = 0; i < fileObj.length; i++)
             form.append("file" + i, fileObj[i]);
 
+        if ($("#fileToUpload").val() == null || $("#fileToUpload").val() == "") {
+            dialogMsg("请选择要上传的文件", 0);
+            return false;
+        }
+
         var defaults = {
             url: "",
             param: [],
@@ -41,19 +46,22 @@
                     dialogClose();
                 } else {
                     if (data == "1") {
-                        dialogMsg("操作成功", 0);
+                        dialogMsg("操作成功", 1);
                         $.currentIframe().$("#gridTable").trigger("reloadGrid");
                         dialogClose();
                     } else {
                         dialogMsg(data, 0);
+                        Loading(false, options.loading);
+
                     }
                 }
             },
             error: function (e) {
-                dialogMsg(e, 0);
+                dialogMsg(e.message, 0);
+                Loading(false, options.loading);
             },
             beforeSend: function () {
-                Loading(true, options.loading);
+               Loading(true, options.loading);
             },
         });
 
@@ -71,7 +79,6 @@
             },
             btn: null
         });
-
     }
 </script>
 <style>

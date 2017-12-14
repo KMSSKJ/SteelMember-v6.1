@@ -1,0 +1,198 @@
+@{;
+    ViewBag.Title = "材料需求表单页面";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = request('keyValue');
+    var category = request('category');
+    var categoryInput = "";
+    $(function () {
+        initControl();
+    });
+    //初始化控件
+    var InputValue = "";
+    function initControl() {
+        //工程
+        $("#Category").ComboBoxTree({
+            param: { Levels: 3 },
+            url: "../../SteelMember/SubProject/GetTreeJson",
+            description: "==请选择==",
+            height: "150px",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    categoryInput==""
+                }
+                else {
+                    categoryInput = "请选择工程名称而不是工程分类";
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return "false";
+                }
+            }
+        });
+
+        //材料类型
+        $("#RawMaterialCategory").ComboBoxTree({
+            param: { EnCode: "RawMaterialType" },
+            //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            description: "==请选择==",
+            id: "ItemValue",
+            text: "ItemName",
+            height: "150px",
+        }).bind("change", function () {
+            var value = $(this).attr('data-value');
+            //加载牌号/规格
+            $("#RawMaterialModel").ComboBox({
+                url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
+                description: "==请选择==",
+                id: "RawMaterialId",
+                text: "RawMaterialModel",
+                height: "150px",
+            });
+        });
+
+        //牌号/规格
+        $("#RawMaterialModel").ComboBox({
+            description: "==请选择==",
+            height: "150px",
+        })
+
+        //获取表单
+        if (!!keyValue) {
+            $.SetForm({
+                url: "../../SteelMember/RawMaterialAnalysis/GetFormJson",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data);
+                    InputValue = data.RawMaterialName + data.RawMaterialModel;
+                    $("#RawMaterialCategory").trigger("change");
+                    $("#RawMaterialModel").ComboBoxSetValue(data.RawMaterialId);
+
+                    if (R(0)>0){
+                    //加载牌号/规格
+                    $("#RawMaterialModel").ComboBox({
+                        url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + data.RawMaterialCategory,
+                        description: "==请选择==",
+                        id: "RawMaterialId",
+                        text: "RawMaterialModel",
+                        height: "150px",
+                        });
+                    }
+                }
+            })
+        } else {
+            $("#Category").ComboBoxTreeSetValue(category);
+        }
+    }
+
+    function R(value) {
+        var number = 0;
+        if (value == 1) {
+          number++;
+        } 
+        return number;
+    };
+
+
+    //验证构件不能重复
+    $._ExistField = function (controlId, url, param) {
+        var RawMaterialModel = $("#RawMaterialModel").attr('data-text');
+        if (InputValue != RawMaterialModel) {
+
+            var SubProjectId = $("#Category").attr('data-value');
+            //var RawMaterialCategory = $("#RawMaterialCategory").attr('data-value');
+            var RawMaterialId = $("#RawMaterialModel").attr('data-value');
+            if (RawMaterialId == "==请选择==" || RawMaterialId == undefined || RawMaterialId == "" || RawMaterialId == '' || RawMaterialId == null) {
+                return false;
+            }
+
+            $.ajax({
+                url: url,
+                data: {
+                    SubProjectId: SubProjectId,
+                    //RawMaterialCategory: RawMaterialCategory,
+                    RawMaterialId: RawMaterialId
+                },
+                type: "get",
+                dataType: "text",
+                async: false,
+                success: function (data) {
+                    if (data.toLocaleLowerCase() == 'false') {
+                        ValidationMessage($("#RawMaterialModel"), '数据库中已存在,请重新选择');
+                        $("#RawMaterialModel").attr('fieldexist', 'yes');
+                    } else {
+                        $("#RawMaterialModel").attr('fieldexist', 'no');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    dialogMsg(errorThrown, -1);
+                }
+            })
+        }
+    }
+
+    //保存表单;
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogMsg("工程应选择工程名称而不是工程分类", "error");
+            return false;
+        }
+        var postData = $("#form1").GetWebControls(keyValue);
+        postData["RawMaterialId"] = $("#RawMaterialModel").attr('data-value')
+        $.SaveForm({
+            url: "../../SteelMember/RawMaterialAnalysis/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+<div style="padding:15px;">
+    <table class="form">
+        <tr>
+            <td class="formTitle">工程<font face="宋体">*</font></td>
+            <td class="formValue">
+                <div readonly id="Category" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+            <td class="formTitle">材料类型<font face="宋体">*</font></td>
+            <td class="formValue">
+                <div readonly id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">材料<font face="宋体">*</font></td>
+            <td class="formValue" colspan="3">
+                <div readonly id="RawMaterialModel" type="select" onclick="R(1)" @*onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')"*@ class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+        </tr>
+        <tr>
+          
+            <th class="formTitle">需求总量<font face="宋体">*</font></th>
+            <td class="formValue">
+                <input readonly id="RawMaterialDosage" type="text" @*onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')"*@ class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="ExceedZero" />
+            </td>
+
+            <td class="formTitle">
+                变更数量<font face="宋体" color="red">*</font>
+            </td>
+            <td class="formValue">
+                <input id="ChangeQuantity" type="text" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="Num" />
+            </td>
+        </tr>
+       
+        <tr>
+           
+            <th class="formTitle" valign="top" style="padding-top: 4px;">
+                描述
+            </th>
+            <td class="formValue" colspan="3">
+                <textarea id="Description" class="form-control" @*onmouseover="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')"*@ style="height: 160px;"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>

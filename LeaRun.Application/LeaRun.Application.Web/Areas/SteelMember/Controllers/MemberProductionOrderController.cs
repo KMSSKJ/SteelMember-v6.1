@@ -137,7 +137,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 string Category = queryParam["Category"].ToString();
                 data = data.FindAll(t => t.Category == Category);
             }
-
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                string keyword = queryParam["keyword"].ToString();
+                data = data.FindAll(t => t.OrderNumbering.Contains(keyword));
+            }
             var jsonData = new
             {
                 rows = data,
@@ -170,7 +174,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberDemandId = childData[i].MemberDemandId,
                     MemberNumber = childData[i].ProductionQuantity,
                     ProductionedQuantity = Convert.ToInt32(childData[i].ProductionedQuantity),
-                    QualifiedQuantity = childData[i].QualifiedQuantity,
+                    WarehousedQuantity = childData[i].WarehousedQuantity,
                     SelfDetectNumber = childData[i].SelfDetectNumber,
                     SelfDetectRemarks = childData[i].SelfDetectRemarks,
                     QualityInspectionNumber = childData[i].QualityInspectionNumber,
@@ -257,7 +261,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     ProductionedQuantity = Convert.ToInt32(data[i].ProductionedQuantity),
                     SelfDetectNumber = data[i].SelfDetectNumber,
                     QualityInspectionNumber = data[i].QualityInspectionNumber,
-                    QualifiedQuantity = memberproductionorderinfo.QualifiedQuantity,
+                    WarehousedQuantity = data[i].WarehousedQuantity,
                     MemberName = MemberLibrary.MemberName,
                     Category = dataitemdetailbll.GetEntity(MemberLibrary.Category).ItemName,
                     MemberNumbering = MemberLibrary.MemberNumbering,
@@ -267,51 +271,155 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             }
             return ToJsonResult(MemberList);
         }
+
+
         /// <summary>
-        /// 加载审核通过的构件需求
+        /// 获取单号
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetNumberingList()
+        {
+            //var MemberProductionOrderList = new List<MemberProductionOrderEntity>();
+            var MemberProductionOrderList = memberproductionorderbll.GetList(f => f.QualityInspectionStatus != 0 && f.IsReceived == 0);
+            //if (memberproductionorder.Count() > 0)
+            //{
+            //    foreach (var item in memberproductionorder)
+            //    {
+            //        var MemberCollar = membercollarbll.GetList(f => f.CollarId != "" && f.Numbering == item.OrderNumbering).SingleOrDefault();
+            //        MemberCollarList.Add(MemberCollar);
+            //    }
+            //}
+            return ToJsonResult(MemberProductionOrderList);
+        }
+
+        /// <summary>
+        /// 获取实体 
+        /// </summary>
+        /// <param name="Numbering">主键值</param>
+        /// <returns>返回对象Json</returns>
+        [HttpGet]
+        public ActionResult NumberingToGetFormJson(string Numbering)
+        {
+            var list = new List<MemberCollarInfoModel>();
+            var data = memberproductionorderbll.GetEntity(f => f.OrderNumbering == Numbering.Trim());
+            if (data != null)
+            {
+                data.OrganizeId = organizebll.GetEntity(data.OrganizeId).FullName;
+                data.Category = subprojectbll.GetEntity(data.Category).FullName;
+
+                var childData = memberproductionorderinfobll.GetList(f => f.OrderId == data.OrderId);
+
+                foreach (var item in childData)
+                {
+                    var memberwarehouse = memberwarehousebll.GetEntity(f => f.MemberId == item.MemberId);
+                    var MemberLibrary = memberlibrarybll.GetEntity(memberwarehouse.MemberId);
+                    var MemberCollarInfomodel = new MemberCollarInfoModel()
+                    {
+                        InfoId = item.InfoId,
+                        MemberId = MemberLibrary.MemberId,
+                        MemberWarehouseId = memberwarehouse.MemberWarehouseId,
+                        MemberName = MemberLibrary.MemberName,
+                        MemberNumbering = MemberLibrary.MemberNumbering,
+                        InStock = memberwarehouse.InStock,
+                        CollaredQuantity = item.CollaredQuantity,
+                        Quantity = item.ProductionQuantity,
+                        UnitId = dataitemdetailbll.GetEntity(MemberLibrary.UnitId).ItemName,
+                        Category = dataitemdetailbll.GetEntity(MemberLibrary.Category).ItemName,
+                        Description = item.Description,
+                    };
+                    list.Add(MemberCollarInfomodel);
+                }
+            }
+            var jsonData = new
+            {
+                entity = data,
+                childEntity = list
+            };
+            return ToJsonResult(jsonData);
+        }
+
+        ///// <summary>
+        ///// 加载审核通过的构件需求
+        ///// </summary>
+        ///// <param name="pagination"></param>
+        ///// <param name="category"></param>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public ActionResult GridListJsonDemand(Pagination pagination, string category)
+        //{
+        //    var watch = CommonHelper.TimerStart();
+        //    var data = new List<MemberDemandModel>();
+        //    var memberdemand = memberdemandbll.GetPageList1(pagination, f => f.SubProjectId == category && f.IsReview == 1).ToList();//.OrderByDescending(o => o.MemberNumbering)
+        //    var MemberProductionOrder = memberproductionorderbll.GetList(f => f.Category == category);
+        //    foreach (var item in memberdemand)
+        //    {
+        //        decimal Number = 0;
+        //        foreach (var item1 in MemberProductionOrder)
+        //        {
+        //            var memberproductionorderinfo = memberproductionorderinfobll.GetList(f => f.MemberDemandId == item.MemberDemandId && f.MemberId == item.MemberId && f.OrderId == item1.OrderId).SingleOrDefault();
+        //            if (memberproductionorderinfo == null)
+        //            {
+        //                var a = 0;
+        //                Number += a;
+        //            }
+        //            else if (memberproductionorderinfo.MemberId == item.MemberId)
+        //            {
+        //                Number += memberproductionorderinfo.ProductionQuantity.ToDecimal();
+        //            }
+        //        }
+        //        MemberDemandModel MemberDemand = new MemberDemandModel();
+        //        var member = memberlibrarybll.GetEntity(f => f.MemberId == item.MemberId);
+        //        MemberDemand.MemberId = member.MemberId;
+        //        MemberDemand.MemberDemandId = item.MemberDemandId;
+        //        MemberDemand.Category = dataitemdetailbll.GetEntity(member.Category).ItemName;
+        //        MemberDemand.CategoryId = member.Category;
+        //        MemberDemand.MemberNumbering = member.MemberNumbering;
+        //        MemberDemand.MemberName = member.MemberName;
+        //        MemberDemand.UnitId = dataitemdetailbll.GetEntity(member.UnitId).ItemName;
+        //        //MemberDemand.MemberNumber;需求量
+        //        MemberDemand.MemberNumber = item.MemberNumber.ToDecimal()+ item.ChangeQuantity.ToDecimal() - Number;//可申请
+        //        if (MemberDemand.MemberNumber > 0)
+        //        {
+        //            data.Add(MemberDemand);
+        //        }
+        //    }
+        //    var jsonData = new
+        //    {
+        //        rows = data.OrderBy(O => O.MemberNumbering),
+        //        total = pagination.total,
+        //        page = pagination.page,
+        //        records = pagination.records,
+        //        costtime = CommonHelper.TimerEnd(watch)
+        //    };
+        //    return ToJsonResult(jsonData);
+        //}
+
+        /// <summary>
+        /// 加载构件
         /// </summary>
         /// <param name="pagination"></param>
         /// <param name="category"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GridListJsonDemand(Pagination pagination, string category)
+        public ActionResult GridListJsonMember(Pagination pagination, string category)
         {
             var watch = CommonHelper.TimerStart();
-            var data = new List<MemberDemandModel>();
-            var memberdemand = memberdemandbll.GetPageList1(pagination, f => f.SubProjectId == category && f.IsReview == 1).ToList();//.OrderByDescending(o => o.MemberNumbering)
-            var MemberProductionOrder = memberproductionorderbll.GetList(f => f.Category == category);
-            foreach (var item in memberdemand)
+            var memberList = new List<MemberLibraryEntity>();
+            var Engineering = subprojectbll.GetEntity(category);
+            if (Engineering != null)
             {
-                decimal Number=0;
-                foreach (var item1 in MemberProductionOrder)
-                {
-                    var memberproductionorderinfo = memberproductionorderinfobll.GetList(f => f.MemberDemandId == item.MemberDemandId && f.MemberId == item.MemberId && f.OrderId == item1.OrderId).SingleOrDefault();
-                    if (memberproductionorderinfo == null)
-                    {
-                        Number = 0;
-                    }
-                    else if (memberproductionorderinfo.MemberId == item.MemberId)
-                    {
-                        Number += memberproductionorderinfo.IsEmpty() ? 0 : memberproductionorderinfo.ProductionQuantity.ToDecimal();
-                    }
-                }
-                MemberDemandModel MemberDemand = new MemberDemandModel();
-                var member = memberlibrarybll.GetEntity(f => f.MemberId == item.MemberId);
-                MemberDemand.MemberId = member.MemberId;
-                MemberDemand.MemberDemandId = item.MemberDemandId;
-                MemberDemand.Category = dataitemdetailbll.GetEntity(member.Category).ItemName;
-                MemberDemand.MemberNumbering = member.MemberNumbering;
-                MemberDemand.MemberName = member.MemberName;
-                MemberDemand.UnitId = dataitemdetailbll.GetEntity(member.UnitId).ItemName;
-                //MemberDemand.MemberNumber;需求量
-                MemberDemand.MemberNumber = item.MemberNumber.ToDecimal() - Number;//可申请
-                if (MemberDemand.MemberNumber > 0) { 
-                data.Add(MemberDemand);
-                }
+                memberList = memberlibrarybll.GetPageListLambda(pagination, f => f.EngineeringId == Engineering.ParentId).ToList();
             }
+            foreach (var item in memberList)
+            {
+                item.Category= dataitemdetailbll.GetEntity(item.Category).ItemName;
+                item.UnitId= dataitemdetailbll.GetEntity(item.UnitId).ItemName;
+            }
+           
             var jsonData = new
             {
-                rows = data.OrderBy(O => O.MemberNumbering),
+                rows = memberList.OrderBy(O => O.MemberNumbering),
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records,
@@ -319,6 +427,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             };
             return ToJsonResult(jsonData);
         }
+
 
         /// <summary>
         /// 控制订单构件的数量（新增）
@@ -371,44 +480,65 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return Content(MemberDemandNumber.ToString());
         }
         /// <summary>
-        /// 载入添加后的构件
+        /// 
         /// </summary>
-        /// <param name="KeyValue"></param>
-        /// <param name="category"></param>
+        /// <param name="MemberId"></param>
+        /// <param name="MemberDemandId"></param>
+        /// <param name="MemberNumbering"></param>
+        /// <param name="CategoryId"></param>
+        /// <param name="Category"></param>
+        /// <param name="MemberName"></param>
+        /// <param name="MemberModel"></param>
+        /// <param name="MemberNumber"></param>
+        /// <param name="UnitId"></param>
         /// <returns></returns>
-        public ActionResult ListMember(string KeyValue, string category)
+        public ActionResult ListMember(string MemberId, string MemberDemandId, string MemberNumbering, string CategoryId, string Category, string MemberName, string MemberModel, string MemberNumber, string UnitId)
         {
-            var listmember = new List<MemberDemandModel>();
-            if (KeyValue != null)
+            // var inventory = 0; //库存量
+            var listmember = new List<Text>();
+            if (MemberId != null && MemberId != "")
             {
-                string[] array = KeyValue.Split(',');
-                if (array.Count() > 0)
-                {
-                    foreach (var item in array)
-                    {
-                        var a = memberdemandbll.GetEntity(f => f.SubProjectId == category && f.MemberId == item);
-                        var member = memberlibrarybll.GetEntity(f => f.MemberId == a.MemberId);
-                        MemberDemandModel projectdemand = new MemberDemandModel()
-                        {
-                            MemberId = a.MemberId,
-                            MemberDemandId = a.MemberDemandId,
-                            MemberName = member.MemberName,
-                            UnitPrice = member.UnitPrice,
-                            UnitId = dataitemdetailbll.GetEntity(member.UnitId).ItemName,
-                            MemberNumbering = member.MemberNumbering,
-                            MemberNumber = a.MemberNumber,
-                        };
+                string[] arrayMemberId = MemberId.Split(',');
+                string[] arrayMemberDemandId = MemberDemandId.Split(',');
+                string[] arrayMemberNumbering = MemberNumbering.Split(',');
+                string[] arrayCategoryId = CategoryId.Split(',');
+                string[] arrayCategory = Category.Split(',');
+                string[] arrayMemberName = MemberName.Split(',');
+                string[] arrayMemberModel = MemberModel.Split(',');
+                string[] arrayUnitId = UnitId.Split(',');
+                string[] arrayMemberNumber = MemberNumber.Split(',');
 
+
+                if (arrayMemberDemandId.Count() > 0)
+                {
+                    for (int i = 0; i < arrayMemberDemandId.Length; i++)
+                    {
+                        // var sb = arrayRawMaterialId[i];
+                        //var rawmaterialinventory = rawmaterialinventorybll.GetEntityByRawMaterialId(arrayRawMaterialId[i].ToString());
+                        //var inventory = rawmaterialinventory.Quantity.ToDecimal();//需申请量
+                        Text projectdemand = new Text()
+                        {
+                            MemberId = arrayMemberId[i],
+                            MemberDemandId = arrayMemberDemandId[i],
+                            MemberNumbering = arrayMemberNumbering[i],
+                            CategoryId = arrayCategoryId[i],
+                            Category = arrayCategory[i],
+                            MemberName = arrayMemberName[i],
+                            MemberModel = arrayMemberModel[i],
+                            UnitId = arrayUnitId[i],
+                            MemberNumber = arrayMemberNumber[i].ToDecimal(),
+                        };
                         listmember.Add(projectdemand);
                     }
                 }
             }
             else
             {
-                listmember = null;
+                return Json(listmember);
             }
             return Json(listmember);
         }
+
         #endregion
 
         #region 提交数据
@@ -463,12 +593,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 entity.ProductionStatus = 0;
                 entity.IsConfirm = 0;
-                entity.IsPackage = 0;
-                entity.OrderWarehousingStatus = 0;
+                entity.IsReceived = 0;
                 entity.ProductionStatus = 0;
                 entity.QualityInspectionStatus = 0;
                 entity.SelfDetectStatus = 0;
                 entity.IsReceiveRawMaterial = 0;
+                entity.IsPackage = 0;
+                entity.ReviewMan1 = entity.ReviewMan2 = entity.ReviewMan3 = entity.ReviewMan4 = "0";
                 entity.CreateMan = OperatorProvider.Provider.Current().UserName;
             }
 
@@ -520,12 +651,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="keyValue">要审核的数据的主键些</param>
         /// <param name="entity"></param>
+        /// <param name="operat"></param>
         /// <param name="type">1通过，2失败</param>
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
         // [HandlerAuthorize(PermissionMode.Enforce)]
-        public ActionResult ReviewOperation(string keyValue, MemberProductionOrderEntity entity, int type)
+        public ActionResult ReviewOperation(string keyValue, MemberProductionOrderEntity entity, int operat, int type)
         {
             string[] ids = new string[] { };
             if (!string.IsNullOrEmpty(keyValue))
@@ -540,51 +672,100 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var model = memberproductionorderbll.GetEntity(item.Trim());
                     if (model != null)
                     {
-                        model.IsPassed = type;
+                        if (type == 1)
+                        {
+                            if (operat == 1)
+                            {
+                                model.ReviewMan1 = OperatorProvider.Provider.Current().UserName;
+                                model.ReviewDescription = "工程部长审核通过";
+                            }
+                            else if (operat == 2)
+                            {
+                                model.ReviewMan2 = OperatorProvider.Provider.Current().UserName;
+                                model.ReviewDescription = "物质部长审核通过";
+                            }
+                            else if (operat == 3)
+                            {
+                                model.ReviewMan3 = OperatorProvider.Provider.Current().UserName;
+                                model.ReviewDescription = "副总工审核通过";
+                            }
+                            else
+                            {
+                                model.ReviewMan4 = OperatorProvider.Provider.Current().UserName;
+                                model.IsPassed = 1;
+                                model.ReviewDescription = "总工审核通过";
+                            }
+                        }
+                        else
+                        {
+                            if (operat == 1)
+                            {
+                                model.ReviewMan1 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "工程部长审核失败";
+                            }
+                            else if (operat == 2)
+                            {
+                                model.ReviewMan2 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "物质部长审核失败";
+                            }
+                            else if (operat == 3)
+                            {
+                                model.ReviewMan3 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "副总工审核失败";
+                            }
+                            else
+                            {
+                                model.ReviewMan4 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "总工审核失败";
+                            }
+                        }
                         model.IsConfirm = 0;
-                        model.ReviewTime = System.DateTime.Now;
-                        model.ReviewMan = OperatorProvider.Provider.Current().UserName;
+                        model.IsPackage = 0;
                         model.Description = entity.Description;
                         list.Add(model);
                     }
-                    if (type == 1)
-                    {
-                        //数据添加至出库信息
-                        var childEntitys1 = new List<MemberCollarInfoEntity>();
-                        var entity1 = new MemberCollarEntity()
-                        {
-                            Numbering = model.OrderNumbering,
-                            CollarEngineering = model.Category,
-                            OrganizeId = model.OrganizeId,
-                            DepartmentId = model.DepartmentId,
-                            Date = model.CreateTime,
-                            CreateMan = model.CreateMan,
-                            ShippingAddress = model.ShippingAddress,
-                            ContactPerson = model.ContactPerson,
-                            ContactPersonTel = model.ContactPersonTel,
-                        };
-                        var ListEntity = memberproductionorderinfobll.GetList(f => f.OrderId == item.Trim());
-                        if (ListEntity.Count() > 0)
-                        {
-                            foreach (var item1 in ListEntity)
-                            {
-                                var Entity = new MemberCollarInfoEntity()
-                                {
-                                    CollarQuantity = item1.ProductionQuantity,
-                                    MemberId = item1.MemberId,
-                                    MemberDemandId = item1.MemberDemandId,
-                                };
-                                childEntitys1.Add(Entity);
-                                //更改需求中已成单量
-                                var MemberDemandEntiity = memberdemandbll.GetEntity(item1.MemberDemandId);
-                                MemberDemandEntiity.OrderedQuantity = MemberDemandEntiity.OrderedQuantity.ToDecimal() + item1.ProductionQuantity;
-                                memberdemandbll.SaveForm(item1.MemberDemandId, MemberDemandEntiity);
-                                //
-                            }
-                        }
-                        membercollarbll.SaveForm("", entity1, childEntitys1);
-                        //end
-                    }
+                    //if (type == 1)
+                    //{
+                    //    //数据添加至出库信息
+                    //    var childEntitys1 = new List<MemberCollarInfoEntity>();
+                    //    var entity1 = new MemberCollarEntity()
+                    //    {
+                    //        Numbering = model.OrderNumbering,
+                    //        CollarEngineering = model.Category,
+                    //        OrganizeId = model.OrganizeId,
+                    //        Date = model.CreateTime,
+                    //        CreateMan = model.CreateMan,
+                    //        ShippingAddress = model.ShippingAddress,
+                    //        ContactPerson = model.ContactPerson,
+                    //        ContactPersonTel = model.ContactPersonTel,
+                    //    };
+                    //    var ListEntity = memberproductionorderinfobll.GetList(f => f.OrderId == item.Trim());
+                    //    if (ListEntity.Count() > 0)
+                    //    {
+                    //        foreach (var item1 in ListEntity)
+                    //        {
+                    //            var Entity = new MemberCollarInfoEntity()
+                    //            {
+                    //                CollarQuantity = item1.ProductionQuantity,
+                    //                MemberId = item1.MemberId,
+                    //                MemberDemandId = item1.MemberDemandId,
+                    //            };
+                    //            childEntitys1.Add(Entity);
+
+                    //            //更改需求中已成单量
+                    //            var MemberDemandEntiity = memberdemandbll.GetEntity(item1.MemberDemandId);
+                    //            MemberDemandEntiity.OrderedQuantity = MemberDemandEntiity.OrderedQuantity.ToDecimal() + item1.ProductionQuantity;
+                    //            memberdemandbll.SaveForm(item1.MemberDemandId, MemberDemandEntiity);
+                    //            //
+                    //        }
+                    //    }
+                    //    membercollarbll.SaveForm("", entity1, childEntitys1);
+                    //    //end
+                    //}
 
                 }
                 if (list.Count > 0)

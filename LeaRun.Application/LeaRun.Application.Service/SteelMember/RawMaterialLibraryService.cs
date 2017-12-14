@@ -69,20 +69,35 @@ namespace LeaRun.Application.Service.SteelMember
             //        case "RawMaterialName":              //名称
             //            expression = expression.And(t => t.RawMaterialName.Contains(keyword));
             //            break;
-            //        case "RawMaterialModel":              //型号
+            //        case "RawMaterialModel":              //牌号/规格
             //            expression = expression.And(t => t.RawMaterialModel.Contains(keyword));
             //            break;
             //        default:
             //            break;
             //    }
             //}
+            if (!queryParam["CategoryId"].IsEmpty())
+            {
+                var CategoryId = queryParam["CategoryId"].ToString();
+                expression = expression.And(t => t.Category == CategoryId);
+            }
+            if (!queryParam["RawMaterialName"].IsEmpty())
+            {
+                var RawMaterialName = queryParam["RawMaterialName"].ToString();
+                expression = expression.And(t => t.RawMaterialName.Contains(RawMaterialName));
+            }
+            if (!queryParam["RawMaterialModel"].IsEmpty())
+            {
+                string RawMaterialModel = queryParam["RawMaterialModel"].ToString();
+                expression = expression.And(t => t.RawMaterialModel.Contains(RawMaterialModel));
+            }
             if (!queryParam["SubProjectId"].IsEmpty())
             {
                 var SubProjectId = queryParam["SubProjectId"].ToString();
                 expression = expression.And(t => t.Category==SubProjectId);
             }
-               
-            return this.BaseRepository().FindList(expression, pagination);
+            
+            return this.BaseRepository().FindList(expression, pagination).OrderBy(o=>o.UpdateTime);
         }
 
         /// <summary>

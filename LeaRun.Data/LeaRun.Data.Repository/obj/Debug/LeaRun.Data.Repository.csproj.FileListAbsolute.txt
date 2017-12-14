@@ -449,5 +449,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\D
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\Newtonsoft.Json.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.Repository\bin\Debug\System.Data.SQLite.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.Repository\obj\Debug\LeaRun.Data.Repository.pdb

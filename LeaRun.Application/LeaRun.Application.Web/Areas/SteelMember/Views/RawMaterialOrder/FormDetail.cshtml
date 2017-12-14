@@ -46,9 +46,9 @@
 
         //    $('#gridTable').jqGrid('addRowData', i, rowdata);
         ////默认添加16行 空行
-        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>规格/<br/>型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
+        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:180px'>材料名称</td><td style='width:180px'>牌号/规格</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:100px'>备注</td></tr>")
         for (var i = 1; i < 16; i++) {
-            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:205px'></td></tr>")
+            $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:180px'></td><td style='width:180px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:100px'></td></tr>")
         }
         //$grid.append("<tr><td style='border:1px solid #000;' colspan='7'></td><td style='border:1px solid #000;'colspan='3'></td></tr>")
     }
@@ -64,12 +64,12 @@
                 success: function (data) {
                     //$("#form1").SetWebControls(data.entity);
                     $("#table1").find("tr:eq(0)").find("td:eq(0)").html(data.entity.Category);
-                    $("#table1").find("tr:eq(0)").find("td:eq(1)").html(data.entity.DepartmentId);
+                    $("#table1").find("tr:eq(0)").find("td:eq(1)").html(data.entity.OrganizeId);
                     $("#table1").find("tr:eq(0)").find("td:eq(2)").html(data.entity.OrderNumbering);
 
-                    $("#table2").find("tr:eq(1)").find("td:eq(0)").html(data.entity.CreateMan);
-                    $("#table2").find("tr:eq(1)").find("td:eq(1)").html(data.entity.ReviewMan);
-                    $("#table2").find("tr:eq(1)").find("td:eq(2)").html(data.entity.CreateTime);
+                    $("#table2").find("tr:eq(0)").find("td:eq(0)").html(data.entity.CreateMan);
+                    $("#table2").find("tr:eq(0)").find("td:eq(1)").html(data.entity.CreateTime);
+                    $("#table2").find("tr:eq(1)").find("td:eq(0)").html(data.entity.ReviewMan1 == "0" ? "" : data.entity.ReviewMan1 + "&nbsp;&nbsp;&nbsp;&nbsp;" + data.entity.ReviewMan2 + "&nbsp;&nbsp;&nbsp;&nbsp;"+data.entity.ReviewMan3 + "&nbsp;&nbsp;&nbsp;&nbsp;"+data.entity.ReviewMan4 + "&nbsp;&nbsp;&nbsp;&nbsp;"+data.entity.ReviewMan5);
 
                     //明细
                     var childEntity = data.childEntity;
@@ -97,9 +97,9 @@
                             //$(this).find('td:eq(6)').html(row.Price * row.RawMaterialNumber);
                             //$(this).find('td:eq(7)').html(row.RawMaterialManufacturer);
                             //$(this).find('td:eq(8)').html(row.RawMaterialSupplier);
-                            $(this).find('td:eq(9)').html(row.Description);
+                            $(this).find('td:eq(5)').html(row.Description);
 
-                            Conversion(i);
+                           // Conversion(i);
                         }
                     });
                 }
@@ -107,27 +107,27 @@
         } else {
             //$("#Category").ComboBoxTreeSetValue(category);
             $("#table2").find("tr:eq(1)").find("td:eq(0)").html($("#CreateMan").val());
-            $("#table2").find("tr:eq(1)").find("td:eq(2)").html($("#CreateTime").val());
+            $("#table2").find("tr:eq(1)").find("td:eq(1)").html($("#CreateTime").val());
         }
     }
 
-    //订单明细换算+合计
-    function Conversion(index) {
-        //统计合计
-        var TotalQty = 0, TotalPrice = 0.00, TotalPriceAmount = 0.00/*, TotalPlusPrice = 0.00, TotalCESSAmount = 0.00, TotalPlusPriceAmount = 0.00*/;
-        $("#gridTable tbody tr").each(function (i) {
-            i = i + 1;
-            if (i < 15) {
-                var PriceAmount = document.getElementById("gridTable").rows[i].cells[6].innerText;
-                if (PriceAmount.toString() != "" && PriceAmount.toString() != undefined) {
-                    TotalPriceAmount += Number(PriceAmount);
-                }
-            }
-        });
+    ////订单明细换算+合计
+    //function Conversion(index) {
+    //    //统计合计
+    //    var TotalQty = 0, TotalPrice = 0.00, TotalPriceAmount = 0.00/*, TotalPlusPrice = 0.00, TotalCESSAmount = 0.00, TotalPlusPriceAmount = 0.00*/;
+    //    $("#gridTable tbody tr").each(function (i) {
+    //        i = i + 1;
+    //        if (i < 15) {
+    //            var PriceAmount = document.getElementById("gridTable").rows[i].cells[6].innerText;
+    //            if (PriceAmount.toString() != "" && PriceAmount.toString() != undefined) {
+    //                TotalPriceAmount += Number(PriceAmount);
+    //            }
+    //        }
+    //    });
 
-        //$("#gridTable").find("tr:eq(16)").find("td:eq(0)").html('合计(大写):&otimes;' + formatMoney(TotalPriceAmount));
-        //$("#gridTable").find("tr:eq(16)").find("td:eq(1)").html('(小写):'+FormatCurrency(TotalPriceAmount));
-    }
+    //    //$("#gridTable").find("tr:eq(16)").find("td:eq(0)").html('合计(大写):&otimes;' + formatMoney(TotalPriceAmount));
+    //    //$("#gridTable").find("tr:eq(16)").find("td:eq(1)").html('(小写):'+FormatCurrency(TotalPriceAmount));
+    //}
     //打印
     function btn_print() {
         //$(".bills").printTable();
@@ -139,7 +139,7 @@
     <input id="CreateMan" type="hidden" value="@ViewData["CreateMan"]" />
     <input id="CreateTime" type="hidden" value="@ViewData["CreateTime"]" />
     <p style="font-size:14pt;padding-bottom:10px;text-align:center">@*<img src="~/Content/images/head/tablelogo.png" style="margin-top: -10px;" />*@ 云南交投建设集团第十工程有限公司</p>
-    <p style="font-size:20pt;padding-bottom:15px;font-weight:bold;font-family:华文楷体;text-align:center"> 材料申请单 </p>
+    <p style="font-size:20pt;padding-bottom:15px;font-weight:bold;font-family:华文楷体;text-align:center"> 原材料申请单(工程领用) </p>
 
     <div @*class="printArea"*@>
         <table id="table1" class="form" style="width:100%;">
@@ -181,14 +181,23 @@
                 </th>
                 <td class="formValue"></td>
                 <th class="formTitle">
-                    审核人：
-                </th>
-                <td class="formValue" colspan="2"></td>
-                <th class="formTitle">
                     日期：
                 </th>
                 <td class="formValue">
                     @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">
+                    审核人：
+                </th>
+                <td class="formValue"></td>
+
+                <th class="formTitle">
+                    领用人(签字)：
+                </th>
+                <td class="formValue">
+                    @*<input id="CreateTime" type="text" class="form-control" style="width: 100%" datacol="yes" err="制单日期" checkexpession="NotNull" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />*@
                 </td>
             </tr>
         </table>

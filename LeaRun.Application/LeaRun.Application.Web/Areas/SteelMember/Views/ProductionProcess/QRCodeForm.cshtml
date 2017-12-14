@@ -14,10 +14,18 @@
         })
         //得到一个对象实体
         function InitControl() {
-            AjaxJson("/SteelMember/ProductionProcess/SetQRCodeForm", { KeyValue: KeyValue, OrderId: OrderId }, function (data) {
-                SetWebControls(data);
-                Data = data;
-            });
+         
+            $.SetForm({
+                url: "/SteelMember/ProductionProcess/SetQRCodeForm",
+                param: { KeyValue: KeyValue,OrderId: OrderId},
+                success: function (data) {
+                    //SetWebControls(data)
+                    $("#form1").SetWebControls(data);
+                    Data = data;
+                }
+            })
+
+
             btn_create_code();
         }
 
@@ -67,7 +75,7 @@
     </script>
 </head>
 @*<form id="form2" style="margin: 25px; margin-left: 40px; margin-right: 40px;">*@
-    <div id="print">
+    <div id="print"style="margin: 30px;">
         <table id ="tablePrint" class="form">
             @*<tr>
                 <th class="formTitle">

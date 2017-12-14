@@ -60,6 +60,15 @@ namespace LeaRun.Application.Busines.SteelMember
             return service.GetEntity(keyValue);
         }
         /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition">参数值</param>
+        /// <returns></returns>
+        public MemberProductionOrderEntity GetEntity(Expression<Func<MemberProductionOrderEntity, bool>> condition)
+        {
+            return service.GetEntity(condition);
+        }
+        /// <summary>
         /// 获取子表详细信息
         /// </summary>
         /// <param name="keyValue">主键值</param>

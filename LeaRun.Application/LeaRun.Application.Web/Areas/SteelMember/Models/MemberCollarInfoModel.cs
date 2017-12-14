@@ -17,6 +17,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string UnitId { get; set; }
         public decimal? CollarQuantity { get; set; }
         public decimal? CollaredQuantity { get; set; }
+        public decimal? InStock { get; set; }
         public decimal? Quantity { get; set; }
         public string Description { get; set; }
     }

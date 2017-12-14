@@ -129,7 +129,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
+#pragma warning disable CS1573 // 参数“type”在“EquipmentMaintenanceRecordsController.SaveForm(string, EquipmentMaintenanceRecordsEntity, DateTime, int)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning disable CS1573 // 参数“warrantyDate”在“EquipmentMaintenanceRecordsController.SaveForm(string, EquipmentMaintenanceRecordsEntity, DateTime, int)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
         public ActionResult SaveForm(string keyValue, EquipmentMaintenanceRecordsEntity entity, DateTime warrantyDate, int type)
+#pragma warning restore CS1573 // 参数“warrantyDate”在“EquipmentMaintenanceRecordsController.SaveForm(string, EquipmentMaintenanceRecordsEntity, DateTime, int)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning restore CS1573 // 参数“type”在“EquipmentMaintenanceRecordsController.SaveForm(string, EquipmentMaintenanceRecordsEntity, DateTime, int)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
         {
             entity.MaintenanceDate = DateTime.Now;
             entity.MaintenancePeople = OperatorProvider.Provider.Current().UserName;

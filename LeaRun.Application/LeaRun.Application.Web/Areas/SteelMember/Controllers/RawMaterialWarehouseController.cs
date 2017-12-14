@@ -69,7 +69,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// 入库详细信息
         /// </summary>
         /// <returns></returns>
-        public ActionResult IntoInventoryDetailInfo(Pagination pagination,string queryJson, string category)
+        public ActionResult IntoInventoryDetailInfo(Pagination pagination, string queryJson, string category)
         {
             if (pagination.sidx == "RawMaterialName")
             {
@@ -78,24 +78,26 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             List<RawMaterialWarehouseModel> list = new List<RawMaterialWarehouseModel>();
             // var data = rawmateriallibrarybll.GetPageListByLikeCategory(pagination, category);
-            var data= rawmaterialwarehousebll.GetPageList(pagination, category);
+            var data = rawmaterialwarehousebll.GetPageList(pagination, category);
             foreach (var item in data)
             {
                 //var warehoused = rawmaterialwarehousebll.GetPageList(pagination, item.RawMaterialId);
                 var warehoused = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
-                if (warehoused!=null)
+                if (warehoused != null)
                 {
-                    RawMaterialWarehouseModel RawmaterialWarehouseModel = new RawMaterialWarehouseModel() { 
-                    WarehouseId = item.WarehouseId,
-                    WarehouseQuantity = item.WarehouseQuantity,
-                    WarehouseTime = item.WarehouseTime,
-                    Description = item.Description,
-                    RawMaterialModel = warehoused.RawMaterialModel,
-                    RawMaterialName = warehoused.RawMaterialName,
-                    Unit = dataitemdetailbll.GetEntity(warehoused.Unit).ItemName,
-                };
-                list.Add(RawmaterialWarehouseModel);
-                }   
+                    RawMaterialWarehouseModel RawmaterialWarehouseModel = new RawMaterialWarehouseModel()
+                    {
+                        WarehouseId = item.WarehouseId,
+                        WarehouseQuantity = item.WarehouseQuantity,
+                        WarehouseTime = item.WarehouseTime,
+                        Description = item.Description,
+                        RawMaterialModel = warehoused.RawMaterialModel,
+                        RawMaterialName = warehoused.RawMaterialName,
+                        //RawMaterialSupplier = organizebll.GetEntity(item.RawMaterialSupplier).FullName,
+                        Unit = dataitemdetailbll.GetEntity(warehoused.Unit).ItemName,
+                    };
+                    list.Add(RawmaterialWarehouseModel);
+                }
             }
 
             //
@@ -105,45 +107,137 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var EndTime = queryParam["EndTime"].ToDate();
             if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
             {
-                list = list.FindAll(t => t.UpdateTime >= BeginTime);
-                list = list.FindAll(t => t.UpdateTime <= EndTime);
+                list = list.FindAll(t => t.WarehouseTime >= BeginTime);
+                list = list.FindAll(t => t.WarehouseTime <= EndTime);
             }
-            else if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
             {
-                list = list.FindAll(t => t.UpdateTime >= BeginTime);
+                list = list.FindAll(t => t.WarehouseTime >= BeginTime);
             }
-            else if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
             {
-                list = list.FindAll(t => t.UpdateTime <= EndTime);
+                list = list.FindAll(t => t.WarehouseTime <= EndTime);
+            }
+            if (!queryParam["RawMaterialName"].IsEmpty())
+            {
+                string RawMaterialName = queryParam["RawMaterialName"].ToString().Trim();
+                list = list.FindAll(t => t.RawMaterialName.Contains(RawMaterialName));
+            }
+            if (!queryParam["RawMaterialModel"].IsEmpty())
+            {
+                string RawMaterialModel = queryParam["RawMaterialModel"].ToString().Trim();
+                list = list.FindAll(t => t.RawMaterialModel.Contains(RawMaterialModel));
             }
 
+            //if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
+            //{
+            //    string condition = queryParam["condition"].ToString();
+            //    string keyword = queryParam["keyword"].ToString();
+            //    switch (condition)
+            //    {
 
-            if (!queryParam["condition"].IsEmpty() && !queryParam["keyword"].IsEmpty())
-            {
-                string condition = queryParam["condition"].ToString();
-                string keyword = queryParam["keyword"].ToString();
-                switch (condition)
-                {
-
-                    //case "Category":              //构件类型
-                    //    expression = expression.And(t => t.Category.Contains(keyword));
-                    //    break;
-                    case "RawMaterialName":              //构件名称
-                        list = list.FindAll(t => t.RawMaterialName.Contains(keyword));
-                        break;
-                    case "RawMaterialModel":              //型号
-                        list = list.FindAll(t => t.RawMaterialModel.Contains(keyword));
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //        //case "Category":              //构件类型
+            //        //    expression = expression.And(t => t.Category.Contains(keyword));
+            //        //    break;
+            //        case "RawMaterialName":              //构件名称
+            //            list = list.FindAll(t => t.RawMaterialName.Contains(keyword));
+            //            break;
+            //        case "RawMaterialModel":              //牌号/规格
+            //            list = list.FindAll(t => t.RawMaterialModel.Contains(keyword));
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
             //
 
             return ToJsonResult(list);
 
         }
-        
+
+        /// <summary>
+        /// 入库详细信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult InfoQuantitySummaryList(/*Pagination pagination,*/ string queryJson/*, string category*/)
+        {
+            var queryParam = queryJson.ToJObject();
+            var RawMaterialSupplier = queryParam["RawMaterialSupplier"].ToString();
+            List<RawMaterialWarehouseModel> list = new List<RawMaterialWarehouseModel>();
+            var data = rawmaterialwarehousebll.GetList(f => f.RawMaterialSupplier == RawMaterialSupplier);
+            foreach (var item in data)
+            {
+                var warehoused = rawmateriallibrarybll.GetEntity(item.RawMaterialId);
+                if (warehoused != null)
+                {
+                    RawMaterialWarehouseModel RawmaterialWarehouseModel = new RawMaterialWarehouseModel()
+                    {
+                        WarehouseId = item.WarehouseId,
+                        WarehouseQuantity = item.WarehouseQuantity,
+                        WarehouseTime = item.WarehouseTime,
+                        Description = item.Description,
+                        RawMaterialId = warehoused.RawMaterialId,
+                        RawMaterialModel = warehoused.RawMaterialModel,
+                        RawMaterialName = warehoused.RawMaterialName,
+                        // RawMaterialManufacturer = item.RawMaterialManufacturer,
+                        RawMaterialSupplier = organizebll.GetEntity(item.RawMaterialSupplier).FullName,
+                        Unit = dataitemdetailbll.GetEntity(warehoused.Unit).ItemName,
+                    };
+                    if (list.Count() < 0)
+                    {
+                        list.Add(RawmaterialWarehouseModel);
+                    }
+                    else if (list.Find(f => f.RawMaterialId == RawmaterialWarehouseModel.RawMaterialId).IsEmpty())
+                    {
+                        list.Add(RawmaterialWarehouseModel);
+                    }
+                    else
+                    {
+                        var a = list.Find(f => f.RawMaterialId == RawmaterialWarehouseModel.RawMaterialId);
+                        a.WarehouseQuantity += RawmaterialWarehouseModel.WarehouseQuantity;
+                    }
+                }
+            }
+
+            //
+
+            //查询条件
+            var BeginTime = queryParam["BeginTime"].ToDate();
+            var EndTime = queryParam["EndTime"].ToDate();
+            if (!queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.WarehouseTime >= BeginTime);
+                list = list.FindAll(t => t.WarehouseTime <= EndTime);
+            }
+            if (!queryParam["BeginTime"].IsEmpty() && queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.WarehouseTime >= BeginTime);
+            }
+            if (queryParam["BeginTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
+            {
+                list = list.FindAll(t => t.WarehouseTime <= EndTime);
+            }
+            if (!queryParam["RawMaterialName"].IsEmpty())
+            {
+                string RawMaterialName = queryParam["RawMaterialName"].ToString().Trim();
+                list = list.FindAll(t => t.RawMaterialName.Contains(RawMaterialName));
+            }
+            if (!queryParam["RawMaterialModel"].IsEmpty())
+            {
+                string RawMaterialModel = queryParam["RawMaterialModel"].ToString().Trim();
+                list = list.FindAll(t => t.RawMaterialModel.Contains(RawMaterialModel));
+            }
+
+            var jsonData = new
+            {
+                // entity = data,
+                Date = queryParam["BeginTime"].ToString().Replace("-", "/") + "--" + queryParam["EndTime"].ToString().Replace("-", "/"),
+                RawMaterialSupplier = organizebll.GetEntity(RawMaterialSupplier).FullName,
+                Count = list.Count(),
+                childEntity = list
+            };
+            return ToJsonResult(jsonData);
+        }
         #endregion
 
         #region 提交数据
@@ -158,7 +252,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //[HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult RemoveForm(string keyValue)
         {
-            rawmaterialwarehousebll.RemoveForm(keyValue);
+            string[] idsArr = keyValue.Split(',');
+            foreach (var item in idsArr)
+            {
+                var rawmaterialwarehouse = rawmaterialwarehousebll.GetEntity(item);
+                rawmaterialwarehousebll.RemoveForm(item);
+                var rawmaterialinventory = rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == rawmaterialwarehouse.RawMaterialId);
+                rawmaterialinventory.Quantity = rawmaterialinventory.Quantity - rawmaterialwarehouse.WarehouseQuantity;
+                rawmaterialinventorybll.SaveForm(rawmaterialinventory.InventoryId, rawmaterialinventory);//修改库存
+            }
             return Success("删除成功。");
         }
         /// <summary>

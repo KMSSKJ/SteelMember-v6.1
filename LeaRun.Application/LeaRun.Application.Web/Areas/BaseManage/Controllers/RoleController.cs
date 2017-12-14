@@ -7,6 +7,7 @@ using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System.Threading;
 using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
 {
@@ -66,6 +67,13 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         {
             var watch = CommonHelper.TimerStart();
             var data = roleBLL.GetPageList(pagination, queryJson);
+            foreach (var item in data)
+            {
+                if (!item.Nature.IsEmpty()) {
+                item.Nature = dataitemdetailbll.GetEntity(item.Nature).ItemName;
+                }
+            }
+
             var JsonData = new
             {
                 rows = data,

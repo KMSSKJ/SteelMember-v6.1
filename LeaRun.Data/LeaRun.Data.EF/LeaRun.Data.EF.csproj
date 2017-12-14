@@ -77,6 +77,7 @@
     <Compile Include="DbContext\MySqlDbContext.cs" />
     <Compile Include="DbContext\SqlServerDbContext.cs" />
     <Compile Include="Extension\DbContextExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

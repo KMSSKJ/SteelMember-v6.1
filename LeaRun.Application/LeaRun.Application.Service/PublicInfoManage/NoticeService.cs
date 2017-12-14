@@ -45,12 +45,14 @@ namespace LeaRun.Application.Service.PublicInfoManage
             return this.BaseRepository().FindList(expression, pagination);
         }
 
+#pragma warning disable CS1572 // XML 注释中有“”的 param 标记，但是没有该名称的参数
         /// <summary>
         /// 公告列表
         /// </summary>
         /// <param name="">查询参数</param>
         /// <returns></returns>
         public DataTable GetList()
+#pragma warning restore CS1572 // XML 注释中有“”的 param 标记，但是没有该名称的参数
         {
             return this.BaseRepository().FindTable("select top 6 * from Base_News where TypeId = 2 order by ReleaseTime desc");
         }

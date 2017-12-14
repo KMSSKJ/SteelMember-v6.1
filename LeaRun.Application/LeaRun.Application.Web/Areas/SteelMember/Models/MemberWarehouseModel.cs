@@ -19,7 +19,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public decimal? ProductionQuantity { get; set; }
         public decimal? ProductionedQuantity { get; set; }
         public decimal? WarehousedQuantity { get; set; }
-        public decimal? QualifiedQuantity { get; set; }
+        public decimal? QualityInspectionNumber { get; set; }
         public DateTime? UpdateTime { get; set; }
         public string Librarian { get; set; }
         public string Leader { get; set; }
