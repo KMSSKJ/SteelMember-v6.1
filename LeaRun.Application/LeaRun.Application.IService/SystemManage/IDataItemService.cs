@@ -1,5 +1,7 @@
 ﻿using LeaRun.Application.Entity.SystemManage;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SystemManage
 {
@@ -16,6 +18,12 @@ namespace LeaRun.Application.IService.SystemManage
         /// </summary>
         /// <returns></returns>
         IEnumerable<DataItemEntity> GetList();
+
+        /// <summary>
+        /// 分类列表
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<DataItemEntity> GetList(Expression<Func<DataItemEntity, bool>> condition);
         /// <summary>
         /// 分类实体
         /// </summary>

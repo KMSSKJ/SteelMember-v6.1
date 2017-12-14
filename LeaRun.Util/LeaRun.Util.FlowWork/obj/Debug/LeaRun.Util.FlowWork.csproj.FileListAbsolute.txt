@@ -164,5 +164,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Deb
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\LeaRun.Util.pdb
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\bin\Debug\Newtonsoft.Json.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.FlowWork\obj\Debug\LeaRun.Util.FlowWork.pdb

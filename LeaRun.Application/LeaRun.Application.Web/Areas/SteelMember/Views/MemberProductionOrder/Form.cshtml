@@ -20,7 +20,7 @@
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable').setGridWidth(($('.gridPanel').width()));
-                $('#gridTable').setGridHeight($(window).height() - 250.5);
+                $('#gridTable').setGridHeight($(window).height() - 270.5);
             }, 200);
             e.stopPropagation();
         });
@@ -31,7 +31,7 @@
         $grid.jqGrid({
             unwritten: false,
             datatype: 'local',
-            height: $(window).height() - 250.5,
+            height: $(window).height() - 270.5,
             autowidth: true,
             colModel: [
                 { label: '构件编号[<font face="宋体" color="red">*</font>]', name: "MemberNumbering", align: ' center', width: 180, sortable: false },
@@ -173,16 +173,20 @@
             }
         }
     }
-    //采购订单明细换算+合计
+    //申请订单明细换算+合计
     function Conversion(index) {
         var MaxNumber = Number($("#MaxNumber➩" + index).val());
         var Qty = Number($("#MemberNumber➩" + index).val());//数量
-
-        if (Qty > MaxNumber) {//dialogMsg
-            dialogMsg("您的输入不能超过" + MaxNumber, 0)
+        if (Qty <= 0) {
+            dialogMsg("您的输入不能小于0", 0);
             $("#MemberNumber➩" + index).val(MaxNumber);
             return
         }
+        //if (Qty > MaxNumber) {//dialogMsg
+        //    dialogMsg("您的输入不能超过" + MaxNumber, 0)
+        //    $("#MemberNumber➩" + index).val(MaxNumber);
+        //    return
+        //}
         //var Price = $("#Price➩" + index).val();                            //单价
         //var PriceAmount = $("#PriceAmount➩" + index).val();                //金额
         ////数量*单价=金额
@@ -242,8 +246,8 @@
                         OrganizeId = data.OrganizeId;
                         document.getElementById("OrganizeId").value = top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName;
                         document.getElementById("ShippingAddress").value = $("#Category").attr('data-text') + "施工现场";
-                        document.getElementById("ContactPerson").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName;
-                        document.getElementById("ContactPersonTel").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile;
+                        document.getElementById("ContactPerson").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].RealName;
+                        document.getElementById("ContactPersonTel").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].Mobile;
                     }
                 }
             })
@@ -333,8 +337,8 @@
                         OrganizeId = data.OrganizeId;
                         document.getElementById("OrganizeId").value = top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName;
                         document.getElementById("ShippingAddress").value = $("#Category").attr('data-text') + "施工现场";
-                        document.getElementById("ContactPerson").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName;
-                        document.getElementById("ContactPersonTel").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile;
+                        document.getElementById("ContactPerson").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].RealName;
+                        document.getElementById("ContactPersonTel").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].Mobile;
                     }
                 }
             })
@@ -343,6 +347,11 @@
     //保存表单;
     function AcceptClick() {
         if (!$('#form1').Validform()) {
+            return false;
+        }
+
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogTop("分工程应选择工程名称而不是工程分类", "error");
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
@@ -380,69 +389,74 @@
             <th class="th">
                 分项工程：
             </th>
-            <td>
+            <td colspan="3">
                 <div id="Category" type="selectTree" class="input"></div>
             </td>
+
+
+        </tr>
+        <tr>
             <th class="th">
                 施工单位：
             </th>
             <td>
-                <input readonly id="OrganizeId" type="text" class="input"/>
+                <input readonly id="OrganizeId" type="text" class="input" />
 
             </td>
-            <th class="th">
-                单号：
-            </th>
-            <td>
-                <input readonly id="OrderNumbering" type="text" class="input" value="@ViewBag.OrderNumbering"/>
-            </td>
-        </tr>
-        <tr>
             <th class="th">
                 收货地址：
             </th>
             <td>
                 <input readonly id="ShippingAddress" type="text" class="input" />
             </td>
+        </tr>
+        <tr>
             <th class="th">
                 联系人：
             </th>
             <td>
-                <input readonly id="ContactPerson" type="text" class="input"/>
+                <input readonly id="ContactPerson" type="text" class="input" />
             </td>
             <th class="th">
                 电话：
             </th>
             <td>
-                <input readonly id="ContactPersonTel" type="text" class="input"/>
+                <input readonly id="ContactPersonTel" type="text" class="input" />
             </td>
 
         </tr>
         <tr>
-            <th class="th">
-                生产优先级：
-            </th>
-            <td class="formValue">
-                <select id="Priority" class="input">
-                    <option value="0">正常</option>
-                    <option value="1">加急</option>
-                </select>
-            </td>
-            <th class="th">
-                工程专用：
-            </th>
-            <td>
-                <select id="IsDedicated"class="input">
-                    <option value="0">否</option>
-                    <option value="1">是</option>
-                </select>
-            </td>
+            @*<th class="th">
+                    生产优先级：
+                </th>
+                <td class="formValue">
+                    <select id="Priority" class="input">
+                        <option value="0">正常</option>
+                        <option value="1">加急</option>
+                    </select>
+                </td>
+                <th class="th">
+                    工程专用：
+                </th>
+                <td>
+                    <select id="IsDedicated"class="input">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>*@
             <th class="th">
                 申请日期：
             </th>
             <td>
-                <input readonly id="CreateTime" type="text" class="input" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")"/>
+                <input readonly id="CreateTime" type="text" class="input" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" />
             </td>
+            <th class="th">
+                单号：
+            </th>
+            <td>
+                <input readonly id="OrderNumbering" type="text" class="input" value="@ViewBag.OrderNumbering" />
+            </td>
+           
         </tr>
     </table>
 
@@ -451,7 +465,6 @@
     </div>
 </div>
 <style>
-   
     .input {
         width: 100%;
         border: 0;

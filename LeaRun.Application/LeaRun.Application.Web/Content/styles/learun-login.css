@@ -15,7 +15,7 @@ button[disabled],button[disabled] button{color:#ccc;opacity:1;cursor:default}
 .lr-login-center .lr-bg-left {/*height: 524px*/;background: url('../images/login/bg_01.png') top right no-repeat #6895F0;background-size:100% 100%;}
 .lr-login-center .lr-bg-md {/*width: 1024px;height: 524px;*/background:url('../images/login/bg_02.png');background-size:100% 100%;/*height:900px;*/}
 .lr-login-center .lr-bg-right {/*height: 524px;*/background: url('../images/login/bg_03.png') top left no-repeat #378ABC;background-size:100% 100%;}
-.lr-input-form {/*float:right;margin-top:80px;margin-right:57px;*/height:320px;width:360px;background:#fff;padding-top:53px;box-shadow: 5px 10px 20px 2px rgba(0,0,0,.27);margin:0 auto;}
+.lr-input-form {/*float:right;margin-top:80px;margin-right:57px;*/height:280px;width:360px;background:#fff;padding-top:53px;box-shadow: 5px 10px 20px 2px rgba(0,0,0,.27);margin:0 auto;}/*height:320px*/
 .lr-input-form  > div {height:43px;border-bottom:solid #e0dcdc 1px;margin:auto 27px;}
 .lr-input-form .ipt,
 .lr-input-form select {width:100%;padding:0px;height:43px;border:0;border-radius:10px;background-color:rgba(0, 0, 0, 0.00);font-size:16px;line-height:43px;padding-left:10px;color:#757575;}

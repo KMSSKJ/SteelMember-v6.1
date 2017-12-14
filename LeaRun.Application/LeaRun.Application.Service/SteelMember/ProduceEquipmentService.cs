@@ -44,7 +44,7 @@ namespace LeaRun.Application.Service.SteelMember
                     case "Code":              //编号
                         expression = expression.And(t => t.Code.Contains(keyword));
                         break;
-                    case "StandardModel":              //规格型号
+                    case "StandardModel":              //规格牌号/规格
                         expression = expression.And(t => t.StandardModel.Contains(keyword));
                         break;
                     default:
@@ -75,7 +75,7 @@ namespace LeaRun.Application.Service.SteelMember
                     case "Code":              //编号
                         expression = expression.And(t => t.Code.Contains(keyword));
                         break;
-                    case "StandardModel":              //规格型号
+                    case "StandardModel":              //规格牌号/规格
                         expression = expression.And(t => t.StandardModel.Contains(keyword));
                         break;
                     default:

@@ -5,6 +5,7 @@ using LeaRun.Util.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.BaseManage
 {
@@ -16,6 +17,14 @@ namespace LeaRun.Application.Service.BaseManage
     public class OrganizeService : RepositoryFactory<OrganizeEntity>, IOrganizeService
     {
         #region 获取数据
+        /// <summary>
+        /// 机构列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OrganizeEntity> GetList(Expression<Func<OrganizeEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).OrderBy(t => t.SortCode).ToList();
+        }
         /// <summary>
         /// 机构列表
         /// </summary>

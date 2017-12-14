@@ -1095,5 +1095,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Ca
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Cache\bin\Debug\zh-Hans\EntityFramework.resources.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Cache\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Cache\obj\Debug\LeaRun.Application.Cache.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Cache\obj\Debug\LeaRun.Application.Cache.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Cache\obj\Debug\LeaRun.Application.Cache.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Cache\obj\Debug\LeaRun.Application.Cache.pdb

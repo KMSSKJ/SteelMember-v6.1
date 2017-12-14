@@ -152,6 +152,17 @@ namespace LeaRun.Application.Service.SteelMember
         {
             return this.BaseRepository().FindEntity<MemberProductionOrderEntity>(keyValue);
         }
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public MemberProductionOrderEntity GetEntity(Expression<Func<MemberProductionOrderEntity, bool>> condition)
+        {
+            return this.BaseRepository().FindEntity(condition);
+        }
+
         /// <summary>
         /// 获取子表详细信息
         /// </summary>

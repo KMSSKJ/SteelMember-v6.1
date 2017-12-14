@@ -10,7 +10,7 @@ namespace LeaRun.Application.Busines.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-08 11:58
-    /// 描 述：材料采购管理
+    /// 描 述：材料申请管理
     /// </summary>
     public class RawMaterialPurchaseBLL
     {
@@ -50,7 +50,7 @@ namespace LeaRun.Application.Busines.SteelMember
         }
 
         /// <summary>
-        /// 获取列表(已采购)
+        /// 获取列表(已申请)
         /// </summary>
         /// <param name="pagination">分页</param>
         /// <param name="queryJson">查询参数</param>

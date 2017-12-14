@@ -112,19 +112,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetPageListJson(Pagination pagination, string queryJson)
         {
-            if (queryJson==null)
+            if (queryJson == null)
             {
                 queryJson = "{\"InStock\":\"0.00000001\"}";
             }
             else
             {
                 queryJson = queryJson.Replace("}", ",\"InStock\":\"0.00000001\"}");
-             }
+            }
 
             var watch = CommonHelper.TimerStart();
             var datatabel = new List<MemberWarehouseModel>();
             var data = memberwarehousebll.GetPageList(pagination, queryJson).ToList();//
-           // data = data.FindAll(f => f.InStock > 0);
+                                                                                      // data = data.FindAll(f => f.InStock > 0);
             if (data.Count() > 0)
             {
                 foreach (var item in data)
@@ -218,7 +218,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 for (int i = 0; i < data.Count(); i++)
                 {
                     data[i].CollarEngineering = subprojectbll.GetEntity(data[i].CollarEngineering).FullName;
-                    data[i].DepartmentId = organizebll.GetEntity(data[i].OrganizeId).FullName + "-" + departmentbll.GetEntity(data[i].DepartmentId).FullName;
+                    data[i].OrganizeId = organizebll.GetEntity(data[i].OrganizeId) == null ? "" : organizebll.GetEntity(data[i].OrganizeId).FullName;
                 }
 
             }
@@ -240,6 +240,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 var ShippingAddress = queryParam["ShippingAddress"].ToString();
                 data = data.FindAll(t => t.ShippingAddress.Contains(ShippingAddress));
+            }
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                var keyword = queryParam["keyword"].ToString();
+                data = data.FindAll(t => t.CollarNumbering.Contains(keyword));
             }
             //
 
@@ -352,7 +357,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetDetailsJson(string keyValue, MemberProductionOrderInfoEntity Entity)
         {
             List<MemberWarehouseModel> MemberWarehouseModelList = new List<MemberWarehouseModel>();
-            var data = memberproductionorderinfobll.GetList(f => f.QualifiedQuantity != f.WarehousedQuantity);//.FindAll(f => f.ProductionedQuantity != f.WarehousedQuantity)
+            var data = memberproductionorderinfobll.GetList(f => f.ProductionQuantity != f.WarehousedQuantity && f.QualityInspectionNumber > 0);//.FindAll(f => f.ProductionedQuantity != f.WarehousedQuantity)
             if (data.Count > 0)
             {
                 foreach (var item in data)
@@ -365,7 +370,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     MemberWarehouse.ProductionQuantity = Convert.ToInt32(item.ProductionQuantity);
                     MemberWarehouse.ProductionedQuantity = item.ProductionedQuantity;
                     MemberWarehouse.WarehousedQuantity = item.WarehousedQuantity;
-                    MemberWarehouse.QualifiedQuantity = item.QualifiedQuantity;
+                    MemberWarehouse.QualityInspectionNumber = item.QualityInspectionNumber;
                     MemberWarehouse.Category = dataitemdetailbll.GetEntity(data1.Category).ItemName;
                     MemberWarehouse.MemberName = data1.MemberName;
                     MemberWarehouse.MemberNumbering = data1.MemberNumbering;
@@ -442,6 +447,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var rawmaterial = new MemberDemandModel()
                     {
                         // MemberWarehouseId = rawmaterialinventory.MemberWarehouseId,
+                        MemberId = memberlibrary.MemberId,
                         MemberName = memberlibrary.MemberName,
                         Category = dataitemdetailbll.GetEntity(memberlibrary.Category).ItemName,
                         MemberNumber = Convert.ToDecimal(item.CollarQuantity),
@@ -449,7 +455,22 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         Description = item.Description,
                         CreateTime = item1.Date.ToDate(),
                     };
-                    list.Add(rawmaterial);
+                    if (list.Count() == 0)
+                    {
+                        list.Add(rawmaterial);
+                    }
+                    else
+                    {
+                        if (list.Find(f => f.MemberId == rawmaterial.MemberId) == null)
+                        {
+                            list.Add(rawmaterial);
+                        }
+                        else
+                        {
+                            var RawMaterialEntity = list.Find(f => f.MemberId == rawmaterial.MemberId);
+                            RawMaterialEntity.MemberNumber = RawMaterialEntity.MemberNumber.ToDecimal() + item.CollarQuantity.ToDecimal();
+                        }
+                    }
                 }
             }
             var jsonData = new
@@ -528,61 +549,79 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             string[] OrderIds = OrderId.Split(',');
             string[] MemberIds = MemberId.Split(',');
+            var _OrderId = "";
+            var _MemberId = "";
+            decimal a = 0;
+            decimal b = 0;
             try
             {
                 if (OrderIds.Length > 0)
                 {
-                    for (var i = 0; i < OrderIds.Length; i++)
+                    for (var j = 0; j < MemberIds.Length; j++)
                     {
-                        for (var j = 0; j < MemberIds.Length; j++)
+                        _MemberId = MemberIds[j];
+                        for (var i = 0; i < OrderIds.Length; i++)
                         {
                             //获取到订单下的所有构件
-                            var _OrderId = OrderIds[i];
-                            var _MemberId = MemberIds[i];
-                            var MemberOrder = memberproductionorderbll.GetEntity(_OrderId);
-                            var data = memberproductionorderinfobll.GetList(f => f.OrderId == _OrderId&&f.MemberId==_MemberId).SingleOrDefault();
-
-                            ////修改生产订单中入库状态
-                            //var MembeOrder = memberproductionorderbll.GetEntity(_OrderId);
-                            //if (MembeOrder != null)
-                            //{
-                            //    MembeOrder.OrderWarehousingStatus = 1;
-                            //    memberproductionorderbll.SaveForm(_OrderId, MembeOrder);
-                            //}
-
-                            //修改生产订单中构件已入库量
-
-                            data.WarehousedQuantity = data.WarehousedQuantity.ToDecimal() + data.QualifiedQuantity.ToDecimal();
-                            memberproductionorderinfobll.SaveForm(data.InfoId, data);
-                            //end
-
-                            var memberinfo = memberlibrarybll.GetEntity(f => f.MemberId == _MemberId);
-                            var orderinfo = memberproductionorderbll.GetList(f => f.OrderId == _OrderId);
-
-                            //更改库存量
-                            MemberWarehouseEntity MemberWarehouse = new MemberWarehouseEntity();
-                            var MemberWarehouses = memberwarehousebll.GetEntity(f => f.MemberId == _MemberId);
-                            if (MemberWarehouses != null)
-                            {
-                                MemberWarehouse.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
-                                MemberWarehouse.Librarian = OperatorProvider.Provider.Current().UserName;
-                                MemberWarehouse.InStock = MemberWarehouses.InStock.ToDecimal() + data.QualifiedQuantity.ToDecimal();//库存量++                       
-                                memberwarehousebll.SaveForm(MemberWarehouse.MemberWarehouseId, MemberWarehouse);
-                            }//end
-
-                            //加到入库表中
-                            MemberWarehouseRecordingEntity warehouseRecording = new MemberWarehouseRecordingEntity();
-                            string keyValue1 = null;
-                            warehouseRecording.Librarian = OperatorProvider.Provider.Current().UserName;
-                            warehouseRecording.MemberId = memberinfo.MemberId;
-                            warehouseRecording.UpdateTime = System.DateTime.Now;
-                            warehouseRecording.SubProject = MemberOrder.Category;
-                            warehouseRecording.InStock = data.QualifiedQuantity;
-                            warehouseRecording.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
-                            warehouseRecording.Type = "入库";
-                            memberwarehouserecordingbll.SaveForm(keyValue1, warehouseRecording);
-                            //end
+                            _OrderId = OrderIds[j];
                         }
+                        var MemberOrder = memberproductionorderbll.GetEntity(_OrderId);
+                        var data = memberproductionorderinfobll.GetList(f => f.OrderId == _OrderId && f.MemberId == _MemberId).SingleOrDefault();
+
+                        ////修改生产订单中入库状态
+                        //var MembeOrder = memberproductionorderbll.GetEntity(_OrderId);
+                        //if (MembeOrder != null)
+                        //{
+                        //    MembeOrder.OrderWarehousingStatus = 1;
+                        //    memberproductionorderbll.SaveForm(_OrderId, MembeOrder);
+                        //}
+
+                        var memberinfo = memberlibrarybll.GetEntity(f => f.MemberId == _MemberId);
+                        var orderinfo = memberproductionorderbll.GetList(f => f.OrderId == _OrderId);
+
+
+
+                        //更改库存量
+                        MemberWarehouseEntity MemberWarehouse = new MemberWarehouseEntity();
+                        var MemberWarehouses = memberwarehousebll.GetEntity(f => f.MemberId == _MemberId);
+                        if (MemberWarehouses != null)
+                        {
+                            MemberWarehouse.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
+                            MemberWarehouse.Librarian = OperatorProvider.Provider.Current().UserName;
+                            MemberWarehouse.InStock = MemberWarehouses.InStock.ToDecimal() + data.QualityInspectionNumber.ToDecimal();//库存量++                       
+                            memberwarehousebll.SaveForm(MemberWarehouse.MemberWarehouseId, MemberWarehouse);
+                        }//end
+
+                        //加到入库表中
+                        MemberWarehouseRecordingEntity warehouseRecording = new MemberWarehouseRecordingEntity();
+                        string keyValue1 = null;
+                        warehouseRecording.Librarian = OperatorProvider.Provider.Current().UserName;
+                        warehouseRecording.MemberId = memberinfo.MemberId;
+                        warehouseRecording.UpdateTime = System.DateTime.Now;
+                        warehouseRecording.SubProject = MemberOrder.Category;
+                        warehouseRecording.InStock = data.QualityInspectionNumber;
+                        warehouseRecording.MemberWarehouseId = MemberWarehouses.MemberWarehouseId;
+                        warehouseRecording.Type = "入库";
+                        memberwarehouserecordingbll.SaveForm(keyValue1, warehouseRecording);
+                        //end
+
+                        //修改生产订单中构件已入库量/本次生产量、本次质检量改为0
+                        data.WarehousedQuantity = data.WarehousedQuantity.ToDecimal() + data.QualityInspectionNumber.ToDecimal();
+                        data.ProductionedQuantity = data.SelfDetectNumber = data.QualityInspectionNumber = 0;
+                        memberproductionorderinfobll.SaveForm(data.InfoId, data);
+                        //end
+
+                        a += data.WarehousedQuantity.ToDecimal();
+                        b += data.ProductionQuantity.ToDecimal();
+
+                        //修改质检等状态
+
+                        if (a == b)
+                        {
+                            MemberOrder.ProductionStatus = MemberOrder.QualityInspectionStatus = MemberOrder.SelfDetectStatus = 2;
+                            memberproductionorderbll.SaveForm(_OrderId, MemberOrder);
+                        }
+                        //end
                     }
                 }
             }
@@ -622,10 +661,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     inventorymodel.InStock = inventorymodel.InStock - Convert.ToDecimal(item.CollarQuantity);//库存--
                     memberwarehousebll.SaveForm(item.MemberWarehouseId, inventorymodel);
 
-                    //添加需求中已出库量
-                    var memberdemand = memberdemandbll.GetEntity(item.MemberDemandId);
-                    memberdemand.CollaredNumber = memberdemand.CollaredNumber.ToDecimal() + item.CollarQuantity;
-                    memberdemandbll.SaveForm(item.MemberDemandId, memberdemand);
+                    ////修改需求中已出库量
+                    //var memberdemand = memberdemandbll.GetEntity(item.MemberDemandId);
+                    //memberdemand.CollaredNumber = memberdemand.CollaredNumber.ToDecimal() + item.CollarQuantity;
+                    //memberdemandbll.SaveForm(item.MemberDemandId, memberdemand);
 
                 }
             }

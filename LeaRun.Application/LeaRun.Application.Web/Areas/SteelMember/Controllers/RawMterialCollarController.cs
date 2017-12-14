@@ -76,9 +76,22 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetNumberingList()
         {
-            //List<Text> list = new List<Text>();
-            var RawMaterialCollar = rawmterialcollarbll.GetCallarList(f => f.CollarId != "");
-
+            var RawMaterialCollar = rawmterialcollarbll.GetCallarList(f => f.CollarId != "" && f.CollarNumbering == null);
+            if (RawMaterialCollar.Count() > 0)
+            {
+                for (int i = 0; i < RawMaterialCollar.Count(); i++)
+                {
+                    var Numbering = RawMaterialCollar[i].Numbering;
+                    var RawMaterialOrder = rawmaterialorderbll.GetEntity(f=>f.OrderNumbering== Numbering);
+                    if (RawMaterialOrder.IsPassed == 1)
+                    {
+                    }
+                    else
+                    {
+                      RawMaterialCollar.Remove(RawMaterialCollar[i]);
+                    }
+                }
+            }
             return ToJsonResult(RawMaterialCollar);
         }
 
@@ -92,7 +105,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             for (var i = 0; i < list.Count(); i++)
             {
                 list[i].CollarEngineering = subprojectbll.GetEntity(list[i].CollarEngineering).FullName;
-                list[i].OrganizeId = organizebll.GetEntity(list[i].OrganizeId).FullName;
+                list[i].OrganizeId = organizebll.GetEntity(list[i].OrganizeId) == null ? "" : organizebll.GetEntity(list[i].OrganizeId).FullName;
 
             }
 
@@ -132,7 +145,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     InventoryId = rawmaterialinventory.InventoryId,
                     RawMaterialName = RawMaterialLibrary.RawMaterialName,
                     RawMaterialModel = RawMaterialLibrary.RawMaterialModel,
-                    Qty = item.CollarQuantity.ToDecimal(),
+                    CollarQuantity = item.CollarQuantity.ToDecimal(),
                     UnitId = dataitemdetailbll.GetEntity(RawMaterialLibrary.Unit).ItemName,
                     Description = item.Description,
                 };
@@ -150,6 +163,19 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult GetListJson(string queryJson)
         {
             var data = rawmterialcollarbll.GetList(queryJson);
+            return ToJsonResult(data);
+        }
+
+        /// <summary>
+        /// 获取实体 
+        /// </summary>
+        /// <param name="OrderNumbering"></param>
+
+        /// <returns>返回对象Json</returns>
+        [HttpPost]
+        public ActionResult GetFormJson1(string OrderNumbering)
+        {
+            var data = rawmterialcollarbll.GetEntity(f => f.Numbering == OrderNumbering);
             return ToJsonResult(data);
         }
 
@@ -192,7 +218,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         InventoryQuantity = rawmaterialinventory.Quantity,
                         RawMaterialName = RawMaterialLibrary.RawMaterialName,
                         RawMaterialModel = RawMaterialLibrary.RawMaterialModel,
-                        Price = RawMaterialOrderInfo.IsEmpty() ? 0 : RawMaterialOrderInfo.Price,
                         CollarQuantity = item.CollarQuantity,
                         CollaredQuantity = item.CollaredQuantity,
                         Quantity = item.Quantity,
@@ -250,6 +275,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return ToJsonResult(jsonData);
         }
 
+
         /// <summary>
         /// 获取条件汇总 
         /// </summary>
@@ -273,6 +299,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var rawmaterial = new RawMaterialLibraryModel()
                     {
                         InventoryId = rawmaterialinventory.InventoryId,
+                        RawMaterialId = RawMaterialLibrary.RawMaterialId,
                         RawMaterialName = RawMaterialLibrary.RawMaterialName,
                         RawMaterialModel = RawMaterialLibrary.RawMaterialModel,
                         Qty = item.CollarQuantity.ToDecimal(),
@@ -280,7 +307,23 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         Description = item.Description,
                         Date = item1.Date.ToDate(),
                     };
-                    list.Add(rawmaterial);
+                    if (list.Count() == 0)
+                    {
+                        list.Add(rawmaterial);
+                    }
+                    else
+                    {
+                        if (list.Find(f => f.RawMaterialId == rawmaterial.RawMaterialId) == null)
+                        {
+                            list.Add(rawmaterial);
+                        }
+                        else
+                        {
+                            var RawMaterialEntity = list.Find(f => f.RawMaterialId == rawmaterial.RawMaterialId);
+                            RawMaterialEntity.Qty = RawMaterialEntity.Qty.ToDecimal() + item.CollarQuantity.ToDecimal();
+                        }
+                    }
+
                 }
             }
             var jsonData = new
@@ -390,16 +433,29 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             {
                 foreach (var item in childEntitys)
                 {
+                    //判断库存量是否满足出库
+                    var model = rawmaterialinventorybll.GetEntity(item.InventoryId);
+                    model.Quantity = model.Quantity.ToDecimal() - item.CollarQuantity.ToDecimal();//库存--
+                    if (model.Quantity < 0)
+                    {
+                        //var member = memberlibrarybll.GetEntity(item.MemberId);
+                        return Error("存在材料库存不足构件，无法出库");
+                    }
+                }
+
+
+                foreach (var item in childEntitys)
+                {
                     //在库存量中减掉领出的数量
                     var inventorymodel = rawmaterialinventorybll.GetEntity(item.InventoryId);
                     inventorymodel.Quantity = Convert.ToDecimal(inventorymodel.Quantity) - Convert.ToDecimal(item.CollarQuantity);//库存--
                     rawmaterialinventorybll.SaveForm(item.InventoryId, inventorymodel);
                     //end
 
-                    //修改出库信息
+                    ////修改出库信息
                     var entitys = rawmterialcollarinfobll.GetEntity(f => f.InfoId == item.InfoId);
                     entitys.CollarQuantity = item.CollarQuantity;
-                    entitys.CollaredQuantity = entitys.CollaredQuantity.ToDecimal() + item.CollarQuantity;
+                    entitys.CollaredQuantity = item.Quantity;    //entitys.CollaredQuantity.ToDecimal() + item.Quantity;
                     entitys.InventoryId = item.InventoryId;
                     entitys.Description = item.Description;
                     rawmterialcollarinfobll.SaveForm(item.InfoId, entitys);
@@ -409,8 +465,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var rawmaterialanalysisEntity = rawmaterialanalysisbll.GetEntity(entitys.RawMaterialAnalysisId);
                     if (rawmaterialanalysisEntity != null)
                     {
-                        rawmaterialanalysisEntity.WarehousedQuantity = rawmaterialanalysisEntity.WarehousedQuantity.ToDecimal() + item.CollarQuantity;
+                        rawmaterialanalysisEntity.WarehousedQuantity = rawmaterialanalysisEntity.WarehousedQuantity.ToDecimal() + item.CollarQuantity.ToDecimal();
                     }
+                    rawmaterialanalysisbll.SaveForm(entitys.RawMaterialAnalysisId, rawmaterialanalysisEntity);
                     //end
                 }
             }

@@ -19,14 +19,18 @@ namespace LeaRun.Application.Web.Controllers
     /// </summary>
     public class ClientDataController : MvcControllerBase
     {
+#pragma warning disable CS0108 // “ClientDataController.dataItemCache”隐藏继承的成员“MvcControllerBase.dataItemCache”。如果是有意隐藏，请使用关键字 new。
         private DataItemCache dataItemCache = new DataItemCache();
+#pragma warning restore CS0108 // “ClientDataController.dataItemCache”隐藏继承的成员“MvcControllerBase.dataItemCache”。如果是有意隐藏，请使用关键字 new。
         private OrganizeCache organizeCache = new OrganizeCache();
         private DepartmentCache departmentCache = new DepartmentCache();
         private PostCache postCache = new PostCache();
         private RoleCache roleCache = new RoleCache();
         private UserGroupCache userGroupCache = new UserGroupCache();
         private UserCache userCache = new UserCache();
+        private PersonCache personCache = new PersonCache();
         private AuthorizeBLL authorizeBLL = new AuthorizeBLL();
+
 
         #region 获取数据
         /// <summary>
@@ -44,8 +48,9 @@ namespace LeaRun.Application.Web.Controllers
                 post = this.GetPostData(),                      //岗位
                 role = this.GetRoleData(),                      //角色
                 userGroup = this.GetUserGroupData(),            //用户组
-                user = this.GetUserData(),                      //用户
-                dataItem = this.GetDataItem(),                  //字典
+                user = this.GetUserData(),                      //账户
+                person = this.GetPersonData(),                     //人员
+                //dataItem = this.GetDataItem(),                  //字典
                 authorizeMenu = this.GetModuleData(),           //导航菜单
                 authorizeButton = this.GetModuleButtonData(),   //功能按钮
                 authorizeColumn = this.GetModuleColumnData(),   //功能视图
@@ -153,7 +158,7 @@ namespace LeaRun.Application.Web.Controllers
             return dictionary;
         }
         /// <summary>
-        /// 获取用户数据
+        /// 获取账户数据
         /// </summary>
         /// <returns></returns>
         private object GetUserData()
@@ -170,13 +175,41 @@ namespace LeaRun.Application.Web.Controllers
                     OrganizeId = item.OrganizeId,
                     DepartmentId = item.DepartmentId,
                     Telephone = item.Telephone,
-                    Mobile= item.Mobile
+                    Mobile = item.Mobile
                 };
                 dictionary.Add(item.UserId, fieldItem);
             }
             return dictionary;
         }
-        
+
+        /// <summary>
+        /// 获取人员数据
+        /// </summary>
+        /// <returns></returns>
+        private object GetPersonData()
+        {
+            var data = personCache.GetList();
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            foreach (PersonEntity item in data)
+            {
+                var fieldItem = new
+                {
+                    //EnCode = item.EnCode,
+                    //PersonId = item.PersonId,
+                    Gender = item.Gender,
+                    RealName = item.RealName,
+                    OrganizeId = item.OrganizeId,
+                    DepartmentId = item.DepartmentId,
+                    Email = item.Email,
+                    Mobile = item.Mobile,
+                    PostId = item.PostId
+
+                };
+                dictionary.Add(item.PersonId, fieldItem);
+            }
+            return dictionary;
+        }
+
         /// <summary>
         /// 获取数据字典
         /// </summary>
@@ -211,7 +244,7 @@ namespace LeaRun.Application.Web.Controllers
         /// <returns></returns>
         private object GetModuleData()
         {
-            var data= authorizeBLL.GetModuleList(SystemInfo.CurrentUserId);
+            var data = authorizeBLL.GetModuleList(SystemInfo.CurrentUserId);
             return data;
         }
         /// <summary>

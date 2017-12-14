@@ -30,6 +30,15 @@ namespace LeaRun.Application.Busines.BaseManage
         public string cacheKey = "userCache";
 
         #region 获取数据
+
+        /// <summary>
+        /// 用户列表
+        /// </summary>
+        /// <returns></returns>
+        public List<UserEntity> GetList(Expression<Func<UserEntity,bool>>condition)
+        {
+            return service.GetList(condition);
+        }
         /// <summary>
         /// 用户列表
         /// </summary>

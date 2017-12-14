@@ -22,6 +22,25 @@ namespace LeaRun.Application.Service.SteelMember
     {
         #region 获取数据
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="queryJson"></param>
+        /// <returns></returns>
+        public List<RawMaterialWarehouseEntity> GetPageList(Pagination pagination, string queryJson)
+        {
+            //string[] arrayqueryJson = queryJson.Split(',');
+            var expression = LinqExtensions.True<RawMaterialWarehouseEntity>();
+            expression = expression.And(p => p.WarehouseId != "");
+            //var queryParam = queryJson.ToJObject();
+            //if (!queryParam["RawMaterialManufacturer"].IsEmpty())
+            //{
+            //    string RawMaterialManufacturer = queryParam["RawMaterialManufacturer"].ToString();
+            //    expression = expression.And(t => t.RawMaterialManufacturer == RawMaterialManufacturer);
+            //}
+            return this.BaseRepository().FindList(expression, pagination).ToList();
+        }
+        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="queryJson">查询参数</param>
@@ -29,7 +48,7 @@ namespace LeaRun.Application.Service.SteelMember
         public IEnumerable<RawMaterialWarehouseEntity> GetList(string queryJson)
         {
             var expression = LinqExtensions.True<RawMaterialWarehouseEntity>();
-         
+
             return this.BaseRepository().IQueryable(expression);
         }
 
@@ -40,7 +59,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns>返回列表</returns>
         public IEnumerable<RawMaterialWarehouseEntity> GetList(Expression<Func<RawMaterialWarehouseEntity, bool>> condition)
         {
-          
+
             return this.BaseRepository().IQueryable(condition).ToList();
         }
         /// <summary>
@@ -50,7 +69,7 @@ namespace LeaRun.Application.Service.SteelMember
         /// <returns></returns>
         public RawMaterialWarehouseEntity GetEntity(string keyValue)
         {
-          return this.BaseRepository().FindEntity(keyValue);
+            return this.BaseRepository().FindEntity(keyValue);
         }
         #endregion
 
@@ -82,23 +101,11 @@ namespace LeaRun.Application.Service.SteelMember
                 this.BaseRepository().Insert(entity);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pagination"></param>
-        /// <param name="queryJson"></param>
-        /// <returns></returns>
-        public List<RawMaterialWarehouseEntity> GetPageList(Pagination pagination, string queryJson)
-        {
-            //string[] arrayqueryJson = queryJson.Split(',');
-            var expression = LinqExtensions.True<RawMaterialWarehouseEntity>();
-            expression = expression.And(p => p.WarehouseId != "");
-            return this.BaseRepository().FindList(expression, pagination).ToList();
-        }
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="list"></param>
+        /// <param name="list"></param>
         public void RemoveList(List<RawMaterialWarehouseEntity> list)
         {
             throw new NotImplementedException();
@@ -142,7 +149,7 @@ namespace LeaRun.Application.Service.SteelMember
             //throw new NotImplementedException();
             return this.BaseRepository().IQueryable(condition).ToList();
         }
- 
+
         //List<RawMaterialWarehouseEntity> RawMaterialWarehouseIService.GetPageList(Pagination pagination, string queryJson)
         //{
         //    //throw new NotImplementedException();
@@ -154,4 +161,4 @@ namespace LeaRun.Application.Service.SteelMember
         //}
         #endregion
     }
-    }
+}

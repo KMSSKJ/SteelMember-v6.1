@@ -24,18 +24,19 @@
         var SelectRowIndx;
        // var index = GetQuery('index');
         $("#gridTable").jqGrid({
-            url: "@Url.Content("~/SteelMember/MemberProductionOrder/GridListJsonDemand")?category=" + Category,
+            url: "@Url.Content("~/SteelMember/MemberProductionOrder/GridListJsonMember")?category=" + Category,
             datatype: "json",
             height: $(window).height()-100,
             autowidth: true,
             colModel: [
                 { label: '主键', name: "MemberId", align: ' center',sortable: false, hidden: true },
                 { label: '外键', name: "MemberDemandId", align: 'center', sortable: false, hidden: true },
-                { label: '编号', name: "MemberNumbering", align: ' center', width: 130, sortable: false },
+                { label: '编号', name: "MemberNumbering", align: ' center', width: 130, sortable: false},
+                { label: 'CategoryId', name: "CategoryId", align: ' center', width: 130, sortable: false, hidden: true },
                 { label: '类型', name: "Category", align: ' center', width: 130, sortable: false },
                 { label: '名称', name: "MemberName", align:' center',width: 110, sortable: false },
-                //{ label: '规格或型号', name: "MemberModel", align:' center',width: 80, sortable: false},
-                { label: '可申请量', name:"MemberNumber", align: ' center', width: 100, sortable: false },
+                //{ label: '牌号/规格', name: "MemberModel", align:' center',width: 80, sortable: false},
+                //{ label: '可申请量', name:"MemberNumber", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "UnitId", align:' center',width: 50, sortable: false},
             ],
             rowNum: 30,
@@ -77,6 +78,18 @@
     //添加
     function btn_add_() {
         var KeyValue = $('#gridTable').jqGridRowValue('MemberId');
+
+        var MemberId = $('#gridTable').jqGridRowValue('MemberId');
+        var MemberDemandId = $('#gridTable').jqGridRowValue('MemberDemandId');
+        var MemberNumbering = $('#gridTable').jqGridRowValue('MemberNumbering');
+        var CategoryId = $('#gridTable').jqGridRowValue('CategoryId');
+        var Category = $('#gridTable').jqGridRowValue('Category');
+        var MemberName = $('#gridTable').jqGridRowValue('MemberName');
+        var MemberModel = $('#gridTable').jqGridRowValue('MemberModel');
+        var MemberNumber = $('#gridTable').jqGridRowValue('MemberNumber');
+        var UnitId = $('#gridTable').jqGridRowValue('UnitId');
+
+
         if (checkedArray(KeyValue)) {
             $.ajax({
                 url: "/SteelMember/MemberProductionOrder/ListMember",
@@ -84,7 +97,16 @@
                 datatype: 'json',
                 data: {
                     category: Category,
-                    KeyValue: KeyValue
+                    KeyValue: KeyValue,
+                    MemberId: MemberId,
+                    MemberDemandId: MemberDemandId,
+                    MemberNumbering: MemberNumbering,
+                    CategoryId: CategoryId,
+                    Category: Category,
+                    MemberName: MemberName,
+                    MemberModel: MemberModel,
+                    MemberNumber: MemberNumber,
+                    UnitId : UnitId,
                 },
                 success: function (rowData) {
                     var rows = 1;
@@ -130,7 +152,7 @@
                             //$parentobj.$("#PriceAmount➩" + index).val(FormatCurrency(Number(rowData[i].UnitPrice) * Number(data1)));
                             $parentobj.$("#MemberId➩" + index).val(rowData[i].MemberId);
                             $parentobj.$("#MemberDemandId➩" + index).val(rowData[i].MemberDemandId);
-                            $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].MemberNumber));
+                            //$parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].MemberNumber));
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').attr("datacol", "yes");
                             index++;
                             $parentobj.$("#gridTable tbody tr:eq(" + index + ")").find('input').removeAttr('disabled');

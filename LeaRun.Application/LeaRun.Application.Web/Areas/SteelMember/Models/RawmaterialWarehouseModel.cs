@@ -31,6 +31,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         /// </summary>
         /// <returns></returns>
         public DateTime? WarehouseTime { get; set; }
+      
+        public string RawMaterialSupplier { get; set; }
         /// <summary>
         /// Description
         /// </summary>

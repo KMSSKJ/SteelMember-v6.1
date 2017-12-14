@@ -436,7 +436,7 @@ $.fn.Validform = function () {
     }
     //Email验证 email
     function isEmail(obj) {
-        reg = /^\w{3,}@\w+(\.\w+)+$/;
+        reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
         if (!reg.test(obj)) {
             return false;
         } else {
@@ -449,7 +449,9 @@ $.fn.Validform = function () {
         if (controlObj.length == 0 || controlObj == null || controlObj == undefined) {
             return true;
         }
-        reg = /^\w{3,}@\w+(\.\w+)+$/;
+       // reg = /^\w{3,}@\w+(\.\w+)+$/;
+        reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        
         if (!reg.test(obj)) {
             return false;
         } else {

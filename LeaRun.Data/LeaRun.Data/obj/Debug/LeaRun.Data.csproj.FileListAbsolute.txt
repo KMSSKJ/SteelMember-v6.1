@@ -224,5 +224,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data\bin\Debug\System
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data\bin\Debug\Newtonsoft.Json.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data\bin\Debug\LeaRun.Util.Extension.pdb
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data\obj\Debug\LeaRun.Data.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data\obj\Debug\LeaRun.Data.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data\obj\Debug\LeaRun.Data.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data\obj\Debug\LeaRun.Data.pdb

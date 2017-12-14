@@ -179,6 +179,7 @@
     <Compile Include="Areas\BaseManage\Controllers\DepartmentController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\JobController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\OrganizeController.cs" />
+    <Compile Include="Areas\BaseManage\Controllers\PersonController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\RoleController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\UserController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\PostController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Areas\PublicInfoManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\PublicInfoManage\PublicInfoManageAreaRegistration.cs" />
     <Compile Include="Areas\SteelMember\Controllers\DeleteVerification.cs" />
+    <Compile Include="Areas\SteelMember\Controllers\EquipmentPreWearPartsController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberCollarController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberDemandController.cs" />
     <Compile Include="Areas\SteelMember\Controllers\MemberLibraryController.cs" />
@@ -257,6 +259,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1320,23 +1323,22 @@
     <Content Include="Resource\DocumentFile\System\20151217\3fc957d9-451f-4755-92fd-8967cb53012a.txt" />
     <Content Include="Resource\DocumentFile\System\20161111\f896c911-4372-45de-ab2a-c00fa93cb212.txt" />
     <Content Include="Resource\DocumentFile\System\20170623\d786149d-1acc-46e6-bffa-31d895494831.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\QRCode\20172917112954331.jpg" />
     <Content Include="Resource\Document\NetworkDisk\System\Member\1\1.png" />
-    <Content Include="Resource\Document\NetworkDisk\System\Member\Man\Man.png" />
-    <Content Include="Resource\Document\NetworkDisk\System\Member\QQ截图20170227110151\QQ截图20170227110151.png" />
-    <Content Include="Resource\Document\NetworkDisk\System\Member\qwert\qwert.jpg" />
     <Content Include="Resource\Document\NetworkDisk\System\Member\SSKJ_Logo\SSKJ_Logo.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Member\timg%282%29\timg%282%29.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Member\timg%283%29\timg%283%29.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Member\timg\timg.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Member\工字钢GB10\工字钢GB10.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Project\qwert\qwert.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Project\SSKJ_Logo\SSKJ_Logo.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Project\timg%282%29\timg%282%29.jpg" />
-    <Content Include="Resource\Document\NetworkDisk\System\Project\工字钢GB10\工字钢GB10.jpg" />
     <Content Include="Resource\EmailFile\System_29fef7e7-e5a3-42ca-9d7d-8b1989b2050f.txt" />
     <Content Include="Resource\EmailFile\System_b8d9fe40-37c9-43b6-bd8f-ffb425cff89d.txt" />
     <Content Include="Resource\EngineeringImg\0034063f-75ed-4107-bb92-a81a008344e4.jpg" />
+    <Content Include="Resource\LogoFile\0d29ab31-4083-4045-976e-a82c0076a593.png" />
+    <Content Include="Resource\LogoFile\205b6802-975b-4bf4-be07-a82a0078eeff.jpg" />
+    <Content Include="Resource\LogoFile\3c737a18-3497-42eb-93dd-a82a008758e2.jpg" />
+    <Content Include="Resource\LogoFile\5b547fd3-bc0c-459f-a36b-a82a007c89c1.jpg" />
+    <Content Include="Resource\LogoFile\79502c8a-689e-4a5c-998b-a82a007aee1e.jpg" />
+    <Content Include="Resource\LogoFile\910e91c6-35df-4ba6-96d7-a81e0099e925.jpg" />
+    <Content Include="Resource\LogoFile\c50e6d73-6891-4633-8044-a82a0087f3c6.jpg" />
+    <Content Include="Resource\LogoFile\db58dab7-2783-4daf-9c43-a82d001649d8.png" />
+    <Content Include="Resource\LogoFile\f068851a-969d-43b7-9026-a82d0016a0d3.png" />
+    <Content Include="Resource\LogoFile\f62135bf-23a9-46df-80a6-a82a007d78b1.jpg" />
+    <Content Include="Resource\LogoFile\fc119b1e-72ec-4f87-bf25-a82a007a03aa.jpg" />
     <Content Include="Resource\LogoFile\ff128221-2268-4430-b888-a81900d9b7b1.png" />
     <Content Include="Resource\PhotoFile\275b5154-d9ac-4d20-8ac6-a79b00df9ddf.jpg" />
     <Content Include="Resource\PhotoFile\2b851a74-2660-40d4-9199-a80e009fc4d3.jpg" />
@@ -1589,7 +1591,7 @@
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\Collar.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\ItemList.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\CollarDetail.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\QuantitySummary.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\OutQuantitySummary.cshtml" />
     <Content Include="Areas\SteelMember\Views\MemberWarehouse\QuantitySummary.cshtml" />
     <Content Include="Views\Utility\AdvancedSearchForm.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProductionProcess\EstimatedFinish.cshtml" />
@@ -1613,8 +1615,15 @@
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\MaintenanceRecordsIndex.cshtml" />
     <Content Include="Areas\SteelMember\Views\RawMaterialInventory\CollarDetail.cshtml" />
     <Content Include="Areas\SteelMember\Views\ProduceEquipment\EquipmentDeail.cshtml" />
-    <Content Include="Areas\SteelMember\Views\RawMaterialPurchase\ItemList - 复制.cshtml" />
     <Content Include="Areas\SteelMember\Views\SafetyEquipment\EquipmentDeail.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialInventory\InfoQuantitySummary.cshtml" />
+    <Content Include="Areas\SteelMember\Views\RawMaterialAnalysis\ChangeForm.cshtml" />
+    <Content Include="Areas\SteelMember\Views\MemberDemand\ChangeForm.cshtml" />
+    <Content Include="Areas\BaseManage\Views\Organize\Index - 复制.cshtml" />
+    <Content Include="Areas\BaseManage\Views\Person\Form.cshtml" />
+    <Content Include="Areas\BaseManage\Views\Person\Index.cshtml" />
+    <Content Include="Areas\SteelMember\Views\EquipmentPreWearParts\Form.cshtml" />
+    <Content Include="Areas\SteelMember\Views\EquipmentPreWearParts\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\AdminDefaultDesktop - 复制.cshtml" />
     <Content Include="Resource\DocumentFile\System\20151216\55f6e360-c3ce-4f87-8f58-86cf63d129f3.doc" />
@@ -1656,6 +1665,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resource\Document\NetworkDisk\Excel\" />
+    <Folder Include="Resource\Document\NetworkDisk\QRCode\" />
+    <Folder Include="Resource\Document\NetworkDisk\System\Project\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LeaRun.Cache\LeaRun.Cache.Factory\LeaRun.Cache.Factory.csproj">

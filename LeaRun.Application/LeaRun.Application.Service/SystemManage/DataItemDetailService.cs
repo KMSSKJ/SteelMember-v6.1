@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System;
+using LeaRun.Util.WebControl;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Service.SystemManage
 {
@@ -21,21 +23,47 @@ namespace LeaRun.Application.Service.SystemManage
         /// <summary>
         /// 明细列表
         /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="itemId">分类Id</param>
+        /// <returns></returns>
+        public IEnumerable<DataItemDetailEntity> GetPageList(Pagination pagination, string itemId)
+        {
+            return this.BaseRepository().FindList(t => t.ItemId == itemId, pagination).OrderBy(t => t.CreateDate).ToList();;
+        }
+
+
+        /// <summary>
+        /// 明细列表
+        /// </summary>
         /// <param name="itemId">分类Id</param>
         /// <returns></returns>
         public IEnumerable<DataItemDetailEntity> GetList(string itemId)
         {
             return this.BaseRepository().IQueryable(t => t.ItemId == itemId).OrderBy(t => t.SortCode).ToList();
         }
+
+        /// <summary>
+        /// 明细列表
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="itemId">分类Id</param>
+        /// <returns></returns>
+        public IEnumerable<DataItemDetailEntity> GetList(Expression<Func<DataItemDetailEntity, bool>> condition)
+        {
+            return this.BaseRepository().IQueryable(condition).OrderBy(t => t.SortCode).ToList();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ItemDetailId"></param>
         /// <returns></returns>
+
         public List<DataItemDetailEntity> GetByParentToItemIdIdList(string ItemDetailId)
         {
             return this.BaseRepository().IQueryable(t => t.ItemId == ItemDetailId).ToList();
         }
+
         /// <summary>
         /// 明细实体
         /// </summary>
@@ -136,6 +164,7 @@ namespace LeaRun.Application.Service.SystemManage
             else
             {
                 dataItemDetailEntity.Create();
+                dataItemDetailEntity.ItemValue = dataItemDetailEntity.ItemDetailId;
                 this.BaseRepository().Insert(dataItemDetailEntity);
             }
         }

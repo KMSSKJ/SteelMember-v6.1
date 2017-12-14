@@ -421,9 +421,9 @@
                     for (var i = 0; i < data.rows.length; i++) {
                         if (i < 6) {
                             if (data.rows[i].Category != null || data.rows[i].Category != "" || data.rows[i].Category != undefined) {
-                                var Category = data.rows[i].Category.substring(data.rows[i].Category.length - 2);
+                                //var Category = data.rows[i].Category.substring(data.rows[i].Category.length - 2);
                                 var ReleaseTime = formatDate(data.rows[i].ReleaseTime, 'yyyy-MM-dd');
-                                insertText += "<div style='line-height: 39px; border-bottom: 1px solid #ccc;'><a href='#'style='text-decoration: none;color: " + data.rows[i].FullHeadColor + " 'onclick=\"btn_ToBeDoneDetails('" + data.rows[i].Id + "','" + data.rows[i].Type + "')\">[" + Category + "]&nbsp;&nbsp;&nbsp;" + data.rows[i].FullHead + "</a><label style='float: right;color: " + data.rows[i].FullHeadColor + "'>" + ReleaseTime + "</label></div >";
+                                insertText += "<div style='line-height: 39px; border-bottom: 1px solid #ccc;'><a href='#'style='text-decoration: none;color: " + data.rows[i].FullHeadColor + " 'onclick=\"btn_ToBeDoneDetails('" + data.rows[i].Id + "','" + data.rows[i].Type + "')\">[" + data.rows[i].Category + "]&nbsp;&nbsp;&nbsp;" + data.rows[i].FullHead + "</a><label style='float: right;color: " + data.rows[i].FullHeadColor + "'>" + ReleaseTime + "</label></div >";
                             }
                         }
                     }
@@ -466,7 +466,7 @@
                 } else if (type == "RawMaterialPurchase") {
                     dialogOpen({
                         id: 'Form',
-                        title: '采购单详情',
+                        title: '申请单详情',
                         url: '/SteelMember/RawMaterialPurchase/Detail?keyValue=' + keyValue,
                         width: '1150px',
                         height: '800px',
@@ -569,10 +569,10 @@
                 success: function (data) {
                     var insertText = "";
                     data.forEach(function (item) {
-                        if (item.Category != null || item.Category != "" || item.Category != undefined) {
-                            var Category = item.Category.substring(item.Category.length - 2);
+                        if (item.TypeId != null || item.TypeId != "" || item.TypeId != undefined) {
+                            //var Category = item.Category.substring(item.Category.length - 2);
                             var ReleaseTime = formatDate(item.ReleaseTime, 'yyyy-MM-dd');
-                            insertText += "<div style='line-height: 39px; border-bottom: 1px solid #ccc;'><a href='#'style='text-decoration: none;color: " + item.FullHeadColor + " 'onclick=\"btn_NoticeDetails('" + item.NewsId + "')\">[" + Category + "]&nbsp;&nbsp;&nbsp;" + item.FullHead + "</a><label style='float: right;color: " + item.FullHeadColor + "'>" + ReleaseTime + "</label></div >";
+                            insertText += "<div style='line-height: 39px; border-bottom: 1px solid #ccc;'><a href='#'style='text-decoration: none;color: " + item.FullHeadColor + " 'onclick=\"btn_NoticeDetails('" + item.NewsId + "')\">[公告]&nbsp;&nbsp;&nbsp;" + item.FullHead + "</a><label style='float: right;color: " + item.FullHeadColor + "'>" + ReleaseTime + "</label></div >";
                         }
                     });
                     if (insertText != "") {

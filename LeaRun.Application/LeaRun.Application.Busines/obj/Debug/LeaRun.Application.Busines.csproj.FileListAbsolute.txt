@@ -231,5 +231,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Bu
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Busines\bin\Debug\NPOI.OpenXml4Net.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Busines\bin\Debug\ServiceStack.Common.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Busines\obj\Debug\LeaRun.Application.Busines.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Busines\obj\Debug\LeaRun.Application.Busines.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Busines\obj\Debug\LeaRun.Application.Busines.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Busines\obj\Debug\LeaRun.Application.Busines.pdb

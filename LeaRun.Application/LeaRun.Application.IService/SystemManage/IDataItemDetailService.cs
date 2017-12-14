@@ -1,6 +1,9 @@
 ﻿using LeaRun.Application.Entity.SystemManage;
 using LeaRun.Application.Entity.SystemManage.ViewModel;
+using LeaRun.Util.WebControl;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.SystemManage
 {
@@ -12,12 +15,27 @@ namespace LeaRun.Application.IService.SystemManage
     public interface IDataItemDetailService
     {
         #region 获取数据
+
+        /// <summary>
+        /// 明细列表
+        /// </summary>
+        /// <param name="itemId">分类Id</param>
+        /// <returns></returns>
+        IEnumerable<DataItemDetailEntity> GetPageList(Pagination pagination, string itemId);
+
         /// <summary>
         /// 明细列表
         /// </summary>
         /// <param name="itemId">分类Id</param>
         /// <returns></returns>
         IEnumerable<DataItemDetailEntity> GetList(string itemId);
+
+        /// <summary>
+        /// 明细列表
+        /// </summary>
+        /// <param name="itemId">分类Id</param>
+        /// <returns></returns>
+        IEnumerable<DataItemDetailEntity> GetList(Expression<Func<DataItemDetailEntity, bool>> condition);
 
         List<DataItemDetailEntity> GetByParentToItemIdIdList(string itemId);
         /// <summary>

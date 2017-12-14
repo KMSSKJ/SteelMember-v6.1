@@ -9,35 +9,50 @@
         initControl();
     });
     function setComboBox() {
-        //加载规格或型号
+        //加载牌号/规格
         $("#RawMaterialId").ComboBox({
             description: "==请选择==",
             height: "150px",
         });
-        //生产厂家
-        $("#RawMaterialManufacturer").ComboBox({
-            param: { EnCode: "RawMaterialManufacturer" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemDetailId",
-            text: "ItemName",
-            description: "==请选择==",
-            height: "120px",
-        });
 
-        //材料供应商
-        $("#RawMaterialSupplier").ComboBox({
-            param: { EnCode: "RawMaterialSupplier" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            id: "ItemDetailId",
-            text: "ItemName",
-            description: "==请选择==",
-            height: "120px",
-        });
+        ////生产商下拉框
+        //    $('#itemlist_f').empty();
+        //    var queryJson = {
+        //        Nature: "5af89035-0822-4c98-b986-9cd7e735773a",
+        //    }
+        //    $("#RawMaterialManufacturer").ComboBox({
+        //        param: {
+        //            queryJson: JSON.stringify(queryJson)
+        //        },
+        //        url: "../../BaseManage/Organize/GetTreeListJson",//?keyword=''
+        //        id: "OrganizeId",
+        //        text: "FullName",
+        //        height: "100px",
+        //        description: "==请选择==",
+        //        allowSearch: true
+        //    });
+
+        ////供应商下拉框
+        //    $('#itemlist_s').empty();
+        //    var queryJson1 = {
+        //        Nature: "f69cad31-680a-424c-9d3b-e6ce7c366e77",
+        //    }
+        //    $("#RawMaterialSupplier").ComboBox({
+        //        param: {
+        //            queryJson: JSON.stringify(queryJson1)
+        //        },
+        //        url: "../../BaseManage/Organize/GetTreeListJson",//?keyword=''
+        //        id: "OrganizeId",
+        //        text: "FullName",
+        //        height: "100px",
+        //        description: "==请选择==",
+        //        allowSearch: true
+        //    });
     }
     //加载材料类型
     function initControl() {        
         setComboBox();
-        //获取采购单
+        //获取申请单
         $("#PurchaseId").ComboBox({
             //param: { EnCode: "RawMaterialManufacturer" },
             url: "../../SteelMember/RawMaterialPurchase/GetPurchaseList",
@@ -53,7 +68,7 @@
                 success: function (data) {
                     document.getElementById("Category").value = data.CategoryName;
                     childEntity = data.childEntity;
-                    //加载规格或型号
+                    //加载牌号/规格
                     $("#RawMaterialId").ComboBox({
                         url: "../../SteelMember/RawMaterialAnalysis/RawMateriaNameByPurchaseId?purchaseId=" + keyValue,
                         description: "==请选择==",
@@ -64,10 +79,10 @@
                         for (var i in childEntity) {
                             if (RawMaterialId == childEntity[i].RawMaterialId) {
                                 document.getElementById("Quantity").value = childEntity[i].PurchaseQuantity;
-                                document.getElementById("UnitPrice").value = childEntity[i].Price;
-                                $("#RawMaterialManufacturer").ComboBoxSetValue(childEntity[i].RawMaterialManufacturer);
-                                $("#RawMaterialSupplier").ComboBoxSetValue(childEntity[i].RawMaterialSupplier);
-                            }
+                                //document.getElementById("UnitPrice").value = childEntity[i].Price;
+                                //$("#RawMaterialManufacturer").ComboBoxSetValue(childEntity[i].RawMaterialManufacturer);
+                                document.getElementById("RawMaterialSupplier").value =childEntity[i].RawMaterialSupplier;
+                            } 
 
                         }
                     });
@@ -76,33 +91,6 @@
 
 
         })
-
-        //$("#Category").ComboBoxTree({
-        //    param: { EnCode: "RawMaterialType" },
-        //    url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
-        //    //param: { Levels: 3 },
-        //    //url: '../../SteelMember/SubProject/GetTreeJson',
-        //    description: "==请选择==",
-        //    allowSearch: true
-        //}).bind("change", function () {
-        //    var value = $(this).attr('data-value');
-        //    ////加载材料名称
-        //    //$("#RawMaterialCategory").ComboBox({
-        //    //    url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName1?rawmaterianame=" + value,
-        //    //    description: "==请选择==",
-        //    //    id: "str",
-        //    //    text: "str",
-        //    //    height: "150px",
-        //    //});
-        //    //    //加载规格或型号
-        //    $("#RawMaterialId").ComboBox({
-        //        url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
-        //        description: "==请选择==",
-        //        id: "RawMaterialId",
-        //        text: "RawMaterialModel",
-        //        height: "150px",
-        //    });
-        //}); 
 
         if (Category != null || Category != "") {
             $("#Category").ComboBoxTreeSetValue(Category);
@@ -128,8 +116,8 @@
 </script>
 
 <div class="bills">
-    <div style="height:100%;overflow-y:auto;margin:0px 10px;">
-        <table class="form" style="width: 100%;border-collapse:separate;border-spacing:30px;">
+    <div style="height:100%;overflow-y:auto;margin:15px;">
+        <table class="form" style="width: 100%;border-collapse:separate;">
             @*<tr>
                     <td align="center" colspan="6">
                         <div style="font-family: 华文楷体; font-size: x-large; height: 40px; line-height: 40px;">
@@ -140,54 +128,50 @@
                 </tr>*@
             <tr>
 
-                <th>
-                    所属采购单<font face="宋体" color="red">*</font>
+                <th class="formTitle">
+                    所属申请单<font face="宋体" color="red">*</font>
                 </th>
-                <td colspan="5">
-                    <div id="PurchaseId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                    @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
+                <td class="formValue">
+                    <div id="PurchaseId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull" style="width:100%"></div>
+                    <input id="RawMaterialSupplier" type="hidden" />
                 </td>
             </tr>
             <tr>
-                <th>
+                <th class="formTitle">
                     材料类型<font face="宋体" color="red">*</font>
                 </th>
-                <td colspan="2">
+                <td class="formValue">
 
-                    <input readonly id="Category" type="text" class="form-control" />
+                    <input readonly id="Category" type="text" class="form-control" style="width:100%"/>
                 </td>
-                @*<th>
-                        材料名称<font face="宋体" color="red">*</font>
-                    </th>
-                    <td colspan="2">
-                        <div id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                    </td>*@
-                <th>
+            </tr>
+            <tr>
+                <th class="formTitle">
                     材料<font face="宋体" color="red">*</font>
                 </th>
-                <td colspan="2">
-                    <div id="RawMaterialId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <td class="formValue">
+                    <div id="RawMaterialId" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull" style="width:100%"></div>
                     @*<input id="RawMaterialId" type="text" class="form-control"isvalid="yes" checkexpession="NotNull">*@
                 </td>
             </tr>
 
 
             <tr>
-                <th>
+                <th class="formTitle">
                     入库数量<font face="宋体" color="red">*</font>
                 </th>
-                <td colspan="2">
-                    <input id="Quantity" type="text" class="form-control" isvalid="yes" checkexpession="ExceedZero">
+                <td class="formValue">
+                    <input id="Quantity" type="text" class="form-control" isvalid="yes" checkexpession="ExceedZero" style="width:100%">
                 </td>
-                <th>
+                @*<th>
                     单价<font face="宋体" color="red">*</font>
                 </th>
                 <td colspan="2">
                     <input id="UnitPrice" type="text" class="form-control" isvalid="yes" checkexpession="ExceedZero">
-                </td>
+                </td>*@
             </tr>
 
-            <tr>
+            @*<tr>
                 <th>
                     生产厂家<font face="宋体" color="red">*</font>
                 </th>
@@ -200,38 +184,16 @@
                 <td colspan="2">
                     <div id="RawMaterialSupplier" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 </td>
-            </tr>
+            </tr>*@
             <tr>
-                <th>
+                <th class="formTitle">
                     备注
                 </th>
-                <td colspan="5">
+                <td class="formValue">
                     <textarea id="Description" type="text" class="form-control" style="height:100px"></textarea>
                 </td>
             </tr>
         </table>
     </div>
 </div>
-@*<style>
-        body {
-            margin: 0px;
-        }
-
-        .bills {
-            overflow: hidden;
-            border-radius: 0px;
-            position: relative;
-            background: #FFFFFF;
-            border: 0px solid rgb(204, 204, 204);
-            box-shadow: none;
-            padding: 0px;
-        }
-
-        .ui-widget-content {
-            border-left: 0px;
-            border-right: 0px;
-            border-bottom: 0px;
-        }
-    </style>*@
-
 

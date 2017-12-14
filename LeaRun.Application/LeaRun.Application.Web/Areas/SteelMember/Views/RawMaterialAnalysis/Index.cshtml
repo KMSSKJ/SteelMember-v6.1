@@ -28,7 +28,7 @@
         });
     }
     //加载树
-    var SubProjectId, SubProjectName, _HavesChildren;
+    var SubProjectId, SubProjectName, HavesChildren;
     function GetTree() {
         var item = {
             height: $(window).height() - 52,
@@ -36,10 +36,10 @@
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
                 SubProjectId = item.value;
-                _HavesChildren = item.hasChildren;
+                HavesChildren = item.hasChildren;
                 SubProjectName = item.text;
                 $("#CenterTitle").html("-" + SubProjectName);
-               // $('#btn_Search').trigger("click");
+                // $('#btn_Search').trigger("click");
                 GetGrid();
             }
         };
@@ -64,7 +64,7 @@
         var $gridTable = $('#gridTable');
 
         var queryJson = {
-            HavesChildren: _HavesChildren,
+            HavesChildren: HavesChildren,
             SubProjectId: SubProjectId,
         }
         $gridTable.jqGrid('setGridParam', {
@@ -78,12 +78,13 @@
             url: "../../SteelMember/RawMaterialAnalysis/GetPageListJson",
             datatype: "json",
             colModel: [
-                { label: "工程", name: "Category", index: "Category",hidden:true },
-                { label: "材料类型", name: "RawMaterialCategory", index: "RawMaterialCategory", width: 70, align: "center", sortable: true,},
-                { label: "材料名称", name: "RawMaterialName", index: "RawMaterialName", width: 140, align: "center", sortable: true,},
-                { label: "规格/型号", name: "RawMaterialModel", index: "RawMaterialModel", width: 150, align: "center",sortable: false},
-                { label: "计量单位", name: "RawMaterialUnit", index: "RawMaterialUnit", width: 70, align: "center", sortable: false},
-                { label: "数量", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 80, align: "center", sortable: true},
+                { label: "工程", name: "Category", index: "Category", hidden: true },
+                { label: "材料类型", name: "RawMaterialCategory", index: "RawMaterialCategory", width: 70, align: "center", sortable: true, },
+                { label: "材料名称", name: "RawMaterialName", index: "RawMaterialName", width: 140, align: "center", sortable: true, },
+                { label: "牌号/规格", name: "RawMaterialModel", index: "RawMaterialModel", width: 150, align: "left", sortable: false },
+                { label: "计量单位", name: "RawMaterialUnit", index: "RawMaterialUnit", width: 70, align: "center", sortable: false },
+                { label: "需求总量", name: "RawMaterialDosage", index: "RawMaterialDosage", width: 80, align: "center", sortable: true },
+                { label: "变更数量", name: "ChangeQuantity", index: "ChangeQuantity", width: 80, align: "center", sortable: true },
                 {
                     label: "提交状态", name: "IsSubmitReview", index: "IsSubmitReview", width: 70, align: "center", sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
@@ -91,7 +92,7 @@
                     }
                 },
                 {
-                label: "审核状态", name: "IsPassed", index: "IsPassed", width: 70, align: "center",sortable: true,
+                    label: "审核状态", name: "IsPassed", index: "IsPassed", width: 70, align: "center", sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未审核</span>";
@@ -109,7 +110,7 @@
                     }
                 },
                 //{ label: '已成订单量', name: 'ApplicationPurchasedQuantity', width: 80, index: 'OrderQuantityed', align: 'center',sortable: false,},
-                //{ label: '已采购量', name: 'PurchasedQuantity', width: 80, index: 'ProductionNumber', align: 'center', sortable: false, },
+                //{ label: '已申请量', name: 'PurchasedQuantity', width: 80, index: 'ProductionNumber', align: 'center', sortable: false, },
                 { label: '已使用量', name: 'WarehousedQuantity', width: 80, index: 'CollarNumbered', align: 'center', sortable: false, },
                 {
                     label: '备注', name: 'Description', index: 'Description', width: 200, align: 'center', sortable: false,
@@ -186,16 +187,20 @@
     //}
     //新增
     function btn_add() {
-        dialogOpen({
-            id: 'Form',
-            title: '添加材料需求',
-            url: '/SteelMember/RawMaterialAnalysis/Form?category=' + escape(SubProjectId),
-            width: '610px',
-            height: '360px',
-            callBack: function (iframeId) {
-                top.frames[iframeId].AcceptClick();
-            }
-        });
+        if (!HavesChildren) {
+            dialogOpen({
+                id: 'Form',
+                title: '添加材料需求',
+                url: '/SteelMember/RawMaterialAnalysis/Form?category=' + escape(SubProjectId),
+                width: '500px',
+                height: '360px',
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }
+            });
+        } else {
+            dialogMsg("请选择子级工程", 0);
+        }
     }
     //编辑
     function btn_edit() {
@@ -208,7 +213,7 @@
                     id: 'Form',
                     title: '编辑材料需求',
                     url: '/SteelMember/RawMaterialAnalysis/Form?keyValue=' + keyValue,
-                    width: '610px',
+                    width: '500px',
                     height: '360px',
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick();
@@ -219,6 +224,30 @@
             }
         }
     }
+
+    //变更设计
+    function btn_editChange() {
+        var keyValue = $('#gridTable').jqGridRowValue('Id');
+        var review = $('#gridTable').jqGridRowValue('IsSubmitReview');
+        var passed = $('#gridTable').jqGridRowValue('IsPassed');
+        if (checkedRow(keyValue)) {
+            //if (review != "<i class=\"fa fa-toggle-on\"></i>" || passed == "<span class=\"label label-danger\">失败</span>") {
+                dialogOpen({
+                    id: 'ChangeForm',
+                    title: '变更材料需求',
+                    url: '/SteelMember/RawMaterialAnalysis/ChangeForm?keyValue=' + keyValue,
+                    width: '610px',
+                    height: '360px',
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].AcceptClick();
+                    }
+                })
+            //} else {
+            //    dialogMsg("已提交的数据只有审核失败后才能作编辑！", 0);
+            //}
+        }
+    }
+
     //删除
     function btn_delete() {
         var keyValue = $('#gridTable').jqGridRowValue('Id');
@@ -361,7 +390,7 @@
     //导出
     function btn_derive() {
         var time = new Date();
-        var ExportFileName ="材料需求_" + time.getFullYear() + time.getMonth() + time.getDate() + time.getHours() + time.getMinutes() + time.getSeconds();
+        var ExportFileName = "材料需求_" + time.getFullYear() + time.getMonth() + time.getDate() + time.getHours() + time.getMinutes() + time.getSeconds();
         var ExportTableTitle = "材料需求表";
 
         if (SubProjectId != null) {
@@ -385,7 +414,7 @@
         dialogOpen({
             id: "AdvancedSearchForm",
             title: '高级查询',
-            url: '/Utility/AdvancedSearchForm?SubProjectId=' + SubProjectId +'&HavesChildren='+ _HavesChildren,
+            url: '/Utility/AdvancedSearchForm?SubProjectId=' + SubProjectId + '&HavesChildren=' + _HavesChildren,
             width: "670px",
             height: "180px",
             callBack: function (iframeId) {
@@ -405,52 +434,53 @@
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">需求列表<span id="CenterTitle"></span></div>
+            <div class="panel-Title">材料设计总量列表<span id="CenterTitle"></span></div>
             <div class="titlePanel">
                 @*<div class="title-search">
-                    <table>
-                        <tr>
-                            <td style="width:100px">
-                                    <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                        <table>
+                            <tr>
+                                <td style="width:100px">
+                                        <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                                    </td>
+                                <td style="width:110px">
+                                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
                                 </td>
-                            <td style="width:110px">
-                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
-                            </td>
-                            <td style="padding-left:2px;width:110px">
-                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
-                            </td>
+                                <td style="padding-left:2px;width:110px">
+                                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                                </td>
 
-                            <td style="padding-left: 10px;">
-                                <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-value="Category">材料类型</a></li>
-                                        <li><a data-value="RawMaterialName">材料名称</a></li>
-                                        <li><a data-value="RawMaterialModel">型号</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td style="padding-left: 5px;width:110px">
-                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询关键字" />
-                            </td>
-                            <td style="padding-left: 5px;display:none">
-                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>*@
+                                <td style="padding-left: 10px;">
+                                    <div id="queryCondition" class="btn-group">
+                                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-value="Category">材料类型</a></li>
+                                            <li><a data-value="RawMaterialName">材料名称</a></li>
+                                            <li><a data-value="RawMaterialModel">牌号/规格</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 5px;width:110px">
+                                    <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询关键字" />
+                                </td>
+                                <td style="padding-left: 5px;display:none">
+                                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>*@
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
                         <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
                         <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                        <a id="lr-editChange" class="btn btn-default" onclick="btn_editChange()"><i class="fa fa-pencil-square-o"></i>&nbsp;变更设计</a>
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                         <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>&nbsp;提交</a>
                         <a id="lr-passed" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-legal"></i>&nbsp;审核<span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu pull-right">
+                        <ul id="ul-lr-passed" class="dropdown-menu pull-right">
                             <li id="lr-success"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
                             <li id="lr-danger"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
                         </ul>

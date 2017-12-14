@@ -160,6 +160,7 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\bin\Debug\SharpZipL
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.Extension.pdb
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\bin\Debug\LeaRun.Util.pdb
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\bin\Debug\Newtonsoft.Json.xml
-C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.pdb
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.CodeGenerator\obj\Debug\LeaRun.CodeGenerator.csprojResolveAssemblyReference.cache

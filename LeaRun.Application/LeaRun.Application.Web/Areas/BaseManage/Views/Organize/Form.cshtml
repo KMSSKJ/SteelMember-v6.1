@@ -6,6 +6,8 @@
 <script>
     var keyValue = request('keyValue');
     var parentId = request('parentId');
+    var category = request('category');
+    var categoryInput = "";
     $(function () {
         initControl();
     })
@@ -19,13 +21,24 @@
             allowSearch: true
         });
         //单位类型
-        $("#Nature").ComboBox({
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+        $("#Nature").ComboBoxTree({
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             param: { EnCode: "CompanyType" },
-            id: "ItemValue",
+            id: "ItemDetailId",
             text: "ItemName",
             description: "==请选择==",
-            height: "200px"
+            height: "200px",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    categoryInput = "";
+                }
+                else {
+                    dialogTop("请选择子项", "error");
+                    //input();
+                    categoryInput = "请选择子项"
+                    return false;
+                }
+            }
         });
         //负责人
         $("#ManagerId").ComboBoxTree({
@@ -34,47 +47,47 @@
             height: "220px",
             allowSearch: true
         });
-        //省份
-        $("#ProvinceId").ComboBox({
-            url: "../../SystemManage/Area/GetAreaListJson",
-            param: { parentId: "0" },
-            id: "AreaCode",
-            text: "AreaName",
-            description: "选择省",
-            height: "170px"
-        }).bind("change", function () {
-            var value = $(this).attr('data-value');
-            $("#CityId").ComboBox({
-                url: "../../SystemManage/Area/GetAreaListJson",
-                param: { parentId: value },
-                id: "AreaCode",
-                text: "AreaName",
-                description: "选择市",
-                height: "170px"
-            });
-        });
-        //城市
-        $("#CityId").ComboBox({
-            description: "选择市",
-            height: "170px"
-        }).bind("change", function () {
-            var value = $(this).attr('data-value');
-            if (value) {
-                $("#CountyId").ComboBox({
-                    url: "../../SystemManage/Area/GetAreaListJson",
-                    param: { parentId: value },
-                    id: "AreaCode",
-                    text: "AreaName",
-                    description: "选择县/区",
-                    height: "170px"
-                });
-            }
-        });
-        //县/区
-        $("#CountyId").ComboBox({
-            description: "选择县/区",
-            height: "170px"
-        });
+        ////省份
+        //$("#ProvinceId").ComboBox({
+        //    url: "../../SystemManage/Area/GetAreaListJson",
+        //    param: { parentId: "0" },
+        //    id: "AreaCode",
+        //    text: "AreaName",
+        //    description: "选择省",
+        //    height: "170px"
+        //}).bind("change", function () {
+        //    var value = $(this).attr('data-value');
+        //    $("#CityId").ComboBox({
+        //        url: "../../SystemManage/Area/GetAreaListJson",
+        //        param: { parentId: value },
+        //        id: "AreaCode",
+        //        text: "AreaName",
+        //        description: "选择市",
+        //        height: "170px"
+        //    });
+        //});
+        ////城市
+        //$("#CityId").ComboBox({
+        //    description: "选择市",
+        //    height: "170px"
+        //}).bind("change", function () {
+        //    var value = $(this).attr('data-value');
+        //    if (value) {
+        //        $("#CountyId").ComboBox({
+        //            url: "../../SystemManage/Area/GetAreaListJson",
+        //            param: { parentId: value },
+        //            id: "AreaCode",
+        //            text: "AreaName",
+        //            description: "选择县/区",
+        //            height: "170px"
+        //        });
+        //    }
+        //});
+        ////县/区
+        //$("#CountyId").ComboBox({
+        //    description: "选择县/区",
+        //    height: "170px"
+        //});
         //获取表单
         if (!!keyValue) {
             $.SetForm({
@@ -92,10 +105,16 @@
             });
         } else {
             $("#ParentId").ComboBoxTreeSetValue(parentId);
+            $("#Nature").ComboBoxTreeSetValue(category);
         }
     }
     //保存表单
     function AcceptClick() {
+        if (categoryInput == "请选择子项") {
+            dialogTop("请选择子项", "error");
+            return false;
+        }
+       
         if (!$('#form1').Validform()) {
             return false;
         }
@@ -118,13 +137,10 @@
 <div style="padding:20px;">
     <table class="form">
         <tr>
-            <th class="formTitle">单位名称<font face="宋体" color="red">*</font></th>
+            <th class="formTitle">单位性质</th>
             <td class="formValue">
-                <input id="FullName" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Organize/ExistFullName')" class="form-control" isvalid="yes" checkexpession="NotNull"/>
-            </td>
-            <th class="formTitle">单位类型</th>
-            <td class="formValue">
-                <div id="Nature" type="select" class="ui-select">
+                <input id="ParentId" type="hidden" value="0">
+                <div id="Nature" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull">
                 </div>
             </td>
         </tr>
@@ -139,76 +155,82 @@
             </td>
         </tr>*@
         <tr>
-            <th class="formTitle">上级单位</th>
+            <th class="formTitle">单位名称<font face="宋体" color="red">*</font></th>
+            <td class="formValue">
+                <input id="FullName" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Organize/ExistFullName')" class="form-control" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+        <tr>
+            @*<th class="formTitle">上级单位</th>
             <td class="formValue">
                 <div id="ParentId" type="selectTree" class="ui-select">
                 </div>
-            </td>
-            <th class="formTitle">成立时间</th>
-            <td class="formValue">
-                <input id="FoundedTime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
-            </td>
-        </tr>
-        <tr>
-            <th class="formTitle">负责人</th>
-            <td class="formValue">
-                <div id="ManagerId" type="selectTree" class="ui-select"></div>
-            </td>
-            <th class="formTitle">电话</th>
-            <td class="formValue">
-                <input id="OuterPhone" type="text" class="form-control" />
-            </td>
-
-        </tr>
-        <tr>
-            <th class="formTitle">电子邮箱</th>
-            <td class="formValue">
-                <input id="Email" type="text" class="form-control" />
-            </td>
-            <th class="formTitle">传真</th>
-            <td class="formValue">
-                <input id="Fax" type="text" class="form-control" />
-            </td>
-        </tr>
-
-        <tr>
-            <th class="formTitle">单位地点</th>
-            <td class="formValue" colspan="3">
-                <div style="float: left; width:275px;">
-                    <div id="ProvinceId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
-                    <div id="CityId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
-                    <div id="CountyId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
-                </div>
-                <div style="margin: 0 auto; width:100%;">
-                    <input id="Address" type="text" class="form-control" style="float: left; width: 355px;" />
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th class="formTitle">邮编</th>
-            <td class="formValue">
-                <input id="Postalcode" type="text" class="form-control" />
-            </td>
-            <th class="formTitle">单位官网</th>
-            <td class="formValue">
-                <input id="WebAddress" type="text" class="form-control" />
-            </td>
-        </tr>
-        <tr>
-            <th class="formTitle">经营范围
-            </th>
-            <td class="formValue"> @*colspan="3"*@
-                <input id="BusinessScope" type="text" class="form-control" />
-            </td>
+            </td>*@
             <th class="formTitle">排序<font face="宋体" color="red">*</font></th>
             <td class="formValue">
-                <input id="SortCode" type="text" class="form-control" isvalid="yes" checkexpession="Num"/>
+                <input id="SortCode" type="text" class="form-control" isvalid="yes" checkexpession="Num" />
             </td>
         </tr>
+       @* <tr>
+        <th class="formTitle">负责人</th>
+        <td class="formValue">
+            <div id="ManagerId" type="selectTree" class="ui-select"></div>
+        </td>
+        <th class="formTitle">联系电话</th>
+        <td class="formValue">
+            <input id="OuterPhone" type="text" class="form-control" />
+        </td>
+
+    </tr>
+    <tr>
+        <th class="formTitle">电子邮箱</th>
+        <td class="formValue">
+            <input id="Email" type="text" class="form-control" />
+        </td>
+        <th class="formTitle">传真</th>
+        <td class="formValue">
+            <input id="Fax" type="text" class="form-control" />
+        </td>
+    </tr>
+
+    <tr>
+        <th class="formTitle">单位地点</th>
+        <td class="formValue" colspan="3">
+            <div style="float: left; width:275px;">
+                <div id="ProvinceId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
+                <div id="CityId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
+                <div id="CountyId" type="select" class="ui-select" style="float: left; width: 90px; margin-right: 1px;"></div>
+            </div>
+            <div style="margin: 0 auto; width:100%;">
+                <input id="Address" type="text" class="form-control" style="float: left; width: 355px;" />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th class="formTitle">邮编</th>
+        <td class="formValue">
+            <input id="Postalcode" type="text" class="form-control" />
+        </td>
+        <th class="formTitle">单位官网</th>
+        <td class="formValue">
+            <input id="WebAddress" type="text" class="form-control" />
+        </td>
+    </tr>
+    <tr>
+        <th class="formTitle">经营范围
+        </th>
+        <td class="formValue">
+            <input id="BusinessScope" type="text" class="form-control" />
+        </td>
+        <th class="formTitle">排序<font face="宋体" color="red">*</font></th>
+        <td class="formValue">
+            <input id="SortCode" type="text" class="form-control" isvalid="yes" checkexpession="Num"/>
+        </td>
+    </tr>*@
         <tr>
             <th class="formTitle" valign="top" style="padding-top: 4px;">备注
             </th>
-            <td class="formValue" colspan="3">
+            <td class="formValue">
                 <textarea id="Description" class="form-control" style="height: 70px;"></textarea>
             </td>
         </tr>

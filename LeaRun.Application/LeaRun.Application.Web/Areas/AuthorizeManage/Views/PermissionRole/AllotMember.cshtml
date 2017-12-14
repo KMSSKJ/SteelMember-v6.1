@@ -6,7 +6,7 @@
     var roleId = request('roleId');
     $(function () {
         InitialPage();
-        GetMember();
+        //GetMember();
         GetTree();
     });
     //初始化页面
@@ -23,21 +23,46 @@
         $(".center-Panel").height($(window).height() - 40)
     }
     //加载树
-    var departmentid = "card-box";
+    //var departmentid = "card-box";
+    //function GetTree() {
+
+    //    var item = {
+    //        height: $(window).height() - 1,
+    //        url: "../../AuthorizeManage/PermissionRole/GetOrganizeTreeJson?roleId=" + roleId,
+    //        onnodeclick: function (item) {
+    //            Loading(true);
+    //            window.setTimeout(function () {
+    //                if (item.parentnodes == "0") {
+    //                    $(".card-box").show();
+    //                    departmentid = "card-box";
+    //                } else {
+    //                    $(".card-box").hide();
+    //                    $('.' + item.id).show();
+    //                    departmentid = item.id;
+    //                }
+    //                Loading(false);
+    //            }, 200);
+    //        }
+    //    };
+    //    //初始化
+    //    $("#itemTree").treeview(item);
+    //}
+    var OrganizeId = "card-box";
     function GetTree() {
         var item = {
             height: $(window).height() - 1,
-            url: "../../AuthorizeManage/PermissionRole/GetDepartmentTreeJson?roleId=" + roleId,
+            url: "../../AuthorizeManage/PermissionRole/GetOrganizeTreeJson?roleId=" + roleId,
             onnodeclick: function (item) {
                 Loading(true);
                 window.setTimeout(function () {
                     if (item.parentnodes == "0") {
                         $(".card-box").show();
-                        departmentid = "card-box";
+                        OrganizeId = "card-box";
                     } else {
                         $(".card-box").hide();
                         $('.' + item.id).show();
-                        departmentid = item.id;
+                        OrganizeId = item.id;
+                        GetMember(OrganizeId);
                     }
                     Loading(false);
                 }, 200);
@@ -46,34 +71,96 @@
         //初始化
         $("#itemTree").treeview(item);
     }
+
+    ////加载成员
+    //function GetMember() {
+    //    $.ajax({
+    //        url: "../../AuthorizeManage/PermissionRole/GetUserListJson?roleId=" + roleId,
+    //        type: "get",
+    //        dataType: "json",
+    //        async: false,
+    //        success: function (data) {
+    //            var _html = "";
+    //            $.each(data, function (i) {
+    //                var row = data[i];
+    //                if (row.isdefault == 0) {
+    //                    var imgName = "UserCard01.png";
+    //                    if (row.gender == 1) {
+    //                        imgName = "UserCard02.png";
+    //                    }
+    //                    var active = "";
+    //                    if (row.ischeck == 1) {
+    //                        active = "active";
+    //                    }
+    //                    _html += '<div class="card-box ' + row.departmentid + ' ' + active + '">';
+    //                    _html += '    <div class="card-box-img">';
+    //                    _html += '        <img src="/Content/images/' + imgName + '" />';
+    //                    _html += '    </div>';
+    //                    _html += '    <div id="' + row.userid + '" class="card-box-content">';
+    //                    _html += '        <p>账户：' + row.account + '</p>';
+    //                    _html += '        <p>姓名：' + row.realname + '</p>';
+    //                    _html += '        <p>申请部门：' + row.departmentid + '</p>';
+    //                    _html += '    </div><i></i>';
+    //                    _html += '</div>';
+    //                }
+    //            });
+    //            $(".gridPanel").html(_html);
+    //            $(".card-box").click(function () {
+    //                if (!$(this).hasClass("active")) {
+    //                    $(this).addClass("active")
+    //                } else {
+    //                    $(this).removeClass("active")
+    //                }
+    //            })
+    //            Loading(false);
+    //        }, beforeSend: function () {
+    //            Loading(true);
+    //        }
+    //    });
+    //    //模糊查询用户（注：这个方法是理由jquery查询）
+    //    $("#txt_TreeKeyword").keyup(function () {
+    //        var value = $(this).val();
+    //        if (value != "") {
+    //            window.setTimeout(function () {
+    //                $("." + departmentid)
+    //                    .hide()
+    //                    .filter(":contains('" + (value) + "')")
+    //                    .show();
+    //            }, 200);
+    //        } else {
+    //            $("." + departmentid).show();
+    //        }
+    //    }).keyup();
+    //}
     //加载成员
-    function GetMember() {
+    function GetMember(OrganizeId) {
         $.ajax({
-            url: "../../AuthorizeManage/PermissionRole/GetUserListJson?roleId=" + roleId,
+            url: "../../AuthorizeManage/PermissionRole/GetUserListJson?roleId=" + roleId + "&OrganizeId=" + OrganizeId,
             type: "get",
             dataType: "json",
             async: false,
             success: function (data) {
+                if (data!=null) {
                 var _html = "";
                 $.each(data, function (i) {
                     var row = data[i];
                     if (row.isdefault == 0) {
                         var imgName = "UserCard01.png";
-                        if (row.gender == 1) {
+                        if (row.Gender == 1) {
                             imgName = "UserCard02.png";
                         }
                         var active = "";
                         if (row.ischeck == 1) {
                             active = "active";
                         }
-                        _html += '<div class="card-box ' + row.departmentid + ' ' + active + '">';
+                        _html += '<div class="card-box ' + row.OrganizeId + ' ' + active + '">';
                         _html += '    <div class="card-box-img">';
                         _html += '        <img src="/Content/images/' + imgName + '" />';
                         _html += '    </div>';
-                        _html += '    <div id="' + row.userid + '" class="card-box-content">';
-                        _html += '        <p>账户：' + row.account + '</p>';
-                        _html += '        <p>姓名：' + row.realname + '</p>';
-                        _html += '        <p>申请部门：' + row.departmentname + '</p>';
+                        _html += '    <div id="' + row.UserId + '" class="card-box-content">';
+                        _html += '        <p>账户：' + row.Account + '</p>';
+                        _html += '        <p>姓名：' + row.RealName + '</p>';
+                        _html += '        <p>申请部门：' + row.DepartmentId + '</p>';
                         _html += '    </div><i></i>';
                         _html += '</div>';
                     }
@@ -86,6 +173,7 @@
                         $(this).removeClass("active")
                     }
                 })
+                }
                 Loading(false);
             }, beforeSend: function () {
                 Loading(true);
@@ -96,13 +184,13 @@
             var value = $(this).val();
             if (value != "") {
                 window.setTimeout(function () {
-                    $("." + departmentid)
+                    $("." + OrganizeId)
                      .hide()
                      .filter(":contains('" + (value) + "')")
                      .show();
                 }, 200);
             } else {
-                $("." + departmentid).show();
+                $("." + OrganizeId).show();
             }
         }).keyup();
     }

@@ -36,18 +36,18 @@
             height: $(window).height() - 295.5,
             autowidth: true,
             colModel: [
-                { label: '材料名称', name: "RawMaterialName", align: 'center', width: 150, sortable: false },
-                { label: '规格/型号', name: "RawMaterialModel", align: 'center', width: 150, sortable: false },
-                { label: '单位', name: "UnitId", align: 'center', width: 80, sortable: false },
-                { label: '数量', name: "Quantity", align: 'center', width: 150, sortable: false },
+                { label: '材料名称', name: "RawMaterialName", align: 'center', width: 180, sortable: false },
+                { label: '牌号/规格', name: "RawMaterialModel", align: 'center', width: 180, sortable: false },
+                { label: '单位', name: "UnitId", align: 'center', width: 70, sortable: false },
+                { label: '数量', name: "Quantity", align: 'center', width: 100, sortable: false },
                 //{ label: '单价(元)', name: "Price", align: 'center', width: 80, sortable: false },
                 //{ label: '金额(元)', name: "PriceAmount", align: 'center', width: 80, sortable: false },
                 //{ label: '生产厂家', name: "RawMaterialManufacturer", align: 'center', width: 180, sortable: false },
                 //{ label: '供应商名称', name: "RawMaterialSupplier", align: 'center', width: 210, sortable: false },
-                { label: '备注', name: "Description", align: 'center', width: 160, sortable: false },
+                { label: '备注', name: "Description", align: 'center', width: 100, sortable: false },
                 { label: 'MaxNumber', name: "MaxNumber", hidden: true },
                 { label: '分析ID', name: 'RawMaterialAnalysisId', hidden: true },
-                { label: 'InfoId', name: 'InfoId',hidden: true },
+                { label: 'InfoId', name: 'InfoId', hidden: true },
                 { label: 'RawMaterialId', name: "RawMaterialId", hidden: true },
                 { label: 'RawMaterialAnalysisId', name: "RawMaterialAnalysisId", hidden: true },
 
@@ -80,7 +80,7 @@
                 //RawMaterialSupplier: '<input id="RawMaterialSupplier➩' + i + '" class="editable center" list="itemlist" type="form-control" onclick="searchSupplier()"/><datalist id="itemlist"></datalist>',
                 Description: '<input id="Description➩' + i + '" class="editable disabled center" type="form-control"/>',
                 RawMaterialId: '<input id="RawMaterialId➩' + i + '" type="form-control" class="editable center" />',
-                MaxNumber: '<input id="MaxNumber➩' + i + '" type="form-control" class="editable center" />',
+                // MaxNumber: '<input id="MaxNumber➩' + i + '" type="form-control" class="editable center" />',
                 RawMaterialAnalysisId: '<input id="RawMaterialAnalysisId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled"/>',
             }
             $('#gridTable').jqGrid('addRowData', i, rowdata);
@@ -165,7 +165,7 @@
                     dialogTop("请选择工程名称而不是工程分类", "error");
                     //input();
                     categoryInput = "请选择工程名称而不是工程分类"
-                    return "false";
+                    return false;
                 }
             }
         }).bind("change", function () {
@@ -178,8 +178,8 @@
                         OrganizeId = data.OrganizeId;
                         document.getElementById("OrganizeId").value = top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName;
                         document.getElementById("ShippingAddress").value = $("#Category").attr('data-text') + "施工现场";
-                        document.getElementById("ContactPerson").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName;
-                        document.getElementById("ContactPersonTel").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile;
+                        document.getElementById("ContactPerson").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].RealName;
+                        document.getElementById("ContactPersonTel").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].Mobile;
                     }
                 }
             })
@@ -200,7 +200,7 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data.entity);
-                  
+
                     $("#OrganizeId").val(top.clientorganizeData[data.entity.OrganizeId] == null ? "" : top.clientorganizeData[data.entity.OrganizeId].FullName);
 
                     //明细
@@ -237,7 +237,7 @@
                                 }
 
                             });
-                            $(this).find('input[id="MaxNumber➩' + i + '"]').val(Number(number) + Number(row.RawMaterialNumber));
+                            //$(this).find('input[id="MaxNumber➩' + i + '"]').val(Number(number) + Number(row.RawMaterialNumber));
 
                             Conversion(i);
                         }
@@ -251,13 +251,13 @@
                 param: { keyValue: category },
                 success: function (data) {
                     if (data != null) {
-                    OrganizeId = data.OrganizeId;
-                    document.getElementById("OrganizeId").value = top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName;
-                    document.getElementById("ShippingAddress").value = $("#Category").attr('data-text') + "施工现场";
-                    document.getElementById("ContactPerson").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName;
-                    document.getElementById("ContactPersonTel").value = top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile;
+                        OrganizeId = data.OrganizeId;
+                        document.getElementById("OrganizeId").value = top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName;
+                        document.getElementById("ShippingAddress").value = $("#Category").attr('data-text') + "施工现场";
+                        document.getElementById("ContactPerson").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].RealName;
+                        document.getElementById("ContactPersonTel").value = top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].Mobile;
                     }
-                    }
+                }
             })
         }
     }
@@ -267,6 +267,11 @@
         //alert(index);
         var MaxNumber = Number($("#MaxNumber➩" + index).val());
         var Qty = Number($("#Quantity➩" + index).val());//数量
+        if (Qty <= 0) {
+            dialogMsg("您的输入不能小于0", 0);
+            $("#Quantity➩" + index).val(MaxNumber);
+            return
+        }
         if (Qty > MaxNumber) {
             dialogMsg("您的输入不能超过" + MaxNumber, 0)
             $("#Quantity➩" + index).val(MaxNumber);
@@ -296,7 +301,7 @@
         });
         //$("#table2").find("tr:eq(0)").find("td:eq(0)").html('&otimes;' + formatMoney(TotalPriceAmount));
         //$("#table2").find("tr:eq(0)").find("td:eq(1)").html(FormatCurrency(TotalPriceAmount));
-      
+
     }
 
     var array = new Array();
@@ -320,6 +325,11 @@
 
 
         if (!$('#form1').Validform()) {
+            return false;
+        }
+
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogTop("分工程应选择工程名称而不是工程分类", "error");
             return false;
         }
 
@@ -359,7 +369,7 @@
             return false;
         }
         if (postData == null) {
-            dialogMsg('采购量不能小于0或等于0或为空！！', 0);
+            dialogMsg('申请量不能小于0或等于0或为空！！', 0);
             return false;
         }
 
@@ -376,9 +386,9 @@
     }
 </script>
 <div class="bills" style="font-family: 华文楷体; font-size:12pt;">
-   
+
     <p style="font-size:14pt;text-align:center">@*<img src="~/Content/images/head/tablelogo.png" style="margin-top: -10px;" />*@ 云南交投建设集团第十工程有限公司</p>
-    <p style="font-size:20pt;text-align:center"> 材料申请单 </p>
+    <p style="font-size:20pt;text-align:center"> 原材料申请单(工程领用) </p>
 
     <div class="printArea">
         <table @*class="form"*@ style="width:100%;margin-bottom:15px">
@@ -387,13 +397,13 @@
                     分项工程:
                 </th>
                 <td>
-                    <div id="Category" type="selectTree" class="input" ></div>
+                    <div id="Category" type="selectTree" class="input"></div>
                 </td>
                 <th class="th">
                     施工单位:
                 </th>
-                <td >
-                    <input readonly id="OrganizeId" type="text" class="input"/>
+                <td>
+                    <input readonly id="OrganizeId" type="text" class="input" />
                 </td>
                 <th class="th">
                     单号:
@@ -413,7 +423,7 @@
                     联系人:
                 </th>
                 <td>
-                    <input readonly id="ContactPerson" type="text" class="input"/>
+                    <input readonly id="ContactPerson" type="text" class="input" />
                 </td>
                 <th class="th">
                     电话:
@@ -434,38 +444,40 @@
         <table id="table2" style="width:100%; margin-top:15px">
 
             @*<tr>
-                <th class="th">
-                    合计(大写):
-                </th>
-                <td colspan="3" class="input" style="width:45%">
-                </td>
-            
-                <th class="th">
-                    (小写):
-                </th>
-                <td class="input" style="width:30%">
+                    <th class="th">
+                        合计(大写):
+                    </th>
+                    <td colspan="3" class="input" style="width:45%">
+                    </td>
 
-                </td>
-            </tr>*@
+                    <th class="th">
+                        (小写):
+                    </th>
+                    <td class="input" style="width:30%">
+
+                    </td>
+                </tr>*@
             <tr>
                 <th class="th">
                     申请人：
                 </th>
                 <td>
-                    <input readonly id="CreateMan" type="text" value="@ViewData["CreateMan"]" class="input"/>
-                  
-                </td>
-                <th class="th">
-                    审核人：
-                </th>
-                <td>
-                    <input readonly id="ReviewMan" type="text" class="input" />
+                    <input readonly id="CreateMan" type="text" value="@ViewData["CreateMan"]" class="input" />
+
                 </td>
                 <th class="th">
                     申请日期：
                 </th>
                 <td>
-                    <input readonly id="CreateTime" type="text" value="@ViewData["CreateTime"]"class="input"  />
+                    <input readonly id="CreateTime" type="text" value="@ViewData["CreateTime"]" class="input" />
+                </td>
+            </tr>
+            <tr>
+                <th class="th">
+                    审核人：
+                </th>
+                <td colspan="3">
+                    <input readonly id="ReviewMan" type="text" class="input" />
                 </td>
             </tr>
         </table>
@@ -485,7 +497,6 @@
     .th {
         font-family: 华文楷体;
         font-size: 12pt;
-        font-weight:200;
+        font-weight: 200;
     }
-
 </style>

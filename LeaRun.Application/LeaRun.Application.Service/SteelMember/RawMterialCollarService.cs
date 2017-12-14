@@ -210,7 +210,7 @@ namespace LeaRun.Application.Service.SteelMember
                     //case "CollarEngineering":             
                     //    expression = expression.And(t => t.CollarEngineering.Contains(keyword));
                     //    break;
-                    case "CollarNumbering":              //ÐÍºÅ
+                    case "CollarNumbering":              //ÅÆºÅ/¹æ¸ñ
                         expression = expression.And(t => t.CollarNumbering.Contains(keyword));
                         break;
                     default:

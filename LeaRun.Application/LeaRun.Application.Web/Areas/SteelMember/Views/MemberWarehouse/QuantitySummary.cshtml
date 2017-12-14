@@ -29,69 +29,40 @@
             e.stopPropagation();
         });
     }
-
     //加载明细表
     function GetCollarEntryGrid() {
-        //var $grid = $('#gridTable');
-        //$grid.jqGrid({
-        //    unwritten: false,
-        //    datatype: 'local',
-        //    height: $(window).height() - 363.5,
-        //    autowidth: true,
-        //    colModel: [
-        //        { label: '单号', name: 'CollarId', width: 80, align: 'center', sortable: false, resizable: false },
-        //        { label: '领用日期', name: 'CreateTime', width: 80, align: 'center', sortable: false, resizable: false },
-        //        { label: '构件名称', name: "MemberName", align: 'center', width: 80, sortable: false },
-        //        { label: '构件类型', name: "Category", align: 'center', width: 80, sortable: false },
-        //        { label: '单位', name: "UnitId", align: 'center', width: 60, sortable: false },
-        //        { label: '数量', name: "MemberNumber", align: 'center', width: 60, sortable: false },
-        //        { label: '备注', name: "Description", align: 'center', width: 100, sortable: false },
-        //    ],
-        //    pager: false,
-        //    rownumbers: true,
-        //    shrinkToFit: false,
-        //    gridview: true,
-        //    footerrow: false,
-        //});
-        ////默认添加10行 空行
-        //for (var i = 1; i < 11; i++) {
-        //    var rowdata = {
-        //        CollarId: '<input id="CollarId➩' + i + '" class="editable disabled" type="form-control" describedby="yes" disabled="disabled" />',
-        //        CreateTime: '<input id="CreateTime➩' + i + '" class="editable disabled" type="form-control" describedby="yes" disabled="disabled" />',
-        //        MemberName: '<input id="MemberName➩' + i + '" class="editable disabled center" type="form-control"/>',
-        //        Category: '<input id="Category➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
-        //        UnitId: '<input id="UnitId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled" />',
-        //        MemberNumber: '<input id="MemberNumber➩' + i + '"class="editable  center" type="form-control" '/*onkeyup="Conversion(' + i + ')" />*/,
-        //        MemberWarehouseId: '<input id="MemberWarehouseId➩' + i + '" class="editable disabled center" type="form-control" disabled="disabled"/>',
-        //        Description: '<input id="Description➩' + i + '" class="editable disabled center" type="form-control"/>',
-        //    }
-        //    $('#gridTable').jqGrid('addRowData', i, rowdata);
-
-            var $grid = $('#gridTable');
-
-            $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>单号</td><td style='width:80px'>领用日期</td><td style='width:90px'>构件名称</td><td style='width:80px'>构件类型</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
-            for (var i = 1; i < 11; i++) {
-                $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:80px'></td><td style='width:90px'></td><td style='width:80px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:105px'></td></tr>")
-            }
-
         //获取表单
         $.SetForm({
             url: "../../SteelMember/MemberWarehouse/QuantitySummaryInfo",
             param: {
                 CollarEntityJson: CollarEntityJson,
-                    CollarJson: CollarJson
+                CollarJson: CollarJson
             },
             success: function (data) {
+
+                var $grid = $('#gridTable');
+                $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:100px'>构件类型</td><td style='width:100px'>构件名称</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>");
+
+                if (data.childEntity.length < 10) {
+                    for (var i = 0; i < 10; i++) {
+                        $grid.append("<tr><td style='width:35px'>" + (i + 1) + "</td><td style='width:100px'></td><td style='width:100px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:105px'></td></tr>");
+                    }
+                } else {
+                    for (var i = 0; i < data.childEntity.length; i++) {
+                        $grid.append("<tr><td style='width:35px'>" + (i + 1) + "</td><td style='width:100px'></td><td style='width:100px'></td><td style='width:70px'></td><td style='width:90px'></td><td style='width:105px'></td></tr>");
+                    }
+                }
+
                 $("#table1").find("tr:eq(1)").find("td:eq(0)").html(data.entity.CollarEngineering);
-                $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.DepartmentId);
-                $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.CreateTime);
+                $("#table1").find("tr:eq(2)").find("td:eq(0)").html(data.entity.OrganizeId);
+                $("#table1").find("tr:eq(2)").find("td:eq(1)").html(data.entity.Date);
                 $("#table1").find("tr:eq(3)").find("td:eq(0)").html(data.entity.ShippingAddress);
                 //$("#table1").find("tr:eq(3)").find("td:eq(1)").html(data.entity.ContactPersonTel);
 
                 //明细
                 var childEntity = data.childEntity;
-                $('#gridTable').find('tr').each(function (i) {
-                    var row = childEntity[i - 1];
+                $('#gridTable').find('tr').each(function (j) {
+                    var row = childEntity[j - 1];
                     if (row != undefined) {
                         //$(this).find('input[id="MemberWarehouseId➩' + i + '"]').val(row.MemberWarehouseId);
                         //$(this).find('input[id="CollarId➩' + i + '"]').val(row.CollarId);
@@ -101,20 +72,16 @@
                         //$(this).find('input[id="Category➩' + i + '"]').val(row.Category);
                         //$(this).find('input[id="UnitId➩' + i + '"]').val(row.UnitId);
                         //$(this).find('input[id="Description➩' + i + '"]').val(row.Description);
-
-                        $(this).find("td:eq(1)").html(row.CollarId);
-                        $(this).find("td:eq(2)").html(formatDate(row.CreateTime, 'yyyy-MM-dd'));
-                        $(this).find("td:eq(3)").html(row.MemberName);
-                        $(this).find("td:eq(4)").html(row.Category);
-                        $(this).find("td:eq(5)").html(row.UnitId);
-                        $(this).find("td:eq(6)").html(row.MemberNumber);
-                        $(this).find("td:eq(7)").html(row.Description);
+                        $(this).find("td:eq(1)").html(row.Category);
+                        $(this).find("td:eq(2)").html(row.MemberName);
+                        $(this).find("td:eq(3)").html(row.UnitId);
+                        $(this).find("td:eq(4)").html(row.MemberNumber);
+                        $(this).find("td:eq(5)").html(row.Description);
                     }
                 });
             }
         })
     }
-
     //打印
     function btn_print() {
         //$(".bills").printTable();
@@ -127,22 +94,22 @@
 </script>
 
 <div class="bills">
-   
+
     <div style="float:left">
         <div class="printArea">
             <table id="table1" class="form" style="border:0px solid #ccc;">
                 <tr>
-                    <td align="center" colspan="4">
+                    <td align="center" colspan="11">
                         <p style="font-size:14pt;padding-bottom:10px;text-align:center"> 云南交投建设集团第十工程有限公司</p>
-                        <p style="font-size:20pt;padding-bottom:15px;text-align:center;font-family: 华文楷体;font-weight:bold;"> 材料月供应量汇总表</p>
+                        <p style="font-size:20pt;padding-bottom:15px;text-align:center;font-family: 华文楷体;font-weight:bold;"> 构件月供应量汇总表</p>
                     </td>
                 </tr>
 
                 <tr>
                     <th class="formTitle">
-                        工程:
+                        工&nbsp;&nbsp;&nbsp;&nbsp;程:
                     </th>
-                    <td class="formValue" colspan="3"></td>
+                    <td class="formValue" colspan="10"></td>
 
                 </tr>
                 <tr>
@@ -150,20 +117,20 @@
                     <th class="formTitle">
                         收货单位:
                     </th>
-                    <td class="formValue"></td>
+                    <td class="formValue" colspan="5"></td>
                     <th class="formTitle">
                         起止日期:
                     </th>
-                    <td class="formValue"></td>
+                    <td class="formValue" colspan="4"></td>
                 </tr>
 
                 <tr>
                     <th class="formTitle">
                         收货地址:
                     </th>
-                    <td class="formValue"></td>
+                    <td class="formValue" colspan="10"></td>
                     @*<th class="formTitle"></th>
-                    <td class="formValue">第&nbsp;&nbsp;&nbsp;页 共&nbsp;&nbsp;&nbsp;页</td>*@
+                        <td class="formValue">第&nbsp;&nbsp;&nbsp;页 共&nbsp;&nbsp;&nbsp;页</td>*@
                 </tr>
             </table>
         </div>
@@ -194,7 +161,7 @@
         @*<a id="lr-export" class="btn btn-default" onclick="btn_export()"><i class="fa fa-sign-out"></i>&nbsp;导出</a>*@
     </div>
     @*<div class="btn-group">
-        <a id="lr-prev" class="btn btn-default" onclick="btn_prev()"><i class="fa fa-backward"></i>&nbsp;前单</a>
-        <a id="lr-next" class="btn btn-default" onclick="btn_next()"><i class="fa fa-forward"></i>&nbsp;后单</a>
-    </div>*@
+            <a id="lr-prev" class="btn btn-default" onclick="btn_prev()"><i class="fa fa-backward"></i>&nbsp;前单</a>
+            <a id="lr-next" class="btn btn-default" onclick="btn_next()"><i class="fa fa-forward"></i>&nbsp;后单</a>
+        </div>*@
 </div>

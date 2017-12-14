@@ -194,5 +194,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\Microsoft.
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\Newtonsoft.Json.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\bin\Debug\LeaRun.Util.Extension.pdb
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util.SignalR\obj\Debug\LeaRun.Util.SignalR.pdb

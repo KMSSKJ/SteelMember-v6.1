@@ -16,7 +16,12 @@ namespace LeaRun.Application.Entity.BaseManage
         /// </summary>		
         public string RoleId { get; set; }
         /// <summary>
-        /// 机构主键
+        /// 单位类型主键
+        /// </summary>		
+        public string Nature { get; set; }
+
+        /// <summary>
+        /// 单位主键
         /// </summary>		
         public string OrganizeId { get; set; }
         /// <summary>

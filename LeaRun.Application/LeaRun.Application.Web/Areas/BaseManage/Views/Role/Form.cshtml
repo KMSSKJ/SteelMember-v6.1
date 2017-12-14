@@ -4,18 +4,42 @@
 }
 <script>
     var keyValue = request('keyValue');
-    var organizeId = request('organizeId');
+   //var organizeId = request('organizeId');
+    var categoryInput = "";
     $(function () {
         initControl();
     })
     //初始化控件
     function initControl() {
-        //所属单位
-        $("#OrganizeId").ComboBoxTree({
-            url: "../../BaseManage/Organize/GetTreeJson",
+        ////单位类型
+        //$("#OrganizeId").ComboBoxTree({
+        //    url: "../../BaseManage/Organize/GetTreeJson",
+        //    description: "==请选择==",
+        //    height: "200px"
+        //});
+
+        //单位类型
+        $("#Nature").ComboBoxTree({
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            param: { EnCode: "CompanyType" },
+            id: "ItemDetailId",
+            text: "ItemName",
             description: "==请选择==",
-            height: "200px"
+            height: "200px",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    categoryInput = "";
+                }
+                else {
+                    dialogTop("请选择子项", "error");
+                    //input();
+                    categoryInput = "请选择子项"
+                    return false;
+                }
+            }
         });
+
+
         //获取表单
         if (!!keyValue) {
             $.SetForm({
@@ -29,6 +53,11 @@
     }
     //保存表单
     function AcceptClick() {
+        if (categoryInput == "请选择子项") {
+            dialogTop("请选择子项", "error");
+            return false;
+        }
+
         if (!$('#form1').Validform()) {
             return false;
         }
@@ -46,10 +75,10 @@
 <div style="padding:20px;">
     <table class="form">
         <tr>
-            <th class="formTitle">所属单位<font face="宋体" color="red">*</font></th>
+            <th class="formTitle">单位类型<font face="宋体" color="red">*</font></th>
             <td class="formValue">
-                <div id="OrganizeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull">
-                </div>
+               @*<div id="OrganizeId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>*@
+                <div id="Nature" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
         <tr>

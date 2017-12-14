@@ -51,6 +51,9 @@
     <Compile Include="AuthorizeManage\AuthorizeService.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceService.cs" />
     <Compile Include="AuthorizeManage\ModuleFormService.cs" />
+    <Compile Include="BaseManage\PersonService.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="SteelMember\EquipmentPreWearPartsService.cs" />
     <Compile Include="SteelMember\MemberCollarInfoService.cs" />
     <Compile Include="SteelMember\MemberCollarService.cs" />
     <Compile Include="SteelMember\MemberDemandService.cs" />

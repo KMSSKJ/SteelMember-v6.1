@@ -6,6 +6,8 @@
     var keyValue = request('keyValue');
     var category = request('category');
     var categoryInput = "";
+    var RawMaterialCategory = "";
+    var RawMaterialcategoryInput = "";
     $(function () {
         initControl();
     });
@@ -20,7 +22,7 @@
             height: "150px",
             click: function (item) {
                 if (!item.hasChildren) {
-                    categoryInput==""
+                    categoryInput == ""
                 }
                 else {
                     categoryInput = "请选择工程名称而不是工程分类";
@@ -36,12 +38,37 @@
             //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
             url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             description: "==请选择==",
-            id: "ItemValue",
+            id: "ItemDetailId",
             text: "ItemName",
             height: "150px",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    RawMaterialcategoryInput = "";
+                }
+                else {
+                    dialogTop("请选择子项", "error");
+                    //input();
+                    RawMaterialcategoryInput = "请选择子项"
+                    return false;
+                }
+            }
         }).bind("change", function () {
             var value = $(this).attr('data-value');
-            //加载规格或型号
+
+            $.ajax({
+                url: "../../SystemManage/DataItemDetail/GetFormJson",
+                type: "get",
+                dataType: "text",
+                async: false,
+                data: {
+                    keyValue: value,
+                },
+                success: function (data) {
+                    RawMaterialCategory = data.ParentId;
+                },
+            })
+
+            //加载牌号/规格
             $("#RawMaterialModel").ComboBox({
                 url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + value,
                 description: "==请选择==",
@@ -51,7 +78,7 @@
             });
         });
 
-        //规格或型号
+        //牌号/规格
         $("#RawMaterialModel").ComboBox({
             description: "==请选择==",
             height: "150px",
@@ -64,18 +91,18 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
-                    InputValue = data.RawMaterialName + data.RawMaterialModel;
+                    InputValue = data.RawMaterialModel;
                     $("#RawMaterialCategory").trigger("change");
                     $("#RawMaterialModel").ComboBoxSetValue(data.RawMaterialId);
 
-                    if (R(0)>0){
-                    //加载规格或型号
-                    $("#RawMaterialModel").ComboBox({
-                        url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + data.RawMaterialCategory,
-                        description: "==请选择==",
-                        id: "RawMaterialId",
-                        text: "RawMaterialModel",
-                        height: "150px",
+                    if (R(0) > 0) {
+                        //加载牌号/规格
+                        $("#RawMaterialModel").ComboBox({
+                            url: "../../SteelMember/RawMaterialAnalysis/RawMateriaName?rawmaterianame=" + data.RawMaterialCategory,
+                            description: "==请选择==",
+                            id: "RawMaterialId",
+                            text: "RawMaterialModel",
+                            height: "150px",
                         });
                     }
                 }
@@ -88,8 +115,8 @@
     function R(value) {
         var number = 0;
         if (value == 1) {
-          number++;
-        } 
+            number++;
+        }
         return number;
     };
 
@@ -136,11 +163,16 @@
         if (!$('#form1').Validform()) {
             return false;
         }
+        if (RawMaterialcategoryInput == "材料类型请选择子项") {
+            dialogTop("请选择子项", "error");
+            return false;
+        }
         if (categoryInput == "请选择工程名称而不是工程分类") {
             dialogMsg("工程应选择工程名称而不是工程分类", "error");
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
+        postData["RawMaterialCategory"] = RawMaterialCategory;
         postData["RawMaterialId"] = $("#RawMaterialModel").attr('data-value')
         $.SaveForm({
             url: "../../SteelMember/RawMaterialAnalysis/SaveForm?keyValue=" + keyValue,
@@ -159,20 +191,26 @@
             <td class="formValue">
                 <div id="Category" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
-            <td class="formTitle">材料类型<font face="宋体">*</font></td>
-            <td class="formValue">
-                <div id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-            </td>
+
         </tr>
         <tr>
             @*<td class="formTitle">材料名称<font face="宋体">*</font></td>
                 <td class="formValue">
                     <div id="RawMaterialName" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
                 </td>*@
+
+            <td class="formTitle">材料类型<font face="宋体">*</font></td>
+            <td class="formValue">
+                <div id="RawMaterialCategory" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+        </tr>
+        <tr>
             <td class="formTitle">材料<font face="宋体">*</font></td>
             <td class="formValue">
                 <div id="RawMaterialModel" type="select" onclick="R(1)" onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
+        </tr>
+        <tr>
             <th class="formTitle">数量<font face="宋体">*</font></th>
             <td class="formValue">
                 <input id="RawMaterialDosage" type="text" onmouseout="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" class="form-control" placeholder="请输入数量" isvalid="yes" checkexpession="ExceedZero" />
@@ -183,7 +221,7 @@
             <th class="formTitle" valign="top" style="padding-top: 4px;">
                 描述
             </th>
-            <td class="formValue" colspan="3">
+            <td class="formValue">
                 <textarea id="Description" class="form-control" onmouseover="$._ExistField(this.id,'../../SteelMember/RawMaterialAnalysis/ExistFullName')" style="height: 160px;"></textarea>
             </td>
         </tr>

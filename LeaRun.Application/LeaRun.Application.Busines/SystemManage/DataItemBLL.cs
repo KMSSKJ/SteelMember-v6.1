@@ -3,6 +3,7 @@ using LeaRun.Application.IService.SystemManage;
 using LeaRun.Application.Service.SystemManage;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SystemManage
 {
@@ -23,6 +24,14 @@ namespace LeaRun.Application.Busines.SystemManage
         public IEnumerable<DataItemEntity> GetList()
         {
             return service.GetList();
+        }
+        /// <summary>
+        /// 分类列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<DataItemEntity> GetList(Expression<Func<DataItemEntity,bool>>condition)
+        {
+            return service.GetList(condition);
         }
         /// <summary>
         /// 分类实体

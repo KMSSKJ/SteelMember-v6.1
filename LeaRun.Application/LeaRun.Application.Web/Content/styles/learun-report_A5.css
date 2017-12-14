@@ -118,4 +118,10 @@
         margin: 1px -1px 0 1px;
         border: 1px solid #666;
     }
+
+    /*.input_into {
+        width: 100px;
+        border: none;
+        text-align: center;
+    }*/
 }

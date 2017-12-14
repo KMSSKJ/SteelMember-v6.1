@@ -48,7 +48,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             return View();
         }
 
-
+        /// <summary>
+        /// 表单页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ChangeForm()
+        {
+            return View();
+        }
         /// <summary>
         /// 表单页面
         /// </summary>
@@ -124,6 +132,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             _model.MemberNumbering = data1.MemberNumbering;
                             _model.MemberWeight= data1.MemberWeight;
                             _model.ProductionNumber = item.ProductionNumber;
+                            _model.ChangeQuantity = item.ChangeQuantity.ToDecimal();
                             _model.ReviewMan = item.ReviewMan;
                             _model.UnitPrice = data1.UnitPrice;
                          
@@ -142,6 +151,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             {
 
                                 data[i].MemberNumber = data[i].MemberNumber + data[j].MemberNumber;
+                                data[i].ChangeQuantity = data[i].ChangeQuantity + data[j].ChangeQuantity;
                                 data.Remove(data[j]);
                             }
                         }
@@ -173,6 +183,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     _model.MemberNumbering = data1.MemberNumbering;
                     _model.MemberWeight = data1.MemberWeight;
                     _model.ProductionNumber = item.ProductionNumber;
+                    _model.ChangeQuantity = item.ChangeQuantity.ToDecimal();
                     _model.ReviewMan = item.ReviewMan;
                     data.Add(_model);
                 }
@@ -267,6 +278,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             var data = memberlibrarybll.GetEntity(keyValue);
             data.Category = dataitemdetailbll.GetEntity(data.Category).ItemName;
+            var memberRawMaterial = membermaterialbll.GetList(f => f.MemberId == data.MemberId);
+            if (memberRawMaterial.Count() > 0)
+            {
+                data.IsRawMaterial = 1;
+            }
             return ToJsonResult(data);
         }
         #endregion
@@ -290,8 +306,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 var member = memberdemandbll.GetEntity(f=>f.MemberDemandId== item);
                 var memberproductionorderinfo = memberproductionorderinfobll.GetList(f=>f.MemberDemandId== item);
                 var memberwarehouserecording = memberwarehouserecordingbll.GetList(f=>f.MemberId== member.MemberId);
-                var membercollarinfo = membercollarinfobll.GetList(f=>f.MemberDemandId== item);
-                number = memberproductionorderinfo.Count() + memberwarehouserecording.Count() + membercollarinfo.Count();
+               
+                number = memberproductionorderinfo.Count() + memberwarehouserecording.Count();
                 if (number== 0)
                 {
                     memberdemandbll.RemoveForm(item);

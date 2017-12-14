@@ -1,23 +1,61 @@
 ﻿@{
     ViewBag.Title = "单位管理";
-    Layout = "~/Views/Shared/_Index.cshtml";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 <script>
     $(document).ready(function () {
         initialPage_org();
+        GetTree();
         GetGrid_org();
     });
     //重设(表格)宽高
     function initialPage_org() {
+        //layout布局
+        $('#layout').layout({
+            applyDemoStyles: true,
+            onresize: function () {
+                $(window).resize()
+            }
+        });
         //resize重设(表格、树形)宽高
         $(window).resize(function (e) {
             window.setTimeout(function () {
                 $('#gridTable_org').setGridWidth(($('.gridPanel').width()));
-                $("#gridTable_org").setGridHeight($(window).height() - 195);
+                $("#gridTable_org").setGridHeight($(window).height() - 145);
+                $("#itemTree").setTreeHeight($(window).height() - 52);
             }, 200);
             e.stopPropagation();
         });
+
     }
+
+    //加载树
+    var _CategoryFather;
+    var HavesChildren;
+    var SubProjectName;
+    var _Category;
+
+    function GetTree() {
+        var item = {
+            height: $(window).height() - 52,
+            param: { EnCode: "CompanyType" },
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
+            id: "ItemDetailId",
+            text: "ItemName",
+            onnodeclick: function (item) {
+                _Category = item.id
+                HavesChildren = item.hasChildren;
+                SubProjectName = item.text;
+                $("#CenterTitle").html("-" + SubProjectName)
+                //GetGrid_org();
+                $('#btn_Search').trigger("click");
+            }
+        };
+        //初始化
+        $("#itemTree").treeview(item);     
+    }
+
+
     //加载表格
     function GetGrid_org() {
         var selectedRowIndex = 0;
@@ -26,7 +64,7 @@
             url: "../../BaseManage/Organize/GetTreeListJson",
             datatype: "json",
             treeGrid: true,
-            height: $(window).height() - 195,
+            height: $(window).height() - 145,
             autowidth: true,
             shrinkToFit: false,
             gridview: true,
@@ -35,20 +73,20 @@
             colModel: [
                 { label: '主键', name: 'OrganizeId', hidden: true },
                 //{ label: '排序', name: "SortCode", hidden:true },
-                { label: "单位名称", name: "FullName", width: 300, align: "left", sortable: false },
+                { label: "单位名称", name: "FullName", width: 380, align: "left", sortable: false },
                 //{ label: "外文名称", name: "EnCode", width: 150, align: "center", sortable: false },
                 //{ label: "中文名称", name: "ShortName", width: 150, align: "center", sortable: false },
-                { label: "单位类型", name: "Nature", width: 100, align: "center", sortable: false },
-                {
-                    label: "成立时间", name: "FoundedTime", width: 100, align: "center", sortable: false,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd');
-                    }
-                },
-                { label: "负责人", name: "Manager", width: 100, align: "center", sortable: false },
-
-                { label: "经营范围", name: "Fax", width: 200, align: "center", sortable: false },
-                { label: "备注", name: "Description", width: 200, align: "center", sortable: false }
+                //{ label: "单位性质", name: "Nature", width: 100, align: "center", sortable: false },
+                //{
+                //    label: "成立时间", name: "FoundedTime", width: 100, align: "center", sortable: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return formatDate(cellvalue, 'yyyy-MM-dd');
+                //    }
+                //},
+                //{ label: "负责人", name: "Manager", width: 100, align: "center", sortable: false },
+                //{ label: "联系电话", name: "OuterPhone", width: 100, align: "center", sortable: false },
+                //{ label: "经营范围", name: "Fax", width: 200, align: "center", sortable: false },
+                { label: "备注", name: "Description", width: 260, align: "center", sortable: false }
             ],
             //treeGrid: true,
             //treeGridModel: "nested",
@@ -74,11 +112,13 @@
         });
         //查询事件
         $("#btn_Search").click(function () {
+            var queryJson = {
+                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                keyword: $("#txt_Keyword").val(),
+                Nature: _Category
+            }
             $gridTable_org.jqGrid('setGridParam', {
-                postData: {
-                    condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
-                    keyword: $("#txt_Keyword").val()
-                }
+                postData: {queryJson: JSON.stringify(queryJson) }
             }).trigger('reloadGrid');
         });
         //查询回车事件
@@ -90,13 +130,17 @@
     }
     //新增
     function btn_add() {
+        if (HavesChildren) {
+            dialogMsg("请选择子项", 0);
+            return false;
+        }
         var ParentId = $("#gridTable_org").jqGridRowValue("OrganizeId");
         dialogOpen({
-            id: "Form",
+            id: "Form", 
             title: '添加单位',
-            url: '/BaseManage/Organize/Form?parentId=' + ParentId,
-            width: "750px",
-            height: "470px",
+            url: '/BaseManage/Organize/Form?parentId=' + ParentId + '&category=' + _Category,
+            width: "450px",
+            height: "370px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -110,8 +154,8 @@
                 id: "Form",
                 title: '修改单位',
                 url: '/BaseManage/Organize/Form?keyValue=' + keyValue,
-                width: "750px",
-                height: "470px",
+                width: "450px",
+                height: "370px",
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
@@ -136,7 +180,7 @@
     }
 </script>
 
-<div class="titlePanel">
+@*<div class="titlePanel">
     <div class="title-search">
         <table>
             <tr>
@@ -146,8 +190,6 @@
                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a data-value="FullName">单位名称</a></li>
-                            @*<li><a data-value="EnCode">外文名称</a></li>
-                                <li><a data-value="ShortName">中文名称</a></li>*@
                             <li><a data-value="Manager">负责人</a></li>
                         </ul>
                     </div>
@@ -173,4 +215,60 @@
 </div>
 <div class="gridPanel">
     <table class="form" id="gridTable_org"></table>
+</div>*@
+
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <div class="ui-layout-west">
+        <div class="west-Panel">
+            <div class="panel-Title">单位类型</div>
+            <div id="itemTree"></div>
+        </div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="center-Panel">
+            <div class="panel-Title">单位信息<span id="CenterTitle"></span></div>
+            <div class="titlePanel">
+                <div class="title-search">
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="queryCondition" class="btn-group">
+                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">单位名称</a>@*选择条件*@
+                                    @*<a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-value="FullName">单位名称</a></li>
+                                        <li><a data-value="Manager">负责人</a></li>
+                                    </ul>*@
+                                </div>
+                            </td>
+                            <td style="padding-left: 2px;">
+                                <input id="txt_Keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;" />
+                            </td>
+                            <td style="padding-left: 5px;">
+                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="toolbar">
+                    <div class="btn-group">
+                        <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                        <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                        <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                        @*<a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>*@
+                    </div>
+                    <div class="btn-group">
+                        <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
+                    </div>
+                    <script>$('.toolbar').authorizeButton()</script>
+                </div>
+            </div>
+            <div class="gridPanel">
+                <table id="gridTable_org"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+    </div>
 </div>

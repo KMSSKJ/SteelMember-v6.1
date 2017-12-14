@@ -28,6 +28,18 @@ namespace LeaRun.Application.Busines.SteelMember
         {
             return service.GetPageList(pagination, queryJson);
         }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public IEnumerable<MemberLibraryEntity> GetPageListLambda(Pagination pagination, Expression<Func<MemberLibraryEntity, bool>> condition)
+        {
+            return service.GetPageListLambda(pagination,condition);
+        }
+
         /// <summary>
         /// 获取列表
         /// </summary>

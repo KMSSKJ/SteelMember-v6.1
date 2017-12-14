@@ -7,7 +7,7 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-08 11:58
-    /// 描 述：材料采购管理
+    /// 描 述：材料申请管理
     /// </summary>
     public class RawMaterialPurchaseInfoEntity : BaseEntity
     {
@@ -19,7 +19,7 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("INFOID")]
         public string InfoId { get; set; }
         /// <summary>
-        /// 采购单据
+        /// 申请单据
         /// </summary>
         /// <returns></returns>
         [Column("RAWMATERIALPURCHASEID")]
@@ -30,12 +30,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("RAWMATERIALANALYSISID")]
         public string RawMaterialAnalysisId { get; set; }
-        /// <summary>
-        /// 采购主键
-        /// </summary>
-        /// <returns></returns>
-        [Column("RAWMATERIALORDERINFOID")]
-        public string RawMaterialOrderInfoId { get; set; }
+       
         /// <summary>
         /// 分析主键
         /// </summary>
@@ -43,23 +38,12 @@ namespace LeaRun.Application.Entity.SteelMember
         [Column("RAWMATERIALID")]
         public string RawMaterialId { get; set; }
         /// <summary>
-        /// 采购数量
+        /// 申请数量
         /// </summary>
         /// <returns></returns>
         [Column("PURCHASEQUANTITY")]
         public decimal? PurchaseQuantity { get; set; }
-        /// <summary>
-        /// 单价  
-        /// </summary>
-        /// <returns></returns>
-        public decimal? Price { get; set; }
 
-        /// <summary>
-        /// 生产商
-        /// </summary>
-        /// <returns></returns>
-        [Column("RAWMATERIALMANUFACTURER")]
-        public string RawMaterialManufacturer { get; set; }
         /// <summary>
         /// 供应商
         /// </summary>

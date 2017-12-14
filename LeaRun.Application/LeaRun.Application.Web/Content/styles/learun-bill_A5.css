@@ -194,4 +194,10 @@
 }
 .formValue {
     font-size: 12pt;
-} 
+}
+
+.input_into {
+    width: 100px;
+    border: none;
+    text-align: center;
+}

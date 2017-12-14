@@ -6,6 +6,8 @@
     var TreeId;
     var MemberId = request('MemberId');
     var RawMaterial = request('RawMaterialId');
+    var Category1 = "";
+    var RawMaterialcategoryInput = "";
     $(function () {
         initControl();
     })
@@ -13,16 +15,45 @@
 
     //初始化控件
     function initControl() {
+
         //材料类型
-        $("#TreeName").ComboBox({
+        $("#TreeName").ComboBoxTree({
             param: { EnCode: "RawMaterialType" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            //url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             description: "==请选择==",
             id: "ItemDetailId",
             text: "ItemName",
-            height: "200px"
+            height: "150px",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    RawMaterialcategoryInput = "";
+                }
+                else {
+                    dialogTop("请选择子项", "error");
+                    //input();
+                    RawMaterialcategoryInput = "请选择子项"
+                    return false;
+                }
+            }
+      
         }).bind("change", function () {
             TreeId = $(this).attr('data-value');//$("#Category").attr('data-text'),
+
+            $.ajax({
+                url: "../../SystemManage/DataItemDetail/GetFormJson",
+                type: "get",
+                dataType: "json",
+                async: false,
+                data: {
+                    keyValue: TreeId,
+                },
+                success: function (data) {
+                    Category1 = data.ParentId;
+                    document.getElementById("Category").value = Category1;
+                },
+            })
+
             //加载材料
             $("#RawMaterialId").ComboBox({
                 url: '../../SteelMember/MemberLibrary/GetRawMaterialJsonList',
@@ -34,8 +65,6 @@
             });
         });
 
-
-        //获取表单
         if (!!RawMaterial) {
             var RawMaterialName = "";
             var RawMaterialModel = "";
@@ -66,9 +95,9 @@
 
     //验证材料不能重复
     $._ExistField = function (controlId, url, param) {
-        var TreeName = $("#TreeName").attr('data-value');
+        var TreeNameValue = Category1;
         var RawMaterialId = $("#RawMaterialId").attr('data-value');
-        if (RawMaterialId == "==请选择==" || TreeName == undefined || TreeName == "" || TreeName == '' || TreeName == null) {
+        if (RawMaterialId == "==请选择==" || TreeNameValue == undefined || TreeNameValue == "" || TreeNameValue == '' || TreeNameValue == null) {
             return false;
         }
         if (MemberId == "") {
@@ -76,7 +105,7 @@
         }
         var data = {
             MemberId: MemberId,
-            TreeName: TreeName
+            TreeName: TreeNameValue
         };
         data["RawMaterialId"] = RawMaterialId;
         var options = $.extend(data, param);
@@ -108,13 +137,18 @@
 
     //保存表单
     function AcceptClick(callback) {
+        if (RawMaterialcategoryInput == "材料类型请选择子项") {
+            dialogTop("请选择子项", "error");
+            return false;
+        }
 
         if (!$('#form1').Validform()) {
             return false;
         }
 
         var data = $("#form1").GetWebControls(RawMaterial);
-        data["Category"] = $("#TreeName").attr('data-value');
+
+        //data["Category"] = TreeName;
      
         callback(data);
         dialogClose();
@@ -129,16 +163,16 @@
     <table class="form">
         <tr>
             <td class="formTitle">
-                材料类型<font face="宋体" color="red">*</font>
+                材料名称<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
-                <div id="TreeName" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <div id="TreeName" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
             </td>
         </tr>
 
         <tr>
             <td class="formTitle">
-                规格/型号<font face="宋体" color="red">*</font>
+                牌号/规格<font face="宋体" color="red">*</font>
             </td>
             <td class="formValue">
                 @*onblur="$._ExistField(this.id,'/SteelMember/RawMaterialLibrary/ExistFullName')"*@

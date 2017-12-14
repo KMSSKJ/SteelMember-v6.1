@@ -14,7 +14,7 @@ namespace LeaRun.Application.Service.SteelMember
     /// <summary>
     /// 版 本 6.1
     /// 日 期：2017-07-08 11:58
-    /// 描 述：材料采购管理
+    /// 描 述：材料申请管理
     /// </summary> :
     public class RawMaterialPurchaseService : RepositoryFactory, RawMaterialPurchaseIService
     {
@@ -52,17 +52,17 @@ namespace LeaRun.Application.Service.SteelMember
                 string keyword = queryParam["keyword"].ToString();
                 switch (condition)
                 {
-                    case "PurchaseNumbering":              //型号
+                    case "PurchaseNumbering":              //牌号/规格
                         expression = expression.And(t => t.PurchaseNumbering.Contains(keyword));
                         break;
                     default:
                         break;
                 }
             }
-            if (!queryParam["IsPurchase"].IsEmpty())
+            if (!queryParam["IsWarehousing"].IsEmpty())
             {
-                var IsPurchase = queryParam["IsPurchase"].ToInt();
-                expression = expression.And(t => t.IsPurchase == IsPurchase);
+                var IsWarehousing = queryParam["IsWarehousing"].ToInt();
+                expression = expression.And(t => t.IsWarehousing == IsWarehousing);
             }
             return this.BaseRepository().FindList(expression, pagination);
             //if (queryJson!=null) {

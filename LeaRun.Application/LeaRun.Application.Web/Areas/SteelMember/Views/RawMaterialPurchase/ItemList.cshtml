@@ -95,24 +95,22 @@
             height: $(window).height()-180,
             autowidth: true,
             colModel: [
-                { label: '申请材料ID', name: "InfoId", hidden: true },
+                { label: '材料需求ID', name: "InfoId", hidden: true },
                 { label: '材料ID', name: "RawMaterialId", sortable: false, hidden: true },
-                { label: 'Price', name: "Price", sortable: false, hidden: true },
-                { label: 'RawMaterialManufacturer', name: "RawMaterialManufacturer", sortable: false, hidden: true },
                 { label: 'RawMaterialSupplier', name: "RawMaterialSupplier", sortable: false, hidden: true },
                 { label: '材料类型', name: "Category", align: ' center', width: 100, sortable: false, hidden: true},
                 { label: '材料名称', name: "RawMaterialName", align:' center',width: 100, sortable: false },
-                { label: '规格/型号', name: "RawMaterialModel", align: ' center', width: 100, sortable: false },
+                { label: '牌号/规格', name: "RawMaterialModel", align: ' center', width: 100, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false },
-                //{ label: '计划采购量', name: "Qty", align: ' center', width: 100, sortable: false},
-                //{ label: '已采购量', name: "PurchasedQuantity", align: ' center', width: 100, sortable: false},
-                {label: '可采购量', name: "Quantity", align: ' center', width: 100, sortable: false },
+                //{ label: '计划申请量', name: "Qty", align: ' center', width: 100, sortable: false},
+                //{ label: '已申请量', name: "PurchasedQuantity", align: ' center', width: 100, sortable: false},
+                {label: '可申请量', name: "Quantity", align: ' center', width: 100, sortable: false },
                
             ],
             rowNum: 15,
             sortname: 'SortCode',
             sortorder: 'Desc',//降序 asc升序
-            sortname: 'OrderId',
+            sortname: 'UpdateTime',
             pager: "#gridPager",
             viewrecords: true,
             rownumbers: true,
@@ -152,14 +150,14 @@
     //添加
     function btn_add_() {
         var InfoId = $('#gridTable').jqGridRowValue('InfoId');
-        var Price = $('#gridTable').jqGridRowValue('Price');
-        var RawMaterialManufacturer = $('#gridTable').jqGridRowValue('RawMaterialManufacturer');
+        //var Price = $('#gridTable').jqGridRowValue('Price');
+        //var RawMaterialManufacturer = $('#gridTable').jqGridRowValue('RawMaterialManufacturer');
         var RawMaterialSupplier = $('#gridTable').jqGridRowValue('RawMaterialSupplier');
         var RawMaterialId = $('#gridTable').jqGridRowValue('RawMaterialId');
-        var RawMaterialOrderInfoId = $('#gridTable').jqGridRowValue('InfoId');
+        //var RawMaterialOrderInfoId = $('#gridTable').jqGridRowValue('InfoId');
         var RawMaterialName = $('#gridTable').jqGridRowValue('RawMaterialName');
         var RawMaterialModel = $('#gridTable').jqGridRowValue('RawMaterialModel');
-        var Quantity = $('#gridTable').jqGridRowValue('Qty');
+        var Quantity = $('#gridTable').jqGridRowValue('Quantity');
         var PurchasedQuantity = $('#gridTable').jqGridRowValue('PurchasedQuantity');
         var UnitId = $('#gridTable').jqGridRowValue('UnitId');
         var Description = $('#gridTable').jqGridRowValue('Description');
@@ -170,11 +168,11 @@
                 datatype: 'json',
                 data: {
                     InfoId: InfoId,
-                    Price: Price,
-                    RawMaterialManufacturer: RawMaterialManufacturer,
+                    //Price: Price,
+                    //RawMaterialManufacturer: RawMaterialManufacturer,
                     RawMaterialSupplier: RawMaterialSupplier,
                     RawMaterialId: RawMaterialId,
-                    RawMaterialOrderInfoId: RawMaterialOrderInfoId,
+                    //RawMaterialOrderInfoId: RawMaterialOrderInfoId,
                     RawMaterialName: RawMaterialName,
                     RawMaterialModel: RawMaterialModel,
                     PurchasedQuantity: PurchasedQuantity,
@@ -193,9 +191,9 @@
                         $parentobj.$("#RawMaterialPurchaseId➩" + rows).val(null);
                         $parentobj.$("#InfoId➩" + rows).val(null);
                         $parentobj.$("#RawMaterialId➩" + rows).val(null);
-                        $parentobj.$("#RawMaterialOrderInfoId➩" + rows).val(null);
-                        $parentobj.$("#Price➩" + rows).val(null);
-                        $parentobj.$("#RawMaterialManufacturer➩" + rows).val(null);
+                        $parentobj.$("#RawMaterialAnalysisId➩" + rows).val(null);
+                        //$parentobj.$("#Price➩" + rows).val(null);
+                        //$parentobj.$("#RawMaterialManufacturer➩" + rows).val(null);
                         $parentobj.$("#RawMaterialSupplier➩" + rows).val(null);
                         $parentobj.$("#RawMaterialName➩" + rows).val(null);
                         $parentobj.$("#RawMaterialModel➩" + rows).val(null);
@@ -213,26 +211,25 @@
                         //$parentobj.IsExistItem(index, rowData[i].MemberNumbering);
 
                         $parentobj.$("#RawMaterialPurchaseId➩" + index).val(rowData[i].RawMaterialPurchaseId);
-                        $parentobj.$("#InfoId➩" + index).val(rowData[i].InfoId);
                         $parentobj.$("#RawMaterialId➩" + index).val(rowData[i].RawMaterialId);
-                        $parentobj.$("#RawMaterialManufacturer➩" + index).val(rowData[i].RawMaterialManufacturer);
+                        //$parentobj.$("#RawMaterialManufacturer➩" + index).val(rowData[i].RawMaterialManufacturer);
                         $parentobj.$("#RawMaterialSupplier➩" + index).val(rowData[i].RawMaterialSupplier);
                         $parentobj.$("#RawMaterialName➩" + index).val(rowData[i].RawMaterialName);
                         $parentobj.$("#RawMaterialModel➩" + index).val(rowData[i].RawMaterialModel);
                         $parentobj.$("#UnitId➩" + index).val(rowData[i].UnitId);
                         $parentobj.$("#Date➩" + index).val(rowData[i].Date);
-                        $parentobj.$("#RawMaterialOrderInfoId➩" + index).val(rowData[i].RawMaterialOrderInfoId);
-                        $parentobj.$("#PurchaseQuantity➩" + index).val(Number(rowData[i].Quantity) - Number(rowData[i].PurchaseQuantity));
-                        $parentobj.$("#Price➩" + index).val(rowData[i].Price);
-                        var PriceAmount = (Number(rowData[i].Quantity) - Number(rowData[i].PurchaseQuantity)) * Number(rowData[i].Price);
-                        $parentobj.$("#PriceAmount➩" + index).val(PriceAmount);
-                        $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].Quantity) - Number(rowData[i].PurchaseQuantity));
+                        $parentobj.$("#RawMaterialAnalysisId➩" + index).val(rowData[i].InfoId);
+                        $parentobj.$("#PurchaseQuantity➩" + index).val(Number(rowData[i].Quantity));
+                        //$parentobj.$("#Price➩" + index).val(rowData[i].Price);
+                        //var PriceAmount = (Number(rowData[i].Quantity)) * Number(rowData[i].Price);
+                        //$parentobj.$("#PriceAmount➩" + index).val(PriceAmount);
+                        $parentobj.$("#MaxNumber➩" + index).val(Number(rowData[i].Quantity));
                         index++;
-                        TotalPriceAmount = PriceAmount++
+                        //TotalPriceAmount = PriceAmount++
                         }
 
-                    $parentobj.$("#table2").find("tr:eq(0)").find("td:eq(0)").html('&nbsp;&nbsp;&nbsp;&nbsp;&otimes;' + formatMoney(TotalPriceAmount));
-                    $parentobj.$("#table2").find("tr:eq(0)").find("td:eq(1)").html(FormatCurrency(TotalPriceAmount));
+                    //$parentobj.$("#table2").find("tr:eq(0)").find("td:eq(0)").html('&nbsp;&nbsp;&nbsp;&nbsp;&otimes;' + formatMoney(TotalPriceAmount));
+                    //$parentobj.$("#table2").find("tr:eq(0)").find("td:eq(1)").html(FormatCurrency(TotalPriceAmount));
                     }
                     dialogClose();
                 },
@@ -263,7 +260,7 @@
 </div>*@
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
-    @*<div style="color:red;margin:5px">注:每个采购单下只能选择一个类型下的材料</div>*@
+    @*<div style="color:red;margin:5px">注:每个申请单下只能选择一个类型下的材料</div>*@
     <div class="ui-layout-west">
         <div class="west-Panel">
             <div class="panel-Title">材料类型</div>
@@ -291,7 +288,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a data-value="Category">材料类型</a></li>
                                                 <li><a data-value="RawMaterialName">材料名称</a></li>
-                                                <li><a data-value="RawMaterialModel">型号</a></li>
+                                                <li><a data-value="RawMaterialModel">牌号/规格</a></li>
                                             </ul>
                                         </div>
                                     </td>

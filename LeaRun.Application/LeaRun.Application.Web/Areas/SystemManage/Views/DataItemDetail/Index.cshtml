@@ -59,8 +59,8 @@
             autowidth: true,
             colModel: [
                 { label: '主键', name: 'ItemDetailId', hidden: true },
-                { label: '&nbsp;&nbsp;&nbsp;&nbsp;项目名', name: 'ItemName', index: 'ItemName', width: 200, align: 'center', sortable: false },
-                { label: '项目值', name: 'ItemValue', index: 'ItemValue', width: 200, align: 'center', sortable: false },
+                { label: '&nbsp;&nbsp;&nbsp;&nbsp;名称', name: 'ItemName', index: 'ItemName', width: 200, align: 'left', sortable: false },
+                { label: '名称值', name: 'ItemValue', index: 'ItemValue', width: 200, align: 'center', sortable: false, hidden: true },
                 { label: '简拼', name: 'SimpleSpelling', index: 'SimpleSpelling', width: 150, align: 'center', sortable: false },
                 { label: '排序', name: 'SortCode', index: 'SortCode', width: 80, align: 'center', sortable: false },
                 {
@@ -78,10 +78,13 @@
                 { label: "备注", name: "Description", index: "Description", width: 200, align: "center", sortable: false }
             ],
             treeGrid: true,
-            treeGridModel: "nested",
-            ExpandColumn: "ItemValue",
+            treeGridModel: "nested", //adjacency,
+            ExpandColumn: "ItemName",
             rowNum: "10000",
-            rownumbers: true,
+
+            viewrecords: true,
+            pager: "#gridPager",
+           // rownumbers: false,
             onSelectRow: function () {
                 selectedRowIndex = $("#" + this.id).getGridParam('selrow');
             },
@@ -128,7 +131,7 @@
             title: '添加字典',
             url: '/SystemManage/DataItemDetail/Form?parentId=' + parentId + "&itemId=" + _itemId,
             width: "500px",
-            height: "370px",
+            height: "300px",
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -143,7 +146,7 @@
                 title: '编辑字典',
                 url: '/SystemManage/DataItemDetail/Form?keyValue=' + keyValue,
                 width: "500px",
-                height: "370px",
+                height: "300px",
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }

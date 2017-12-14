@@ -49,6 +49,7 @@
     <Compile Include="Comm\Program.cs" />
     <Compile Include="Comm\Sample.cs" />
     <Compile Include="Comm\WXBizMsgCrypt.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Model\Attribute\IAttribute.cs" />
     <Compile Include="Model\Attribute\IsNotNullAttribute.cs" />
     <Compile Include="Model\Attribute\LengthAttribute.cs" />

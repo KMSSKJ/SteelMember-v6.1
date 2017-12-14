@@ -27,7 +27,9 @@ namespace LeaRun.Application.Web.Controllers
     [HandlerLogin(LoginMode.Ignore)]
     public class LoginController : MvcControllerBase
     {
+#pragma warning disable CS0108 // “LoginController.userbll”隐藏继承的成员“MvcControllerBase.userbll”。如果是有意隐藏，请使用关键字 new。
         private UserBLL userbll = new UserBLL();
+#pragma warning restore CS0108 // “LoginController.userbll”隐藏继承的成员“MvcControllerBase.userbll”。如果是有意隐藏，请使用关键字 new。
         private FilterIPBLL filterIPBLL = new FilterIPBLL();
         private FilterTimeBLL filterTimeBLL = new FilterTimeBLL();
 
@@ -129,7 +131,7 @@ namespace LeaRun.Application.Web.Controllers
             {
                 User.Account = "Admin";
                 User.EnCode = "Admin";
-                User.Password = "0000";
+                User.Password = "123456";
                 User.RealName = "系统管理员";
                 User.Gender = 1;
                 User.UserOnLine = 1;

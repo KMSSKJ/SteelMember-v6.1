@@ -19,25 +19,25 @@
             colModel: [
                 { label: '出库ID', name: 'CollarId', index: 'CollarId', hidden: true },
                 { label: '单号', name: 'CollarNumbering', index: 'CollarNumbering', width: 180, align: 'center', sortable: true },
-                { label: '所属工程', name: 'CollarEngineering', index: 'CollarEngineering', width: 120, align: 'center', sortable: true },
-                { label: '经办人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
-                { label: '审核人', name: 'Sender', index: 'Sender', width:100, align: 'center', sortable: true },
-                { label: '领用单位', name: 'OrganizeId', index: 'OrganizeId', width: 150, align: 'center', sortable: false },
+                { label: '所属工程', name: 'CollarEngineering', index: 'CollarEngineering', width: 110, align: 'center', sortable: true },
+                //{ label: '经办人', name: 'CreateMan', index: 'CreateMan', width: 100, align: 'center', sortable: true },
+                //{ label: '审核人', name: 'Sender', index: 'Sender', width:100, align: 'center', sortable: true },
+                { label: '领用单位', name: 'OrganizeId', index: 'OrganizeId', width: 180, align: 'center', sortable: false },
                 { label: '领用人', name: 'ContactPerson', index: 'ContactPerson', width: 100, align: 'center', sortable: true },
                 { label: '领用人电话', name: 'ContactPersonTel', index: 'ContactPersonTel', width: 120, align: 'center', sortable: false },
                 {
-                    label: '出库时间', name: 'Date', index: 'Date', width: 100, align: 'center', sortable: true,
+                    label: '出库时间', name: 'Date', index: 'Date', width: 80, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }
                 },
-                { label: '收货地址', name: 'ShippingAddress', index: 'ShippingAddress', width: 160, align: 'center', sortable: false },
+                { label: '收货地址', name: 'ShippingAddress', index: 'ShippingAddress', width: 120, align: 'center', sortable: false },
             ],
             viewrecords: true,
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'CollarId',
+            sortname: 'Date',
             sortorder: 'desc',
             rownumbers: true,
             shrinkToFit: false,
@@ -61,7 +61,7 @@
                     datatype: "json",
                     height: "100%",
                     colModel: [
-                        { label: '库存ID', name: 'MemberWarehouseId', index: 'InventoryId', hidden: true },
+                        { label: '库存ID', name: 'MemberWarehouseId', index: 'MemberWarehouseId', hidden: true },
                         { label: '构件编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 180, align: 'center', sortable: true },
                         { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 120, align: 'center', sortable: true },
                         { label: '构件类型', name: 'Category', index: 'Category', width: 120, align: 'center', sortable: true },
@@ -197,8 +197,8 @@
         var queryJson = {
             condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
             //Category: Category = $("#Category").attr('data-text') == "选择材料类型" ? "" : $("#Category").attr('data-text'),
-            DepartmentId: $("#txt_DepartmentId").val().trim(),
-            ShippingAddress: $("#txt_ShippingAddress").val().trim(),
+            OrganizeId: $("#txt_DepartmentId").val().trim(),
+            ShippingAddress: $("#txt_Keyword").val().trim()+"施工现场",
             //HavesChildren: HavesChildren,
             CollarEngineering: $("#txt_Keyword").val().trim(),
             BeginTime: $("#txt_BeginTime").val(),
@@ -214,7 +214,7 @@
                 CollarJson[i] = { CollarId: obj[i].CollarId, Date: obj[i].Date }
                 CollarEntityJson = {
                     CollarEngineering: obj[0].CollarEngineering,
-                    DepartmentId: obj[0].DepartmentId,
+                    OrganizeId: obj[0].OrganizeId,
                     ShippingAddress: obj[0].ShippingAddress,
                     Date: queryJson["BeginTime"] + "——" + queryJson["EndTime"],
                 }
@@ -239,14 +239,14 @@
             dialogMsg("工程不能空", 0);
             return false;
         }
-        if (queryJson["DepartmentId"] == "" || queryJson["DepartmentId"] == null) {
+        if (queryJson["OrganizeId"] == "" || queryJson["OrganizeId"] == null) {
             dialogMsg("收货单位不能为空", 0);
             return false;
         }
-        if (queryJson["ShippingAddress"] == "" || queryJson["ShippingAddress"] == null) {
-            dialogMsg("收货地址不能为空", 0);
-            return false;
-        }
+        //if (queryJson["ShippingAddress"] == "" || queryJson["ShippingAddress"] == null) {
+        //    dialogMsg("收货地址不能为空", 0);
+        //    return false;
+        //}
         if (CollarJson == []) {
             dialogMsg("数据为空，请修改查询条件", 0);
             return false;
@@ -300,9 +300,9 @@
                             <td style="padding-left: 10px;width:120px">
                                 <input id="txt_DepartmentId" type="text" class="form-control" placeholder="输入收货单位名称" />
                             </td>
-                            <td style="padding-left: 10px;width:120px">
+                            @*<td style="padding-left: 10px;width:120px">
                                 <input id="txt_ShippingAddress" type="text" class="form-control" placeholder="输入收货地址" />
-                            </td>
+                            </td>*@
                             <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
                                 <a id="lr-Summary" class="btn btn-primary" onclick="btn_Summary()"><i class="fa fa-list-alt"></i>汇总</a>

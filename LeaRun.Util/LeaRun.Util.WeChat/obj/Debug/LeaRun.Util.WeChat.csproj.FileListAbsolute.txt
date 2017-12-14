@@ -160,5 +160,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\Newtonsoft.Json.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\bin\Debug\LeaRun.Util.Extension.pdb
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.WeChat\obj\Debug\LeaRun.Util.WeChat.pdb

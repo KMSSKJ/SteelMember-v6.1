@@ -59,33 +59,75 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
         /// </summary>
         /// <param name="roleId">角色Id</param>
         /// <returns>返回树形Json</returns>
+        //[HttpGet]
+        //public ActionResult GetDepartmentTreeJson(string roleId)
+        //{
+        //    var roleEntity = roleBLL.GetEntity(roleId);
+        //    var organizeEntity = organizeBLL.GetEntity(roleEntity.OrganizeId);
+        //    var data = departmentCache.GetList(roleEntity.OrganizeId);
+
+        //    var treeList = new List<TreeEntity>();
+        //    TreeEntity tree = new TreeEntity();
+        //    tree.id = organizeEntity.OrganizeId;
+        //    tree.text = organizeEntity.FullName;
+        //    tree.value = organizeEntity.OrganizeId;
+        //    tree.isexpand = true;
+        //    tree.complete = true;
+        //    tree.hasChildren = true;
+        //    tree.parentId = "0";
+        //    treeList.Add(tree);
+        //    foreach (DepartmentEntity item in data)
+        //    {
+        //        tree = new TreeEntity();
+        //        bool hasChildren = data.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
+        //        tree.id = item.DepartmentId;
+        //        tree.text = item.FullName;
+        //        tree.value = item.DepartmentId;
+        //        if (item.ParentId == "0")
+        //        {
+        //            tree.parentId = roleEntity.OrganizeId;
+        //        }
+        //        else
+        //        {
+        //            tree.parentId = item.ParentId;
+        //        }
+        //        tree.isexpand = true;
+        //        tree.complete = true;
+        //        tree.hasChildren = hasChildren;
+        //        treeList.Add(tree);
+        //    }
+        //    return Content(treeList.TreeToJson());
+        //}
         [HttpGet]
-        public ActionResult GetDepartmentTreeJson(string roleId)
+        public ActionResult GetOrganizeTreeJson(string roleId)
         {
             var roleEntity = roleBLL.GetEntity(roleId);
-            var organizeEntity = organizeBLL.GetEntity(roleEntity.OrganizeId);
-            var data = departmentCache.GetList(roleEntity.OrganizeId);
+            var dataitemdetail = dataitemdetailbll.GetEntity(roleEntity.Nature);
+            var organizeEntity = organizeBLL.GetList(f => f.Nature == dataitemdetail.ItemDetailId).ToList();
+
+            //var organizeEntity = organizeBLL.GetEntity(roleEntity.OrganizeId);
+            //var data = departmentCache.GetList(roleEntity.OrganizeId);
 
             var treeList = new List<TreeEntity>();
             TreeEntity tree = new TreeEntity();
-            tree.id = organizeEntity.OrganizeId;
-            tree.text = organizeEntity.FullName;
-            tree.value = organizeEntity.OrganizeId;
+            tree.id = dataitemdetail.ItemDetailId;
+            tree.text = dataitemdetail.ItemName;
+            tree.value = dataitemdetail.ItemDetailId;
             tree.isexpand = true;
             tree.complete = true;
             tree.hasChildren = true;
             tree.parentId = "0";
             treeList.Add(tree);
-            foreach (DepartmentEntity item in data)
+            foreach (OrganizeEntity item in organizeEntity)
             {
                 tree = new TreeEntity();
-                bool hasChildren = data.Count(t => t.ParentId == item.DepartmentId) == 0 ? false : true;
-                tree.id = item.DepartmentId;
+                bool hasChildren = organizeEntity.Count(t => t.Nature == item.OrganizeId) == 0 ? false : true;
+                tree.id = item.OrganizeId;
                 tree.text = item.FullName;
-                tree.value = item.DepartmentId;
+                tree.value = item.OrganizeId;
                 if (item.ParentId == "0")
                 {
-                    tree.parentId = roleEntity.OrganizeId;
+                    tree.parentId = roleEntity.Nature;
                 }
                 else
                 {
@@ -98,35 +140,46 @@ namespace LeaRun.Application.Web.Areas.AuthorizeManage.Controllers
             }
             return Content(treeList.TreeToJson());
         }
+
         /// <summary>
         /// 用户列表
         /// </summary>
         /// <param name="roleId">角色Id</param>
+        /// <param name="OrganizeId"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetUserListJson(string roleId)
+        public ActionResult GetUserListJson(string roleId, string OrganizeId)
         {
             var existMember = permissionBLL.GetMemberList(roleId);
-            var userdata = userBLL.GetTable();
-            userdata.Columns.Add("ischeck", Type.GetType("System.Int32"));
-            userdata.Columns.Add("isdefault", Type.GetType("System.Int32"));
-            foreach (DataRow item in userdata.Rows)
+            //var userdata = userBLL.GetTable();
+            var data = userBLL.GetList(f => f.OrganizeId == OrganizeId);
+            DataTable userdata = null;
+            if (data.Count() != 0)
             {
-                string UserId = item["userid"].ToString();
-                int ischeck = existMember.Count(t => t.UserId == UserId);
-                item["ischeck"] = ischeck;
-                if (ischeck > 0)
+                userdata = DataHelper.ListToDataTable(data);
+
+                userdata.Columns.Add("ischeck", Type.GetType("System.Int32"));
+                userdata.Columns.Add("isdefault", Type.GetType("System.Int32"));
+                foreach (DataRow item in userdata.Rows)
                 {
-                    item["isdefault"] = existMember.First(t => t.UserId == UserId).IsDefault;
+                    string UserId = item["UserId"].ToString();
+                    int ischeck = existMember.Count(t => t.UserId == UserId);
+                    item["ischeck"] = ischeck;
+                    if (ischeck > 0)
+                    {
+                        item["isdefault"] = existMember.First(t => t.UserId == UserId).IsDefault;
+                    }
+                    else
+                    {
+                        item["isdefault"] = 0;
+                    }
                 }
-                else
-                {
-                    item["isdefault"] = 0;
-                }
+                userdata = DataHelper.DataFilter(userdata, "", "ischeck desc");
             }
-            userdata = DataHelper.DataFilter(userdata, "", "ischeck desc");
             return Content(userdata.ToJson());
         }
+
+
         /// <summary>
         /// 系统功能列表
         /// </summary>

@@ -26,6 +26,13 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public decimal? WarehouseQuantity { get; set; }
+
+        /// <summary>
+        /// RawMaterialSupplier
+        /// </summary>
+        /// <returns></returns>
+        public string RawMaterialSupplier { get; set; }
+
         /// <summary>
         /// WarehouseTime
         /// </summary>

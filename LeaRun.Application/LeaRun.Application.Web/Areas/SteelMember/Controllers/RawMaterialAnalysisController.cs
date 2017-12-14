@@ -57,7 +57,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 表单页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ChangeForm()
+        {
+            return View();
+        }
         /// <summary>
         /// 表单页面
         /// </summary>
@@ -117,7 +125,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             _model.Id = item.Id;
                             _model.Category = subprojectbll.GetEntity(item.Category).FullName;
                             _model.UpdateTime = item.UpdateTime;
-                            _model.RawMaterialCategory = dataitemdetailbll.GetEntity(model.Category).ItemName;
+                            _model.RawMaterialCategory = dataitemdetailbll.GetEntity(dataitemdetailbll.GetEntity(model.Category).ParentId).ItemName;
                             _model.RawMaterialName = model.RawMaterialName;
                             _model.RawMaterialModel = model.RawMaterialModel;
                             _model.RawMaterialUnit = dataitemdetailbll.GetEntity(model.Unit).ItemName;
@@ -125,6 +133,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             _model.IsSubmitReview = item.IsSubmitReview;
                             _model.IsPassed = item.IsPassed;
                             _model.RawMaterialDosage = item.RawMaterialDosage;
+                            _model.ChangeQuantity = item.ChangeQuantity.ToDecimal();
                             _model.ApplicationPurchasedQuantity = item.ApplicationPurchasedQuantity;
                             _model.PurchasedQuantity = item.PurchasedQuantity;
                             _model.WarehousedQuantity = item.WarehousedQuantity;
@@ -143,6 +152,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             {
 
                                 data[i].RawMaterialDosage = data[i].RawMaterialDosage + data[j].RawMaterialDosage;
+                                data[i].ChangeQuantity = data[i].ChangeQuantity + data[j].ChangeQuantity;
                                 data.Remove(data[j]);
                             }
                         }
@@ -173,13 +183,14 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         _model.Id = item.Id;
                         _model.UpdateTime = item.UpdateTime;
                         _model.Category = subprojectbll.GetEntity(item.Category).FullName;
-                        _model.RawMaterialCategory = dataitemdetailbll.GetEntity(model.Category).ItemName; ;
+                        _model.RawMaterialCategory = dataitemdetailbll.GetEntity(dataitemdetailbll.GetEntity(model.Category).ParentId).ItemName; ;
                         _model.RawMaterialName = model.RawMaterialName;
                         _model.RawMaterialModel = model.RawMaterialModel;
                         _model.RawMaterialDosage = item.RawMaterialDosage;
                         _model.ApplicationPurchasedQuantity = item.ApplicationPurchasedQuantity;
                         _model.PurchasedQuantity = item.PurchasedQuantity;
                         _model.WarehousedQuantity = item.WarehousedQuantity;
+                        _model.ChangeQuantity = item.ChangeQuantity.ToDecimal();
                         _model.RawMaterialUnit = dataitemdetailbll.GetEntity(model.Unit).ItemName;
                         _model.Description = item.Description;
                         _model.IsSubmitReview = item.IsSubmitReview;
@@ -483,6 +494,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var model = new RawMaterialAnalysisEntity();
             model.RawMaterialId = entity.RawMaterialModel;
             model.RawMaterialDosage = entity.RawMaterialDosage;
+            model.ChangeQuantity = entity.ChangeQuantity;
             model.Category = entity.Category;
             model.CreateMan = OperatorProvider.Provider.Current().UserName;
             model.Description = entity.Description;
