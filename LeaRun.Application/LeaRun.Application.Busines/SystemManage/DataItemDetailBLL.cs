@@ -4,8 +4,10 @@ using LeaRun.Application.IService.SystemManage;
 using LeaRun.Application.Service.SystemManage;
 using LeaRun.Cache.Factory;
 using LeaRun.Util;
+using LeaRun.Util.WebControl;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.SystemManage
 {
@@ -28,6 +30,26 @@ namespace LeaRun.Application.Busines.SystemManage
         /// </summary>
         /// <param name="itemId">分类Id</param>
         /// <returns></returns>
+        public IEnumerable<DataItemDetailEntity> GetPageList(Pagination pagination,string itemId)
+        {
+            return service.GetPageList(pagination,itemId);
+        }
+
+        /// <summary>
+        /// 明细列表
+        /// </summary>
+        /// <param name="itemId">分类Id</param>
+        /// <returns></returns>
+        public IEnumerable<DataItemDetailEntity> GetList(Expression<Func<DataItemDetailEntity,bool>>condition)
+        {
+            return service.GetList(condition);
+        }
+
+        /// <summary>
+        /// 明细列表
+        /// </summary>
+        /// <param name="itemId">分类Id</param>
+        /// <returns></returns>
         public IEnumerable<DataItemDetailEntity> GetList(string itemId)
         {
             return service.GetList(itemId);
@@ -42,7 +64,7 @@ namespace LeaRun.Application.Busines.SystemManage
             return service.GetEntity(keyValue);
         }
         
-        public List< DataItemDetailEntity> GetByParentToItemIdIdList(string itemId)
+        public List<DataItemDetailEntity> GetByParentToItemIdIdList(string itemId)
         {
             return service.GetByParentToItemIdIdList(itemId);
         }

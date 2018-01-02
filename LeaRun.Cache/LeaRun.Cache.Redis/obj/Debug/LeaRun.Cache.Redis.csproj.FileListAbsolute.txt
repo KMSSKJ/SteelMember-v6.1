@@ -206,5 +206,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debu
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Redis.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\bin\Debug\ServiceStack.Text.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Redis\obj\Debug\LeaRun.Cache.Redis.pdb

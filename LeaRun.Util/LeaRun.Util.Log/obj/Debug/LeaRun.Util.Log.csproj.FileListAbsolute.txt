@@ -82,5 +82,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\Le
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Log\bin\Debug\log4net.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Log\obj\Debug\LeaRun.Util.Log.pdb

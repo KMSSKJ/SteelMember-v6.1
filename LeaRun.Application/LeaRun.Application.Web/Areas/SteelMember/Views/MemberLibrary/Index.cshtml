@@ -49,7 +49,7 @@
             height: $(window).height() - 52,
             //param: { EnCode: "EngineeringType" },
             //url: '../../SystemManage/DataItemDetail/GetDataItemTreeJson',
-            param: { Levels: 2},
+            param: { Levels: 2 },
             url: '../../SteelMember/SubProject/GetTreeJson',
             onnodeclick: function (item) {
                 SubProjectName = item.text;
@@ -111,7 +111,7 @@
                         }
                     }
                 },
-                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'center', sortable: true },
+                { label: '构件类型', name: 'Category', index: 'Category', width: 100, align: 'left', sortable: true },
                 { label: '构件名称', name: 'MemberName', index: 'MemberName', width: 150, align: 'center', sortable: false },
                 { label: '编号', name: 'MemberNumbering', index: 'MemberNumbering', width: 150, align: 'center', sortable: true },
                 { label: '构件单位', name: 'UnitId', index: 'UnitId', width: 90, align: 'center', sortable: true },
@@ -128,14 +128,15 @@
                     }
                 },
                 {
-                    label: '备注', name: 'Description', index: 'Description', width: 150, align: 'center', sortable: false ,
+                    label: '备注', name: 'Description', index: 'Description', width: 150, align: 'center', sortable: false,
                     formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.Description == null || rowObject.Description == "undefined") {
                             return "";
                         } else {
                             return "<p style='color: red'>" + cellvalue + "</p>";
                         }
-                    } },
+                    }
+                },
             ],
             viewrecords: true,
             rowNum: 30,
@@ -184,17 +185,21 @@
     }
     //新增
     function btn_add() {
-        dialogOpen({
-            id: 'Form',
-            title: '添加构件',
-            url: '/SteelMember/MemberLibrary/Form?SubProjectId=' + SubProjectId,
-            width: '700px',
-            height: '600px',
-            callBack: function (iframeId) {
-                top.frames[iframeId].AcceptClick();
-            },
-            btn: null
-        });
+        if (!HavesChildren) {
+            dialogOpen({
+                id: 'Form',
+                title: '添加构件',
+                url: '/SteelMember/MemberLibrary/Form?SubProjectId=' + SubProjectId,
+                width: '700px',
+                height: '600px',
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                },
+                btn: null
+            });
+        } else {
+            dialogMsg("请选择子级工程", 0);
+        }
     }
     //编辑
     function btn_edit() {
@@ -269,16 +274,20 @@
 
     //导出
     function btn_derive() {
-        dialogOpen({
-            id: "ExcelIExportDialog",
-            title: '导出Excel数据',
-            url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("构件信息导出"),
-            width: "500px",
-            height: "380px",
-            callBack: function (iframeId) {
-                top.frames[iframeId].AcceptClick();
-            }, btn: ['导出Excel', '关闭']
-        });
+        if (!HavesChildren) {
+            dialogOpen({
+                id: "ExcelIExportDialog",
+                title: '导出Excel数据',
+                url: '/Utility/ExcelExportForm?gridId=' + "gridTable" + "&filename=" + escape("构件信息导出"),
+                width: "500px",
+                height: "380px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                }, btn: ['导出Excel', '关闭']
+            });
+        } else {
+            dialogMsg("请选择子级工程", 0);
+        }
     }
     //构件分类
     function btn_membercategory() {
@@ -293,17 +302,21 @@
     };
 
     function Search() {
-        dialogOpen({
-            id: "AdvancedSearchMemberForm",
-            title: '高级查询',
-            url: '/Utility/AdvancedSearchMemberForm?SubProjectId=' + SubProjectId,
-            width: "670px",
-            height: "180px",
-            callBack: function (iframeId) {
-                top.frames[iframeId].AcceptClick();
-            },
-            btn: null,
-        });
+        if (!HavesChildren) {
+            dialogOpen({
+                id: "AdvancedSearchMemberForm",
+                title: '高级查询',
+                url: '/Utility/AdvancedSearchMemberForm?SubProjectId=' + SubProjectId,
+                width: "670px",
+                height: "180px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].AcceptClick();
+                },
+                btn: null,
+            });
+        } else {
+            dialogMsg("请选择子级工程", 0);
+        }
     }
 </script>
 
@@ -319,34 +332,34 @@
             <div class="panel-Title">构件信息<span id="CenterTitle"></span></div>
             <div class="titlePanel">
                 @*<div class="title-search">
-                    <table>
-                        <tr>
-                            <td style="width:110px">
-                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
-                            </td>
-                            <td style="padding-left:2px;width:110px">
-                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
-                            </td>
-                            <td style="padding-left: 10px;">
-                                <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-value="Category">构件类型</a></li>
-                                        <li><a data-value="MemberName">构件名称</a></li>
-                                        <li><a data-value="MemberNumbering">编号</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td style="padding-left: 2px;width:110px">
-                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询关键字"/>
-                            </td>
-                            <td style="padding-left: 5px;display:none">
-                                <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>*@
+                        <table>
+                            <tr>
+                                <td style="width:110px">
+                                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                                </td>
+                                <td style="padding-left:2px;width:110px">
+                                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                                </td>
+                                <td style="padding-left: 10px;">
+                                    <div id="queryCondition" class="btn-group">
+                                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-value="Category">构件类型</a></li>
+                                            <li><a data-value="MemberName">构件名称</a></li>
+                                            <li><a data-value="MemberNumbering">编号</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 2px;width:110px">
+                                    <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询关键字"/>
+                                </td>
+                                <td style="padding-left: 5px;display:none">
+                                    <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>*@
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
@@ -355,10 +368,10 @@
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                         <a id="lr-drawing_model" class="btn btn-default" onclick="btn_drawing()"><i class="fa fa-reorder"></i>&nbsp;构件详情</a>
                     </div>
-                        <div class="btn-group">
-                            <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
-                            <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
-                        </div>
+                    <div class="btn-group">
+                        <a id="lr-import" class="btn btn-default" onclick="btn_import()"><i class="fa fa-upload"></i>&nbsp;导入</a>
+                        <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>&nbsp;导出</a>
+                    </div>
                     <div class="btn-group">
                         <a id="lr-membercategory" class="btn btn-default" onclick="btn_membercategory()"><i class="fa fa-tags"></i>&nbsp;构件分类</a>
                     </div>

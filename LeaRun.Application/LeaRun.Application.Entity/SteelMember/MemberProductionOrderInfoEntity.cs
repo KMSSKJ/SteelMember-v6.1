@@ -43,12 +43,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("PRODUCTIONQUANTITY")]
         public Decimal? ProductionQuantity { get; set; }
-        /// <summary>
-        /// 已合格量
-        /// </summary>
-        /// <returns></returns>
-        [Column("QUALIFIEDQUANTITY")]
-        public Decimal? QualifiedQuantity  { get; set; }
+   
         /// <summary>
         /// 已生产数量
         /// </summary>
@@ -98,6 +93,21 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("WASTEQUANTITY")]
         public Decimal? WasteQuantity { get; set; }
+
+        /// <summary>
+        /// 已收货量
+        /// </summary>
+        /// <returns></returns>
+        [Column("RECEIVEDQUANTITY")]
+        public Decimal? ReceivedQuantity { get; set; }
+
+        /// <summary>
+        /// 已出库量
+        /// </summary>
+        /// <returns></returns>
+        [Column("COLLAREDQUANTITY")]
+        public Decimal? CollaredQuantity { get; set; }
+
         #endregion
 
         #region 扩展操作

@@ -58,6 +58,12 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public decimal? MemberNumber { get; set; }
+
+        /// <summary>
+        /// ChangeQuantity
+        /// </summary>
+        /// <returns></returns>
+        public decimal? ChangeQuantity { get; set; }
         /// <summary>
         /// CreateTime
         /// </summary>

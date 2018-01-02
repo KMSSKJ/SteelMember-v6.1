@@ -28,9 +28,8 @@
                 { label: '构件类型', name: "Category", align: ' center', width: 150, sortable: false },
                 { label: '构件名称', name: "MemberName", align: ' center', width: 150, sortable: false },
                 { label: '单位', name: "UnitId", align: ' center', width: 80, sortable: false, align: 'center' },
-                { label: '计划生产量', name: 'ProductionQuantity', index: 'ProductionQuantity', width: 80, align: '', sortable: true },
-                { label: '已生产量', name: 'ProductionedQuantity', index: 'ProductionedQuantity', width: 80, align: '', sortable: true },
-                { label: '已合格量', name: 'QualifiedQuantity', index: 'QualifiedQuantity', width: 80, align: '', sortable: true },
+                { label: '申请量', name: 'ProductionQuantity', index: 'ProductionQuantity', width: 80, align: '', sortable: true },
+                { label: '本次质检合格量', name: 'QualityInspectionNumber', index: 'QualityInspectionNumber', width: 80, align: '', sortable: true },
                 { label: '已入库量', name: 'WarehousedQuantity', index: 'WarehousedQuantity', width: 80, align: '', sortable: true },
                 { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
             ],
@@ -60,13 +59,13 @@
             MemberId: MemberId
         }
        
-        var QualifiedQuantity = $('#gridTable').jqGridRowValue('QualifiedQuantity');
+       // var QualityInspectionNumber = $('#gridTable').jqGridRowValue('QualityInspectionNumber');
         var WarehousedQuantity = $('#gridTable').jqGridRowValue('WarehousedQuantity');
         if (OrderId != "") {
-            if (QualifiedQuantity <= WarehousedQuantity) {
-                dialogMsg("该构件合格品已全部入库！，请重新选择", 0);
-                return false;
-            }
+            //if (QualityInspectionNumber <= WarehousedQuantity) {
+            //    dialogMsg("该构件合格品已全部入库！，请重新选择", 0);
+            //    return false;
+            //}
             $.ajax({
                 url: "/SteelMember/MemberWarehouse/Inventory",
                 type: "post",
@@ -76,6 +75,7 @@
                 },
                 loading: "正在保存数据...",
                 success: function (data) {
+                    $.currentIframe().$("#gridTable").trigger("reloadGrid");
                     var datamodel = JSON.parse(data);
                     if (datamodel.type == 1) {
                         Loading(false);

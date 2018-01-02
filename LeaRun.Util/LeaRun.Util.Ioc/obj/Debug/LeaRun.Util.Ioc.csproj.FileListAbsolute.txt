@@ -186,5 +186,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Mi
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Ioc\obj\Debug\LeaRun.Util.Ioc.pdb

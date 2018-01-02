@@ -20,21 +20,28 @@
         //加载负责人
         $("#PrincipalId").ComboBox({
             url: "../../SteelMember/SubProject/GetUserListJson",
-            id: "UserId",
+            id: "PersonId",
             text: "RealName",
             height: "120px",
             description: "==请选择==",
             allowSearch: true
         });
         //加载施工单位
+        var queryJson = {
+            Nature: "ce57e500-65a0-43b7-bcaa-1521ec5fddd2",
+        }
         $("#OrganizeId").ComboBox({
-            url: "../../SteelMember/SubProject/GetOrganizeListJson",
+            param: {
+                queryJson: JSON.stringify(queryJson)
+               },
+            url: "../../BaseManage/Organize/GetTreeListJson1",
             id: "OrganizeId",
             text: "FullName",
             height: "100px",
             description: "==请选择==",
             allowSearch: true
         });
+
         //获取表单
         if (!!keyValue) {
             $.SetForm({

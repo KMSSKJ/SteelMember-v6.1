@@ -19,6 +19,12 @@ namespace LeaRun.Application.IService.BaseManage
         /// 用户列表
         /// </summary>
         /// <returns></returns>
+        List<UserEntity> GetList(Expression<Func<UserEntity,bool>>condition);
+
+        /// <summary>
+        /// 用户列表
+        /// </summary>
+        /// <returns></returns>
         DataTable GetTable();
         /// <summary>
         /// 用户列表

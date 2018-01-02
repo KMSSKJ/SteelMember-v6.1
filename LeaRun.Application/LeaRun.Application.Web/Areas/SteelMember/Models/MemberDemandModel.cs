@@ -9,6 +9,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
     {
         public string Icon { get; set; }
         public string Category { get; set; }
+        public string CategoryId { get; set; }
         public string MemberId { get; set; }
         public decimal? CollarNumber { get; set; }
         public string CreateMan { get; set; }
@@ -23,6 +24,8 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public decimal? MemberNumber { get; set; }
         public string MemberNumbering { get; set; }
         public decimal? ProductionNumber { get; set; }
+        public decimal? ChangeQuantity { get; set; }
+        public decimal? WarehousedQuantity { get; set; }
         public string ReviewMan { get; set; }
         public string UnitId { get; set; }
         public decimal? UnitPrice { get; set; }

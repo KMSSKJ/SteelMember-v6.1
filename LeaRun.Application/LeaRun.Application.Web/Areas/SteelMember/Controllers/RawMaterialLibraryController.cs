@@ -104,16 +104,16 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 string Category = queryParam["Category"].ToString();
                 data = data.FindAll(t => t.Category == Category);
             }
-            if (!queryParam["RawMaterialName"].IsEmpty())
-            {
-                string RawMaterialName = queryParam["RawMaterialName"].ToString();
-                data = data.FindAll(t => t.RawMaterialName.Contains(RawMaterialName));
-            }
-            if (!queryParam["RawMaterialModel"].IsEmpty())
-            {
-                string RawMaterialModel = queryParam["RawMaterialModel"].ToString();
-                data = data.FindAll(t => t.RawMaterialModel.Contains(RawMaterialModel));
-            }
+            //if (!queryParam["RawMaterialName"].IsEmpty())
+            //{
+            //    string RawMaterialName = queryParam["RawMaterialName"].ToString();
+            //    data = data.FindAll(t => t.RawMaterialName.Contains(RawMaterialName));
+            //}
+            //if (!queryParam["RawMaterialModel"].IsEmpty())
+            //{
+            //    string RawMaterialModel = queryParam["RawMaterialModel"].ToString();
+            //    data = data.FindAll(t => t.RawMaterialModel.Contains(RawMaterialModel));
+            //}
 
             var JsonData = new
             {
@@ -201,7 +201,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 string result = string.Empty;
                 string strConn;
                 //strConn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + savePath + "; " + "Extended Properties=Excel 8.0;";  
-                strConn = "Provider=Microsoft.Ace.OleDb.12.0;" + "data source=" + savePath + ";Extended Properties='Excel 12.0; HDR=Yes; IMEX=1'"; //此连接可以操作.xls与.xlsx文件 (支持Excel2003 和 Excel2007 的连接字符串)  
+                strConn = "Provider=Microsoft.Ace.OleDb.12.0;" + "data source=" + savePath + ";Extended Properties='Excel 12.0; HDR=Yes; IMEX=2'"; //此连接可以操作.xls与.xlsx文件 (支持Excel2003 和 Excel2007 的连接字符串)  
 
                 //OleDbDataAdapter myCommand = new OleDbDataAdapter("select * from [Sheet1$]", strConn);  
                 //连接串  
@@ -227,8 +227,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 DataTable table = myDataSet.Tables["ExcelInfo"].DefaultView.ToTable();
                 if (table.Columns.Count != 4)
                 {
-                    return Content("文件数据格式不正确");
+                    return Content("文件数据格式错误，请参照模板文件");
                 }
+                if (table.Rows[0][0].ToString().Trim()!="材料名称"|| table.Rows[0][1].ToString().Trim() != "牌号/规格"|| table.Rows[0][2].ToString().Trim() != "计量单位" || table.Rows[0][3].ToString().Trim()!="备注")
+                {
+                    return Content("文件数据格式错误，请参照模板文件");
+                }
+
                 int count = 0;
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
@@ -346,7 +351,17 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 number = memberMaterial.Count() + MaterialAnalysis.Count();
                 if (number == 0)
                 {
-                    rawmateriallibrarybll.RemoveForm(item);
+                   
+                    if (rawmaterialinventorybll.GetEntity(f => f.RawMaterialId == item).Quantity>0)
+                    {
+                        var rawmaterial = rawmateriallibrarybll.GetEntity(f => f.RawMaterialId == item);
+                        return Error("材料"+rawmaterial.RawMaterialName+ rawmaterial.RawMaterialModel+ "存在库存");
+                    }
+                    else
+                    {
+                        rawmateriallibrarybll.RemoveForm(item);
+                        rawmaterialinventorybll.RemoveForm(item);
+                    }
                 }
                 else
                 {
@@ -395,9 +410,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         #region 验证数据
 
         /// <summary>
-        /// 材料中型号不能重复
+        /// 材料中牌号/规格不能重复
         /// </summary>
-        /// <param name="RawMaterialModel">型号</param>
+        /// <param name="RawMaterialModel">牌号/规格</param>
         /// <param name="RawMaterialName"></param>
         /// <param name="keyValue"></param>
         /// <param name="category"></param>

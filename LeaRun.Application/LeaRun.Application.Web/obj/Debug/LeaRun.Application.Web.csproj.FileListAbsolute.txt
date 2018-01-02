@@ -1801,5 +1801,7 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.We
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\Microsoft.AspNet.SignalR.Client.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\zh-Hans\System.Web.Mvc.resources.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Application\LeaRun.Application.Web\obj\Debug\LeaRun.Application.Web.pdb
+D:\GitHubProject\SteelMember\LeaRun.Application\LeaRun.Application.Web\bin\ServiceStack.Text.dll

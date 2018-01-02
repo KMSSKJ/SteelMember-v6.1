@@ -43,6 +43,13 @@ namespace LeaRun.Application.IService.SteelMember
         /// <param name="keyValue">主键值</param>
         /// <returns></returns>
         MemberProductionOrderEntity GetEntity(string keyValue);
+
+        /// <summary>
+        /// 获取实体
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <returns></returns>
+        MemberProductionOrderEntity GetEntity(Expression<Func<MemberProductionOrderEntity, bool>> condition); 
         /// <summary>
         /// 获取子表详细信息
         /// </summary>

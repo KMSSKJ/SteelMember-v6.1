@@ -41,7 +41,7 @@
         //    autowidth: true,
         //    colModel: [
         //        { label: '材料名称', name: "RawMaterialName", align: 'center', width: 80, sortable: false },
-        //        { label: '规格/型号', name: "RawMaterialModel", align: 'center', width: 80, sortable: false },
+        //        { label: '牌号/规格', name: "RawMaterialModel", align: 'center', width: 80, sortable: false },
         //        { label: '单位', name: "UnitId", align: 'center', width: 60, sortable: false },
         //        { label: '数量', name: "CollarQuantity", align: 'center', width: 60, sortable: false },
         //        { label: '备注', name: "Description", align: 'center', width: 100, sortable: false },
@@ -69,7 +69,7 @@
         //    $('#gridTable').jqGrid('addRowData', i, rowdata);
         //}
 
-        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>规格/型号</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
+        $grid.append("<tr style='font-weight:bold'><td style='width:35px'>序号</td><td style='width:120px'>材料名称</td><td style='width:120px'>牌号/规格</td><td style='width:70px'>单位</td><td style='width:90px'>数量</td><td style='width:105px'>备注</td></tr>")
         for (var i = 1; i < 11; i++) {
             $grid.append("<tr><td style='width:35px'>" + i + "</td><td style='width:120px'></td><td style='width:120px'></td><td style='width:70px'></td><td style='width:90px'></td></td><td style='width:105px'></td><td style='display:none'></td><td style='display:none'></td></tr>")
         }
@@ -106,9 +106,9 @@
 
                                 $("#table1").find("tr:eq(1)").find("td:eq(0)").html(top.clientorganizeData[data.OrganizeId] == null ? "" : top.clientorganizeData[data.OrganizeId].FullName);
                                 $("#table1").find("tr:eq(1)").find("td:eq(2)").html($("#CreateTime").val());
-                                $("#table1").find("tr:eq(1)").find("td:eq(1)").html(top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].RealName);
+                                $("#table1").find("tr:eq(1)").find("td:eq(1)").html(top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].RealName);
                                 $("#table1").find("tr:eq(2)").find("td:eq(0)").html($("#CollarEngineering").attr('data-text') + "施工现场");
-                                $("#table1").find("tr:eq(2)").find("td:eq(1)").html(top.clientuserData[data.PrincipalId] == null ? "" : top.clientuserData[data.PrincipalId].Mobile);
+                                $("#table1").find("tr:eq(2)").find("td:eq(1)").html(top.clientpersonData[data.PrincipalId] == null ? "" : top.clientpersonData[data.PrincipalId].Mobile);
                             }
                         }
                     })
@@ -229,6 +229,11 @@
         //        $.currentIframe().$("#gridTable").trigger("reloadGrid");
         //    }
         //})
+
+        if (childEntryJson == null || childEntryJson == "") {
+            dialogMsg('材料不能为空，请添加构件所需材料', 0);
+            return false;
+        }
 
         $.SaveForm({
             url: "../../SteelMember/RawMterialCollar/SaveForm_Memebr",

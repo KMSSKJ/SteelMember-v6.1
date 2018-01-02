@@ -29,6 +29,7 @@ namespace LeaRun.Application.Web
 
         public OrganizeBLL organizebll = new OrganizeBLL();
         public UserBLL userbll = new UserBLL();
+        public PersonBLL personbll = new PersonBLL();
         public DepartmentBLL departmentbll = new DepartmentBLL();
         public SubProjectBLL subprojectbll = new SubProjectBLL();
         public DataItemDetailBLL dataitemdetailbll = new DataItemDetailBLL();
@@ -48,6 +49,7 @@ namespace LeaRun.Application.Web
         public RawMaterialInventoryBLL rawmaterialinventorybll = new RawMaterialInventoryBLL();
         public RawMaterialAnalysisBLL rawmaterialanalysisbll = new RawMaterialAnalysisBLL();
         public RawMaterialPurchaseBLL rawmaterialpurchasebll = new RawMaterialPurchaseBLL();
+        public EquipmentPreWearPartsBLL equipmentprewearpartsbll = new EquipmentPreWearPartsBLL();
         public RawMaterialWarehouseBLL rawmaterialwarehousebll = new RawMaterialWarehouseBLL();
         public RawMaterialOrderBLL rawmaterialorderbll = new RawMaterialOrderBLL();
         public RawMterialCollarBLL rawmterialcollarbll = new RawMterialCollarBLL();

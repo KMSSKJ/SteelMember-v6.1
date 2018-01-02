@@ -57,6 +57,8 @@
     <Compile Include="BaseManage\IPostService.cs" />
     <Compile Include="BaseManage\IJobService.cs" />
     <Compile Include="BaseManage\IUserGroupService.cs" />
+    <Compile Include="BaseManage\PersonIService.cs" />
+    <Compile Include="SteelMember\EquipmentPreWearPartsIService.cs" />
     <Compile Include="SteelMember\MemberCollarInfoIService.cs" />
     <Compile Include="SteelMember\MemberCollarIService.cs" />
     <Compile Include="SteelMember\MemberDemandIService.cs" />

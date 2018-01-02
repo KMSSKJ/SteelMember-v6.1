@@ -33,6 +33,16 @@
         //    $('#btn_Search').trigger("click");
         //});
 
+        //材料供应商
+        $("#RawMaterialSupplier").ComboBox({
+            url: "../../SteelMember/SubProject/GetOrganizeListJson",
+            id: "OrganizeId",
+            text: "FullName",
+            height: "120px",
+            description: "请选择材料供应商",
+            allowSearch: true
+        });
+
         var selectedRowIndex = 0;
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
@@ -43,11 +53,12 @@
             colModel: [
                 { label: '入库ID', name: 'WarehouseId', index: 'WarehouseId', hidden: true },
                 { label: '材料名称', name: 'RawMaterialName', index: 'Category', width:180, align: 'center', sortable: true },
-                { label: '规格/型号', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 180, align: 'center', sortable: false },
+                { label: '牌号/规格', name: 'RawMaterialModel', index: 'RawMaterialModel', width: 180, align: 'center', sortable: false },
                 { label: '入库数量', name: 'WarehouseQuantity', index: 'WarehouseQuantity', width: 120, align: 'center', sortable: true },
                 { label: '单位', name: 'Unit', index: 'Unit', width: 80, align: 'center', sortable: false },
-                {
-                    label: '入库时间', name: 'WarehouseTime', index: 'WarehouseTime', width: 100, align: 'center', sortable: true,
+                { label: '供应商', name: 'RawMaterialManufacturer', index: 'RawMaterialManufacturer', width: 100, align: 'center', sortable: false},
+                { label: '生产商', name: 'RawMaterialSupplier', index: 'RawMaterialSupplier', width: 100, align: 'center', sortable: false },
+                { label: '入库时间', name: 'WarehouseTime', index: 'WarehouseTime', width: 100, align: 'center', sortable: true,
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }
@@ -79,14 +90,16 @@
         //查询事件
         $("#btn_Search").click(function () {
             var queryJson = {
-                condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
+                //condition: $("#queryCondition").find('.dropdown-text').attr('data-value'),
                 //Category: Category = $("#Category").attr('data-text') == "选择材料类型" ? "" : $("#Category").attr('data-text'),
                 //SubProject: SubProject,
                 //SubProjectId: SubProjectId,
-                //HavesChildren: HavesChildren,
-                keyword: $("#txt_Keyword").val(),
+                //HavesChildren: HavesChildren,   postData["Manager"] = $("#ManagerId").attr('data-text');
                 BeginTime: $("#txt_BeginTime").val(),
-                EndTime: $("#txt_EndTime").val()
+                EndTime: $("#txt_EndTime").val(),
+                RawMaterialName: $("#txt_RawMaterialName").val(),
+                RawMaterialModel: $("#txt_RawMaterialModel").val(),
+                RawMaterialSupplier: $("#RawMaterialSupplier").attr('data-value') == "请选择材料供应商" ? null : $("#RawMaterialSupplier").attr('data-value'),
             }
             $gridTable.jqGrid('setGridParam', {
                 postData: { queryJson: JSON.stringify(queryJson) },
@@ -168,6 +181,70 @@
         });
     }
 
+    function btn_Summary() {
+        var queryJson = {
+            BeginTime: $("#txt_BeginTime").val(),
+            EndTime: $("#txt_EndTime").val(),
+            RawMaterialName: $("#txt_RawMaterialName").val(),
+            RawMaterialModel: $("#txt_RawMaterialModel").val(),
+            RawMaterialSupplier: $("#RawMaterialSupplier").attr('data-value') == "请选择材料供应商" ? null : $("#RawMaterialSupplier").attr('data-value'),
+        }
+
+        //验证
+        if (queryJson["BeginTime"] == "" || queryJson["BeginTime"] == null) {
+            dialogMsg("开始时间不能为空", 0);
+            return false;
+        }
+        if (queryJson["EndTime"] == "" || queryJson["EndTime"] == null) {
+            dialogMsg("结束时间不能为空", 0);
+            return false;
+        }
+        if (queryJson["RawMaterialSupplier"] == "" || queryJson["RawMaterialSupplier"] == null) {
+            dialogMsg("供应商不能空", 0);
+            return false;
+        }
+        //if (queryJson["RawMaterialName"] == "" || queryJson["RawMaterialName"] == null) {
+        //    dialogMsg("材料名称不能空", 0);
+        //    return false;
+        //}
+        //if (queryJson["RawMaterialModel"] == "" || queryJson["RawMaterialModel"] == null) {
+        //    dialogMsg("材料牌号/规格", 0);
+        //    return false;
+        //}
+
+        //获取所有行ID
+        var obj = $("#gridTable").jqGrid("getRowData");
+        var CollarJson = [];
+        //var CollarEntityJson = "";
+        if (obj != "" || obj != null) {
+            for (i = 0; i < obj.length; i++) {
+                CollarJson[i] = { WarehouseId: obj[i].WarehouseId, WarehouseTime: obj[i].WarehouseTime }
+                //CollarEntityJson = {
+                //    CollarEngineering: obj[0].CollarEngineering,
+                //    DepartmentId: obj[0].DepartmentId,
+                //    ShippingAddress: obj[0].ShippingAddress,
+                //    Date: queryJson["BeginTime"] + "——" + queryJson["EndTime"],
+                //}
+            }
+        } //end
+
+        if (CollarJson == []) {
+            dialogMsg("数据为空，请修改查询条件", 0);
+            return false;
+        }
+
+        dialogOpen({
+            id: 'InfoQuantitySummary',
+            title: '汇总表',
+            url: '/SteelMember/RawMaterialInventory/InfoQuantitySummary?InfoJson=' + escape(JSON.stringify(queryJson)),
+            width: '1100px',
+            height: '760px',
+            callBack: function (iframeId) {
+                top.frames[iframeId].AcceptClick();
+            },
+            btn: null
+        });
+    }
 </script>
 
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
@@ -176,49 +253,44 @@
         <div class="center-Panel">
             <div class="panel-Title">材料-入库信息</div>
             <div class="titlePanel">
-
-                @*<div class="title-search">
+                <div class="title-search">
                     <table>
                         <tr>
-                            <td style="width:100px">
-                                    <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
-                                </td>
                             <td style="padding-left: 5px;width:110px">
-                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" onblur="InputChange()" />
+                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" />
                             </td>
 
                             <td style="padding-left: 2px;width:110px">
-                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" onblur="InputChange()" />
-                            </td>
-
-                            <td style="padding-left: 10px;">
-                                <div id="queryCondition" class="btn-group">
-                                    <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-value="RawMaterialName">材料名称</a></li>
-                                        <li><a data-value="RawMaterialModel">型号</a></li>
-                                    </ul>
-                                </div>
+                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" />
                             </td>
                             <td style="padding-left: 2px;width:110px">
-                                <input id="txt_Keyword" onkeyup="GetGrid('Search')" type="text" class="form-control" placeholder="输入要查询关键字" />
+                                <input id="txt_RawMaterialName" type="text" class="form-control" placeholder="输入材料名称" />
+                                @*<div id="RawMaterialManufacturer" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>*@
                             </td>
-                            <td style="padding-left: 5px;display:none">
+                            <td style="padding-left: 2px;width:120px">
+                                <input id="txt_RawMaterialModel" type="text" class="form-control" placeholder="输入材料牌号/规格" />
+                                @*<div id="RawMaterialManufacturer" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>*@
+                            </td>
+                            <td style="padding-left: 2px;width:200px">
+                                @*<input id="txt_RawMaterialSupplier" type="text" class="form-control" placeholder="输入供应商" />*@
+                                <div id="RawMaterialSupplier" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                            </td>
+                            <td style="padding-left: 5px;">
                                 <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>
+                                <a id="lr-Summary" class="btn btn-primary" onclick="btn_Summary()"><i class="fa fa-list-alt"></i>汇总</a>
                             </td>
                         </tr>
                     </table>
-                </div>*@
+                </div>
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
                         <a id="lr-derive" class="btn btn-default" onclick="btn_derive()"><i class="fa fa-download"></i>导出</a>
                     </div>
-                    <div class="btn-group">
+                    @*<div class="btn-group">
                         <a id="btn_Search" class="btn btn-default" onclick="Search()"><i class="fa fa-search"></i>&nbsp;查询</a>
-                    </div>
+                    </div>*@
 
                 </div>
             </div>

@@ -5,6 +5,7 @@ using LeaRun.Cache.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.Busines.BaseManage
 {
@@ -30,6 +31,16 @@ namespace LeaRun.Application.Busines.BaseManage
         {
             return service.GetList();
         }
+
+        /// <summary>
+        /// 机构列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OrganizeEntity> GetList(Expression<Func<OrganizeEntity,bool>>condition)
+        {
+            return service.GetList(condition);
+        }
+
         /// <summary>
         /// 机构实体
         /// </summary>

@@ -76,6 +76,7 @@
     <Compile Include="Extension\ConvertExtension.cs" />
     <Compile Include="Extension\DatabaseType.cs" />
     <Compile Include="DbHelper.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

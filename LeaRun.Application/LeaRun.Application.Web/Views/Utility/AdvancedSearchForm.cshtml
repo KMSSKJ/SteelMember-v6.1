@@ -8,21 +8,37 @@
     });
     var SubProjectId = request('SubProjectId');
     var HavesChildren = request('HavesChildren');
+    var categoryInput = "";
     //初始化控件
     function initControl() {
         //材料类型
-        $("#Category").ComboBox({
+        $("#Category").ComboBoxTree({
             param: { EnCode: "RawMaterialType" },
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            url: "../../SystemManage/DataItemDetail/GetDataItemTreeJson",
             id: "ItemDetailId",
             text: "ItemName",
-            height: "80px",
+            height: "70px",
             description: "选择材料类型",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    categoryInput = "";
+                }
+                else {
+                    dialogTop("请选择子项", "error");
+                    //input();
+                    categoryInput = "请选择子项"
+                    return false;
+                }
+            }
         })
     }
 
     //查询事件
     function AcceptClick() {
+        if (categoryInput == "请选择子项") {
+            dialogTop("请选择子项", "error");
+            return false;
+        }
         var queryJson = {
             Category: Category = $("#Category").attr('data-text') == "选择材料类型" ? "" : $("#Category").attr('data-text'),
             CategoryId: $("#Category").attr('data-value'),
@@ -40,6 +56,10 @@
     };
     //查询回车
     $('#RawMaterialModel').bind('keypress', function (event) {
+        if (categoryInput == "请选择子项") {
+            dialogTop("请选择子项", "error");
+            return false;
+        }
         if (event.keyCode == "13") {
             AcceptClick();
         }
@@ -49,22 +69,22 @@
     <div style="padding:10px">
         <table>
             <tr>
-                <td style="padding-left:10px;width:120px">
+                <td style="padding-left:5px;width:120px">
                     <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()" />
                 </td>
-                <td style="padding-left:10px;width:120px">
+                <td style="padding-left:2px;width:120px">
                     <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()" />
                 </td>
-                <td style="padding-left:10px;width:120px">
-                    <div id="Category" type="select" class="ui-select" isvalid="yes"></div>
+                <td style="padding-left:2px;width:120px">
+                    <div id="Category" type="selectTree" class="ui-select" isvalid="yes"></div>
                 </td>
-                <td style="padding-left:10px;width:120px">
+                <td style="padding-left:2px;width:120px">
                     <input id="RawMaterialName" type="text" class="form-control" placeholder="输入要查询的名称" />
                 </td>
-                <td style="padding-left:10px;width:120px">
-                    <input id="RawMaterialModel" type="text" class="form-control" placeholder="输入要查询的型号" />
+                <td style="padding-left:2px;width:150px">
+                    <input id="RawMaterialModel" type="text" class="form-control" placeholder="输入要查询的牌号/规格" />
                 </td>
-                <td style="padding-left:10px;">
+                <td style="padding-left:2px;">
                     <a id="btn_Search" class="btn btn-primary" onclick="AcceptClick()"><i class="fa fa-search"></i>&nbsp;查询</a>
                 </td>
             </tr>

@@ -474,7 +474,7 @@
                             <a id="lr-marked" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-tags"></i>&nbsp;标记为<span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu pull-right">
+                            <ul id="ul-lr-marked" class="dropdown-menu pull-right">
                                 <li id="lr-read"><a onclick="btn_read()">&nbsp;已读邮件</a></li>
                                 <li id="lr-unread"><a onclick="btn_unread()">&nbsp;未读邮件</a></li>
                                 <li id="lr-asterisk"><a onclick="btn_asterisk()">&nbsp;星标邮件</a></li>
@@ -485,7 +485,7 @@
                             <a id="lr-moveTo" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-retweet"></i>&nbsp;移动到<span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu pull-right"></ul>
+                            <ul id="ul-lr-moveTo" class="dropdown-menu pull-right"></ul>
                         </div>
                         <script>$('.toolbar').authorizeButton()</script>
                     </div>

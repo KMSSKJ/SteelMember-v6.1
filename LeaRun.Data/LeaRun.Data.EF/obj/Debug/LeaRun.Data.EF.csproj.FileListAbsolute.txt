@@ -503,5 +503,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\Sys
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\zh-Hans\EntityFramework.resources.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.EF\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Data\LeaRun.Data.EF\obj\Debug\LeaRun.Data.EF.pdb

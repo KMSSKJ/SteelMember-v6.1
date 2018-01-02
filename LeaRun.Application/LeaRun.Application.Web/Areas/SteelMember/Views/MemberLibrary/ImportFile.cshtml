@@ -18,6 +18,11 @@
         for (var i = 0; i < fileObj.length; i++)
             form.append("file" + i, fileObj[i]);
 
+        if ($("#fileToUpload").val() == null || $("#fileToUpload").val() == "") {
+            dialogMsg("请选择要上传的文件", 0);
+            return false;
+        }
+
         var defaults = {
             url: "",
             param: [],
@@ -59,6 +64,7 @@
                         dialogClose();
                     } else {
                         dialogMsg(data, 0);
+                        Loading(false, options.loading);
                     }
                 }
             },

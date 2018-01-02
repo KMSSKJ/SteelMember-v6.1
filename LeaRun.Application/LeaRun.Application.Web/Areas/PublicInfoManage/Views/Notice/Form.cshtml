@@ -85,25 +85,37 @@
             </td>
         </tr>
         <tr>
-            <td class="formTitle">公告类别<font face="宋体" color="red">*</font></td>
-            <td class="formValue">
-                <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull" ></div>
-            </td>
-            <td class="formTitle">发布时间</td>
-            <td class="formValue">
-                <input id="ReleaseTime" readonly type="text" class="form-control" value="@LeaRun.Util.Time.GetToday("yyyy/MM/dd HH:mm")" />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">信息来源</td>
+            @*<td class="formTitle">信息来源</td>
             <td class="formValue">
                 <input id="SourceName" type="text" class="form-control" />
             </td>
             <td class="formTitle">来源地址</td>
             <td class="formValue">
                 <input id="SourceAddress" type="text" class="form-control" />
+            </td>*@
+
+            @*<td class="formTitle">发布部门</td>
+            <td class="formValue">
+                <input id="SourceAddress" type="text" class="form-control" />
+            </td>
+
+            <td class="formTitle">发布人</td>
+            <td class="formValue">
+                <input id="SourceName" type="text" class="form-control" />
+            </td>*@
+        </tr>
+        <tr>
+            @*<td class="formTitle">公告类别<font face="宋体" color="red">*</font></td>
+            <td class="formValue">
+                <div id="Category" type="select" class="ui-select" isvalid="yes" checkexpession="NotNull" ></div>
+            </td>*@
+            <td class="formTitle">发布时间</td>
+            <td class="formValue">
+                <input id="Category" value="2" type="hidden" />
+                <input id="ReleaseTime" readonly type="text" class="form-control" value="@LeaRun.Util.Time.GetToday("yyyy/MM/dd HH:mm")" />
             </td>
         </tr>
+     
         <tr>
             <th class="formTitle" valign="top" style="padding-top: 4px;">公告内容</th>
             <td class="formValue" colspan="3">

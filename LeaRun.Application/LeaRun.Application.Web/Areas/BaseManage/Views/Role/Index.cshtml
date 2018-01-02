@@ -32,10 +32,10 @@
                 { label: '角色编号', name: 'EnCode', index: 'EnCode', width: 100, align: 'center' },
                 { label: '角色名称', name: 'FullName', index: 'FullName', width: 200, align: 'center' },
                 {
-                    label: '所属单位', name: 'OrganizeId', index: 'OrganizeId', width: 250, align: 'center',
-                    formatter: function (cellvalue, options, rowObject) {
-                        return top.clientorganizeData[cellvalue] == null ? "" : top.clientorganizeData[cellvalue].FullName;
-                    }
+                    label: '单位类型', name: 'Nature', index: 'Nature', width: 250, align: 'center'
+                    //formatter: function (cellvalue, options, rowObject) {
+                    //    return top.clientorganizeData[cellvalue] == null ? "" : top.clientorganizeData[cellvalue].FullName;
+                    //}
                 },
                 {
                     label: '创建时间', name: 'CreateDate', index: 'CreateDate', width: 130, align: 'center',
@@ -245,7 +245,7 @@
             <a id="lr-appfilter" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-filter"></i>&nbsp;访问过滤<span class="caret"></span>
             </a>
-            <ul class="dropdown-menu pull-right">
+            <ul id="ul-lr-appfilter" class="dropdown-menu pull-right">
                 <li id="lr-ipfilter"><a onclick="btn_ipfilter()"><i></i>&nbsp;IP过滤</a></li>
                 <li id="lr-timefilter"><a onclick="btn_timefilter()"><i></i>&nbsp;时段过滤</a></li>
             </ul>

@@ -1,0 +1,268 @@
+﻿@{;
+    ViewBag.Title = "表单页面";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = request('keyValue');
+    var SubProject = request('SubProject');
+    var SubProjectId = request('SubProjectId');
+    var categoryInput = "";
+    $(function () {
+        initControl();
+    });
+
+    //初始化控件
+    var InputValue = "";
+    var EngineeringId = "";
+    function initControl() {
+        //子项目
+        $("#SubProjectId").ComboBoxTree({
+            param: { Levels: 3 },
+            url: '../../SteelMember/SubProject/GetTreeJson',///MemberLibrary/SubProjectTreeJson
+            description: "==请选择==",
+            height: "160px",
+            click: function (item) {
+                if (!item.hasChildren) {
+                    categoryInput = "";
+                }
+                else {
+                    categoryInput = "请选择工程名称而不是工程分类";
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return "false";
+                }
+            }
+        }).bind("change", function () {
+            var SubProjectId = $(this).attr('data-value');//$("#Category").attr('data-text'),
+
+            $.ajax({
+                url: "../../SteelMember/SubProject/GetTreeJsonParentId",
+                data: { SubProjectId: SubProjectId },
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    EngineeringId = data.ParentId;
+                }
+            });
+
+            //加载构件
+            $("#MemberId").ComboBox({
+                url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+                param: { EngineeringId: EngineeringId },
+                id: "MemberId",
+                text: "MemberNumbering",
+                height: "160px",
+                description: "==请选择==",
+            })
+        });
+
+
+        if (!!keyValue) {
+            $.SetForm({
+                url: "/SteelMember/MemberDemand/GetFormJson",
+                param: { keyValue: keyValue },
+                success: function (data) {
+                    $("#form1").SetWebControls(data);
+                    InputValue = data.MemberId;
+                    EngineeringId = data.SubProjectId;
+
+                    $.ajax({
+                        url: "../../SteelMember/MemberDemand/GetFormJsonMemberLibrary",
+                        data: { keyValue: data.MemberId },
+                        type: "get",
+                        dataType: "json",
+                        async: false,
+                        success: function (data1) {
+                            //加载构件
+                            $("#MemberId").ComboBox({
+                                description: data1.MemberNumbering + "➩" + data1.Category + "➩" + data1.MemberName,
+                                height: "160px",
+                            });
+
+
+                            $.ajax({
+                                url: "../../SteelMember/SubProject/GetTreeJsonParentId",
+                                data: { SubProjectId: EngineeringId },
+                                type: "get",
+                                dataType: "json",
+                                async: false,
+                                success: function (data) {
+                                    EngineeringId = data.ParentId;
+                                }
+                            });
+
+                            //加载构件
+                            $("#MemberId").ComboBox({
+                                url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+                                param: { EngineeringId: EngineeringId },
+                                id: "MemberId",
+                                text: "MemberNumbering",
+                                height: "160px",
+                                description: "==请选择==",
+                            })
+                        }
+                    });
+                }
+            })
+        }
+        else {
+            //加载构件
+            $("#MemberId").ComboBox({
+                description: "==请选择==",
+                height: "160px",
+            });
+            $("#SubProjectId").ComboBoxTreeSetValue(SubProjectId);
+            $.ajax({
+                url: "../../SteelMember/SubProject/GetTreeJsonParentId",
+                data: { SubProjectId: SubProjectId },
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    EngineeringId = data.ParentId;
+                }
+            });
+            //加载构件
+            $("#MemberId").ComboBox({
+                url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+                param: { EngineeringId: EngineeringId },
+                id: "MemberId",
+                text: "MemberNumbering",
+                height: "160px",
+                description: "==请选择==",
+            })
+        }
+
+        ////加载构件
+        //$("#MemberId").ComboBox({
+        //    url: '../../SteelMember/MemberDemand/GetListJsonMemberlibrary',
+        //    param: { EngineeringId: EngineeringId },
+        //    id: "MemberId",
+        //    text: "MemberNumbering",
+        //    height: "160px",
+        //    description: "==请选择==",
+        //})
+    }
+
+    //保存表单;
+    function AcceptClick() {
+        if (!$('#form1').Validform()) {
+            return false;
+        }
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogTop("分工程应选择工程名称而不是工程分类", "error");
+            return false;
+        }
+        var postData = $("#form1").GetWebControls(keyValue);
+        postData["FullName"] = $("#SubProjectId").attr('data-text');
+        //postData["MemberId"] = $("#MemberId").attr('data-value');
+        postData["MemberNumbering"] = $("#MemberId").attr('data-text');
+        $.SaveForm({
+            url: "../../SteelMember/MemberDemand/SaveForm?keyValue=" + keyValue,
+            param: postData,
+            loading: "正在保存数据...",
+            success: function () {
+                $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            }
+        })
+    }
+
+    //构件详情
+    function btn_member_info() {
+        if (keyValue != "") {
+            var url = "/SteelMember/File/DrawingManagement?KeyValue= " + keyValue;
+            Dialog(url, "DrawingManagement", "构件信息", 700, 580, function (iframe) {
+                top.frames[iframe].AcceptClick();
+            });
+        } else {
+            alertDialog("数据不能为空", 0);
+        }
+    };
+
+    //验证构件不能重复
+    $._ExistField = function (controlId, url, param) {
+        var SubProjectId = $("#SubProjectId").attr('data-value');
+        var Member = $("#MemberId").attr('data-value');
+        if (InputValue != Member) {
+            if (Member == "==请选择==" || Member == undefined || Member == "" || Member == '' || Member == null) {
+                return false;
+            }
+            if (MemberId == "") {
+                MemberId = "M";
+            }
+            var Data = {
+                SubProject: SubProjectId,
+                Member: Member
+            };
+            $.ajax({
+                url: url,
+                data: Data,
+                type: "get",
+                dataType: "text",
+                async: false,
+                success: function (data) {
+                    if (data.toLocaleLowerCase() == 'false') {
+                        ValidationMessage($("#MemberId"), '数据库中已存在,请重新输入');
+                        $("#MemberId").attr('fieldexist', 'yes');
+                        MemberId
+                    } else {
+                        $("#MemberId").attr('fieldexist', 'no');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    dialogMsg(errorThrown, -1);
+                }
+            })
+        }
+    }
+</script>
+<div style="margin:15px;">
+    <input id="MemberNumbering" type="hidden" />
+    <input id="Category" type="hidden" />
+    <input id="MemberName" type="hidden" />
+    <table class="form">
+        <tr>
+            <td class="formTitle">
+                分项工程<font face="宋体" color="red">*</font>
+            </td>
+            <td class="formValue">
+                <div readonly id="SubProjectId" type="selectTree" class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">
+                构件<font face="宋体" color="red">*</font>
+            </td>
+            <td class="formValue">
+                @*onblur*@
+                <div readonly id="MemberId" type="select" tabindex="1" @*onmouseout="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"*@ class="ui-select" isvalid="yes" checkexpession="NotNull"></div>
+                <input id="btn_MemberInfo" type="hidden" onclick="btn_member_info()" value="构件详情" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">
+                需求总量<font face="宋体" color="red">*</font>
+            </td>
+            <td class="formValue">
+                <input readonly id="MemberNumber" type="text" @*onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"*@ class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="ExceedZero" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">
+                变更数量<font face="宋体" color="red">*</font>
+            </td>
+            <td class="formValue">
+                <input id="ChangeQuantity" type="text" class="form-control" placeholder="请输入用量" isvalid="yes" checkexpession="NumOrNull" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">
+                备注
+            </td>
+            <td class="formValue">
+                <textarea id="Description" name="Description" maxlengtd="200" @*onmouseover="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')" onmouseout="$._ExistField(this.id,'../../SteelMember/MemberDemand/ExistMember')"*@ class="form-control" style="height:120px"></textarea>
+            </td>
+        </tr>
+
+    </table>
+</div>

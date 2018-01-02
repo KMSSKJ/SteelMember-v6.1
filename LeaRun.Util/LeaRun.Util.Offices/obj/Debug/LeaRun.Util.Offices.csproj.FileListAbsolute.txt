@@ -173,5 +173,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debu
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OOXML.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\bin\Debug\NPOI.OpenXml4Net.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Util\LeaRun.Util.Offices\obj\Debug\LeaRun.Util.Offices.pdb

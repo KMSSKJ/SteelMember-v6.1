@@ -17,6 +17,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public decimal? ApplicationPurchasedQuantity { get; set; }
         public decimal? PurchasedQuantity { get; set; }
         public decimal? WarehousedQuantity { get; set; }
+        public decimal ChangeQuantity { get; set; }
         public string RawMaterialUnit { get; set; }
         public string Description { get; set; }
         public int IsPassed { get; set; }
@@ -35,7 +36,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string RawMaterialDosage { get; set; }
         public string UnitId { get; set; }
         public string Description { get; set; }
-        public string PurchaseQuantity { get; set; }
+        public string PurchasedQuantity { get; set; }
         public decimal Quantity { get; set; }
         public string RawMaterialPurchaseId { get; set; }
         public string RawMaterialOrderInfoId { get; set; }
@@ -44,5 +45,15 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Models
         public string RawMaterialAnalysisId { get; set; }
         public string RawMaterialCategory { get; set; }
         public decimal Qty { get; set; }
-}
+
+        //构件的
+        public string MemberId { get; set; }
+        public string MemberDemandId { get; set; }
+        public string MemberNumbering { get; set; }
+        public string CategoryId { get; set; }
+        public string Category { get; set; }
+        public string MemberName { get; set; }
+        public string MemberModel { get; set; }
+        public decimal MemberNumber { get; set; }
+    }
 }

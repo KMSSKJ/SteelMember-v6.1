@@ -36,18 +36,18 @@ namespace LeaRun.Application.Entity.SteelMember
         /// MemberDemandId
         /// </summary>
         /// <returns></returns>
-        public string MemberDemandId { get; set; }
+        public string MemberOrderInfoId { get; set; }
         /// <summary>
         /// CollarQuantity
         /// </summary>
         /// <returns></returns>
         public decimal? CollarQuantity { get; set; }
 
-        /// <summary>
-        /// CollaredQuantity
-        /// </summary>
-        /// <returns></returns>
-        public decimal? CollaredQuantity { get; set; }
+        ///// <summary>
+        ///// CollaredQuantity
+        ///// </summary>
+        ///// <returns></returns>
+        //public decimal? CollaredQuantity { get; set; }
         /// <summary>
         /// Description
         /// </summary>

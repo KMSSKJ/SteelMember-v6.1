@@ -56,6 +56,11 @@
                     return false;
                 }
 
+                if (categoryInput == "请选择工程名称而不是工程分类") {
+                    dialogTop("请选择工程名称而不是工程分类", "error");
+                    return false;
+                }
+
                 //非空验证
                 if (!$('#form1').Validform()) {
                     return false;
@@ -120,7 +125,7 @@
                 else {
                     categoryInput = "请选择工程名称而不是工程分类";
                     dialogTop("请选择工程名称而不是工程分类", "error");
-                    return "false";
+                    return false;
                 }
             }
         });
@@ -345,9 +350,9 @@
                 { label: "外键", name: "RawMaterialId", hidden: true },
                 { label: "外键", name: "MemberId", hidden: true },
                 { label: "外键", name: "TreeId", hidden: true },
-                { label: "类型", name: "TreeName", width: 140, align: "left", sortable: false },
-                { label: "材料名称", name: "RawMaterialName", width: 140, align: "left", sortable: false },
-                { label: "型号/规格", name: "RawMaterialModel", width: 140, align: "left", sortable: false },
+                { label: "材料类型", name: "TreeName", width: 120, align: "left", sortable: false },
+                { label: "材料名称", name: "RawMaterialName", width: 120, align: "left", sortable: false },
+                { label: "牌号/规格/规格", name: "RawMaterialModel", width: 180, align: "left", sortable: false },
                 { label: "数量", name: "RawMaterialNumber", width: 150, align: "left", sortable: false }
             ],
             treeGrid: true,
@@ -522,6 +527,12 @@
             var txt = "<span>构件图纸不能为空!</span>";
             $("#errorimg").append(txt);
             document.getElementById('errorimg').style.display = "block";
+            return false;
+        }
+
+        
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogTop("请选择工程名称而不是工程分类", "error");
             return false;
         }
         if (!$('#form1').Validform()) {

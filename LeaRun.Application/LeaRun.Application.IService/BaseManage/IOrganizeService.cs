@@ -1,5 +1,7 @@
 ﻿using LeaRun.Application.Entity.BaseManage;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace LeaRun.Application.IService.BaseManage
 {
@@ -11,6 +13,11 @@ namespace LeaRun.Application.IService.BaseManage
     public interface IOrganizeService
     {
         #region 获取数据
+        /// <summary>
+        /// 机构列表
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<OrganizeEntity> GetList(Expression<Func<OrganizeEntity, bool>> condition);
         /// <summary>
         /// 机构列表
         /// </summary>

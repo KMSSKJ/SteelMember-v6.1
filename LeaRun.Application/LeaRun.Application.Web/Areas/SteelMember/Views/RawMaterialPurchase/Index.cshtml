@@ -1,5 +1,5 @@
 ﻿@{;
-    ViewBag.Title = "列表页面";
+    ViewBag.Title = "生产材料列表页面";
     //Layout = "~/Views/Shared/_Index.cshtml";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
@@ -78,7 +78,7 @@
     }
     function btn_notPurchased() {
         queryJson = {
-            IsPurchase: 0,
+            IsWarehousing: 0,
         };
         $('#gridTable').jqGrid('setGridParam', {
             postData: { queryJson: JSON.stringify(queryJson) },
@@ -88,7 +88,7 @@
 
     function btn_purchased() {
         queryJson = {
-            IsPurchase: 1,
+            IsWarehousing: 1,
         };
         $('#gridTable').jqGrid('setGridParam', {
             postData: { queryJson: JSON.stringify(queryJson) },
@@ -107,25 +107,78 @@
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', align: 'center', sortable: true, hidden: true },
-                { label: '采购单号', name: 'PurchaseNumbering', index: 'PurchaseNumbering', width: 180, align: 'center', sortable: true },
+                { label: '申请单号', name: 'PurchaseNumbering', index: 'PurchaseNumbering', width: 180, align: 'center', sortable: true },
                 {
                     label: '提交', name: 'IsSubmit', index: 'IsSubmit', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 {
-                    label: '审核', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                    label: '工程部长<br/>审核', name: 'ReviewMan1', index: 'ReviewMan1', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == 0) {
                             return "<span class=\"label label-info\">未审核</span>";
-                        } else if (cellvalue == 1) {
+                        } else if (cellvalue == 2) {
+                            return "<span class=\"label label-danger\">失败</span>";
+                        } else if (cellvalue != null && cellvalue != "") {
                             return "<span class=\"label label-success\">通过</span>";
                         } else {
-                            return "<span class=\"label label-danger\">失败</span>";
+                            return "";
                         }
                     }
                 },
                 {
-                    label: '是否采购', name: 'IsPurchase', index: 'IsPurchase', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                    label: '物质部长<br/>审核', name: 'ReviewMan2', index: 'ReviewMan2', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未审核</span>";
+                        } else if (cellvalue == 2) {
+                            return "<span class=\"label label-danger\">失败</span>";
+                        } else if (cellvalue != null && cellvalue != "") {
+                            return "<span class=\"label label-success\">通过</span>";
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {
+                    label: '副总工审核', name: 'ReviewMan3', index: 'ReviewMan3', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未审核</span>";
+                        } else if (cellvalue == 2) {
+                            return "<span class=\"label label-danger\">失败</span>";
+                        } else if (cellvalue != null && cellvalue != "") {
+                            return "<span class=\"label label-success\">通过</span>";
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {
+                    label: '总工审核', name: 'ReviewMan4', index: 'ReviewMan4', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 0) {
+                            return "<span class=\"label label-info\">未审核</span>";
+                        } else if (cellvalue == 2) {
+                            return "<span class=\"label label-danger\">失败</span>";
+                        } else if (cellvalue != null && cellvalue != "") {
+                            return "<span class=\"label label-success\">通过</span>";
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+
+                //{
+                //    label: '审核状态', name: 'IsPassed', index: 'IsPassed', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
+                //        if (cellvalue == 0) {
+                //            return "<span class=\"label label-info\">未审核</span>";
+                //        } else if (cellvalue == 1) {
+                //            return "<span class=\"label label-success\">通过</span>";
+                //        } else {
+                //            return "<span class=\"label label-danger\">失败</span>";
+                //        }
+                //    }
+                //},
+                {
+                    label: '入库状态', name: 'IsWarehousing', index: 'IsWarehousing', width: 80, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
@@ -133,16 +186,17 @@
                 {
                     label: '制单时间', name: 'CreateTime', index: 'CreateTime', width: 100, align: 'center', sortable: true, formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
-                    } },
-                { label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 100, align: 'center', sortable: true },
-                {
-                    label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 100, align: 'center', sortable: true,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
                     }
                 },
+                //{ label: '审核人', name: 'ReviewMan', index: 'ReviewMan', width: 100, align: 'center', sortable: true },
+                //{
+                //    label: '审核时间', name: 'ReviewTime', index: 'ReviewTime', width: 100, align: 'center', sortable: true,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return formatDate(cellvalue, 'yyyy-MM-dd');//'yyyy-MM-dd hh:mm:ss'
+                //    }
+                //},
                 {
-                    label: '备注', name: 'Description', index: 'Description', width: 200,sortable: false, align: 'center',
+                    label: '备注', name: 'Description', index: 'Description', width: 200, sortable: false, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.Description == null || rowObject.Description == "undefined") {
                             return "";
@@ -157,7 +211,7 @@
             rowNum: 30,
             rowList: [30, 50, 100],
             pager: "#gridPager",
-            sortname: 'RawMaterialPurchaseId',
+            sortname: 'CreateTime',
             sortorder: 'desc',
             rownumbers: true,
             shrinkToFit: false,
@@ -182,14 +236,12 @@
                     height: "100%",
                     colModel: [
                         { label: '主键', name: 'InfoId', index: 'InfoId', hidden: true },
-                        { label: '采购主键', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId',hidden: true },
+                        { label: '申请主键', name: 'RawMaterialPurchaseId', index: 'RawMaterialPurchaseId', hidden: true },
                         { label: '分析主键', name: 'RawMaterialAnalysisId', index: 'RawMaterialAnalysisId', hidden: true },
                         { label: '材料名称', name: "RawMaterialName", align: 'center', width: 180, sortable: false },
-                        { label: '规格/型号', name: "RawMaterialModel", align: 'center', width: 180, sortable: false },
-                        { label: '采购量', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
-                        { label: '单位', name: "UnitId", align: 'center', width: 80, sortable: false },
-                        { label: '单价(元)', name: "RawMaterialPurchaseModelPrice", align: 'center', width: 80, sortable: false },
-                        { label: '供应商', name: "RawMaterialSupplier", align: 'center', width: 150, sortable: false },
+                        { label: '牌号/规格', name: "RawMaterialModel", align: 'center', width: 180, sortable: false },
+                        { label: '申请量', name: "PurchaseQuantity", align: 'center', width: 100, sortable: false },
+                        //{ label: '供应商', name: "RawMaterialSupplier", align: 'center', width: 150, sortable: false },
                         { label: '描述', name: "Description", align: 'center', width: 100, sortable: false },
                     ],
                     caption: "明细",
@@ -242,10 +294,10 @@
     function btn_add() {
         dialogOpen({
             id: 'Form',
-            title: '添加材料采购单',
+            title: '添加材料申请单',
             url: '/SteelMember/RawMaterialPurchase/Form',
             width: '1000px',
-            height: '760px',
+            height: '700px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -265,7 +317,7 @@
                 if (reviewsArr.length > 0) {
                     for (var i in reviewsArr) {
                         if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
-                            dialogMsg("所选数据为已采购的数据，不能进行编辑！", 0);
+                            dialogMsg("所选数据为已提交的数据，不能进行编辑！", 0);
                             return false;
                             //break;
                         }
@@ -273,11 +325,11 @@
                 }
                 dialogOpen({
                     id: 'Form',
-                    title: '编辑材料采购单',
+                    title: '编辑材料申请单',
                     url: '/SteelMember/RawMaterialPurchase/Form?keyValue=' + keyValue,
                     //url: '/SteelMember/RawMaterialPurchase/EditForm?keyValue=' + keyValue + '&&Description=' + Description + '',
                     width: '1000px',
-                    height: '760px',
+                    height: '700px',
                     callBack: function (iframeId) {
                         top.frames[iframeId].AcceptClick();
                     }
@@ -302,7 +354,7 @@
                 if (reviewsArr.length > 0) {
                     for (var i in reviewsArr) {
                         if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
-                            dialogMsg("所选数据为已采购的数据，不能进行编辑！", 0);
+                            dialogMsg("所选数据为已申请的数据，不能进行编辑！", 0);
                             return false;
                             //break;
                         }
@@ -331,7 +383,7 @@
                 title: '购单详情',
                 url: '/SteelMember/RawMaterialPurchase/Detail?keyValue=' + keyValue,
                 width: '1150px',
-                height: '800px',
+                height: '710px',
                 btn: null,
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
@@ -379,31 +431,91 @@
         }
     }
     //审核
-    function btn_passed(type) {
+    function btn_passed(operat, type) {
         var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
         var reviews = $('#gridTable').jqGridRowValue('IsSubmit');
-        var passeds = $('#gridTable').jqGridRowValue('IsPassed');
+        var ReviewMan1 = $('#gridTable').jqGridRowValue('ReviewMan1');
+        var ReviewMan2 = $('#gridTable').jqGridRowValue('ReviewMan2');
+        var ReviewMan3 = $('#gridTable').jqGridRowValue('ReviewMan3');
+        var ReviewMan4 = $('#gridTable').jqGridRowValue('ReviewMan4');
+        //var passeds = $('#gridTable').jqGridRowValue('IsPassed');
         if (checkedArray(keyValue)) {
+
             var reviewsArr = reviews.split(",");
-            var passedsArr = passeds.split(",");
-            if (reviewsArr.length > 0) {
-                for (var i in reviewsArr) {
-                    if (reviewsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
-                        dialogMsg("所选数据中包含未提交的数据，请重新选择！", 0);
-                        return false;
-                        break;
+            var ReviewMan1Arr = ReviewMan1.split(",");
+            var ReviewMan2Arr = ReviewMan2.split(",");
+            var ReviewMan3Arr = ReviewMan3.split(",");
+            var ReviewMan4Arr = ReviewMan4.split(",");
+            if (operat == 1) {
+                if (reviewsArr.length > 0) {
+                    for (var i in reviewsArr) {
+                        if (reviewsArr[i] == "<i class=\"fa fa-toggle-off\"></i>") {
+                            dialogMsg("所选数据中包含未提交的数据，请重新选择！", 0);
+                            return false;
+                        }
+                    }
+                }
+                if (ReviewMan1Arr.length > 0) {
+                    for (var i in ReviewMan1Arr) {
+                        if (ReviewMan1Arr[i] == "<span class=\"label label-success\">通过</span>" || ReviewMan1Arr[i] == "<span class=\"label label-danger\">失败</span>") {
+                            dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
+                            return false;
+                        }
+                    }
+                }
+            } else if (operat == 2) {
+                if (ReviewMan1Arr.length > 0) {
+                    for (var i in ReviewMan1Arr) {
+                        if (ReviewMan1Arr[i] == "<span class=\"label label-info\">未审核</span>") {
+                            dialogMsg("所选数据中包含未工程部长审核的数据，请重新选择！", 0);
+                            return false;
+                        }
+                    }
+                }
+                if (ReviewMan2Arr.length > 0) {
+                    for (var i in ReviewMan2Arr) {
+                        if (ReviewMan2Arr[i] == "<span class=\"label label-success\">通过</span>" || ReviewMan2Arr[i] == "<span class=\"label label-danger\">失败</span>") {
+                            dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
+                            return false;
+                        }
+                    }
+                }
+            } else if (operat == 3) {
+                if (ReviewMan2Arr.length > 0) {
+                    for (var i in ReviewMan2Arr) {
+                        if (ReviewMan2Arr[i] == "<span class=\"label label-info\">未审核</span>") {
+                            dialogMsg("所选数据中包含未二级审核的数据，请重新选择！", 0);
+                            return false;
+                        }
+                    }
+                }
+                if (ReviewMan3Arr.length > 0) {
+                    for (var i in ReviewMan3Arr) {
+                        if (ReviewMan3Arr[i] == "<span class=\"label label-success\">通过</span>" || ReviewMan3Arr[i] == "<span class=\"label label-danger\">失败</span>") {
+                            dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
+                            return false;
+                        }
+                    }
+                }
+            } else {
+                if (ReviewMan3Arr.length > 0) {
+                    for (var i in ReviewMan3Arr) {
+                        if (ReviewMan3Arr[i] == "<span class=\"label label-info\">未审核</span>") {
+                            dialogMsg("所选数据中包含未副总工审核的数据，请重新选择！", 0);
+                            return false;
+                        }
+                    }
+                }
+                if (ReviewMan4Arr.length > 0) {
+                    for (var i in ReviewMan4Arr) {
+                        if (ReviewMan4Arr[i] == "<span class=\"label label-success\">通过</span>" || ReviewMan4Arr[i] == "<span class=\"label label-danger\">失败</span>") {
+                            dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
+                            return false;
+                        }
                     }
                 }
             }
-            if (passedsArr.length > 0) {
-                for (var i in passedsArr) {
-                    if (passedsArr[i] == "<span class=\"label label-success\">通过</span>" || passedsArr[i] == "<span class=\"label label-danger\">失败</span>") {
-                        dialogMsg("所选数据中包含已审核的数据，请重新选择！", 0);
-                        return false;
-                        break;
-                    }
-                }
-            }
+
             var message = "";
             if (type == 1) {
                 message = "注：您确定要对所选中的数据进行审核通过吗？";
@@ -417,7 +529,7 @@
 
                         if (type == 1) {
                             $.SaveForm({
-                                url: "../../SteelMember/RawMaterialPurchase/ReviewOperation?keyValue=" + keyValue + "&type=" + type,
+                                url: "../../SteelMember/RawMaterialPurchase/ReviewOperation?keyValue=" + keyValue + "&operat=" + operat+ "&type=" + type,
                                 param: {},
                                 loading: "正在保存数据...",
                                 success: function () {
@@ -428,7 +540,7 @@
                             dialogOpen({
                                 id: 'NotReviewForm',
                                 title: '失败原因',
-                                url: '/SteelMember/RawMaterialPurchase/NotReviewForm?keyValue=' + keyValue + "&type=" + type,
+                                url: '/SteelMember/RawMaterialPurchase/NotReviewForm?keyValue=' + keyValue + "&operat=" + operat + "&type=" + type,
                                 width: '400px',
                                 height: '300px',
                                 callBack: function (iframeId) {
@@ -436,35 +548,19 @@
                                 }
                             });
                         }
-
-                        //$.ajax({
-                        //    url: "../../SteelMember/RawMaterialPurchase/ReviewOperation",
-                        //    data: { keyValues: keyValues, type: type },
-                        //    type: "post",
-                        //    dataType: "json",
-                        //    success: function (data) {
-                        //        if (data.type == "3") {
-                        //            dialogAlert(data.message, -1);
-                        //        } else {
-                        //            Loading(false);
-                        //            dialogMsg(data.message, 1);
-                        //        }
-                        //        $('#gridTable').trigger('reloadGrid');
-                        //    }
-                        //});
                     }, 500);
                 }
             });
         }
     }
-    // 采购
-    function btn_IsPurchase() {
+    // 已入库
+    function btn_Warehoused() {
         //IsPurchase
         var keyValues = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
         var passeds = $('#gridTable').jqGridRowValue('IsPassed');
-        var IsPurchase = $('#gridTable').jqGridRowValue('IsPurchase');
+        var IsWarehousing = $('#gridTable').jqGridRowValue('IsWarehousing');
         if (checkedArray(keyValues)) {
-            var reviewsArr = IsPurchase.split(",");
+            var reviewsArr = IsWarehousing.split(",");
             var passedsArr = passeds.split(",");
             if (passedsArr.length > 0) {
                 for (var i in passedsArr) {//<span class="label label-info">未审核</span>
@@ -478,49 +574,33 @@
             if (reviewsArr.length > 0) {
                 for (var i in reviewsArr) {
                     if (reviewsArr[i] == "<i class=\"fa fa-toggle-on\"></i>") {
-                        dialogMsg("所选数据中包含已采购的数据，请重新选择！", 0);
+                        dialogMsg("所选数据中包含已入库的数据，请重新选择！", 0);
                         return false;
                         break;
                     }
                 }
             }
-            //dialogConfirm("注：您确定要所选中的数据都已经采购了吗？", function (r) {
-            //if (r) {
-            // alert(keyValues);
-            var keyValue = $('#gridTable').jqGridRowValue('RawMaterialPurchaseId');
             var Description = $('#gridTable').jqGridRowValue('Description');
-            if (checkedRow(keyValue)) {
-                //dialogOpen({
-                //    id: 'Form',
-                //    title: '采购详情',
-                //    url: '/SteelMember/RawMaterialPurchase/Purchase?keyValue=' + keyValue + '&&Description=' + Description + '',
-                //    width: '1000px',
-                //    height: '750px',
-                //    // btn: null,
-                //    callBack: function (iframeId) {
-                //        top.frames[iframeId].AcceptClick();
-                //    }
-                //})
-                //$('#gridTable').trigger('reloadGrid');
+            if (checkedArray(keyValues)) {
 
-                  Loading(true, "正在提交...");
-               window.setTimeout(function () {
-                $.ajax({
-                    url: "../../SteelMember/RawMaterialPurchase/SubmitIsPurchase",
-                    data: { keyValues: keyValues },
-                    type: "post",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.type == "3") {
-                            dialogAlert(data.message, -1);
-                        } else {
-                            Loading(false);
-                            dialogMsg(data.message, 1);
+                Loading(true, "正在提交...");
+                window.setTimeout(function () {
+                    $.ajax({
+                        url: "../../SteelMember/RawMaterialPurchase/SubmitIsPurchase",
+                        data: { keyValues: keyValues },
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.type == "3") {
+                                dialogAlert(data.message, -1);
+                            } else {
+                                Loading(false);
+                                dialogMsg(data.message, 1);
+                            }
+                            $('#gridTable').trigger('reloadGrid');
                         }
-                        $('#gridTable').trigger('reloadGrid');
-                    }
-                });
-            }, 500);
+                    });
+                }, 500);
             }
         }
     }
@@ -528,13 +608,13 @@
 <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
     <div class="ui-layout-west">
         <div class="west-Panel">
-            <div class="panel-Title">采购分类</div>
+            <div class="panel-Title">入库情况</div>
             @*<div id="itemTree"></div>*@
             <div class="profile-nav" style="overflow: auto;">
                 <ul id="nav_email" style="padding-top: 10px;">
-                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_summary()'>汇总</a></li>
-                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; margin-top: -2px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_notPurchased()'>未采购</a></li>
-                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_purchased()'>已采购</a></li>
+                    @*<li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_summary()'>汇总</a></li>*@
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; margin-top: -2px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_notPurchased()'>未入库</a></li>
+                    <li><i class="fa fa-navicon" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_purchased()'>已入库</a></li>
                     @*<li><i class="fa fa-trash-o" style="vertical-align: middle; margin-top: -3px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i><a href='#' style="text-decoration:none" onclick='btn_completed()'>已完成</a></li>*@
                 </ul>
             </div>
@@ -542,29 +622,29 @@
     </div>
     <div class="ui-layout-center">
         <div class="center-Panel">
-            <div class="panel-Title">订单列表<span id="CenterTitle"></span></div>
+            <div class="panel-Title">申请列表<span id="CenterTitle"></span></div>
             <div class="titlePanel">
-                <div class="title-search" >
+                <div class="title-search">
                     <table>
                         <tr>
                             @*<td style="width:110px">
-                                <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()"/>
-                            </td>
-                            <td style="padding-left:2px;width:110px">
-                                <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()"/>
-                            </td>*@
+                                    <input id="txt_BeginTime" type="text" class="form-control input-wdatepicker" placeholder="选择开始时间" onfocus="WdatePicker()"/>
+                                </td>
+                                <td style="padding-left:2px;width:110px">
+                                    <input id="txt_EndTime" type="text" class="form-control input-wdatepicker" placeholder="选择结束时间" onfocus="WdatePicker()"/>
+                                </td>*@
 
                             @*<td style="padding-left: 10px;">
-                        <div id="queryCondition" class="btn-group">
-                            <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a data-value="Category">构件类型</a></li>
-                                <li><a data-value="MemberName">构件名称</a></li>
-                                <li><a data-value="OrderNumbering">编号</a></li>
-                            </ul>
-                        </div>
-                    </td>*@
+                                    <div id="queryCondition" class="btn-group">
+                                        <a class="btn btn-default dropdown-text" data-toggle="dropdown">选择条件</a>
+                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-value="Category">构件类型</a></li>
+                                            <li><a data-value="MemberName">构件名称</a></li>
+                                            <li><a data-value="OrderNumbering">编号</a></li>
+                                        </ul>
+                                    </div>
+                                </td>*@
                             <td style="padding-left: 5px;width:150px">
                                 <input id="txt_Keyword" type="text" class="form-control" placeholder="输入要查询编号" />
                             </td>
@@ -577,20 +657,40 @@
                 <div class="toolbar">
                     <div class="btn-group">
                         <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>刷新</a>
-                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>新增采购</a>
+                        <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>新增</a>
                         <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>编辑</a>
                         <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
                         <a id="lr-details" class="btn btn-default" onclick="btn_details()"><i class="fa fa-list-alt"></i>详细</a>
                         <a id="lr-submitReview" class="btn btn-default" onclick="btn_submitReview()"><i class="fa fa-send"></i>提交</a>
-                        <a id="lr-passed" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-legal"></i>&nbsp;审核<span class="caret"></span>
+                        <a id="lr-passed1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-legal"></i>&nbsp;审核1<span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li id="lr-success"><a onclick="btn_passed(1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
-                            <li id="lr-danger"><a onclick="btn_passed(2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
+                        <ul id="ul-lr-passed1" class="dropdown-menu pull-right">
+                            <li id="lr-success1"><a onclick="btn_passed(1,1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
+                            <li id="lr-danger1"><a onclick="btn_passed(1,2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
                         </ul>
-                        <a id="lr-Purchased" class="btn btn-default" onclick="btn_IsPurchase()"><i class="fa fa-phone-square"></i>已采购</a>
-                       
+                        <a id="lr-passed2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-legal"></i>&nbsp;审核2<span class="caret"></span>
+                        </a>
+                        <ul id="ul-lr-passed2" class="dropdown-menu pull-right">
+                            <li id="lr-success2"><a onclick="btn_passed(2,1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
+                            <li id="lr-danger2"><a onclick="btn_passed(2,2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
+                        </ul>
+                        <a id="lr-passed3" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-legal"></i>&nbsp;审核3<span class="caret"></span>
+                        </a>
+                        <ul id="ul-lr-passed3" class="dropdown-menu pull-right">
+                            <li id="lr-success3"><a onclick="btn_passed(3,1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
+                            <li id="lr-danger3"><a onclick="btn_passed(3,2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
+                        </ul>
+                        <a id="lr-passed4" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-legal"></i>&nbsp;审核4<span class="caret"></span>
+                        </a>
+                        <ul id="ul-lr-passed4" class="dropdown-menu pull-right">
+                            <li id="lr-success4"><a onclick="btn_passed(4,1)"><i class="fa fa-check"></i>&nbsp;通过</a></li>
+                            <li id="lr-danger4"><a onclick="btn_passed(4,2)"><i class="fa fa-close"></i>&nbsp;失败</a></li>
+                        </ul>
+                        <a id="lr-Warehoused" class="btn btn-default" onclick="btn_Warehoused()"><i class="fa fa-check-square"></i>&nbsp;已入库</a>
                     </div>
                     <script>$('.toolbar').authorizeButton()</script>
                 </div>

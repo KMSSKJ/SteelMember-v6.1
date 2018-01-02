@@ -56,6 +56,7 @@
     <Compile Include="AccountMap.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceMap.cs" />
     <Compile Include="AuthorizeManage\ModuleFormMap.cs" />
+    <Compile Include="BaseManage\PersonMap.cs" />
     <Compile Include="MessageManage\IMContentMap.cs" />
     <Compile Include="MessageManage\IMGroupMap.cs" />
     <Compile Include="MessageManage\IMReadMap.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="PublicInfoManage\NewsMap.cs" />
     <Compile Include="AuthorizeManage\FilterIPMap.cs" />
     <Compile Include="AuthorizeManage\FilterTimeMap.cs" />
+    <Compile Include="SteelMember\EquipmentPreWearPartsMap.cs" />
     <Compile Include="SteelMember\MemberCollarInfoMap.cs" />
     <Compile Include="SteelMember\MemberCollarMap.cs" />
     <Compile Include="SteelMember\MemberDemandMap.cs" />

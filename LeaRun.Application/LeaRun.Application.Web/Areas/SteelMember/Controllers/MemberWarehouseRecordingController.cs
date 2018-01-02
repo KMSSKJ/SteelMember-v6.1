@@ -200,7 +200,11 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             string[] idsArr = keyValue.Split(',');
             foreach (var item in idsArr)
             {
-                memberwarehouserecordingbll.RemoveForm(keyValue);
+                var memberwarehouserecording = memberwarehouserecordingbll.GetEntity(item);
+                memberwarehouserecordingbll.RemoveForm(item);
+                var MemberWarehouse = memberwarehousebll.GetEntity(f => f.MemberId == memberwarehouserecording.MemberId);
+                MemberWarehouse.InStock = MemberWarehouse.InStock - memberwarehouserecording.InStock;
+                memberwarehousebll.SaveForm(MemberWarehouse.MemberWarehouseId, MemberWarehouse);//¿â´æÐÞ¸Ä
             }
             return Success("É¾³ý³É¹¦¡£");
         }

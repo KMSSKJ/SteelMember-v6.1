@@ -37,7 +37,9 @@ namespace LeaRun.Application.Web.Controllers
     {
         UserBLL user = new UserBLL();
         DepartmentBLL department = new DepartmentBLL();
+#pragma warning disable CS0108 // “HomeController.noticebll”隐藏继承的成员“MvcControllerBase.noticebll”。如果是有意隐藏，请使用关键字 new。
         private NoticeBLL noticebll = new NoticeBLL();
+#pragma warning restore CS0108 // “HomeController.noticebll”隐藏继承的成员“MvcControllerBase.noticebll”。如果是有意隐藏，请使用关键字 new。
 
         #region 视图功能
         /// <summary>
@@ -339,13 +341,12 @@ namespace LeaRun.Application.Web.Controllers
                         Category = "审核",
                         FullHead = item.CreateMan + "的材料申请",
                         FullHeadColor = "red",
-                        ReleaseTime = item.ReviewTime,
                     };
                     list.Add(ToBeDone);
                 }
             }
 
-            //材料采购
+            //材料申请
             var RawMaterialPurchaseList = rawmaterialpurchasebll.GetList(f => f.IsSubmit == 1 && f.IsPassed == 0);
             if (RawMaterialPurchaseList.Count() > 0)
             {
@@ -356,9 +357,8 @@ namespace LeaRun.Application.Web.Controllers
                         Id = item.RawMaterialPurchaseId,
                         Type = "RawMaterialPurchase",
                         Category = "审核",
-                        FullHead = item.CreateMan + "的材料采购",
+                        FullHead = item.CreateMan + "的材料申请",
                         FullHeadColor = "red",
-                        ReleaseTime = item.ReviewTime,
                     };
                     list.Add(ToBeDone);
                 }
@@ -396,7 +396,6 @@ namespace LeaRun.Application.Web.Controllers
                         Category = "审核",
                         FullHead = item.CreateMan + "的构件申请",
                         FullHeadColor = "red",
-                        ReleaseTime = item.ReviewTime,
                     };
                     list.Add(ToBeDone);
                 }
@@ -415,7 +414,6 @@ namespace LeaRun.Application.Web.Controllers
                         Category = "审核",
                         FullHead = item.CreateMan + "的构件生产",
                         FullHeadColor = "red",
-                        ReleaseTime = item.ReviewTime,
                     };
                     list.Add(ToBeDone);
                 }

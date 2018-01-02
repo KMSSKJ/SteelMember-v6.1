@@ -3,6 +3,7 @@ using LeaRun.Application.Cache;
 using LeaRun.Application.Code;
 using LeaRun.Application.Entity.BaseManage;
 using LeaRun.Util;
+using LeaRun.Util.Extension;
 using LeaRun.Util.WebControl;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,49 +77,169 @@ namespace LeaRun.Application.Web.Areas.BaseManage.Controllers
         /// <summary>
         /// 机构列表 
         /// </summary>
-        /// <param name="condition">查询条件</param>
+        /// <param name="queryJson">查询条件</param>
         /// <param name="keyword">关键字</param>
         /// <returns>返回树形列表Json</returns>
-        [HttpGet]
-        public ActionResult GetTreeListJson(string condition, string keyword)
+        [HttpGet]   
+        public ActionResult GetTreeListJson(string queryJson, string keyword)
         {
             var data = organizeBLL.GetList().ToList();
-            if (!string.IsNullOrEmpty(condition) && !string.IsNullOrEmpty(keyword))
+            var queryParam = queryJson.ToJObject();
+          
+            if (!string.IsNullOrEmpty(queryParam.ToString()) && !string.IsNullOrEmpty(keyword))
             {
+                var condition = queryParam["condition"].ToString();
                 #region 多条件查询
                 switch (condition)
                 {
                     case "FullName":    //公司名称
-                        data = data.TreeWhere(t => t.FullName.Contains(keyword), "OrganizeId");
+                        //data = data.TreeWhere(t => t.FullName.Contains(keyword), "OrganizeId");
+                        data = data.FindAll(t => t.FullName.Contains(keyword));
                         break;
                     case "EnCode":      //外文名称
-                        data = data.TreeWhere(t => t.EnCode.Contains(keyword), "OrganizeId");
+                        data = data.FindAll(t => t.EnCode.Contains(keyword));
                         break;
                     case "ShortName":   //中文名称
-                        data = data.TreeWhere(t => t.ShortName.Contains(keyword), "OrganizeId");
+                        data = data.FindAll(t => t.ShortName.Contains(keyword));
                         break;
                     case "Manager":     //负责人
-                        data = data.TreeWhere(t => t.Manager.Contains(keyword), "OrganizeId");
+                        data = data.FindAll(t => t.Manager.Contains(keyword));
                         break;
                     default:
                         break;
                 }
                 #endregion
             }
-            var treeList = new List<TreeGridEntity>();
-            foreach (OrganizeEntity item in data)
+            if (!queryParam["keyword"].IsEmpty())
             {
-                TreeGridEntity tree = new TreeGridEntity();
-                bool hasChildren = data.Count(t => t.ParentId == item.OrganizeId) == 0 ? false : true;
-                tree.id = item.OrganizeId;
-                tree.hasChildren = hasChildren;
-                tree.parentId = item.ParentId;
-                tree.expanded = true;
-                tree.entityJson = item.ToJson();
-                treeList.Add(tree);
+                string keyword1 = queryParam["keyword"].ToString();
+                data = data.FindAll(t => t.FullName.Contains(keyword1));
             }
-            return Content(treeList.TreeJson());
+
+            if (!queryParam["Nature"].IsEmpty())
+            {
+                string Nature = queryParam["Nature"].ToString();
+                data = data.FindAll(t => t.Nature.Contains(Nature));
+            }
+                        
+            //var treeList = new List<TreeGridEntity>();
+            //foreach (OrganizeEntity item in data)
+            //{
+            //    TreeGridEntity tree = new TreeGridEntity();
+            //    bool hasChildren = data.Count(t => t.ParentId == item.OrganizeId) == 0 ? false : true;
+            //    tree.id = item.OrganizeId;
+            //    tree.hasChildren = hasChildren;
+            //    tree.parentId = item.ParentId;
+            //    tree.expanded = true;
+            //    tree.entityJson = item.ToJson();
+            //    treeList.Add(tree);
+            //}
+            return Content(data.ToJson());
         }
+
+        /// <summary>
+        /// 机构列表 
+        /// </summary>
+        /// <param name="queryJson">查询条件</param>
+        /// <param name="keyword"></param>
+        /// <returns>返回树形列表Json</returns>
+        [HttpGet]
+        public ActionResult GetTreeListJson1(string queryJson, string keyword)//
+        {
+            var queryParam = queryJson.ToJObject();
+            string Nature = "";
+            if (!queryParam["Nature"].IsEmpty())
+            {
+                Nature = queryParam["Nature"].ToString();
+                // data = data.FindAll(t => t.Nature.Contains(Nature));
+            }
+            var data = new List<OrganizeEntity>();
+            var itemdata = dataitemdetailbll.GetList(f => f.ParentId == Nature);
+            if (itemdata.Count() > 0)
+            {
+                foreach (var item in itemdata)
+                {
+                    var data1 = organizeBLL.GetList().ToList();
+                    if (data1.Count() > 0)
+                    {
+                        foreach (var item1 in data1)
+                        {
+                            if (data.Find(f => f.OrganizeId == item1.OrganizeId) == null)
+                            {
+                                data.Add(item1);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+            if (!string.IsNullOrEmpty(queryParam.ToString()) && !string.IsNullOrEmpty(keyword))
+            {
+                var condition = queryParam["condition"].ToString();
+                #region 多条件查询
+                switch (condition)
+                {
+                    case "FullName":    //公司名称
+                        //data = data.TreeWhere(t => t.FullName.Contains(keyword), "OrganizeId");
+                        data = data.FindAll(t => t.FullName.Contains(keyword));
+                        break;
+                    case "EnCode":      //外文名称
+                        data = data.FindAll(t => t.EnCode.Contains(keyword));
+                        break;
+                    case "ShortName":   //中文名称
+                        data = data.FindAll(t => t.ShortName.Contains(keyword));
+                        break;
+                    case "Manager":     //负责人
+                        data = data.FindAll(t => t.Manager.Contains(keyword));
+                        break;
+                    default:
+                        break;
+                }
+                #endregion
+            }
+            return Content(data.ToJson());
+        }
+        /// <summary>
+        /// 机构列表 
+        /// </summary>
+        /// <param name="queryJson">查询条件</param>
+        /// <param name="keyword"></param>
+        /// <returns>返回树形列表Json</returns>
+        [HttpGet]
+        public ActionResult GetTreeListJson2(string queryJson, string keyword)//
+        {
+            var queryParam = queryJson.ToJObject();
+            string Nature = "";
+            if (!queryParam["Nature"].IsEmpty())
+            {
+                Nature = queryParam["Nature"].ToString();
+            }
+            //var data = new List<OrganizeEntity>();
+            //var itemdata = dataitemdetailbll.GetList(f => f.ParentId == Nature);
+            //if (itemdata.Count() > 0)
+            //{
+            //    foreach (var item in itemdata)
+            //    {
+            //        var data1 = organizeBLL.GetList().ToList();
+            //        if (data1.Count() > 0)
+            //        {
+            //            foreach (var item1 in data1)
+            //            {
+            //                if (data.Find(f => f.OrganizeId == item1.OrganizeId) == null)
+            //                {
+            //                    data.Add(item1);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            var data = organizeBLL.GetList(f=>f.Nature == Nature).ToList();
+            return Content(data.ToJson());
+        }
+
+
         /// <summary>
         /// 机构实体 
         /// </summary>

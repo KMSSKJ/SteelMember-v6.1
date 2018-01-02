@@ -361,6 +361,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     {
                         model.EstimatedFinishTime = DateTime.Parse(model.CreateTime.ToString()).AddDays(Convert.ToInt32(ids.Count()));//起始时间加通话时长
                         model.IsConfirm = 1;
+                        model.ProductionStatus = 1;
                         list.Add(model);
                     }
                 }
@@ -404,7 +405,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             //var entity = strEntity.ToObject<MemberProductionOrderEntity>();
             var entity = memberproductionorderbll.GetEntity(keyValue);
             entity.IsReceiveRawMaterial = 1;
-            entity.ProductionStatus = 1;
+            //entity.ProductionStatus = 1;
             memberproductionorderbll.SaveForm(keyValue, entity);
             return Success("操作成功。");
         }
@@ -427,7 +428,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                 {
                     var ProductionedOrderInfo = memberproductionorderinfobll.GetEntity(item.InfoId);
                     a += Convert.ToInt32(item.ProductionQuantity);
-                    b += Convert.ToInt32(item.ProductionedQuantity) + Convert.ToInt32(ProductionedOrderInfo.QualifiedQuantity);
                     ProductionedOrderInfo.ProductionedQuantity = ProductionedOrderInfo.ProductionedQuantity.ToDecimal() + item.ProductionedQuantity.ToDecimal();
                     ProductionedOrderInfo.Description = item.Description;
                     memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
@@ -510,7 +510,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     b += ProductionedOrderInfo.ProductionQuantity.ToDecimal();
                    
                     ProductionedOrderInfo.QualityInspectionNumber = item.QualityInspectionNumber;
-                    ProductionedOrderInfo.QualifiedQuantity = ProductionedOrderInfo.QualifiedQuantity.ToDecimal() + item.QualityInspectionNumber.ToDecimal();
                     ProductionedOrderInfo.QualityInspectionRemarks = item.QualityInspectionRemarks;
                     memberproductionorderinfobll.SaveForm(item.InfoId, ProductionedOrderInfo);
 
@@ -546,9 +545,9 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         public ActionResult Package(string keyValue)
         {
             var ProductionedOrder = memberproductionorderbll.GetEntity(keyValue);
-            if (ProductionedOrder.IsPackage == 1)
+            if (ProductionedOrder.IsPackage== 1)
             {
-                return Success("该订单已打包");
+                return Success("该订单已收货");
             }
             else
             {

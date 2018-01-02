@@ -33,15 +33,15 @@
             height: "220px",
             allowSearch: true
         });
-        //部门性质
-        $("#Nature").ComboBox({
-            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
-            param: { EnCode: "DepartmentNature" },
-            id: "ItemValue",
-            text: "ItemName",
-            description: "==请选择==",
-            height: "200px"
-        });
+        ////部门性质
+        //$("#Nature").ComboBox({
+        //    url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+        //    param: { EnCode: "DepartmentNature" },
+        //    id: "ItemValue",
+        //    text: "ItemName",
+        //    description: "==请选择==",
+        //    height: "200px"
+        //});
         //获取表单
         if (!!keyValue) {
             $.SetForm({
@@ -91,7 +91,8 @@
             </td>
             <th class="formTitle">负责人</th>
             <td class="formValue">
-                <div id="ManagerId" type="selectTree" class="ui-select"></div>
+                @*<div id="ManagerId" type="selectTree" class="ui-select"></div>*@
+                <input id="ManagerId" type="text" class="form-control" />
             </td>
         </tr>
         <tr>
@@ -99,26 +100,27 @@
             <td class="formValue">
                 <input id="FullName" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Department/ExistEnCode')" class="form-control" placeholder="请输入名称" isvalid="yes" checkexpession="NotNull" />
             </td>
-            <th class="formTitle">部门编号<font face="宋体" color="red">*</font></th>
-            <td class="formValue">
-                <input id="EnCode" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Department/ExistFullName')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
-            </td>
-        </tr>
-        <tr>
-            <th class="formTitle">部门简称</th>
-            <td class="formValue">
-                <input id="ShortName" type="text" class="form-control" />
-            </td>
-            <th class="formTitle">部门性质</th>
-            <td class="formValue">
-                <div id="Nature" type="select" class="ui-select"></div>
-            </td>
-        </tr>
-        <tr>
-            <th class="formTitle">电话号</th>
+            <th class="formTitle">联系电话</th>
             <td class="formValue">
                 <input id="OuterPhone" type="text" class="form-control" />
             </td>
+           
+        </tr>
+        @*<tr>
+        <th class="formTitle">部门简称</th>
+        <td class="formValue">
+            <input id="ShortName" type="text" class="form-control" />
+        </td>
+        <th class="formTitle">部门性质</th>
+        <td class="formValue">
+            <div id="Nature" type="select" class="ui-select"></div>
+        </td>
+    </tr>
+    <tr>
+        <th class="formTitle">部门编号<font face="宋体" color="red">*</font></th>
+        <td class="formValue">
+            <input id="EnCode" type="text" onblur="$.ExistField(this.id,'../../BaseManage/Department/ExistFullName')" class="form-control" placeholder="请输入编号" isvalid="yes" checkexpession="NotNull" />
+        </td>
             <th class="formTitle">分机号</th>
             <td class="formValue">
                 <input id="InnerPhone" type="text" class="form-control" />
@@ -133,7 +135,7 @@
             <td class="formValue">
                 <input id="Fax" type="text" class="form-control" />
             </td>
-        </tr>
+        </tr>*@
         <tr>
             <th class="formTitle" valign="top" style="padding-top: 4px;">
                 备注

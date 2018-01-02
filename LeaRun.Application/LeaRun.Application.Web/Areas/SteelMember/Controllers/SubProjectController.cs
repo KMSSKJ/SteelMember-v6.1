@@ -87,7 +87,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetUserListJson()
         {
-            var data = userbll.GetList();
+            var data = personbll.GetList(null); 
             return Content(data.ToJson());
         }
         /// <summary>
@@ -97,7 +97,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         [HttpGet]
         public ActionResult GetOrganizeListJson()
         {
-            var data = organizebll.GetList().Where(o=>o.Nature.Trim()=="施工单位"&&o.ParentId!="0");
+            var data = organizebll.GetList().Where(o=>o.Nature.Trim()== "劳务分包单位" && o.ParentId!="0");
             return Content(data.ToJson());
         }
         /// <summary>
@@ -112,12 +112,12 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             var temp = data.Select(s => new
             {
-                Id=s.Id,
-                ParentId=s.ParentId,
-                Principal=userbll.GetEntity(s.PrincipalId)?.RealName,
-                Organize=organizebll.GetEntity(s.OrganizeId)?.FullName,
-                Phone=userbll.GetEntity(s.PrincipalId)?.Mobile,
-                Levels=s.Levels,
+                Id = s.Id,
+                ParentId = s.ParentId,
+                Principal = personbll.GetEntity(s.PrincipalId)?.RealName,
+                Organize = organizebll.GetEntity(s.OrganizeId)?.FullName,
+                Phone = personbll.GetEntity(s.PrincipalId)?.Mobile,
+                Levels =s.Levels,
                 FullName=s.FullName
             }).ToList();
             if (!string.IsNullOrEmpty(queryJson))
@@ -228,7 +228,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// <summary>
         /// 分类型下名称不能重复
         /// </summary>
-        /// <param name="FullName">型号</param>
+        /// <param name="FullName">牌号/规格</param>
         /// <param name="keyValue"></param>
         /// <param name="treeId"></param>
         /// <returns></returns>

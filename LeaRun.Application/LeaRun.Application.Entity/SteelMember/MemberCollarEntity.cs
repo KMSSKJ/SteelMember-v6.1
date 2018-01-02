@@ -62,6 +62,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// </summary>
         /// <returns></returns>
         public string ContactPersonTel { get; set; }
+
+        /// <summary>
+        /// ÊÕ»õ×´Ì¬
+        /// </summary>
+        public int? IsReceived { get; set; }
         /// <summary>
         /// CreateMan
         /// </summary>

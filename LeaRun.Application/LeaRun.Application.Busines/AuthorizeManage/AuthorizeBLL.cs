@@ -34,7 +34,7 @@ namespace LeaRun.Application.Busines.AuthorizeManage
             if (OperatorProvider.Provider.Current().IsSystem)
             {
               var data = moduleBLL.GetList().FindAll(t => t.EnabledMark.Equals(1));
-                if (SystemInfo.CurrentUserId == "Admin")
+                if (SystemInfo.CurrentUserId != "System")
                 {
                     data = data.ToList().FindAll(f => f.ModuleId != "3" && f.ModuleId != "4");
                 }
@@ -44,7 +44,9 @@ namespace LeaRun.Application.Busines.AuthorizeManage
             }
             else
             {
-                return service.GetModuleList(userId);
+                var data = service.GetModuleList(userId);
+                data = data.ToList().FindAll(f => f.ModuleId != "3" && f.ModuleId != "4");
+                return data;
             }
         }
         /// <summary>

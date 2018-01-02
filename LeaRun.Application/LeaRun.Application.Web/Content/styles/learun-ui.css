@@ -45,6 +45,7 @@ body{margin:0px;padding:0px;font-family:微软雅黑,宋体,Arial,Helvetica,Verd
 .taskblockPanel .taskblock li:hover {background: #F5F5F5;}
 .taskblockPanel .taskblock .item-text {font-weight: bold;font-size: 13px;}
 .dropdown-menu i{vertical-align:inherit;margin-bottom: 3px;}
+
 .tools_bar_icon{padding-left:3px;height:32px;line-height:32px;border-bottom:#ccc 1px solid;margin-bottom:1px;background:#F7F7F7;}
 .tools_bar_icon .icon-botton{margin-top:3px;margin-right:4px;vertical-align:middle;line-height:10px;padding:4px;float: left;cursor:pointer;border:1px solid #ccc;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
 .tools_bar_icon .icon-botton:hover{background-color:#fff;}

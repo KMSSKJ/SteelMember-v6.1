@@ -62,6 +62,11 @@ namespace LeaRun.Application.Entity.SteelMember
         /// 创建人
         /// </summary>
         public string CreateMan { get; set; }
+
+        /// <summary>
+        /// 收货状态
+        /// </summary>
+        public string IsReceived { get; set; }
         /// <summary>
         /// 经办人
         /// </summary>

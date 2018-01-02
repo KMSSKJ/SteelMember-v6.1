@@ -7,19 +7,19 @@ namespace LeaRun.Application.Entity.SteelMember
     /// <summary>
     /// 版 本
     /// 日 期：2017-07-08 11:58
-    /// 描 述：材料采购管理
+    /// 描 述：材料申请管理
     /// </summary>
     public class RawMaterialPurchaseEntity : BaseEntity
     {
         #region 实体成员
         /// <summary>
-        /// 采购单据
+        /// 申请单据
         /// </summary>
         /// <returns></returns>
         [Column("RAWMATERIALPURCHASEID")]
         public string RawMaterialPurchaseId { get; set; }
         /// <summary>
-        /// 采购单号
+        /// 申请单号
         /// </summary>
         /// <returns></returns>
         [Column("PURCHASENUMBERING")]
@@ -37,12 +37,7 @@ namespace LeaRun.Application.Entity.SteelMember
         /// <returns></returns>
         [Column("ISPASSED")]
         public int? IsPassed { get; set; }
-        /// <summary>
-        /// 采购
-        /// </summary>
-        /// <returns></returns>
-        [Column("ISPURCHASE")]
-        public int? IsPurchase { get; set; }
+       
         /// <summary>
         /// 入库
         /// </summary>
@@ -64,14 +59,36 @@ namespace LeaRun.Application.Entity.SteelMember
         /// 审核人
         /// </summary>
         /// <returns></returns>
-        [Column("REVIEWMAN")]
-        public string ReviewMan { get; set; }
+        [Column("REVIEWMAN1")]
+        public string ReviewMan1 { get; set; }
         /// <summary>
-        /// 审核时间
+        /// 审核人
         /// </summary>
         /// <returns></returns>
-        [Column("REVIEWTIME")]
-        public DateTime? ReviewTime { get; set; }
+        [Column("REVIEWMAN2")]
+        public string ReviewMan2 { get; set; }
+
+        /// <summary>
+        /// 审核人
+        /// </summary>
+        /// <returns></returns>
+        [Column("REVIEWMAN3")]
+        public string ReviewMan3 { get; set; }
+
+        /// <summary>
+        /// 审核人
+        /// </summary>
+        /// <returns></returns>
+        [Column("REVIEWMAN4")]
+        public string ReviewMan4 { get; set; }
+
+
+        /// <summary>
+        /// ReviewDescription
+        /// </summary>
+        /// <returns></returns>
+        [Column("REVIEWDESCRIPTION")]
+        public string ReviewDescription { get; set; }
 
         /// <summary>
         /// 
@@ -86,12 +103,6 @@ namespace LeaRun.Application.Entity.SteelMember
         //[Column("ORGANIZEID")]
         //public string OrganizeId { get; set; }
 
-        ///// <summary>
-        ///// 申请部门ID
-        ///// </summary>
-        ///// <returns></returns>
-        //[Column("DEPARTMENTID")]
-        //public string DepartmentId { get; set; }
         #endregion
 
         #region 扩展操作

@@ -51,7 +51,9 @@
     <Compile Include="AuthorizeManage\ModuleFormBLL.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceBLL.cs" />
     <Compile Include="BaseManage\OrganizeBLL.cs" />
+    <Compile Include="BaseManage\PersonBLL.cs" />
     <Compile Include="PublicInfoManage\ScheduleBLL.cs" />
+    <Compile Include="SteelMember\EquipmentPreWearPartsBLL.cs" />
     <Compile Include="SteelMember\MemberCollarBLL.cs" />
     <Compile Include="SteelMember\MemberCollarInfoBLL.cs" />
     <Compile Include="SteelMember\MemberDemandBLL.cs" />

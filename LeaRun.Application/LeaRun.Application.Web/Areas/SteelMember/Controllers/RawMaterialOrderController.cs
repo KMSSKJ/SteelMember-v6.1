@@ -47,7 +47,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         {
             if (KeyValue == "" || KeyValue == null)
             {
-                ViewBag.OrderNumbering = "CLSGD" + DateTime.Now.ToString("yyyyMMddhhmmssff");
+                ViewBag.OrderNumbering = "CLSQD" + DateTime.Now.ToString("yyyyMMddhhmmssff");
                 ViewData["CreateMan"] = OperatorProvider.Provider.Current().UserName;
                 ViewData["CreateTime"] = DateTime.Now;
             }
@@ -142,9 +142,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     RawMaterialName = rawmaterial.RawMaterialName,
                     RawMaterialModel = rawmaterial.RawMaterialModel,
                     UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName,
-                    Price = childData[i].Price,
-                    RawMaterialManufacturer = childData[i].RawMaterialManufacturer,
-                    RawMaterialSupplier = childData[i].RawMaterialSupplier,
                 };
                 MemberList.Add(Member);
             }
@@ -184,9 +181,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         RawMaterialName = rawmaterial.RawMaterialName,
                         RawMaterialModel = rawmaterial.RawMaterialModel,
                         UnitId = dataitemdetailbll.GetEntity(rawmaterial.Unit).ItemName,
-                        Price = childData[i].Price,
-                        RawMaterialManufacturer = childData[i].RawMaterialManufacturer,
-                        RawMaterialSupplier = childData[i].RawMaterialSupplier,
                     };
                     MemberList.Add(Member);
                 }
@@ -241,7 +235,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     RawMaterialModel = RawMaterial.RawMaterialModel,
                     RawMaterialName = RawMaterial.RawMaterialName,
                     UnitId = dataitemdetailbll.GetEntity(RawMaterial.Unit).ItemName,
-                    Qty = item.RawMaterialDosage - Number,//可申请量                                      //PurchasedQuantity = item.PurchasedQuantity
+                    Qty = item.RawMaterialDosage+item.ChangeQuantity.ToDecimal() - Number,//可申请量                                      //PurchasedQuantity = item.PurchasedQuantity
                 };
                 if (RawMaterialLibrary.Qty > 0)
                 {
@@ -301,7 +295,10 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
 
             return Content(MemberDemandNumber.ToString());
         }
-        /// <summary>
+        
+#pragma warning disable CS1572 // XML 注释中有“category”的 param 标记，但是没有该名称的参数
+#pragma warning disable CS1572 // XML 注释中有“KeyValue”的 param 标记，但是没有该名称的参数
+/// <summary>
         /// 载入添加后的构件
         /// </summary>
         /// <param name="KeyValue"></param>
@@ -343,7 +340,23 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         //    return Json(listmember);
         //}
 
+#pragma warning disable CS1573 // 参数“RawMaterialId”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning disable CS1573 // 参数“RawMaterialName”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning disable CS1573 // 参数“RawMaterialModel”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning disable CS1573 // 参数“RawMaterialAnalysisId”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning disable CS1573 // 参数“UnitId”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning disable CS1573 // 参数“Qty”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning disable CS1573 // 参数“RawMaterialCategory”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
         public ActionResult ListMember(string RawMaterialAnalysisId, string RawMaterialId, string RawMaterialCategory, string RawMaterialName, string RawMaterialModel, string UnitId, string Qty)
+#pragma warning restore CS1573 // 参数“RawMaterialCategory”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning restore CS1573 // 参数“Qty”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning restore CS1573 // 参数“UnitId”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning restore CS1573 // 参数“RawMaterialAnalysisId”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning restore CS1572 // XML 注释中有“KeyValue”的 param 标记，但是没有该名称的参数
+#pragma warning restore CS1573 // 参数“RawMaterialModel”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning restore CS1572 // XML 注释中有“category”的 param 标记，但是没有该名称的参数
+#pragma warning restore CS1573 // 参数“RawMaterialName”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
+#pragma warning restore CS1573 // 参数“RawMaterialId”在“RawMaterialOrderController.ListMember(string, string, string, string, string, string, string)”的 XML 注释中没有匹配的 param 标记(但其他参数有)
         {
             // var inventory = 0; //库存量
             var listmember = new List<Text>();
@@ -364,7 +377,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         {
                             // var sb = arrayRawMaterialId[i];
                             //var rawmaterialinventory = rawmaterialinventorybll.GetEntityByRawMaterialId(arrayRawMaterialId[i].ToString());
-                            //var inventory = rawmaterialinventory.Quantity.ToDecimal();//需采购量
+                            //var inventory = rawmaterialinventory.Quantity.ToDecimal();//需申请量
                             Text projectdemand = new Text()
                             {
                                 RawMaterialAnalysisId= arrayRawMaterialAnalysisId[i],
@@ -463,6 +476,7 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
             var entity = strEntity.ToObject<RawMaterialOrderEntity>();
 
             entity.IsPassed = entity.IsSubmit = 0;
+            entity.ReviewMan1 = entity.ReviewMan2 = entity.ReviewMan3 = entity.ReviewMan4 = entity.ReviewMan5 = "0";
             List<RawMaterialOrderInfoEntity> childEntitys = strChildEntitys.ToList<RawMaterialOrderInfoEntity>();
             rawmaterialorderbll.SaveForm(keyValue, entity, childEntitys);
 
@@ -509,12 +523,13 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
         /// </summary>
         /// <param name="keyValue">要审核的数据的主键些</param>
         /// <param name="entity"></param>
+        /// <param name="operat"></param>
         /// <param name="type">1通过，2失败</param>
         /// <returns></returns>
         [HttpPost]
         [AjaxOnly]
         //[HandlerAuthorize(PermissionMode.Enforce)]
-        public ActionResult ReviewOperation(string keyValue, RawMaterialOrderEntity entity, int type)
+        public ActionResult ReviewOperation(string keyValue, RawMaterialOrderEntity entity,int operat, int type)
         {
             string[] ids = new string[] { };
             if (!string.IsNullOrEmpty(keyValue))
@@ -529,9 +544,68 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                     var model = rawmaterialorderbll.GetEntity(item.Trim());
                     if (model != null)
                     {
-                        model.IsPassed = type;
-                        model.ReviewTime = System.DateTime.Now;
-                        model.ReviewMan = OperatorProvider.Provider.Current().UserName;
+                        if (type == 1)
+                        {
+                            if (operat == 1)
+                            {
+                                model.ReviewMan1 = OperatorProvider.Provider.Current().UserName;
+                                model.ReviewDescription = "构件厂长审核通过";
+                            }
+                            else if (operat == 2)
+                            {
+                                model.ReviewMan2 = OperatorProvider.Provider.Current().UserName;
+                                model.ReviewDescription = "工程部长审核通过";
+                            }
+                            else if (operat == 3)
+                            {
+                                model.ReviewMan3 = OperatorProvider.Provider.Current().UserName;
+                                model.ReviewDescription = "物质部长审核通过";
+                            }
+                            else if (operat == 4)
+                            {
+                                model.ReviewMan4 = OperatorProvider.Provider.Current().UserName;
+                                model.ReviewDescription = "副总工审核通过";
+                            }
+                            else
+                            {
+                                model.ReviewMan5 = OperatorProvider.Provider.Current().UserName;
+                                model.IsPassed = 1;
+                                model.ReviewDescription = "总工审核通过";
+                            }
+                        }
+                        else
+                        {
+                            if (operat == 1)
+                            {
+                                model.ReviewMan1 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "构件厂长审核失败";
+                            }
+                            else if (operat == 2)
+                            {
+                                model.ReviewMan2 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "工程部长审核失败";
+                            }
+                            else if (operat == 3)
+                            {
+                                model.ReviewMan3 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "物质部长审核失败";
+                            }
+                            else if(operat == 4)
+                            {
+                                model.ReviewMan4 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "副总工审核失败";
+                            }
+                            else
+                            {
+                                model.ReviewMan5 = "2";
+                                model.IsPassed = 2;
+                                model.ReviewDescription = "总工审核失败";
+                            }
+                        }
                         model.Description = entity.Description;
                         list.Add(model);
                     }
@@ -545,7 +619,6 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                             CollarEngineering = model.Category,
                             CollarType = 0,
                             OrganizeId = model.OrganizeId,
-                            DepartmentId = model.DepartmentId,
                             Date = model.CreateTime,
                             CreateMan = model.CreateMan,
                             ShippingAddress = model.ShippingAddress,
@@ -573,6 +646,41 @@ namespace LeaRun.Application.Web.Areas.SteelMember.Controllers
                         }
                         rawmterialcollarbll.SaveForm("", entity1, childEntitys1);
                         //end
+                    }
+                }
+                if (list.Count > 0)
+                {
+                    rawmaterialorderbll.UpdataList(list);
+                }
+            }
+            return Success("操作成功。");
+        }
+
+        /// <summary>
+        ///收货操作
+        /// </summary>
+        /// <param name="keyValues">要审核的数据的主键些0(默认)未采购；1已采购</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult SubmitIsReceived(string keyValues)
+        {
+            string[] ids = new string[] { };
+            if (!string.IsNullOrEmpty(keyValues))
+            {
+                ids = keyValues.Split(',');
+            }
+            if (!ids.IsEmpty())
+            {
+                List<RawMaterialOrderEntity> list = new List<RawMaterialOrderEntity>();
+                foreach (var item in ids)
+                {
+                    var model = rawmaterialorderbll.GetEntity(item.Trim());
+                    if (model != null)
+                    {
+                        model.IsReceived = 1;
+                        list.Add(model);
+
                     }
                 }
                 if (list.Count > 0)

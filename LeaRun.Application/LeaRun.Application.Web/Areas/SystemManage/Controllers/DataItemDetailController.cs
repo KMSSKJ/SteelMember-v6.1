@@ -19,7 +19,9 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
     public class DataItemDetailController : MvcControllerBase
     {
         private DataItemDetailBLL dataItemDetailBLL = new DataItemDetailBLL();
+#pragma warning disable CS0108 // “DataItemDetailController.dataItemCache”隐藏继承的成员“MvcControllerBase.dataItemCache”。如果是有意隐藏，请使用关键字 new。
         private DataItemCache dataItemCache = new DataItemCache();
+#pragma warning restore CS0108 // “DataItemDetailController.dataItemCache”隐藏继承的成员“MvcControllerBase.dataItemCache”。如果是有意隐藏，请使用关键字 new。
 
         #region 视图功能
         /// <summary>
@@ -63,9 +65,10 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
         /// <param name="condition">关键字查询</param>
         /// <returns>返回树形列表Json</returns>
         [HttpGet]
-        public ActionResult GetTreeListJson(string itemId, string condition, string keyword)
+        public ActionResult GetTreeListJson(string itemId, string condition, string keyword,Pagination pagination)
         {
-            var data = dataItemDetailBLL.GetList(itemId).ToList();
+             var data = dataItemDetailBLL.GetList(itemId).ToList();
+            //var data = dataItemDetailBLL.GetPageList(pagination, itemId).ToList();
             if (!string.IsNullOrEmpty(keyword))
             {
                 #region 多条件查询
@@ -92,7 +95,7 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
                 bool hasChildren = data.Count(t => t.ParentId == item.ItemDetailId) == 0 ? false : true;
                 tree.id = item.ItemDetailId;
                 tree.parentId = item.ParentId;
-                tree.expanded = true;
+                tree.expanded = false;
                 tree.hasChildren = hasChildren;
                 tree.entityJson = item.ToJson();
                 TreeList.Add(tree);
@@ -118,7 +121,7 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
         [HttpGet]
         public ActionResult GetDataItemTreeJson(string EnCode)
         {
-            var data = dataItemCache.GetDataItemList(EnCode);
+            var data = dataItemCache.GetDataItemList(EnCode).OrderBy(o=>o.SortCode);
             var treeList = new List<TreeEntity>();
             foreach (DataItemModel item in data)
             {
@@ -200,78 +203,95 @@ namespace LeaRun.Application.Web.Areas.SystemManage.Controllers
         [AjaxOnly]
         public ActionResult RemoveForm(string keyValue, string itemType)
         {
-
-            if (itemType == "NoticeCategory")
+            string[] idsArr = keyValue.Split(',');
+            foreach (var item in idsArr)
             {
-                var notice = noticebll.GetList(f => f.Category == keyValue);
-                if (notice.Count() == 0)
+                if (itemType == "CompanyType")
                 {
-                    dataItemDetailBLL.RemoveForm(keyValue);
-                }
-                else
-                {
-                    return Error("数据中存在关联数据");
-                }
+                    var notice = noticebll.GetList(f => f.Category == item);
+                    if (notice.Count() == 0)
+                    {
+                        dataItemDetailBLL.RemoveForm(item);
+                    }
+                    else
+                    {
+                        return Error("数据中存在关联数据");
+                    }
 
-            }
-            else if (itemType == "MemberType")
-            {
-                var memberlibrary = memberlibrarybll.GetList(f => f.Category == keyValue);
-                if (memberlibrary.Count() == 0)
-                {
-                    dataItemDetailBLL.RemoveForm(keyValue);
-                }
-                else
-                {
-                    return Error("数据中存在关联数据");
                 }
 
+                if (itemType == "NoticeCategory")
+                {
+                    var notice = noticebll.GetList(f => f.Category == item);
+                    if (notice.Count() == 0)
+                    {
+                        dataItemDetailBLL.RemoveForm(item);
+                    }
+                    else
+                    {
+                        return Error("数据中存在关联数据");
+                    }
+
+                }
+                else if (itemType == "MemberType")
+                {
+                    var memberlibrary = memberlibrarybll.GetList(f => f.Category == item);
+                    if (memberlibrary.Count() == 0)
+                    {
+                        dataItemDetailBLL.RemoveForm(item);
+                    }
+                    else
+                    {
+                        return Error("数据中存在关联数据");
+                    }
+
+                }
+                else if (itemType == "RawMaterialType")
+                {
+                    var rawmateriallibrary = rawmateriallibrarybll.GetList(f => f.Category == item);
+                    if (rawmateriallibrary.Count() == 0)
+                    {
+                        dataItemDetailBLL.RemoveForm(item);
+                    }
+                    else
+                    {
+                        return Error("数据中存在关联数据");
+                    }
+                }
+                else if (itemType == "RawMaterialSupplier" || itemType == "RawMaterialManufacturer")
+                {
+                    int number = 0;
+                    var rawmaterialorder = rawmaterialpurchasebll.GetInfoList(f => f.RawMaterialSupplier == item);
+                    number = rawmaterialorder.Count();
+                    if (number == 0)
+                    {
+                        dataItemDetailBLL.RemoveForm(item);
+                    }
+                    else
+                    {
+                        return Error("数据中存在关联数据");
+                    }
+                }
+               
+                else if (itemType == "UnitName")
+                {
+                    int number = 0;
+                    var rawmateriallibrary = rawmateriallibrarybll.GetList(f => f.Unit == item);
+                    var memberlibrary = memberlibrarybll.GetList(f => f.UnitId == item);
+                    number = rawmateriallibrary.Count() + memberlibrary.Count();
+                    if (number == 0)
+                    {
+                        dataItemDetailBLL.RemoveForm(item);
+                    }
+                    else
+                    {
+                        return Error("数据中存在关联数据");
+                    }
+                }
             }
-            else if (itemType == "RawMaterialType")
-            {
-                var rawmateriallibrary = rawmateriallibrarybll.GetList(f => f.Category == keyValue);
-                if (rawmateriallibrary.Count() == 0)
-                {
-                    dataItemDetailBLL.RemoveForm(keyValue);
-                }
-                else
-                {
-                    return Error("数据中存在关联数据");
-                }
-            }
-            else if (itemType == "RawMaterialSupplier"|| itemType == "RawMaterialManufacturer")
-            { int number = 0;
-                var rawmaterialorder = rawmaterialorderinfobll.GetList(f => f.RawMaterialSupplier == keyValue);
-                var rawmaterialorder1 = rawmaterialorderinfobll.GetList(f => f.RawMaterialManufacturer == keyValue);
-                number = rawmaterialorder.Count() + rawmaterialorder1.Count();
-                if (number == 0)
-                {
-                    dataItemDetailBLL.RemoveForm(keyValue);
-                }
-                else
-                {
-                    return Error("数据中存在关联数据");
-                }
-            }
-            else if (itemType == "UnitName")
-            {
-                int number = 0;
-                var rawmateriallibrary = rawmateriallibrarybll.GetList(f => f.Unit == keyValue);
-                var memberlibrary = memberlibrarybll.GetList(f => f.UnitId == keyValue);
-                number = rawmateriallibrary.Count() + memberlibrary.Count();
-                if (number == 0)
-                {
-                    dataItemDetailBLL.RemoveForm(keyValue);
-                }
-                else
-                {
-                    return Error("数据中存在关联数据");
-                }
-            }
-           
 
             return Success("删除成功。");
-        }
+            }
         /// <summary>
         /// 保存明细表单（新增、修改）
         /// </summary>

@@ -7,6 +7,7 @@
     var SubProject = request('SubProject');
     var SubProjectId = request('SubProjectId');
     var categoryInput = "";
+    var IsRawMaterial = "";
     $(function () {
         initControl();
     });
@@ -54,6 +55,8 @@
                 height: "160px",
                 description: "==请选择==",
             })
+
+              
         });
 
 
@@ -73,6 +76,8 @@
                         dataType: "json",
                         async: false,
                         success: function (data1) {
+
+                            //IsRawMaterial = data1.IsRawMaterial;
                              //加载构件
                             $("#MemberId").ComboBox({
                                 description: data1.MemberNumbering + "➩" + data1.Category + "➩" + data1.MemberName,
@@ -146,13 +151,30 @@
 
     //保存表单;
     function AcceptClick() {
+        if (categoryInput == "请选择工程名称而不是工程分类") {
+            dialogTop("分工程应选择工程名称而不是工程分类", "error");
+            return false;
+        }
         if (!$('#form1').Validform()) {
             return false;
         }
-        if (categoryInput == "请选择工程名称而不是工程分类") {
-            dialogMsg("分工程应选择工程名称而不是工程分类", "error");
+
+        $.ajax({
+            url: "../../SteelMember/MemberDemand/GetFormJsonMemberLibrary",
+            data: { keyValue: $("#MemberId").attr('data-value') },
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (data1) {
+                IsRawMaterial = data1.IsRawMaterial;
+            }
+        })
+
+        if (IsRawMaterial == 0) {
+            dialogMsg("请到构件信息中为该构件添加材料", 0);
             return false;
         }
+       
         var postData = $("#form1").GetWebControls(keyValue);
         postData["FullName"] = $("#SubProjectId").attr('data-text');
         //postData["MemberId"] = $("#MemberId").attr('data-value');

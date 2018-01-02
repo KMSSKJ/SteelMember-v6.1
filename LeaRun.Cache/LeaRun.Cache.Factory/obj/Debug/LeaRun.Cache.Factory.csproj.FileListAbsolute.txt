@@ -311,5 +311,6 @@ C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Factory\bin\De
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Factory\bin\Debug\ServiceStack.Text.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Factory\bin\Debug\ServiceStack.Common.xml
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Factory\obj\Debug\LeaRun.Cache.Factory.csprojResolveAssemblyReference.cache
+C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Factory\obj\Debug\LeaRun.Cache.Factory.csproj.CoreCompileInputs.cache
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Factory\obj\Debug\LeaRun.Cache.Factory.dll
 C:\Users\yangchaoyu\Desktop\SteelMember\LeaRun.Cache\LeaRun.Cache.Factory\obj\Debug\LeaRun.Cache.Factory.pdb

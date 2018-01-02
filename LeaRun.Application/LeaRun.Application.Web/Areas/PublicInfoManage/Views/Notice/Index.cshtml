@@ -35,14 +35,14 @@
                         return '<p style="color: ' + rowObject.FullHeadColor + ';">' + cellvalue + '</p>';
                     }
                 },
-                { label: '公告类别', name: 'Category', index: 'Category', width: 100, align: 'center' },
+                //{ label: '公告类别', name: 'Category', index: 'Category', width: 100, align: 'center' },
                 {
                     label: "发布时间", name: "ReleaseTime", index: "ReleaseTime", width: 140, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
                         return formatDate(cellvalue, 'yyyy-MM-dd hh:mm');
                     }
                 },
-                { label: '信息来源', name: 'SourceName', index: 'SourceName', width: 100, align: 'center' },
+                //{ label: '信息来源', name: 'SourceName', index: 'SourceName', width: 100, align: 'center' },
                 { label: '阅读次数', name: 'PV', index: 'PV', width: 80, align: 'center' },
                 {
                     label: "发布状态", name: "EnabledMark", index: "EnabledMark", width: 80, align: "center", autowidth: false,
