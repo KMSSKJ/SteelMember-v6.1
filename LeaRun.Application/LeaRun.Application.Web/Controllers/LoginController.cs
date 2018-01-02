@@ -27,7 +27,6 @@ namespace LeaRun.Application.Web.Controllers
     [HandlerLogin(LoginMode.Ignore)]
     public class LoginController : MvcControllerBase
     {
-        private UserBLL userbll = new UserBLL();
         private FilterIPBLL filterIPBLL = new FilterIPBLL();
         private FilterTimeBLL filterTimeBLL = new FilterTimeBLL();
 
